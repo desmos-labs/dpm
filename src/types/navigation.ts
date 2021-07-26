@@ -3,6 +3,9 @@ import ChainAccount from "./chainAccount";
 
 export type RootStackParams = {
     Accounts: undefined,
+    AccountSessions: {
+        account: ChainAccount
+    }
     NewWalletSession: {
         account: ChainAccount
     }

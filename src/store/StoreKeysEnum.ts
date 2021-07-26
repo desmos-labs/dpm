@@ -1,4 +1,5 @@
 export enum StoreKeysEnum {
     chainAccounts = "chainAccounts",
-    walletConnect = "walletConnect"
+    walletConnect = "walletConnect",
+    walletConnectSettledSessions = "walletConnectSettledSessions"
 }
