@@ -1,5 +1,6 @@
 import {createStackNavigator} from "@react-navigation/stack";
 import ChainAccount from "./chainAccount";
+import {SessionRequest} from "../store/WalletConnectStore";
 
 export type RootStackParams = {
     Accounts: undefined,
@@ -8,6 +9,9 @@ export type RootStackParams = {
     }
     NewWalletSession: {
         account: ChainAccount
+    },
+    WalletConnectRequests: {
+        requests: SessionRequest[]
     }
 }
 
