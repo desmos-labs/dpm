@@ -25,13 +25,13 @@ export default function WalletConnectRequests(props: Props): JSX.Element | null 
     if (requests.length > 0) {
         const {request, session} = requests[0];
         console.log(requests);
-        return <WalletConnectRequest request={request}
-                      key={request.request.id}
-                      onRequestHandled={onRequestHandled}
+        return <WalletConnectRequest requestEvent={request}
+                                     session={session}
+                                     key={request.request.id}
+                                     onRequestHandled={onRequestHandled}
 
         />
-    }
-    else {
+    } else {
         return null;
     }
 }

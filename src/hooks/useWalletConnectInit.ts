@@ -1,9 +1,11 @@
 import WalletConnect, {CLIENT_EVENTS} from "@walletconnect/client";
 import {useRecoilCallback, useRecoilState, useSetRecoilState} from "recoil";
-import WalletConnectStore, {SessionRequest} from "../store/WalletConnectStore";
+import WalletConnectStore, {SessionRequest, WalletConnectRequestEvent} from "../store/WalletConnectStore";
 import {useEffect} from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import {SessionTypes} from "@walletconnect/types";
+import parseRpcRequest from "../utilils/jsonRpcParse";
+import walletConnectRejectResponse from "../utilils/walletConnectRejectResponse";
 
 export type WalletNotInitialized = {
     initialized: false
@@ -34,10 +36,20 @@ async function initWalletConnect(): Promise<WalletConnect> {
     });
 }
 
+function validateWalletConnectRequest(requestEvent: SessionTypes.RequestEvent): WalletConnectRequestEvent | null {
+    const rpcRequest = parseRpcRequest(requestEvent.request);
+    if (rpcRequest === null) {
+        return null;
+    }
+    return {
+        ...requestEvent,
+        request: rpcRequest
+    }
+}
+
 export default function useWalletConnectInit(): WalletConnectClient {
     const [walletConnect, setWalletConnect] = useRecoilState(WalletConnectStore.walletConnect);
     const setSettledSessions = useSetRecoilState(WalletConnectStore.settledSessions);
-    const setSessionRequests = useSetRecoilState(WalletConnectStore.sessionRequests);
 
     const onSessionCreated = useRecoilCallback(state => {
         return (params: SessionTypes.Created) => {
@@ -58,11 +70,19 @@ export default function useWalletConnectInit(): WalletConnectClient {
     const onSessionRequest = useRecoilCallback(state => {
         return async (requestEvent: SessionTypes.RequestEvent) => {
             const client = state.snapshot.getLoadable(WalletConnectStore.walletConnect).getValue()!;
+
+            const validatedRequest = validateWalletConnectRequest(requestEvent);
+            if (validatedRequest === null) {
+                const errMsg = `Unsupported request: ${requestEvent.request.method}`;
+                await client.respond(walletConnectRejectResponse(requestEvent, errMsg));
+                return;
+            }
+
             const session = await client.session.get(requestEvent.topic);
             state.set(WalletConnectStore.sessionRequests, (requests: SessionRequest[]) => {
                 return [...requests, {
                     session,
-                    request: requestEvent
+                    request: validatedRequest
                 }]
             })
         }
@@ -78,16 +98,9 @@ export default function useWalletConnectInit(): WalletConnectClient {
                         client.on(CLIENT_EVENTS.session.created, onSessionCreated);
                         client.on(CLIENT_EVENTS.session.deleted, onSessionDeleted);
                         client.on(CLIENT_EVENTS.session.request, onSessionRequest);
-                        // Gets all the pending requests
-                        const pendingRequests = client.session.history.pending.map(async event => {
-                            const session = await client.session.get(event.topic);
-                            return {
-                                session,
-                                request: event
-                            }
-                        });
-                        return Promise.all(pendingRequests);
-                    }).then(setSessionRequests);
+                        // Process the pending requests.
+                        client.session.history.pending.forEach(onSessionRequest);
+                    })
             }
             return () => {
                 if (walletConnect !== undefined) {
