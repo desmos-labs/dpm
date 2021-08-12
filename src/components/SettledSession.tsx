@@ -1,5 +1,5 @@
 import React from "react";
-import {PairingTypes, SessionTypes} from "@walletconnect/types";
+import {SessionTypes} from "@walletconnect/types";
 import {Button, NativeSyntheticEvent, NativeTouchEvent, Text, View} from "react-native";
 import useWalletConnectDisconnect, {SessionStatus} from "../hooks/useWalletConnectTerminate";
 import {useRecoilValue} from "recoil";

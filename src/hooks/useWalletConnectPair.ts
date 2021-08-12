@@ -54,6 +54,7 @@ export default function useWalletConnectPair(client: WalletConnect):
         return () => {
             client.removeListener(CLIENT_EVENTS.session.proposal, proposal_listener);
         }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     const pair = (uri: string) => {
@@ -81,7 +82,7 @@ export default function useWalletConnectPair(client: WalletConnect):
         }).catch(error => {
             setPairStatus({
                 status: PairRequestStatus.Failed,
-                error
+                error: error.toString()
             })
         })
     }

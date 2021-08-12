@@ -1,16 +1,24 @@
 import {SessionTypes} from "@walletconnect/types";
 import {useState} from "react";
-import WalletConnect from "@walletconnect/client";
-import PromiseState from "../utilils/promiseState";
 import walletConnectRejectResponse from "../utilils/walletConnectRejectResponse";
+import {useRecoilValue} from "recoil";
+import WalletConnectStore from "../store/WalletConnectStore";
+import Deferred from "../types/defered";
 
-export default function useWalletConnectRequestReject(client: WalletConnect):
-    [PromiseState<void> | null, (request: SessionTypes.RequestEvent) => void] {
-    const [status, setStatus] = useState<PromiseState<void> | null>(null);
+export default function useWalletConnectRequestReject():
+    [Deferred<null> | null, (request: SessionTypes.RequestEvent) => void] {
 
-    const reject = (request: SessionTypes.RequestEvent) => {
-        setStatus(PromiseState.pending());
-        client.respond(walletConnectRejectResponse(request)).observeState(setStatus);
+    const client = useRecoilValue(WalletConnectStore.walletConnect)!;
+    const [status, setStatus] = useState<Deferred<null> | null>(null);
+
+    const reject = async (request: SessionTypes.RequestEvent) => {
+        setStatus(Deferred.pending());
+        try {
+            await client.respond(walletConnectRejectResponse(request));
+            setStatus(Deferred.completed(null))
+        } catch (e) {
+            setStatus(Deferred.failed(e.toString()));
+        }
     }
 
     return [status, reject];

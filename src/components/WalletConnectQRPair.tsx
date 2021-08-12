@@ -1,5 +1,4 @@
-import React, {useState} from "react";
-import {Button, NativeSyntheticEvent, NativeTouchEvent, Text, TextInput, View} from "react-native";
+import React from "react";
 import QRCodeScanner from "react-native-qrcode-scanner";
 import {BarCodeReadEvent} from "react-native-camera";
 

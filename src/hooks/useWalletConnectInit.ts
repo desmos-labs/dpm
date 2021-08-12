@@ -1,75 +1,96 @@
-import WalletConnect, {CLIENT_EVENTS} from "@walletconnect/client";
-import {useRecoilCallback, useRecoilState, useSetRecoilState} from "recoil";
-import WalletConnectStore, {SessionRequest, WalletConnectRequestEvent} from "../store/WalletConnectStore";
-import {useEffect} from "react";
-import AsyncStorage from "@react-native-async-storage/async-storage";
-import {SessionTypes} from "@walletconnect/types";
-import parseRpcRequest from "../utilils/jsonRpcParse";
-import walletConnectRejectResponse from "../utilils/walletConnectRejectResponse";
+import WalletConnect, {CLIENT_EVENTS} from '@walletconnect/client';
+import {useRecoilCallback, useRecoilState, useSetRecoilState} from 'recoil';
+import WalletConnectStore, {
+    SessionRequest,
+    WalletConnectRequestEvent,
+} from '../store/WalletConnectStore';
+import {useEffect, useState} from 'react';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import {SessionTypes} from '@walletconnect/types';
+import parseRpcRequest from '../utilils/jsonRpcParse';
+import walletConnectRejectResponse from '../utilils/walletConnectRejectResponse';
+import Deferred from '../types/defered';
 
 export type WalletNotInitialized = {
-    initialized: false
-}
+    initialized: false;
+};
 
 export type WalletInitialized = {
-    initialized: true
-    client: WalletConnect
-}
+    initialized: true;
+    client: WalletConnect;
+};
 
 export type WalletConnectClient = WalletNotInitialized | WalletInitialized;
 
 async function initWalletConnect(): Promise<WalletConnect> {
     return await WalletConnect.init({
         controller: true,
-        relayProvider: "wss://relay.walletconnect.org",
+        relayProvider: 'wss://relay.walletconnect.org',
         metadata: {
-            name: "Desmos Profile Manager",
-            description: "Desmos Profile Manager",
-            url: "#",
-            icons: ["https://raw.githubusercontent.com/forbole/big-dipper-networks/main/logos/desmos.svg"],
+            name: 'Desmos Profile Manager',
+            description: 'Desmos Profile Manager',
+            url: '#',
+            icons: [
+                'https://raw.githubusercontent.com/forbole/big-dipper-networks/main/logos/desmos.svg',
+            ],
         },
         storageOptions: {
             // @ts-ignore
             asyncStorage: AsyncStorage,
         },
-        logger: 'info'
+        logger: 'info',
     });
 }
 
-function validateWalletConnectRequest(requestEvent: SessionTypes.RequestEvent): WalletConnectRequestEvent | null {
+function validateWalletConnectRequest(
+    requestEvent: SessionTypes.RequestEvent,
+): WalletConnectRequestEvent | null {
     const rpcRequest = parseRpcRequest(requestEvent.request);
     if (rpcRequest === null) {
         return null;
     }
     return {
         ...requestEvent,
-        request: rpcRequest
-    }
+        request: rpcRequest,
+    };
 }
 
-export default function useWalletConnectInit(): WalletConnectClient {
-    const [walletConnect, setWalletConnect] = useRecoilState(WalletConnectStore.walletConnect);
-    const setSettledSessions = useSetRecoilState(WalletConnectStore.settledSessions);
+export default function useWalletConnectInit(): Deferred<WalletConnect> {
+    const [walletConnectStatus, setWalletConnectStatus] = useState<Deferred<WalletConnect>>(Deferred.pending());
+    const [walletConnect, setWalletConnect] = useRecoilState(
+        WalletConnectStore.walletConnect,
+    );
+    const setSettledSessions = useSetRecoilState(
+        WalletConnectStore.settledSessions,
+    );
 
     const onSessionCreated = useRecoilCallback(state => {
         return (params: SessionTypes.Created) => {
-            state.set(WalletConnectStore.settledSessions, (sessions: SessionTypes.Settled[]) => {
-                return [...sessions, params]
-            })
-        }
+            state.set(
+                WalletConnectStore.settledSessions,
+                (sessions: SessionTypes.Settled[]) => {
+                    return [...sessions, params];
+                },
+            );
+        };
     });
 
     const onSessionDeleted = useRecoilCallback(state => {
         return (params: SessionTypes.Created) => {
-            state.set(WalletConnectStore.settledSessions, (sessions: SessionTypes.Settled[]) => {
-                return sessions.filter(s => s.topic != params.topic);
-            })
-        }
+            state.set(
+                WalletConnectStore.settledSessions,
+                (sessions: SessionTypes.Settled[]) => {
+                    return sessions.filter(s => s.topic != params.topic);
+                },
+            );
+        };
     });
 
     const onSessionRequest = useRecoilCallback(state => {
         return async (requestEvent: SessionTypes.RequestEvent) => {
-            const client = state.snapshot.getLoadable(WalletConnectStore.walletConnect).getValue()!;
+            const client = state.snapshot
+                .getLoadable(WalletConnectStore.walletConnect)
+                .getValue()!;
 
             const validatedRequest = validateWalletConnectRequest(requestEvent);
             if (validatedRequest === null) {
@@ -79,46 +100,55 @@ export default function useWalletConnectInit(): WalletConnectClient {
             }
 
             const session = await client.session.get(requestEvent.topic);
-            state.set(WalletConnectStore.sessionRequests, (requests: SessionRequest[]) => {
-                return [...requests, {
-                    session,
-                    request: validatedRequest
-                }]
-            })
-        }
+            state.set(
+                WalletConnectStore.sessionRequests,
+                (requests: SessionRequest[]) => {
+                    return [
+                        ...requests,
+                        {
+                            session,
+                            request: validatedRequest,
+                        },
+                    ];
+                },
+            );
+        };
     });
 
     useEffect(() => {
-            if (walletConnect === undefined) {
-                initWalletConnect()
-                    .then((client) => {
-                        setWalletConnect(client);
-                        setSettledSessions(client.session.values);
-                        // Subscribe to client events
-                        client.on(CLIENT_EVENTS.session.created, onSessionCreated);
-                        client.on(CLIENT_EVENTS.session.deleted, onSessionDeleted);
-                        client.on(CLIENT_EVENTS.session.request, onSessionRequest);
-                        // Process the pending requests.
-                        client.session.history.pending.forEach(onSessionRequest);
-                    })
+        if (walletConnect === undefined) {
+            initWalletConnect()
+                .then(client => {
+                    setWalletConnect(client);
+                    setSettledSessions(client.session.values);
+                    // Subscribe to client events
+                    client.on(CLIENT_EVENTS.session.created, onSessionCreated);
+                    client.on(CLIENT_EVENTS.session.deleted, onSessionDeleted);
+                    client.on(CLIENT_EVENTS.session.request, onSessionRequest);
+                    // Process the pending requests.
+                    client.session.history.pending.forEach(onSessionRequest);
+                    setWalletConnectStatus(Deferred.completed(client));
+                })
+                .catch(ex => setWalletConnectStatus(Deferred.failed(ex.toString())));
+        }
+        return () => {
+            if (walletConnect !== undefined) {
+                walletConnect.removeListener(
+                    CLIENT_EVENTS.session.created,
+                    onSessionCreated,
+                );
+                walletConnect.removeListener(
+                    CLIENT_EVENTS.session.deleted,
+                    onSessionDeleted,
+                );
+                walletConnect.removeListener(
+                    CLIENT_EVENTS.session.request,
+                    onSessionRequest,
+                );
             }
-            return () => {
-                if (walletConnect !== undefined) {
-                    walletConnect.removeListener(CLIENT_EVENTS.session.created, onSessionCreated);
-                    walletConnect.removeListener(CLIENT_EVENTS.session.deleted, onSessionDeleted);
-                    walletConnect.removeListener(CLIENT_EVENTS.session.request, onSessionRequest);
-                }
-            }
-        }, [walletConnect]);
+        };
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [walletConnect]);
 
-    if (walletConnect === undefined) {
-        return {
-            initialized: false
-        }
-    } else {
-        return {
-            initialized: true,
-            client: walletConnect
-        }
-    }
+    return walletConnectStatus;
 }
