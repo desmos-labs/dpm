@@ -4,6 +4,9 @@ import {DefaultTheme, NavigationContainer, NavigationContainerRef} from "@react-
 import {Theme} from "@react-navigation/native/lib/typescript/src/types";
 import {useRecoilValue} from "recoil";
 import WalletConnectStore from "../store/WalletConnectStore";
+import AccountStore from "../store/AccountStore";
+import AccountCreationNavigator from "./AccountCreationNavigator";
+import {RootStackParams} from "../types/navigation";
 
 const DesmosTheme: Theme = {
     ...DefaultTheme,
@@ -15,16 +18,24 @@ const DesmosTheme: Theme = {
 
 export default function Navigator() {
 
-    const navigatorRef = useRef<NavigationContainerRef>(null);
+    const accounts = useRecoilValue(AccountStore.chainAccounts);
+    const navigatorRef = useRef<NavigationContainerRef<RootStackParams>>(null);
     const requests = useRecoilValue(WalletConnectStore.sessionRequests);
 
     useEffect(() => {
         if (navigatorRef.current !== null && requests.length > 0) {
-            navigatorRef.current.navigate("WalletConnectRequests");
+            navigatorRef.current.navigate({
+                name: "WalletConnectRequest",
+                params: {
+                    session: requests[0].session,
+                    request: requests[0].request,
+                },
+                key: requests[0].request.request.id.toString()
+            });
         }
-    }, [requests.length > 0])
+    }, [requests])
 
     return <NavigationContainer theme={DesmosTheme} ref={navigatorRef}>
-        <AccountsNavigator/>
+        {accounts.length > 0 ? <AccountsNavigator/> : <AccountCreationNavigator/>}
     </NavigationContainer>;
 }

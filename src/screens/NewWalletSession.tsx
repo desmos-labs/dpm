@@ -39,7 +39,7 @@ export default function NewWalletSession(props: Props) {
         const response: SessionTypes.Response = {
             metadata: proposal.proposer.metadata,
             state: {
-                accounts: [`${account.address}@desmos:${account.chainId}`],
+                accounts: [`desmos:${account.chainId}:${account.address}`],
             },
         };
         approve({
@@ -80,8 +80,8 @@ export default function NewWalletSession(props: Props) {
             case PairRequestStatus.WaitingApprove:
                 return <SafeAreaView style={styles.container}>
                     <ProposalViewer proposal={pairStatus.proposal}
-                                    onApproved={onProposalApproved}
-                                    onRejected={onProposalRejected}/>
+                        onApproved={onProposalApproved}
+                        onRejected={onProposalRejected}/>
                 </SafeAreaView>
 
             case PairRequestStatus.Success:

@@ -3,7 +3,8 @@ import {RootStack} from "../types/navigation";
 import Accounts from "../screens/Accounts";
 import NewWalletSession from "../screens/NewWalletSession";
 import AccountSessions from "../screens/AccountSessions";
-import WalletConnectRequests from "../screens/WalletConnectRequests";
+import WalletConnectRequest from "../screens/WalletConnectRequest";
+import SignTx from "../screens/SignTx";
 
 export default function AccountsNavigator() {
     return <RootStack.Navigator initialRouteName={"Accounts"}>
@@ -22,9 +23,13 @@ export default function AccountsNavigator() {
             component={NewWalletSession}
         />
         <RootStack.Screen
-            name={"WalletConnectRequests"}
+            name="WalletConnectRequest"
+            component={WalletConnectRequest}
+        />
+        <RootStack.Screen
+            name={"SignTx"}
             options={{headerShown: false}}
-            component={WalletConnectRequests}
+            component={SignTx}
         />
     </RootStack.Navigator>
 }

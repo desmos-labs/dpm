@@ -1,5 +1,5 @@
 import React from "react";
-import {FlatList, SafeAreaView, StyleSheet, Text, View} from "react-native";
+import {FlatList, SafeAreaView, StyleSheet} from "react-native";
 import AccountCard from "../components/AccountCard";
 import {useRecoilValue} from "recoil";
 import AccountStore from "../store/AccountStore";
@@ -13,7 +13,12 @@ export default function Accounts(props: Props): JSX.Element {
     const accounts = useRecoilValue(AccountStore.chainAccounts);
 
     const onCardPressed = (account: ChainAccount) => {
-        props.navigation.navigate("AccountSessions", { account });
+        props.navigation.navigate({
+            name: "AccountSessions",
+            params: {
+                account
+            }
+        });
     }
 
     return <SafeAreaView style={styles.container}>
