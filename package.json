@@ -1,5 +1,5 @@
 {
-  "name": "Desmos Profile Manager",
+  "name": "desmos-profile-manager",
   "version": "0.0.1",
   "private": true,
   "scripts": {
@@ -11,7 +11,6 @@
   },
   "dependencies": {
     "@cosmjs/amino": "0.25.6",
-    "cosmjs-types": "0.2.0",
     "@json-rpc-tools/utils": "2.0.0-beta.12",
     "@react-native-async-storage/async-storage": "1.15.5",
     "@react-native-community/masked-view": "0.1.11",
@@ -20,6 +19,7 @@
     "@tradle/react-native-http": "2.0.1",
     "@walletconnect/client": "2.0.0-beta.17",
     "assert": "1.5.0",
+    "asyncstorage-down": "^4.2.0",
     "bech32": "2.0.0",
     "bip32": "2.0.6",
     "bip39": "3.0.4",
@@ -27,14 +27,15 @@
     "buffer": "4.9.2",
     "console-browserify": "1.2.0",
     "constants-browserify": "1.0.0",
+    "cosmjs-types": "0.2.0",
     "dns.js": "1.0.1",
     "domain-browser": "1.2.0",
     "events": "1.1.1",
     "https-browserify": "0.0.1",
     "jscrypto": "1.0.2",
+    "long": "4.0.0",
     "path-browserify": "0.0.0",
     "process": "0.11.10",
-    "long": "4.0.0",
     "punycode": "1.4.1",
     "querystring-es3": "0.2.1",
     "react": "17.0.1",
@@ -81,7 +82,8 @@
     "typescript": "3.8.3"
   },
   "resolutions": {
-    "@types/react": "17"
+    "@types/react": "17",
+    "styled-components": "^5"
   },
   "jest": {
     "preset": "react-native",
