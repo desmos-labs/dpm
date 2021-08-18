@@ -7,6 +7,7 @@ import ChainAccount, {ChainAccountType} from "../../types/chainAccount";
 import useSaveWallet from "../../hooks/useSaveWallet";
 import useSaveAccount from "../../hooks/useSaveAccount";
 import {DeferredState} from "../../types/defered";
+import {CHAIN_ID} from "../../constants/chain";
 
 
 declare type Props = StackScreenProps<AccountCreationStackParams, "GenerateAccountKeys">;
@@ -24,8 +25,7 @@ export default function GenerateAccountKeys(props: Props): JSX.Element {
             type: ChainAccountType.Local,
             name: name,
             address: wallet.bech32Address,
-            dp: wallet.derivationPath,
-            chainId: 'morpheus-apollo-2',
+            chainId: CHAIN_ID,
         }
         saveWallet(wallet!, props.route.params.password);
         saveAccount(account);
@@ -67,7 +67,6 @@ export default function GenerateAccountKeys(props: Props): JSX.Element {
                 return <SafeAreaView>
                     <Text>Account created!</Text>
                     <Text>Address: {wallet.bech32Address}</Text>
-                    <Text>Derivation path: {wallet.derivationPath}</Text>
                     <Button title={"Continue"} onPress={onContinuePressed}/>
                 </SafeAreaView>
 
