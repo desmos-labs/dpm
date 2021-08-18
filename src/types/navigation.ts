@@ -1,7 +1,7 @@
 import {createStackNavigator} from '@react-navigation/stack';
 import ChainAccount from './chainAccount';
 import {WalletConnectRequestEvent} from '../store/WalletConnectStore';
-import {CosmosTx} from './tx';
+import {CosmosTx, SignedCosmosTx} from './tx';
 import {SessionTypes} from '@walletconnect/types';
 
 export type AccountConfig = {
@@ -36,12 +36,12 @@ export type RootStackParams = {
     WalletConnectRequest: {
         session: SessionTypes.Settled;
         request: WalletConnectRequestEvent;
-        signature?: string;
+        signedTx?: SignedCosmosTx;
     };
     SignTx: {
         address: string;
         tx: CosmosTx;
-        onSigned: (navigation: any, signature: string) => void;
+        onSigned: (navigation: any, signedTx: SignedCosmosTx) => void;
     };
 };
 
