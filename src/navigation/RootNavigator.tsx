@@ -6,7 +6,7 @@ import AccountSessions from "../screens/AccountSessions";
 import WalletConnectRequest from "../screens/WalletConnectRequest";
 import SignTx from "../screens/SignTx";
 
-export default function AccountsNavigator() {
+export default function RootNavigator() {
     return <RootStack.Navigator initialRouteName={"Accounts"}>
         <RootStack.Screen
             name="Accounts"

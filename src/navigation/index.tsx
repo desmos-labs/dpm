@@ -1,5 +1,5 @@
 import React, {useEffect, useRef} from "react";
-import AccountsNavigator from "./AccountsNavigator";
+import RootNavigator from "./RootNavigator";
 import {DefaultTheme, NavigationContainer, NavigationContainerRef} from "@react-navigation/native";
 import {Theme} from "@react-navigation/native/lib/typescript/src/types";
 import {useRecoilValue} from "recoil";
@@ -36,6 +36,6 @@ export default function Navigator() {
     }, [requests])
 
     return <NavigationContainer theme={DesmosTheme} ref={navigatorRef}>
-        {accounts.length > 0 ? <AccountsNavigator/> : <AccountCreationNavigator/>}
+        {accounts.length > 0 ? <RootNavigator/> : <AccountCreationNavigator/>}
     </NavigationContainer>;
 }
