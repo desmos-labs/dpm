@@ -5,6 +5,10 @@ import {useRecoilState} from "recoil";
 import AccountStore from "../store/AccountStore";
 import Deferred from "../types/defered";
 
+/**
+ * Hooks to save an account into the device storage.
+ * Returns a stateful variable that provides the save status and a function to save the account into the device storage.
+ */
 export default function ():
     [Deferred<void> | null, (wallet: ChainAccount) => void] {
 
@@ -13,14 +17,12 @@ export default function ():
 
     const saveAccount = async (account: ChainAccount) => {
 
-        const task = async () => {
+        run(async () => {
             await AccountSource.putAccount(account);
             setAccounts((accounts) => {
                 return [...accounts, account];
             });
-        }
-
-        run(task());
+        });
     }
 
     return [value, saveAccount]

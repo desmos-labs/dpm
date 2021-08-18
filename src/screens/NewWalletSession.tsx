@@ -10,8 +10,6 @@ import {
 } from "react-native";
 import {RootStackParams} from "../types/navigation";
 import {StackScreenProps} from "@react-navigation/stack";
-import {useRecoilValue} from "recoil";
-import WalletConnectStore from "../store/WalletConnectStore";
 import {SessionTypes} from "@walletconnect/types";
 import ProposalViewer from "../components/SessionProposal";
 import useWalletConnectPair, {PairRequestStatus} from "../hooks/useWalletConnectPair";
@@ -24,8 +22,7 @@ export default function NewWalletSession(props: Props) {
     const {navigation} = props;
     const account = props.route.params.account;
     const [useUri, setUseUri] = useState(false);
-    const walletConnect = useRecoilValue(WalletConnectStore.walletConnect)!;
-    const [pairStatus, pair, approve, reject] = useWalletConnectPair(walletConnect);
+    const [pairStatus, pair, approve, reject] = useWalletConnectPair();
 
     const toggleUriQr = (_: NativeSyntheticEvent<NativeTouchEvent>) => {
         setUseUri(!useUri);
@@ -39,7 +36,7 @@ export default function NewWalletSession(props: Props) {
         const response: SessionTypes.Response = {
             metadata: proposal.proposer.metadata,
             state: {
-                accounts: [`desmos:${account.chainId}:${account.address}`],
+                accounts: [`desmos:testchain:${account.address}`],
             },
         };
         approve({

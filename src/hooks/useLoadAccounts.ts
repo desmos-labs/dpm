@@ -4,6 +4,10 @@ import AccountStore from "../store/AccountStore";
 import {useEffect, useState} from "react";
 import Deferred from "../types/defered";
 
+/**
+ * Hook to load all the user's account into the application state.
+ * Returns a stateful variable that provides the load status.
+ */
 export default function (): Deferred<null> {
 
     const [loadStatus, setLoadStatus] = useState<Deferred<null>>(Deferred.pending());

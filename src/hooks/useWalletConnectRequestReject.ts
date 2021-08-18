@@ -5,6 +5,10 @@ import {useRecoilValue} from "recoil";
 import WalletConnectStore from "../store/WalletConnectStore";
 import Deferred from "../types/defered";
 
+/**
+ * Hook to reject the WalletConnect requests.
+ * Returns a stateful variable that provides the reject status and a function to reject the request.
+ */
 export default function useWalletConnectRequestReject():
     [Deferred<null> | null, (request: SessionTypes.RequestEvent) => void] {
 

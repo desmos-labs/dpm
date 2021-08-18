@@ -11,16 +11,6 @@ import parseRpcRequest from '../utilils/jsonRpcParse';
 import walletConnectRejectResponse from '../utilils/walletConnectRejectResponse';
 import Deferred from '../types/defered';
 
-export type WalletNotInitialized = {
-    initialized: false;
-};
-
-export type WalletInitialized = {
-    initialized: true;
-    client: WalletConnect;
-};
-
-export type WalletConnectClient = WalletNotInitialized | WalletInitialized;
 
 async function initWalletConnect(): Promise<WalletConnect> {
     return await WalletConnect.init({
@@ -55,6 +45,10 @@ function validateWalletConnectRequest(
     };
 }
 
+/**
+ * Hook that initialize the wallet connect client.
+ * Returns a stateful variable that provides the client initialization status.
+ */
 export default function useWalletConnectInit(): Deferred<WalletConnect> {
     const [walletConnectStatus, setWalletConnectStatus] = useState<Deferred<WalletConnect>>(Deferred.pending());
     const [walletConnect, setWalletConnect] = useRecoilState(

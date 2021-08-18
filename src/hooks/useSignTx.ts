@@ -62,6 +62,10 @@ async function signAminoTx(signDoc: StdSignDoc, wallet: LocalWallet): Promise<Si
     }
 }
 
+/**
+ * Hook to sign a Cosmos transaction
+ * Returns a stateful variable that provides the signing status and a function to initiate the signing procedure.
+ */
 export default function (): [Deferred<SignedCosmosTx> | null, (address: string, tx: CosmosTx, walletPassword: string) => void] {
 
     const [signature, setSignature] = useState<Deferred<SignedCosmosTx> | null>(null);
@@ -86,7 +90,6 @@ export default function (): [Deferred<SignedCosmosTx> | null, (address: string, 
             setSignature(Deferred.failed(e.toString()));
         }
     }
-
 
     return [signature, sign];
 }

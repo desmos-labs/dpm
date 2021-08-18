@@ -3,6 +3,10 @@ import useRunPromise from "./useRunPromise";
 import LocalWalletsSource from "../sources/LocalWalletsSource";
 import Deferred from "../types/defered";
 
+/**
+ * Hook to save a wallet into the device storage.
+ * Returns a stateful variable that provides the saving status and a function to save the wallet into the device storage.
+ */
 export default function ():
     [Deferred<void> | null, (wallet: LocalWallet, password: string, biometricProtected?: boolean) => void] {
 

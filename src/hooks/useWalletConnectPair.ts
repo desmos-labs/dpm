@@ -1,6 +1,8 @@
 import WalletConnect, {CLIENT_EVENTS} from "@walletconnect/client";
 import {useEffect, useState} from "react";
 import {ClientTypes, SessionTypes} from "@walletconnect/types";
+import {useRecoilValue} from "recoil";
+import WalletConnectStore from "../store/WalletConnectStore";
 
 export enum PairRequestStatus {
     WaitingResponse,
@@ -36,9 +38,16 @@ export type PairFailed = {
 
 export type PairStatus = PairWaitingResponse | PairWaitingApproval | PairApproving | PairSuccess | PairFailed
 
-export default function useWalletConnectPair(client: WalletConnect):
+/**
+ * Hook to handle the WalletConnect pair requests.
+ * Returns a stateful variable that provides the pairing request status, a function to accept the pair request and a function
+ * to reject the pair request.
+ */
+export default function useWalletConnectPair():
     [PairStatus | null, (uri: string) => void, (params: ClientTypes.ApproveParams) => void,
         (params: ClientTypes.RejectParams) => void] {
+
+    const client = useRecoilValue(WalletConnectStore.walletConnect)!;
     const [pairStatus, setPairStatus] = useState<PairStatus | null>(null);
 
     // Subscribe to client proposals

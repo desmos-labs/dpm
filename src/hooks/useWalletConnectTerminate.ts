@@ -1,6 +1,8 @@
 import WalletConnect from "@walletconnect/client";
 import {useState} from "react";
 import { ERROR } from "@walletconnect/utils"
+import {useRecoilValue} from "recoil";
+import WalletConnectStore from "../store/WalletConnectStore";
 
 export enum SessionStatus {
     Disconnecting = "SESSION_DISCONNECTING",
@@ -24,8 +26,13 @@ export type SessionDisconnectFailed = {
 
 export type DisconnectingSession = SessionDisconnecting | SessionDisconnected | SessionDisconnectFailed
 
-export default function useWalletConnectDisconnect(client: WalletConnect):
+/**
+ * Hook to terminate a WalletConnect session.
+ * Returns a stateful variable that provides the termination status and a function to terminate the session.
+ */
+export default function useWalletConnectDisconnect():
     [DisconnectingSession | null, (topic: string) => void] {
+    const client = useRecoilValue(WalletConnectStore.walletConnect)!;
     const [status, setStatus] = useState<DisconnectingSession | null>(null);
 
     const disconnect = (topic: string) => {

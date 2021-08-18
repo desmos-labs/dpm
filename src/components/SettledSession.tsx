@@ -2,15 +2,12 @@ import React from "react";
 import {SessionTypes} from "@walletconnect/types";
 import {Button, NativeSyntheticEvent, NativeTouchEvent, Text, View} from "react-native";
 import useWalletConnectDisconnect, {SessionStatus} from "../hooks/useWalletConnectTerminate";
-import {useRecoilValue} from "recoil";
-import WalletConnectStore from "../store/WalletConnectStore";
 
 export type Props = {
     session: SessionTypes.Settled
 }
 export default function SettledSession(props: Props) {
-    const client = useRecoilValue(WalletConnectStore.walletConnect)!;
-    const [status, disconnect] = useWalletConnectDisconnect(client)
+    const [status, disconnect] = useWalletConnectDisconnect()
 
     const onDisconnectPressed = (_: NativeSyntheticEvent<NativeTouchEvent>) => {
         disconnect(props.session.topic)
