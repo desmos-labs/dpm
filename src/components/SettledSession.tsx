@@ -15,7 +15,8 @@ export default function SettledSession(props: Props) {
 
     if (status === null) {
         return <View>
-            <Text>Topic: {props.session.topic}</Text>
+            <Text>{props.session.peer.metadata.name}</Text>
+            <Text>{props.session.peer.metadata.url}</Text>
             <Button title={"Disconnect"} onPress={onDisconnectPressed} />
         </View>
     } else {
