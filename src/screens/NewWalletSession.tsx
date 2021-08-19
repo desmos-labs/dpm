@@ -15,6 +15,7 @@ import ProposalViewer from "../components/SessionProposal";
 import useWalletConnectPair, {PairRequestStatus} from "../hooks/useWalletConnectPair";
 import WalletConnectUriPair from "../components/WalletConnectUriPair";
 import WalletConnectQRPair from "../components/WalletConnectQRPair";
+import {CHAIN_ID} from "../constants/chain";
 
 type Props = StackScreenProps<RootStackParams, "NewWalletSession">;
 export default function NewWalletSession(props: Props) {
@@ -36,7 +37,7 @@ export default function NewWalletSession(props: Props) {
         const response: SessionTypes.Response = {
             metadata: proposal.proposer.metadata,
             state: {
-                accounts: [`desmos:testchain:${account.address}`],
+                accounts: [`desmos:${CHAIN_ID}:${account.address}`],
             },
         };
         approve({
