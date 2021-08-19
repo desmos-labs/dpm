@@ -7,7 +7,6 @@ import ChainAccount, {ChainAccountType} from "../../types/chainAccount";
 import useSaveWallet from "../../hooks/useSaveWallet";
 import useSaveAccount from "../../hooks/useSaveAccount";
 import {DeferredState} from "../../types/defered";
-import {CHAIN_ID} from "../../constants/chain";
 
 
 declare type Props = StackScreenProps<AccountCreationStackParams, "GenerateAccountKeys">;
@@ -25,7 +24,6 @@ export default function GenerateAccountKeys(props: Props): JSX.Element {
             type: ChainAccountType.Local,
             name: name,
             address: wallet.bech32Address,
-            chainId: CHAIN_ID,
         }
         saveWallet(wallet!, props.route.params.password);
         saveAccount(account);
