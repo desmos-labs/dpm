@@ -28,14 +28,14 @@ async function signDirectTx(signDoc: CosmosSignDocDirect, wallet: LocalWallet): 
         SignMode.SIGN_MODE_DIRECT
     );
 
-
     // Create the SignDoc that will be signed
     const finalSignDoc = SignDoc.fromPartial({
         chainId: signDoc.chainId,
-        accountNumber: Long.fromString(signDoc.accountNumber),
+        accountNumber: Long.fromString(signDoc.accountNumber, 16),
         bodyBytes,
         authInfoBytes: authInfoBytesWithSigner,
     });
+
     // Sign the document
     const signDocBinary = SignDoc.encode(finalSignDoc).finish();
     const signature = await wallet.sign(signDocBinary);
