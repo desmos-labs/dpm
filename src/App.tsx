@@ -5,6 +5,7 @@ import Colors from './constants/colors';
 import Navigator from './navigation';
 import useWalletConnectInit from './hooks/useWalletConnectInit';
 import useLoadAccounts from './hooks/useLoadAccounts';
+import "./i18n/i18n";
 
 function AppContent(): JSX.Element {
     const walletConnect = useWalletConnectInit();

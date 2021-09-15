@@ -2,13 +2,14 @@ import React from "react";
 import {Button, NativeSyntheticEvent, NativeTouchEvent, SafeAreaView} from "react-native";
 import {StackScreenProps} from "@react-navigation/stack";
 import {AccountCreationStackParams} from "../../types/navigation";
+import {useTranslation} from "react-i18next";
 
 
 declare type Props = StackScreenProps<AccountCreationStackParams, "AccountCreation">
 
-export default function AccountCreation(props: Props): JSX.Element {
+export default function AccountCreation({navigation}: Props): JSX.Element {
 
-    const {navigation} = props
+    const { t } = useTranslation();
 
     const onCreatePressed = (_: NativeSyntheticEvent<NativeTouchEvent>) => {
         navigation.navigate({
@@ -17,7 +18,7 @@ export default function AccountCreation(props: Props): JSX.Element {
         })
     }
 
-    const onRecoverPressed = (_: NativeSyntheticEvent<NativeTouchEvent>) => {
+    const onImportPressed = (_: NativeSyntheticEvent<NativeTouchEvent>) => {
         navigation.navigate({
             name: "ImportAccount",
             params: undefined
@@ -25,7 +26,7 @@ export default function AccountCreation(props: Props): JSX.Element {
     }
 
     return <SafeAreaView>
-        <Button title={"Create account"} onPress={onCreatePressed} />
-        <Button title={"Recover account"} onPress={onRecoverPressed} />
+        <Button title={t("createAccount")} onPress={onCreatePressed} />
+        <Button title={t("importAccount")} onPress={onImportPressed} />
     </SafeAreaView>
 }
