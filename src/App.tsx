@@ -6,6 +6,8 @@ import Navigator from './navigation';
 import useWalletConnectInit from './hooks/useWalletConnectInit';
 import useLoadAccounts from './hooks/useLoadAccounts';
 import "./i18n/i18n";
+import {Provider as PaperProvider} from "react-native-paper";
+import {AppTheme} from "./theming";
 
 function AppContent(): JSX.Element {
     const walletConnect = useWalletConnectInit();
@@ -25,8 +27,10 @@ function AppContent(): JSX.Element {
 export default function App(): JSX.Element {
     return (
         <RecoilRoot>
-            <StatusBar hidden={false} backgroundColor={Colors.DesmosOrange} />
-            <AppContent />
+            <PaperProvider theme={AppTheme}>
+                <StatusBar hidden={false} backgroundColor={Colors.DesmosOrange} />
+                <AppContent />
+            </PaperProvider>
         </RecoilRoot>
     );
 }
