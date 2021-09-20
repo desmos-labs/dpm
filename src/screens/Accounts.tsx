@@ -1,37 +1,28 @@
 import React from "react";
-import {FlatList, SafeAreaView, StyleSheet} from "react-native";
-import AccountCard from "../components/AccountCard";
-import {useRecoilValue} from "recoil";
+import {FlatList, StyleSheet} from "react-native";
+import {useRecoilValue, useSetRecoilState} from "recoil";
 import AccountStore from "../store/AccountStore";
 import ChainAccount from "../types/chainAccount";
-import {StackScreenProps} from "@react-navigation/stack";
-import {RootStackParams} from "../types/navigation";
+import useSaveSelectedAccount from "../hooks/useSaveSelectedAccount";
+import {List} from "react-native-paper";
+import {StyledSafeAreaView} from "../components";
 
-type Props = StackScreenProps<RootStackParams, "Accounts">;
-
-export default function Accounts(props: Props): JSX.Element {
+export default function Accounts(): JSX.Element {
     const accounts = useRecoilValue(AccountStore.chainAccounts);
+    const saveSelectedAccount = useSaveSelectedAccount();
+    const setSelectedAccount = useSetRecoilState(AccountStore.selectedAccount);
 
-    const onCardPressed = (account: ChainAccount) => {
-        props.navigation.navigate({
-            name: "AccountSessions",
-            params: {
-                account
-            }
-        });
+    const onAccountPressed = (account: ChainAccount) => {
+        saveSelectedAccount(account);
+        setSelectedAccount(account);
     }
 
-    return <SafeAreaView style={styles.container}>
+    return <StyledSafeAreaView>
         <FlatList data={accounts} renderItem={({item}) =>
-            <AccountCard key={item.address} account={item} onPress={onCardPressed}/>}/>
-    </SafeAreaView>;
+            <List.Item
+                key={item.address}
+                title={item.name}
+                description={item.address}
+                onPress={() => onAccountPressed(item)}/>}/>
+    </StyledSafeAreaView>;
 }
-
-const styles = StyleSheet.create({
-    container: {
-        display: "flex",
-        flexDirection: "column",
-        flex: 1,
-        padding: 8
-    }
-})

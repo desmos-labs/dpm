@@ -7,6 +7,7 @@ import WalletConnectStore from "../store/WalletConnectStore";
 import AccountStore from "../store/AccountStore";
 import AccountCreationNavigator from "./AccountCreationNavigator";
 import {RootStackParams} from "../types/navigation";
+import SelectAccount from "../screens/Accounts";
 
 const DesmosTheme: Theme = {
     ...DefaultTheme,
@@ -21,6 +22,7 @@ export default function Navigator() {
     const accounts = useRecoilValue(AccountStore.chainAccounts);
     const navigatorRef = useRef<NavigationContainerRef<RootStackParams>>(null);
     const requests = useRecoilValue(WalletConnectStore.sessionRequests);
+    const selectedAccount = useRecoilValue(AccountStore.selectedAccount);
 
     useEffect(() => {
         if (navigatorRef.current !== null && requests.length > 0) {
@@ -35,7 +37,18 @@ export default function Navigator() {
         }
     }, [requests])
 
+    let content: JSX.Element | null;
+    if (accounts.length === 0) {
+        content = <AccountCreationNavigator/>;
+    } else {
+        if (selectedAccount !== null) {
+            content = <RootNavigator/>
+        } else {
+            content = <SelectAccount/>;
+        }
+    }
+
     return <NavigationContainer theme={DesmosTheme} ref={navigatorRef}>
-        {accounts.length > 0 ? <RootNavigator/> : <AccountCreationNavigator/>}
+        {content}
     </NavigationContainer>;
 }

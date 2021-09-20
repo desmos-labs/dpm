@@ -21,11 +21,10 @@ export type AccountCreationStackParams = {
     GenerateAccountKeys: AccountConfig;
 };
 
-export const AccountCreationStack =
-    createStackNavigator<AccountCreationStackParams>();
+export const AccountCreationStack = createStackNavigator<AccountCreationStackParams>();
 
 export type RootStackParams = {
-    Accounts: undefined;
+    Account: undefined,
     AccountSessions: {
         account: ChainAccount;
     };

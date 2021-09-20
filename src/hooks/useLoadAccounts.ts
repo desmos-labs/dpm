@@ -12,10 +12,18 @@ export default function (): Deferred<null> {
 
     const [loadStatus, setLoadStatus] = useState<Deferred<null>>(Deferred.pending());
     const [, setAccounts] = useRecoilState(AccountStore.chainAccounts);
+    const [, setSelectedAccount] = useRecoilState(AccountStore.selectedAccount);
 
     const loadAccounts = async () => {
         try {
             const accounts = await AccountSource.getAllAccounts();
+            const selectedAccountAddress = await AccountSource.getSelectedAccount();
+            if (selectedAccountAddress !== null) {
+                const selectedAccount = accounts.find(a => a.address === selectedAccountAddress);
+                if (selectedAccount !== undefined) {
+                    setSelectedAccount(selectedAccount);
+                }
+            }
             setAccounts(accounts);
             setLoadStatus(Deferred.completed(null))
         } catch (ex) {

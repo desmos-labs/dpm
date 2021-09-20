@@ -9,6 +9,7 @@ declare type SourceCache = Map<string, ChainAccount>;
 class AccountSource {
 
     private readonly ACCOUNTS_KEY = 'accounts';
+    private readonly SELECTED_ACCOUNT_KEY = 'selected_account';
     private _cache: SourceCache | null;
 
     constructor() {
@@ -44,6 +45,18 @@ class AccountSource {
         return this.useCache(async cache => {
             return Array.from(cache.values());
         });
+    }
+
+    public async setSelectedAccount(address: string | null): Promise<void> {
+        if (address === null) {
+            await SecureStorage.deleteItem(this.SELECTED_ACCOUNT_KEY);
+        } else {
+            await SecureStorage.setItem(this.SELECTED_ACCOUNT_KEY, address);
+        }
+    }
+
+    public async getSelectedAccount(): Promise<string | null> {
+        return SecureStorage.getItem(this.SELECTED_ACCOUNT_KEY);
     }
 
     /**

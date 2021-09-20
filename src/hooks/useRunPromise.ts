@@ -13,7 +13,6 @@ export default function <T>():
 
     const run = async (args: RunArgs<T>) => {
         setDeferred(Deferred.pending());
-
         try {
             let value: T;
             if (typeof args === "function") {

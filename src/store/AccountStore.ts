@@ -7,6 +7,12 @@ const chainAccounts = atom<ChainAccount[]>({
     default: [],
 });
 
+const selectedAccount = atom<ChainAccount | null>({
+    key: StoreKeysEnum.selectedAccount,
+    default: null,
+});
+
 export default {
     chainAccounts,
+    selectedAccount
 };
