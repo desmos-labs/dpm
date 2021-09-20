@@ -14,6 +14,8 @@ target 'DesmosProfileManager' do
 
   pod 'react-native-randombytes', :path => '../node_modules/react-native-randombytes'
 
+  pod 'RNVectorIcons', :path => '../node_modules/react-native-vector-icons'
+
   target 'DesmosProfileManagerTests' do
     inherit! :complete
     # Pods for testing

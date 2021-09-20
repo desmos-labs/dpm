@@ -6,25 +6,24 @@ import {SHA256} from 'jscrypto/SHA256';
 import {bech32} from 'bech32';
 import {Hex} from 'jscrypto';
 import {sha256} from "@cosmjs/crypto";
+import {HdPath} from "../types/hdpath";
 
 // See https://github.com/satoshilabs/slips/blob/master/slip-0044.md for the list of all slips.
 const DESMOS_COIN_TYPE = 852;
 
 export interface LocalWalletOptions {
     /**
-     * BIP44 account number.
+     * Wallet HdPath.
      */
-    account?: number;
-
-    /**
-     * BIP44 index number
-     */
-    index?: number;
+    hdPath: HdPath,
 }
 
 const DEFAULT_OPTIONS: LocalWalletOptions = {
-    account: 0,
-    index: 0,
+    hdPath: {
+        account: 0,
+        change: 0,
+        addressIndex: 0,
+    }
 };
 
 export default class LocalWallet {
@@ -48,10 +47,10 @@ export default class LocalWallet {
         mnemonic: string,
         options?: LocalWalletOptions,
     ): LocalWallet {
-        const {account, index} = {...DEFAULT_OPTIONS, ...options};
+        const {hdPath} = {...DEFAULT_OPTIONS, ...options};
         const seed: Buffer = bip39.mnemonicToSeedSync(mnemonic);
         const masterKey = bip32.fromSeed(seed);
-        const derivationPath = `m/44'/${DESMOS_COIN_TYPE}'/${account}'/0/${index}`;
+        const derivationPath = `m/44'/${DESMOS_COIN_TYPE}'/${hdPath.account}'/${hdPath.change}/${hdPath.addressIndex}`;
         const keyPair = masterKey.derivePath(derivationPath);
 
         if (keyPair.privateKey === undefined) {

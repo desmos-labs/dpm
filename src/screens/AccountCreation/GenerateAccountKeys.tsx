@@ -1,5 +1,4 @@
 import React, {useEffect} from "react";
-import {Button, NativeSyntheticEvent, SafeAreaView, Text} from "react-native";
 import {StackScreenProps} from "@react-navigation/stack";
 import {AccountCreationStackParams} from "../../types/navigation";
 import useCreateLocalWallet from "../../hooks/useCreateLocalWallet";
@@ -7,18 +6,40 @@ import ChainAccount, {ChainAccountType} from "../../types/chainAccount";
 import useSaveWallet from "../../hooks/useSaveWallet";
 import useSaveAccount from "../../hooks/useSaveAccount";
 import {DeferredState} from "../../types/defered";
+import {StyledSafeAreaView, Button} from "../../components";
+import {useTranslation} from "react-i18next";
+import {Headline, Paragraph} from "react-native-paper";
+import {makeStyle} from "../../theming";
 
+const useClasses = makeStyle(theme => ({
+    root: {
+        flexDirection: "column",
+        alignItems: "stretch",
+        justifyContent: "center"
+    },
+    generatingText: {
+        textAlign: "center",
+    },
+    continueButton: {
+        marginTop: theme.spacing.s,
+    },
+    errorText: {
+        color: theme.colors.error,
+    }
+}))
 
 declare type Props = StackScreenProps<AccountCreationStackParams, "GenerateAccountKeys">;
 
 export default function GenerateAccountKeys(props: Props): JSX.Element {
 
-    const {mnemonic, account, index, name} = props.route.params;
+    const {t} = useTranslation();
+    const classes = useClasses();
+    const {mnemonic, hdPath, name} = props.route.params;
     const [createWalletStatus, create] = useCreateLocalWallet();
     const [saveWalletStatus, saveWallet] = useSaveWallet();
     const [saveAccountStatus, saveAccount] = useSaveAccount()
 
-    const onContinuePressed = (_: NativeSyntheticEvent<TouchEvent>) => {
+    const onContinuePressed = () => {
         const wallet = createWalletStatus!.value();
         const account: ChainAccount = {
             type: ChainAccountType.Local,
@@ -39,11 +60,11 @@ export default function GenerateAccountKeys(props: Props): JSX.Element {
     }, [createWalletStatus])
 
     useEffect(() => {
-        if (createWalletStatus === null) {
-            create(mnemonic, { account, index });
-        }
+        create(mnemonic, {
+            hdPath
+        });
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [createWalletStatus])
+    }, [])
 
     useEffect(() => {
         if (saveWalletStatus?.isCompleted() && saveAccountStatus?.isCompleted()) {
@@ -53,31 +74,70 @@ export default function GenerateAccountKeys(props: Props): JSX.Element {
     }, [saveWalletStatus, saveAccountStatus])
 
 
-
     if (createWalletStatus === null || createWalletStatus?.isPending()) {
-        return <SafeAreaView>
-            <Text>Generating account keys...</Text>
-        </SafeAreaView>
+        return <StyledSafeAreaView
+            style={classes.root}
+        >
+            <Paragraph
+                style={classes.generatingText}
+            >
+                {t("generating account keys")}
+            </Paragraph>
+        </StyledSafeAreaView>
     } else {
         switch (createWalletStatus.state()) {
             case DeferredState.Completed:
                 const wallet = createWalletStatus.value();
-                return <SafeAreaView>
-                    <Text>Account created!</Text>
-                    <Text>Address: {wallet.bech32Address}</Text>
-                    <Button title={"Continue"} onPress={onContinuePressed}/>
-                </SafeAreaView>
+                return <StyledSafeAreaView
+                    style={classes.root}
+                >
+                    <Headline>{t("account created")}</Headline>
+                    <Paragraph>{t("address")}: {wallet.bech32Address}</Paragraph>
+                    <Button
+                        style={classes.continueButton}
+                        mode="contained"
+                        onPress={onContinuePressed}
+                    >
+                        {t("continue")}
+                    </Button>
+                    {__DEV__ && <Button
+                        mode="contained"
+                        onPress={() => {
+                            create(mnemonic, {
+                                hdPath
+                            })
+                        }}
+                    >
+                        (DBG) Regenerate keys
+                    </Button>}
+                </StyledSafeAreaView>
 
             case DeferredState.Failed:
-                return <SafeAreaView>
-                    <Text>Error while creating the account:</Text>
-                    <Text>{createWalletStatus.error()}</Text>
-                </SafeAreaView>
+                return <StyledSafeAreaView
+                    style={classes.root}
+                >
+                    <Paragraph
+                        style={classes.errorText}
+                    >
+                        {t("error generating account keys")}
+                    </Paragraph>
+                    <Paragraph
+                        style={classes.errorText}
+                    >
+                        {createWalletStatus.error()}
+                    </Paragraph>
+                </StyledSafeAreaView>
 
             default:
-                return <SafeAreaView>
-                    <Text>App unknown state</Text>
-                </SafeAreaView>
+                return <StyledSafeAreaView
+                    style={classes.root}
+                >
+                    <Paragraph
+                        style={classes.errorText}
+                    >
+                        Unknown state
+                    </Paragraph>
+                </StyledSafeAreaView>
         }
     }
 }

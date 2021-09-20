@@ -3,13 +3,13 @@ import ChainAccount from './chainAccount';
 import {WalletConnectRequestEvent} from '../store/WalletConnectStore';
 import {CosmosTx, SignedCosmosTx} from './tx';
 import {SessionTypes} from '@walletconnect/types';
+import {HdPath} from "./hdpath";
 
 export type AccountConfig = {
     name: string;
     mnemonic: string;
     password: string;
-    account: number;
-    index: number;
+    hdPath: HdPath
 };
 
 export type AccountCreationStackParams = {

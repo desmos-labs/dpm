@@ -1,5 +1,4 @@
-import { DefaultTheme } from 'react-native-paper';
-import {Theme} from "react-native-paper/lib/typescript/types";
+import {DefaultTheme} from 'react-native-paper';
 
 declare global {
     namespace ReactNativePaper {
@@ -8,19 +7,45 @@ declare global {
              * Color used for the buttons with mode = contained
              */
             buttonText: string;
+            /**
+             * Color used for the elements present in the
+             * app bar.
+             */
+            appBarContent: string;
+        }
+
+        interface Spacing {
+            xs: number | string,
+            s: number | string,
+            m: number | string,
+            l: number | string,
+            xl: number | string,
         }
 
         interface Theme {
+            spacing: ReactNativePaper.Spacing,
+            test: boolean,
         }
     }
 }
 
-export const AppTheme = {
+export const DefaultSpacing: ReactNativePaper.Spacing = {
+    xs: 4,
+    s: 8,
+    m: 16,
+    l: 24,
+    xl: 32,
+}
+
+export const AppTheme: ReactNativePaper.Theme = {
     ...DefaultTheme,
+    spacing: DefaultSpacing,
+    test: false,
     colors: {
         ...DefaultTheme.colors,
         primary: '#ed6c53',
         accent: '#edd459',
-        buttonText: '#ffffff'
-    } as Theme["colors"],
+        buttonText: '#ffffff',
+        appBarContent: '#ffffff'
+    },
 };
