@@ -25,5 +25,7 @@
   "error generating account keys": "Si è verificato un errore durante la generazione delle chiavi",
   "accounts": "Account",
   "sessions": "Sessioni",
-  "new session": "Nuova sessione"
+  "new session": "Nuova sessione",
+  "disconnecting": "Disconnesione...",
+  "an error occurred": "Si è verificato un errore"
 }

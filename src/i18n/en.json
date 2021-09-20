@@ -29,5 +29,8 @@
   "error generating account keys": "An error occurred while generating the account keys",
   "accounts": "Accounts",
   "sessions": "Sessions",
-  "new session": "New session"
+  "new session": "New session",
+  "dapps": "DAPPs",
+  "disconnecting": "Disconnecting...",
+  "an error occurred": "Disconnection error"
 }
