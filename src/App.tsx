@@ -1,5 +1,5 @@
 import React from 'react';
-import {SafeAreaView, StatusBar, Text} from 'react-native';
+import {StatusBar} from 'react-native';
 import {RecoilRoot} from 'recoil';
 import Colors from './constants/colors';
 import Navigator from './navigation';
@@ -8,6 +8,7 @@ import useLoadAccounts from './hooks/useLoadAccounts';
 import {Provider as PaperProvider} from "react-native-paper";
 import {AppTheme} from "./theming";
 import {useInitI18n} from "./i18n/i18n";
+import {SplashScreen} from "./screens/SplashScreen";
 
 function AppContent(): JSX.Element {
     const walletConnect = useWalletConnectInit();
@@ -16,13 +17,8 @@ function AppContent(): JSX.Element {
 
     if (walletConnect.isPending() ||
         accountLoadStatus.isPending() ||
-        i18nState.isPending()
-    ) {
-        return (
-            <SafeAreaView>
-                <Text>Loading...</Text>
-            </SafeAreaView>
-        );
+        i18nState.isPending()) {
+        return <SplashScreen />;
     } else {
         return <Navigator />;
     }
