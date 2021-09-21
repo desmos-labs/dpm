@@ -26,6 +26,10 @@ export type Props = {
      * Whether to style the input with error style.
      */
     error?: boolean
+    /**
+     * If true, user won't be able to interact with the component.
+     */
+    disabled?: boolean
     style?: StyleProp<TextStyle>
 }
 
@@ -40,6 +44,7 @@ export const SecureTextInput: React.FC<Props> = (props) => {
         onChangeText={props.onChangeText}
         secureTextEntry={hideText}
         error={props.error}
+        disabled={props.disabled}
         right={<TextInput.Icon
             name={hideText ? "eye-outline" : "eye-off-outline"}
             onPress={() => {
