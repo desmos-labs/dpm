@@ -1,4 +1,5 @@
 import {DefaultTheme} from 'react-native-paper';
+import Colors from "../constants/colors";
 
 declare global {
     namespace ReactNativePaper {
@@ -43,7 +44,7 @@ export const AppTheme: ReactNativePaper.Theme = {
     test: false,
     colors: {
         ...DefaultTheme.colors,
-        primary: '#ed6c53',
+        primary: Colors.DesmosOrange,
         accent: '#edd459',
         buttonText: '#ffffff',
         appBarContent: '#ffffff'
