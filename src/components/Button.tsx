@@ -22,7 +22,16 @@ export type Props = {
     /**
      * Style for the button text.
      */
-    labelStyle?: StyleProp<TextStyle>
+    labelStyle?: StyleProp<TextStyle>,
+    /**
+     * Whether to show a loading indicator.
+     */
+    loading?: boolean,
+    /**
+     * Whether the button is disabled.
+     * A disabled button is greyed out and `onPress` is not called on touch.
+     */
+    disabled?: boolean,
     style?: StyleProp<ViewStyle>,
 }
 
@@ -42,6 +51,8 @@ const Button: React.FC<Props> = props => {
         mode={props.mode}
         labelStyle={labelStyle}
         style={btnStyle}
+        loading={props.loading}
+        disabled={props.disabled}
     >
         {props.children}
     </MaterialButton>;
