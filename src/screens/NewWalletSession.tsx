@@ -8,7 +8,7 @@ import {
     Text,
     View,
 } from "react-native";
-import {RootStackParams} from "../types/navigation";
+import {AccountScreensStackParams} from "../types/navigation";
 import {StackScreenProps} from "@react-navigation/stack";
 import {SessionTypes} from "@walletconnect/types";
 import ProposalViewer from "../components/SessionProposal";
@@ -17,7 +17,7 @@ import WalletConnectUriPair from "../components/WalletConnectUriPair";
 import WalletConnectQRPair from "../components/WalletConnectQRPair";
 import {CHAIN_ID} from "../constants/chain";
 
-type Props = StackScreenProps<RootStackParams, "NewWalletSession">;
+type Props = StackScreenProps<AccountScreensStackParams, "NewWalletSession">;
 export default function NewWalletSession(props: Props) {
 
     const {navigation} = props;

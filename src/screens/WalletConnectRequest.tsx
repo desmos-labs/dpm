@@ -13,7 +13,7 @@ import {
 } from '../types/jsonRpCosmosc';
 import {DeferredState} from '../types/defered';
 import {StackScreenProps} from '@react-navigation/stack';
-import {RootStackParams} from '../types/navigation';
+import {AccountScreensStackParams} from '../types/navigation';
 import {CosmosTx, SignedCosmosTx} from '../types/tx';
 import WalletConnectStore, {
     WalletConnectRequestEvent,
@@ -21,7 +21,7 @@ import WalletConnectStore, {
 import {StackNavigationProp} from '@react-navigation/stack/lib/typescript/src/types';
 import {useRecoilState} from 'recoil';
 
-export type Props = StackScreenProps<RootStackParams, 'WalletConnectRequest'>;
+export type Props = StackScreenProps<AccountScreensStackParams, 'WalletConnectRequest'>;
 
 function requestToSignTx(requestEvent: WalletConnectRequestEvent): CosmosTx {
     switch (requestEvent.request.method) {
@@ -93,7 +93,7 @@ export default function WalletConnectRequest(props: Props): JSX.Element {
                 props.route.params.request.request.params.signerAddress,
                 tx: requestToSignTx(props.route.params.request),
                 onSigned: (
-                    navigation: StackNavigationProp<RootStackParams, 'SignTx'>,
+                    navigation: StackNavigationProp<AccountScreensStackParams, 'SignTx'>,
                     signedTx: SignedCosmosTx,
                 ) => {
                     navigation.navigate({

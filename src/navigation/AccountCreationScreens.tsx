@@ -9,7 +9,7 @@ import CreateWalletPassword from "../screens/AccountCreation/CreateWalletPasswor
 import {useTranslation} from "react-i18next";
 import {NavigationBar} from "../components";
 
-export default function AccountCreationNavigator() {
+export default function AccountCreationScreens() {
     const {t} = useTranslation();
 
     return <AccountCreationStack.Navigator

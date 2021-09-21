@@ -1,12 +1,12 @@
 import React, {useEffect, useState} from "react";
-import {RootStackParams} from "../types/navigation";
+import {AccountScreensStackParams} from "../types/navigation";
 import {Button, NativeSyntheticEvent, NativeTouchEvent, SafeAreaView, Text} from "react-native";
 import LabeledTextInput from "../components/LabeledTextInput";
 import useSignTx from "../hooks/useSignTx";
 import {StackScreenProps} from "@react-navigation/stack";
 import {DeferredState} from "../types/defered";
 
-declare type Props = StackScreenProps<RootStackParams, "SignTx">;
+declare type Props = StackScreenProps<AccountScreensStackParams, "SignTx">;
 
 export default function (props: Props): JSX.Element {
 

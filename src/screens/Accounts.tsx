@@ -1,5 +1,5 @@
 import React from "react";
-import {FlatList, StyleSheet} from "react-native";
+import {FlatList} from "react-native";
 import {useRecoilValue, useSetRecoilState} from "recoil";
 import AccountStore from "../store/AccountStore";
 import ChainAccount from "../types/chainAccount";

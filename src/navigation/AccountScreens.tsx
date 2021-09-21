@@ -1,5 +1,5 @@
 import React from 'react';
-import {RootStack} from "../types/navigation";
+import {AccountScreensStack} from "../types/navigation";
 import NewWalletSession from "../screens/NewWalletSession";
 import AccountSessions from "../screens/AccountSessions";
 import WalletConnectRequest from "../screens/WalletConnectRequest";
@@ -8,16 +8,16 @@ import {NavigationBar} from "../components";
 import {useTranslation} from "react-i18next";
 import Account from "../screens/Account";
 
-export default function RootNavigator() {
+export default function AccountScreens() {
     const {t} = useTranslation();
 
-    return <RootStack.Navigator
+    return <AccountScreensStack.Navigator
         initialRouteName={"Account"}
         screenOptions={{
             header: NavigationBar
         }}
     >
-        <RootStack.Screen
+        <AccountScreensStack.Screen
             name="Account"
             component={Account}
             options={{
@@ -31,22 +31,22 @@ export default function RootNavigator() {
             }}
             component={AccountSessions}
         />
-        <RootStack.Screen
+        <AccountScreensStack.Screen
             name="NewWalletSession"
             options={{
                 title: t("new session")
             }}
             component={NewWalletSession}
         />
-        <RootStack.Screen
+        <AccountScreensStack.Screen
             name="WalletConnectRequest"
             component={WalletConnectRequest}
             options={{
                 headerShown: false
             }}
         />
-        <RootStack.Screen
-            name={"SignTx"}
+        <AccountScreensStack.Screen
+            name="SignTx"
             options={{
                 headerShown: false
             }}

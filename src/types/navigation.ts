@@ -4,6 +4,9 @@ import {WalletConnectRequestEvent} from '../store/WalletConnectStore';
 import {CosmosTx, SignedCosmosTx} from './tx';
 import {SessionTypes} from '@walletconnect/types';
 import {HdPath} from "./hdpath";
+import {DesmosProfile} from "@desmoslabs/sdk-core";
+import {ReactNode} from "react";
+import LocalWallet from "../wallet/LocalWallet";
 
 export type AccountConfig = {
     name: string;
@@ -23,8 +26,12 @@ export type AccountCreationStackParams = {
 
 export const AccountCreationStack = createStackNavigator<AccountCreationStackParams>();
 
-export type RootStackParams = {
+export type AccountScreensStackParams = {
     Account: undefined,
+    EditProfile: {
+        account: ChainAccount,
+        currentProfile: DesmosProfile | null,
+    },
     AccountSessions: {
         account: ChainAccount;
     };
@@ -42,6 +49,22 @@ export type RootStackParams = {
         tx: CosmosTx;
         onSigned: (navigation: any, signedTx: SignedCosmosTx) => void;
     };
+    UnlockWallet: {
+        address: string
+        resolve: (wallet: LocalWallet) => void,
+        reject: (error: Error) => void
+    }
 };
 
-export const RootStack = createStackNavigator<RootStackParams>();
+export const AccountScreensStack = createStackNavigator<AccountScreensStackParams>();
+
+export type RootStackParams = {
+    AccountCreationScreens: undefined,
+    AccountScreens: undefined,
+    SelectAccount: undefined,
+    Modal: {
+        children: ReactNode
+    }
+}
+
+export const RootStack = createStackNavigator<RootStackParams>()

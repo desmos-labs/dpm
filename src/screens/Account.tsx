@@ -3,7 +3,7 @@ import {FlatList, View} from "react-native";
 import {makeStyle} from "../theming";
 import {FAB, Title} from "react-native-paper";
 import {StackScreenProps} from "@react-navigation/stack";
-import {RootStackParams} from "../types/navigation";
+import {AccountScreensStackParams} from "../types/navigation";
 import React, {useEffect} from 'react';
 import {useRecoilValue} from "recoil";
 import WalletConnectStore from "../store/WalletConnectStore";
@@ -30,7 +30,7 @@ const useClasses = makeStyle(theme => ({
     },
 }))
 
-type Props = StackScreenProps<RootStackParams, "Account">;
+type Props = StackScreenProps<AccountScreensStackParams, "Account">;
 
 export default function Account(props: Props): JSX.Element {
 

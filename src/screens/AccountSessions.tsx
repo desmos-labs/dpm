@@ -8,12 +8,12 @@ import {
     StyleSheet,
 } from "react-native";
 import {StackScreenProps} from "@react-navigation/stack";
-import {RootStackParams} from "../types/navigation";
+import {AccountScreensStackParams} from "../types/navigation";
 import {useRecoilValue} from "recoil";
 import WalletConnectStore from "../store/WalletConnectStore";
 import SettledSession from "../components/SettledSession";
 
-type Props = StackScreenProps<RootStackParams, "AccountSessions">;
+type Props = StackScreenProps<AccountScreensStackParams, "AccountSessions">;
 
 
 export default function AccountSessions(props: Props): JSX.Element {

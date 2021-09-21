@@ -1,12 +1,12 @@
 import React, {useEffect, useRef} from "react";
-import RootNavigator from "./RootNavigator";
+import AccountScreens from "./AccountScreens";
 import {DefaultTheme, NavigationContainer, NavigationContainerRef} from "@react-navigation/native";
 import {Theme} from "@react-navigation/native/lib/typescript/src/types";
 import {useRecoilValue} from "recoil";
 import WalletConnectStore from "../store/WalletConnectStore";
 import AccountStore from "../store/AccountStore";
-import AccountCreationNavigator from "./AccountCreationNavigator";
-import {RootStackParams} from "../types/navigation";
+import AccountCreationScreens from "./AccountCreationScreens";
+import {AccountScreensStackParams, RootStack} from "../types/navigation";
 import SelectAccount from "../screens/Accounts";
 
 const DesmosTheme: Theme = {
@@ -20,7 +20,7 @@ const DesmosTheme: Theme = {
 export default function Navigator() {
 
     const accounts = useRecoilValue(AccountStore.chainAccounts);
-    const navigatorRef = useRef<NavigationContainerRef<RootStackParams>>(null);
+    const navigatorRef = useRef<NavigationContainerRef<AccountScreensStackParams>>(null);
     const requests = useRecoilValue(WalletConnectStore.sessionRequests);
     const selectedAccount = useRecoilValue(AccountStore.selectedAccount);
 
@@ -37,18 +37,20 @@ export default function Navigator() {
         }
     }, [requests])
 
-    let content: JSX.Element | null;
-    if (accounts.length === 0) {
-        content = <AccountCreationNavigator/>;
-    } else {
-        if (selectedAccount !== null) {
-            content = <RootNavigator/>
-        } else {
-            content = <SelectAccount/>;
-        }
-    }
-
     return <NavigationContainer theme={DesmosTheme} ref={navigatorRef}>
-        {content}
+        <RootStack.Navigator
+            screenOptions={{
+                animationEnabled: false,
+                headerShown: false,
+            }}
+        >
+            {accounts.length === 0 ? (
+                <RootStack.Screen name="AccountCreationScreens" component={AccountCreationScreens}/>
+            ) : selectedAccount !== null ? (
+                <RootStack.Screen name="AccountScreens" component={AccountScreens}/>
+            ) : (
+                <RootStack.Screen name="SelectAccount" component={SelectAccount}/>
+            )}
+        </RootStack.Navigator>
     </NavigationContainer>;
 }
