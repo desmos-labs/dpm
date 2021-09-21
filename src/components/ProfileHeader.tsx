@@ -6,7 +6,7 @@ import Clipboard from "@react-native-community/clipboard";
 import {makeStyle} from "../theming";
 import ChainAccount from "../types/chainAccount";
 import {useDesmosClient} from "@desmoslabs/sdk-react";
-import {DesmosProfile} from "@desmoslabs/sdk-core/build/types/desmos";
+import {DesmosProfile} from "@desmoslabs/sdk-core";
 
 export type Props = {
     account: ChainAccount,
