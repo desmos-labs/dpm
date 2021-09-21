@@ -1,17 +1,19 @@
-import React from "react";
+import React, {useEffect, useState} from "react";
 import {Image, View} from "react-native";
 import {Avatar, Caption, IconButton, Subheading, Surface} from "react-native-paper";
 import {cropAddress} from "../utilils/address";
 import Clipboard from "@react-native-community/clipboard";
 import {makeStyle} from "../theming";
 import ChainAccount from "../types/chainAccount";
+import {useDesmosClient} from "@desmoslabs/sdk-react";
+import {DesmosProfile} from "@desmoslabs/sdk-core/build/types/desmos";
 
 export type Props = {
     account: ChainAccount,
     openProfileEdit?: () => void,
 }
 
-const useStyeles = makeStyle(theme => ({
+const useStyles = makeStyle(theme => ({
     root: {
         display: "flex",
         flexDirection: "column",
@@ -59,42 +61,58 @@ const useStyeles = makeStyle(theme => ({
 }))
 
 export const ProfileHeader: React.FC<Props> = (props) => {
-    const classes = useStyeles();
     const {account} = props;
 
-    const profilePicture = {
-        uri: 'https://c.tenor.com/acihnolEVYAAAAAC/goku-hi.gif'
-    }
-    const coverPicture = {
-        uri: 'https://c.tenor.com/CzMleGr4mqYAAAAC/shenron-dragon-ball.gif'
-    }
+    const styles = useStyles();
+    const client = useDesmosClient();
+    const [userProfile, setUserProfile] = useState<null | DesmosProfile>(null);
+
+    useEffect(() => {
+        (async () => {
+            try {
+                await client.connect();
+                const profile = await client.getProfile(account.address);
+                client.disconnect();
+                setUserProfile(profile);
+            } catch (e) {
+                console.error(e);
+            }
+        })()
+    }, [client, account.address]);
+
+    const profilePicture = userProfile?.profilePicture ? <Avatar.Image
+        size={120}
+        source={{
+            uri: userProfile?.profilePicture
+        }}
+    /> : <Avatar.Icon size={120} icon="account"/>;
+
+    const coverPicture = userProfile?.coverPicture ? {
+        uri: userProfile?.coverPicture
+    } : require("../assets/splashscreen_background.png");
 
     return <Surface
-        style={classes.root}
+        style={styles.root}
     >
         <Image
-            style={classes.coverPicture}
+            style={styles.coverPicture}
             resizeMode="cover"
             source={coverPicture}
         />
         <View
-            style={classes.detailsContainer}
+            style={styles.detailsContainer}
         >
-            <Avatar.Image
-                size={120}
-                source={profilePicture}
-            >
-            </Avatar.Image>
+            {profilePicture}
             <Surface
-                style={classes.details}
+                style={styles.details}
             >
                 <View
-                    style={classes.detailsRow}
+                    style={styles.detailsRow}
                 >
                     <Subheading
-                        style={classes.username}
+                        style={styles.username}
                     >
-                        Username
+                        {userProfile?.nickname ?? cropAddress(account.address, 4)}
                     </Subheading>
                     <IconButton
                         icon="pencil"
@@ -103,27 +121,22 @@ export const ProfileHeader: React.FC<Props> = (props) => {
                         size={16}
                     />
                 </View>
-                <Caption
-                    style={classes.dtag}
+                {userProfile?.dtag && <Caption
+                    style={styles.dtag}
                 >
-                    @dtag
+                    {`@${userProfile?.dtag}`}
                 </Caption>
+                }
                 <View
-                    style={classes.detailsRow}
+                    style={styles.detailsRow}
                 >
                     <Caption
-                        style={classes.address}
+                        style={styles.address}
                     >
                         {cropAddress(account.address, 6)}
                     </Caption>
                     <IconButton
                         icon="content-copy"
-                        size={16}
-                        color={"#fff"}
-                        onPress={() => Clipboard.setString(account.address)}
-                    />
-                    <IconButton
-                        icon="share-variant"
                         size={16}
                         color={"#fff"}
                         onPress={() => Clipboard.setString(account.address)}

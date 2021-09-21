@@ -9,6 +9,7 @@ import {Provider as PaperProvider} from "react-native-paper";
 import {AppTheme} from "./theming";
 import {useInitI18n} from "./i18n/i18n";
 import {SplashScreen} from "./screens/SplashScreen";
+import {DesmosSdkProvider} from "@desmoslabs/sdk-react";
 
 function AppContent(): JSX.Element {
     const walletConnect = useWalletConnectInit();
@@ -25,12 +26,15 @@ function AppContent(): JSX.Element {
 }
 
 export default function App(): JSX.Element {
+    const chainId = __DEV__ ? 'morpheus-apollo-2' : 'desmos-mainnet'
     return (
-        <RecoilRoot>
-            <PaperProvider theme={AppTheme}>
-                <StatusBar hidden={false} backgroundColor={Colors.DesmosOrange} />
-                <AppContent />
-            </PaperProvider>
-        </RecoilRoot>
+        <DesmosSdkProvider chainId={chainId}>
+            <RecoilRoot>
+                <PaperProvider theme={AppTheme}>
+                    <StatusBar hidden={false} backgroundColor={Colors.DesmosOrange} />
+                    <AppContent />
+                </PaperProvider>
+            </RecoilRoot>
+        </DesmosSdkProvider>
     );
 }
