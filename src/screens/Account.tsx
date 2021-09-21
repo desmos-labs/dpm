@@ -4,13 +4,15 @@ import {makeStyle} from "../theming";
 import {FAB, Title} from "react-native-paper";
 import {StackScreenProps} from "@react-navigation/stack";
 import {RootStackParams} from "../types/navigation";
-import React from 'react';
+import React, {useEffect} from 'react';
 import {useRecoilValue} from "recoil";
 import WalletConnectStore from "../store/WalletConnectStore";
 import SettledSession from "../components/SettledSession";
 import {useTranslation} from "react-i18next";
 import useSelectedAccount from "../hooks/useSelectedAccount";
 import {ProfileHeader} from "../components/ProfileHeader";
+import useProfile from "../hooks/useProfile";
+import useFetchProfile from "../hooks/useFetchProfile";
 
 
 const useClasses = makeStyle(theme => ({
@@ -37,6 +39,12 @@ export default function Account(props: Props): JSX.Element {
     const classes = useClasses();
     const sessions = useRecoilValue(WalletConnectStore.settledSessions);
     const account = useSelectedAccount()!;
+    const profile = useProfile();
+    const fetchProfile = useFetchProfile();
+
+    useEffect(() => {
+        fetchProfile();
+    }, [fetchProfile])
 
     const accountSessions = sessions.filter(s => {
         return s.state.accounts.find(a => a.indexOf(account.address) >= 0) !== undefined
@@ -59,7 +67,8 @@ export default function Account(props: Props): JSX.Element {
         style={classes.root}
     >
         <ProfileHeader
-            account={account}
+            accountAddress={account.address}
+            profile={profile}
             openProfileEdit={editProfile}
         />
         <View

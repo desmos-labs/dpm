@@ -1,15 +1,14 @@
-import React, {useEffect, useState} from "react";
+import React from "react";
 import {Image, View} from "react-native";
 import {Avatar, Caption, IconButton, Subheading, Surface} from "react-native-paper";
 import {cropAddress} from "../utilils/address";
 import Clipboard from "@react-native-community/clipboard";
 import {makeStyle} from "../theming";
-import ChainAccount from "../types/chainAccount";
-import {useDesmosClient} from "@desmoslabs/sdk-react";
 import {DesmosProfile} from "@desmoslabs/sdk-core";
 
 export type Props = {
-    account: ChainAccount,
+    accountAddress: string
+    profile: DesmosProfile | null,
     openProfileEdit?: () => void,
 }
 
@@ -61,34 +60,18 @@ const useStyles = makeStyle(theme => ({
 }))
 
 export const ProfileHeader: React.FC<Props> = (props) => {
-    const {account} = props;
-
     const styles = useStyles();
-    const client = useDesmosClient();
-    const [userProfile, setUserProfile] = useState<null | DesmosProfile>(null);
+    const {profile, accountAddress} = props;
 
-    useEffect(() => {
-        (async () => {
-            try {
-                await client.connect();
-                const profile = await client.getProfile(account.address);
-                client.disconnect();
-                setUserProfile(profile);
-            } catch (e) {
-                console.error(e);
-            }
-        })()
-    }, [client, account.address]);
-
-    const profilePicture = userProfile?.profilePicture ? <Avatar.Image
+    const profilePicture = profile?.profilePicture ? <Avatar.Image
         size={120}
         source={{
-            uri: userProfile?.profilePicture
+            uri: profile?.profilePicture
         }}
     /> : <Avatar.Icon size={120} icon="account"/>;
 
-    const coverPicture = userProfile?.coverPicture ? {
-        uri: userProfile?.coverPicture
+    const coverPicture = profile?.coverPicture ? {
+        uri: profile?.coverPicture
     } : require("../assets/splashscreen_background.png");
 
     return <Surface
@@ -112,7 +95,7 @@ export const ProfileHeader: React.FC<Props> = (props) => {
                     <Subheading
                         style={styles.username}
                     >
-                        {userProfile?.nickname ?? cropAddress(account.address, 4)}
+                        {profile?.nickname ?? cropAddress(accountAddress, 4)}
                     </Subheading>
                     <IconButton
                         icon="pencil"
@@ -121,10 +104,10 @@ export const ProfileHeader: React.FC<Props> = (props) => {
                         size={16}
                     />
                 </View>
-                {userProfile?.dtag && <Caption
+                {profile?.dtag && <Caption
                     style={styles.dtag}
                 >
-                    {`@${userProfile?.dtag}`}
+                    {`@${profile?.dtag}`}
                 </Caption>
                 }
                 <View
@@ -133,13 +116,13 @@ export const ProfileHeader: React.FC<Props> = (props) => {
                     <Caption
                         style={styles.address}
                     >
-                        {cropAddress(account.address, 6)}
+                        {cropAddress(accountAddress, 6)}
                     </Caption>
                     <IconButton
                         icon="content-copy"
                         size={16}
                         color={"#fff"}
-                        onPress={() => Clipboard.setString(account.address)}
+                        onPress={() => Clipboard.setString(accountAddress)}
                     />
                 </View>
             </Surface>
