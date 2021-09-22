@@ -7,6 +7,9 @@ import SignTx from "../screens/SignTx";
 import {NavigationBar} from "../components";
 import {useTranslation} from "react-i18next";
 import Account from "../screens/Account";
+import {EditProfile} from "../screens/EditProfile";
+import {UnlockWallet} from "../screens/UnlockWallet";
+import {BroadcastTx} from "../screens/BroadcastTx";
 
 export default function AccountScreens() {
     const {t} = useTranslation();
@@ -24,7 +27,15 @@ export default function AccountScreens() {
                 headerShown: false,
             }}
         />
-        <RootStack.Screen
+        <AccountScreensStack.Screen
+            name="EditProfile"
+            component={EditProfile}
+            options={{
+                headerShown: true,
+                title: t("edit profile")
+            }}
+        />
+        <AccountScreensStack.Screen
             name="AccountSessions"
             options={{
                 title: t("sessions")
@@ -52,5 +63,21 @@ export default function AccountScreens() {
             }}
             component={SignTx}
         />
-    </RootStack.Navigator>
+        <AccountScreensStack.Screen
+            name="BroadcastTx"
+            options={{
+                headerShown: false,
+                presentation: 'transparentModal',
+            }}
+            component={BroadcastTx}
+        />
+        <AccountScreensStack.Screen
+            name="UnlockWallet"
+            options={{
+                headerShown: false,
+                presentation: 'transparentModal',
+            }}
+            component={UnlockWallet}
+        />
+    </AccountScreensStack.Navigator>
 }

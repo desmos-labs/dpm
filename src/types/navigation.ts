@@ -7,6 +7,7 @@ import {HdPath} from "./hdpath";
 import {DesmosProfile} from "@desmoslabs/sdk-core";
 import {ReactNode} from "react";
 import LocalWallet from "../wallet/LocalWallet";
+import {EncodeObject} from "@cosmjs/proto-signing";
 
 export type AccountConfig = {
     name: string;
@@ -49,6 +50,12 @@ export type AccountScreensStackParams = {
         tx: CosmosTx;
         onSigned: (navigation: any, signedTx: SignedCosmosTx) => void;
     };
+    BroadcastTx: {
+        signer: ChainAccount,
+        msgs: EncodeObject [],
+        onSuccess: () => void,
+        onCancel: () => void,
+    }
     UnlockWallet: {
         address: string
         resolve: (wallet: LocalWallet) => void,

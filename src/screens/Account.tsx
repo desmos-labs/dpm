@@ -51,7 +51,13 @@ export default function Account(props: Props): JSX.Element {
     });
 
     const editProfile = () => {
-        console.log("edit user profile");
+        navigation.navigate({
+            name: "EditProfile",
+            params: {
+                account,
+                currentProfile: profile,
+            }
+        })
     }
 
     const pairNewDapp = () => {

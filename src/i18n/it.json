@@ -1,6 +1,13 @@
 {
   "check": "Verifica",
   "continue": "Continua",
+  "save": "Salva",
+  "cancel": "Annulla",
+  "unlock": "Sblocca",
+  "approve": "Approva",
+  "reject": "Rifiuta",
+  "close": "Chiudi",
+  "hide": "Nascondi",
   "getting started": "Getting Started",
   "create account": "Crea account",
   "import account": "Importa account",
@@ -27,5 +34,15 @@
   "sessions": "Sessioni",
   "new session": "Nuova sessione",
   "disconnecting": "Disconnesione...",
-  "an error occurred": "Si è verificato un errore"
+  "an error occurred": "Si è verificato un errore",
+  "edit profile": "Modifica profilo",
+  "profile picture": "Foto profilo",
+  "cover picture": "Foto copertina",
+  "unlock wallet": "Sblocca il wallet",
+  "invalid password": "Password errata",
+  "messages": "Messaggi",
+  "low fee": "Bassa",
+  "average fee": "Media",
+  "high fee": "Alta",
+  "override gas": "Modifica gas"
 }
