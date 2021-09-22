@@ -66,6 +66,7 @@ export type AccountScreensStackParams = {
 export const AccountScreensStack = createStackNavigator<AccountScreensStackParams>();
 
 export type RootStackParams = {
+    SplashScreen: undefined,
     AccountCreationScreens: undefined,
     AccountScreens: undefined,
     SelectAccount: undefined,
