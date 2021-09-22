@@ -10,11 +10,13 @@ import AccountStore from "../store/AccountStore";
 export default function useSaveAccount() {
     const setAccounts = useSetRecoilState(AccountStore.chainAccounts);
 
-    return async (account: ChainAccount) => {
+    return async (account: ChainAccount, updateAppState?: boolean) => {
         await AccountSource.putAccount(account);
-        setAccounts((accounts) => {
-            return [...accounts, account];
-        });
+        if (updateAppState === true) {
+            setAccounts((accounts) => {
+                return [...accounts, account];
+            });
+        }
         return account;
     };
 }

@@ -41,6 +41,7 @@ export default function GenerateAccountKeys(props: Props): JSX.Element {
     const [error, setError] = useState<string | null>(null);
     const [account, setAccount] = useState<ChainAccount | null>(null);
     const setSelectedAccount = useSetRecoilState(AccountStore.selectedAccount);
+    const setAccounts = useSetRecoilState(AccountStore.chainAccounts);
     const createLocalWallet = useCreateLocalWallet();
     const saveWallet = useSaveWallet();
     const saveAccount = useSaveAccount();
@@ -59,8 +60,8 @@ export default function GenerateAccountKeys(props: Props): JSX.Element {
                 address: wallet.bech32Address,
             }
             await saveAccount(account);
-            setAccount(account);
             await saveSelectedAccount(account)
+            setAccount(account);
             setGenerating(false);
         } catch (e) {
             setGenerating(false);
@@ -69,6 +70,7 @@ export default function GenerateAccountKeys(props: Props): JSX.Element {
     }
 
     const onContinuePressed = () => {
+        setAccounts((old) => [...old, account!]);
         setSelectedAccount(account!);
     }
 
