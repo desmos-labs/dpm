@@ -7,6 +7,9 @@ import {bech32} from 'bech32';
 import {Hex} from 'jscrypto';
 import {sha256} from "@cosmjs/crypto";
 import {HdPath} from "../types/hdpath";
+import {DirectSignResponse, OfflineDirectSigner, AccountData, makeSignBytes} from "@cosmjs/proto-signing";
+import {SignDoc} from "cosmjs-types/cosmos/tx/v1beta1/tx";
+import {encodeSecp256k1Signature} from "@cosmjs/amino";
 
 // See https://github.com/satoshilabs/slips/blob/master/slip-0044.md for the list of all slips.
 const DESMOS_COIN_TYPE = 852;
@@ -26,7 +29,7 @@ const DEFAULT_OPTIONS: LocalWalletOptions = {
     }
 };
 
-export default class LocalWallet {
+export default class LocalWallet implements OfflineDirectSigner {
     private readonly privateKey: Buffer;
     readonly publicKey: Buffer;
     private readonly rawAddress: Buffer;
@@ -61,7 +64,7 @@ export default class LocalWallet {
     }
 
     async sign(payload: Uint8Array): Promise<Uint8Array> {
-        const hash = sha256(Uint8Array.from(payload));
+        const hash = sha256(payload);
         const sign = secp256k1.ecdsaSign(
             hash,
             Uint8Array.from(this.privateKey),
@@ -95,6 +98,30 @@ export default class LocalWallet {
         const privateKey = Buffer.from(json.privateKey, 'base64');
         return new LocalWallet(privateKey);
     }
+
+    async signDirect(signerAddress: string, signDoc: SignDoc): Promise<DirectSignResponse> {
+        if (signerAddress !== this.bech32Address) {
+            throw new Error("Signer address not valid");
+        }
+
+        const serialized = makeSignBytes(signDoc);
+        const signature = await this.sign(serialized);
+        const stdSignature = encodeSecp256k1Signature(Uint8Array.from(this.publicKey), signature);
+        return {
+            signed: signDoc,
+            signature: stdSignature,
+        };
+    }
+
+    async getAccounts(): Promise<readonly AccountData[]> {
+        const data: AccountData = {
+            address: this.bech32Address,
+            algo: "secp256k1",
+            pubkey: Uint8Array.from(this.publicKey),
+        }
+        return [data]
+    }
+
 }
 
 export function randomMnemonic(wordCount: number = 24): string {
