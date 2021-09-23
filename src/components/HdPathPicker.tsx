@@ -1,8 +1,8 @@
 import React, {useState} from "react";
 import {makeStyle} from "../theming";
-import { View } from "react-native";
-import {Subheading, TextInput} from "react-native-paper";
+import {View, Text} from "react-native";
 import {HdPath} from "../types/hdpath";
+import {TextInput} from "./TextInput";
 
 export type Props = {
     onChange?: (path: HdPath) => void,
@@ -12,13 +12,20 @@ const useStyle = makeStyle(_theme => ({
     root: {
         display: "flex",
         flexDirection: "row",
+        alignItems: "center",
     },
     elements: {
         maxWidth: 80,
         flexGrow: 1
     },
     hdPathText: {
-        marginTop: 23
+        fontFamily: "SF-Pro-Text",
+        fontSize: 16,
+        fontStyle: "normal",
+        fontWeight: "400",
+        lineHeight: 20,
+        letterSpacing: 0.005,
+        textAlign: "left",
     }
 }))
 
@@ -70,38 +77,35 @@ export const HdPathPicker: React.FC<Props> = (props) => {
     return <View
         style={classes.root}
     >
-        <Subheading
+        <Text
             style={classes.hdPathText}
         >
             m/44'/852'/
-        </Subheading>
+        </Text>
         <TextInput
             style={classes.elements}
-            mode="outlined"
             keyboardType="numeric"
             onChangeText={v => onElementChange(v, "account")}
             value={hdPath.account.toString()}
         />
-        <Subheading
+        <Text
             style={classes.hdPathText}
         >
            /
-        </Subheading>
+        </Text>
         <TextInput
             style={classes.elements}
-            mode="outlined"
             keyboardType="numeric"
             onChangeText={v => onElementChange(v, "change")}
             value={hdPath.change.toString()}
         />
-        <Subheading
+        <Text
             style={classes.hdPathText}
         >
             /
-        </Subheading>
+        </Text>
         <TextInput
             style={classes.elements}
-            mode="outlined"
             keyboardType="numeric"
             onChangeText={v => onElementChange(v, "addressIndex")}
             value={hdPath.addressIndex.toString()}
