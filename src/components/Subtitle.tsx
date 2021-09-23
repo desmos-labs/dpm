@@ -37,6 +37,6 @@ const useStyles = makeStyle(_ => ({
         fontSize: 14,
     },
     bold: {
-        fontWeight: "500",
+        fontWeight: "bold",
     }
 }));
