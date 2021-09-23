@@ -1,16 +1,18 @@
 import AccountCard from "./AccountCard";
 import Button from "./Button";
 import StyledSafeAreaView from "./StyledSafeAreaView";
-import {MnemonicViewer} from "./MnemonicViewer";
 import {HdPathPicker} from "./HdPathPicker";
 import {NavigationBar} from "./NavigationBar";
+import {MnemonicWordBadge} from "./MnemonicWordBadge";
+import {MnemonicGrid} from "./MnemonicGrid";
 
 
 export {
     AccountCard,
     Button,
     StyledSafeAreaView,
-    MnemonicViewer,
     HdPathPicker,
-    NavigationBar
+    NavigationBar,
+    MnemonicWordBadge,
+    MnemonicGrid
 }

@@ -19,7 +19,9 @@ export type AccountConfig = {
 export type AccountCreationStackParams = {
     AccountCreation: undefined;
     GenerateNewMnemonic: undefined;
-    CheckMnemonic: AccountConfig;
+    CheckMnemonic: {
+        mnemonic: string
+    };
     ImportAccount: undefined;
     CreateWalletPassword: AccountConfig;
     GenerateAccountKeys: AccountConfig;

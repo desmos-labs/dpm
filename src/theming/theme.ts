@@ -44,6 +44,7 @@ export const AppTheme: ReactNativePaper.Theme = {
     test: false,
     colors: {
         ...DefaultTheme.colors,
+        background: '#ffffff',
         primary: Colors.DesmosOrange,
         accent: '#edd459',
         buttonText: '#ffffff',

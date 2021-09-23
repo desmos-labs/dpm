@@ -12,6 +12,11 @@ export type Props = {
      */
     mode?: 'text' | 'outlined' | 'contained';
     /**
+     * Custom text color for flat button,
+     * or background color for contained button.
+     */
+    color?: string;
+    /**
      * Icon to display for the `Button`.
      */
     icon?: IconSource
@@ -38,7 +43,7 @@ export type Props = {
 const Button: React.FC<Props> = props => {
     const theme = useTheme()
     const labelStyle = StyleSheet.compose(props.labelStyle, {
-        color: props.mode === "contained" ? theme.colors.buttonText : theme.colors.primary,
+        color: props.mode === "contained" ? theme.colors.buttonText : props.color ?? theme.colors.primary,
         textTransform: "capitalize",
     });
 
@@ -48,6 +53,7 @@ const Button: React.FC<Props> = props => {
 
     return <MaterialButton
         icon={props.icon}
+        color={props.color ?? theme.colors.primary}
         onPress={props.onPress}
         mode={props.mode}
         labelStyle={labelStyle}

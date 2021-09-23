@@ -15,6 +15,7 @@ export default function AccountCreationScreens() {
     return <AccountCreationStack.Navigator
         initialRouteName={"AccountCreation"}
         screenOptions={{
+            title: "",
             header: NavigationBar
         }}
     >
@@ -27,9 +28,6 @@ export default function AccountCreationScreens() {
         />
         <AccountCreationStack.Screen
             name="GenerateNewMnemonic"
-            options={{
-                title: t("create account"),
-            }}
             component={GenerateNewMnemonic}
         />
         <AccountCreationStack.Screen
@@ -41,9 +39,6 @@ export default function AccountCreationScreens() {
         />
         <AccountCreationStack.Screen
             name={"ImportAccount"}
-            options={{
-                title: t("import account"),
-            }}
             component={ImportAccount}
         />
         <AccountCreationStack.Screen

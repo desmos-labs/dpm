@@ -1,32 +1,31 @@
-import React, {useState} from "react";
+import React, {useMemo, useState} from "react";
 import {StackScreenProps} from "@react-navigation/stack";
 import {AccountCreationStackParams} from "../../types/navigation";
 import {randomMnemonic} from "../../wallet/LocalWallet";
-import {MnemonicViewer, StyledSafeAreaView, Button, HdPathPicker} from "../../components";
-import {TextInput, Paragraph, Subheading} from "react-native-paper";
-import {useTranslation} from "react-i18next";
+import {StyledSafeAreaView, Button, MnemonicGrid} from "../../components";
+import {Paragraph, Title} from "react-native-paper";
+import {useTranslation, Trans} from "react-i18next";
 import {makeStyle} from "../../theming";
-import {HdPath, DefaultHdPath} from "../../types/hdpath";
-import {View} from "react-native";
-import {isHdPathValid} from "../../utilils/hdPath";
-
-const useClasses = makeStyle((theme) => ({
-    typography: {
-        marginTop: theme.spacing.s
+import {Text, View} from "react-native";
+import {FlexPadding} from "../../components/FlexPadding";
+import Colors from "../../constants/colors";
+const useStyles = makeStyle((theme) => ({
+    root: {
+        paddingTop: 0,
     },
-    mnemonic: {
-        marginTop: theme.spacing.s
-    },
-    advanceSettingsBtn: {
-        marginTop: theme.spacing.s,
-    },
-    errorParagraph: {
-        color: theme.colors.error
+    title: {
+        textTransform: "capitalize",
     },
     saveMnemonicAdvice: {
         marginTop: theme.spacing.s,
-        flexGrow: 1,
         fontWeight: "bold"
+    },
+    mnemonic: {
+        marginTop: theme.spacing.m
+    },
+    wordsBtnContainer: {
+        display: "flex",
+        flexDirection: "row-reverse",
     },
     saveButton: {
         fontStyle: "normal",
@@ -39,96 +38,65 @@ declare type Props = StackScreenProps<AccountCreationStackParams, "GenerateNewMn
 export default function GenerateNewMnemonic(props: Props): JSX.Element {
 
     const {navigation} = props;
-    const classes = useClasses();
+    const styles = useStyles();
     const {t} = useTranslation();
-    const [accountName, setAccountName] = useState("Desmos Account");
-    const [newMnemonic, ] = useState(randomMnemonic());
-    const [hdPath, setHdPath] = useState(DefaultHdPath)
-    const [showAdvanceSettings, setShowAdvanceSettings] = useState(false);
-    const [hdPathError, setHdPathError] = useState<string | null>(null);
+    const [mnemonicLength, setMnemonicLength] = useState<12 | 24>(24);
+    const newMnemonic = useMemo(() => {
+        return randomMnemonic(mnemonicLength);
+    }, [mnemonicLength]);
 
-    const onHdPathChange = (hdPath: HdPath) => {
-        setHdPath(hdPath);
-        if (isHdPathValid(hdPath)) {
-            setHdPathError(null);
+    const onChangeLengthChanged = () => {
+        if (mnemonicLength === 24) {
+            setMnemonicLength(12);
         } else {
-            setHdPathError(t("invalid hd path"));
-        }
-    }
-
-    const onAdvanceSettingPressed = () => {
-        setShowAdvanceSettings(!showAdvanceSettings);
-        if (showAdvanceSettings) {
-            setHdPath(DefaultHdPath);
-            setHdPathError(null);
+            setMnemonicLength(24);
         }
     }
 
     const onOkPressed = () => {
-        if (hdPathError === null) {
-            navigation.navigate({
-                name: "CheckMnemonic",
-                params: {
-                    mnemonic: newMnemonic,
-                    name: accountName,
-                    password: "",
-                    hdPath,
-                }
-            });
-        }
+        navigation.navigate({
+            name: "CheckMnemonic",
+            params: {
+                mnemonic: newMnemonic,
+            }
+        });
     }
 
-    return <StyledSafeAreaView>
-        <Subheading
-            style={classes.typography}
-        >
-            {t("account name")}:
-        </Subheading>
-        <TextInput
-            mode="outlined"
-            onChangeText={setAccountName}
-            value={accountName}
-        />
-
-        <Subheading
-            style={classes.typography}
-        >
-            {t("recovery passphrase")}:
-        </Subheading>
-        <MnemonicViewer
-            style={classes.mnemonic}
-            mnemonic={newMnemonic}
-            editable={false}
-            copyBtn
-        />
-
-        <Button
-            style={classes.advanceSettingsBtn}
-            mode="text"
-            onPress={onAdvanceSettingPressed}
-        >
-            {t("advance wallet settings")}
-        </Button>
-        {showAdvanceSettings && <View>
-            <Subheading
-                style={classes.typography}
-            >
-                {t("hd path")}:
-            </Subheading>
-            <HdPathPicker onChange={onHdPathChange}/>
-            <Paragraph
-                style={classes.errorParagraph}
-            >
-                {hdPathError}
-            </Paragraph>
-        </View>}
-
+    return <StyledSafeAreaView style={styles.root}>
+        <Title style={styles.title}>
+            {t("secrete recovery passphrase")}
+        </Title>
         <Paragraph
-            style={classes.saveMnemonicAdvice}
+            style={styles.saveMnemonicAdvice}
         >
-            {t("save the recovery passphrase")}
+            <Trans
+                i18nKey="save the recovery passphrase"
+                components={{
+                    bold: <Text style={{
+                        color: Colors.DesmosOrange
+                    }}/>
+                }}
+            >
+            </Trans>
         </Paragraph>
-        <Button onPress={onOkPressed} mode="contained" labelStyle={classes.saveButton}>
+
+        <MnemonicGrid
+            style={styles.mnemonic}
+            mnemonic={newMnemonic}
+        />
+
+        <View style={styles.wordsBtnContainer}>
+            <Button
+                onPress={onChangeLengthChanged}
+                color={Colors.DesmosBlue}
+            >
+                {mnemonicLength === 12 ? 24 : 12} {t("words")}
+            </Button>
+        </View>
+
+        <FlexPadding flex={1}/>
+
+        <Button onPress={onOkPressed} mode="contained" labelStyle={styles.saveButton}>
             {t("mnemonic saved")}
         </Button>
     </StyledSafeAreaView>
