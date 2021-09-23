@@ -106,18 +106,18 @@ export default function CheckMnemonic(props: Props): JSX.Element {
         </Subtitle>
 
         <View style={styles.selectedWordsContainer}>
-            {selectedWords.map(w => <MnemonicWordBadge
+            {selectedWords.map((w, i) => <MnemonicWordBadge
                 style={styles.wordBadge}
-                key={w}
+                key={`${w}-${i}`}
                 value={w}
                 onPress={onWordDeselected}
             />)}
         </View>
         <View style={styles.availableWordsContainer}>
-            {availableWords.map(w =>
+            {availableWords.map((w, i) =>
                 <MnemonicWordBadge
                     style={styles.wordBadge}
-                    key={w}
+                    key={`${w}-${i}`}
                     value={w}
                     onPress={onWordSelected}
                 />)}
