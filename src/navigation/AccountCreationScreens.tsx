@@ -32,9 +32,6 @@ export default function AccountCreationScreens() {
         />
         <AccountCreationStack.Screen
             name="CheckMnemonic"
-            options={{
-                title: t("check recovery passphrase"),
-            }}
             component={CheckMnemonic}
         />
         <AccountCreationStack.Screen

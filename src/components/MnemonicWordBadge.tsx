@@ -1,5 +1,5 @@
 import React from "react";
-import {View, Text, StyleProp, ViewStyle, StyleSheet} from "react-native";
+import {Text, StyleProp, ViewStyle, StyleSheet, TouchableOpacity} from "react-native";
 import {makeStyle} from "../theming";
 
 export type Props = {
@@ -11,20 +11,29 @@ export type Props = {
      * An optional word index that will be displayed on the top right corner.
      */
     index?: number,
+    /**
+     * Function called when the badge is pressed.
+     */
+    onPress?: (word: string) => void,
     style?: StyleProp<ViewStyle>,
 }
 
 export const MnemonicWordBadge: React.FC<Props> = (props) => {
     const styles = useStyles();
 
-    return <View style={StyleSheet.compose(styles.root as StyleProp<ViewStyle>, props.style)}>
+    return <TouchableOpacity
+        style={StyleSheet.compose(styles.root as StyleProp<ViewStyle>, props.style)}
+        onPress={props?.onPress ? () => {
+            props.onPress!(props.value)
+        }: undefined}
+    >
         <Text style={styles.word}>
             {props.value}
         </Text>
         <Text style={styles.index}>
             {props.index}
         </Text>
-    </View>
+    </TouchableOpacity>
 }
 
 const useStyles = makeStyle(theme => ({

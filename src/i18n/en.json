@@ -15,10 +15,10 @@
   "secret recovery passphrase": "Secret recovery passphrase",
   "save the recovery passphrase": "Please write down and safe your recovery passphrase, it's the <bold>ONLY WAY</bold> to restore your account.",
   "mnemonic saved": "I've written it down",
-  "check recovery passphrase": "Check recovery passphrase",
-  "please check your recovery passphrase": "Please enter your secret recovery phrase in order and make sure your secret recovery phrase is written correctly",
+  "confirm recovery passphrase": "Confirm recovery passphrase",
+  "select each word in order": "Select each in the order it was presented to you",
   "invalid recovery passphrase": "Invalid recovery passphrase",
-  "invalid passphrase words": "Invalid passphrase words",
+
   "hd path": "HD Derivation Path",
   "advance wallet settings": "Advance settings",
   "invalid hd path": "Invalid HD Derivation Path",

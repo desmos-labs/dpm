@@ -14,10 +14,10 @@
   "secret recovery passphrase": "Secret recovery passphrase",
   "save the recovery passphrase": "Salva la recovery passphrase in un posto sicuro, questo è <bold>L'UNICO MODO</bold> per recuperare il tuo account!!",
   "mnemonic saved": "L'ho salvata in un posto sicuro",
-  "check recovery passphrase": "Verifica recovery passphrase",
-  "please check your recovery passphrase": "Reinserisci la tua recovery passphrase per verificare che tu l'abbia salvata correttamente",
+  "confirm recovery passphrase": "Verifica recovery passphrase",
+  "select each word in order": "Seleziona le parole nell'ordine in cui ti sono state presentate precedentemente",
   "invalid recovery passphrase": "Recovery passphrase invalida",
-  "invalid passphrase words": "Parole invalide",
+
   "advance wallet settings": "Impostazioni avanzate",
   "invalid hd path": "HD Derivation Path invalida",
   "create wallet password": "Crea password",
