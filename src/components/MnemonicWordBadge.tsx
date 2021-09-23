@@ -38,7 +38,7 @@ export const MnemonicWordBadge: React.FC<Props> = (props) => {
 
 const useStyles = makeStyle(theme => ({
     root: {
-        backgroundColor: '#F5F5F5',
+        backgroundColor: theme.colors.surface,
         borderRadius: 4,
         padding: theme.spacing.s
     },
