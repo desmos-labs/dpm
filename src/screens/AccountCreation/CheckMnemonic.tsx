@@ -1,7 +1,7 @@
 import React, {useMemo, useState} from "react";
 import {StackScreenProps} from "@react-navigation/stack";
 import {AccountCreationStackParams} from "../../types/navigation";
-import {Button, MnemonicWordBadge, StyledSafeAreaView, Title} from "../../components";
+import {Button, MnemonicWordBadge, StyledSafeAreaView, Title, Subtitle} from "../../components";
 import {Paragraph, Subheading} from "react-native-paper";
 import {useTranslation} from "react-i18next";
 import {makeStyle} from "../../theming";
@@ -13,9 +13,6 @@ const useStyles = makeStyle(theme => ({
         paddingTop: 0,
         display: "flex",
         flexDirection: "column",
-    },
-    title: {
-        textTransform: "capitalize"
     },
     selectedWordsContainer: {
         display: "flex",
@@ -101,12 +98,12 @@ export default function CheckMnemonic(props: Props): JSX.Element {
     }
 
     return <StyledSafeAreaView style={styles.root}>
-        <Title style={styles.title}>
+        <Title>
             {t("confirm recovery passphrase")}
         </Title>
-        <Subheading>
+        <Subtitle small>
             {t("select each word in order")}.
-        </Subheading>
+        </Subtitle>
 
         <View style={styles.selectedWordsContainer}>
             {selectedWords.map(w => <MnemonicWordBadge

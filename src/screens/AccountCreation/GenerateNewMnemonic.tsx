@@ -2,8 +2,7 @@ import React, {useMemo, useState} from "react";
 import {StackScreenProps} from "@react-navigation/stack";
 import {AccountCreationStackParams} from "../../types/navigation";
 import {randomMnemonic} from "../../wallet/LocalWallet";
-import {StyledSafeAreaView, Button, MnemonicGrid, Title} from "../../components";
-import {Paragraph} from "react-native-paper";
+import {StyledSafeAreaView, Button, MnemonicGrid, Title, Subtitle} from "../../components";
 import {useTranslation, Trans} from "react-i18next";
 import {makeStyle} from "../../theming";
 import {Text, View} from "react-native";
@@ -12,9 +11,6 @@ import Colors from "../../constants/colors";
 const useStyles = makeStyle((theme) => ({
     root: {
         paddingTop: 0,
-    },
-    title: {
-        textTransform: "capitalize",
     },
     saveMnemonicAdvice: {
         marginTop: theme.spacing.s,
@@ -62,11 +58,12 @@ export default function GenerateNewMnemonic(props: Props): JSX.Element {
     }
 
     return <StyledSafeAreaView style={styles.root}>
-        <Title style={styles.title}>
+        <Title>
             {t("secrete recovery passphrase")}
         </Title>
-        <Paragraph
+        <Subtitle
             style={styles.saveMnemonicAdvice}
+            small
         >
             <Trans
                 i18nKey="save the recovery passphrase"
@@ -77,7 +74,7 @@ export default function GenerateNewMnemonic(props: Props): JSX.Element {
                 }}
             >
             </Trans>
-        </Paragraph>
+        </Subtitle>
 
         <MnemonicGrid
             style={styles.mnemonic}
