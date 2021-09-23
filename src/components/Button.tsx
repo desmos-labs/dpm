@@ -38,7 +38,8 @@ export type Props = {
 const Button: React.FC<Props> = props => {
     const theme = useTheme()
     const labelStyle = StyleSheet.compose(props.labelStyle, {
-        color: props.mode === "contained" ? theme.colors.buttonText : theme.colors.primary
+        color: props.mode === "contained" ? theme.colors.buttonText : theme.colors.primary,
+        textTransform: "capitalize",
     });
 
     const btnStyle = StyleSheet.compose(props.style, {
