@@ -5,6 +5,10 @@ import {HdPathPicker} from "./HdPathPicker";
 import {NavigationBar} from "./NavigationBar";
 import {MnemonicWordBadge} from "./MnemonicWordBadge";
 import {MnemonicGrid} from "./MnemonicGrid";
+import {Title} from "./Title";
+import {Subtitle} from "./Subtitle";
+import {Paragraph} from "./Paragraph";
+import {TextInput} from "./TextInput";
 
 
 export {
@@ -14,5 +18,9 @@ export {
     HdPathPicker,
     NavigationBar,
     MnemonicWordBadge,
-    MnemonicGrid
+    MnemonicGrid,
+    Title,
+    Subtitle,
+    Paragraph,
+    TextInput,
 }
