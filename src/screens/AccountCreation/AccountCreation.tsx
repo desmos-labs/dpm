@@ -2,29 +2,40 @@ import React from "react";
 import {StackScreenProps} from "@react-navigation/stack";
 import {AccountCreationStackParams} from "../../types/navigation";
 import {useTranslation} from "react-i18next";
-import {Paragraph} from "react-native-paper";
 import {Button, StyledSafeAreaView} from "../../components";
 import {makeStyle} from "../../theming";
+import {Image, View} from "react-native";
+import {FlexPadding} from "../../components/FlexPadding";
 
 
 declare type Props = StackScreenProps<AccountCreationStackParams, "AccountCreation">
 
-const useClasses = makeStyle(theme => ({
-    title: {
-        textAlign: "center"
+const useStyle = makeStyle(theme => ({
+    brandContainer: {
+        display: "flex",
+        flex: 2,
+        alignItems: "center",
+        justifyContent: "center",
     },
-    welcome: {
-        marginTop: theme.spacing.l,
-        flexGrow: 1,
+    icon: {
+        flex: 3,
+    },
+    typography: {
+        flex: 1,
+        marginTop: theme.spacing.m
+    },
+    buttonsContainer: {
+        display: "flex",
+        justifyContent: "flex-end"
     },
     buttons: {
-        marginTop: theme.spacing.s
+        marginTop: theme.spacing.m
     }
 }))
 
 export default function AccountCreation({navigation}: Props): JSX.Element {
     const {t} = useTranslation();
-    const classes = useClasses();
+    const styles = useStyle();
 
     const onCreatePressed = () => {
         navigation.navigate({
@@ -41,22 +52,37 @@ export default function AccountCreation({navigation}: Props): JSX.Element {
     }
 
     return <StyledSafeAreaView>
-        <Paragraph style={classes.welcome}>
-            {t("welcome to dpm")}
-        </Paragraph>
-        <Button
-            style={classes.buttons}
-            mode="contained"
-            onPress={onCreatePressed}
+        <FlexPadding flex={1} />
+        <View
+            style={styles.brandContainer}
         >
-            {t("create account")}
-        </Button>
-        <Button
-            style={classes.buttons}
-            mode="outlined"
-            onPress={onImportPressed}
-        >
-            {t("import account")}
-        </Button>
+            <Image
+                style={styles.icon}
+                source={require("../../assets/desmos-icon-orange.png")}
+                resizeMode="center"
+            />
+            <Image
+                style={styles.typography}
+                source={require("../../assets/desmos-typo-orange.png")}
+                resizeMode="center"
+            />
+        </View>
+        <FlexPadding flex={7} />
+        <View style={styles.buttonsContainer}>
+            <Button
+                style={styles.buttons}
+                mode="contained"
+                onPress={onCreatePressed}
+            >
+                {t("create wallet")}
+            </Button>
+            <Button
+                style={styles.buttons}
+                mode="outlined"
+                onPress={onImportPressed}
+            >
+                {t("import recovery passphrase")}
+            </Button>
+        </View>
     </StyledSafeAreaView>
 }
