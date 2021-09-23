@@ -1,8 +1,8 @@
 import React, {useMemo, useState} from "react";
 import {StackScreenProps} from "@react-navigation/stack";
 import {AccountCreationStackParams} from "../../types/navigation";
-import {Button, MnemonicWordBadge, StyledSafeAreaView} from "../../components";
-import {Paragraph, Subheading, Title} from "react-native-paper";
+import {Button, MnemonicWordBadge, StyledSafeAreaView, Title} from "../../components";
+import {Paragraph, Subheading} from "react-native-paper";
 import {useTranslation} from "react-i18next";
 import {makeStyle} from "../../theming";
 import {View} from "react-native";
@@ -88,7 +88,12 @@ export default function CheckMnemonic(props: Props): JSX.Element {
         else {
             const composedMnemonic = selectedWords.join(" ");
             if (receivedMnemonic === composedMnemonic) {
-                console.log("OK!!");
+                props.navigation.navigate({
+                    name: "PickDerivationPath",
+                    params: {
+                        mnemonic: composedMnemonic,
+                    }
+                })
             } else {
                 setErrorMessage(t("invalid recovery passphrase"));
             }
@@ -127,5 +132,11 @@ export default function CheckMnemonic(props: Props): JSX.Element {
         <Button onPress={onCheckPressed} mode="contained">
             {t("check")}
         </Button>
+        {__DEV__ && <Button onPress={() => {
+            setAvailableWords([]);
+            setSelectedWords(props.route.params.mnemonic.split(" "));
+        }} mode="contained">
+            (DBG) Auto sort
+        </Button>}
     </StyledSafeAreaView>
 }

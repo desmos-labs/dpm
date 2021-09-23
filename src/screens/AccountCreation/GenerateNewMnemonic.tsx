@@ -2,8 +2,8 @@ import React, {useMemo, useState} from "react";
 import {StackScreenProps} from "@react-navigation/stack";
 import {AccountCreationStackParams} from "../../types/navigation";
 import {randomMnemonic} from "../../wallet/LocalWallet";
-import {StyledSafeAreaView, Button, MnemonicGrid} from "../../components";
-import {Paragraph, Title} from "react-native-paper";
+import {StyledSafeAreaView, Button, MnemonicGrid, Title} from "../../components";
+import {Paragraph} from "react-native-paper";
 import {useTranslation, Trans} from "react-i18next";
 import {makeStyle} from "../../theming";
 import {Text, View} from "react-native";
@@ -18,7 +18,6 @@ const useStyles = makeStyle((theme) => ({
     },
     saveMnemonicAdvice: {
         marginTop: theme.spacing.s,
-        fontWeight: "bold"
     },
     mnemonic: {
         marginTop: theme.spacing.m
