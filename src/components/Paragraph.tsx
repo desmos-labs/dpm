@@ -1,33 +1,36 @@
 import React from "react";
 import {StyleProp, StyleSheet, Text, TextStyle} from "react-native";
-import {makeStyle} from "../theming";
+import {makeStyleWithProps} from "../theming";
 
 export type Props = React.ComponentProps<typeof Text> & {
-    fontSize?: 14 | 16
+    /**
+     * Text font size.
+     */
+    fontSize?: 14 | 16,
+    /**
+     * True to force the text to be capitalized.
+     */
+    capitalize?: boolean,
 };
 
 export const Paragraph: React.FC<Props> = (props) => {
-    const styles = useStyles();
-
-    let style: StyleProp<TextStyle> = styles.paragraph;
-    if (props.fontSize) {
-        style = StyleSheet.compose(style, {fontSize: props.fontSize})
-    }
+    const styles = useStyles(props);
 
     return <Text {...props}
-        style={StyleSheet.compose(style, props.style)}
+        style={StyleSheet.compose(styles.paragraph as StyleProp<TextStyle>, props.style)}
     />
 }
 
-const useStyles = makeStyle(theme => ({
+const useStyles = makeStyleWithProps((props: Props, theme) => ({
     paragraph: {
         fontFamily: "SF-Pro-Text",
-        fontSize: 14,
+        fontSize: props.fontSize ?? 14,
         fontStyle: "normal",
         fontWeight: "400",
         lineHeight: 20,
         letterSpacing: 0.005,
         textAlign: "left",
         color: theme.colors.text,
+        textTransform: props.capitalize ? "capitalize" : "none",
     }
 }));
