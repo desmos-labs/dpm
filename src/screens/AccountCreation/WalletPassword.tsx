@@ -90,7 +90,7 @@ export default function WalletPassword(props: Props): JSX.Element {
         }
     }
 
-    return <StyledSafeAreaView>
+    return <StyledSafeAreaView style={styles.root}>
         <Title>
             {t("protect your wallet")}
         </Title>
@@ -133,6 +133,9 @@ export default function WalletPassword(props: Props): JSX.Element {
 }
 
 const useStyles = makeStyle(theme => ({
+    root: {
+        paddingTop: 0,
+    },
     passwordLabel: {
         display: "flex",
         flexDirection: "row",
