@@ -22,6 +22,9 @@ export type AccountCreationStackParams = {
     CheckMnemonic: {
         mnemonic: string
     };
+    PickDerivationPath: {
+        mnemonic: string,
+    }
     ImportAccount: undefined;
     CreateWalletPassword: AccountConfig;
     GenerateAccountKeys: AccountConfig;

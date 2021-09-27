@@ -8,6 +8,7 @@ import GenerateAccountKeys from "../screens/AccountCreation/GenerateAccountKeys"
 import CreateWalletPassword from "../screens/AccountCreation/CreateWalletPassword";
 import {useTranslation} from "react-i18next";
 import {NavigationBar} from "../components";
+import {PickDerivationPath} from "../screens/AccountCreation/PickDerivationPath";
 
 export default function AccountCreationScreens() {
     const {t} = useTranslation();
@@ -33,6 +34,10 @@ export default function AccountCreationScreens() {
         <AccountCreationStack.Screen
             name="CheckMnemonic"
             component={CheckMnemonic}
+        />
+        <AccountCreationStack.Screen
+            name="PickDerivationPath"
+            component={PickDerivationPath}
         />
         <AccountCreationStack.Screen
             name={"ImportAccount"}

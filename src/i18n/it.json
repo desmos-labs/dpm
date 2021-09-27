@@ -9,6 +9,7 @@
   "close": "Chiudi",
   "hide": "Nascondi",
   "words": "Parole",
+  "next": "Avanti",
   "create wallet": "Crea Wallet",
   "import recovery passphrase": "Importa Recovery Passphrase",
   "secret recovery passphrase": "Secret recovery passphrase",
@@ -17,6 +18,10 @@
   "confirm recovery passphrase": "Verifica recovery passphrase",
   "select each word in order": "Seleziona le parole nell'ordine in cui ti sono state presentate precedentemente",
   "invalid recovery passphrase": "Recovery passphrase invalida",
+  "import accounts": "Importa account",
+  "please select an account or enter hd derivation path": "Seleziona un account o digita la HD Derivation Path",
+  "or": "o",
+  "select account you want": "Seleziona l'account un account",
 
   "advance wallet settings": "Impostazioni avanzate",
   "invalid hd path": "HD Derivation Path invalida",

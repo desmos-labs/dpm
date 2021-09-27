@@ -9,6 +9,10 @@ import {Title} from "./Title";
 import {Subtitle} from "./Subtitle";
 import {Paragraph} from "./Paragraph";
 import {TextInput} from "./TextInput";
+import {Divider} from "./Divider";
+import {PaginatedFlatList} from "./PaginatedFlatList";
+import {AddressListItem} from "./AddressListItem";
+import {ItemListSeparator} from "./ItemListSeparator";
 
 
 export {
@@ -23,4 +27,8 @@ export {
     Subtitle,
     Paragraph,
     TextInput,
+    Divider,
+    PaginatedFlatList,
+    AddressListItem,
+    ItemListSeparator
 }
