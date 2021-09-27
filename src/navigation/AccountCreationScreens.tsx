@@ -1,9 +1,9 @@
 import React from 'react';
 import {AccountCreationStack} from "../types/navigation";
-import AccountCreation from "../screens/AccountCreation/AccountCreation";
+import Home from "../screens/AccountCreation/Home";
 import GenerateNewMnemonic from "../screens/AccountCreation/GenerateNewMnemonic";
 import CheckMnemonic from "../screens/AccountCreation/CheckMnemonic";
-import ImportAccount from "../screens/AccountCreation/ImportAccount";
+import ImportRecoveryPassphrase from "../screens/AccountCreation/ImportRecoveryPassphrase";
 import GenerateAccount from "../screens/AccountCreation/GenerateAccount";
 import WalletPassword from "../screens/AccountCreation/WalletPassword";
 import {NavigationBar} from "../components";
@@ -11,15 +11,15 @@ import {PickDerivationPath} from "../screens/AccountCreation/PickDerivationPath"
 
 export default function AccountCreationScreens() {
     return <AccountCreationStack.Navigator
-        initialRouteName={"AccountCreation"}
+        initialRouteName={"Home"}
         screenOptions={{
             title: "",
             header: NavigationBar
         }}
     >
         <AccountCreationStack.Screen
-            name="AccountCreation"
-            component={AccountCreation}
+            name="Home"
+            component={Home}
             options={{
                 headerShown: false,
             }}
@@ -37,8 +37,8 @@ export default function AccountCreationScreens() {
             component={PickDerivationPath}
         />
         <AccountCreationStack.Screen
-            name={"ImportAccount"}
-            component={ImportAccount}
+            name={"ImportRecoveryPassphrase"}
+            component={ImportRecoveryPassphrase}
         />
         <AccountCreationStack.Screen
             name="CreateWalletPassword"

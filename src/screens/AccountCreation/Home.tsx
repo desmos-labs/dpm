@@ -8,32 +8,9 @@ import {Image, View} from "react-native";
 import {FlexPadding} from "../../components/FlexPadding";
 
 
-declare type Props = StackScreenProps<AccountCreationStackParams, "AccountCreation">
+declare type Props = StackScreenProps<AccountCreationStackParams, "Home">
 
-const useStyle = makeStyle(theme => ({
-    brandContainer: {
-        display: "flex",
-        flex: 2,
-        alignItems: "center",
-        justifyContent: "center",
-    },
-    icon: {
-        flex: 3,
-    },
-    typography: {
-        flex: 1,
-        marginTop: theme.spacing.m
-    },
-    buttonsContainer: {
-        display: "flex",
-        justifyContent: "flex-end"
-    },
-    buttons: {
-        marginTop: theme.spacing.m
-    }
-}))
-
-export default function AccountCreation({navigation}: Props): JSX.Element {
+export default function Home({navigation}: Props): JSX.Element {
     const {t} = useTranslation();
     const styles = useStyle();
 
@@ -46,7 +23,7 @@ export default function AccountCreation({navigation}: Props): JSX.Element {
 
     const onImportPressed = () => {
         navigation.navigate({
-            name: "ImportAccount",
+            name: "ImportRecoveryPassphrase",
             params: undefined
         })
     }
@@ -86,3 +63,26 @@ export default function AccountCreation({navigation}: Props): JSX.Element {
         </View>
     </StyledSafeAreaView>
 }
+
+const useStyle = makeStyle(theme => ({
+    brandContainer: {
+        display: "flex",
+        flex: 2,
+        alignItems: "center",
+        justifyContent: "center",
+    },
+    icon: {
+        flex: 3,
+    },
+    typography: {
+        flex: 1,
+        marginTop: theme.spacing.m
+    },
+    buttonsContainer: {
+        display: "flex",
+        justifyContent: "flex-end"
+    },
+    buttons: {
+        marginTop: theme.spacing.m
+    }
+}))

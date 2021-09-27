@@ -9,7 +9,7 @@ import LocalWallet from "../wallet/LocalWallet";
 import {EncodeObject} from "@cosmjs/proto-signing";
 
 export type AccountCreationStackParams = {
-    AccountCreation: undefined;
+    Home: undefined;
     GenerateNewMnemonic: undefined;
     CheckMnemonic: {
         mnemonic: string
