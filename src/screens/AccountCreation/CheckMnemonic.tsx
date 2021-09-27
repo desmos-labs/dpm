@@ -2,7 +2,7 @@ import React, {useMemo, useState} from "react";
 import {StackScreenProps} from "@react-navigation/stack";
 import {AccountCreationStackParams} from "../../types/navigation";
 import {Button, MnemonicWordBadge, StyledSafeAreaView, Title, Subtitle} from "../../components";
-import {Paragraph, Subheading} from "react-native-paper";
+import {Paragraph} from "react-native-paper";
 import {useTranslation} from "react-i18next";
 import {makeStyle} from "../../theming";
 import {View} from "react-native";
