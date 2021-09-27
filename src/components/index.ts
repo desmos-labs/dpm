@@ -13,6 +13,7 @@ import {Divider} from "./Divider";
 import {PaginatedFlatList} from "./PaginatedFlatList";
 import {AddressListItem} from "./AddressListItem";
 import {ItemListSeparator} from "./ItemListSeparator";
+import {PasswordComplexity} from "./PasswordComplexityScore";
 
 
 export {
@@ -30,5 +31,6 @@ export {
     Divider,
     PaginatedFlatList,
     AddressListItem,
-    ItemListSeparator
+    ItemListSeparator,
+    PasswordComplexity
 }
