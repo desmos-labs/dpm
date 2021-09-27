@@ -22,7 +22,11 @@ export const PickDerivationPath: React.FC<Props> = (props) => {
     const {t} = useTranslation();
     const styles = useStyles();
     const [selectedWallet, setSelectedWallet] = useState<LocalWallet| null>(null);
-    const [selectedHdPath, setSelectedHdPath] = useState<HdPath| null>(null);
+    const [selectedHdPath, setSelectedHdPath] = useState<HdPath| null>({
+        account: 0,
+        change: 0,
+        addressIndex: 0,
+    });
 
     const renderListItem = useCallback((info: ListRenderItemInfo<LocalWallet>) => {
         return <AddressListItem
@@ -31,7 +35,7 @@ export const PickDerivationPath: React.FC<Props> = (props) => {
             highlight={info.item.bech32Address === selectedWallet?.bech32Address}
             onPress={() => {
                 setSelectedWallet(old => {
-                    return old === null ? info.item : null;
+                    return old?.bech32Address === info.item.bech32Address ? null : info.item;
                 });
                 setSelectedHdPath(null)
             }}
@@ -76,7 +80,12 @@ export const PickDerivationPath: React.FC<Props> = (props) => {
         } else {
             wallet = selectedWallet!;
         }
-        console.log("Wallet selected: " + wallet.bech32Address);
+        props.navigation.navigate({
+            name: "CreateWalletPassword",
+            params: {
+                wallet,
+            }
+        })
     }
 
     return <StyledSafeAreaView style={styles.root}>
