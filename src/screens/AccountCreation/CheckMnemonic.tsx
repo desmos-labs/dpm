@@ -71,6 +71,7 @@ export default function CheckMnemonic(props: Props): JSX.Element {
 
     const onWordDeselected = (word: string) => {
         const removeIndex = selectedWords.indexOf(word);
+        setErrorMessage(null);
         if (removeIndex >= 0) {
             selectedWords.splice(removeIndex, 1);
             setSelectedWords(selectedWords);
