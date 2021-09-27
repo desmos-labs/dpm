@@ -33,11 +33,9 @@ const useStyles = makeStyle(theme => ({
     },
     input: {
         fontFamily: "SF-Pro-Text",
-        paddingTop: 0,
-        paddingBottom: 0,
-        paddingLeft: 11,
-        paddingRight: 11,
+        paddingHorizontal: 11,
         flexGrow: 1,
+        textAlignVertical: "top",
     },
     right: {
         padding: 0,

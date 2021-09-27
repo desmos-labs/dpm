@@ -12,27 +12,6 @@ export type Props = {
     style?: StyleProp<ViewStyle>,
 }
 
-const useStyle = makeStyle(_theme => ({
-    root: {
-        display: "flex",
-        flexDirection: "row",
-        alignItems: "center",
-    },
-    elements: {
-        maxWidth: 80,
-        flexGrow: 1
-    },
-    hdPathText: {
-        fontFamily: "SF-Pro-Text",
-        fontSize: 16,
-        fontStyle: "normal",
-        fontWeight: "400",
-        lineHeight: 20,
-        letterSpacing: 0.005,
-        textAlign: "left",
-    }
-}))
-
 const safeParseInt = (value: string) => {
     const number = parseInt(value);
     if (isNaN(number)) {
@@ -88,6 +67,7 @@ export const HdPathPicker: React.FC<Props> = (props) => {
         </Text>
         <TextInput
             style={classes.elements}
+            inputStyle={classes.input}
             keyboardType="numeric"
             onChangeText={v => onElementChange(v, "account")}
             value={hdPath.account.toString()}
@@ -99,6 +79,7 @@ export const HdPathPicker: React.FC<Props> = (props) => {
         </Text>
         <TextInput
             style={classes.elements}
+            inputStyle={classes.input}
             keyboardType="numeric"
             onChangeText={v => onElementChange(v, "change")}
             value={hdPath.change.toString()}
@@ -110,9 +91,34 @@ export const HdPathPicker: React.FC<Props> = (props) => {
         </Text>
         <TextInput
             style={classes.elements}
+            inputStyle={classes.input}
             keyboardType="numeric"
             onChangeText={v => onElementChange(v, "addressIndex")}
             value={hdPath.addressIndex.toString()}
         />
     </View>
 }
+
+const useStyle = makeStyle(_theme => ({
+    root: {
+        display: "flex",
+        flexDirection: "row",
+        alignItems: "center",
+    },
+    elements: {
+        maxWidth: 80,
+        flexGrow: 1,
+    },
+    input: {
+        textAlignVertical: "center",
+    },
+    hdPathText: {
+        fontFamily: "SF-Pro-Text",
+        fontSize: 16,
+        fontStyle: "normal",
+        fontWeight: "400",
+        lineHeight: 20,
+        letterSpacing: 0.005,
+        textAlign: "left",
+    }
+}))
