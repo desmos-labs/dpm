@@ -1,42 +1,39 @@
 import React from "react";
 import {StyleProp, StyleSheet, Text, TextStyle} from "react-native";
-import {makeStyle} from "../theming";
+import {makeStyleWithProps} from "../theming";
 
 export type Props = React.ComponentProps<typeof Text> & {
-    small?: boolean
-    bold?: boolean
+    /**
+     * If is true the fontSize will be 14 otherwise 16.
+     */
+    small?: boolean,
+    /**
+     * If true the text will be bold.
+     */
+    bold?: boolean,
+    /**
+     * If true the text will be capitalized.
+     */
+    capitalize?: boolean
 };
 
 export const Subtitle: React.FC<Props> = (props) => {
-    const styles = useStyles();
-
-    let subtitleStyle: StyleProp<TextStyle> = styles.subtitle;
-    if (props.small) {
-        subtitleStyle = StyleSheet.compose(subtitleStyle, styles.small);
-    }
-    if (props.bold) {
-        subtitleStyle = StyleSheet.compose(subtitleStyle, styles.bold);
-    }
+    const styles = useStyles(props);
 
     return <Text {...props}
-        style={StyleSheet.compose(subtitleStyle as StyleProp<TextStyle>, props.style)}
+        style={StyleSheet.compose(styles.subtitle as StyleProp<TextStyle>, props.style)}
     />
 }
 
-const useStyles = makeStyle(_ => ({
+const useStyles = makeStyleWithProps((props: Props, _) => ({
     subtitle: {
         fontFamily: "SF-Pro-Text",
-        fontSize: 16,
+        fontSize: props.small ? 14 : 16,
         fontStyle: "normal",
-        fontWeight: "400",
+        fontWeight: props.bold ? "bold": "400",
+        textTransform: props.capitalize ? "capitalize" : "none",
         lineHeight: 20,
         letterSpacing: 0.005,
         textAlign: "left",
     },
-    small: {
-        fontSize: 14,
-    },
-    bold: {
-        fontWeight: "bold",
-    }
 }));
