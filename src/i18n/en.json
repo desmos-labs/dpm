@@ -13,6 +13,7 @@
   "next": "Next",
   "confirm": "Confirm",
   "success": "Success",
+  "password": "Password",
   "create wallet": "Create Wallet",
   "import recovery passphrase": "Import Recovery Passphrase",
   "secret recovery passphrase": "Secret recovery passphrase",
