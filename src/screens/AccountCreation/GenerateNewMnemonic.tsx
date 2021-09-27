@@ -59,7 +59,7 @@ export default function GenerateNewMnemonic(props: Props): JSX.Element {
 
     return <StyledSafeAreaView style={styles.root}>
         <Title>
-            {t("secrete recovery passphrase")}
+            {t("secret recovery passphrase")}
         </Title>
         <Subtitle
             style={styles.saveMnemonicAdvice}
