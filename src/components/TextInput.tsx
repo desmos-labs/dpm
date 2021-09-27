@@ -16,7 +16,7 @@ export const TextInput: React.FC<Props> = (props) => {
 const useStyles = makeStyle(theme => ({
     input: {
         backgroundColor: theme.colors.surface,
-        borderRadius: theme.roundness,
+        borderRadius: 6,
         fontFamily: "SF-Pro-Text",
         padding: theme.spacing.s,
     }
