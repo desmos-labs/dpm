@@ -11,13 +11,13 @@ import {EncodeObject} from "@cosmjs/proto-signing";
 export type AccountCreationStackParams = {
     Home: undefined;
     GenerateNewMnemonic: undefined;
+    ImportRecoveryPassphrase: undefined;
     CheckMnemonic: {
         mnemonic: string
     };
     PickDerivationPath: {
         mnemonic: string,
     }
-    ImportAccount: undefined;
     CreateWalletPassword: {
         wallet: LocalWallet,
     };

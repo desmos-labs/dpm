@@ -33,10 +33,12 @@
   "password complexity hint": "Min 6 characters, recommended to mix alphabets, number and symbols",
   "password too short": "Password must be longer than 6 chars",
   "confirmation password don't match": "Confirmation password don't match",
-
   "generating account": "Generating account",
   "account created": "Account created",
   "error generating account": "An error occurred while generating the account",
+  "please enter you recovery passphrase": "Please enter your recovery passphrase (12 or 24 words) in order and make sure your recovery passphrase is written correctly",
+  "recovery passphrase": "Recovery passphrase",
+  "enter recovery passphrase placeholder": "Please enter your recovery passphrase (12 or 24 words) separated by spaces",
 
   "accounts": "Accounts",
   "sessions": "Sessions",
