@@ -3,18 +3,10 @@ import ChainAccount from './chainAccount';
 import {WalletConnectRequestEvent} from '../store/WalletConnectStore';
 import {CosmosTx, SignedCosmosTx} from './tx';
 import {SessionTypes} from '@walletconnect/types';
-import {HdPath} from "./hdpath";
 import {DesmosProfile} from "@desmoslabs/sdk-core";
 import {ReactNode} from "react";
 import LocalWallet from "../wallet/LocalWallet";
 import {EncodeObject} from "@cosmjs/proto-signing";
-
-export type AccountConfig = {
-    name: string;
-    mnemonic: string;
-    password: string;
-    hdPath: HdPath
-};
 
 export type AccountCreationStackParams = {
     AccountCreation: undefined;
@@ -26,8 +18,17 @@ export type AccountCreationStackParams = {
         mnemonic: string,
     }
     ImportAccount: undefined;
-    CreateWalletPassword: AccountConfig;
-    GenerateAccountKeys: AccountConfig;
+    CreateWalletPassword: {
+        wallet: LocalWallet,
+    };
+    CheckWalletPassword: {
+        password: string,
+        wallet: LocalWallet,
+    }
+    GenerateAccount: {
+        password: string,
+        wallet: LocalWallet,
+    };
 };
 
 export const AccountCreationStack = createStackNavigator<AccountCreationStackParams>();

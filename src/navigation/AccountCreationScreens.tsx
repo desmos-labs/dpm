@@ -4,15 +4,12 @@ import AccountCreation from "../screens/AccountCreation/AccountCreation";
 import GenerateNewMnemonic from "../screens/AccountCreation/GenerateNewMnemonic";
 import CheckMnemonic from "../screens/AccountCreation/CheckMnemonic";
 import ImportAccount from "../screens/AccountCreation/ImportAccount";
-import GenerateAccountKeys from "../screens/AccountCreation/GenerateAccountKeys";
-import CreateWalletPassword from "../screens/AccountCreation/CreateWalletPassword";
-import {useTranslation} from "react-i18next";
+import GenerateAccount from "../screens/AccountCreation/GenerateAccount";
+import WalletPassword from "../screens/AccountCreation/WalletPassword";
 import {NavigationBar} from "../components";
 import {PickDerivationPath} from "../screens/AccountCreation/PickDerivationPath";
 
 export default function AccountCreationScreens() {
-    const {t} = useTranslation();
-
     return <AccountCreationStack.Navigator
         initialRouteName={"AccountCreation"}
         screenOptions={{
@@ -45,17 +42,18 @@ export default function AccountCreationScreens() {
         />
         <AccountCreationStack.Screen
             name="CreateWalletPassword"
-            options={{
-                title: t("create wallet password"),
-            }}
-            component={CreateWalletPassword}
+            component={WalletPassword}
         />
         <AccountCreationStack.Screen
-            name={"GenerateAccountKeys"}
+            name="CheckWalletPassword"
+            component={WalletPassword}
+        />
+        <AccountCreationStack.Screen
+            name={"GenerateAccount"}
             options={{
                 headerShown: false
             }}
-            component={GenerateAccountKeys}
+            component={GenerateAccount}
         />
     </AccountCreationStack.Navigator>
 }

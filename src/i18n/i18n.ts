@@ -33,7 +33,6 @@ export function useInitI18n() {
                     escapeValue: false // react already safes from xss
                 }
             }).then(() => {
-                console.log("completed")
                 setStatus(Deferred.completed({}));
             }).catch(e => Deferred.failed(e.toString()))
     }, [])
