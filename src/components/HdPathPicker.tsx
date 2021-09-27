@@ -1,11 +1,15 @@
 import React, {useState} from "react";
 import {makeStyle} from "../theming";
-import {View, Text} from "react-native";
+import {View, Text, StyleProp, ViewStyle, StyleSheet} from "react-native";
 import {HdPath} from "../types/hdpath";
 import {TextInput} from "./TextInput";
 
 export type Props = {
+    /**
+     * Function called when the HDPath changes.
+     */
     onChange?: (path: HdPath) => void,
+    style?: StyleProp<ViewStyle>,
 }
 
 const useStyle = makeStyle(_theme => ({
@@ -75,7 +79,7 @@ export const HdPathPicker: React.FC<Props> = (props) => {
     }
 
     return <View
-        style={classes.root}
+        style={StyleSheet.compose(classes.root as StyleProp<ViewStyle>, props.style)}
     >
         <Text
             style={classes.hdPathText}
