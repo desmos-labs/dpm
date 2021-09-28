@@ -68,7 +68,6 @@ export default function App(): JSX.Element {
         <DesmosSdkProvider chainId={chainId}>
             <RecoilRoot>
                 <PaperProvider theme={AppTheme}>
-                    <StatusBar hidden={false} backgroundColor={Colors.DesmosOrange} />
                     <AppContent />
                 </PaperProvider>
             </RecoilRoot>
