@@ -2,6 +2,7 @@ import ChainAccount from "../types/chainAccount";
 import AccountSource from "../sources/AccountSource";
 import {useSetRecoilState} from "recoil";
 import AccountStore from "../store/AccountStore";
+import {useCallback} from "react";
 
 /**
  * Hooks to save an account into the device storage.
@@ -10,7 +11,7 @@ import AccountStore from "../store/AccountStore";
 export default function useSaveAccount() {
     const setAccounts = useSetRecoilState(AccountStore.chainAccounts);
 
-    return async (account: ChainAccount, updateAppState?: boolean) => {
+    return useCallback(async (account: ChainAccount, updateAppState?: boolean) => {
         await AccountSource.putAccount(account);
         if (updateAppState === true) {
             setAccounts((accounts) => {
@@ -18,5 +19,5 @@ export default function useSaveAccount() {
             });
         }
         return account;
-    };
+    }, [setAccounts]);
 }
