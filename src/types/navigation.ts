@@ -7,6 +7,7 @@ import {DesmosProfile} from "@desmoslabs/sdk-core";
 import {ReactNode} from "react";
 import LocalWallet from "../wallet/LocalWallet";
 import {EncodeObject} from "@cosmjs/proto-signing";
+import {createDrawerNavigator} from "@react-navigation/drawer";
 
 export type AccountCreationStackParams = {
     Home: undefined;
@@ -32,6 +33,12 @@ export type AccountCreationStackParams = {
 };
 
 export const AccountCreationStack = createStackNavigator<AccountCreationStackParams>();
+
+export type AppDrawerParams = {
+    AccountScreen: undefined
+}
+
+export const AppDrawer = createDrawerNavigator<AppDrawerParams>()
 
 export type AccountScreensStackParams = {
     Account: undefined,

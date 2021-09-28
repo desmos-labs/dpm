@@ -1,43 +1,24 @@
 import {StyledSafeAreaView} from "../components";
-import {FlatList, View} from "react-native";
 import {makeStyle} from "../theming";
-import {FAB, Title} from "react-native-paper";
+import {IconButton} from "react-native-paper";
 import {StackScreenProps} from "@react-navigation/stack";
-import {AccountScreensStackParams} from "../types/navigation";
-import React, {useEffect} from 'react';
-import {useRecoilValue} from "recoil";
-import WalletConnectStore from "../store/WalletConnectStore";
-import SettledSession from "../components/SettledSession";
-import {useTranslation} from "react-i18next";
+import {AccountScreensStackParams, AppDrawerParams} from "../types/navigation";
+import React, {useCallback, useEffect, useMemo} from 'react';
 import useSelectedAccount from "../hooks/useSelectedAccount";
 import {ProfileHeader} from "../components/ProfileHeader";
 import useProfile from "../hooks/useProfile";
 import useFetchProfile from "../hooks/useFetchProfile";
+import {CompositeScreenProps} from "@react-navigation/native";
+import {DrawerScreenProps} from "@react-navigation/drawer";
 
 
-const useClasses = makeStyle(theme => ({
-    root: {
-        padding: 0,
-    },
-    sessions: {
-        padding: theme.spacing.m,
-    },
-    fab: {
-        position: 'absolute',
-        margin: 16,
-        right: 0,
-        bottom: 0,
-    },
-}))
-
-type Props = StackScreenProps<AccountScreensStackParams, "Account">;
+type Props = CompositeScreenProps<StackScreenProps<AccountScreensStackParams, "Account">,
+    DrawerScreenProps<AppDrawerParams>>;
 
 export default function Account(props: Props): JSX.Element {
 
     const {navigation} = props;
-    const {t} = useTranslation();
-    const classes = useClasses();
-    const sessions = useRecoilValue(WalletConnectStore.settledSessions);
+    const classes = useStyles();
     const account = useSelectedAccount()!;
     const profile = useProfile();
     const fetchProfile = useFetchProfile();
@@ -46,11 +27,13 @@ export default function Account(props: Props): JSX.Element {
         fetchProfile();
     }, [fetchProfile])
 
-    const accountSessions = sessions.filter(s => {
-        return s.state.accounts.find(a => a.indexOf(account.address) >= 0) !== undefined
-    });
+    const drawerIconButton = useMemo(() => {
+        return <IconButton icon="menu" color="#fff" onPress={() => {
+            navigation.openDrawer();
+        }}/>
+    }, [navigation]);
 
-    const editProfile = () => {
+    const editProfile = useCallback(() => {
         navigation.navigate({
             name: "EditProfile",
             params: {
@@ -58,16 +41,7 @@ export default function Account(props: Props): JSX.Element {
                 currentProfile: profile,
             }
         })
-    }
-
-    const pairNewDapp = () => {
-        navigation.navigate({
-            name: "NewWalletSession",
-            params: {
-                account,
-            },
-        });
-    }
+    }, [navigation, profile, account]);
 
     return <StyledSafeAreaView
         style={classes.root}
@@ -76,24 +50,14 @@ export default function Account(props: Props): JSX.Element {
             accountAddress={account.address}
             profile={profile}
             openProfileEdit={editProfile}
-        />
-        <View
-            style={classes.sessions}
-        >
-            <Title>
-                {t("dapps")}
-            </Title>
-            <FlatList
-                data={accountSessions}
-                renderItem={({item}) => <SettledSession session={item}/>}
-            />
-        </View>
-
-        <FAB
-            style={classes.fab}
-            icon="qrcode-plus"
-            onPress={pairNewDapp}
+            topLeftElement={drawerIconButton}
         />
 
     </StyledSafeAreaView>
 }
+
+const useStyles = makeStyle(_ => ({
+    root: {
+        padding: 0,
+    },
+}))

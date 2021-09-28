@@ -1,5 +1,5 @@
 import React from 'react';
-import {AccountScreensStack} from "../types/navigation";
+import {AccountScreensStack, AppDrawer} from "../types/navigation";
 import NewWalletSession from "../screens/NewWalletSession";
 import AccountSessions from "../screens/AccountSessions";
 import WalletConnectRequest from "../screens/WalletConnectRequest";
@@ -10,6 +10,18 @@ import Account from "../screens/Account";
 import {EditProfile} from "../screens/EditProfile";
 import {UnlockWallet} from "../screens/UnlockWallet";
 import {BroadcastTx} from "../screens/BroadcastTx";
+import {AppDrawerContent} from "../components/AppDrawerContent";
+
+function AccountWithAppDrawer() {
+    return <AppDrawer.Navigator
+        screenOptions={{
+            headerShown: false,
+        }}
+        drawerContent={AppDrawerContent}
+    >
+        <AppDrawer.Screen name="AccountScreen" component={Account} />
+    </AppDrawer.Navigator>
+}
 
 export default function AccountScreens() {
     const {t} = useTranslation();
@@ -22,7 +34,7 @@ export default function AccountScreens() {
     >
         <AccountScreensStack.Screen
             name="Account"
-            component={Account}
+            component={AccountWithAppDrawer}
             options={{
                 headerShown: false,
             }}
