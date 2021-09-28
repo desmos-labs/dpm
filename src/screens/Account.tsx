@@ -4,7 +4,6 @@ import {IconButton} from "react-native-paper";
 import {StackScreenProps} from "@react-navigation/stack";
 import {AccountScreensStackParams, AppDrawerParams} from "../types/navigation";
 import React, {useCallback, useEffect, useMemo} from 'react';
-import useSelectedAccount from "../hooks/useSelectedAccount";
 import {ProfileHeader} from "../components/ProfileHeader";
 import useProfile from "../hooks/useProfile";
 import useFetchProfile from "../hooks/useFetchProfile";
@@ -19,13 +18,13 @@ export default function Account(props: Props): JSX.Element {
 
     const {navigation} = props;
     const classes = useStyles();
-    const account = useSelectedAccount()!;
+    const {account} = props.route.params;
     const profile = useProfile();
     const fetchProfile = useFetchProfile();
 
     useEffect(() => {
-        fetchProfile();
-    }, [fetchProfile])
+        fetchProfile(account.address);
+    }, [fetchProfile, account])
 
     const drawerIconButton = useMemo(() => {
         return <IconButton icon="menu" color="#fff" onPress={() => {
