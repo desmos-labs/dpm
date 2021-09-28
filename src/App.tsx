@@ -1,8 +1,5 @@
 import React, {useEffect, useRef} from 'react';
-import {StatusBar} from 'react-native';
 import {RecoilRoot, useRecoilValue} from 'recoil';
-import Colors from './constants/colors';
-import useWalletConnectInit from './hooks/useWalletConnectInit';
 import useLoadAccounts from './hooks/useLoadAccounts';
 import {Provider as PaperProvider} from "react-native-paper";
 import {AppTheme} from "./theming";
@@ -15,10 +12,8 @@ import {AccountScreensStackParams, RootStack} from "./types/navigation";
 import WalletConnectStore from "./store/WalletConnectStore";
 import AccountCreationScreens from "./navigation/AccountCreationScreens";
 import AccountScreens from "./navigation/AccountScreens";
-import SelectAccount from "./screens/Accounts";
 
 function AppContent(): JSX.Element {
-    const walletConnect = useWalletConnectInit();
     const accountLoadStatus = useLoadAccounts();
     const i18nState = useInitI18n();
     const accounts = useRecoilValue(AccountStore.chainAccounts);
@@ -26,8 +21,7 @@ function AppContent(): JSX.Element {
     const requests = useRecoilValue(WalletConnectStore.sessionRequests);
     const selectedAccount = useRecoilValue(AccountStore.selectedAccount);
 
-    const loading = walletConnect.isPending() ||
-        accountLoadStatus.isPending() || i18nState.isPending();
+    const loading = accountLoadStatus.isPending() || i18nState.isPending();
 
     useEffect(() => {
         if (navigatorRef.current !== null && requests.length > 0) {
@@ -40,24 +34,44 @@ function AppContent(): JSX.Element {
                 key: requests[0].request.request.id.toString()
             });
         }
-    }, [requests])
+    }, [requests]);
+
+    // Navigate to the correct screen after loading all the data.
+    useEffect(() => {
+        if (!loading && navigatorRef.current !== null) {
+            if (accounts.length === 0 || selectedAccount === null) {
+                // No account, go to the create account screens
+                navigatorRef.current.reset({
+                    index: 0,
+                    routes: [{name: "AccountCreationScreens"}],
+                })
+            }
+            else {
+                // Go to the account screen
+                navigatorRef.current.reset({
+                    index: 0,
+                    routes: [{
+                        name: "AccountScreens",
+                        params: {
+                            account: selectedAccount
+                        }
+                    }],
+                })
+            }
+        }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [loading, navigatorRef])
 
     return <NavigationContainer ref={navigatorRef}>
         <RootStack.Navigator
+            initialRouteName="SplashScreen"
             screenOptions={{
-                animationEnabled: false,
                 headerShown: false,
             }}
         >
-            {loading ? (
-                <RootStack.Screen name="SplashScreen" component={SplashScreen}/>
-            ) : accounts.length === 0 ? (
-                <RootStack.Screen name="AccountCreationScreens" component={AccountCreationScreens}/>
-            ) : selectedAccount !== null ? (
-                <RootStack.Screen name="AccountScreens" component={AccountScreens}/>
-            ) : (
-                <RootStack.Screen name="SelectAccount" component={SelectAccount}/>
-            )}
+            <RootStack.Screen name="SplashScreen" component={SplashScreen}/>
+            <RootStack.Screen name="AccountScreens" component={AccountScreens}/>
+            <RootStack.Screen name="AccountCreationScreens" component={AccountCreationScreens}/>
         </RootStack.Navigator>
     </NavigationContainer>;
 }

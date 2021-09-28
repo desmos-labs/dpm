@@ -1,5 +1,10 @@
 import React from 'react';
-import {AccountScreensStack, AppDrawer} from "../types/navigation";
+import {
+    AccountScreensStack,
+    AccountScreensStackParams,
+    AppDrawer,
+    RootStackParams
+} from "../types/navigation";
 import NewWalletSession from "../screens/NewWalletSession";
 import AccountSessions from "../screens/AccountSessions";
 import WalletConnectRequest from "../screens/WalletConnectRequest";
@@ -11,25 +16,36 @@ import {EditProfile} from "../screens/EditProfile";
 import {UnlockWallet} from "../screens/UnlockWallet";
 import {BroadcastTx} from "../screens/BroadcastTx";
 import {AppDrawerContent} from "../components/AppDrawerContent";
+import {StackScreenProps} from "@react-navigation/stack";
 
-function AccountWithAppDrawer() {
+type AccountAppDrawerProps = StackScreenProps<AccountScreensStackParams, "Account">
+
+function AccountWithAppDrawer(props: AccountAppDrawerProps) {
     return <AppDrawer.Navigator
         screenOptions={{
             headerShown: false,
         }}
-        drawerContent={AppDrawerContent}
+        drawerContent={props => <AppDrawerContent {...props} />}
     >
-        <AppDrawer.Screen name="AccountScreen" component={Account} />
+        <AppDrawer.Screen
+            name="AccountScreen"
+            component={Account}
+            initialParams={{
+                account: props.route.params.account
+            }}
+        />
     </AppDrawer.Navigator>
 }
 
-export default function AccountScreens() {
+type AccountScreensProps = StackScreenProps<RootStackParams, "AccountScreens">
+
+export default function AccountScreens(props: AccountScreensProps) {
     const {t} = useTranslation();
 
     return <AccountScreensStack.Navigator
         initialRouteName={"Account"}
         screenOptions={{
-            header: NavigationBar
+            header: NavigationBar,
         }}
     >
         <AccountScreensStack.Screen
@@ -37,6 +53,9 @@ export default function AccountScreens() {
             component={AccountWithAppDrawer}
             options={{
                 headerShown: false,
+            }}
+            initialParams={{
+                account: props.route.params.account
             }}
         />
         <AccountScreensStack.Screen

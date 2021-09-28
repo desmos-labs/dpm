@@ -1,6 +1,9 @@
-import React, {useEffect, useState} from "react";
+import React, {useCallback, useEffect, useState} from "react";
 import {StackScreenProps} from "@react-navigation/stack";
-import {AccountCreationStackParams} from "../../types/navigation";
+import {
+    AccountCreationStackParams,
+    RootStackParams
+} from "../../types/navigation";
 import ChainAccount, {ChainAccountType} from "../../types/chainAccount";
 import useSaveWallet from "../../hooks/useSaveWallet";
 import useSaveAccount from "../../hooks/useSaveAccount";
@@ -11,11 +14,16 @@ import useSaveSelectedAccount from "../../hooks/useSaveSelectedAccount";
 import {useSetRecoilState} from "recoil";
 import AccountStore from "../../store/AccountStore";
 import {Image} from "react-native";
+import {CompositeScreenProps} from "@react-navigation/native";
 
-declare type Props = StackScreenProps<AccountCreationStackParams, "GenerateAccount">;
+
+declare type Props = CompositeScreenProps<StackScreenProps<AccountCreationStackParams, "GenerateAccount">,
+    StackScreenProps<RootStackParams, "AccountCreationScreens">>;
 
 export default function GenerateAccount(props: Props): JSX.Element {
 
+    const {navigation} = props;
+    const {wallet, password} = props.route.params
     const {t} = useTranslation();
     const styles = useStyles();
     const [generating, setGenerating] = useState(true);
@@ -27,10 +35,9 @@ export default function GenerateAccount(props: Props): JSX.Element {
     const saveAccount = useSaveAccount();
     const saveSelectedAccount = useSaveSelectedAccount();
 
-    const generateAccount = async () => {
+    const generateAccount = useCallback(async () => {
         setGenerating(true);
         try {
-            const {wallet, password} = props.route.params;
             await saveWallet(wallet, password);
             const account: ChainAccount = {
                 type: ChainAccountType.Local,
@@ -44,19 +51,30 @@ export default function GenerateAccount(props: Props): JSX.Element {
             setError(e.toString());
         }
         setGenerating(false);
-    }
+    }, [saveWallet, wallet, password, saveAccount, saveSelectedAccount]);
 
     const onContinuePressed = () => {
         setAccounts((old) => [...old, account!]);
-        setSelectedAccount(account!);
+        setSelectedAccount(account);
+        navigation.reset({
+            index: 0,
+            routes: [{
+                // @ts-ignore
+                name: "AccountScreens",
+                params: {
+                    account,
+                }
+            }]
+        })
     }
 
     useEffect(() => {
-        return props.navigation.addListener("beforeRemove", e => {
-            e.preventDefault();
+        return navigation.addListener("beforeRemove", e => {
+            if (e.data.action.type !== "RESET") {
+                e.preventDefault();
+            }
         })
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [])
+    }, [navigation])
 
     useEffect(() => {
         generateAccount();
