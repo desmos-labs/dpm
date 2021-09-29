@@ -1,40 +1,39 @@
 import AccountSource from "../sources/AccountSource";
-import {useRecoilState} from "recoil";
+import {useCallback} from "react";
+import {ChainAccount} from "../types/chain";
+import {useSetRecoilState} from "recoil";
 import AccountStore from "../store/AccountStore";
-import {useEffect, useState} from "react";
-import Deferred from "../types/defered";
+
+export type LoadedAccounts = {
+    accounts: ChainAccount []
+    selectedAccount: ChainAccount | null,
+}
 
 /**
- * Hook to load all the user's account into the application state.
- * Returns a stateful variable that provides the load status.
+ * Hook that provides a function to load all the accounts saved into the
+ * device storage into the application state.
  */
-export default function (): Deferred<null> {
+export default function useLoadAccounts(): () => Promise<LoadedAccounts> {
 
-    const [loadStatus, setLoadStatus] = useState<Deferred<null>>(Deferred.pending());
-    const [, setAccounts] = useRecoilState(AccountStore.chainAccounts);
-    const [, setSelectedAccount] = useRecoilState(AccountStore.selectedAccount);
+    const setAccounts = useSetRecoilState(AccountStore.chainAccounts);
+    const setSelectedAccount = useSetRecoilState(AccountStore.selectedAccount);
 
-    const loadAccounts = async () => {
-        try {
-            const accounts = await AccountSource.getAllAccounts();
-            const selectedAccountAddress = await AccountSource.getSelectedAccount();
-            if (selectedAccountAddress !== null) {
-                const selectedAccount = accounts.find(a => a.address === selectedAccountAddress);
-                if (selectedAccount !== undefined) {
-                    setSelectedAccount(selectedAccount);
-                }
-            }
-            setAccounts(accounts);
-            setLoadStatus(Deferred.completed(null))
-        } catch (ex) {
-            setLoadStatus(Deferred.failed(ex.toString()))
+    return useCallback(async () => {
+        let selectedAccount: ChainAccount | null = null
+        const accounts = await AccountSource.getAllAccounts();
+        const selectedAccountAddress = await AccountSource.getSelectedAccount();
+        setAccounts(accounts);
+
+        if (selectedAccountAddress !== null) {
+            selectedAccount = accounts.find(a => a.address === selectedAccountAddress) ?? null;
+            setSelectedAccount(selectedAccount);
+        } else {
+            setSelectedAccount(null);
         }
-    }
 
-    useEffect(() => {
-        loadAccounts();
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []);
-
-    return loadStatus;
+        return {
+            accounts,
+            selectedAccount,
+        }
+    }, [setAccounts, setSelectedAccount]);
 }

@@ -3,8 +3,7 @@ import {initReactI18next} from 'react-i18next';
 import RNLanguageDetector from '@os-team/i18next-react-native-language-detector';
 import en from './en.json';
 import it from './it.json';
-import {useEffect, useState} from "react";
-import Deferred from "../types/defered";
+import {useCallback} from "react";
 
 export const defaultNS = 'translation'
 export const resources = {
@@ -16,11 +15,9 @@ export const resources = {
     }
 };
 
-export function useInitI18n() {
-    const [status, setStatus] = useState<Deferred<any>>(Deferred.pending());
-
-    useEffect(() => {
-        i18n
+export function useInitI18n(): () => Promise<void> {
+    return useCallback(async () => {
+        await i18n
             .use(RNLanguageDetector)
             .use(initReactI18next)
             .init({
@@ -32,10 +29,6 @@ export function useInitI18n() {
                 interpolation: {
                     escapeValue: false // react already safes from xss
                 }
-            }).then(() => {
-                setStatus(Deferred.completed({}));
-            }).catch(e => Deferred.failed(e.toString()))
+            });
     }, [])
-
-    return status;
 }

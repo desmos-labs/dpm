@@ -1,9 +1,7 @@
 import React, {useEffect, useRef} from 'react';
 import {RecoilRoot, useRecoilValue} from 'recoil';
-import useLoadAccounts from './hooks/useLoadAccounts';
 import {Provider as PaperProvider} from "react-native-paper";
 import {AppTheme} from "./theming";
-import {useInitI18n} from "./i18n/i18n";
 import {SplashScreen} from "./screens/SplashScreen";
 import {DesmosSdkProvider} from "@desmoslabs/sdk-react";
 import AccountStore from "./store/AccountStore";
@@ -12,16 +10,16 @@ import {AccountScreensStackParams, RootStack} from "./types/navigation";
 import WalletConnectStore from "./store/WalletConnectStore";
 import AccountCreationScreens from "./navigation/AccountCreationScreens";
 import AccountScreens from "./navigation/AccountScreens";
+import useInitAppState from "./hooks/useInitAppState";
 
 function AppContent(): JSX.Element {
-    const accountLoadStatus = useLoadAccounts();
-    const i18nState = useInitI18n();
+    const appState = useInitAppState();
     const accounts = useRecoilValue(AccountStore.chainAccounts);
     const navigatorRef = useRef<NavigationContainerRef<AccountScreensStackParams>>(null);
     const requests = useRecoilValue(WalletConnectStore.sessionRequests);
     const selectedAccount = useRecoilValue(AccountStore.selectedAccount);
 
-    const loading = accountLoadStatus.isPending() || i18nState.isPending();
+    const loading = appState.initializing;
 
     useEffect(() => {
         if (navigatorRef.current !== null && requests.length > 0) {
