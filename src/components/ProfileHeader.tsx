@@ -6,7 +6,6 @@ import {makeStyle} from "../theming";
 import {DesmosProfile} from "@desmoslabs/sdk-core";
 import {useTranslation} from "react-i18next";
 import {Divider} from "./Divider";
-import LinearGradient from "react-native-linear-gradient";
 import {AvatarImage} from "./AvatarImage";
 
 export type Props = {
@@ -28,7 +27,7 @@ export const ProfileHeader: React.FC<Props> = (props) => {
     const coverPicture = useMemo(() => {
         return profile?.coverPicture ? {
             uri: profile?.coverPicture
-        } : require("../assets/splashscreen_background.png");
+        } : require("../assets/default-profile-cover.png");
     }, [profile])
 
     const profilePicture = useMemo(() => {
@@ -51,15 +50,11 @@ export const ProfileHeader: React.FC<Props> = (props) => {
             {props.topLeftElement}
         </View>
         <View style={styles.coverPictureContainer}>
-            {profile?.coverPicture ? (<Image
+            <Image
                 style={styles.coverPicture}
                 resizeMode="cover"
                 source={coverPicture}
-            />) : <LinearGradient
-                style={styles.coverPicture}
-                colors={['#FF3E9A', '#FFC75B', '#FF844F', '#FFD771']}
-                locations={[-0.9969, -0.5008, 0.978, 1.4903]}
-            />}
+            />
             {props.onEditCoverPicture && <IconButton
                 icon="camera-outline"
                 size={20}
