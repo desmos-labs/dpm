@@ -1,6 +1,6 @@
 import {atom} from 'recoil';
 import {StoreKeysEnum} from './StoreKeysEnum';
-import ChainAccount from '../types/chainAccount';
+import {ChainAccount} from '../types/chain';
 
 const chainAccounts = atom<ChainAccount[]>({
     key: StoreKeysEnum.chainAccounts,

@@ -1,5 +1,5 @@
 import {createStackNavigator} from '@react-navigation/stack';
-import ChainAccount from './chainAccount';
+import {ChainAccount} from './chain';
 import {WalletConnectRequestEvent} from '../store/WalletConnectStore';
 import {CosmosTx, SignedCosmosTx} from './tx';
 import {SessionTypes} from '@walletconnect/types';

@@ -2,7 +2,7 @@ import React from "react";
 import {FlatList} from "react-native";
 import {useRecoilValue, useSetRecoilState} from "recoil";
 import AccountStore from "../store/AccountStore";
-import ChainAccount from "../types/chainAccount";
+import {ChainAccount} from "../types/chain";
 import useSaveSelectedAccount from "../hooks/useSaveSelectedAccount";
 import {List, Title} from "react-native-paper";
 import {StyledSafeAreaView} from "../components";

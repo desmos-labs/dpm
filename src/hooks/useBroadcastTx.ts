@@ -3,7 +3,7 @@ import {AccountScreensStackParams} from "../types/navigation";
 import {StackNavigationProp} from "@react-navigation/stack";
 import {useCallback} from "react";
 import {EncodeObject} from "@cosmjs/proto-signing";
-import ChainAccount from "../types/chainAccount";
+import {ChainAccount} from "../types/chain";
 
 /**
  * Hooks that provides a function that sign and broadcast a transaction.

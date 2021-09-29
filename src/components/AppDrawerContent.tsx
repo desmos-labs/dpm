@@ -8,7 +8,7 @@ import StyledSafeAreaView from "./StyledSafeAreaView";
 import {FlatList, Image, View, ListRenderItemInfo} from "react-native";
 import {useRecoilValue} from "recoil";
 import AccountStore from "../store/AccountStore";
-import ChainAccount from "../types/chainAccount";
+import {ChainAccount} from "../types/chain";
 import useSaveSelectedAccount from "../hooks/useSaveSelectedAccount";
 import {IconButton} from "react-native-paper";
 import useSelectedAccount from "../hooks/useSelectedAccount";

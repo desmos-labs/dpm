@@ -4,7 +4,7 @@ import {
     AccountCreationStackParams,
     RootStackParams
 } from "../../types/navigation";
-import ChainAccount, {ChainAccountType} from "../../types/chainAccount";
+import {ChainAccount, ChainAccountType} from "../../types/chain";
 import useSaveWallet from "../../hooks/useSaveWallet";
 import useSaveAccount from "../../hooks/useSaveAccount";
 import {StyledSafeAreaView, Button, Title, Paragraph} from "../../components";

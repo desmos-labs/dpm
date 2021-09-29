@@ -2,8 +2,8 @@ export enum ChainAccountType {
     Local,
 }
 
-export default interface ChainAccount {
+export interface ChainAccount {
     type: ChainAccountType;
     name: string;
     address: string;
-};
+}

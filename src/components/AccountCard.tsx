@@ -1,5 +1,5 @@
 import React from 'react';
-import ChainAccount from '../types/chainAccount';
+import {ChainAccount} from '../types/chain';
 import {
     GestureResponderEvent,
     Text,

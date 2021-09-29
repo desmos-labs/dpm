@@ -1,4 +1,4 @@
-import ChainAccount from "../types/chainAccount";
+import {ChainAccount} from "../types/chain";
 import {useRecoilValue} from "recoil";
 import AccountStore from "../store/AccountStore";
 
