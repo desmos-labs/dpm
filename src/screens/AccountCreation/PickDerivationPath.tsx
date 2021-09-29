@@ -7,7 +7,7 @@ import {
     Subtitle,
     Divider,
     PaginatedFlatList,
-    AddressListItem, Button, ItemListSeparator
+    AddressListItem, Button, ListItemSeparator
 } from "../../components";
 import {StackScreenProps} from "@react-navigation/stack";
 import {makeStyle} from "../../theming";
@@ -120,7 +120,7 @@ export const PickDerivationPath: React.FC<Props> = (props) => {
             renderItem={renderListItem}
             keyExtractor={listKeyExtractor}
             onEndReachedThreshold={0.5}
-            ItemSeparatorComponent={ItemListSeparator}
+            ItemSeparatorComponent={ListItemSeparator}
         />
 
         <Button

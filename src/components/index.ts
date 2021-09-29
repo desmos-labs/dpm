@@ -12,7 +12,7 @@ import {TextInput} from "./TextInput";
 import {Divider} from "./Divider";
 import {PaginatedFlatList} from "./PaginatedFlatList";
 import {AddressListItem} from "./AddressListItem";
-import {ItemListSeparator} from "./ItemListSeparator";
+import {ListItemSeparator} from "./ListItemSeparator";
 import {PasswordComplexity} from "./PasswordComplexityScore";
 import {AvatarImage} from "./AvatarImage";
 import {ProfileListItem} from "./ProfileListItem";
@@ -33,7 +33,7 @@ export {
     Divider,
     PaginatedFlatList,
     AddressListItem,
-    ItemListSeparator,
+    ListItemSeparator,
     PasswordComplexity,
     AvatarImage,
     ProfileListItem,
