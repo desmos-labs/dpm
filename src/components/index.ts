@@ -14,6 +14,7 @@ import {PaginatedFlatList} from "./PaginatedFlatList";
 import {AddressListItem} from "./AddressListItem";
 import {ItemListSeparator} from "./ItemListSeparator";
 import {PasswordComplexity} from "./PasswordComplexityScore";
+import {AvatarImage} from "./AvatarImage";
 
 
 export {
@@ -32,5 +33,6 @@ export {
     PaginatedFlatList,
     AddressListItem,
     ItemListSeparator,
-    PasswordComplexity
+    PasswordComplexity,
+    AvatarImage
 }

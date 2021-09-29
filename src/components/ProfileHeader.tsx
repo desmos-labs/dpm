@@ -1,12 +1,13 @@
 import React, {ReactNode, useCallback, useMemo} from "react";
 import {Image, Text, View} from "react-native";
-import {Avatar, IconButton} from "react-native-paper";
+import {IconButton} from "react-native-paper";
 import Clipboard from "@react-native-community/clipboard";
 import {makeStyle} from "../theming";
 import {DesmosProfile} from "@desmoslabs/sdk-core";
 import {useTranslation} from "react-i18next";
 import {Divider} from "./Divider";
 import LinearGradient from "react-native-linear-gradient";
+import {AvatarImage} from "./AvatarImage";
 
 export type Props = {
     accountAddress: string
@@ -68,9 +69,8 @@ export const ProfileHeader: React.FC<Props> = (props) => {
             />}
         </View>
         <View style={styles.profilePictureContainer}>
-            <Avatar.Image
+            <AvatarImage
                 size={100}
-                style={styles.profilePicture}
                 source={profilePicture}
             />
             {props.onEditProfilePicture && <IconButton
@@ -142,9 +142,6 @@ const useStyles = makeStyle(theme => ({
         width: 100,
         height: 100,
         borderRadius: 50,
-    },
-    profilePicture: {
-        backgroundColor: theme.colors.surface,
     },
     editProfilePictureBtn: {
         position: "absolute",
