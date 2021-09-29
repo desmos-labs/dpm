@@ -15,6 +15,7 @@ import {AddressListItem} from "./AddressListItem";
 import {ItemListSeparator} from "./ItemListSeparator";
 import {PasswordComplexity} from "./PasswordComplexityScore";
 import {AvatarImage} from "./AvatarImage";
+import {ProfileListItem} from "./ProfileListItem";
 
 
 export {
@@ -34,5 +35,6 @@ export {
     AddressListItem,
     ItemListSeparator,
     PasswordComplexity,
-    AvatarImage
+    AvatarImage,
+    ProfileListItem,
 }
