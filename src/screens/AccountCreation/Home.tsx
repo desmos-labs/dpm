@@ -30,20 +30,11 @@ export default function Home({navigation}: Props): JSX.Element {
 
     return <StyledSafeAreaView>
         <FlexPadding flex={1} />
-        <View
-            style={styles.brandContainer}
-        >
-            <Image
-                style={styles.icon}
-                source={require("../../assets/desmos-icon-orange.png")}
-                resizeMode="center"
-            />
-            <Image
-                style={styles.typography}
-                source={require("../../assets/desmos-typo-orange.png")}
-                resizeMode="center"
-            />
-        </View>
+        <Image
+            style={styles.icon}
+            source={require("../../assets/desmos-vertical-orange.png")}
+            resizeMode="contain"
+        />
         <FlexPadding flex={7} />
         <View style={styles.buttonsContainer}>
             <Button
@@ -72,7 +63,8 @@ const useStyle = makeStyle(theme => ({
         justifyContent: "center",
     },
     icon: {
-        flex: 3,
+        flex: 2,
+        alignSelf: "center"
     },
     typography: {
         flex: 1,
