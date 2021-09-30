@@ -1,19 +1,41 @@
-import {useSetRecoilState} from "recoil";
+import {useEffect, useState} from "react";
+import {useRecoilState} from "recoil";
 import ChainStore from "../store/ChainStore";
 import {useDesmosClient} from "@desmoslabs/sdk-react";
-import {useCallback} from "react";
+import ProfileSource from "../sources/ProfileSource";
+import {CachedDesmosProfile} from "../types/chain";
 
 /**
- * Hook that provides a function to fetch the profile associated
- * to the current selected account.
+ * Hook that fetch a profile from the chain and cache it on the device storage.
+ * If the application don't have network during the request will be provided a profile
+ * fetched from the device storage.
+ * @param address - Address of the profile of interest.
  */
-export default function useFetchProfile() {
-    const setProfile = useSetRecoilState(ChainStore.userProfile);
+export default function useFetchProfile(address: string): CachedDesmosProfile | null {
     const client = useDesmosClient();
+    const [profiles, setProfiles] = useRecoilState(ChainStore.profiles);
+    const [profile, setProfile] = useState<CachedDesmosProfile | null>(profiles[address] ?? null);
 
-    return useCallback(async (address: string) => {
-        await client.connect();
-        const profile = await client.getProfile(address);
-        setProfile(profile);
-    }, [setProfile, client]);
+    useEffect(() => {
+        (async () => {
+            try {
+                await client.connect();
+                const profile = await client.getProfile(address);
+                if (profile !== null) {
+                    const [cached, changed] = await ProfileSource.saveProfile(profile);
+                    if (changed) {
+                        setProfiles(old => {
+                            const newValue = {...old};
+                            newValue[address] = cached;
+                            return newValue;
+                        })
+                        setProfile(cached);
+                    }
+                }
+            } catch (e) {
+                console.error(e);
+            }})()
+    }, [client, address, setProfile, setProfiles]);
+
+    return profile;
 }
