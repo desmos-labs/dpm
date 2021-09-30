@@ -48,7 +48,7 @@ export const ProfileListItem: React.FC<Props> = (props) => {
                 ellipsizeMode="middle"
                 numberOfLines={1}
             >
-                {props.dtag ?? props.address}
+                {props.dtag !== undefined ? `@${props.dtag}` : props.address}
             </Text>
         </View>
     </TouchableOpacity>
