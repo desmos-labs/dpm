@@ -1,4 +1,4 @@
-import React, {useCallback} from "react";
+import React, {useCallback, useMemo} from "react";
 import {DrawerContentComponentProps} from "@react-navigation/drawer";
 import {useTranslation} from "react-i18next";
 import {Subtitle} from "./Subtitle";
@@ -8,19 +8,30 @@ import StyledSafeAreaView from "./StyledSafeAreaView";
 import {FlatList, Image, View, ListRenderItemInfo} from "react-native";
 import {useRecoilValue} from "recoil";
 import AccountStore from "../store/AccountStore";
-import {ChainAccount} from "../types/chain";
-import useSaveSelectedAccount from "../hooks/useSaveSelectedAccount";
+import {CachedDesmosProfile, ChainAccount} from "../types/chain";
 import {IconButton} from "react-native-paper";
-import useSelectedAccount from "../hooks/useSelectedAccount";
 import {ListItemSeparator, ProfileListItem} from "./index";
+import ChainStore from "../store/ChainStore";
+import useSaveSelectedAccount from "../hooks/useSaveSelectedAccount";
+import useSelectedAccount from "../hooks/useSelectedAccount";
+
+type AccountProfilePair = [ChainAccount, CachedDesmosProfile | null];
 
 export const AppDrawerContent: React.FC<DrawerContentComponentProps> = (props) => {
     const {navigation} = props;
     const {t} = useTranslation();
     const styles = useStyle();
     const accounts = useRecoilValue(AccountStore.chainAccounts);
+    const profiles = useRecoilValue(ChainStore.profiles);
     const selectedAccount = useSelectedAccount();
-    const saveSelectedAccount = useSaveSelectedAccount()
+    const saveSelectedAccount = useSaveSelectedAccount();
+
+    const accountProfilePair: AccountProfilePair[] = useMemo(() => {
+        return accounts.map(a => {
+            const profile = profiles[a.address] ?? null;
+            return [a, profile];
+        })
+    }, [accounts, profiles])
 
     const addAccount = useCallback(() => {
         navigation.closeDrawer();
@@ -34,27 +45,34 @@ export const AppDrawerContent: React.FC<DrawerContentComponentProps> = (props) =
         console.warn("Settings screen not implemented")
     }, [])
 
-    const changeAccount = useCallback((account: ChainAccount) => {
+    const onChangeAccount = useCallback((pair: AccountProfilePair) => {
+        const [account] = pair;
         if (account.address !== selectedAccount?.address) {
             saveSelectedAccount(account, true);
-            navigation.navigate({
-                name: "AccountScreen",
-                params: {
-                    account,
-                }
+            navigation.reset({
+                index: 0,
+                routes: [{
+                    name: "AccountScreen",
+                    params: {
+                        account,
+                    }
+                }],
             })
         } else {
             navigation.closeDrawer();
         }
     }, [saveSelectedAccount, navigation, selectedAccount]);
 
-    const renderAccounts = useCallback(({item}: ListRenderItemInfo<ChainAccount>) => (
-        // TODO: Populate the item with the values cached from the chain...
-        <ProfileListItem
-            address={item.address}
-            onPress={() => changeAccount(item)}
+    const renderAccounts = useCallback(({item}: ListRenderItemInfo<AccountProfilePair>) => {
+        const [account, profile] = item;
+        return <ProfileListItem
+            address={account.address}
+            nickname={profile?.nickname}
+            dtag={profile?.dtag}
+            image={profile?.cachedProfilePictureUri ? {uri: profile.cachedProfilePictureUri} : undefined}
+            onPress={() => onChangeAccount(item)}
         />
-    ), [changeAccount]);
+    }, [onChangeAccount]);
 
     return <StyledSafeAreaView>
         <IconButton
@@ -76,14 +94,18 @@ export const AppDrawerContent: React.FC<DrawerContentComponentProps> = (props) =
 
             <FlatList
                 style={styles.accountsList}
-                data={accounts}
-                keyExtractor={i => i.address}
+                data={accountProfilePair}
+                keyExtractor={i => i[0].address}
                 renderItem={renderAccounts}
                 ItemSeparatorComponent={ListItemSeparator}
             />
         </View>
 
-        <Button mode="outlined" onPress={addAccount}>
+        <Button
+            style={styles.addAccountBtn}
+            mode="outlined"
+            onPress={addAccount}
+        >
             {t("add account")}
         </Button>
     </StyledSafeAreaView>
@@ -107,4 +129,7 @@ const useStyle = makeStyle(theme => ({
     accountsList: {
         marginTop: theme.spacing.m,
     },
+    addAccountBtn: {
+        marginTop: theme.spacing.s,
+    }
 }))
