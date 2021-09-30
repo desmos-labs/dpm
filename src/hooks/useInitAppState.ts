@@ -1,6 +1,7 @@
 import {useEffect, useState} from "react";
 import useLoadAccounts from "./useLoadAccounts";
 import {useInitI18n} from "../i18n/i18n";
+import useLoadAllProfiles from "./useLoadAllProfiles";
 
 export type InitState = {
     initializing: boolean,
@@ -19,15 +20,16 @@ export default function useInitAppState(): InitState {
 
     const initLocalization = useInitI18n();
     const loadAccounts = useLoadAccounts();
-
+    const loadProfiles = useLoadAllProfiles();
 
 
     useEffect(() => {
-        // Load all the account from the disk.
         (async () => {
             try {
                 await initLocalization();
+                // Load accounts and profiles from disk.
                 await loadAccounts();
+                await loadProfiles();
 
                 setState({
                     initializing: false,
