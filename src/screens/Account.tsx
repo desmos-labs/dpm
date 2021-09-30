@@ -3,12 +3,11 @@ import {makeStyle} from "../theming";
 import {IconButton} from "react-native-paper";
 import {StackScreenProps} from "@react-navigation/stack";
 import {AccountScreensStackParams, AppDrawerParams} from "../types/navigation";
-import React, {useCallback, useEffect, useMemo} from 'react';
+import React, {useCallback, useMemo} from 'react';
 import {ProfileHeader} from "../components/ProfileHeader";
-import useProfile from "../hooks/useProfile";
-import useFetchProfile from "../hooks/useFetchProfile";
 import {CompositeScreenProps} from "@react-navigation/native";
 import {DrawerScreenProps} from "@react-navigation/drawer";
+import useFetchProfile from "../hooks/useFetchProfile";
 
 
 type Props = CompositeScreenProps<StackScreenProps<AccountScreensStackParams, "Account">,
@@ -18,13 +17,8 @@ export default function Account(props: Props): JSX.Element {
 
     const {navigation} = props;
     const classes = useStyles();
-    const {account} = props.route.params;
-    const profile = useProfile();
-    const fetchProfile = useFetchProfile();
-
-    useEffect(() => {
-        fetchProfile(account.address);
-    }, [fetchProfile, account])
+    const account = props.route.params.account;
+    const profile = useFetchProfile(account.address);
 
     const drawerIconButton = useMemo(() => {
         return <IconButton icon="menu" color="#fff" onPress={() => {

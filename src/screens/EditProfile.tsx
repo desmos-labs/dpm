@@ -8,7 +8,6 @@ import {TextInput} from "react-native-paper";
 import {CompositeScreenProps} from "@react-navigation/native";
 import useBroadcastTx from "../hooks/useBroadcastTx";
 import {MsgSaveProfileEncodeObject} from "@desmoslabs/sdk-core";
-import useFetchProfile from "../hooks/useFetchProfile";
 
 const useStyles = makeStyle(theme => ({
     input: {
@@ -33,7 +32,6 @@ export const EditProfile: React.FC<Props> = (props) => {
     const [bio, setBio] = useState(currentProfile?.bio ?? "");
     const [profilePicture, setProfilePicture] = useState(currentProfile?.profilePicture ?? "");
     const [coverPicture, setCoverPicture] = useState(currentProfile?.coverPicture ?? "");
-    const fetchProfile = useFetchProfile();
 
     const onSavePressed = async () => {
         try {
@@ -49,7 +47,6 @@ export const EditProfile: React.FC<Props> = (props) => {
                 }
             }
             await broadcastTx(account, [msg]);
-            await fetchProfile();
             props.navigation.pop();
         } catch (e) {
             console.error(e);
