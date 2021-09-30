@@ -4,5 +4,5 @@ export enum StoreKeysEnum {
     walletConnect = 'walletConnect',
     walletConnectSettledSessions = 'walletConnectSettledSessions',
     walletConnectSessionRequests = 'walletConnectSessionRequests',
-    useProfile = 'userProfile',
+    profiles = 'profiles',
 }

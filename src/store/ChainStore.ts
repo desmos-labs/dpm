@@ -1,16 +1,16 @@
 import {atom} from "recoil";
 import {StoreKeysEnum} from "./StoreKeysEnum";
-import {DesmosProfile} from "@desmoslabs/sdk-core";
+import {CachedDesmosProfile} from "../types/chain";
 
 /**
- * Atom that should contain the profile associated to the
- * current selected profile.
+ * Atom that contains all the profiles associated to the
+ * accounts presents inside the application.
  */
-const userProfile = atom<DesmosProfile | null>({
-    key: StoreKeysEnum.useProfile,
-    default: null
-})
+const profiles = atom<Record<string, CachedDesmosProfile>>({
+    key: StoreKeysEnum.profiles,
+    default: {}
+});
 
 export default {
-    userProfile
+    profiles,
 }
