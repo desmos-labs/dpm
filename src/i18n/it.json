@@ -37,6 +37,7 @@
   "please enter you recovery passphrase": "Per favore inserisci la recovery passphrase (12 or 24 parole) e verifica che le parole siano scritte correttamente e nell'ordine corretto",
   "recovery passphrase": "Recovery passphrase",
   "enter recovery passphrase placeholder": "Per favore inserisci la recovery passphrase (12 or 24 parole) separando le parole con degli spazzi",
+  "add account": "Aggiungi account",
 
   "accounts": "Account",
   "sessions": "Sessioni",
