@@ -245,9 +245,8 @@ export class ProfileSource {
                         fromUrl: profile.profilePicture!,
                         toFile: destFile,
                         cacheable: false
-                    });
+                    }).promise;
                 }
-                await RNFS.stat(destFile);
                 newProfile.cachedProfilePictureUri = `file://${destFile}`;
                 changed = true;
             }
@@ -261,9 +260,12 @@ export class ProfileSource {
                 if (remoteResourceOverride?.coverPicture !== undefined) {
                     await RNFS.copyFile(remoteResourceOverride.coverPicture, destFile);
                 } else {
-                    await RNFS.downloadFile({fromUrl: profile.coverPicture!, toFile: destFile});
+                    await RNFS.downloadFile({
+                        fromUrl: profile.coverPicture!,
+                        toFile: destFile,
+                        cacheable: false,
+                    }).promise;
                 }
-                await RNFS.stat(destFile);
                 newProfile.cachedCoverPictureUri = `file://${destFile}`;
                 changed = true;
             }
