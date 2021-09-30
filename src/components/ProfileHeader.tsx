@@ -3,14 +3,14 @@ import {Image, Text, View} from "react-native";
 import {IconButton} from "react-native-paper";
 import Clipboard from "@react-native-community/clipboard";
 import {makeStyle} from "../theming";
-import {DesmosProfile} from "@desmoslabs/sdk-core";
 import {useTranslation} from "react-i18next";
 import {Divider} from "./Divider";
 import {AvatarImage} from "./AvatarImage";
+import {CachedDesmosProfile} from "../types/chain";
 
 export type Props = {
     accountAddress: string
-    profile: DesmosProfile | null,
+    profile: CachedDesmosProfile | null,
     openProfileEdit?: () => void,
     topRightElement?: ReactNode | null
     topLeftElement?: ReactNode | null
@@ -25,14 +25,14 @@ export const ProfileHeader: React.FC<Props> = (props) => {
     const {profile, accountAddress} = props;
 
     const coverPicture = useMemo(() => {
-        return profile?.coverPicture ? {
-            uri: profile?.coverPicture
+        return profile?.cachedCoverPictureUri ? {
+            uri: profile?.cachedCoverPictureUri
         } : require("../assets/default-profile-cover.png");
     }, [profile])
 
     const profilePicture = useMemo(() => {
-        return profile?.profilePicture ? {
-            uri: profile?.profilePicture
+        return profile?.cachedProfilePictureUri ? {
+            uri: profile?.cachedProfilePictureUri
         } : require("../assets/desmos-icon-gray.png");
     }, [profile]);
 
