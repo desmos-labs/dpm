@@ -10,6 +10,7 @@ export const SecureTextInput: React.FC<TextInputProps> = (props) => {
     return <TextInput
         {...props}
         secureTextEntry={hideText}
+        textAlignVertical="center"
         rightElement={<IconButton
             icon={hideText ? "eye-off-outline" : "eye-outline"}
             color={theme.colors.icon}
