@@ -4,7 +4,7 @@ import {StackScreenProps} from "@react-navigation/stack";
 import {AccountScreensStackParams} from "../types/navigation";
 import {SecureTextInput} from "../components/SecureTextInput";
 import {useTranslation} from "react-i18next";
-import {Button, StyledSafeAreaView} from "../components";
+import {Button, Paragraph, StyledSafeAreaView} from "../components";
 import WalletSource from "../sources/LocalWalletsSource";
 import {Subheading, Surface, Title} from "react-native-paper";
 import {makeStyle} from "../theming";
@@ -82,13 +82,14 @@ export const UnlockWallet: React.FC<Props> = (props) => {
             <Title>
                 {t("unlock wallet")}
             </Title>
+            <Paragraph fontSize={16}>
+                {t("password")}
+            </Paragraph>
             <SecureTextInput
                 style={styles.password}
-                label={t("password")}
                 value={password}
-                disabled={loading}
                 onChangeText={setPassword}
-                error={error !== null}
+                placeholder={t("password")}
             />
             <Subheading
                 style={styles.errorMsg}
