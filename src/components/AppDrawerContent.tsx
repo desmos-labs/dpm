@@ -14,6 +14,7 @@ import {ListItemSeparator, ProfileListItem} from "./index";
 import ChainStore from "../store/ChainStore";
 import useSaveSelectedAccount from "../hooks/useSaveSelectedAccount";
 import useSelectedAccount from "../hooks/useSelectedAccount";
+import useDeleteAccount from "../hooks/useDeleteAccount";
 
 type AccountProfilePair = [ChainAccount, CachedDesmosProfile | null];
 
@@ -25,6 +26,7 @@ export const AppDrawerContent: React.FC<DrawerContentComponentProps> = (props) =
     const profiles = useRecoilValue(ChainStore.profiles);
     const selectedAccount = useSelectedAccount();
     const saveSelectedAccount = useSaveSelectedAccount();
+    const deleteAccount = useDeleteAccount();
 
     const accountProfilePair: AccountProfilePair[] = useMemo(() => {
         return accounts.map(a => {
@@ -45,8 +47,7 @@ export const AppDrawerContent: React.FC<DrawerContentComponentProps> = (props) =
         console.warn("Settings screen not implemented")
     }, [])
 
-    const onChangeAccount = useCallback((pair: AccountProfilePair) => {
-        const [account] = pair;
+    const onChangeAccount = useCallback((account: ChainAccount) => {
         if (account.address !== selectedAccount?.address) {
             saveSelectedAccount(account, true);
             navigation.reset({
@@ -63,9 +64,21 @@ export const AppDrawerContent: React.FC<DrawerContentComponentProps> = (props) =
         }
     }, [saveSelectedAccount, navigation, selectedAccount]);
 
-    const deleteAccount = useCallback((pair: AccountProfilePair) => {
-        console.warn("delete account not implemented");
-    }, []);
+    const onDeleteAccount = useCallback(async (pair: AccountProfilePair) => {
+        const [account] = pair;
+        const accounts = await deleteAccount(account);
+        if (accounts.length === 0) {
+            navigation.reset({
+                index: 0,
+                routes: [{
+                    name: "AccountCreationScreens",
+                    params: undefined,
+                }],
+            })
+        } else {
+            onChangeAccount(accounts[0]);
+        }
+    }, [navigation, deleteAccount, onChangeAccount]);
 
     const editProfile = useCallback((pair: AccountProfilePair) => {
         console.warn("edit profile not implemented");
@@ -78,11 +91,11 @@ export const AppDrawerContent: React.FC<DrawerContentComponentProps> = (props) =
             nickname={profile?.nickname}
             dtag={profile?.dtag}
             image={profile?.cachedProfilePictureUri ? {uri: profile.cachedProfilePictureUri} : undefined}
-            onPress={() => onChangeAccount(item)}
+            onPress={() => onChangeAccount(item[0])}
             onEdit={() => editProfile(item)}
-            onDelete={() => deleteAccount(item)}
+            onDelete={() => onDeleteAccount(item)}
         />
-    }, [onChangeAccount, editProfile, deleteAccount]);
+    }, [onChangeAccount, editProfile, onDeleteAccount]);
 
     return <StyledSafeAreaView>
         <IconButton
