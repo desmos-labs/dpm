@@ -1,15 +1,16 @@
 import {StyledSafeAreaView, Button, Divider} from "../components";
 import {makeStyle} from "../theming";
-import {IconButton} from "react-native-paper";
+import {IconButton, Snackbar, useTheme} from "react-native-paper";
 import {StackScreenProps} from "@react-navigation/stack";
 import {AccountScreensStackParams, AppDrawerParams} from "../types/navigation";
-import React, {useCallback, useMemo} from 'react';
+import React, {useCallback, useMemo, useState} from 'react';
 import {ProfileHeader} from "../components/ProfileHeader";
 import {CompositeScreenProps} from "@react-navigation/native";
 import {DrawerScreenProps} from "@react-navigation/drawer";
 import useFetchProfile from "../hooks/useFetchProfile";
 import {Image, View, Text} from "react-native";
 import {useTranslation} from "react-i18next";
+import Clipboard from "@react-native-community/clipboard";
 
 
 type Props = CompositeScreenProps<StackScreenProps<AccountScreensStackParams, "Account">,
@@ -18,10 +19,12 @@ type Props = CompositeScreenProps<StackScreenProps<AccountScreensStackParams, "A
 export default function Account(props: Props): JSX.Element {
 
     const {navigation} = props;
+    const theme = useTheme();
     const account = props.route.params.account;
     const {t} = useTranslation();
     const styles = useStyles();
     const profile = useFetchProfile(account.address);
+    const [snackBarMessage, setShowSnackbar] = useState<string | null>(null)
 
     const drawerIconButton = useMemo(() => {
         return <IconButton icon="menu" color="#fff" onPress={() => {
@@ -57,6 +60,11 @@ export default function Account(props: Props): JSX.Element {
         })
     }, [navigation, account]);
 
+    const onAddressCopy = useCallback(() => {
+        Clipboard.setString(account.address)
+        setShowSnackbar(t("address copied"));
+    }, [t, account]);
+
     return <StyledSafeAreaView
         style={styles.root}
     >
@@ -65,6 +73,7 @@ export default function Account(props: Props): JSX.Element {
             profile={profile}
             topLeftElement={drawerIconButton}
             topRightElement={editProfileButton}
+            onCopyPressed={onAddressCopy}
         />
         <Divider style={styles.profileHeaderDivider}/>
         <View style={styles.content}>
@@ -92,6 +101,16 @@ export default function Account(props: Props): JSX.Element {
                 </Button>
             </>}
         </View>
+        <Snackbar
+            visible={snackBarMessage !== null}
+            onDismiss={() => setShowSnackbar(null)}
+            action={{
+                label: t("hide")
+            }}
+            duration={Snackbar.DURATION_SHORT}
+        >
+            {snackBarMessage}
+        </Snackbar>
     </StyledSafeAreaView>
 }
 

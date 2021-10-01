@@ -1,7 +1,7 @@
-import React, {ReactNode, useCallback, useMemo} from "react";
+import React, {ReactNode, useMemo} from "react";
 import {Image, Text, View} from "react-native";
 import {IconButton} from "react-native-paper";
-import Clipboard from "@react-native-community/clipboard";
+
 import {makeStyle} from "../theming";
 import {useTranslation} from "react-i18next";
 import {AvatarImage} from "./AvatarImage";
@@ -9,6 +9,7 @@ import {CachedDesmosProfile} from "../types/chain";
 
 export type Props = {
     profile: CachedDesmosProfile | null,
+    onCopyPressed?: () => void,
     accountAddress?: string,
     hideDtag?: boolean,
     hideNickName?: boolean,
@@ -35,10 +36,6 @@ export const ProfileHeader: React.FC<Props> = (props) => {
             uri: profile?.cachedProfilePictureUri
         } : require("../assets/desmos-icon-gray.png");
     }, [profile]);
-
-    const onCopyPressed = useCallback(() => {
-        Clipboard.setString(accountAddress!);
-    }, [accountAddress])
 
     return <View
         style={styles.root}
@@ -78,7 +75,7 @@ export const ProfileHeader: React.FC<Props> = (props) => {
         </View>
 
         {props.hideNickName !== true && profile?.nickname &&
-            <Text style={styles.nickName}>{profile.nickname}</Text>}
+        <Text style={styles.nickName}>{profile.nickname}</Text>}
         {props.hideDtag !== true && profile?.dtag &&
         <Text style={styles.dtag}>@{profile.dtag}</Text>}
 
@@ -93,7 +90,7 @@ export const ProfileHeader: React.FC<Props> = (props) => {
                 <IconButton
                     icon="content-copy"
                     size={14}
-                    onPress={onCopyPressed}
+                    onPress={props.onCopyPressed}
                 />
                 <Text>{t("copy")}</Text>
             </View>
