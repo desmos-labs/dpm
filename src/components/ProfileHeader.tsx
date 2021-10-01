@@ -4,14 +4,14 @@ import {IconButton} from "react-native-paper";
 import Clipboard from "@react-native-community/clipboard";
 import {makeStyle} from "../theming";
 import {useTranslation} from "react-i18next";
-import {Divider} from "./Divider";
 import {AvatarImage} from "./AvatarImage";
 import {CachedDesmosProfile} from "../types/chain";
 
 export type Props = {
-    accountAddress: string
     profile: CachedDesmosProfile | null,
-    openProfileEdit?: () => void,
+    accountAddress?: string,
+    hideDtag?: boolean,
+    hideNickName?: boolean,
     topRightElement?: ReactNode | null
     topLeftElement?: ReactNode | null
     onEditProfilePicture?: () => void,
@@ -37,7 +37,7 @@ export const ProfileHeader: React.FC<Props> = (props) => {
     }, [profile]);
 
     const onCopyPressed = useCallback(() => {
-        Clipboard.setString(accountAddress);
+        Clipboard.setString(accountAddress!);
     }, [accountAddress])
 
     return <View
@@ -76,9 +76,13 @@ export const ProfileHeader: React.FC<Props> = (props) => {
                 style={styles.editProfilePictureBtn}
             />}
         </View>
-        {profile?.nickname && <Text style={styles.nickName}>{profile.nickname}</Text>}
-        {profile?.dtag && <Text style={styles.dtag}>@{profile.dtag}</Text>}
-        <View style={styles.addressContainer}>
+
+        {props.hideNickName !== true && profile?.nickname &&
+            <Text style={styles.nickName}>{profile.nickname}</Text>}
+        {props.hideDtag !== true && profile?.dtag &&
+        <Text style={styles.dtag}>@{profile.dtag}</Text>}
+
+        {props.accountAddress && <View style={styles.addressContainer}>
             <Text
                 style={styles.address}
                 lineBreakMode={"tail"}
