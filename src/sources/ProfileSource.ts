@@ -301,17 +301,21 @@ export class ProfileSource {
             const profileDir = await this.profileFilesDirectoryPath(address);
             const profileFile = await this.profileFile(address);
             // Delete the json file
-            await RNFS.unlink(profileFile).catch(console.error);
+            await RNFS.unlink(profileFile)
+                .catch(e => console.error("unlink profileFile", e));
             // Delete the cached cover picture
-            if (profile.coverPicture) {
-                await RNFS.unlink(profile.coverPicture).catch(console.error);
+            if (profile.cachedCoverPictureUri) {
+                await RNFS.unlink(profile.cachedCoverPictureUri.replace("file://", ""))
+                    .catch(e => console.error("unlink coverPicture", e));
             }
             // Delete the cached profile picture
-            if (profile.profilePicture) {
-                await RNFS.unlink(profile.profilePicture).catch(console.error);
+            if (profile.cachedProfilePictureUri) {
+                await RNFS.unlink(profile.cachedProfilePictureUri.replace("file://", ""))
+                    .catch(e => console.error("unlink profilePicture", e));
             }
             // Delete the profile dir
-            await RNFS.unlink(profileDir).catch(console.error);
+            await RNFS.unlink(profileDir)
+                .catch(e => console.error("unlink profileDir", e));
             await this.removeSavedProfilesAddress(profile.address);
         }
     }
