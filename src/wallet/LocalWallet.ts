@@ -33,6 +33,11 @@ export default class LocalWallet implements OfflineDirectSigner {
     readonly publicKey: Uint8Array;
     private readonly _address: string;
 
+    /**
+     *
+     * @param privateKey - The private key.
+     * @param publicKey - The compressed public key.
+     */
     constructor(privateKey: Uint8Array, publicKey: Uint8Array) {
         this.privateKey = privateKey;
         this.publicKey = publicKey
@@ -63,7 +68,7 @@ export default class LocalWallet implements OfflineDirectSigner {
 
     public serialize(): string {
         const json = {
-            version: 1,
+            version: 2,
             privateKey: toBase64(this.privateKey),
             publicKey: toBase64(this.publicKey),
         };
