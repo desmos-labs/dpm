@@ -237,40 +237,58 @@ export class ProfileSource {
         let changed = storedProfile === null;
         const wasPresent = storedProfile !== null;
 
-        if (isRemoteUrl(profile.profilePicture) &&
-            profile.profilePicture !== storedProfile?.profilePicture) {
-            const extension = getFileExtension(profile.profilePicture!);
-            if (extension !== undefined) {
-                const destFile = await this.profilePictureFile(profile.address, extension);
-                if (remoteResourceOverride?.profilePicture !== undefined) {
-                    await RNFS.copyFile(remoteResourceOverride.profilePicture, destFile);
-                } else {
-                    await RNFS.downloadFile({
-                        fromUrl: profile.profilePicture!,
-                        toFile: destFile,
-                        cacheable: false
-                    }).promise;
+        if (profile.profilePicture !== storedProfile?.profilePicture) {
+            if (isRemoteUrl(profile.profilePicture)) {
+                const extension = getFileExtension(profile.profilePicture!);
+                if (extension !== undefined) {
+                    const destFile = await this.profilePictureFile(profile.address, extension);
+                    if (remoteResourceOverride?.profilePicture !== undefined) {
+                        await RNFS.copyFile(remoteResourceOverride.profilePicture, destFile);
+                    } else {
+                        await RNFS.downloadFile({
+                            fromUrl: profile.profilePicture!,
+                            toFile: destFile,
+                            cacheable: false
+                        }).promise;
+                    }
+                    newProfile.cachedProfilePictureUri = `file://${destFile}`;
                 }
-                newProfile.cachedProfilePictureUri = `file://${destFile}`;
+                changed = true;
+            }
+            else if (storedProfile?.cachedProfilePictureUri !== undefined) {
+                await RNFS.unlink(storedProfile.cachedProfilePictureUri)
+                    .catch(e => {
+                        console.error("Error while removing old profile picture", e);
+                    });
+                storedProfile.cachedProfilePictureUri = undefined;
                 changed = true;
             }
         }
 
-        if (isRemoteUrl(profile.coverPicture) &&
-            profile.coverPicture !== storedProfile?.coverPicture) {
-            const extension = getFileExtension(profile.coverPicture!);
-            if (extension !== undefined) {
-                const destFile = await this.coverPictureFile(profile.address, extension);
-                if (remoteResourceOverride?.coverPicture !== undefined) {
-                    await RNFS.copyFile(remoteResourceOverride.coverPicture, destFile);
-                } else {
-                    await RNFS.downloadFile({
-                        fromUrl: profile.coverPicture!,
-                        toFile: destFile,
-                        cacheable: false,
-                    }).promise;
+        if (profile.coverPicture !== storedProfile?.coverPicture) {
+            if (isRemoteUrl(profile.coverPicture)) {
+                const extension = getFileExtension(profile.coverPicture!);
+                if (extension !== undefined) {
+                    const destFile = await this.coverPictureFile(profile.address, extension);
+                    if (remoteResourceOverride?.coverPicture !== undefined) {
+                        await RNFS.copyFile(remoteResourceOverride.coverPicture, destFile);
+                    } else {
+                        await RNFS.downloadFile({
+                            fromUrl: profile.coverPicture!,
+                            toFile: destFile,
+                            cacheable: false,
+                        }).promise;
+                    }
+                    newProfile.cachedCoverPictureUri = `file://${destFile}`;
+                    changed = true;
                 }
-                newProfile.cachedCoverPictureUri = `file://${destFile}`;
+            }
+            else if (storedProfile?.cachedCoverPictureUri !== undefined) {
+                await RNFS.unlink(storedProfile.cachedCoverPictureUri)
+                    .catch(e => {
+                        console.error("Error while removing old cover picture", e);
+                    });
+                storedProfile.cachedCoverPictureUri = undefined;
                 changed = true;
             }
         }
