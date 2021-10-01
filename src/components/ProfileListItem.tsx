@@ -67,6 +67,8 @@ export const ProfileListItem: React.FC<Props> = (props) => {
         <View style={styles.textContainer}>
             <Text
                 style={styles.nickname}
+                numberOfLines={1}
+                ellipsizeMode="tail"
             >
                 {props.nickname ?? "-"}
             </Text>
@@ -113,17 +115,17 @@ const useStyles = makeStyle(theme => ({
     root: {
         display: "flex",
         flexDirection: "row",
-        alignItems: "center"
+        alignItems: "center",
     },
     textContainer: {
         marginLeft: theme.spacing.s,
         flexGrow: 1,
+        flexShrink: 1,
     },
     nickname: {
         color: theme.colors.primary,
     },
     dtag: {
-
     },
     menuDivider: {
         marginHorizontal: 16,
