@@ -1,5 +1,5 @@
-import {StackHeaderProps} from "@react-navigation/stack";
 import React from "react";
+import {StackHeaderProps} from "@react-navigation/stack";
 import {Appbar, useTheme} from "react-native-paper";
 import {StyleProp, ViewStyle} from "react-native";
 

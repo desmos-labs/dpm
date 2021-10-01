@@ -34,8 +34,13 @@ export default function useFetchProfile(address: string): CachedDesmosProfile | 
                 }
             } catch (e) {
                 console.error(e);
-            }})()
+            }
+        })()
     }, [client, address, setProfile, setProfiles]);
+
+    useEffect(() => {
+        setProfile(profiles[address] ?? null);
+    }, [profiles, setProfile, address]);
 
     return profile;
 }

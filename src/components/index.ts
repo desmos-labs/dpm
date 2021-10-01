@@ -16,6 +16,7 @@ import {ListItemSeparator} from "./ListItemSeparator";
 import {PasswordComplexity} from "./PasswordComplexityScore";
 import {AvatarImage} from "./AvatarImage";
 import {ProfileListItem} from "./ProfileListItem";
+import {InlineInput} from "./InlineInput";
 
 
 export {
@@ -37,4 +38,5 @@ export {
     PasswordComplexity,
     AvatarImage,
     ProfileListItem,
+    InlineInput,
 }

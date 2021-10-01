@@ -1,9 +1,8 @@
 import {createStackNavigator} from '@react-navigation/stack';
-import {ChainAccount} from './chain';
+import {CachedDesmosProfile, ChainAccount} from './chain';
 import {WalletConnectRequestEvent} from '../store/WalletConnectStore';
 import {CosmosTx, SignedCosmosTx} from './tx';
 import {SessionTypes} from '@walletconnect/types';
-import {DesmosProfile} from "@desmoslabs/sdk-core";
 import LocalWallet from "../wallet/LocalWallet";
 import {EncodeObject} from "@cosmjs/proto-signing";
 import {createDrawerNavigator} from "@react-navigation/drawer";
@@ -47,7 +46,7 @@ export type AccountScreensStackParams = {
     },
     EditProfile: {
         account: ChainAccount,
-        currentProfile: DesmosProfile | null,
+        profile: CachedDesmosProfile | null,
     },
     AccountSessions: {
         account: ChainAccount;

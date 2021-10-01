@@ -81,8 +81,15 @@ export const AppDrawerContent: React.FC<DrawerContentComponentProps> = (props) =
     }, [navigation, deleteAccount, onChangeAccount]);
 
     const editProfile = useCallback((pair: AccountProfilePair) => {
-        console.warn("edit profile not implemented");
-    }, [])
+        navigation.navigate({
+            name: "EditProfile",
+            params: {
+                account: pair[0],
+                profile: pair[1]
+            }
+        });
+        navigation.closeDrawer();
+    }, [navigation])
 
     const renderAccounts = useCallback(({item}: ListRenderItemInfo<AccountProfilePair>) => {
         const [account, profile] = item;
