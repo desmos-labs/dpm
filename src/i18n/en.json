@@ -42,6 +42,8 @@
   "recovery passphrase": "Recovery passphrase",
   "enter recovery passphrase placeholder": "Please enter your recovery passphrase (12 or 24 words) separated by spaces",
   "add account": "Add account",
+  "edit profile": "Edit profile",
+  "delete account": "Delete account",
 
   "accounts": "Accounts",
   "sessions": "Sessions",
@@ -49,7 +51,6 @@
   "dapps": "DAPPs",
   "disconnecting": "Disconnecting...",
   "an error occurred": "Disconnection error",
-  "edit profile": "Edit profile",
   "dtag": "DTag",
   "nickname": "Nickname",
   "bio": "Bio",

@@ -63,6 +63,14 @@ export const AppDrawerContent: React.FC<DrawerContentComponentProps> = (props) =
         }
     }, [saveSelectedAccount, navigation, selectedAccount]);
 
+    const deleteAccount = useCallback((pair: AccountProfilePair) => {
+        console.warn("delete account not implemented");
+    }, []);
+
+    const editProfile = useCallback((pair: AccountProfilePair) => {
+        console.warn("edit profile not implemented");
+    }, [])
+
     const renderAccounts = useCallback(({item}: ListRenderItemInfo<AccountProfilePair>) => {
         const [account, profile] = item;
         return <ProfileListItem
@@ -71,8 +79,10 @@ export const AppDrawerContent: React.FC<DrawerContentComponentProps> = (props) =
             dtag={profile?.dtag}
             image={profile?.cachedProfilePictureUri ? {uri: profile.cachedProfilePictureUri} : undefined}
             onPress={() => onChangeAccount(item)}
+            onEdit={() => editProfile(item)}
+            onDelete={() => deleteAccount(item)}
         />
-    }, [onChangeAccount]);
+    }, [onChangeAccount, editProfile, deleteAccount]);
 
     return <StyledSafeAreaView>
         <IconButton
