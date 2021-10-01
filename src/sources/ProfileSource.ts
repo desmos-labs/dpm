@@ -228,7 +228,11 @@ export class ProfileSource {
      */
     async saveProfile(profile: DesmosProfile, remoteResourceOverride?: RemoteResourceOverride): Promise<[CachedDesmosProfile, boolean]> {
         let storedProfile = await this.getProfile(profile.address);
-        let newProfile: CachedDesmosProfile = {...profile};
+        let newProfile: CachedDesmosProfile = {
+            ...profile,
+            cachedProfilePictureUri: storedProfile?.cachedProfilePictureUri,
+            cachedCoverPictureUri: storedProfile?.cachedCoverPictureUri,
+        };
 
         let changed = storedProfile === null;
         const wasPresent = storedProfile !== null;
