@@ -97,8 +97,7 @@ export const ProfileHeader: React.FC<Props> = (props) => {
                 />
                 <Text>{t("copy")}</Text>
             </View>
-        </View>
-        <Divider style={styles.divider}/>
+        </View>}
     </View>
 }
 
@@ -176,11 +175,5 @@ const useStyles = makeStyle(theme => ({
     address: {
         color: theme.colors.text,
         marginRight: 32,
-    },
-    divider: {
-        width: 63,
-        alignSelf: "flex-start",
-        marginStart: 16,
-        marginTop: 16,
     },
 }))
