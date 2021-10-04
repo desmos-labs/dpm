@@ -1,6 +1,6 @@
 import {StyledSafeAreaView, Button, Divider} from "../components";
 import {makeStyle} from "../theming";
-import {IconButton, Snackbar, useTheme} from "react-native-paper";
+import {IconButton, Snackbar} from "react-native-paper";
 import {StackScreenProps} from "@react-navigation/stack";
 import {AccountScreensStackParams, AppDrawerParams} from "../types/navigation";
 import React, {useCallback, useMemo, useState} from 'react';
@@ -19,7 +19,6 @@ type Props = CompositeScreenProps<StackScreenProps<AccountScreensStackParams, "A
 export default function Account(props: Props): JSX.Element {
 
     const {navigation} = props;
-    const theme = useTheme();
     const account = props.route.params.account;
     const {t} = useTranslation();
     const styles = useStyles();
