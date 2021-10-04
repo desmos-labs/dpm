@@ -52,11 +52,11 @@ export const AppDrawerContent: React.FC<DrawerContentComponentProps> = (props) =
             navigation.reset({
                 index: 0,
                 routes: [{
-                    name: "AccountScreen",
+                    name: "Profile",
                     params: {
                         account,
                     }
-                }],
+                }]
             })
         } else {
             navigation.closeDrawer();

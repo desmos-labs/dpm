@@ -15,6 +15,7 @@ import {useSetRecoilState} from "recoil";
 import ChainStore from "../../store/ChainStore";
 import {Image} from "react-native";
 import {CompositeScreenProps} from "@react-navigation/native";
+import useNavigateToAccountScreen from "../../hooks/useNavigateToAccountScreen";
 
 
 declare type Props = CompositeScreenProps<StackScreenProps<AccountCreationStackParams, "GenerateAccount">,
@@ -34,6 +35,7 @@ export default function GenerateAccount(props: Props): JSX.Element {
     const saveWallet = useSaveWallet();
     const saveAccount = useSaveAccount();
     const saveSelectedAccount = useSaveSelectedAccount();
+    const navigateToAccountScreen = useNavigateToAccountScreen();
 
     const generateAccount = useCallback(async () => {
         setGenerating(true);
@@ -53,20 +55,11 @@ export default function GenerateAccount(props: Props): JSX.Element {
         setGenerating(false);
     }, [saveWallet, wallet, password, saveAccount, saveSelectedAccount]);
 
-    const onContinuePressed = () => {
+    const onContinuePressed = useCallback(() => {
         setAccounts((old) => [...old, account!]);
         setSelectedAccount(account);
-        navigation.reset({
-            index: 0,
-            routes: [{
-                // @ts-ignore
-                name: "AccountScreens",
-                params: {
-                    account,
-                }
-            }]
-        })
-    }
+        navigateToAccountScreen(account!, true);
+    }, [account, setAccounts, setSelectedAccount, navigateToAccountScreen]);
 
     useEffect(() => {
         return navigation.addListener("beforeRemove", e => {
