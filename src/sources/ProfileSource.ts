@@ -260,7 +260,7 @@ export class ProfileSource {
                     .catch(e => {
                         console.error("Error while removing old profile picture", e);
                     });
-                storedProfile.cachedProfilePictureUri = undefined;
+                newProfile.cachedProfilePictureUri = undefined;
                 changed = true;
             }
         }
@@ -288,7 +288,7 @@ export class ProfileSource {
                     .catch(e => {
                         console.error("Error while removing old cover picture", e);
                     });
-                storedProfile.cachedCoverPictureUri = undefined;
+                newProfile.cachedCoverPictureUri = undefined;
                 changed = true;
             }
         }
