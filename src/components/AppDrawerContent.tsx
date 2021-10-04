@@ -4,7 +4,7 @@ import {useTranslation} from "react-i18next";
 import {Subtitle} from "./Subtitle";
 import Button from "./Button";
 import {makeStyle} from "../theming";
-import StyledSafeAreaView from "./StyledSafeAreaView";
+import {StyledSafeAreaView} from "./StyledSafeAreaView";
 import {FlatList, Image, View, ListRenderItemInfo} from "react-native";
 import {useRecoilValue} from "recoil";
 import AccountStore from "../store/AccountStore";

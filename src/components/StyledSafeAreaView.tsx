@@ -1,28 +1,22 @@
 import React from "react";
 import {SafeAreaView, ScrollView, StyleProp, StyleSheet, ViewProps} from "react-native";
-import {makeStyle} from "../theming";
-
-const useClasses = makeStyle((theme) =>({
-    root: {
-        display: "flex",
-        flexDirection: "column",
-        flexGrow: 1,
-        padding: theme.spacing.m,
-        backgroundColor: "#ffffff"
-    }
-}));
+import {makeStyleWithProps} from "../theming";
 
 export type Props = ViewProps & {
     /**
      * True if the content should be wrapped inside a ScrollView.
      */
-    scrollable?: boolean
+    scrollable?: boolean,
+    /**
+     * View padding.
+     */
+    padding?: number,
 };
 
-const StyledSafeAreaView: React.FC<Props> = (props) => {
-    const classes = useClasses();
+export const StyledSafeAreaView: React.FC<Props> = (props) => {
+    const styles = useStyles(props);
 
-    const style = StyleSheet.compose(classes.root as StyleProp<ViewProps>, props.style);
+    const style = StyleSheet.compose(styles.root as StyleProp<ViewProps>, props.style);
     return <SafeAreaView {...props} style={style}>
         {props?.scrollable ? (
             <ScrollView>
@@ -32,4 +26,12 @@ const StyledSafeAreaView: React.FC<Props> = (props) => {
     </SafeAreaView>
 }
 
-export default StyledSafeAreaView;
+const useStyles = makeStyleWithProps((props: Props, theme) =>({
+    root: {
+        display: "flex",
+        flexDirection: "column",
+        flexGrow: 1,
+        padding: props?.padding ?? theme.spacing.m,
+        backgroundColor: "#ffffff"
+    }
+}));
