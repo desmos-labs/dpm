@@ -2,12 +2,11 @@ import {ChainAccount} from "../types/chain";
 import {useCallback} from "react";
 import AccountSource from "../sources/AccountSource";
 import {useRecoilState, useSetRecoilState} from "recoil";
-import AccountStore from "../store/AccountStore";
 import ProfileSource from "../sources/ProfileSource";
 import ChainStore from "../store/ChainStore";
 
 export default function useDeleteAccount(): (toDelete: ChainAccount) => Promise<ChainAccount[]> {
-    const [accounts, setAccounts] = useRecoilState(AccountStore.chainAccounts);
+    const [accounts, setAccounts] = useRecoilState(ChainStore.chainAccounts);
     const setProfiles = useSetRecoilState(ChainStore.profiles);
 
     return useCallback(async (toDelete: ChainAccount) => {

@@ -12,7 +12,7 @@ import {useTranslation} from "react-i18next";
 import {makeStyle} from "../../theming";
 import useSaveSelectedAccount from "../../hooks/useSaveSelectedAccount";
 import {useSetRecoilState} from "recoil";
-import AccountStore from "../../store/AccountStore";
+import ChainStore from "../../store/ChainStore";
 import {Image} from "react-native";
 import {CompositeScreenProps} from "@react-navigation/native";
 
@@ -29,8 +29,8 @@ export default function GenerateAccount(props: Props): JSX.Element {
     const [generating, setGenerating] = useState(true);
     const [error, setError] = useState<string | null>(null);
     const [account, setAccount] = useState<ChainAccount | null>(null);
-    const setSelectedAccount = useSetRecoilState(AccountStore.selectedAccount);
-    const setAccounts = useSetRecoilState(AccountStore.chainAccounts);
+    const setSelectedAccount = useSetRecoilState(ChainStore.selectedAccount);
+    const setAccounts = useSetRecoilState(ChainStore.chainAccounts);
     const saveWallet = useSaveWallet();
     const saveAccount = useSaveAccount();
     const saveSelectedAccount = useSaveSelectedAccount();

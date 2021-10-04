@@ -7,7 +7,6 @@ import {makeStyle} from "../theming";
 import {StyledSafeAreaView} from "./StyledSafeAreaView";
 import {FlatList, Image, View, ListRenderItemInfo} from "react-native";
 import {useRecoilValue} from "recoil";
-import AccountStore from "../store/AccountStore";
 import {CachedDesmosProfile, ChainAccount} from "../types/chain";
 import {IconButton} from "react-native-paper";
 import {ListItemSeparator, ProfileListItem} from "./index";
@@ -22,7 +21,7 @@ export const AppDrawerContent: React.FC<DrawerContentComponentProps> = (props) =
     const {navigation} = props;
     const {t} = useTranslation();
     const styles = useStyle();
-    const accounts = useRecoilValue(AccountStore.chainAccounts);
+    const accounts = useRecoilValue(ChainStore.chainAccounts);
     const profiles = useRecoilValue(ChainStore.profiles);
     const selectedAccount = useSelectedAccount();
     const saveSelectedAccount = useSaveSelectedAccount();

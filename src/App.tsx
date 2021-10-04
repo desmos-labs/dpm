@@ -4,7 +4,7 @@ import {Provider as PaperProvider} from "react-native-paper";
 import {AppTheme} from "./theming";
 import {SplashScreen} from "./screens/SplashScreen";
 import {DesmosSdkProvider} from "@desmoslabs/sdk-react";
-import AccountStore from "./store/AccountStore";
+import ChainStore from "./store/ChainStore";
 import {NavigationContainer, NavigationContainerRef} from "@react-navigation/native";
 import {AccountScreensStackParams, RootStack} from "./types/navigation";
 import WalletConnectStore from "./store/WalletConnectStore";
@@ -14,10 +14,10 @@ import useInitAppState from "./hooks/useInitAppState";
 
 function AppContent(): JSX.Element {
     const appState = useInitAppState();
-    const accounts = useRecoilValue(AccountStore.chainAccounts);
+    const accounts = useRecoilValue(ChainStore.chainAccounts);
     const navigatorRef = useRef<NavigationContainerRef<AccountScreensStackParams>>(null);
     const requests = useRecoilValue(WalletConnectStore.sessionRequests);
-    const selectedAccount = useRecoilValue(AccountStore.selectedAccount);
+    const selectedAccount = useRecoilValue(ChainStore.selectedAccount);
 
     const loading = appState.initializing;
 
