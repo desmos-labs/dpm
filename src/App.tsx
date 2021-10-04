@@ -11,6 +11,7 @@ import WalletConnectStore from "./store/WalletConnectStore";
 import AccountCreationScreens from "./navigation/AccountCreationScreens";
 import AccountScreens from "./navigation/AccountScreens";
 import useInitAppState from "./hooks/useInitAppState";
+import {ModalScreen} from "./modals/ModalScreen";
 
 function AppContent(): JSX.Element {
     const appState = useInitAppState();
@@ -70,6 +71,11 @@ function AppContent(): JSX.Element {
             <RootStack.Screen name="SplashScreen" component={SplashScreen}/>
             <RootStack.Screen name="AccountScreens" component={AccountScreens}/>
             <RootStack.Screen name="AccountCreationScreens" component={AccountCreationScreens}/>
+            <RootStack.Screen name="ModalScreen" component={ModalScreen}
+                options={{
+                    presentation: "transparentModal"
+                }}
+            />
         </RootStack.Navigator>
     </NavigationContainer>;
 }

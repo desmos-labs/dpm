@@ -6,6 +6,8 @@ import {SessionTypes} from '@walletconnect/types';
 import LocalWallet from "../wallet/LocalWallet";
 import {EncodeObject} from "@cosmjs/proto-signing";
 import {createDrawerNavigator} from "@react-navigation/drawer";
+import React from "react";
+import {StackNavigationProp} from "@react-navigation/stack/lib/typescript/src/types";
 
 export type AccountCreationStackParams = {
     Home: undefined;
@@ -80,11 +82,22 @@ export type AccountScreensStackParams = {
 
 export const AccountScreensStack = createStackNavigator<AccountScreensStackParams>();
 
+export type ModalComponentProps<T> = {
+    navigation: StackNavigationProp<RootStackParams>,
+    params: T
+}
+
+export type ModalComponent<T> = React.FC<ModalComponentProps<T>>
+
 export type RootStackParams = {
     SplashScreen: undefined,
     AccountCreationScreens: undefined,
     AccountScreens: {
         account: ChainAccount
+    },
+    ModalScreen: {
+        component: ModalComponent<any>,
+        params?: any
     },
 }
 
