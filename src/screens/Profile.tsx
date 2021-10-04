@@ -13,10 +13,10 @@ import {useTranslation} from "react-i18next";
 import Clipboard from "@react-native-community/clipboard";
 
 
-type Props = CompositeScreenProps<StackScreenProps<AccountScreensStackParams, "Account">,
-    DrawerScreenProps<AppDrawerParams>>;
+type Props = CompositeScreenProps<DrawerScreenProps<AppDrawerParams, "Profile">,
+    StackScreenProps<AccountScreensStackParams>>;
 
-export default function Account(props: Props): JSX.Element {
+export default function Profile(props: Props): JSX.Element {
 
     const {navigation} = props;
     const account = props.route.params.account;

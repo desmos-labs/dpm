@@ -11,16 +11,16 @@ import WalletConnectRequest from "../screens/WalletConnectRequest";
 import SignTx from "../screens/SignTx";
 import {NavigationBar} from "../components";
 import {useTranslation} from "react-i18next";
-import Account from "../screens/Account";
+import Profile from "../screens/Profile";
 import {EditProfile} from "../screens/EditProfile";
 import {UnlockWallet} from "../screens/UnlockWallet";
 import {BroadcastTx} from "../screens/BroadcastTx";
 import {AppDrawerContent} from "../components/AppDrawerContent";
 import {StackScreenProps} from "@react-navigation/stack";
 
-type AccountAppDrawerProps = StackScreenProps<AccountScreensStackParams, "Account">
+type ProfileWithAppDrawerProps = StackScreenProps<AccountScreensStackParams, "ProfileWithDrawerMenu">
 
-function AccountWithAppDrawer(props: AccountAppDrawerProps) {
+function ProfileWithDrawerMenu(props: ProfileWithAppDrawerProps) {
     return <AppDrawer.Navigator
         screenOptions={{
             headerShown: false,
@@ -28,8 +28,8 @@ function AccountWithAppDrawer(props: AccountAppDrawerProps) {
         drawerContent={props => <AppDrawerContent {...props} />}
     >
         <AppDrawer.Screen
-            name="AccountScreen"
-            component={Account}
+            name="Profile"
+            component={Profile}
             initialParams={{
                 account: props.route.params.account
             }}
@@ -43,14 +43,14 @@ export default function AccountScreens(props: AccountScreensProps) {
     const {t} = useTranslation();
 
     return <AccountScreensStack.Navigator
-        initialRouteName={"Account"}
+        initialRouteName={"ProfileWithDrawerMenu"}
         screenOptions={{
             header: NavigationBar,
         }}
     >
         <AccountScreensStack.Screen
-            name="Account"
-            component={AccountWithAppDrawer}
+            name="ProfileWithDrawerMenu"
+            component={ProfileWithDrawerMenu}
             options={{
                 headerShown: false,
             }}

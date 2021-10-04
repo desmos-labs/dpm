@@ -33,7 +33,7 @@ export type AccountCreationStackParams = {
 export const AccountCreationStack = createStackNavigator<AccountCreationStackParams>();
 
 export type AppDrawerParams = {
-    AccountScreen: {
+    Profile: {
         account: ChainAccount,
     }
 }
@@ -41,7 +41,7 @@ export type AppDrawerParams = {
 export const AppDrawer = createDrawerNavigator<AppDrawerParams>()
 
 export type AccountScreensStackParams = {
-    Account: {
+    ProfileWithDrawerMenu: {
         account: ChainAccount,
     },
     EditProfile: {
