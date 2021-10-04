@@ -72,8 +72,6 @@ export const EditProfile: React.FC<Props> = (props) => {
             profilePictureUri={profile?.cachedProfilePictureUri}
             onEditCoverPicture={onEditCoverPicture}
             onEditProfilePicture={onEditProfilePicture}
-            hideDtag
-            hideNickName
         />
         <View style={styles.content}>
             <InlineInput
