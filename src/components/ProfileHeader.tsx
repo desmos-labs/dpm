@@ -1,20 +1,19 @@
 import React, {ReactNode, useMemo} from "react";
 import {Image, Text, View} from "react-native";
 import {IconButton} from "react-native-paper";
-
 import {makeStyle} from "../theming";
 import {useTranslation} from "react-i18next";
 import {AvatarImage} from "./AvatarImage";
-import {CachedDesmosProfile} from "../types/chain";
 
 export type Props = {
-    profile: CachedDesmosProfile | null,
-    onCopyPressed?: () => void,
-    accountAddress?: string,
-    hideDtag?: boolean,
-    hideNickName?: boolean,
+    address?: string,
+    dtag?: string,
+    nickname?: string,
+    coverPictureUri?: string,
+    profilePictureUri?: string,
     topRightElement?: ReactNode | null
     topLeftElement?: ReactNode | null
+    onCopyPressed?: () => void,
     onEditProfilePicture?: () => void,
     onEditCoverPicture?: () => void,
 }
@@ -23,19 +22,19 @@ export const ProfileHeader: React.FC<Props> = (props) => {
 
     const styles = useStyles();
     const {t} = useTranslation();
-    const {profile, accountAddress} = props;
+    const {address, dtag, nickname, coverPictureUri, profilePictureUri} = props;
 
     const coverPicture = useMemo(() => {
-        return profile?.cachedCoverPictureUri ? {
-            uri: profile?.cachedCoverPictureUri
+        return coverPictureUri ? {
+            uri: coverPictureUri
         } : require("../assets/default-profile-cover.png");
-    }, [profile])
+    }, [coverPictureUri])
 
     const profilePicture = useMemo(() => {
-        return profile?.cachedProfilePictureUri ? {
-            uri: profile?.cachedProfilePictureUri
+        return profilePictureUri ? {
+            uri: profilePictureUri
         } : require("../assets/desmos-icon-gray.png");
-    }, [profile]);
+    }, [profilePictureUri]);
 
     return <View
         style={styles.root}
@@ -74,17 +73,15 @@ export const ProfileHeader: React.FC<Props> = (props) => {
             />}
         </View>
 
-        {props.hideNickName !== true && profile?.nickname &&
-        <Text style={styles.nickName}>{profile.nickname}</Text>}
-        {props.hideDtag !== true && profile?.dtag &&
-        <Text style={styles.dtag}>@{profile.dtag}</Text>}
+        {nickname && <Text style={styles.nickName}>{nickname}</Text>}
+        {dtag && <Text style={styles.dtag}>@{dtag}</Text>}
 
-        {props.accountAddress && <View style={styles.addressContainer}>
+        {props.address && <View style={styles.addressContainer}>
             <Text
                 style={styles.address}
                 lineBreakMode={"tail"}
             >
-                {accountAddress}
+                {address}
             </Text>
             <View>
                 <IconButton

@@ -68,7 +68,8 @@ export const EditProfile: React.FC<Props> = (props) => {
         style={styles.root}
     >
         <ProfileHeader
-            profile={profile}
+            coverPictureUri={profile?.cachedCoverPictureUri}
+            profilePictureUri={profile?.cachedProfilePictureUri}
             onEditCoverPicture={onEditCoverPicture}
             onEditProfilePicture={onEditProfilePicture}
             hideDtag
