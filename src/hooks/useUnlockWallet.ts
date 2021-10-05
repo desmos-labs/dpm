@@ -7,7 +7,7 @@ import LocalWallet from "../wallet/LocalWallet";
 /**
  * Hooks that provides a function to unlock and access the user wallet.
  */
-export default function useUnlockWallet(): (address: string) => Promise<LocalWallet> {
+export default function useUnlockWallet(): (address: string) => Promise<LocalWallet | null> {
 
     const navigation = useNavigation<StackNavigationProp<AccountScreensStackParams>>();
 

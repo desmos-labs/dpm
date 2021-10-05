@@ -41,7 +41,7 @@ const useStyles = makeStyle(theme => ({
 }))
 
 export const UnlockWallet: React.FC<Props> = (props) => {
-    const {address, resolve, reject} = props.route.params;
+    const {address, resolve} = props.route.params;
     const styles = useStyles();
     const {t} = useTranslation();
     const [loading, setLoading] = useState(false);
@@ -50,9 +50,11 @@ export const UnlockWallet: React.FC<Props> = (props) => {
 
     useEffect(() => {
         return props.navigation.addListener("beforeRemove", e => {
-            console.log(e);
+            if (e.data.action.type === "GO_BACK") {
+                resolve(null);
+            }
         })
-    }, [props.navigation, reject])
+    }, [props.navigation, resolve])
 
     const unlockWallet = async () => {
         setLoading(true);
@@ -68,7 +70,7 @@ export const UnlockWallet: React.FC<Props> = (props) => {
     }
 
     const onCancel = () => {
-        reject(new Error("Canceled from user"));
+        resolve(null);
         props.navigation.pop();
     }
 
