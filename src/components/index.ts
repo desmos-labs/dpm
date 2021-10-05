@@ -17,6 +17,7 @@ import {PasswordComplexity} from "./PasswordComplexityScore";
 import {AvatarImage} from "./AvatarImage";
 import {ProfileListItem} from "./ProfileListItem";
 import {InlineInput} from "./InlineInput";
+import {LabeledValue} from "./LabeledValue";
 
 
 export {
@@ -39,4 +40,5 @@ export {
     AvatarImage,
     ProfileListItem,
     InlineInput,
+    LabeledValue
 }
