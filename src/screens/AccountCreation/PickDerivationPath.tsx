@@ -16,34 +16,40 @@ import {View, Text, ListRenderItemInfo} from "react-native";
 import LocalWallet from "../../wallet/LocalWallet";
 import {HdPath} from "../../types/hdpath";
 
+type WalletHdPathPair = {
+    wallet: LocalWallet,
+    hdPath: HdPath,
+}
+
 export type Props = StackScreenProps<AccountCreationStackParams, "PickDerivationPath">;
 
 export const PickDerivationPath: React.FC<Props> = (props) => {
     const {t} = useTranslation();
     const styles = useStyles();
     const [selectedWallet, setSelectedWallet] = useState<LocalWallet| null>(null);
-    const [selectedHdPath, setSelectedHdPath] = useState<HdPath| null>({
+    const [selectedHdPath, setSelectedHdPath] = useState<HdPath>({
         account: 0,
         change: 0,
         addressIndex: 0,
     });
 
-    const renderListItem = useCallback((info: ListRenderItemInfo<LocalWallet>) => {
+    const renderListItem = useCallback((info: ListRenderItemInfo<WalletHdPathPair>) => {
+        const {wallet, hdPath} = info.item;
         return <AddressListItem
-            number={info.index + 1}
-            address={info.item.bech32Address}
-            highlight={info.item.bech32Address === selectedWallet?.bech32Address}
+            number={hdPath.account}
+            address={wallet.bech32Address}
+            highlight={wallet.bech32Address === selectedWallet?.bech32Address}
             onPress={() => {
                 setSelectedWallet(old => {
-                    return old?.bech32Address === info.item.bech32Address ? null : info.item;
+                    return old?.bech32Address === wallet.bech32Address ? null : wallet;
                 });
-                setSelectedHdPath(null)
+                setSelectedHdPath(hdPath);
             }}
         />
     }, [selectedWallet]);
 
-    const listKeyExtractor = (item: LocalWallet, _: number) => {
-        return item.bech32Address;
+    const listKeyExtractor = (item: WalletHdPathPair, _: number) => {
+        return item.wallet.bech32Address;
     }
 
     const onHdPathChange = (hdPath: HdPath) => {
@@ -51,34 +57,34 @@ export const PickDerivationPath: React.FC<Props> = (props) => {
         setSelectedHdPath(hdPath);
     }
 
-    const fetchWalletsPage: (pageIndex: number) => Promise<LocalWallet[]> = async pageIndex => {
+    const fetchWalletsPage: (pageIndex: number) => Promise<WalletHdPathPair[]> = async pageIndex => {
         const itemsPerPage = 10;
-        let wallets: LocalWallet [] = [];
+        let wallets: WalletHdPathPair [] = [];
         for (let i = 0, walletIndex = itemsPerPage * pageIndex; i < itemsPerPage; i++, walletIndex++) {
-            const wallet = await generateAccount(walletIndex);
-            wallets.push(wallet);
+            const hdPath: HdPath = {
+                account: walletIndex,
+                change: 0,
+                addressIndex: 0,
+            }
+            const wallet = await LocalWallet.fromMnemonic(props.route.params.mnemonic, {
+                hdPath
+            })
+            wallets.push({
+                wallet,
+                hdPath,
+            });
         }
         return wallets;
     }
 
-    const generateAccount = async (index: number): Promise<LocalWallet> => {
-        return LocalWallet.fromMnemonic(props.route.params.mnemonic, {
-            hdPath: {
-                account: 0,
-                change: 0,
-                addressIndex: index,
-            }
-        })
-    }
-
     const onNextPressed = async () => {
         let wallet: LocalWallet;
-        if (selectedHdPath !== null) {
+        if (selectedWallet === null) {
             wallet = await LocalWallet.fromMnemonic(props.route.params.mnemonic, {
                 hdPath: selectedHdPath,
             });
         } else {
-            wallet = selectedWallet!;
+            wallet = selectedWallet;
         }
         props.navigation.navigate({
             name: "CreateWalletPassword",
@@ -102,7 +108,11 @@ export const PickDerivationPath: React.FC<Props> = (props) => {
         >
             {t("enter HD derivation path")}.
         </Subtitle>
-        <HdPathPicker style={styles.hdPathPicker} onChange={onHdPathChange}/>
+        <HdPathPicker
+            style={styles.hdPathPicker}
+            onChange={onHdPathChange}
+            value={selectedHdPath}
+        />
 
         <View style={styles.dividerContainer}>
             <Divider style={styles.dividerLine}/>

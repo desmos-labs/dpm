@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import {makeStyle} from "../theming";
 import {View, Text, StyleProp, ViewStyle, StyleSheet} from "react-native";
 import {HdPath} from "../types/hdpath";
@@ -9,6 +9,7 @@ export type Props = {
      * Function called when the HDPath changes.
      */
     onChange?: (path: HdPath) => void,
+    value?: HdPath,
     style?: StyleProp<ViewStyle>,
 }
 
@@ -28,6 +29,12 @@ export const HdPathPicker: React.FC<Props> = (props) => {
         change: 0,
         addressIndex: 0,
     })
+
+    useEffect(() => {
+        if (props.value !== undefined) {
+            setHdPath(props.value);
+        }
+    }, [props.value])
 
     const onElementChange = (value: string, element: keyof HdPath) => {
         let newHdPath = hdPath;
