@@ -50,6 +50,15 @@ export type AccountScreensStackParams = {
         account: ChainAccount,
         profile: CachedDesmosProfile | null,
     },
+    ConfirmProfileEdit: {
+        account: ChainAccount,
+        profile: CachedDesmosProfile | null,
+        newDtag: string,
+        newNickName?: string,
+        newBio?: string,
+        newCoverPicture?: string,
+        newProfilePicture?: string
+    },
     AccountSessions: {
         account: ChainAccount;
     };
@@ -75,7 +84,7 @@ export type AccountScreensStackParams = {
     }
     UnlockWallet: {
         address: string
-        resolve: (wallet: LocalWallet) => void,
+        resolve: (wallet: LocalWallet | null) => void,
         reject: (error: Error) => void
     }
 };

@@ -17,6 +17,7 @@ import {UnlockWallet} from "../screens/UnlockWallet";
 import {BroadcastTx} from "../screens/BroadcastTx";
 import {AppDrawerContent} from "../components/AppDrawerContent";
 import {StackScreenProps} from "@react-navigation/stack";
+import {ConfirmProfileEdit} from "../screens/ConfirmProfileEdit";
 
 type ProfileWithAppDrawerProps = StackScreenProps<AccountScreensStackParams, "ProfileWithDrawerMenu">
 
@@ -64,6 +65,14 @@ export default function AccountScreens(props: AccountScreensProps) {
             options={{
                 headerShown: true,
                 title: t("edit profile")
+            }}
+        />
+        <AccountScreensStack.Screen
+            name="ConfirmProfileEdit"
+            component={ConfirmProfileEdit}
+            options={{
+                headerShown: true,
+                title: t("confirm")
             }}
         />
         <AccountScreensStack.Screen
