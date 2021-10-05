@@ -94,7 +94,7 @@ class AccountSource {
             return cache;
         });
 
-        await SecureStorage.setItem(this.ACCOUNTS_KEY, JSON.stringify(cache));
+        await SecureStorage.setItem(this.ACCOUNTS_KEY, JSON.stringify(Array.from(cache.entries())));
     }
 }
 

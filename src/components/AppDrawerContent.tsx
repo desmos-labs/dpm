@@ -46,9 +46,9 @@ export const AppDrawerContent: React.FC<DrawerContentComponentProps> = (props) =
         console.warn("Settings screen not implemented")
     }, [])
 
-    const onChangeAccount = useCallback((account: ChainAccount) => {
+    const onChangeAccount = useCallback(async (account: ChainAccount) => {
         if (account.address !== selectedAccount?.address) {
-            saveSelectedAccount(account, true);
+            await saveSelectedAccount(account, true);
             navigation.reset({
                 index: 0,
                 routes: [{
