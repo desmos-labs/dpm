@@ -15,6 +15,7 @@ import {useTranslation} from "react-i18next";
 import {View, Text, ListRenderItemInfo} from "react-native";
 import LocalWallet from "../../wallet/LocalWallet";
 import {HdPath} from "../../types/hdpath";
+import useAccountExists from "../../hooks/useAccountExists";
 
 type WalletHdPathPair = {
     wallet: LocalWallet,
@@ -32,6 +33,7 @@ export const PickDerivationPath: React.FC<Props> = (props) => {
         change: 0,
         addressIndex: 0,
     });
+    const accountExists = useAccountExists();
 
     const renderListItem = useCallback((info: ListRenderItemInfo<WalletHdPathPair>) => {
         const {wallet, hdPath} = info.item;
@@ -60,7 +62,7 @@ export const PickDerivationPath: React.FC<Props> = (props) => {
     const fetchWalletsPage: (pageIndex: number) => Promise<WalletHdPathPair[]> = async pageIndex => {
         const itemsPerPage = 10;
         let wallets: WalletHdPathPair [] = [];
-        for (let i = 0, walletIndex = itemsPerPage * pageIndex; i < itemsPerPage; i++, walletIndex++) {
+        for (let walletIndex = itemsPerPage * pageIndex; wallets.length < itemsPerPage; walletIndex++) {
             const hdPath: HdPath = {
                 account: walletIndex,
                 change: 0,
@@ -69,10 +71,12 @@ export const PickDerivationPath: React.FC<Props> = (props) => {
             const wallet = await LocalWallet.fromMnemonic(props.route.params.mnemonic, {
                 hdPath
             })
-            wallets.push({
-                wallet,
-                hdPath,
-            });
+            if (!(await accountExists(wallet.bech32Address))) {
+                wallets.push({
+                    wallet,
+                    hdPath,
+                });
+            }
         }
         return wallets;
     }

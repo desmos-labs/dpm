@@ -85,6 +85,16 @@ class AccountSource {
     }
 
     /**
+     * Checks if exists an account with the provided address.
+     * @param address - Address of the account of interest.
+     */
+    public async exist(address: string): Promise<boolean> {
+        return this.useCache(async cache => {
+            const account = cache.get(address);
+            return account !== undefined;
+        });
+    }
+    /**
      * Removes an account from the device storage.
      * @param account - The account that will be removed.
      */
