@@ -8,44 +8,48 @@
 
 /* Begin PBXBuildFile section */
 		00E356F31AD99517003FC87E /* DesmosProfileManagerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 00E356F21AD99517003FC87E /* DesmosProfileManagerTests.m */; };
+		04804B3F23454B078C7804D1 /* SimpleLineIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 2CB4529CE0F942D19BD2A37A /* SimpleLineIcons.ttf */; };
+		051E99C3C0DD4D0AA0DC9D09 /* Ionicons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = BFD5F878002B449DA26EC9B3 /* Ionicons.ttf */; };
+		0F1194EC2CB94C1F8E8D157A /* SF-Pro-Text-Regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = 376F022ED47D4E0AA8B6942C /* SF-Pro-Text-Regular.otf */; };
 		13B07FBC1A68108700A75B9A /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB01A68108700A75B9A /* AppDelegate.m */; };
 		13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
-		81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */; };
+		144211C265ED49D6AB9376AC /* SF-Pro-Text-RegularItalic.otf in Resources */ = {isa = PBXBuildFile; fileRef = 926A36E274E04E22B167BBD0 /* SF-Pro-Text-RegularItalic.otf */; };
+		1B98B953317D4F27AECA1FF8 /* SF-Pro-Text-Heavy.otf in Resources */ = {isa = PBXBuildFile; fileRef = C81C0C0120BF41F59D4D7D66 /* SF-Pro-Text-Heavy.otf */; };
 		27679CCC84E94422B3A8305D /* AntDesign.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 368EE92ED07F4198875A23BC /* AntDesign.ttf */; };
-		3FD762107E9A49C69C640A65 /* Entypo.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 5F686463C7C642C98DB6BF70 /* Entypo.ttf */; };
-		3F017317CDFD4431B8E6EE0C /* EvilIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = E34A2C5CAAC8459F8D887101 /* EvilIcons.ttf */; };
-		36096BA75F4140859B0B3A29 /* Feather.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 03F2F4E3CB714913B7B5D4BC /* Feather.ttf */; };
-		D72D42F116CD4B8B9A0CC692 /* FontAwesome.ttf in Resources */ = {isa = PBXBuildFile; fileRef = B030A1C7CB4E4C4F98C12B7E /* FontAwesome.ttf */; };
 		2C8A4F6230934F96AF5A677D /* FontAwesome5_Brands.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 074621ED936F4F43A6D0BA1D /* FontAwesome5_Brands.ttf */; };
-		C0B94FD6D1F74336BAEA02DD /* FontAwesome5_Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 89FE99CA0F8B4B35AC97EEB4 /* FontAwesome5_Regular.ttf */; };
-		5ED0CD5DF9984193A58F99F4 /* FontAwesome5_Solid.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 9EABCC2A8BA34E11B34155B2 /* FontAwesome5_Solid.ttf */; };
-		E0C3DF50108D47EE961C050B /* Fontisto.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 818B79F14BB14583BBB4E3AB /* Fontisto.ttf */; };
-		B1CC9C62255841628C7974EF /* Foundation.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 4BB2656503FB4C8BBB4C556C /* Foundation.ttf */; };
-		051E99C3C0DD4D0AA0DC9D09 /* Ionicons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = BFD5F878002B449DA26EC9B3 /* Ionicons.ttf */; };
-		691976B576874C5A934BB2CA /* MaterialCommunityIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = EBF98EC78B7941B69F44E9C7 /* MaterialCommunityIcons.ttf */; };
-		7736BDA57BCC41B7BC1BB08B /* MaterialIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 7097FC34307D4347A9EDD53F /* MaterialIcons.ttf */; };
-		6AB015D0A88D4C62AA7276CE /* Octicons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 47D2700756EC45589495227F /* Octicons.ttf */; };
-		04804B3F23454B078C7804D1 /* SimpleLineIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 2CB4529CE0F942D19BD2A37A /* SimpleLineIcons.ttf */; };
+		36096BA75F4140859B0B3A29 /* Feather.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 03F2F4E3CB714913B7B5D4BC /* Feather.ttf */; };
+		3F017317CDFD4431B8E6EE0C /* EvilIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = E34A2C5CAAC8459F8D887101 /* EvilIcons.ttf */; };
+		3FD762107E9A49C69C640A65 /* Entypo.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 5F686463C7C642C98DB6BF70 /* Entypo.ttf */; };
 		4965CD4C451048A5870AF1BD /* Zocial.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 3C4693598A8A4594A31A84CE /* Zocial.ttf */; };
-		ABAB17FEC67F405F843B0DE8 /* SF-Pro-Text-Black.otf in Resources */ = {isa = PBXBuildFile; fileRef = C121DE490B1B4290BB53F881 /* SF-Pro-Text-Black.otf */; };
-		C853BE9B0B7C41A09A213243 /* SF-Pro-Text-BlackItalic.otf in Resources */ = {isa = PBXBuildFile; fileRef = 75DF51EDB77C422BB24B36D4 /* SF-Pro-Text-BlackItalic.otf */; };
+		5ED0CD5DF9984193A58F99F4 /* FontAwesome5_Solid.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 9EABCC2A8BA34E11B34155B2 /* FontAwesome5_Solid.ttf */; };
+		691976B576874C5A934BB2CA /* MaterialCommunityIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = EBF98EC78B7941B69F44E9C7 /* MaterialCommunityIcons.ttf */; };
+		6AB015D0A88D4C62AA7276CE /* Octicons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 47D2700756EC45589495227F /* Octicons.ttf */; };
+		730077F03B8D4EFAB67C895A /* SF-Pro-Text-SemiboldItalic.otf in Resources */ = {isa = PBXBuildFile; fileRef = 14E46612C0B542ED93E52C81 /* SF-Pro-Text-SemiboldItalic.otf */; };
+		7736BDA57BCC41B7BC1BB08B /* MaterialIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 7097FC34307D4347A9EDD53F /* MaterialIcons.ttf */; };
+		7F153051ADDF4268A696B3F5 /* SF-Pro-Text-Light.otf in Resources */ = {isa = PBXBuildFile; fileRef = 7D991DF530764AED8C758933 /* SF-Pro-Text-Light.otf */; };
+		81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */; };
 		86256B151F2D456696261106 /* SF-Pro-Text-Bold.otf in Resources */ = {isa = PBXBuildFile; fileRef = 327B9FBB8C104213BB00A7D1 /* SF-Pro-Text-Bold.otf */; };
 		8B90CA62C6E342DCAFC55902 /* SF-Pro-Text-BoldItalic.otf in Resources */ = {isa = PBXBuildFile; fileRef = 8521EC17790D4505A1C3EB26 /* SF-Pro-Text-BoldItalic.otf */; };
-		1B98B953317D4F27AECA1FF8 /* SF-Pro-Text-Heavy.otf in Resources */ = {isa = PBXBuildFile; fileRef = C81C0C0120BF41F59D4D7D66 /* SF-Pro-Text-Heavy.otf */; };
-		FC978F2B9D8E4AF3A87D4423 /* SF-Pro-Text-HeavyItalic.otf in Resources */ = {isa = PBXBuildFile; fileRef = 38CC69FADDAF49C7BE8AF60E /* SF-Pro-Text-HeavyItalic.otf */; };
-		7F153051ADDF4268A696B3F5 /* SF-Pro-Text-Light.otf in Resources */ = {isa = PBXBuildFile; fileRef = 7D991DF530764AED8C758933 /* SF-Pro-Text-Light.otf */; };
-		F8BFCB35B18442F198508332 /* SF-Pro-Text-LightItalic.otf in Resources */ = {isa = PBXBuildFile; fileRef = 8B54C96DCB30412DA86B36D1 /* SF-Pro-Text-LightItalic.otf */; };
 		9583A03747D4408F90D6E863 /* SF-Pro-Text-Medium.otf in Resources */ = {isa = PBXBuildFile; fileRef = ADF8EDBCB4EA44C3A50A01B8 /* SF-Pro-Text-Medium.otf */; };
-		A2E5398E4F674212A0B6D189 /* SF-Pro-Text-MediumItalic.otf in Resources */ = {isa = PBXBuildFile; fileRef = E2C0F8BC7A0548C095514C14 /* SF-Pro-Text-MediumItalic.otf */; };
-		0F1194EC2CB94C1F8E8D157A /* SF-Pro-Text-Regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = 376F022ED47D4E0AA8B6942C /* SF-Pro-Text-Regular.otf */; };
-		144211C265ED49D6AB9376AC /* SF-Pro-Text-RegularItalic.otf in Resources */ = {isa = PBXBuildFile; fileRef = 926A36E274E04E22B167BBD0 /* SF-Pro-Text-RegularItalic.otf */; };
 		9B4E5F4EE3794FA38AE024B2 /* SF-Pro-Text-Semibold.otf in Resources */ = {isa = PBXBuildFile; fileRef = 802B1664862E461FB1511A84 /* SF-Pro-Text-Semibold.otf */; };
-		730077F03B8D4EFAB67C895A /* SF-Pro-Text-SemiboldItalic.otf in Resources */ = {isa = PBXBuildFile; fileRef = 14E46612C0B542ED93E52C81 /* SF-Pro-Text-SemiboldItalic.otf */; };
+		A2E5398E4F674212A0B6D189 /* SF-Pro-Text-MediumItalic.otf in Resources */ = {isa = PBXBuildFile; fileRef = E2C0F8BC7A0548C095514C14 /* SF-Pro-Text-MediumItalic.otf */; };
+		A789FD37270C607C00EFC6CF /* RCTCryptoUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = A789FD36270C607C00EFC6CF /* RCTCryptoUtils.m */; };
+		A789FD39270C609D00EFC6CF /* RCTCryptoUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = A789FD38270C609D00EFC6CF /* RCTCryptoUtils.swift */; };
 		AA79B2EDCCD5422390E56EB4 /* SF-Pro-Text-Thin.otf in Resources */ = {isa = PBXBuildFile; fileRef = F1EEE822F40D4C88B9C9CEF6 /* SF-Pro-Text-Thin.otf */; };
-		C474AE2A5C0748F38BF5F6CA /* SF-Pro-Text-ThinItalic.otf in Resources */ = {isa = PBXBuildFile; fileRef = 2E9171E747884E51A23D6617 /* SF-Pro-Text-ThinItalic.otf */; };
-		B5A3E7B0A8994F1289BF4AA9 /* SF-Pro-Text-Ultralight.otf in Resources */ = {isa = PBXBuildFile; fileRef = 57915FE2CEA94BF4A96A955C /* SF-Pro-Text-Ultralight.otf */; };
+		ABAB17FEC67F405F843B0DE8 /* SF-Pro-Text-Black.otf in Resources */ = {isa = PBXBuildFile; fileRef = C121DE490B1B4290BB53F881 /* SF-Pro-Text-Black.otf */; };
 		AF7B186BB16B4918BF2C2CA7 /* SF-Pro-Text-UltralightItalic.otf in Resources */ = {isa = PBXBuildFile; fileRef = EB8F4F2B841A4B51BB2E861C /* SF-Pro-Text-UltralightItalic.otf */; };
+		B17B0E5D3C7326DF355B4DDE /* libPods-DesmosProfileManager-DesmosProfileManagerTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 974794EDB5E9F632DCF31CD9 /* libPods-DesmosProfileManager-DesmosProfileManagerTests.a */; };
+		B1CC9C62255841628C7974EF /* Foundation.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 4BB2656503FB4C8BBB4C556C /* Foundation.ttf */; };
+		B5A3E7B0A8994F1289BF4AA9 /* SF-Pro-Text-Ultralight.otf in Resources */ = {isa = PBXBuildFile; fileRef = 57915FE2CEA94BF4A96A955C /* SF-Pro-Text-Ultralight.otf */; };
+		C0B94FD6D1F74336BAEA02DD /* FontAwesome5_Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 89FE99CA0F8B4B35AC97EEB4 /* FontAwesome5_Regular.ttf */; };
+		C474AE2A5C0748F38BF5F6CA /* SF-Pro-Text-ThinItalic.otf in Resources */ = {isa = PBXBuildFile; fileRef = 2E9171E747884E51A23D6617 /* SF-Pro-Text-ThinItalic.otf */; };
+		C853BE9B0B7C41A09A213243 /* SF-Pro-Text-BlackItalic.otf in Resources */ = {isa = PBXBuildFile; fileRef = 75DF51EDB77C422BB24B36D4 /* SF-Pro-Text-BlackItalic.otf */; };
+		D72D42F116CD4B8B9A0CC692 /* FontAwesome.ttf in Resources */ = {isa = PBXBuildFile; fileRef = B030A1C7CB4E4C4F98C12B7E /* FontAwesome.ttf */; };
+		E0C3DF50108D47EE961C050B /* Fontisto.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 818B79F14BB14583BBB4E3AB /* Fontisto.ttf */; };
+		F2FA814145E7ADFE9267351E /* libPods-DesmosProfileManager.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 306AEECA0B58C9F8022AB368 /* libPods-DesmosProfileManager.a */; };
+		F8BFCB35B18442F198508332 /* SF-Pro-Text-LightItalic.otf in Resources */ = {isa = PBXBuildFile; fileRef = 8B54C96DCB30412DA86B36D1 /* SF-Pro-Text-LightItalic.otf */; };
+		FC978F2B9D8E4AF3A87D4423 /* SF-Pro-Text-HeavyItalic.otf in Resources */ = {isa = PBXBuildFile; fileRef = 38CC69FADDAF49C7BE8AF60E /* SF-Pro-Text-HeavyItalic.otf */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -62,48 +66,57 @@
 		00E356EE1AD99517003FC87E /* DesmosProfileManagerTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = DesmosProfileManagerTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		00E356F11AD99517003FC87E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		00E356F21AD99517003FC87E /* DesmosProfileManagerTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DesmosProfileManagerTests.m; sourceTree = "<group>"; };
+		03F2F4E3CB714913B7B5D4BC /* Feather.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Feather.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Feather.ttf"; sourceTree = "<group>"; };
+		074621ED936F4F43A6D0BA1D /* FontAwesome5_Brands.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = FontAwesome5_Brands.ttf; path = "../node_modules/react-native-vector-icons/Fonts/FontAwesome5_Brands.ttf"; sourceTree = "<group>"; };
 		13B07F961A680F5B00A75B9A /* DesmosProfileManager.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DesmosProfileManager.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		13B07FAF1A68108700A75B9A /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppDelegate.h; path = DesmosProfileManager/AppDelegate.h; sourceTree = "<group>"; };
 		13B07FB01A68108700A75B9A /* AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AppDelegate.m; path = DesmosProfileManager/AppDelegate.m; sourceTree = "<group>"; };
 		13B07FB51A68108700A75B9A /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = DesmosProfileManager/Images.xcassets; sourceTree = "<group>"; };
 		13B07FB61A68108700A75B9A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = DesmosProfileManager/Info.plist; sourceTree = "<group>"; };
 		13B07FB71A68108700A75B9A /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = DesmosProfileManager/main.m; sourceTree = "<group>"; };
+		14E46612C0B542ED93E52C81 /* SF-Pro-Text-SemiboldItalic.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "SF-Pro-Text-SemiboldItalic.otf"; path = "../assets/fonts/SF-Pro-Text-SemiboldItalic.otf"; sourceTree = "<group>"; };
+		2CB4529CE0F942D19BD2A37A /* SimpleLineIcons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = SimpleLineIcons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/SimpleLineIcons.ttf"; sourceTree = "<group>"; };
+		2E9171E747884E51A23D6617 /* SF-Pro-Text-ThinItalic.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "SF-Pro-Text-ThinItalic.otf"; path = "../assets/fonts/SF-Pro-Text-ThinItalic.otf"; sourceTree = "<group>"; };
+		306AEECA0B58C9F8022AB368 /* libPods-DesmosProfileManager.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-DesmosProfileManager.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		327B9FBB8C104213BB00A7D1 /* SF-Pro-Text-Bold.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "SF-Pro-Text-Bold.otf"; path = "../assets/fonts/SF-Pro-Text-Bold.otf"; sourceTree = "<group>"; };
+		368EE92ED07F4198875A23BC /* AntDesign.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = AntDesign.ttf; path = "../node_modules/react-native-vector-icons/Fonts/AntDesign.ttf"; sourceTree = "<group>"; };
+		376F022ED47D4E0AA8B6942C /* SF-Pro-Text-Regular.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "SF-Pro-Text-Regular.otf"; path = "../assets/fonts/SF-Pro-Text-Regular.otf"; sourceTree = "<group>"; };
+		38CC69FADDAF49C7BE8AF60E /* SF-Pro-Text-HeavyItalic.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "SF-Pro-Text-HeavyItalic.otf"; path = "../assets/fonts/SF-Pro-Text-HeavyItalic.otf"; sourceTree = "<group>"; };
+		3C4693598A8A4594A31A84CE /* Zocial.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Zocial.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Zocial.ttf"; sourceTree = "<group>"; };
+		47D2700756EC45589495227F /* Octicons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Octicons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Octicons.ttf"; sourceTree = "<group>"; };
+		4A9F16BE5A9A1926A3D3E218 /* Pods-DesmosProfileManager.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DesmosProfileManager.release.xcconfig"; path = "Target Support Files/Pods-DesmosProfileManager/Pods-DesmosProfileManager.release.xcconfig"; sourceTree = "<group>"; };
+		4BB2656503FB4C8BBB4C556C /* Foundation.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Foundation.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Foundation.ttf"; sourceTree = "<group>"; };
+		57915FE2CEA94BF4A96A955C /* SF-Pro-Text-Ultralight.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "SF-Pro-Text-Ultralight.otf"; path = "../assets/fonts/SF-Pro-Text-Ultralight.otf"; sourceTree = "<group>"; };
+		5F686463C7C642C98DB6BF70 /* Entypo.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Entypo.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Entypo.ttf"; sourceTree = "<group>"; };
+		7097FC34307D4347A9EDD53F /* MaterialIcons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = MaterialIcons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/MaterialIcons.ttf"; sourceTree = "<group>"; };
+		75DF51EDB77C422BB24B36D4 /* SF-Pro-Text-BlackItalic.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "SF-Pro-Text-BlackItalic.otf"; path = "../assets/fonts/SF-Pro-Text-BlackItalic.otf"; sourceTree = "<group>"; };
+		7D991DF530764AED8C758933 /* SF-Pro-Text-Light.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "SF-Pro-Text-Light.otf"; path = "../assets/fonts/SF-Pro-Text-Light.otf"; sourceTree = "<group>"; };
+		802B1664862E461FB1511A84 /* SF-Pro-Text-Semibold.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "SF-Pro-Text-Semibold.otf"; path = "../assets/fonts/SF-Pro-Text-Semibold.otf"; sourceTree = "<group>"; };
+		818B79F14BB14583BBB4E3AB /* Fontisto.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Fontisto.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Fontisto.ttf"; sourceTree = "<group>"; };
 		81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = LaunchScreen.storyboard; path = DesmosProfileManager/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		8521EC17790D4505A1C3EB26 /* SF-Pro-Text-BoldItalic.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "SF-Pro-Text-BoldItalic.otf"; path = "../assets/fonts/SF-Pro-Text-BoldItalic.otf"; sourceTree = "<group>"; };
+		89FE99CA0F8B4B35AC97EEB4 /* FontAwesome5_Regular.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = FontAwesome5_Regular.ttf; path = "../node_modules/react-native-vector-icons/Fonts/FontAwesome5_Regular.ttf"; sourceTree = "<group>"; };
+		8B54C96DCB30412DA86B36D1 /* SF-Pro-Text-LightItalic.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "SF-Pro-Text-LightItalic.otf"; path = "../assets/fonts/SF-Pro-Text-LightItalic.otf"; sourceTree = "<group>"; };
+		8C25932F2FA5BE96256DCC9E /* Pods-DesmosProfileManager.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DesmosProfileManager.debug.xcconfig"; path = "Target Support Files/Pods-DesmosProfileManager/Pods-DesmosProfileManager.debug.xcconfig"; sourceTree = "<group>"; };
+		926A36E274E04E22B167BBD0 /* SF-Pro-Text-RegularItalic.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "SF-Pro-Text-RegularItalic.otf"; path = "../assets/fonts/SF-Pro-Text-RegularItalic.otf"; sourceTree = "<group>"; };
+		974794EDB5E9F632DCF31CD9 /* libPods-DesmosProfileManager-DesmosProfileManagerTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-DesmosProfileManager-DesmosProfileManagerTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		9EABCC2A8BA34E11B34155B2 /* FontAwesome5_Solid.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = FontAwesome5_Solid.ttf; path = "../node_modules/react-native-vector-icons/Fonts/FontAwesome5_Solid.ttf"; sourceTree = "<group>"; };
+		A789FD36270C607C00EFC6CF /* RCTCryptoUtils.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = RCTCryptoUtils.m; path = DesmosProfileManager/RCTCryptoUtils.m; sourceTree = "<group>"; };
+		A789FD38270C609D00EFC6CF /* RCTCryptoUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = RCTCryptoUtils.swift; path = DesmosProfileManager/RCTCryptoUtils.swift; sourceTree = "<group>"; };
+		A789FD3A270C60F600EFC6CF /* RCTCryptoUtils-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "RCTCryptoUtils-Bridging-Header.h"; sourceTree = "<group>"; };
+		ADF8EDBCB4EA44C3A50A01B8 /* SF-Pro-Text-Medium.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "SF-Pro-Text-Medium.otf"; path = "../assets/fonts/SF-Pro-Text-Medium.otf"; sourceTree = "<group>"; };
+		B030A1C7CB4E4C4F98C12B7E /* FontAwesome.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = FontAwesome.ttf; path = "../node_modules/react-native-vector-icons/Fonts/FontAwesome.ttf"; sourceTree = "<group>"; };
+		BFD5F878002B449DA26EC9B3 /* Ionicons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Ionicons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Ionicons.ttf"; sourceTree = "<group>"; };
+		C121DE490B1B4290BB53F881 /* SF-Pro-Text-Black.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "SF-Pro-Text-Black.otf"; path = "../assets/fonts/SF-Pro-Text-Black.otf"; sourceTree = "<group>"; };
+		C81C0C0120BF41F59D4D7D66 /* SF-Pro-Text-Heavy.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "SF-Pro-Text-Heavy.otf"; path = "../assets/fonts/SF-Pro-Text-Heavy.otf"; sourceTree = "<group>"; };
+		E2C0F8BC7A0548C095514C14 /* SF-Pro-Text-MediumItalic.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "SF-Pro-Text-MediumItalic.otf"; path = "../assets/fonts/SF-Pro-Text-MediumItalic.otf"; sourceTree = "<group>"; };
+		E34A2C5CAAC8459F8D887101 /* EvilIcons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = EvilIcons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/EvilIcons.ttf"; sourceTree = "<group>"; };
+		EB8F4F2B841A4B51BB2E861C /* SF-Pro-Text-UltralightItalic.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "SF-Pro-Text-UltralightItalic.otf"; path = "../assets/fonts/SF-Pro-Text-UltralightItalic.otf"; sourceTree = "<group>"; };
+		EBF98EC78B7941B69F44E9C7 /* MaterialCommunityIcons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = MaterialCommunityIcons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/MaterialCommunityIcons.ttf"; sourceTree = "<group>"; };
+		ECAF28AE528752C204F5294A /* Pods-DesmosProfileManager-DesmosProfileManagerTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DesmosProfileManager-DesmosProfileManagerTests.release.xcconfig"; path = "Target Support Files/Pods-DesmosProfileManager-DesmosProfileManagerTests/Pods-DesmosProfileManager-DesmosProfileManagerTests.release.xcconfig"; sourceTree = "<group>"; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
-		368EE92ED07F4198875A23BC /* AntDesign.ttf */ = {isa = PBXFileReference; name = "AntDesign.ttf"; path = "../node_modules/react-native-vector-icons/Fonts/AntDesign.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
-		5F686463C7C642C98DB6BF70 /* Entypo.ttf */ = {isa = PBXFileReference; name = "Entypo.ttf"; path = "../node_modules/react-native-vector-icons/Fonts/Entypo.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
-		E34A2C5CAAC8459F8D887101 /* EvilIcons.ttf */ = {isa = PBXFileReference; name = "EvilIcons.ttf"; path = "../node_modules/react-native-vector-icons/Fonts/EvilIcons.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
-		03F2F4E3CB714913B7B5D4BC /* Feather.ttf */ = {isa = PBXFileReference; name = "Feather.ttf"; path = "../node_modules/react-native-vector-icons/Fonts/Feather.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
-		B030A1C7CB4E4C4F98C12B7E /* FontAwesome.ttf */ = {isa = PBXFileReference; name = "FontAwesome.ttf"; path = "../node_modules/react-native-vector-icons/Fonts/FontAwesome.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
-		074621ED936F4F43A6D0BA1D /* FontAwesome5_Brands.ttf */ = {isa = PBXFileReference; name = "FontAwesome5_Brands.ttf"; path = "../node_modules/react-native-vector-icons/Fonts/FontAwesome5_Brands.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
-		89FE99CA0F8B4B35AC97EEB4 /* FontAwesome5_Regular.ttf */ = {isa = PBXFileReference; name = "FontAwesome5_Regular.ttf"; path = "../node_modules/react-native-vector-icons/Fonts/FontAwesome5_Regular.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
-		9EABCC2A8BA34E11B34155B2 /* FontAwesome5_Solid.ttf */ = {isa = PBXFileReference; name = "FontAwesome5_Solid.ttf"; path = "../node_modules/react-native-vector-icons/Fonts/FontAwesome5_Solid.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
-		818B79F14BB14583BBB4E3AB /* Fontisto.ttf */ = {isa = PBXFileReference; name = "Fontisto.ttf"; path = "../node_modules/react-native-vector-icons/Fonts/Fontisto.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
-		4BB2656503FB4C8BBB4C556C /* Foundation.ttf */ = {isa = PBXFileReference; name = "Foundation.ttf"; path = "../node_modules/react-native-vector-icons/Fonts/Foundation.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
-		BFD5F878002B449DA26EC9B3 /* Ionicons.ttf */ = {isa = PBXFileReference; name = "Ionicons.ttf"; path = "../node_modules/react-native-vector-icons/Fonts/Ionicons.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
-		EBF98EC78B7941B69F44E9C7 /* MaterialCommunityIcons.ttf */ = {isa = PBXFileReference; name = "MaterialCommunityIcons.ttf"; path = "../node_modules/react-native-vector-icons/Fonts/MaterialCommunityIcons.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
-		7097FC34307D4347A9EDD53F /* MaterialIcons.ttf */ = {isa = PBXFileReference; name = "MaterialIcons.ttf"; path = "../node_modules/react-native-vector-icons/Fonts/MaterialIcons.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
-		47D2700756EC45589495227F /* Octicons.ttf */ = {isa = PBXFileReference; name = "Octicons.ttf"; path = "../node_modules/react-native-vector-icons/Fonts/Octicons.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
-		2CB4529CE0F942D19BD2A37A /* SimpleLineIcons.ttf */ = {isa = PBXFileReference; name = "SimpleLineIcons.ttf"; path = "../node_modules/react-native-vector-icons/Fonts/SimpleLineIcons.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
-		3C4693598A8A4594A31A84CE /* Zocial.ttf */ = {isa = PBXFileReference; name = "Zocial.ttf"; path = "../node_modules/react-native-vector-icons/Fonts/Zocial.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
-		C121DE490B1B4290BB53F881 /* SF-Pro-Text-Black.otf */ = {isa = PBXFileReference; name = "SF-Pro-Text-Black.otf"; path = "../assets/fonts/SF-Pro-Text-Black.otf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
-		75DF51EDB77C422BB24B36D4 /* SF-Pro-Text-BlackItalic.otf */ = {isa = PBXFileReference; name = "SF-Pro-Text-BlackItalic.otf"; path = "../assets/fonts/SF-Pro-Text-BlackItalic.otf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
-		327B9FBB8C104213BB00A7D1 /* SF-Pro-Text-Bold.otf */ = {isa = PBXFileReference; name = "SF-Pro-Text-Bold.otf"; path = "../assets/fonts/SF-Pro-Text-Bold.otf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
-		8521EC17790D4505A1C3EB26 /* SF-Pro-Text-BoldItalic.otf */ = {isa = PBXFileReference; name = "SF-Pro-Text-BoldItalic.otf"; path = "../assets/fonts/SF-Pro-Text-BoldItalic.otf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
-		C81C0C0120BF41F59D4D7D66 /* SF-Pro-Text-Heavy.otf */ = {isa = PBXFileReference; name = "SF-Pro-Text-Heavy.otf"; path = "../assets/fonts/SF-Pro-Text-Heavy.otf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
-		38CC69FADDAF49C7BE8AF60E /* SF-Pro-Text-HeavyItalic.otf */ = {isa = PBXFileReference; name = "SF-Pro-Text-HeavyItalic.otf"; path = "../assets/fonts/SF-Pro-Text-HeavyItalic.otf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
-		7D991DF530764AED8C758933 /* SF-Pro-Text-Light.otf */ = {isa = PBXFileReference; name = "SF-Pro-Text-Light.otf"; path = "../assets/fonts/SF-Pro-Text-Light.otf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
-		8B54C96DCB30412DA86B36D1 /* SF-Pro-Text-LightItalic.otf */ = {isa = PBXFileReference; name = "SF-Pro-Text-LightItalic.otf"; path = "../assets/fonts/SF-Pro-Text-LightItalic.otf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
-		ADF8EDBCB4EA44C3A50A01B8 /* SF-Pro-Text-Medium.otf */ = {isa = PBXFileReference; name = "SF-Pro-Text-Medium.otf"; path = "../assets/fonts/SF-Pro-Text-Medium.otf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
-		E2C0F8BC7A0548C095514C14 /* SF-Pro-Text-MediumItalic.otf */ = {isa = PBXFileReference; name = "SF-Pro-Text-MediumItalic.otf"; path = "../assets/fonts/SF-Pro-Text-MediumItalic.otf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
-		376F022ED47D4E0AA8B6942C /* SF-Pro-Text-Regular.otf */ = {isa = PBXFileReference; name = "SF-Pro-Text-Regular.otf"; path = "../assets/fonts/SF-Pro-Text-Regular.otf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
-		926A36E274E04E22B167BBD0 /* SF-Pro-Text-RegularItalic.otf */ = {isa = PBXFileReference; name = "SF-Pro-Text-RegularItalic.otf"; path = "../assets/fonts/SF-Pro-Text-RegularItalic.otf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
-		802B1664862E461FB1511A84 /* SF-Pro-Text-Semibold.otf */ = {isa = PBXFileReference; name = "SF-Pro-Text-Semibold.otf"; path = "../assets/fonts/SF-Pro-Text-Semibold.otf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
-		14E46612C0B542ED93E52C81 /* SF-Pro-Text-SemiboldItalic.otf */ = {isa = PBXFileReference; name = "SF-Pro-Text-SemiboldItalic.otf"; path = "../assets/fonts/SF-Pro-Text-SemiboldItalic.otf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
-		F1EEE822F40D4C88B9C9CEF6 /* SF-Pro-Text-Thin.otf */ = {isa = PBXFileReference; name = "SF-Pro-Text-Thin.otf"; path = "../assets/fonts/SF-Pro-Text-Thin.otf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
-		2E9171E747884E51A23D6617 /* SF-Pro-Text-ThinItalic.otf */ = {isa = PBXFileReference; name = "SF-Pro-Text-ThinItalic.otf"; path = "../assets/fonts/SF-Pro-Text-ThinItalic.otf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
-		57915FE2CEA94BF4A96A955C /* SF-Pro-Text-Ultralight.otf */ = {isa = PBXFileReference; name = "SF-Pro-Text-Ultralight.otf"; path = "../assets/fonts/SF-Pro-Text-Ultralight.otf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
-		EB8F4F2B841A4B51BB2E861C /* SF-Pro-Text-UltralightItalic.otf */ = {isa = PBXFileReference; name = "SF-Pro-Text-UltralightItalic.otf"; path = "../assets/fonts/SF-Pro-Text-UltralightItalic.otf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		F1EEE822F40D4C88B9C9CEF6 /* SF-Pro-Text-Thin.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "SF-Pro-Text-Thin.otf"; path = "../assets/fonts/SF-Pro-Text-Thin.otf"; sourceTree = "<group>"; };
+		F4ACCAF0BDA95CC09DB6D308 /* Pods-DesmosProfileManager-DesmosProfileManagerTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DesmosProfileManager-DesmosProfileManagerTests.debug.xcconfig"; path = "Target Support Files/Pods-DesmosProfileManager-DesmosProfileManagerTests/Pods-DesmosProfileManager-DesmosProfileManagerTests.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -111,6 +124,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B17B0E5D3C7326DF355B4DDE /* libPods-DesmosProfileManager-DesmosProfileManagerTests.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -118,6 +132,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F2FA814145E7ADFE9267351E /* libPods-DesmosProfileManager.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -150,6 +165,9 @@
 				13B07FB61A68108700A75B9A /* Info.plist */,
 				81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */,
 				13B07FB71A68108700A75B9A /* main.m */,
+				A789FD36270C607C00EFC6CF /* RCTCryptoUtils.m */,
+				A789FD38270C609D00EFC6CF /* RCTCryptoUtils.swift */,
+				A789FD3A270C60F600EFC6CF /* RCTCryptoUtils-Bridging-Header.h */,
 			);
 			name = DesmosProfileManager;
 			sourceTree = "<group>";
@@ -158,8 +176,21 @@
 			isa = PBXGroup;
 			children = (
 				ED297162215061F000B7C4FE /* JavaScriptCore.framework */,
+				306AEECA0B58C9F8022AB368 /* libPods-DesmosProfileManager.a */,
+				974794EDB5E9F632DCF31CD9 /* libPods-DesmosProfileManager-DesmosProfileManagerTests.a */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		739B6468C0237FC0C95D56ED /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				8C25932F2FA5BE96256DCC9E /* Pods-DesmosProfileManager.debug.xcconfig */,
+				4A9F16BE5A9A1926A3D3E218 /* Pods-DesmosProfileManager.release.xcconfig */,
+				F4ACCAF0BDA95CC09DB6D308 /* Pods-DesmosProfileManager-DesmosProfileManagerTests.debug.xcconfig */,
+				ECAF28AE528752C204F5294A /* Pods-DesmosProfileManager-DesmosProfileManagerTests.release.xcconfig */,
+			);
+			path = Pods;
 			sourceTree = "<group>";
 		};
 		832341AE1AAA6A7D00B99B32 /* Libraries */ = {
@@ -178,6 +209,7 @@
 				83CBBA001A601CBA00E9B192 /* Products */,
 				2D16E6871FA4F8E400B85C8A /* Frameworks */,
 				D66B581A1E4B41A08C48EC3A /* Resources */,
+				739B6468C0237FC0C95D56ED /* Pods */,
 			);
 			indentWidth = 2;
 			sourceTree = "<group>";
@@ -194,7 +226,7 @@
 			sourceTree = "<group>";
 		};
 		D66B581A1E4B41A08C48EC3A /* Resources */ = {
-			isa = "PBXGroup";
+			isa = PBXGroup;
 			children = (
 				368EE92ED07F4198875A23BC /* AntDesign.ttf */,
 				5F686463C7C642C98DB6BF70 /* Entypo.ttf */,
@@ -233,7 +265,6 @@
 			);
 			name = Resources;
 			sourceTree = "<group>";
-			path = "";
 		};
 /* End PBXGroup section */
 
@@ -242,9 +273,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 00E357021AD99517003FC87E /* Build configuration list for PBXNativeTarget "DesmosProfileManagerTests" */;
 			buildPhases = (
+				6493495C14F091B7086AD861 /* [CP] Check Pods Manifest.lock */,
 				00E356EA1AD99517003FC87E /* Sources */,
 				00E356EB1AD99517003FC87E /* Frameworks */,
 				00E356EC1AD99517003FC87E /* Resources */,
+				4512240F22E7866187ED1FF1 /* [CP] Embed Pods Frameworks */,
+				4F5FAE5F0E1613CE117CC5CD /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -260,11 +294,14 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 13B07F931A680F5B00A75B9A /* Build configuration list for PBXNativeTarget "DesmosProfileManager" */;
 			buildPhases = (
+				B1C5E8558B9ABE8DEDCD9D8D /* [CP] Check Pods Manifest.lock */,
 				FD10A7F022414F080027D42C /* Start Packager */,
 				13B07F871A680F5B00A75B9A /* Sources */,
 				13B07F8C1A680F5B00A75B9A /* Frameworks */,
 				13B07F8E1A680F5B00A75B9A /* Resources */,
 				00DD1BFF1BD5951E006B06BC /* Bundle React Native code and images */,
+				8032FA668ED07F78A0C158B1 /* [CP] Embed Pods Frameworks */,
+				EE4E097777086FC0CE75C823 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -288,7 +325,7 @@
 						TestTargetID = 13B07F861A680F5B00A75B9A;
 					};
 					13B07F861A680F5B00A75B9A = {
-						LastSwiftMigration = 1120;
+						LastSwiftMigration = 1250;
 					};
 				};
 			};
@@ -379,6 +416,118 @@
 			shellPath = /bin/sh;
 			shellScript = "set -e\n\nexport NODE_BINARY=node\n../node_modules/react-native/scripts/react-native-xcode.sh\n";
 		};
+		4512240F22E7866187ED1FF1 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-DesmosProfileManager-DesmosProfileManagerTests/Pods-DesmosProfileManager-DesmosProfileManagerTests-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-DesmosProfileManager-DesmosProfileManagerTests/Pods-DesmosProfileManager-DesmosProfileManagerTests-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-DesmosProfileManager-DesmosProfileManagerTests/Pods-DesmosProfileManager-DesmosProfileManagerTests-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		4F5FAE5F0E1613CE117CC5CD /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-DesmosProfileManager-DesmosProfileManagerTests/Pods-DesmosProfileManager-DesmosProfileManagerTests-resources-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Copy Pods Resources";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-DesmosProfileManager-DesmosProfileManagerTests/Pods-DesmosProfileManager-DesmosProfileManagerTests-resources-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-DesmosProfileManager-DesmosProfileManagerTests/Pods-DesmosProfileManager-DesmosProfileManagerTests-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		6493495C14F091B7086AD861 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-DesmosProfileManager-DesmosProfileManagerTests-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		8032FA668ED07F78A0C158B1 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-DesmosProfileManager/Pods-DesmosProfileManager-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-DesmosProfileManager/Pods-DesmosProfileManager-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-DesmosProfileManager/Pods-DesmosProfileManager-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		B1C5E8558B9ABE8DEDCD9D8D /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-DesmosProfileManager-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		EE4E097777086FC0CE75C823 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-DesmosProfileManager/Pods-DesmosProfileManager-resources-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Copy Pods Resources";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-DesmosProfileManager/Pods-DesmosProfileManager-resources-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-DesmosProfileManager/Pods-DesmosProfileManager-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
 		FD10A7F022414F080027D42C /* Start Packager */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -413,7 +562,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A789FD37270C607C00EFC6CF /* RCTCryptoUtils.m in Sources */,
 				13B07FBC1A68108700A75B9A /* AppDelegate.m in Sources */,
+				A789FD39270C609D00EFC6CF /* RCTCryptoUtils.swift in Sources */,
 				13B07FC11A68108700A75B9A /* main.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -431,7 +582,9 @@
 /* Begin XCBuildConfiguration section */
 		00E356F61AD99517003FC87E /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = F4ACCAF0BDA95CC09DB6D308 /* Pods-DesmosProfileManager-DesmosProfileManagerTests.debug.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"DEBUG=1",
@@ -457,7 +610,9 @@
 		};
 		00E356F71AD99517003FC87E /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = ECAF28AE528752C204F5294A /* Pods-DesmosProfileManager-DesmosProfileManagerTests.release.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				COPY_PHASE_STRIP = NO;
 				INFOPLIST_FILE = DesmosProfileManagerTests/Info.plist;
@@ -480,6 +635,7 @@
 		};
 		13B07F941A680F5B00A75B9A /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 8C25932F2FA5BE96256DCC9E /* Pods-DesmosProfileManager.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
@@ -497,6 +653,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = DesmosProfileManager;
+				SWIFT_OBJC_BRIDGING_HEADER = "DesmosProfileManager-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
 				VERSIONING_SYSTEM = "apple-generic";
@@ -505,6 +662,7 @@
 		};
 		13B07F951A680F5B00A75B9A /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 4A9F16BE5A9A1926A3D3E218 /* Pods-DesmosProfileManager.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
@@ -521,6 +679,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = DesmosProfileManager;
+				SWIFT_OBJC_BRIDGING_HEADER = "DesmosProfileManager-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
 				VERSIONING_SYSTEM = "apple-generic";
 			};
@@ -559,6 +718,7 @@
 				COPY_PHASE_STRIP = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
+				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = "arm64 ";
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_NO_COMMON_BLOCKS = YES;
@@ -623,6 +783,7 @@
 				COPY_PHASE_STRIP = YES;
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = "arm64 ";
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
