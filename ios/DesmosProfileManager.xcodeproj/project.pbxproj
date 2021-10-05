@@ -8,25 +8,13 @@
 
 /* Begin PBXBuildFile section */
 		00E356F31AD99517003FC87E /* DesmosProfileManagerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 00E356F21AD99517003FC87E /* DesmosProfileManagerTests.m */; };
-		04804B3F23454B078C7804D1 /* SimpleLineIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 2CB4529CE0F942D19BD2A37A /* SimpleLineIcons.ttf */; };
-		051E99C3C0DD4D0AA0DC9D09 /* Ionicons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = BFD5F878002B449DA26EC9B3 /* Ionicons.ttf */; };
 		0F1194EC2CB94C1F8E8D157A /* SF-Pro-Text-Regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = 376F022ED47D4E0AA8B6942C /* SF-Pro-Text-Regular.otf */; };
 		13B07FBC1A68108700A75B9A /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB01A68108700A75B9A /* AppDelegate.m */; };
 		13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
 		144211C265ED49D6AB9376AC /* SF-Pro-Text-RegularItalic.otf in Resources */ = {isa = PBXBuildFile; fileRef = 926A36E274E04E22B167BBD0 /* SF-Pro-Text-RegularItalic.otf */; };
 		1B98B953317D4F27AECA1FF8 /* SF-Pro-Text-Heavy.otf in Resources */ = {isa = PBXBuildFile; fileRef = C81C0C0120BF41F59D4D7D66 /* SF-Pro-Text-Heavy.otf */; };
-		27679CCC84E94422B3A8305D /* AntDesign.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 368EE92ED07F4198875A23BC /* AntDesign.ttf */; };
-		2C8A4F6230934F96AF5A677D /* FontAwesome5_Brands.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 074621ED936F4F43A6D0BA1D /* FontAwesome5_Brands.ttf */; };
-		36096BA75F4140859B0B3A29 /* Feather.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 03F2F4E3CB714913B7B5D4BC /* Feather.ttf */; };
-		3F017317CDFD4431B8E6EE0C /* EvilIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = E34A2C5CAAC8459F8D887101 /* EvilIcons.ttf */; };
-		3FD762107E9A49C69C640A65 /* Entypo.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 5F686463C7C642C98DB6BF70 /* Entypo.ttf */; };
-		4965CD4C451048A5870AF1BD /* Zocial.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 3C4693598A8A4594A31A84CE /* Zocial.ttf */; };
-		5ED0CD5DF9984193A58F99F4 /* FontAwesome5_Solid.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 9EABCC2A8BA34E11B34155B2 /* FontAwesome5_Solid.ttf */; };
-		691976B576874C5A934BB2CA /* MaterialCommunityIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = EBF98EC78B7941B69F44E9C7 /* MaterialCommunityIcons.ttf */; };
-		6AB015D0A88D4C62AA7276CE /* Octicons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 47D2700756EC45589495227F /* Octicons.ttf */; };
 		730077F03B8D4EFAB67C895A /* SF-Pro-Text-SemiboldItalic.otf in Resources */ = {isa = PBXBuildFile; fileRef = 14E46612C0B542ED93E52C81 /* SF-Pro-Text-SemiboldItalic.otf */; };
-		7736BDA57BCC41B7BC1BB08B /* MaterialIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 7097FC34307D4347A9EDD53F /* MaterialIcons.ttf */; };
 		7F153051ADDF4268A696B3F5 /* SF-Pro-Text-Light.otf in Resources */ = {isa = PBXBuildFile; fileRef = 7D991DF530764AED8C758933 /* SF-Pro-Text-Light.otf */; };
 		81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */; };
 		86256B151F2D456696261106 /* SF-Pro-Text-Bold.otf in Resources */ = {isa = PBXBuildFile; fileRef = 327B9FBB8C104213BB00A7D1 /* SF-Pro-Text-Bold.otf */; };
@@ -34,19 +22,15 @@
 		9583A03747D4408F90D6E863 /* SF-Pro-Text-Medium.otf in Resources */ = {isa = PBXBuildFile; fileRef = ADF8EDBCB4EA44C3A50A01B8 /* SF-Pro-Text-Medium.otf */; };
 		9B4E5F4EE3794FA38AE024B2 /* SF-Pro-Text-Semibold.otf in Resources */ = {isa = PBXBuildFile; fileRef = 802B1664862E461FB1511A84 /* SF-Pro-Text-Semibold.otf */; };
 		A2E5398E4F674212A0B6D189 /* SF-Pro-Text-MediumItalic.otf in Resources */ = {isa = PBXBuildFile; fileRef = E2C0F8BC7A0548C095514C14 /* SF-Pro-Text-MediumItalic.otf */; };
-		A789FD37270C607C00EFC6CF /* RCTCryptoUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = A789FD36270C607C00EFC6CF /* RCTCryptoUtils.m */; };
-		A789FD39270C609D00EFC6CF /* RCTCryptoUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = A789FD38270C609D00EFC6CF /* RCTCryptoUtils.swift */; };
+		A789FD3D270CA25F00EFC6CF /* RCTCryptoUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = A789FD3C270CA25F00EFC6CF /* RCTCryptoUtils.swift */; };
+		A789FD3F270CA2AE00EFC6CF /* RCTCryptoUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = A789FD3E270CA2AE00EFC6CF /* RCTCryptoUtils.m */; };
 		AA79B2EDCCD5422390E56EB4 /* SF-Pro-Text-Thin.otf in Resources */ = {isa = PBXBuildFile; fileRef = F1EEE822F40D4C88B9C9CEF6 /* SF-Pro-Text-Thin.otf */; };
 		ABAB17FEC67F405F843B0DE8 /* SF-Pro-Text-Black.otf in Resources */ = {isa = PBXBuildFile; fileRef = C121DE490B1B4290BB53F881 /* SF-Pro-Text-Black.otf */; };
 		AF7B186BB16B4918BF2C2CA7 /* SF-Pro-Text-UltralightItalic.otf in Resources */ = {isa = PBXBuildFile; fileRef = EB8F4F2B841A4B51BB2E861C /* SF-Pro-Text-UltralightItalic.otf */; };
 		B17B0E5D3C7326DF355B4DDE /* libPods-DesmosProfileManager-DesmosProfileManagerTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 974794EDB5E9F632DCF31CD9 /* libPods-DesmosProfileManager-DesmosProfileManagerTests.a */; };
-		B1CC9C62255841628C7974EF /* Foundation.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 4BB2656503FB4C8BBB4C556C /* Foundation.ttf */; };
 		B5A3E7B0A8994F1289BF4AA9 /* SF-Pro-Text-Ultralight.otf in Resources */ = {isa = PBXBuildFile; fileRef = 57915FE2CEA94BF4A96A955C /* SF-Pro-Text-Ultralight.otf */; };
-		C0B94FD6D1F74336BAEA02DD /* FontAwesome5_Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 89FE99CA0F8B4B35AC97EEB4 /* FontAwesome5_Regular.ttf */; };
 		C474AE2A5C0748F38BF5F6CA /* SF-Pro-Text-ThinItalic.otf in Resources */ = {isa = PBXBuildFile; fileRef = 2E9171E747884E51A23D6617 /* SF-Pro-Text-ThinItalic.otf */; };
 		C853BE9B0B7C41A09A213243 /* SF-Pro-Text-BlackItalic.otf in Resources */ = {isa = PBXBuildFile; fileRef = 75DF51EDB77C422BB24B36D4 /* SF-Pro-Text-BlackItalic.otf */; };
-		D72D42F116CD4B8B9A0CC692 /* FontAwesome.ttf in Resources */ = {isa = PBXBuildFile; fileRef = B030A1C7CB4E4C4F98C12B7E /* FontAwesome.ttf */; };
-		E0C3DF50108D47EE961C050B /* Fontisto.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 818B79F14BB14583BBB4E3AB /* Fontisto.ttf */; };
 		F2FA814145E7ADFE9267351E /* libPods-DesmosProfileManager.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 306AEECA0B58C9F8022AB368 /* libPods-DesmosProfileManager.a */; };
 		F8BFCB35B18442F198508332 /* SF-Pro-Text-LightItalic.otf in Resources */ = {isa = PBXBuildFile; fileRef = 8B54C96DCB30412DA86B36D1 /* SF-Pro-Text-LightItalic.otf */; };
 		FC978F2B9D8E4AF3A87D4423 /* SF-Pro-Text-HeavyItalic.otf in Resources */ = {isa = PBXBuildFile; fileRef = 38CC69FADDAF49C7BE8AF60E /* SF-Pro-Text-HeavyItalic.otf */; };
@@ -101,9 +85,9 @@
 		926A36E274E04E22B167BBD0 /* SF-Pro-Text-RegularItalic.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "SF-Pro-Text-RegularItalic.otf"; path = "../assets/fonts/SF-Pro-Text-RegularItalic.otf"; sourceTree = "<group>"; };
 		974794EDB5E9F632DCF31CD9 /* libPods-DesmosProfileManager-DesmosProfileManagerTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-DesmosProfileManager-DesmosProfileManagerTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		9EABCC2A8BA34E11B34155B2 /* FontAwesome5_Solid.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = FontAwesome5_Solid.ttf; path = "../node_modules/react-native-vector-icons/Fonts/FontAwesome5_Solid.ttf"; sourceTree = "<group>"; };
-		A789FD36270C607C00EFC6CF /* RCTCryptoUtils.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = RCTCryptoUtils.m; path = DesmosProfileManager/RCTCryptoUtils.m; sourceTree = "<group>"; };
-		A789FD38270C609D00EFC6CF /* RCTCryptoUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = RCTCryptoUtils.swift; path = DesmosProfileManager/RCTCryptoUtils.swift; sourceTree = "<group>"; };
-		A789FD3A270C60F600EFC6CF /* RCTCryptoUtils-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "RCTCryptoUtils-Bridging-Header.h"; sourceTree = "<group>"; };
+		A789FD3B270CA25E00EFC6CF /* DesmosProfileManager-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "DesmosProfileManager-Bridging-Header.h"; sourceTree = "<group>"; };
+		A789FD3C270CA25F00EFC6CF /* RCTCryptoUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = RCTCryptoUtils.swift; path = DesmosProfileManager/RCTCryptoUtils.swift; sourceTree = "<group>"; };
+		A789FD3E270CA2AE00EFC6CF /* RCTCryptoUtils.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RCTCryptoUtils.m; sourceTree = "<group>"; };
 		ADF8EDBCB4EA44C3A50A01B8 /* SF-Pro-Text-Medium.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "SF-Pro-Text-Medium.otf"; path = "../assets/fonts/SF-Pro-Text-Medium.otf"; sourceTree = "<group>"; };
 		B030A1C7CB4E4C4F98C12B7E /* FontAwesome.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = FontAwesome.ttf; path = "../node_modules/react-native-vector-icons/Fonts/FontAwesome.ttf"; sourceTree = "<group>"; };
 		BFD5F878002B449DA26EC9B3 /* Ionicons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Ionicons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Ionicons.ttf"; sourceTree = "<group>"; };
@@ -165,9 +149,9 @@
 				13B07FB61A68108700A75B9A /* Info.plist */,
 				81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */,
 				13B07FB71A68108700A75B9A /* main.m */,
-				A789FD36270C607C00EFC6CF /* RCTCryptoUtils.m */,
-				A789FD38270C609D00EFC6CF /* RCTCryptoUtils.swift */,
-				A789FD3A270C60F600EFC6CF /* RCTCryptoUtils-Bridging-Header.h */,
+				A789FD3E270CA2AE00EFC6CF /* RCTCryptoUtils.m */,
+				A789FD3C270CA25F00EFC6CF /* RCTCryptoUtils.swift */,
+				A789FD3B270CA25E00EFC6CF /* DesmosProfileManager-Bridging-Header.h */,
 			);
 			name = DesmosProfileManager;
 			sourceTree = "<group>";
@@ -362,22 +346,6 @@
 			files = (
 				81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */,
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
-				27679CCC84E94422B3A8305D /* AntDesign.ttf in Resources */,
-				3FD762107E9A49C69C640A65 /* Entypo.ttf in Resources */,
-				3F017317CDFD4431B8E6EE0C /* EvilIcons.ttf in Resources */,
-				36096BA75F4140859B0B3A29 /* Feather.ttf in Resources */,
-				D72D42F116CD4B8B9A0CC692 /* FontAwesome.ttf in Resources */,
-				2C8A4F6230934F96AF5A677D /* FontAwesome5_Brands.ttf in Resources */,
-				C0B94FD6D1F74336BAEA02DD /* FontAwesome5_Regular.ttf in Resources */,
-				5ED0CD5DF9984193A58F99F4 /* FontAwesome5_Solid.ttf in Resources */,
-				E0C3DF50108D47EE961C050B /* Fontisto.ttf in Resources */,
-				B1CC9C62255841628C7974EF /* Foundation.ttf in Resources */,
-				051E99C3C0DD4D0AA0DC9D09 /* Ionicons.ttf in Resources */,
-				691976B576874C5A934BB2CA /* MaterialCommunityIcons.ttf in Resources */,
-				7736BDA57BCC41B7BC1BB08B /* MaterialIcons.ttf in Resources */,
-				6AB015D0A88D4C62AA7276CE /* Octicons.ttf in Resources */,
-				04804B3F23454B078C7804D1 /* SimpleLineIcons.ttf in Resources */,
-				4965CD4C451048A5870AF1BD /* Zocial.ttf in Resources */,
 				ABAB17FEC67F405F843B0DE8 /* SF-Pro-Text-Black.otf in Resources */,
 				C853BE9B0B7C41A09A213243 /* SF-Pro-Text-BlackItalic.otf in Resources */,
 				86256B151F2D456696261106 /* SF-Pro-Text-Bold.otf in Resources */,
@@ -562,9 +530,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				A789FD37270C607C00EFC6CF /* RCTCryptoUtils.m in Sources */,
 				13B07FBC1A68108700A75B9A /* AppDelegate.m in Sources */,
-				A789FD39270C609D00EFC6CF /* RCTCryptoUtils.swift in Sources */,
+				A789FD3D270CA25F00EFC6CF /* RCTCryptoUtils.swift in Sources */,
+				A789FD3F270CA2AE00EFC6CF /* RCTCryptoUtils.m in Sources */,
 				13B07FC11A68108700A75B9A /* main.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

@@ -11,9 +11,9 @@ class KeyPair {
   
   private static func ecdsa64(data:Data, curve:UnsafePointer<ecdsa_curve>) -> Data {
     var hashed = Data(repeating: 0, count: 65)
-    data.withUnsafeBytes { ptr in
-      hashed.withUnsafeMutableBytes { keyPtr in
-        ecdsa_get_public_key65(curve, ptr, keyPtr)
+    data.withUnsafeBytes { (ptr: UnsafeRawBufferPointer)-> Void in
+      hashed.withUnsafeMutableBytes { (keyPtr: UnsafeMutableRawBufferPointer) -> Void in
+        ecdsa_get_public_key65(curve, ptr.baseAddress?.assumingMemoryBound(to: UInt8.self), keyPtr.baseAddress?.assumingMemoryBound(to: UInt8.self))
       }
     }
     
@@ -21,7 +21,7 @@ class KeyPair {
   }
   
   public var privateKey: Data {
-    return Data(bytes: withUnsafeBytes(of: &node.private_key) { ptr in
+    return Data(withUnsafeBytes(of: &node.private_key) { ptr in
       return ptr.map({ $0 })
     })
   }
@@ -37,7 +37,7 @@ class KeyPair {
 }
 
 @objc(CryptoUtils)
-class CryptoUtils {
+class CryptoUtils: NSObject {
   
   @objc(deriveKeyPairFromMnemonic:withCoinType:withAccount:withChange:withIndex:withResolver:withRejecter:)
   func deriveKeyPairFromMnemonic(_ mnemonic:String, coinType: Int, account: Int, change: Int, index: Int,
@@ -46,13 +46,13 @@ class CryptoUtils {
       let index = 0
       
       var seed = Data(repeating: 0, count: 64)
-      seed.withUnsafeMutableBytes { seedPtr in
-        mnemonic_to_seed(mnemonic, "", seedPtr, nil)
+      seed.withUnsafeMutableBytes { (seedPtr: UnsafeMutableRawBufferPointer) -> Void in
+        mnemonic_to_seed(mnemonic, "", seedPtr.baseAddress?.assumingMemoryBound(to: UInt8.self), nil)
       }
       
       var node = HDNode()
-      var returnCode = seed.withUnsafeBytes { dataPtr in
-        return hdnode_from_seed(dataPtr, Int32(seed.count), "secp256k1", &node)
+      let returnCode = seed.withUnsafeBytes { (dataPtr: UnsafeRawBufferPointer) -> Int32 in
+        return hdnode_from_seed(dataPtr.baseAddress?.assumingMemoryBound(to: UInt8.self), Int32(seed.count), "secp256k1", &node)
       }
       
       if returnCode == 1 {
@@ -63,9 +63,9 @@ class CryptoUtils {
         }
         
         hdnode_private_ckd(&node, UInt32(0))
-        let keyPair: KeyPair = KeyPair(node)
+        let keyPair: KeyPair = KeyPair(node: node)
         
-        var keyPairJSON = ["privkey": keyPair.privateKey.hex, "pubkey": keyPair.publicKey64.hex]
+        let keyPairJSON = ["privkey": keyPair.privateKey.hex, "pubkey": keyPair.publicKey64.hex]
         
         resolve(keyPairJSON)
         
