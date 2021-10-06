@@ -8,6 +8,8 @@ import {CompositeScreenProps} from "@react-navigation/native";
 import {ProfileHeader} from "../components/ProfileHeader";
 import {View} from "react-native";
 import {FlexPadding} from "../components/FlexPadding";
+import {launchImageLibrary} from 'react-native-image-picker';
+import {ImagePickerResponse} from "react-native-image-picker/src/types";
 
 type Props = CompositeScreenProps<StackScreenProps<AccountScreensStackParams, "EditProfile">,
     StackScreenProps<RootStackParams>>;
@@ -17,40 +19,55 @@ export const EditProfile: React.FC<Props> = (props) => {
     const styles = useStyles();
     const {t} = useTranslation();
     const [dtag, setDtag] = useState(profile?.dtag ?? "");
-    const [nickname, setNickname] = useState(profile?.nickname ?? "");
-    const [bio, setBio] = useState(profile?.bio ?? "");
-    const [profilePicture, setProfilePicture] = useState(undefined);
-    const [coverPicture, setCoverPicture] = useState(undefined);
+    const [nickname, setNickname] = useState(profile?.nickname);
+    const [bio, setBio] = useState(profile?.bio);
+    const [selectedProfilePicture, setProfilePicture] = useState<string | undefined>(undefined);
+    const [selectedCoverPicture, setCoverPicture] = useState<string | undefined>(undefined);
 
     const onSavePressed = () => {
         props.navigation.navigate({
             name: "ConfirmProfileEdit",
             params: {
                 account: account,
-                profile: profile,
-                newDtag: dtag,
-                newNickName: nickname,
-                newBio: bio,
-                newCoverPicture: profilePicture,
-                newProfilePicture: coverPicture
+                dtag: dtag,
+                nickname: nickname,
+                bio: bio,
+                uploadCoverPicture: selectedCoverPicture !== undefined,
+                coverPictureUri: selectedCoverPicture ?? profile?.cachedCoverPictureUri,
+                uploadProfilePicture: selectedProfilePicture !== undefined,
+                profilePictureUri: selectedProfilePicture ?? profile?.cachedProfilePictureUri,
             }
         });
     }
 
+    const pickPicture = useCallback((setter: (value: string | undefined) => void) => {
+        launchImageLibrary({
+            quality: 0.5,
+            mediaType: "photo",
+            selectionLimit: 1,
+            includeBase64: false
+        }, ((response: ImagePickerResponse) => {
+            const assets = response.assets ?? [];
+            if (assets.length > 0) {
+                setter(assets[0].uri)
+            }
+        }))
+    }, [])
+
     const onEditCoverPicture = useCallback(() => {
-        console.warn("Cover picture picking not supported");
-    }, []);
+        pickPicture(setCoverPicture);
+    }, [pickPicture]);
 
     const onEditProfilePicture = useCallback(() => {
-        console.warn("Profile picture picking not supported");
-    }, []);
+        pickPicture(setProfilePicture);
+    }, [pickPicture]);
 
     return <StyledSafeAreaView
         style={styles.root}
     >
         <ProfileHeader
-            coverPictureUri={profile?.cachedCoverPictureUri}
-            profilePictureUri={profile?.cachedProfilePictureUri}
+            coverPictureUri={selectedCoverPicture ?? profile?.cachedCoverPictureUri}
+            profilePictureUri={selectedProfilePicture ?? profile?.cachedProfilePictureUri}
             onEditCoverPicture={onEditCoverPicture}
             onEditProfilePicture={onEditProfilePicture}
         />

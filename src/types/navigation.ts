@@ -52,12 +52,13 @@ export type AccountScreensStackParams = {
     },
     ConfirmProfileEdit: {
         account: ChainAccount,
-        profile: CachedDesmosProfile | null,
-        newDtag: string,
-        newNickName?: string,
-        newBio?: string,
-        newCoverPicture?: string,
-        newProfilePicture?: string
+        dtag: string,
+        nickname?: string,
+        bio?: string,
+        uploadCoverPicture: boolean,
+        coverPictureUri?: string,
+        uploadProfilePicture: boolean,
+        profilePictureUri?: string
     },
     AccountSessions: {
         account: ChainAccount;
