@@ -84,3 +84,42 @@ extension Data {
         return self.map { b in String(format: "%02x", b) }.joined()
     }
 }
+
+class NativeCryptoUtils {
+  func deriveKeyPairFromMnemonic(_ mnemonic:String, coinType: Int, account: Int, change: Int, index: Int) -> Dictionary<String, String> {
+    if mnemonic_check(mnemonic) != 0 {
+      let index = 0
+      
+      var seed = Data(repeating: 0, count: 64)
+      seed.withUnsafeMutableBytes { (seedPtr: UnsafeMutableRawBufferPointer) -> Void in
+        mnemonic_to_seed(mnemonic, "", seedPtr.baseAddress?.assumingMemoryBound(to: UInt8.self), nil)
+      }
+      
+      var node = HDNode()
+      let returnCode = seed.withUnsafeBytes { (dataPtr: UnsafeRawBufferPointer) -> Int32 in
+        return hdnode_from_seed(dataPtr.baseAddress?.assumingMemoryBound(to: UInt8.self), Int32(seed.count), "secp256k1", &node)
+      }
+      
+      if returnCode == 1 {
+        let highestBit:UInt32 = 0x80000000
+        let indexes: [UInt32] = [UInt32(44)|highestBit, UInt32(coinType)|highestBit, UInt32(account)|highestBit, UInt32(change), UInt32(index)]
+        for index in indexes {
+          hdnode_private_ckd(&node, index)
+        }
+        
+        hdnode_private_ckd(&node, UInt32(0))
+        let keyPair: KeyPair = KeyPair(node: node)
+        
+        let keyPairJSON = ["privkey": keyPair.privateKey.hex, "pubkey": keyPair.publicKey64.hex]
+        
+        return keyPairJSON
+        
+      } else {
+        return ["event_mnemonic_generation":"invalid hd_node from seed"]
+      }
+    }
+    else {
+      return ["event_mnemonic_generation":"invalid mnemonic"]
+    }
+  }
+}

@@ -18,10 +18,12 @@
 		7F153051ADDF4268A696B3F5 /* SF-Pro-Text-Light.otf in Resources */ = {isa = PBXBuildFile; fileRef = 7D991DF530764AED8C758933 /* SF-Pro-Text-Light.otf */; };
 		81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */; };
 		86256B151F2D456696261106 /* SF-Pro-Text-Bold.otf in Resources */ = {isa = PBXBuildFile; fileRef = 327B9FBB8C104213BB00A7D1 /* SF-Pro-Text-Bold.otf */; };
+		8AC5B9C01AF156A3395051BC /* libPods-DesmosProfileManager-RCTCryptoUtilsTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 9DA4AD69EF3CFF1B336E0971 /* libPods-DesmosProfileManager-RCTCryptoUtilsTests.a */; };
 		8B90CA62C6E342DCAFC55902 /* SF-Pro-Text-BoldItalic.otf in Resources */ = {isa = PBXBuildFile; fileRef = 8521EC17790D4505A1C3EB26 /* SF-Pro-Text-BoldItalic.otf */; };
 		9583A03747D4408F90D6E863 /* SF-Pro-Text-Medium.otf in Resources */ = {isa = PBXBuildFile; fileRef = ADF8EDBCB4EA44C3A50A01B8 /* SF-Pro-Text-Medium.otf */; };
 		9B4E5F4EE3794FA38AE024B2 /* SF-Pro-Text-Semibold.otf in Resources */ = {isa = PBXBuildFile; fileRef = 802B1664862E461FB1511A84 /* SF-Pro-Text-Semibold.otf */; };
 		A2E5398E4F674212A0B6D189 /* SF-Pro-Text-MediumItalic.otf in Resources */ = {isa = PBXBuildFile; fileRef = E2C0F8BC7A0548C095514C14 /* SF-Pro-Text-MediumItalic.otf */; };
+		A701DE80270DFC070092C404 /* RCTCryptoUtilsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A701DE7F270DFC070092C404 /* RCTCryptoUtilsTests.swift */; };
 		A789FD3D270CA25F00EFC6CF /* RCTCryptoUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = A789FD3C270CA25F00EFC6CF /* RCTCryptoUtils.swift */; };
 		A789FD3F270CA2AE00EFC6CF /* RCTCryptoUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = A789FD3E270CA2AE00EFC6CF /* RCTCryptoUtils.m */; };
 		AA79B2EDCCD5422390E56EB4 /* SF-Pro-Text-Thin.otf in Resources */ = {isa = PBXBuildFile; fileRef = F1EEE822F40D4C88B9C9CEF6 /* SF-Pro-Text-Thin.otf */; };
@@ -38,6 +40,13 @@
 
 /* Begin PBXContainerItemProxy section */
 		00E356F41AD99517003FC87E /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 83CBB9F71A601CBA00E9B192 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 13B07F861A680F5B00A75B9A;
+			remoteInfo = DesmosProfileManager;
+		};
+		A701DE81270DFC070092C404 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 83CBB9F71A601CBA00E9B192 /* Project object */;
 			proxyType = 1;
@@ -62,6 +71,7 @@
 		2CB4529CE0F942D19BD2A37A /* SimpleLineIcons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = SimpleLineIcons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/SimpleLineIcons.ttf"; sourceTree = "<group>"; };
 		2E9171E747884E51A23D6617 /* SF-Pro-Text-ThinItalic.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "SF-Pro-Text-ThinItalic.otf"; path = "../assets/fonts/SF-Pro-Text-ThinItalic.otf"; sourceTree = "<group>"; };
 		306AEECA0B58C9F8022AB368 /* libPods-DesmosProfileManager.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-DesmosProfileManager.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		31467935E441053EFDF89256 /* Pods-RCTCryptoUtilsTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RCTCryptoUtilsTests.release.xcconfig"; path = "Target Support Files/Pods-RCTCryptoUtilsTests/Pods-RCTCryptoUtilsTests.release.xcconfig"; sourceTree = "<group>"; };
 		327B9FBB8C104213BB00A7D1 /* SF-Pro-Text-Bold.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "SF-Pro-Text-Bold.otf"; path = "../assets/fonts/SF-Pro-Text-Bold.otf"; sourceTree = "<group>"; };
 		368EE92ED07F4198875A23BC /* AntDesign.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = AntDesign.ttf; path = "../node_modules/react-native-vector-icons/Fonts/AntDesign.ttf"; sourceTree = "<group>"; };
 		376F022ED47D4E0AA8B6942C /* SF-Pro-Text-Regular.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "SF-Pro-Text-Regular.otf"; path = "../assets/fonts/SF-Pro-Text-Regular.otf"; sourceTree = "<group>"; };
@@ -76,6 +86,7 @@
 		75DF51EDB77C422BB24B36D4 /* SF-Pro-Text-BlackItalic.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "SF-Pro-Text-BlackItalic.otf"; path = "../assets/fonts/SF-Pro-Text-BlackItalic.otf"; sourceTree = "<group>"; };
 		7D991DF530764AED8C758933 /* SF-Pro-Text-Light.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "SF-Pro-Text-Light.otf"; path = "../assets/fonts/SF-Pro-Text-Light.otf"; sourceTree = "<group>"; };
 		802B1664862E461FB1511A84 /* SF-Pro-Text-Semibold.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "SF-Pro-Text-Semibold.otf"; path = "../assets/fonts/SF-Pro-Text-Semibold.otf"; sourceTree = "<group>"; };
+		8056E480C5BC26D54EC213A9 /* Pods-DesmosProfileManager-RCTCryptoUtilsTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DesmosProfileManager-RCTCryptoUtilsTests.release.xcconfig"; path = "Target Support Files/Pods-DesmosProfileManager-RCTCryptoUtilsTests/Pods-DesmosProfileManager-RCTCryptoUtilsTests.release.xcconfig"; sourceTree = "<group>"; };
 		818B79F14BB14583BBB4E3AB /* Fontisto.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Fontisto.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Fontisto.ttf"; sourceTree = "<group>"; };
 		81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = LaunchScreen.storyboard; path = DesmosProfileManager/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		8521EC17790D4505A1C3EB26 /* SF-Pro-Text-BoldItalic.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "SF-Pro-Text-BoldItalic.otf"; path = "../assets/fonts/SF-Pro-Text-BoldItalic.otf"; sourceTree = "<group>"; };
@@ -84,7 +95,10 @@
 		8C25932F2FA5BE96256DCC9E /* Pods-DesmosProfileManager.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DesmosProfileManager.debug.xcconfig"; path = "Target Support Files/Pods-DesmosProfileManager/Pods-DesmosProfileManager.debug.xcconfig"; sourceTree = "<group>"; };
 		926A36E274E04E22B167BBD0 /* SF-Pro-Text-RegularItalic.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "SF-Pro-Text-RegularItalic.otf"; path = "../assets/fonts/SF-Pro-Text-RegularItalic.otf"; sourceTree = "<group>"; };
 		974794EDB5E9F632DCF31CD9 /* libPods-DesmosProfileManager-DesmosProfileManagerTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-DesmosProfileManager-DesmosProfileManagerTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		9DA4AD69EF3CFF1B336E0971 /* libPods-DesmosProfileManager-RCTCryptoUtilsTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-DesmosProfileManager-RCTCryptoUtilsTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		9EABCC2A8BA34E11B34155B2 /* FontAwesome5_Solid.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = FontAwesome5_Solid.ttf; path = "../node_modules/react-native-vector-icons/Fonts/FontAwesome5_Solid.ttf"; sourceTree = "<group>"; };
+		A701DE7D270DFC070092C404 /* RCTCryptoUtilsTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = RCTCryptoUtilsTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		A701DE7F270DFC070092C404 /* RCTCryptoUtilsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RCTCryptoUtilsTests.swift; sourceTree = "<group>"; };
 		A789FD3B270CA25E00EFC6CF /* DesmosProfileManager-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "DesmosProfileManager-Bridging-Header.h"; sourceTree = "<group>"; };
 		A789FD3C270CA25F00EFC6CF /* RCTCryptoUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = RCTCryptoUtils.swift; path = DesmosProfileManager/RCTCryptoUtils.swift; sourceTree = "<group>"; };
 		A789FD3E270CA2AE00EFC6CF /* RCTCryptoUtils.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RCTCryptoUtils.m; sourceTree = "<group>"; };
@@ -101,6 +115,8 @@
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
 		F1EEE822F40D4C88B9C9CEF6 /* SF-Pro-Text-Thin.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "SF-Pro-Text-Thin.otf"; path = "../assets/fonts/SF-Pro-Text-Thin.otf"; sourceTree = "<group>"; };
 		F4ACCAF0BDA95CC09DB6D308 /* Pods-DesmosProfileManager-DesmosProfileManagerTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DesmosProfileManager-DesmosProfileManagerTests.debug.xcconfig"; path = "Target Support Files/Pods-DesmosProfileManager-DesmosProfileManagerTests/Pods-DesmosProfileManager-DesmosProfileManagerTests.debug.xcconfig"; sourceTree = "<group>"; };
+		F4CCEB3A72DFECF367E2CC5D /* Pods-RCTCryptoUtilsTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RCTCryptoUtilsTests.debug.xcconfig"; path = "Target Support Files/Pods-RCTCryptoUtilsTests/Pods-RCTCryptoUtilsTests.debug.xcconfig"; sourceTree = "<group>"; };
+		FBC25241171DC577552836CC /* Pods-DesmosProfileManager-RCTCryptoUtilsTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DesmosProfileManager-RCTCryptoUtilsTests.debug.xcconfig"; path = "Target Support Files/Pods-DesmosProfileManager-RCTCryptoUtilsTests/Pods-DesmosProfileManager-RCTCryptoUtilsTests.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -117,6 +133,14 @@
 			buildActionMask = 2147483647;
 			files = (
 				F2FA814145E7ADFE9267351E /* libPods-DesmosProfileManager.a in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		A701DE7A270DFC070092C404 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				8AC5B9C01AF156A3395051BC /* libPods-DesmosProfileManager-RCTCryptoUtilsTests.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -162,6 +186,7 @@
 				ED297162215061F000B7C4FE /* JavaScriptCore.framework */,
 				306AEECA0B58C9F8022AB368 /* libPods-DesmosProfileManager.a */,
 				974794EDB5E9F632DCF31CD9 /* libPods-DesmosProfileManager-DesmosProfileManagerTests.a */,
+				9DA4AD69EF3CFF1B336E0971 /* libPods-DesmosProfileManager-RCTCryptoUtilsTests.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -173,6 +198,10 @@
 				4A9F16BE5A9A1926A3D3E218 /* Pods-DesmosProfileManager.release.xcconfig */,
 				F4ACCAF0BDA95CC09DB6D308 /* Pods-DesmosProfileManager-DesmosProfileManagerTests.debug.xcconfig */,
 				ECAF28AE528752C204F5294A /* Pods-DesmosProfileManager-DesmosProfileManagerTests.release.xcconfig */,
+				F4CCEB3A72DFECF367E2CC5D /* Pods-RCTCryptoUtilsTests.debug.xcconfig */,
+				31467935E441053EFDF89256 /* Pods-RCTCryptoUtilsTests.release.xcconfig */,
+				FBC25241171DC577552836CC /* Pods-DesmosProfileManager-RCTCryptoUtilsTests.debug.xcconfig */,
+				8056E480C5BC26D54EC213A9 /* Pods-DesmosProfileManager-RCTCryptoUtilsTests.release.xcconfig */,
 			);
 			path = Pods;
 			sourceTree = "<group>";
@@ -190,6 +219,7 @@
 				13B07FAE1A68108700A75B9A /* DesmosProfileManager */,
 				832341AE1AAA6A7D00B99B32 /* Libraries */,
 				00E356EF1AD99517003FC87E /* DesmosProfileManagerTests */,
+				A701DE7E270DFC070092C404 /* RCTCryptoUtilsTests */,
 				83CBBA001A601CBA00E9B192 /* Products */,
 				2D16E6871FA4F8E400B85C8A /* Frameworks */,
 				D66B581A1E4B41A08C48EC3A /* Resources */,
@@ -205,8 +235,17 @@
 			children = (
 				13B07F961A680F5B00A75B9A /* DesmosProfileManager.app */,
 				00E356EE1AD99517003FC87E /* DesmosProfileManagerTests.xctest */,
+				A701DE7D270DFC070092C404 /* RCTCryptoUtilsTests.xctest */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		A701DE7E270DFC070092C404 /* RCTCryptoUtilsTests */ = {
+			isa = PBXGroup;
+			children = (
+				A701DE7F270DFC070092C404 /* RCTCryptoUtilsTests.swift */,
+			);
+			path = RCTCryptoUtilsTests;
 			sourceTree = "<group>";
 		};
 		D66B581A1E4B41A08C48EC3A /* Resources */ = {
@@ -296,12 +335,34 @@
 			productReference = 13B07F961A680F5B00A75B9A /* DesmosProfileManager.app */;
 			productType = "com.apple.product-type.application";
 		};
+		A701DE7C270DFC070092C404 /* RCTCryptoUtilsTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = A701DE85270DFC070092C404 /* Build configuration list for PBXNativeTarget "RCTCryptoUtilsTests" */;
+			buildPhases = (
+				F96E9193A09F024D82E94C52 /* [CP] Check Pods Manifest.lock */,
+				A701DE79270DFC070092C404 /* Sources */,
+				A701DE7A270DFC070092C404 /* Frameworks */,
+				A701DE7B270DFC070092C404 /* Resources */,
+				6C7D13764C2FCB99A8FF079C /* [CP] Embed Pods Frameworks */,
+				ACD726D1D9E2CB367E29C159 /* [CP] Copy Pods Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				A701DE82270DFC070092C404 /* PBXTargetDependency */,
+			);
+			name = RCTCryptoUtilsTests;
+			productName = RCTCryptoUtilsTests;
+			productReference = A701DE7D270DFC070092C404 /* RCTCryptoUtilsTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
 		83CBB9F71A601CBA00E9B192 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
+				LastSwiftUpdateCheck = 1300;
 				LastUpgradeCheck = 1210;
 				TargetAttributes = {
 					00E356ED1AD99517003FC87E = {
@@ -310,6 +371,10 @@
 					};
 					13B07F861A680F5B00A75B9A = {
 						LastSwiftMigration = 1250;
+					};
+					A701DE7C270DFC070092C404 = {
+						CreatedOnToolsVersion = 13.0;
+						TestTargetID = 13B07F861A680F5B00A75B9A;
 					};
 				};
 			};
@@ -328,6 +393,7 @@
 			targets = (
 				13B07F861A680F5B00A75B9A /* DesmosProfileManager */,
 				00E356ED1AD99517003FC87E /* DesmosProfileManagerTests */,
+				A701DE7C270DFC070092C404 /* RCTCryptoUtilsTests */,
 			);
 		};
 /* End PBXProject section */
@@ -364,6 +430,13 @@
 				C474AE2A5C0748F38BF5F6CA /* SF-Pro-Text-ThinItalic.otf in Resources */,
 				B5A3E7B0A8994F1289BF4AA9 /* SF-Pro-Text-Ultralight.otf in Resources */,
 				AF7B186BB16B4918BF2C2CA7 /* SF-Pro-Text-UltralightItalic.otf in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		A701DE7B270DFC070092C404 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -440,6 +513,23 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
+		6C7D13764C2FCB99A8FF079C /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-DesmosProfileManager-RCTCryptoUtilsTests/Pods-DesmosProfileManager-RCTCryptoUtilsTests-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-DesmosProfileManager-RCTCryptoUtilsTests/Pods-DesmosProfileManager-RCTCryptoUtilsTests-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-DesmosProfileManager-RCTCryptoUtilsTests/Pods-DesmosProfileManager-RCTCryptoUtilsTests-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
 		8032FA668ED07F78A0C158B1 /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -455,6 +545,23 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-DesmosProfileManager/Pods-DesmosProfileManager-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		ACD726D1D9E2CB367E29C159 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-DesmosProfileManager-RCTCryptoUtilsTests/Pods-DesmosProfileManager-RCTCryptoUtilsTests-resources-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Copy Pods Resources";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-DesmosProfileManager-RCTCryptoUtilsTests/Pods-DesmosProfileManager-RCTCryptoUtilsTests-resources-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-DesmosProfileManager-RCTCryptoUtilsTests/Pods-DesmosProfileManager-RCTCryptoUtilsTests-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		B1C5E8558B9ABE8DEDCD9D8D /* [CP] Check Pods Manifest.lock */ = {
@@ -494,6 +601,28 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-DesmosProfileManager/Pods-DesmosProfileManager-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		F96E9193A09F024D82E94C52 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-DesmosProfileManager-RCTCryptoUtilsTests-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
 		FD10A7F022414F080027D42C /* Start Packager */ = {
@@ -537,6 +666,14 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		A701DE79270DFC070092C404 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A701DE80270DFC070092C404 /* RCTCryptoUtilsTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
@@ -544,6 +681,11 @@
 			isa = PBXTargetDependency;
 			target = 13B07F861A680F5B00A75B9A /* DesmosProfileManager */;
 			targetProxy = 00E356F41AD99517003FC87E /* PBXContainerItemProxy */;
+		};
+		A701DE82270DFC070092C404 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 13B07F861A680F5B00A75B9A /* DesmosProfileManager */;
+			targetProxy = A701DE81270DFC070092C404 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -774,6 +916,78 @@
 			};
 			name = Release;
 		};
+		A701DE83270DFC070092C404 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = FBC25241171DC577552836CC /* Pods-DesmosProfileManager-RCTCryptoUtilsTests.debug.xcconfig */;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++17";
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = com.leonardo.bragagnolo.RCTCryptoUtilsTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/DesmosProfileManager.app/DesmosProfileManager";
+			};
+			name = Debug;
+		};
+		A701DE84270DFC070092C404 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 8056E480C5BC26D54EC213A9 /* Pods-DesmosProfileManager-RCTCryptoUtilsTests.release.xcconfig */;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++17";
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CODE_SIGN_STYLE = Automatic;
+				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = com.leonardo.bragagnolo.RCTCryptoUtilsTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/DesmosProfileManager.app/DesmosProfileManager";
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -800,6 +1014,15 @@
 			buildConfigurations = (
 				83CBBA201A601CBA00E9B192 /* Debug */,
 				83CBBA211A601CBA00E9B192 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		A701DE85270DFC070092C404 /* Build configuration list for PBXNativeTarget "RCTCryptoUtilsTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				A701DE83270DFC070092C404 /* Debug */,
+				A701DE84270DFC070092C404 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

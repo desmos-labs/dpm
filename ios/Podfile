@@ -22,6 +22,10 @@ target 'DesmosProfileManager' do
     inherit! :complete
     # Pods for testing
   end
+  
+  target 'RCTCryptoUtilsTests' do
+    inherit! :complete
+  end
 
   # Enables Flipper.
   #

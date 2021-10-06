@@ -38,6 +38,16 @@
                ReferencedContainer = "container:DesmosProfileManager.xcodeproj">
             </BuildableReference>
          </TestableReference>
+         <TestableReference
+            skipped = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "A701DE7C270DFC070092C404"
+               BuildableName = "RCTCryptoUtilsTests.xctest"
+               BlueprintName = "RCTCryptoUtilsTests"
+               ReferencedContainer = "container:DesmosProfileManager.xcodeproj">
+            </BuildableReference>
+         </TestableReference>
       </Testables>
    </TestAction>
    <LaunchAction
