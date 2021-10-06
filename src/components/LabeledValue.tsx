@@ -12,7 +12,7 @@ export type Props = {
     /**
      * The value to display to the user.
      */
-    value: string
+    value?: string
 }
 
 export const LabeledValue: React.FC<Props> = (props) => {
