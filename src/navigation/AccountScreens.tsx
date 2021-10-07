@@ -9,7 +9,6 @@ import NewWalletSession from "../screens/NewWalletSession";
 import AccountSessions from "../screens/AccountSessions";
 import WalletConnectRequest from "../screens/WalletConnectRequest";
 import SignTx from "../screens/SignTx";
-import {NavigationBar} from "../components";
 import {useTranslation} from "react-i18next";
 import Profile from "../screens/Profile";
 import {EditProfile} from "../screens/EditProfile";
@@ -18,6 +17,7 @@ import {BroadcastTx} from "../screens/BroadcastTx";
 import {AppDrawerContent} from "../components/AppDrawerContent";
 import {StackScreenProps} from "@react-navigation/stack";
 import {ConfirmProfileEdit} from "../screens/ConfirmProfileEdit";
+import {BiographyEditor} from "../screens/BiographyEditor";
 
 type ProfileWithAppDrawerProps = StackScreenProps<AccountScreensStackParams, "ProfileWithDrawerMenu">
 
@@ -59,6 +59,10 @@ export default function AccountScreens(props: AccountScreensProps) {
         <AccountScreensStack.Screen
             name="EditProfile"
             component={EditProfile}
+        />
+        <AccountScreensStack.Screen
+            name="BiographyEditor"
+            component={BiographyEditor}
         />
         <AccountScreensStack.Screen
             name="ConfirmProfileEdit"

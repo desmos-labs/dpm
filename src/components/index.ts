@@ -19,6 +19,7 @@ import {ProfileListItem} from "./ProfileListItem";
 import {InlineInput} from "./InlineInput";
 import {LabeledValue} from "./LabeledValue";
 import {TopBar} from "./TopBar";
+import {InlineLabeledValue} from "./InlineLabeledValue";
 
 export {
     AccountCard,
@@ -42,4 +43,5 @@ export {
     InlineInput,
     LabeledValue,
     TopBar,
+    InlineLabeledValue
 }

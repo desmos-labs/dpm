@@ -1,22 +1,22 @@
-import React, {useCallback, useState} from "react";
+import React, {useCallback, useEffect, useState} from "react";
 import {StackScreenProps} from "@react-navigation/stack";
 import {AccountScreensStackParams, RootStackParams} from "../types/navigation";
 import {useTranslation} from "react-i18next";
 import {makeStyle} from "../theming";
-import {StyledSafeAreaView, Button, Divider, InlineInput} from "../components";
+import {StyledSafeAreaView, Button, Divider, InlineInput, InlineLabeledValue} from "../components";
 import {CompositeScreenProps} from "@react-navigation/native";
 import {ProfileHeader} from "../components/ProfileHeader";
 import {View} from "react-native";
-import {FlexPadding} from "../components/FlexPadding";
 import {launchImageLibrary} from 'react-native-image-picker';
 import {ImagePickerResponse} from "react-native-image-picker/src/types";
-import {TopBar} from "../components/TopBar";
+import {TopBar} from "../components";
 
 type Props = CompositeScreenProps<StackScreenProps<AccountScreensStackParams, "EditProfile">,
     StackScreenProps<RootStackParams>>;
 
 export const EditProfile: React.FC<Props> = (props) => {
-    const {profile, account} = props.route.params;
+    const profile = props.route.params.profile!;
+    const account = props.route.params.account!;
     const styles = useStyles();
     const {t} = useTranslation();
     const [dtag, setDtag] = useState(profile?.dtag ?? "");
@@ -24,6 +24,12 @@ export const EditProfile: React.FC<Props> = (props) => {
     const [bio, setBio] = useState(profile?.bio);
     const [selectedProfilePicture, setProfilePicture] = useState<string | undefined>(undefined);
     const [selectedCoverPicture, setCoverPicture] = useState<string | undefined>(undefined);
+
+    useEffect(() => {
+        if (props.route.params.bio !== undefined) {
+            setBio(props.route.params.bio);
+        }
+    }, [props.route.params.bio])
 
     const onSavePressed = () => {
         props.navigation.navigate({
@@ -63,6 +69,15 @@ export const EditProfile: React.FC<Props> = (props) => {
         pickPicture(setProfilePicture);
     }, [pickPicture]);
 
+    const openBiographyEditor = useCallback(() => {
+        props.navigation.navigate({
+            name: "BiographyEditor",
+            params: {
+                bio
+            }
+        })
+    }, [bio, props.navigation]);
+
     return <StyledSafeAreaView
         padding={0}
         topBar={<TopBar
@@ -91,15 +106,12 @@ export const EditProfile: React.FC<Props> = (props) => {
                 onChangeText={setDtag}
             />
             <Divider/>
-            <InlineInput
+            <InlineLabeledValue
+                style={styles.bio}
                 label={t("bio")}
-                placeholder={t("bio")}
-                multiline
-                numberOfLines={12}
                 value={bio}
-                onChangeText={setBio}
+                onPress={openBiographyEditor}
             />
-            <FlexPadding flex={1}/>
             <Button
                 style={styles.saveBtn}
                 mode="contained"
@@ -121,5 +133,8 @@ const useStyles = makeStyle(theme => ({
     input: {},
     saveBtn: {
         marginTop: theme.spacing.m
+    },
+    bio: {
+        flexGrow: 1,
     }
 }))

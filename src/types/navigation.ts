@@ -47,8 +47,12 @@ export type AccountScreensStackParams = {
         account: ChainAccount,
     },
     EditProfile: {
-        account: ChainAccount,
-        profile: CachedDesmosProfile | null,
+        account?: ChainAccount,
+        profile?: CachedDesmosProfile | null,
+        bio?: string
+    },
+    BiographyEditor: {
+        bio?: string,
     },
     ConfirmProfileEdit: {
         account: ChainAccount,

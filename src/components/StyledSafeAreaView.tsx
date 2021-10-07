@@ -1,6 +1,7 @@
 import React, {ReactElement} from "react";
 import {SafeAreaView, ScrollView, View, ViewProps} from "react-native";
 import {makeStyleWithProps} from "../theming";
+import {Divider} from "./Divider";
 
 export type Props = ViewProps & {
     /**
@@ -11,8 +12,15 @@ export type Props = ViewProps & {
      * View padding.
      */
     padding?: number,
-
+    /**
+     * Shows an element as a top bar.
+     */
     topBar?: ReactElement,
+    /**
+     * If true adds a divider between the
+     * top bar and the content.
+     */
+    divider?: boolean,
 };
 
 export const StyledSafeAreaView: React.FC<Props> = (props) => {
@@ -20,6 +28,7 @@ export const StyledSafeAreaView: React.FC<Props> = (props) => {
 
     return <SafeAreaView style={styles.root}>
         {props.topBar}
+        {props.divider && <Divider />}
         <View style={[styles.content, props.style]}>
             {props?.scrollable ? (
                 <ScrollView>
