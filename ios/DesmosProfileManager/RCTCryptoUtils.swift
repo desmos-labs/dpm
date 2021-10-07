@@ -88,7 +88,6 @@ extension Data {
 class NativeCryptoUtils {
   func deriveKeyPairFromMnemonic(_ mnemonic:String, coinType: Int, account: Int, change: Int, index: Int) -> Dictionary<String, String> {
     if mnemonic_check(mnemonic) != 0 {
-      let index = 0
       
       var seed = Data(repeating: 0, count: 64)
       seed.withUnsafeMutableBytes { (seedPtr: UnsafeMutableRawBufferPointer) -> Void in
@@ -107,7 +106,7 @@ class NativeCryptoUtils {
           hdnode_private_ckd(&node, index)
         }
         
-        hdnode_private_ckd(&node, UInt32(0))
+        //hdnode_private_ckd(&node, UInt32(0))
         let keyPair: KeyPair = KeyPair(node: node)
         
         let keyPairJSON = ["privkey": keyPair.privateKey.hex, "pubkey": keyPair.publicKey64.hex]
