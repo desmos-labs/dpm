@@ -46,6 +46,8 @@
   "tx type": "Tipo di transazione",
   "profile saved": "Profilo salvato!",
   "go to profile": "Torna al profilo",
+  "remove account": "Rimuovi account",
+  "are you sure you want to remove this account": "Sei sicuro di voler rimuovere questo account?",
 
   "accounts": "Account",
   "sessions": "Sessioni",

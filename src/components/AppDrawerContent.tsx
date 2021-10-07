@@ -14,6 +14,8 @@ import ChainStore from "../store/ChainStore";
 import useSaveSelectedAccount from "../hooks/useSaveSelectedAccount";
 import useSelectedAccount from "../hooks/useSelectedAccount";
 import useDeleteAccount from "../hooks/useDeleteAccount";
+import useShowModal from "../hooks/useShowModal";
+import {TwoButtonModal} from "../modals/TwoButtonModal";
 
 type AccountProfilePair = [ChainAccount, CachedDesmosProfile | null];
 
@@ -26,6 +28,7 @@ export const AppDrawerContent: React.FC<DrawerContentComponentProps> = (props) =
     const selectedAccount = useSelectedAccount();
     const saveSelectedAccount = useSaveSelectedAccount();
     const deleteAccount = useDeleteAccount();
+    const showModal = useShowModal();
 
     const accountProfilePair: AccountProfilePair[] = useMemo(() => {
         return accounts.map(a => {
@@ -79,6 +82,16 @@ export const AppDrawerContent: React.FC<DrawerContentComponentProps> = (props) =
         }
     }, [navigation, deleteAccount, onChangeAccount]);
 
+    const showDeleteModal = useCallback((pair: AccountProfilePair) => {
+        showModal(TwoButtonModal, {
+            title: t("remove account"),
+            message: t("are you sure you want to remove this account"),
+            positiveActionLabel: t("yes"),
+            positiveAction: () => onDeleteAccount(pair),
+            negativeActionLabel: t("cancel"),
+        })
+    }, [t, showModal, onDeleteAccount])
+
     const editProfile = useCallback((pair: AccountProfilePair) => {
         navigation.navigate({
             name: "EditProfile",
@@ -99,9 +112,9 @@ export const AppDrawerContent: React.FC<DrawerContentComponentProps> = (props) =
             image={profile?.cachedProfilePictureUri ? {uri: profile.cachedProfilePictureUri} : undefined}
             onPress={() => onChangeAccount(item[0])}
             onEdit={() => editProfile(item)}
-            onDelete={() => onDeleteAccount(item)}
+            onDelete={() => showDeleteModal(item)}
         />
-    }, [onChangeAccount, editProfile, onDeleteAccount]);
+    }, [onChangeAccount, editProfile, showDeleteModal]);
 
     return <StyledSafeAreaView>
         <IconButton

@@ -54,6 +54,8 @@
   "ops": "Oops!",
   "unexpected error occurred": "An unexpected error occurred",
   "broadcasting tx": "Broadcasting tx",
+  "remove account": "Remove account",
+  "are you sure you want to remove this account": "Are you sure you want to remove this account?",
 
   "accounts": "Accounts",
   "sessions": "Sessions",
