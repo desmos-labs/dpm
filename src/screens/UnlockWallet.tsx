@@ -1,44 +1,15 @@
-import React, {useEffect, useState} from "react";
-import {View} from "react-native";
+import React, {useCallback, useEffect, useState} from "react";
 import {StackScreenProps} from "@react-navigation/stack";
 import {AccountScreensStackParams} from "../types/navigation";
 import {SecureTextInput} from "../components/SecureTextInput";
 import {useTranslation} from "react-i18next";
-import {Button, Paragraph, StyledSafeAreaView} from "../components";
+import {Button, Paragraph, StyledSafeAreaView, Subtitle, TopBar} from "../components";
 import WalletSource from "../sources/LocalWalletsSource";
-import {Subheading, Surface, Title} from "react-native-paper";
 import {makeStyle} from "../theming";
+import {FlexPadding} from "../components/FlexPadding";
+import {TouchableOpacity} from "react-native";
 
 type Props = StackScreenProps<AccountScreensStackParams, "UnlockWallet">
-
-const useStyles = makeStyle(theme => ({
-    root: {
-        backgroundColor: "rgba(200, 200, 200, 0.8)",
-        flexDirection: "column-reverse",
-        paddingLeft: 5,
-        paddingRight: 5,
-        paddingTop: 0,
-        paddingBottom: 0,
-    },
-    fieldContainer: {
-        padding: theme.spacing.m,
-        borderRadius: theme.roundness * 2,
-    },
-    password: {
-        marginTop: theme.spacing.s,
-    },
-    errorMsg: {
-        color: theme.colors.error,
-        marginTop: theme.spacing.s
-    },
-    buttonsContainer: {
-        marginTop: theme.spacing.s,
-        display: "flex",
-        flexDirection: "row",
-        width: "100%",
-        justifyContent: "space-evenly"
-    }
-}))
 
 export const UnlockWallet: React.FC<Props> = (props) => {
     const {address, resolve} = props.route.params;
@@ -56,7 +27,7 @@ export const UnlockWallet: React.FC<Props> = (props) => {
         })
     }, [props.navigation, resolve])
 
-    const unlockWallet = async () => {
+    const unlockWallet = useCallback(async () => {
         setLoading(true);
         try {
             const wallet = await WalletSource.getWallet(address, password);
@@ -67,55 +38,60 @@ export const UnlockWallet: React.FC<Props> = (props) => {
             setError(t("invalid password"));
         }
         setLoading(false);
-    }
+    }, [address, password, props.navigation, resolve, t]);
 
-    const onCancel = () => {
-        resolve(null);
-        props.navigation.pop();
-    }
-
+    const resetPassword = useCallback(() => {
+        console.warn("Not implemented");
+    }, [])
 
     return <StyledSafeAreaView
-        style={styles.root}
+        topBar={<TopBar stackProps={props} title={t("wallet password")} />}
     >
-        <Surface
-            style={styles.fieldContainer}
+        <Subtitle>
+            {t("please enter you wallet password")}
+        </Subtitle>
+        <SecureTextInput
+            style={styles.password}
+            value={password}
+            onChangeText={setPassword}
+            placeholder={t("password")}
+        />
+        <Paragraph
+            style={styles.errorMsg}
         >
-            <Title>
-                {t("unlock wallet")}
-            </Title>
-            <Paragraph fontSize={16}>
-                {t("password")}
-            </Paragraph>
-            <SecureTextInput
-                style={styles.password}
-                value={password}
-                onChangeText={setPassword}
-                placeholder={t("password")}
-            />
-            <Subheading
-                style={styles.errorMsg}
-            >
-                {error}
-            </Subheading>
-            <View
-                style={styles.buttonsContainer}
-            >
-                <Button
-                    mode="outlined"
-                    onPress={onCancel}
-                    disabled={loading}
-                >
-                    {t("cancel")}
-                </Button>
-                <Button
-                    mode="contained"
-                    onPress={unlockWallet}
-                    loading={loading}
-                >
-                    {t("unlock")}
-                </Button>
-            </View>
-        </Surface>
+            {error}
+        </Paragraph>
+        <FlexPadding flex={1} />
+        <Button
+            mode="contained"
+            onPress={unlockWallet}
+            loading={loading}
+        >
+            {t("confirm")}
+        </Button>
+        <TouchableOpacity
+            onPress={resetPassword}
+            style={styles.forgotPasswordBtn}
+        >
+            <Paragraph>{t("forgot password?")}</Paragraph>
+        </TouchableOpacity>
     </StyledSafeAreaView>
 }
+
+const useStyles = makeStyle(theme => ({
+    password: {
+        marginTop: theme.spacing.s,
+    },
+    errorMsg: {
+        color: theme.colors.error,
+        marginTop: theme.spacing.s
+    },
+    forgotPasswordBtn: {
+        display: "flex",
+        flexDirection: "row",
+        width: "100%",
+        justifyContent: "center",
+        padding: theme.spacing.s,
+        marginTop: theme.spacing.s,
+    },
+}))

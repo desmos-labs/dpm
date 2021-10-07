@@ -49,6 +49,8 @@
   "go to profile": "Torna al profilo",
   "remove account": "Rimuovi account",
   "are you sure you want to remove this account": "Sei sicuro di voler rimuovere questo account?",
+  "please enter you wallet password": "Per favore inserisci la password del tuo wallet",
+  "forgot password?": "Password dimenticata?",
 
   "accounts": "Account",
   "sessions": "Sessioni",

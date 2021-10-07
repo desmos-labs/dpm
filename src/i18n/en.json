@@ -57,6 +57,9 @@
   "broadcasting tx": "Broadcasting tx",
   "remove account": "Remove account",
   "are you sure you want to remove this account": "Are you sure you want to remove this account?",
+  "wallet password": "Wallet Password",
+  "please enter you wallet password": "Please enter you wallet password",
+  "forgot password?": "Forgot password?",
 
   "accounts": "Accounts",
   "sessions": "Sessions",
