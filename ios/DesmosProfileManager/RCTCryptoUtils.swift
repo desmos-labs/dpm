@@ -41,52 +41,33 @@ class CryptoUtils: NSObject {
   
   @objc(deriveKeyPairFromMnemonic:withCoinType:withAccount:withChange:withIndex:withResolver:withRejecter:)
   func deriveKeyPairFromMnemonic(_ mnemonic:String, coinType: Int, account: Int, change: Int, index: Int,
-                       resolve:RCTPromiseResolveBlock,reject:RCTPromiseRejectBlock) {
-    if mnemonic_check(mnemonic) != 0 {
-      let index = 0
-      
-      var seed = Data(repeating: 0, count: 64)
-      seed.withUnsafeMutableBytes { (seedPtr: UnsafeMutableRawBufferPointer) -> Void in
-        mnemonic_to_seed(mnemonic, "", seedPtr.baseAddress?.assumingMemoryBound(to: UInt8.self), nil)
-      }
-      
-      var node = HDNode()
-      let returnCode = seed.withUnsafeBytes { (dataPtr: UnsafeRawBufferPointer) -> Int32 in
-        return hdnode_from_seed(dataPtr.baseAddress?.assumingMemoryBound(to: UInt8.self), Int32(seed.count), "secp256k1", &node)
-      }
-      
-      if returnCode == 1 {
-        let highestBit:UInt32 = 0x80000000
-        let indexes: [UInt32] = [UInt32(44)|highestBit, UInt32(coinType)|highestBit, UInt32(account)|highestBit, UInt32(change), UInt32(index)]
-        for index in indexes {
-          hdnode_private_ckd(&node, index)
-        }
-        
-        hdnode_private_ckd(&node, UInt32(0))
-        let keyPair: KeyPair = KeyPair(node: node)
-        
-        let keyPairJSON = ["privkey": keyPair.privateKey.hex, "pubkey": keyPair.publicKey64.hex]
-        
-        resolve(keyPairJSON)
-        
-      } else {
-        reject("event_mnemonic_generation", "invalid hd_node from seed", nil)
-      }
-    }
-    else {
-      reject("event_mnemonic_generation", "invalid mnemonic", nil);
+                                 resolve:RCTPromiseResolveBlock,reject:RCTPromiseRejectBlock) {
+    do {
+      let keyPair: Dictionary<String, String> = try NativeCryptoUtils.deriveKeyPairFromMnemonic(_: mnemonic, coinType: coinType, account: account, change: change, index: index)
+      resolve(keyPair)
+    } catch KeysDerivationError.invalidHdNodeFromSeed {
+      reject("event_mnemonic_generation", "invalid hd_node from seed", nil)
+    } catch KeysDerivationError.invalidMnemonic {
+      reject("event_mnemonic_generation", "invalid mnemonic", nil)
+    } catch {
+      reject("unknown_error", "unknow error occurred", nil)
     }
   }
 }
 
 extension Data {
-    var hex: String {
-        return self.map { b in String(format: "%02x", b) }.joined()
-    }
+  var hex: String {
+    return self.map { b in String(format: "%02x", b) }.joined()
+  }
+}
+
+enum KeysDerivationError: Error {
+  case invalidMnemonic
+  case invalidHdNodeFromSeed
 }
 
 class NativeCryptoUtils {
-  func deriveKeyPairFromMnemonic(_ mnemonic:String, coinType: Int, account: Int, change: Int, index: Int) -> Dictionary<String, String> {
+  static func deriveKeyPairFromMnemonic(_ mnemonic:String, coinType: Int, account: Int, change: Int, index: Int) throws -> Dictionary<String, String> {
     if mnemonic_check(mnemonic) != 0 {
       
       var seed = Data(repeating: 0, count: 64)
@@ -106,7 +87,6 @@ class NativeCryptoUtils {
           hdnode_private_ckd(&node, index)
         }
         
-        //hdnode_private_ckd(&node, UInt32(0))
         let keyPair: KeyPair = KeyPair(node: node)
         
         let keyPairJSON = ["privkey": keyPair.privateKey.hex, "pubkey": keyPair.publicKey64.hex]
@@ -114,11 +94,11 @@ class NativeCryptoUtils {
         return keyPairJSON
         
       } else {
-        return ["event_mnemonic_generation":"invalid hd_node from seed"]
+        throw KeysDerivationError.invalidHdNodeFromSeed
       }
     }
     else {
-      return ["event_mnemonic_generation":"invalid mnemonic"]
+      throw KeysDerivationError.invalidMnemonic
     }
   }
 }
