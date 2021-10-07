@@ -32,10 +32,10 @@ export const EditProfile: React.FC<Props> = (props) => {
                 dtag: dtag,
                 nickname: nickname,
                 bio: bio,
-                uploadCoverPicture: selectedCoverPicture !== undefined,
-                coverPictureUri: selectedCoverPicture ?? profile?.cachedCoverPictureUri,
-                uploadProfilePicture: selectedProfilePicture !== undefined,
-                profilePictureUri: selectedProfilePicture ?? profile?.cachedProfilePictureUri,
+                coverPictureUrl: selectedCoverPicture !== undefined ? undefined : profile?.coverPicture,
+                localCoverPictureUri: selectedCoverPicture ?? profile?.cachedCoverPictureUri,
+                profilePictureUrl: selectedProfilePicture !== undefined ? undefined : profile?.profilePicture,
+                localProfilePictureUri: selectedProfilePicture ?? profile?.cachedProfilePictureUri,
             }
         });
     }

@@ -52,13 +52,38 @@ export type AccountScreensStackParams = {
     },
     ConfirmProfileEdit: {
         account: ChainAccount,
+        /**
+         * Profile dtag.
+         */
         dtag: string,
+        /**
+         * Profile nickname.
+         */
         nickname?: string,
+        /**
+         * Profile biography.
+         */
         bio?: string,
-        uploadCoverPicture: boolean,
-        coverPictureUri?: string,
-        uploadProfilePicture: boolean,
-        profilePictureUri?: string
+        /**
+         * Remote URL to the profile cover picture.
+         */
+        coverPictureUrl?: string,
+        /**
+         * Local URI to the profile cover picture.
+         * If the coverPictureUrl is undefined and
+         * this field is defined, this file will be uploaded.
+         */
+        localCoverPictureUri?: string,
+        /**
+         * Remote URL to the profile picture.
+         */
+        profilePictureUrl?: string,
+        /**
+         * Local URI to the profile picture.
+         * If the profilePictureUrl is undefined and
+         * this field is defined this file will be uploaded.
+         */
+        localProfilePictureUri?: string
     },
     AccountSessions: {
         account: ChainAccount;

@@ -15,13 +15,15 @@ import {SingleButtonModal} from "../modals/SingleButtonModal";
 import useSaveProfile from "../hooks/useSaveProfile";
 import useNavigateToAccountScreen from "../hooks/useNavigateToAccountScreen";
 import useShowModal from "../hooks/useShowModal";
+import useUploadPicture from "../hooks/useUploadPicture";
+
 
 export type Props = CompositeScreenProps<StackScreenProps<AccountScreensStackParams, "ConfirmProfileEdit">,
     StackScreenProps<RootStackParams>>
 
 export const ConfirmProfileEdit: React.FC<Props> = ({route}) => {
 
-    const {account, profile, newDtag, newNickName, newBio} = route.params;
+    const {account, dtag, nickname, bio, coverPictureUrl, localCoverPictureUri, profilePictureUrl, localProfilePictureUri} = route.params;
     const {t} = useTranslation();
     const styles = useStyles();
     const desmosClient = useDesmosClient();
@@ -31,52 +33,76 @@ export const ConfirmProfileEdit: React.FC<Props> = ({route}) => {
     const saveProfile = useSaveProfile();
     const navigateToAccountScreen = useNavigateToAccountScreen()
     const showModal = useShowModal();
-
-    const newProfile = useMemo(() => {
-        return {
-            address: account.address,
-            dtag: newDtag,
-            nickname: newNickName ?? profile?.nickname,
-            bio: newBio ?? profile?.bio,
-            profilePicture: profile?.profilePicture,
-            coverPicture: profile?.coverPicture
-        } as DesmosProfile
-    }, [account.address, newBio, newDtag, newNickName, profile?.bio, profile?.coverPicture, profile?.nickname, profile?.profilePicture])
-
-    const txMessages = useMemo(() => {
-        const msg: MsgSaveProfileEncodeObject = {
-            typeUrl: "/desmos.profiles.v1beta1.MsgSaveProfile",
-            value: {
-                ...newProfile,
-                creator: account.address,
-            }
-        };
-        return [msg];
-    }, [newProfile, account])
+    const uploadPicture = useUploadPicture();
 
     const txFee = useMemo(() => {
-        const gas = messagesGas(txMessages);
+        const saveProfileMessage: MsgSaveProfileEncodeObject = {
+            typeUrl: "/desmos.profiles.v1beta1.MsgSaveProfile",
+            value: {
+                creator: account.address,
+                dtag: dtag,
+                nickname: nickname,
+                bio: bio,
+                profilePicture: profilePictureUrl,
+                coverPicture: coverPictureUrl,
+            }
+        };
+        const messages = [saveProfileMessage];
+        const gas = messagesGas(messages);
         return computeTxFees(gas, chainInfo.coinDenom).average;
-    }, [txMessages, chainInfo.coinDenom])
+    }, [account.address, bio, chainInfo.coinDenom,
+        coverPictureUrl, dtag, nickname, profilePictureUrl])
 
     const onConfirm = useCallback(async () => {
         setBroadcastingTx(true);
         try {
             const wallet = await unlockWallet(account.address);
             if (wallet !== null) {
+                const profile: DesmosProfile = {
+                    address: account.address,
+                    dtag,
+                    nickname,
+                    bio,
+                }
+
+                if (localCoverPictureUri !== undefined && coverPictureUrl === undefined) {
+                    const response = await uploadPicture(localCoverPictureUri);
+                    profile.coverPicture = response.url;
+                }
+                else {
+                    profile.coverPicture = coverPictureUrl;
+                }
+
+                if (localProfilePictureUri !== undefined && profilePictureUrl === undefined) {
+                    const response = await uploadPicture(localProfilePictureUri);
+                    profile.profilePicture = response.url;
+                }
+                else {
+                    profile.profilePicture = profilePictureUrl;
+                }
+
+                const saveProfileMessage: MsgSaveProfileEncodeObject = {
+                    typeUrl: "/desmos.profiles.v1beta1.MsgSaveProfile",
+                    value: {
+                        creator: account.address,
+                        ...profile,
+                    }
+                };
+                const messages = [saveProfileMessage];
                 await desmosClient.connect();
                 desmosClient.setSigner(wallet);
-                await desmosClient.signAndBroadcast(account.address, txMessages, txFee);
-                await saveProfile(newProfile);
+                await desmosClient.signAndBroadcast(account.address, messages, txFee);
+                await saveProfile(profile, {
+                    profilePicture: localProfilePictureUri,
+                    coverPicture: localCoverPictureUri,
+                })
                 showModal(SingleButtonModal, {
                     image: require("../assets/success.png"),
                     title: t("success"),
                     message: t("profile saved"),
                     actionLabel: t("go to profile"),
-                    action: () => {
-                        navigateToAccountScreen(account, true);
-                    },
-                })
+                    action: () => navigateToAccountScreen(account, true),
+                });
             }
         } catch (e) {
             showModal(SingleButtonModal, {
@@ -88,36 +114,34 @@ export const ConfirmProfileEdit: React.FC<Props> = ({route}) => {
             })
         }
         setBroadcastingTx(false);
-    }, [unlockWallet, account, desmosClient, txMessages, txFee,
-        saveProfile, newProfile, showModal, t, navigateToAccountScreen])
+    }, [unlockWallet, account, dtag, nickname, bio,
+        localCoverPictureUri, coverPictureUrl, localProfilePictureUri,
+        profilePictureUrl, desmosClient, txFee, saveProfile, showModal,
+        t, uploadPicture, navigateToAccountScreen])
 
     return <StyledSafeAreaView padding={0}>
         <ProfileHeader
-            coverPictureUri={profile?.cachedCoverPictureUri}
-            profilePictureUri={profile?.cachedProfilePictureUri}
+            coverPictureUri={localCoverPictureUri}
+            profilePictureUri={localProfilePictureUri}
         />
         <ScrollView style={styles.details}>
-            {newProfile.nickname && <>
-                <LabeledValue
-                    label={t("nickname")}
-                    value={newProfile.nickname}
-                />
-                <Divider/>
-            </>}
-
             <LabeledValue
-                label={t("dtag")}
-                value={newProfile.dtag}
+                label={t("nickname")}
+                value={nickname}
             />
             <Divider/>
 
-            {newProfile.bio && <>
-                <LabeledValue
-                    label={t("bio")}
-                    value={newProfile.bio}
-                />
-                <Divider/>
-            </>}
+            <LabeledValue
+                label={t("dtag")}
+                value={dtag}
+            />
+            <Divider/>
+
+            <LabeledValue
+                label={t("bio")}
+                value={bio}
+            />
+            <Divider/>
 
             <LabeledValue
                 label={t("address")}
