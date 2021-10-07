@@ -6,7 +6,7 @@ import {makeStyle} from "../theming";
 import {StyledSafeAreaView, Button, Divider, InlineInput, InlineLabeledValue} from "../components";
 import {CompositeScreenProps} from "@react-navigation/native";
 import {ProfileHeader} from "../components/ProfileHeader";
-import {View} from "react-native";
+import {ScrollView} from "react-native";
 import {launchImageLibrary} from 'react-native-image-picker';
 import {ImagePickerResponse} from "react-native-image-picker/src/types";
 import {TopBar} from "../components";
@@ -91,7 +91,7 @@ export const EditProfile: React.FC<Props> = (props) => {
             onEditCoverPicture={onEditCoverPicture}
             onEditProfilePicture={onEditProfilePicture}
         />
-        <View style={styles.content}>
+        <ScrollView style={styles.content}>
             <InlineInput
                 label={t("nickname")}
                 placeholder={t("nickname")}
@@ -107,20 +107,19 @@ export const EditProfile: React.FC<Props> = (props) => {
             />
             <Divider/>
             <InlineLabeledValue
-                style={styles.bio}
                 label={t("bio")}
                 value={bio}
                 onPress={openBiographyEditor}
             />
-            <Button
-                style={styles.saveBtn}
-                mode="contained"
-                onPress={onSavePressed}
-                disabled={dtag.length === 0}
-            >
-                {t("next")}
-            </Button>
-        </View>
+        </ScrollView>
+        <Button
+            style={styles.saveBtn}
+            mode="contained"
+            onPress={onSavePressed}
+            disabled={dtag.length === 0}
+        >
+            {t("next")}
+        </Button>
     </StyledSafeAreaView>
 }
 
@@ -132,9 +131,6 @@ const useStyles = makeStyle(theme => ({
     },
     input: {},
     saveBtn: {
-        marginTop: theme.spacing.m
+        margin: theme.spacing.m,
     },
-    bio: {
-        flexGrow: 1,
-    }
 }))
