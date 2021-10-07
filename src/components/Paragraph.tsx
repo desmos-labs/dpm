@@ -23,7 +23,7 @@ export const Paragraph: React.FC<Props> = (props) => {
 
 const useStyles = makeStyleWithProps((props: Props, theme) => ({
     paragraph: {
-        fontFamily: "SF-Pro-Text",
+        fontFamily: "SF Pro Text",
         fontSize: props.fontSize ?? 14,
         fontStyle: "normal",
         fontWeight: "400",

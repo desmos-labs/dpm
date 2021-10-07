@@ -27,7 +27,7 @@ export const Subtitle: React.FC<Props> = (props) => {
 
 const useStyles = makeStyleWithProps((props: Props, _) => ({
     subtitle: {
-        fontFamily: "SF-Pro-Text",
+        fontFamily: "SF Pro Text",
         fontSize: props.small ? 14 : 16,
         fontStyle: "normal",
         fontWeight: props.bold ? "bold": "400",

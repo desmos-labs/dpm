@@ -32,7 +32,7 @@ const useStyles = makeStyle(theme => ({
         minHeight: 44,
     },
     input: {
-        fontFamily: "SF-Pro-Text",
+        fontFamily: "SF Pro Text",
         paddingHorizontal: 11,
         flexGrow: 1,
         textAlignVertical: "top",

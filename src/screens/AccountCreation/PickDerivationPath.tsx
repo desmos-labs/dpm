@@ -171,7 +171,7 @@ const useStyles = makeStyle(theme => ({
         flex: 2,
         textAlign: "center",
         fontSize: 16,
-        fontFamily: "SF-Pro-Text"
+        fontFamily: "SF Pro Text"
     },
     accountLabel: {
         marginTop: theme.spacing.l,

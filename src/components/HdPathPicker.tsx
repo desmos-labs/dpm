@@ -120,7 +120,7 @@ const useStyle = makeStyle(_theme => ({
         textAlignVertical: "center",
     },
     hdPathText: {
-        fontFamily: "SF-Pro-Text",
+        fontFamily: "SF Pro Text",
         fontSize: 16,
         fontStyle: "normal",
         fontWeight: "400",
