@@ -35,6 +35,7 @@ export const BiographyEditor: React.FC<Props> = (props) => {
             setCharCount(allowedChars);
         } else {
             setBio(_ => text.substring(0, MAX_BIO_LENGTH));
+            setCharCount(0);
         }
     }, [setBio]);
 
