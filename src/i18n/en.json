@@ -15,6 +15,7 @@
   "success": "Success",
   "password": "Password",
   "copy": "Copy",
+  "done": "Done",
   "create wallet": "Create Wallet",
   "import recovery passphrase": "Import Recovery Passphrase",
   "secret recovery passphrase": "Secret recovery passphrase",
