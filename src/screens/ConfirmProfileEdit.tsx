@@ -181,7 +181,7 @@ export const ConfirmProfileEdit: React.FC<Props> = (props) => {
 
 const useStyles = makeStyle(theme => ({
     details: {
-        flexGrow: 1,
+        flex: 1,
     },
     confirmBtn: {
         margin: theme.spacing.m

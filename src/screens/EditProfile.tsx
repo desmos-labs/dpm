@@ -6,7 +6,7 @@ import {makeStyle} from "../theming";
 import {StyledSafeAreaView, Button, Divider, InlineInput, InlineLabeledValue} from "../components";
 import {CompositeScreenProps} from "@react-navigation/native";
 import {ProfileHeader} from "../components/ProfileHeader";
-import {ScrollView} from "react-native";
+import {ScrollView, View} from "react-native";
 import {launchImageLibrary} from 'react-native-image-picker';
 import {ImagePickerResponse} from "react-native-image-picker/src/types";
 import {TopBar} from "../components";
@@ -125,7 +125,7 @@ export const EditProfile: React.FC<Props> = (props) => {
 
 const useStyles = makeStyle(theme => ({
     content: {
-        flexGrow: 1,
+        flex: 1,
         paddingHorizontal: theme.spacing.m,
         paddingBottom: theme.spacing.m,
     },
