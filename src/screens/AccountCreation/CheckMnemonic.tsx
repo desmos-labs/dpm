@@ -7,45 +7,7 @@ import {useTranslation} from "react-i18next";
 import {makeStyle} from "../../theming";
 import {View} from "react-native";
 import {shuffleArray} from "../../utilils/shuffle";
-
-const useStyles = makeStyle(theme => ({
-    root: {
-        paddingTop: 0,
-        display: "flex",
-        flexDirection: "column",
-    },
-    selectedWordsContainer: {
-        display: "flex",
-        flexDirection: "row",
-        flexWrap: "wrap",
-        marginTop: theme.spacing.s,
-        borderStyle: "solid",
-        borderWidth: 1,
-        borderRadius: theme.roundness,
-        borderColor: "#E8E8E8",
-        flexGrow: 1,
-        maxHeight: "50%",
-    },
-    availableWordsContainer: {
-        display: "flex",
-        flexDirection: "row",
-        flexWrap: "wrap",
-        marginTop: theme.spacing.s,
-        flexGrow: 1,
-    },
-    wordBadge: {
-        marginTop: theme.spacing.s,
-        marginLeft: theme.spacing.s,
-        marginRight: theme.spacing.s,
-    },
-    errorParagraph: {
-        marginBottom: theme.spacing.s,
-        color: theme.colors.error,
-    },
-    saveButton: {
-
-    }
-}));
+import {TopBar} from "../../components";
 
 declare type Props = StackScreenProps<AccountCreationStackParams, "CheckMnemonic">;
 export default function CheckMnemonic(props: Props): JSX.Element {
@@ -99,6 +61,7 @@ export default function CheckMnemonic(props: Props): JSX.Element {
     }
 
     return <StyledSafeAreaView style={styles.root}>
+        <TopBar stackProps={props} />
         <Title>
             {t("confirm recovery passphrase")}
         </Title>
@@ -138,3 +101,42 @@ export default function CheckMnemonic(props: Props): JSX.Element {
         </Button>}
     </StyledSafeAreaView>
 }
+
+const useStyles = makeStyle(theme => ({
+    root: {
+        paddingTop: 0,
+        display: "flex",
+        flexDirection: "column",
+    },
+    selectedWordsContainer: {
+        display: "flex",
+        flexDirection: "row",
+        flexWrap: "wrap",
+        marginTop: theme.spacing.s,
+        borderStyle: "solid",
+        borderWidth: 1,
+        borderRadius: theme.roundness,
+        borderColor: "#E8E8E8",
+        flexGrow: 1,
+        maxHeight: "50%",
+    },
+    availableWordsContainer: {
+        display: "flex",
+        flexDirection: "row",
+        flexWrap: "wrap",
+        marginTop: theme.spacing.s,
+        flexGrow: 1,
+    },
+    wordBadge: {
+        marginTop: theme.spacing.s,
+        marginLeft: theme.spacing.s,
+        marginRight: theme.spacing.s,
+    },
+    errorParagraph: {
+        marginBottom: theme.spacing.s,
+        color: theme.colors.error,
+    },
+    saveButton: {
+
+    }
+}));

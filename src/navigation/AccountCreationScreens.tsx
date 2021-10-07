@@ -6,23 +6,18 @@ import CheckMnemonic from "../screens/AccountCreation/CheckMnemonic";
 import ImportRecoveryPassphrase from "../screens/AccountCreation/ImportRecoveryPassphrase";
 import GenerateAccount from "../screens/AccountCreation/GenerateAccount";
 import WalletPassword from "../screens/AccountCreation/WalletPassword";
-import {NavigationBar} from "../components";
 import {PickDerivationPath} from "../screens/AccountCreation/PickDerivationPath";
 
 export default function AccountCreationScreens() {
     return <AccountCreationStack.Navigator
         initialRouteName={"Home"}
         screenOptions={{
-            title: "",
-            header: NavigationBar
+            headerShown: false,
         }}
     >
         <AccountCreationStack.Screen
             name="Home"
             component={Home}
-            options={{
-                headerShown: false,
-            }}
         />
         <AccountCreationStack.Screen
             name="GenerateNewMnemonic"
@@ -50,9 +45,6 @@ export default function AccountCreationScreens() {
         />
         <AccountCreationStack.Screen
             name={"GenerateAccount"}
-            options={{
-                headerShown: false
-            }}
             component={GenerateAccount}
         />
     </AccountCreationStack.Navigator>

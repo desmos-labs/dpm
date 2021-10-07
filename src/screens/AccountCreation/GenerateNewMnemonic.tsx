@@ -8,25 +8,7 @@ import {makeStyle} from "../../theming";
 import {Text, View} from "react-native";
 import {FlexPadding} from "../../components/FlexPadding";
 import Colors from "../../constants/colors";
-const useStyles = makeStyle((theme) => ({
-    root: {
-        paddingTop: 0,
-    },
-    saveMnemonicAdvice: {
-        marginTop: theme.spacing.s,
-    },
-    mnemonic: {
-        marginTop: theme.spacing.m
-    },
-    wordsBtnContainer: {
-        display: "flex",
-        flexDirection: "row-reverse",
-    },
-    saveButton: {
-        fontStyle: "normal",
-        textTransform: "none",
-    }
-}))
+import {TopBar} from "../../components";
 
 declare type Props = StackScreenProps<AccountCreationStackParams, "GenerateNewMnemonic">;
 
@@ -57,7 +39,10 @@ export default function GenerateNewMnemonic(props: Props): JSX.Element {
         });
     }
 
-    return <StyledSafeAreaView style={styles.root}>
+    return <StyledSafeAreaView
+        style={styles.root}
+        topBar={<TopBar stackProps={props} />}
+    >
         <Title>
             {t("secret recovery passphrase")}
         </Title>
@@ -97,3 +82,23 @@ export default function GenerateNewMnemonic(props: Props): JSX.Element {
         </Button>
     </StyledSafeAreaView>
 }
+
+const useStyles = makeStyle((theme) => ({
+    root: {
+        paddingTop: 0,
+    },
+    saveMnemonicAdvice: {
+        marginTop: theme.spacing.s,
+    },
+    mnemonic: {
+        marginTop: theme.spacing.m
+    },
+    wordsBtnContainer: {
+        display: "flex",
+        flexDirection: "row-reverse",
+    },
+    saveButton: {
+        fontStyle: "normal",
+        textTransform: "none",
+    }
+}))

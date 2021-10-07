@@ -10,6 +10,7 @@ import {View} from "react-native";
 import {FlexPadding} from "../components/FlexPadding";
 import {launchImageLibrary} from 'react-native-image-picker';
 import {ImagePickerResponse} from "react-native-image-picker/src/types";
+import {TopBar} from "../components/TopBar";
 
 type Props = CompositeScreenProps<StackScreenProps<AccountScreensStackParams, "EditProfile">,
     StackScreenProps<RootStackParams>>;
@@ -63,7 +64,11 @@ export const EditProfile: React.FC<Props> = (props) => {
     }, [pickPicture]);
 
     return <StyledSafeAreaView
-        style={styles.root}
+        padding={0}
+        topBar={<TopBar
+            stackProps={props}
+            title={profile !== null ? t("edit profile") : t("create profile")}
+        />}
     >
         <ProfileHeader
             coverPictureUri={selectedCoverPicture ?? profile?.cachedCoverPictureUri}
@@ -108,11 +113,6 @@ export const EditProfile: React.FC<Props> = (props) => {
 }
 
 const useStyles = makeStyle(theme => ({
-    root: {
-        padding: 0,
-        display: "flex",
-        flexDirection: "column",
-    },
     content: {
         flexGrow: 1,
         paddingHorizontal: theme.spacing.m,

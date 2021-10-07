@@ -16,6 +16,7 @@ import {View, Text, ListRenderItemInfo} from "react-native";
 import LocalWallet from "../../wallet/LocalWallet";
 import {HdPath} from "../../types/hdpath";
 import useAccountExists from "../../hooks/useAccountExists";
+import {TopBar} from "../../components";
 
 type WalletHdPathPair = {
     wallet: LocalWallet,
@@ -98,7 +99,10 @@ export const PickDerivationPath: React.FC<Props> = (props) => {
         })
     }
 
-    return <StyledSafeAreaView style={styles.root}>
+    return <StyledSafeAreaView
+        style={styles.root}
+        topBar={<TopBar stackProps={props} />}
+    >
         <Title>
             {t("import accounts")}
         </Title>

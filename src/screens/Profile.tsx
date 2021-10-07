@@ -64,9 +64,7 @@ export default function Profile(props: Props): JSX.Element {
         setShowSnackbar(t("address copied"));
     }, [t, account]);
 
-    return <StyledSafeAreaView
-        style={styles.root}
-    >
+    return <StyledSafeAreaView padding={0}>
         <ProfileHeader
             address={account.address}
             coverPictureUri={profile?.cachedCoverPictureUri}
@@ -117,9 +115,6 @@ export default function Profile(props: Props): JSX.Element {
 }
 
 const useStyles = makeStyle(theme => ({
-    root: {
-        padding: 0,
-    },
     profileHeaderDivider: {
         width: 63,
         alignSelf: "flex-start",

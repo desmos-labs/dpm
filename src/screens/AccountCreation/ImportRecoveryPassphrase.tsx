@@ -7,6 +7,7 @@ import {makeStyle} from "../../theming";
 import {useTranslation} from "react-i18next";
 import {EnglishMnemonic} from "@cosmjs/crypto";
 import {FlexPadding} from "../../components/FlexPadding";
+import {TopBar} from "../../components";
 
 
 declare type Props = StackScreenProps<AccountCreationStackParams, "ImportRecoveryPassphrase">;
@@ -45,7 +46,10 @@ export default function ImportRecoveryPassphrase(props: Props): JSX.Element {
         setErrorMessage(null);
     }
     
-    return <StyledSafeAreaView style={styles.root}>
+    return <StyledSafeAreaView
+        style={styles.root}
+        topBar={<TopBar stackProps={props} />}
+    >
         <Title>
             {t("import recovery passphrase")}
         </Title>

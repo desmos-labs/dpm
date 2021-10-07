@@ -16,13 +16,14 @@ import useSaveProfile from "../hooks/useSaveProfile";
 import useNavigateToAccountScreen from "../hooks/useNavigateToAccountScreen";
 import useShowModal from "../hooks/useShowModal";
 import useUploadPicture from "../hooks/useUploadPicture";
+import {TopBar} from "../components/TopBar";
 
 
 export type Props = CompositeScreenProps<StackScreenProps<AccountScreensStackParams, "ConfirmProfileEdit">,
     StackScreenProps<RootStackParams>>
 
-export const ConfirmProfileEdit: React.FC<Props> = ({route}) => {
-
+export const ConfirmProfileEdit: React.FC<Props> = (props) => {
+    const {route} = props;
     const {account, dtag, nickname, bio, coverPictureUrl, localCoverPictureUri, profilePictureUrl, localProfilePictureUri} = route.params;
     const {t} = useTranslation();
     const styles = useStyles();
@@ -119,7 +120,10 @@ export const ConfirmProfileEdit: React.FC<Props> = ({route}) => {
         profilePictureUrl, desmosClient, txFee, saveProfile, showModal,
         t, uploadPicture, navigateToAccountScreen])
 
-    return <StyledSafeAreaView padding={0}>
+    return <StyledSafeAreaView
+        padding={0}
+        topBar={<TopBar stackProps={props} title={t("confirm")}/>}
+    >
         <ProfileHeader
             coverPictureUri={localCoverPictureUri}
             profilePictureUri={localProfilePictureUri}

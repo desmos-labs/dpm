@@ -18,7 +18,7 @@ import {AvatarImage} from "./AvatarImage";
 import {ProfileListItem} from "./ProfileListItem";
 import {InlineInput} from "./InlineInput";
 import {LabeledValue} from "./LabeledValue";
-
+import {TopBar} from "./TopBar";
 
 export {
     AccountCard,
@@ -40,5 +40,6 @@ export {
     AvatarImage,
     ProfileListItem,
     InlineInput,
-    LabeledValue
+    LabeledValue,
+    TopBar,
 }

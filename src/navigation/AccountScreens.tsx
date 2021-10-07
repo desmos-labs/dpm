@@ -46,15 +46,12 @@ export default function AccountScreens(props: AccountScreensProps) {
     return <AccountScreensStack.Navigator
         initialRouteName={"ProfileWithDrawerMenu"}
         screenOptions={{
-            header: NavigationBar,
+            headerShown: false,
         }}
     >
         <AccountScreensStack.Screen
             name="ProfileWithDrawerMenu"
             component={ProfileWithDrawerMenu}
-            options={{
-                headerShown: false,
-            }}
             initialParams={{
                 account: props.route.params.account
             }}
@@ -62,18 +59,10 @@ export default function AccountScreens(props: AccountScreensProps) {
         <AccountScreensStack.Screen
             name="EditProfile"
             component={EditProfile}
-            options={{
-                headerShown: true,
-                title: t("edit profile")
-            }}
         />
         <AccountScreensStack.Screen
             name="ConfirmProfileEdit"
             component={ConfirmProfileEdit}
-            options={{
-                headerShown: true,
-                title: t("confirm")
-            }}
         />
         <AccountScreensStack.Screen
             name="AccountSessions"

@@ -7,6 +7,7 @@ import {useTranslation} from "react-i18next";
 import {makeStyle} from "../../theming";
 import {SecureTextInput} from "../../components/SecureTextInput";
 import {PasswordComplexityScore} from "../../components/PasswordComplexityScore";
+import {TopBar} from "../../components";
 
 function evaluatePasswordComplexity(password: string): PasswordComplexityScore {
     const specialChars = "\\|!\"£$%&/()=?^'[]*+@#{}<>";
@@ -90,7 +91,10 @@ export default function WalletPassword(props: Props): JSX.Element {
         }
     }
 
-    return <StyledSafeAreaView style={styles.root}>
+    return <StyledSafeAreaView
+        style={styles.root}
+        topBar={<TopBar stackProps={props} />}
+    >
         <Title>
             {t("protect your wallet")}
         </Title>

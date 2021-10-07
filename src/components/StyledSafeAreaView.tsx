@@ -1,5 +1,5 @@
-import React from "react";
-import {SafeAreaView, ScrollView, StyleProp, StyleSheet, ViewProps} from "react-native";
+import React, {ReactElement} from "react";
+import {SafeAreaView, ScrollView, View, ViewProps} from "react-native";
 import {makeStyleWithProps} from "../theming";
 
 export type Props = ViewProps & {
@@ -11,23 +11,32 @@ export type Props = ViewProps & {
      * View padding.
      */
     padding?: number,
+
+    topBar?: ReactElement,
 };
 
 export const StyledSafeAreaView: React.FC<Props> = (props) => {
     const styles = useStyles(props);
 
-    const style = StyleSheet.compose(styles.root as StyleProp<ViewProps>, props.style);
-    return <SafeAreaView {...props} style={style}>
-        {props?.scrollable ? (
-            <ScrollView>
-                {props.children}
-            </ScrollView>
-        ) : props.children }
+    return <SafeAreaView style={styles.root}>
+        {props.topBar}
+        <View style={[styles.content, props.style]}>
+            {props?.scrollable ? (
+                <ScrollView>
+                    {props.children}
+                </ScrollView>
+            ) : props.children }
+        </View>
     </SafeAreaView>
 }
 
 const useStyles = makeStyleWithProps((props: Props, theme) =>({
     root: {
+        display: "flex",
+        flexDirection: "column",
+        flexGrow: 1,
+    },
+    content: {
         display: "flex",
         flexDirection: "column",
         flexGrow: 1,
