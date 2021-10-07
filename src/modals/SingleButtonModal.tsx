@@ -68,6 +68,7 @@ const useStyles = makeStyle(theme => ({
 
     },
     image: {
+        alignSelf: "center",
         width: 200,
         height: 100,
     },
