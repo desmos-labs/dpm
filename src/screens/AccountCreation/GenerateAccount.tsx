@@ -10,12 +10,12 @@ import useSaveAccount from "../../hooks/useSaveAccount";
 import {StyledSafeAreaView, Button, Title, Paragraph} from "../../components";
 import {useTranslation} from "react-i18next";
 import {makeStyle} from "../../theming";
-import useSaveSelectedAccount from "../../hooks/useSaveSelectedAccount";
 import {useSetRecoilState} from "recoil";
 import ChainStore from "../../store/ChainStore";
 import {Image} from "react-native";
 import {CompositeScreenProps} from "@react-navigation/native";
-import useNavigateToAccountScreen from "../../hooks/useNavigateToAccountScreen";
+import useChangeAccount from "../../hooks/useChangeAccount";
+import useSaveSelectedAccount from "../../hooks/useSaveSelectedAccount";
 
 
 declare type Props = CompositeScreenProps<StackScreenProps<AccountCreationStackParams, "GenerateAccount">,
@@ -30,12 +30,11 @@ export default function GenerateAccount(props: Props): JSX.Element {
     const [generating, setGenerating] = useState(true);
     const [error, setError] = useState<string | null>(null);
     const [account, setAccount] = useState<ChainAccount | null>(null);
-    const setSelectedAccount = useSetRecoilState(ChainStore.selectedAccount);
     const setAccounts = useSetRecoilState(ChainStore.chainAccounts);
     const saveWallet = useSaveWallet();
     const saveAccount = useSaveAccount();
     const saveSelectedAccount = useSaveSelectedAccount();
-    const navigateToAccountScreen = useNavigateToAccountScreen();
+    const changeAccount = useChangeAccount();
 
     const generateAccount = useCallback(async () => {
         setGenerating(true);
@@ -57,9 +56,8 @@ export default function GenerateAccount(props: Props): JSX.Element {
 
     const onContinuePressed = useCallback(() => {
         setAccounts((old) => [...old, account!]);
-        setSelectedAccount(account);
-        navigateToAccountScreen(account!, true);
-    }, [account, setAccounts, setSelectedAccount, navigateToAccountScreen]);
+        changeAccount(account!);
+    }, [account, setAccounts, changeAccount]);
 
     useEffect(() => {
         return navigation.addListener("beforeRemove", e => {

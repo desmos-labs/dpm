@@ -1,7 +1,5 @@
 import {ChainAccount} from "../types/chain";
 import AccountSource from "../sources/AccountSource";
-import {useSetRecoilState} from "recoil";
-import ChainStore from "../store/ChainStore";
 import {useCallback} from "react";
 
 /**
@@ -9,12 +7,7 @@ import {useCallback} from "react";
  * Returns a function that save an account into the device storage.
  */
 export default function useSaveSelectedAccount() {
-    const setSelectedAccount = useSetRecoilState(ChainStore.selectedAccount);
-
-    return useCallback(async (account: ChainAccount, updateAppState?: boolean) => {
+    return useCallback(async (account: ChainAccount) => {
         await AccountSource.setSelectedAccount(account.address);
-        if (updateAppState === true) {
-            setSelectedAccount(account);
-        }
-    }, [setSelectedAccount]);
+    }, []);
 }

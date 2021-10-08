@@ -11,11 +11,11 @@ import {CachedDesmosProfile, ChainAccount} from "../types/chain";
 import {IconButton} from "react-native-paper";
 import {ListItemSeparator, ProfileListItem} from "./index";
 import ChainStore from "../store/ChainStore";
-import useSaveSelectedAccount from "../hooks/useSaveSelectedAccount";
 import useSelectedAccount from "../hooks/useSelectedAccount";
 import useDeleteAccount from "../hooks/useDeleteAccount";
 import useShowModal from "../hooks/useShowModal";
 import {TwoButtonModal} from "../modals/TwoButtonModal";
+import useChangeAccount from "../hooks/useChangeAccount";
 
 type AccountProfilePair = [ChainAccount, CachedDesmosProfile | null];
 
@@ -26,7 +26,7 @@ export const AppDrawerContent: React.FC<DrawerContentComponentProps> = (props) =
     const accounts = useRecoilValue(ChainStore.chainAccounts);
     const profiles = useRecoilValue(ChainStore.profiles);
     const selectedAccount = useSelectedAccount();
-    const saveSelectedAccount = useSaveSelectedAccount();
+    const changeAccount = useChangeAccount();
     const deleteAccount = useDeleteAccount();
     const showModal = useShowModal();
 
@@ -49,22 +49,12 @@ export const AppDrawerContent: React.FC<DrawerContentComponentProps> = (props) =
         console.warn("Settings screen not implemented")
     }, [])
 
-    const onChangeAccount = useCallback(async (account: ChainAccount) => {
+    const onChangeAccount = useCallback((account: ChainAccount) => {
         if (account.address !== selectedAccount?.address) {
-            await saveSelectedAccount(account, true);
-            navigation.reset({
-                index: 0,
-                routes: [{
-                    name: "Profile",
-                    params: {
-                        account,
-                    }
-                }]
-            })
-        } else {
-            navigation.closeDrawer();
+            changeAccount(account);
         }
-    }, [saveSelectedAccount, navigation, selectedAccount]);
+        navigation.closeDrawer();
+    }, [changeAccount, navigation, selectedAccount]);
 
     const onDeleteAccount = useCallback(async (pair: AccountProfilePair) => {
         const [account] = pair;
@@ -78,9 +68,11 @@ export const AppDrawerContent: React.FC<DrawerContentComponentProps> = (props) =
                 }],
             })
         } else {
-            onChangeAccount(accounts[0]);
+            if (selectedAccount.address === account.address) {
+                onChangeAccount(accounts[0]);
+            }
         }
-    }, [navigation, deleteAccount, onChangeAccount]);
+    }, [navigation, deleteAccount, onChangeAccount, selectedAccount]);
 
     const showDeleteModal = useCallback((pair: AccountProfilePair) => {
         showModal(TwoButtonModal, {

@@ -6,7 +6,7 @@ import {makeStyle} from "../theming";
 import {StyledSafeAreaView, Button, Divider, InlineInput, InlineLabeledValue} from "../components";
 import {CompositeScreenProps} from "@react-navigation/native";
 import {ProfileHeader} from "../components/ProfileHeader";
-import {ScrollView, View} from "react-native";
+import {ScrollView} from "react-native";
 import {launchImageLibrary} from 'react-native-image-picker';
 import {ImagePickerResponse} from "react-native-image-picker/src/types";
 import {TopBar} from "../components";
@@ -15,8 +15,8 @@ type Props = CompositeScreenProps<StackScreenProps<AccountScreensStackParams, "E
     StackScreenProps<RootStackParams>>;
 
 export const EditProfile: React.FC<Props> = (props) => {
-    const profile = props.route.params.profile!;
     const account = props.route.params.account!;
+    const profile = props.route.params.profile;
     const styles = useStyles();
     const {t} = useTranslation();
     const [dtag, setDtag] = useState(profile?.dtag ?? "");

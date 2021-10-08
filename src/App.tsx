@@ -6,7 +6,7 @@ import {SplashScreen} from "./screens/SplashScreen";
 import {DesmosSdkProvider} from "@desmoslabs/sdk-react";
 import ChainStore from "./store/ChainStore";
 import {NavigationContainer, NavigationContainerRef} from "@react-navigation/native";
-import {AccountScreensStackParams, RootStack} from "./types/navigation";
+import {RootStack, RootStackParams} from "./types/navigation";
 import WalletConnectStore from "./store/WalletConnectStore";
 import AccountCreationScreens from "./navigation/AccountCreationScreens";
 import AccountScreens from "./navigation/AccountScreens";
@@ -16,23 +16,23 @@ import {ModalScreen} from "./modals/ModalScreen";
 function AppContent(): JSX.Element {
     const appState = useInitAppState();
     const accounts = useRecoilValue(ChainStore.chainAccounts);
-    const navigatorRef = useRef<NavigationContainerRef<AccountScreensStackParams>>(null);
+    const navigatorRef = useRef<NavigationContainerRef<RootStackParams>>(null);
     const requests = useRecoilValue(WalletConnectStore.sessionRequests);
     const selectedAccount = useRecoilValue(ChainStore.selectedAccount);
 
     const loading = appState.initializing;
 
     useEffect(() => {
-        if (navigatorRef.current !== null && requests.length > 0) {
-            navigatorRef.current.navigate({
-                name: "WalletConnectRequest",
-                params: {
-                    session: requests[0].session,
-                    request: requests[0].request,
-                },
-                key: requests[0].request.request.id.toString()
-            });
-        }
+        // if (navigatorRef.current !== null && requests.length > 0) {
+        //     navigatorRef.current.navigate({
+        //         name: "WalletConnectRequest",
+        //         params: {
+        //             session: requests[0].session,
+        //             request: requests[0].request,
+        //         },
+        //         key: requests[0].request.request.id.toString()
+        //     });
+        // }
     }, [requests]);
 
     // Navigate to the correct screen after loading all the data.
@@ -46,20 +46,23 @@ function AppContent(): JSX.Element {
                 })
             }
             else {
-                // Go to the account screen
-                navigatorRef.current.reset({
-                    index: 0,
-                    routes: [{
-                        name: "AccountScreens",
-                        params: {
-                            account: selectedAccount
-                        }
-                    }],
-                })
+                const route = navigatorRef.current.getCurrentRoute();
+                const state = navigatorRef.current.getState();
+                if (route?.name !== "Profile") {
+                    const key = state?.routes.find(r => r.name === "AccountScreens")?.key;
+                    navigatorRef.current.reset({
+                        index: 0,
+                        routes: [{
+                            name: "AccountScreens",
+                            key
+                        }],
+                    })
+                }
             }
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [loading, navigatorRef])
+    }, [loading, navigatorRef, selectedAccount])
+
 
     return <NavigationContainer ref={navigatorRef}>
         <RootStack.Navigator

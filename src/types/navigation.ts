@@ -35,17 +35,13 @@ export type AccountCreationStackParams = {
 export const AccountCreationStack = createStackNavigator<AccountCreationStackParams>();
 
 export type AppDrawerParams = {
-    Profile: {
-        account: ChainAccount,
-    }
+    Profile: undefined
 }
 
 export const AppDrawer = createDrawerNavigator<AppDrawerParams>()
 
 export type AccountScreensStackParams = {
-    ProfileWithDrawerMenu: {
-        account: ChainAccount,
-    },
+    ProfileWithDrawerMenu: undefined,
     EditProfile: {
         account?: ChainAccount,
         profile?: CachedDesmosProfile | null,
@@ -131,9 +127,7 @@ export type ModalComponent<T> = React.FC<ModalComponentProps<T>>
 export type RootStackParams = {
     SplashScreen: undefined,
     AccountCreationScreens: undefined,
-    AccountScreens: {
-        account: ChainAccount
-    },
+    AccountScreens: undefined,
     ModalScreen: {
         component: ModalComponent<any>,
         params?: any

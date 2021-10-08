@@ -21,7 +21,7 @@ import {BiographyEditor} from "../screens/BiographyEditor";
 
 type ProfileWithAppDrawerProps = StackScreenProps<AccountScreensStackParams, "ProfileWithDrawerMenu">
 
-function ProfileWithDrawerMenu(props: ProfileWithAppDrawerProps) {
+function ProfileWithDrawerMenu(_: ProfileWithAppDrawerProps) {
     return <AppDrawer.Navigator
         screenOptions={{
             headerShown: false,
@@ -31,16 +31,13 @@ function ProfileWithDrawerMenu(props: ProfileWithAppDrawerProps) {
         <AppDrawer.Screen
             name="Profile"
             component={Profile}
-            initialParams={{
-                account: props.route.params.account
-            }}
         />
     </AppDrawer.Navigator>
 }
 
 type AccountScreensProps = StackScreenProps<RootStackParams, "AccountScreens">
 
-export default function AccountScreens(props: AccountScreensProps) {
+export default function AccountScreens(_: AccountScreensProps) {
     const {t} = useTranslation();
 
     return <AccountScreensStack.Navigator
@@ -52,9 +49,6 @@ export default function AccountScreens(props: AccountScreensProps) {
         <AccountScreensStack.Screen
             name="ProfileWithDrawerMenu"
             component={ProfileWithDrawerMenu}
-            initialParams={{
-                account: props.route.params.account
-            }}
         />
         <AccountScreensStack.Screen
             name="EditProfile"

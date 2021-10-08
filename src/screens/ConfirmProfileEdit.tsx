@@ -16,7 +16,7 @@ import useSaveProfile from "../hooks/useSaveProfile";
 import useNavigateToAccountScreen from "../hooks/useNavigateToAccountScreen";
 import useShowModal from "../hooks/useShowModal";
 import useUploadPicture from "../hooks/useUploadPicture";
-import {TopBar} from "../components/TopBar";
+import {TopBar} from "../components";
 
 
 export type Props = CompositeScreenProps<StackScreenProps<AccountScreensStackParams, "ConfirmProfileEdit">,
@@ -102,7 +102,7 @@ export const ConfirmProfileEdit: React.FC<Props> = (props) => {
                     title: t("success"),
                     message: t("profile saved"),
                     actionLabel: t("go to profile"),
-                    action: () => navigateToAccountScreen(account, true),
+                    action: () => navigateToAccountScreen(true),
                 });
             }
         } catch (e) {

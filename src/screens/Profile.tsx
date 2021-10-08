@@ -11,6 +11,7 @@ import useFetchProfile from "../hooks/useFetchProfile";
 import {Image, View, Text} from "react-native";
 import {useTranslation} from "react-i18next";
 import Clipboard from "@react-native-community/clipboard";
+import useSelectedAccount from "../hooks/useSelectedAccount";
 
 
 type Props = CompositeScreenProps<DrawerScreenProps<AppDrawerParams, "Profile">,
@@ -19,7 +20,7 @@ type Props = CompositeScreenProps<DrawerScreenProps<AppDrawerParams, "Profile">,
 export default function Profile(props: Props): JSX.Element {
 
     const {navigation} = props;
-    const account = props.route.params.account;
+    const account = useSelectedAccount();
     const {t} = useTranslation();
     const styles = useStyles();
     const profile = useFetchProfile(account.address);
