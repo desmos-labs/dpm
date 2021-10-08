@@ -61,7 +61,7 @@ export const ProfileListItem: React.FC<Props> = (props) => {
         onPress={props.onPress}
     >
         <AvatarImage
-            source={props.image ?? require("../assets/desmos-icon-gray.png")}
+            source={props.image ?? require("../assets/default-profile-picture.png")}
             size={48}
         />
         <View style={styles.textContainer}>

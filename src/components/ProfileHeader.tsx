@@ -33,7 +33,7 @@ export const ProfileHeader: React.FC<Props> = (props) => {
     const profilePicture = useMemo(() => {
         return profilePictureUri ? {
             uri: profilePictureUri
-        } : require("../assets/desmos-icon-gray.png");
+        } : require("../assets/default-profile-picture.png");
     }, [profilePictureUri]);
 
     return <View
