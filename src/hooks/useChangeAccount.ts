@@ -1,14 +1,13 @@
-import {useSetRecoilState} from "recoil";
-import ChainStore from "../store/ChainStore";
 import {ChainAccount} from "../types/chain";
 import {useCallback} from "react";
 import AccountSource from "../sources/AccountSource";
+import {useAppContext} from "../contexts/AppContext";
 
 /**
  * Hook that provides a function to change the current selected account.
  */
 export default function useChangeAccount(): (account: ChainAccount) => void {
-    const setSelectedAccount = useSetRecoilState(ChainStore.selectedAccount);
+    const {setSelectedAccount} = useAppContext();
 
     return useCallback((account: ChainAccount) => {
         setSelectedAccount(account);

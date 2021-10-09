@@ -1,8 +1,7 @@
-import WalletConnect, {CLIENT_EVENTS} from "@walletconnect/client";
-import {useEffect, useState} from "react";
+import {CLIENT_EVENTS} from "@walletconnect/client";
+import {useCallback, useEffect, useState} from "react";
 import {ClientTypes, SessionTypes} from "@walletconnect/types";
-import {useRecoilValue} from "recoil";
-import WalletConnectStore from "../store/WalletConnectStore";
+import {useWalletConnectContext} from "../contexts/WalletConnectContext";
 
 export enum PairRequestStatus {
     WaitingResponse,
@@ -47,60 +46,62 @@ export default function useWalletConnectPair():
     [PairStatus | null, (uri: string) => void, (params: ClientTypes.ApproveParams) => void,
         (params: ClientTypes.RejectParams) => void] {
 
-    const client = useRecoilValue(WalletConnectStore.walletConnect)!;
+    const {client} = useWalletConnectContext();
     const [pairStatus, setPairStatus] = useState<PairStatus | null>(null);
+
+    const proposalListener = useCallback(async (proposal: SessionTypes.Proposal) => {
+        setPairStatus({
+            status: PairRequestStatus.WaitingApprove,
+            proposal: proposal
+        })
+    }, [])
 
     // Subscribe to client proposals
     useEffect(() => {
-        const proposal_listener = async (proposal: SessionTypes.Proposal) => {
-            setPairStatus({
-                status: PairRequestStatus.WaitingApprove,
-                proposal: proposal
-            })
-        }
-
-        client.on(CLIENT_EVENTS.session.proposal, proposal_listener);
+        client?.on(CLIENT_EVENTS.session.proposal, proposalListener);
         return () => {
-            client.removeListener(CLIENT_EVENTS.session.proposal, proposal_listener);
+            client?.removeListener(CLIENT_EVENTS.session.proposal, proposalListener);
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
-    const pair = (uri: string) => {
+    const pair = useCallback((uri: string) => {
         setPairStatus({status: PairRequestStatus.WaitingResponse})
-        client.pair({uri})
+        client?.pair({uri})
             .catch(ex => {
                 setPairStatus({
                     status: PairRequestStatus.Failed,
                     error: ex.toString(),
                 })
             })
-    }
+    }, [client]);
 
-    const approve = (params: ClientTypes.ApproveParams) => {
-        setPairStatus({
-            status: PairRequestStatus.Approving,
-            proposal: params.proposal
-        });
-
-        client.approve(params).then(settled => {
+    const approve = useCallback((params: ClientTypes.ApproveParams) => {
+        if (client !== null) {
             setPairStatus({
-                status: PairRequestStatus.Success,
-                settled
-            })
-        }).catch(error => {
-            setPairStatus({
-                status: PairRequestStatus.Failed,
-                error: error.toString()
-            })
-        })
-    }
+                status: PairRequestStatus.Approving,
+                proposal: params.proposal
+            });
 
-    const reject = (params: ClientTypes.RejectParams) => {
-        client.reject(params).finally(() => {
+            client.approve(params).then(settled => {
+                setPairStatus({
+                    status: PairRequestStatus.Success,
+                    settled
+                })
+            }).catch(error => {
+                setPairStatus({
+                    status: PairRequestStatus.Failed,
+                    error: error.toString()
+                })
+            })
+        }
+    }, [client]);
+
+    const reject = useCallback((params: ClientTypes.RejectParams) => {
+        client?.reject(params).finally(() => {
             setPairStatus(null);
         })
-    }
+    }, [client]);
 
     return [pairStatus, pair, approve, reject]
 }

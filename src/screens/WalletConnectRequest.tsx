@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React, {useCallback, useEffect} from 'react';
 import {
     Button,
     NativeSyntheticEvent,
@@ -15,11 +15,9 @@ import {DeferredState} from '../types/defered';
 import {StackScreenProps} from '@react-navigation/stack';
 import {AccountScreensStackParams} from '../types/navigation';
 import {CosmosTx, SignedCosmosTx} from '../types/tx';
-import WalletConnectStore, {
-    WalletConnectRequestEvent,
-} from '../store/WalletConnectStore';
 import {StackNavigationProp} from '@react-navigation/stack/lib/typescript/src/types';
-import {useRecoilState} from 'recoil';
+import { WalletConnectRequestEvent } from '../types/walletconnect';
+import {useWalletConnectContext} from "../contexts/WalletConnectContext";
 
 export type Props = StackScreenProps<AccountScreensStackParams, 'WalletConnectRequest'>;
 
@@ -41,9 +39,7 @@ function requestToSignTx(requestEvent: WalletConnectRequestEvent): CosmosTx {
 
 export default function WalletConnectRequest(props: Props): JSX.Element {
     const {navigation} = props;
-    const [, setSessions] = useRecoilState(
-        WalletConnectStore.sessionRequests,
-    );
+    const {setSessionRequests} = useWalletConnectContext();
     const [approveStatus, approve] = useWalletConnectRequestApprove();
     const [rejectStatus, reject] = useWalletConnectRequestReject();
 
@@ -70,16 +66,16 @@ export default function WalletConnectRequest(props: Props): JSX.Element {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [props.route.params.signedTx]);
 
-    const onOkButtonPressed = (_: NativeSyntheticEvent<NativeTouchEvent>) => {
-        setSessions(sessions => {
-            return sessions.filter(
-                s =>
-                    s.request.request.id !==
+    const onOkButtonPressed = useCallback((_: NativeSyntheticEvent<NativeTouchEvent>) => {
+        setSessionRequests(sessionRequests => {
+            return sessionRequests.filter(
+                sessionRequest =>
+                    sessionRequest.request.request.id !==
                     props.route.params.request.request.id,
             );
         });
         navigation.goBack();
-    };
+    }, [navigation, props.route.params.request.request.id, setSessionRequests]);
 
     const onRejectPressed = (_: NativeSyntheticEvent<NativeTouchEvent>) => {
         reject(props.route.params.request);

@@ -1,15 +1,14 @@
 import {CachedDesmosProfile} from "../types/chain";
 import {useCallback} from "react";
 import ProfileSource from "../sources/ProfileSource";
-import {useSetRecoilState} from "recoil";
-import ChainStore from "../store/ChainStore";
+import {useAppContext} from "../contexts/AppContext";
 
 /**
  * Hooks that provide a function to load all the profiles cached
  * into the local storage.
  */
 export default function useLoadAllProfiles(): () => Promise<CachedDesmosProfile[]> {
-    const setProfiles = useSetRecoilState(ChainStore.profiles);
+    const {setProfiles} = useAppContext();
 
     return useCallback(async () => {
         const profiles = await ProfileSource.getAllProfiles();

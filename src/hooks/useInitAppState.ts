@@ -1,22 +1,16 @@
-import {useEffect, useState} from "react";
+import {useEffect} from "react";
 import useLoadAccounts from "./useLoadAccounts";
 import {useInitI18n} from "../i18n/i18n";
 import useLoadAllProfiles from "./useLoadAllProfiles";
+import {InitState, useAppContext} from "../contexts/AppContext";
 
-export type InitState = {
-    initializing: boolean,
-    errorMessage?: string,
-}
 
 /**
  * Hook that initialize the application state.
  * Returns a stateful variable that provides the initialization status.
  */
 export default function useInitAppState(): InitState {
-    const [state, setState] = useState<InitState>({
-        initializing: true,
-        errorMessage: undefined
-    });
+    const {initializing, setInitializing} = useAppContext();
 
     const initLocalization = useInitI18n();
     const loadAccounts = useLoadAccounts();
@@ -31,11 +25,11 @@ export default function useInitAppState(): InitState {
                 await loadAccounts();
                 await loadProfiles();
 
-                setState({
+                setInitializing({
                     initializing: false,
                 })
             } catch (e) {
-                setState({
+                setInitializing({
                     initializing: false,
                     errorMessage: e.toString(),
                 })
@@ -45,5 +39,5 @@ export default function useInitAppState(): InitState {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
 
-    return state;
+    return initializing;
 }

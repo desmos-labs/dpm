@@ -1,9 +1,8 @@
 import {useEffect, useState} from "react";
-import {useRecoilState} from "recoil";
-import ChainStore from "../store/ChainStore";
 import {useDesmosClient} from "@desmoslabs/sdk-react";
 import ProfileSource from "../sources/ProfileSource";
 import {CachedDesmosProfile} from "../types/chain";
+import {useAppContext} from "../contexts/AppContext";
 
 /**
  * Hook that fetch a profile from the chain and cache it on the device storage.
@@ -13,7 +12,7 @@ import {CachedDesmosProfile} from "../types/chain";
  */
 export default function useFetchProfile(address: string): CachedDesmosProfile | null {
     const client = useDesmosClient();
-    const [profiles, setProfiles] = useRecoilState(ChainStore.profiles);
+    const {profiles, setProfiles} = useAppContext();
     const [profile, setProfile] = useState<CachedDesmosProfile | null>(profiles[address] ?? null);
 
     useEffect(() => {

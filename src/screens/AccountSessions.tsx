@@ -9,9 +9,8 @@ import {
 } from "react-native";
 import {StackScreenProps} from "@react-navigation/stack";
 import {AccountScreensStackParams} from "../types/navigation";
-import {useRecoilValue} from "recoil";
-import WalletConnectStore from "../store/WalletConnectStore";
 import SettledSession from "../components/SettledSession";
+import useWalletConnectSessions from "../hooks/useWalletConnectSessions";
 
 type Props = StackScreenProps<AccountScreensStackParams, "AccountSessions">;
 
@@ -19,7 +18,7 @@ type Props = StackScreenProps<AccountScreensStackParams, "AccountSessions">;
 export default function AccountSessions(props: Props): JSX.Element {
     const {account} = props.route.params;
     const navigator = props.navigation;
-    const sessions = useRecoilValue(WalletConnectStore.settledSessions);
+    const sessions = useWalletConnectSessions()
 
     const accountSessions = sessions.filter(s => {
         return s.state.accounts.find(a => a.indexOf(account.address) >= 0) !== undefined

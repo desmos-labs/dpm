@@ -6,16 +6,16 @@ import Button from "./Button";
 import {makeStyle} from "../theming";
 import {StyledSafeAreaView} from "./StyledSafeAreaView";
 import {FlatList, Image, View, ListRenderItemInfo} from "react-native";
-import {useRecoilValue} from "recoil";
 import {CachedDesmosProfile, ChainAccount} from "../types/chain";
 import {IconButton} from "react-native-paper";
 import {ListItemSeparator, ProfileListItem} from "./index";
-import ChainStore from "../store/ChainStore";
 import useSelectedAccount from "../hooks/useSelectedAccount";
 import useDeleteAccount from "../hooks/useDeleteAccount";
 import useShowModal from "../hooks/useShowModal";
 import {TwoButtonModal} from "../modals/TwoButtonModal";
 import useChangeAccount from "../hooks/useChangeAccount";
+import useAccounts from "../hooks/useAccounts";
+import useProfiles from "../hooks/useProfiles";
 
 type AccountProfilePair = [ChainAccount, CachedDesmosProfile | null];
 
@@ -23,8 +23,8 @@ export const AppDrawerContent: React.FC<DrawerContentComponentProps> = (props) =
     const {navigation} = props;
     const {t} = useTranslation();
     const styles = useStyle();
-    const accounts = useRecoilValue(ChainStore.chainAccounts);
-    const profiles = useRecoilValue(ChainStore.profiles);
+    const accounts = useAccounts();
+    const profiles = useProfiles();
     const selectedAccount = useSelectedAccount();
     const changeAccount = useChangeAccount();
     const deleteAccount = useDeleteAccount();

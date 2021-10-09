@@ -1,8 +1,6 @@
-import WalletConnect from "@walletconnect/client";
-import {useState} from "react";
-import { ERROR } from "@walletconnect/utils"
-import {useRecoilValue} from "recoil";
-import WalletConnectStore from "../store/WalletConnectStore";
+import {useCallback, useState} from "react";
+import {ERROR} from "@walletconnect/utils"
+import {useWalletConnectContext} from "../contexts/WalletConnectContext";
 
 export enum SessionStatus {
     Disconnecting = "SESSION_DISCONNECTING",
@@ -32,28 +30,34 @@ export type DisconnectingSession = SessionDisconnecting | SessionDisconnected | 
  */
 export default function useWalletConnectDisconnect():
     [DisconnectingSession | null, (topic: string) => void] {
-    const client = useRecoilValue(WalletConnectStore.walletConnect)!;
+    const {client} = useWalletConnectContext();
     const [status, setStatus] = useState<DisconnectingSession | null>(null);
 
-    const disconnect = (topic: string) => {
-        setStatus({
-            status: SessionStatus.Disconnecting
-        })
-
-        client.disconnect({
-            topic,
-            reason: ERROR.USER_DISCONNECTED.format(),
-        }).then(() => {
+    const disconnect = useCallback((topic: string) => {
+        if (client !== null) {
             setStatus({
-                status: SessionStatus.Disconnected
+                status: SessionStatus.Disconnecting
             })
-        }).catch(ex => {
+            client.disconnect({
+                topic,
+                reason: ERROR.USER_DISCONNECTED.format(),
+            }).then(() => {
+                setStatus({
+                    status: SessionStatus.Disconnected
+                })
+            }).catch(ex => {
+                setStatus({
+                    status: SessionStatus.Failed,
+                    error: ex
+                })
+            });
+        } else  {
             setStatus({
                 status: SessionStatus.Failed,
-                error: ex
+                error: "client not connected"
             })
-        });
-    }
+        }
+    }, [client]);
 
     return [status, disconnect];
 }

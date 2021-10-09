@@ -1,8 +1,7 @@
 import AccountSource from "../sources/AccountSource";
 import {useCallback} from "react";
 import {ChainAccount} from "../types/chain";
-import {useSetRecoilState} from "recoil";
-import ChainStore from "../store/ChainStore";
+import {useAppContext} from "../contexts/AppContext";
 
 export type LoadedAccounts = {
     accounts: ChainAccount []
@@ -14,9 +13,7 @@ export type LoadedAccounts = {
  * device storage into the application state.
  */
 export default function useLoadAccounts(): () => Promise<LoadedAccounts> {
-
-    const setAccounts = useSetRecoilState(ChainStore.chainAccounts);
-    const setSelectedAccount = useSetRecoilState(ChainStore.selectedAccount);
+    const {setAccounts, setSelectedAccount} = useAppContext();
 
     return useCallback(async () => {
         let selectedAccount: ChainAccount | null = null

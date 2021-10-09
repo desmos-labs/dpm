@@ -1,6 +1,6 @@
 import {createStackNavigator} from '@react-navigation/stack';
 import {CachedDesmosProfile, ChainAccount} from './chain';
-import {WalletConnectRequestEvent} from '../store/WalletConnectStore';
+import {WalletConnectRequestEvent} from './walletconnect';
 import {CosmosTx, SignedCosmosTx} from './tx';
 import {SessionTypes} from '@walletconnect/types';
 import LocalWallet from "../wallet/LocalWallet";

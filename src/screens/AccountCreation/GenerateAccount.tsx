@@ -10,12 +10,11 @@ import useSaveAccount from "../../hooks/useSaveAccount";
 import {StyledSafeAreaView, Button, Title, Paragraph} from "../../components";
 import {useTranslation} from "react-i18next";
 import {makeStyle} from "../../theming";
-import {useSetRecoilState} from "recoil";
-import ChainStore from "../../store/ChainStore";
 import {Image} from "react-native";
 import {CompositeScreenProps} from "@react-navigation/native";
 import useChangeAccount from "../../hooks/useChangeAccount";
 import useSaveSelectedAccount from "../../hooks/useSaveSelectedAccount";
+import useSetAccounts from "../../hooks/useSetAccounts";
 
 
 declare type Props = CompositeScreenProps<StackScreenProps<AccountCreationStackParams, "GenerateAccount">,
@@ -30,7 +29,7 @@ export default function GenerateAccount(props: Props): JSX.Element {
     const [generating, setGenerating] = useState(true);
     const [error, setError] = useState<string | null>(null);
     const [account, setAccount] = useState<ChainAccount | null>(null);
-    const setAccounts = useSetRecoilState(ChainStore.chainAccounts);
+    const setAccounts = useSetAccounts();
     const saveWallet = useSaveWallet();
     const saveAccount = useSaveAccount();
     const saveSelectedAccount = useSaveSelectedAccount();
