@@ -13,6 +13,8 @@
   "confirm": "Conferma",
   "copy": "Copia",
   "done": "Fatto",
+  "yes": "Si",
+  "no": "No",
   "create wallet": "Crea Wallet",
   "import recovery passphrase": "Importa Recovery Passphrase",
   "secret recovery passphrase": "Secret recovery passphrase",
@@ -51,6 +53,7 @@
   "are you sure you want to remove this account": "Sei sicuro di voler rimuovere questo account?",
   "please enter you wallet password": "Per favore inserisci la password del tuo wallet",
   "forgot password?": "Password dimenticata?",
+  "create profile": "Crea profilo",
 
   "accounts": "Account",
   "sessions": "Sessioni",

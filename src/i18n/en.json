@@ -16,6 +16,8 @@
   "password": "Password",
   "copy": "Copy",
   "done": "Done",
+  "yes": "Yes",
+  "no": "No",
   "create wallet": "Create Wallet",
   "import recovery passphrase": "Import Recovery Passphrase",
   "secret recovery passphrase": "Secret recovery passphrase",
@@ -60,6 +62,7 @@
   "wallet password": "Wallet Password",
   "please enter you wallet password": "Please enter you wallet password",
   "forgot password?": "Forgot password?",
+  "create profile": "Create profile",
 
   "accounts": "Accounts",
   "sessions": "Sessions",
