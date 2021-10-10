@@ -10,7 +10,6 @@ import AccountSessions from "../screens/AccountSessions";
 import WalletConnectRequest from "../screens/WalletConnectRequest";
 import SignTx from "../screens/SignTx";
 import {useTranslation} from "react-i18next";
-import Profile from "../screens/Profile";
 import {EditProfile} from "../screens/EditProfile";
 import {UnlockWallet} from "../screens/UnlockWallet";
 import {BroadcastTx} from "../screens/BroadcastTx";
@@ -18,6 +17,7 @@ import {AppDrawerContent} from "../components/AppDrawerContent";
 import {StackScreenProps} from "@react-navigation/stack";
 import {ConfirmProfileEdit} from "../screens/ConfirmProfileEdit";
 import {BiographyEditor} from "../screens/BiographyEditor";
+import {HomeScreens} from "./HomeScreens";
 
 type ProfileWithAppDrawerProps = StackScreenProps<AccountScreensStackParams, "ProfileWithDrawerMenu">
 
@@ -29,8 +29,8 @@ function ProfileWithDrawerMenu(_: ProfileWithAppDrawerProps) {
         drawerContent={props => <AppDrawerContent {...props} />}
     >
         <AppDrawer.Screen
-            name="Profile"
-            component={Profile}
+            name="HomeScreen"
+            component={HomeScreens}
         />
     </AppDrawer.Navigator>
 }

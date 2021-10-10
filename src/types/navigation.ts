@@ -8,6 +8,7 @@ import {EncodeObject} from "@cosmjs/proto-signing";
 import {createDrawerNavigator} from "@react-navigation/drawer";
 import React from "react";
 import {StackNavigationProp} from "@react-navigation/stack/lib/typescript/src/types";
+import {createBottomTabNavigator} from "@react-navigation/bottom-tabs";
 
 export type AccountCreationStackParams = {
     Home: undefined;
@@ -34,8 +35,16 @@ export type AccountCreationStackParams = {
 
 export const AccountCreationStack = createStackNavigator<AccountCreationStackParams>();
 
+export type HomeScreenBottomTabsParams = {
+    Profile: undefined,
+    Authorization: undefined,
+    ScanQr: undefined,
+}
+
+export const HomeScreenBottomTabs = createBottomTabNavigator<HomeScreenBottomTabsParams>();
+
 export type AppDrawerParams = {
-    Profile: undefined
+    HomeScreen: undefined
 }
 
 export const AppDrawer = createDrawerNavigator<AppDrawerParams>()

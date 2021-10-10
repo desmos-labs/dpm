@@ -2,7 +2,7 @@ import {StyledSafeAreaView, Button, Divider} from "../components";
 import {makeStyle} from "../theming";
 import {IconButton, Snackbar} from "react-native-paper";
 import {StackScreenProps} from "@react-navigation/stack";
-import {AccountScreensStackParams, AppDrawerParams} from "../types/navigation";
+import {AccountScreensStackParams, AppDrawerParams, HomeScreenBottomTabsParams} from "../types/navigation";
 import React, {useCallback, useMemo, useState} from 'react';
 import {ProfileHeader} from "../components/ProfileHeader";
 import {CompositeScreenProps} from "@react-navigation/native";
@@ -12,10 +12,14 @@ import {Image, View, Text} from "react-native";
 import {useTranslation} from "react-i18next";
 import Clipboard from "@react-native-community/clipboard";
 import useSelectedAccount from "../hooks/useSelectedAccount";
+import {BottomTabScreenProps} from "@react-navigation/bottom-tabs";
 
 
-type Props = CompositeScreenProps<DrawerScreenProps<AppDrawerParams, "Profile">,
-    StackScreenProps<AccountScreensStackParams>>;
+export type Props = CompositeScreenProps<
+    BottomTabScreenProps<HomeScreenBottomTabsParams, "Profile">,
+    CompositeScreenProps<
+        DrawerScreenProps<AppDrawerParams>, StackScreenProps<AccountScreensStackParams>>
+    >;
 
 export default function Profile(props: Props): JSX.Element {
 

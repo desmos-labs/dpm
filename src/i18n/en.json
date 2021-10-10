@@ -63,6 +63,8 @@
   "please enter you wallet password": "Please enter you wallet password",
   "forgot password?": "Forgot password?",
   "create profile": "Create profile",
+  "profile": "Profile",
+  "authorization": "Authorization",
 
   "accounts": "Accounts",
   "sessions": "Sessions",
