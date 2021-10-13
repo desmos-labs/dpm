@@ -14,7 +14,14 @@ export const HomeScreens: React.FC = () => {
         screenOptions={{
             headerShown: false,
         }}
-        tabBar={props => <HomeScreenBottomBar {...props} />}
+        tabBar={props => {
+            const currentRoute = props.state.routes[props.state.index]
+            if (currentRoute.name === "ScanQr") {
+                return null;
+            } else {
+                return <HomeScreenBottomBar {...props} />
+            }
+        }}
     >
         <HomeScreenBottomTabs.Screen
             name="Profile"
