@@ -331,7 +331,7 @@ export class WalletConnectController {
 
             const rejectTimeout = setTimeout(() => {
                 client.off("session_request");
-                client.rejectSession();
+                client.killSession();
                 reject(new Error("request timeout"));
             }, timeout ?? 10000);
             const onSessionRequest = async (error: Error | null, payload?: SessionRequestPayload) => {
