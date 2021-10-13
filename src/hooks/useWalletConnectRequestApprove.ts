@@ -1,30 +1,64 @@
-import {ClientTypes} from "@walletconnect/types";
-import {useCallback, useState} from "react";
-import Deferred from "../types/defered";
+import {useCallback, useEffect, useState} from "react";
 import {useWalletConnectContext} from "../contexts/WalletConnectContext";
+import {useSdkContext} from "@desmoslabs/sdk-react";
+import {ConnectedEvent, Events} from "../types/walletconnect";
+
+export type ApproveStatus = {
+    approving: boolean,
+    error?: string,
+    approved?: boolean,
+}
 
 /**
  * Hook to accept the WalletConnect requests.
  * Returns a stateful variable that provides the approve status and a function to approve the request.
  */
-export default function useWalletConnectRequestApprove():
-    [Deferred<null> | null, (response: ClientTypes.RespondParams) => void] {
-    const {client} = useWalletConnectContext();
-    const [status, setStatus] = useState<Deferred<null> | null>(null);
+export default function useWalletConnectRequestApprove(): [
+    ApproveStatus,
+    (id: string, accounts: string[], chaiId: string) => void]
+{
+    const {controller} = useWalletConnectContext();
+    const {desmosChains} = useSdkContext();
 
-    const approve = useCallback(async (response: ClientTypes.RespondParams) => {
-        if (client !== null) {
-            setStatus(Deferred.pending());
-            try {
-                await client.respond(response);
-                setStatus(Deferred.completed(null));
-            } catch (e) {
-                setStatus(Deferred.failed(e.toString()));
-            }
+    const [status, setStatus] = useState<ApproveStatus>({
+        approving: false,
+    });
+
+    const onConnect = useCallback((event: ConnectedEvent) => {
+        if (event.error === null) {
+            setStatus({
+                approving: false,
+                approved: true,
+            })
         } else {
-            setStatus(Deferred.failed("client not connected"));
+            setStatus({
+                approving: false,
+                error: event.error.toString(),
+            })
         }
-    }, [client]);
+    }, [])
 
-    return [status, approve];
+    useEffect(() => {
+        controller.addListener(Events.OnConnect, onConnect);
+        return () => {
+            controller.removeListener(Events.OnConnect, onConnect);
+        }
+    }, [controller, onConnect])
+
+    const approve = useCallback((id: string, accounts: string[], chaiId: string) => {
+        const chainsIndex = Object.keys(desmosChains).sort().indexOf(chaiId);
+        setStatus({
+            approving: true,
+        })
+        if (chainsIndex === -1) {
+            setStatus({
+                approving: false,
+                error: `Can't find index for chain ${chaiId}.`
+            })
+        } else {
+            controller.approveSession(id, accounts, chainsIndex);
+        }
+    }, [controller, desmosChains]);
+
+    return [status, approve]
 }

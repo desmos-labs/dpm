@@ -1,63 +1,39 @@
 import {useCallback, useState} from "react";
-import {ERROR} from "@walletconnect/utils"
 import {useWalletConnectContext} from "../contexts/WalletConnectContext";
 
-export enum SessionStatus {
-    Disconnecting = "SESSION_DISCONNECTING",
-    Disconnected = "SESSION_DISCONNECTED",
-    Failed = "SESSION_DISCONNECT_FAILED"
+export type DisconnectionStatus = {
+    disconnecting: boolean,
+    disconnected?: boolean,
+    error?: string
 }
-
-
-export type SessionDisconnecting = {
-    status: SessionStatus.Disconnecting
-}
-
-export type SessionDisconnected = {
-    status: SessionStatus.Disconnected
-}
-
-export type SessionDisconnectFailed = {
-    status: SessionStatus.Failed,
-    error: string
-}
-
-export type DisconnectingSession = SessionDisconnecting | SessionDisconnected | SessionDisconnectFailed
 
 /**
  * Hook to terminate a WalletConnect session.
  * Returns a stateful variable that provides the termination status and a function to terminate the session.
  */
-export default function useWalletConnectDisconnect():
-    [DisconnectingSession | null, (topic: string) => void] {
-    const {client} = useWalletConnectContext();
-    const [status, setStatus] = useState<DisconnectingSession | null>(null);
+export default function useWalletConnectDisconnect(): [DisconnectionStatus, (sessioId: string) => void] {
+    const {controller} = useWalletConnectContext();
+    const [status, setStatus] = useState<DisconnectionStatus>({
+        disconnecting: false,
+    });
 
-    const disconnect = useCallback((topic: string) => {
-        if (client !== null) {
+    const disconnect = useCallback(async (sessionId: string) => {
+        setStatus({
+            disconnecting: true,
+        })
+        try {
+            await controller.terminateSession(sessionId);
             setStatus({
-                status: SessionStatus.Disconnecting
+                disconnecting: false,
+                disconnected: true
             })
-            client.disconnect({
-                topic,
-                reason: ERROR.USER_DISCONNECTED.format(),
-            }).then(() => {
-                setStatus({
-                    status: SessionStatus.Disconnected
-                })
-            }).catch(ex => {
-                setStatus({
-                    status: SessionStatus.Failed,
-                    error: ex
-                })
-            });
-        } else  {
+        } catch (e) {
             setStatus({
-                status: SessionStatus.Failed,
-                error: "client not connected"
+                disconnecting: false,
+                error: e.toString(),
             })
         }
-    }, [client]);
+    }, [controller]);
 
     return [status, disconnect];
 }

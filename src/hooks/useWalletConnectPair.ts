@@ -1,107 +1,39 @@
-import {CLIENT_EVENTS} from "@walletconnect/client";
-import {useCallback, useEffect, useState} from "react";
-import {ClientTypes, SessionTypes} from "@walletconnect/types";
+import {useCallback, useState} from "react";
 import {useWalletConnectContext} from "../contexts/WalletConnectContext";
+import {SessionRequestDetails} from "../types/walletconnect";
 
-export enum PairRequestStatus {
-    WaitingResponse,
-    WaitingApprove,
-    Approving,
-    Success,
-    Failed,
+export type PairStatus = {
+    pairing: boolean,
+    requestDetails?: SessionRequestDetails
+    error?: string,
 }
-
-export type PairWaitingResponse = {
-    status: PairRequestStatus.WaitingResponse
-}
-
-export type PairWaitingApproval = {
-    status: PairRequestStatus.WaitingApprove,
-    proposal: SessionTypes.Proposal
-}
-
-export type PairApproving = {
-    status: PairRequestStatus.Approving,
-    proposal: SessionTypes.Proposal
-}
-
-export type PairSuccess = {
-    status: PairRequestStatus.Success,
-    settled: SessionTypes.Settled,
-}
-
-export type PairFailed = {
-    status: PairRequestStatus.Failed,
-    error: string
-}
-
-export type PairStatus = PairWaitingResponse | PairWaitingApproval | PairApproving | PairSuccess | PairFailed
-
 /**
- * Hook to handle the WalletConnect pair requests.
- * Returns a stateful variable that provides the pairing request status, a function to accept the pair request and a function
- * to reject the pair request.
+ * Hook that provides a function to initiate the pairing procedure with a
+ * DApp that use WalletConnect.
  */
-export default function useWalletConnectPair():
-    [PairStatus | null, (uri: string) => void, (params: ClientTypes.ApproveParams) => void,
-        (params: ClientTypes.RejectParams) => void] {
+export default function useWalletConnectPair(): [PairStatus, (uri: string) => Promise<void>] {
+    const {controller} = useWalletConnectContext();
+    const [pairStatus, setPairStatus] = useState<PairStatus>({
+        pairing: false,
+    })
 
-    const {client} = useWalletConnectContext();
-    const [pairStatus, setPairStatus] = useState<PairStatus | null>(null);
-
-    const proposalListener = useCallback(async (proposal: SessionTypes.Proposal) => {
+    const connectToDapp = useCallback( async (uri: string, timeoutMs?: number): Promise<void> => {
         setPairStatus({
-            status: PairRequestStatus.WaitingApprove,
-            proposal: proposal
+            pairing: true,
         })
-    }, [])
-
-    // Subscribe to client proposals
-    useEffect(() => {
-        client?.on(CLIENT_EVENTS.session.proposal, proposalListener);
-        return () => {
-            client?.removeListener(CLIENT_EVENTS.session.proposal, proposalListener);
-        }
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []);
-
-    const pair = useCallback((uri: string) => {
-        setPairStatus({status: PairRequestStatus.WaitingResponse})
-        client?.pair({uri})
-            .catch(ex => {
-                setPairStatus({
-                    status: PairRequestStatus.Failed,
-                    error: ex.toString(),
-                })
-            })
-    }, [client]);
-
-    const approve = useCallback((params: ClientTypes.ApproveParams) => {
-        if (client !== null) {
+        try {
+            const sessionRequestDetails = await controller.connectToDApp(uri, timeoutMs);
             setPairStatus({
-                status: PairRequestStatus.Approving,
-                proposal: params.proposal
+                pairing: false,
+                requestDetails: sessionRequestDetails
             });
-
-            client.approve(params).then(settled => {
-                setPairStatus({
-                    status: PairRequestStatus.Success,
-                    settled
-                })
-            }).catch(error => {
-                setPairStatus({
-                    status: PairRequestStatus.Failed,
-                    error: error.toString()
-                })
-            })
+        } catch (e) {
+            setPairStatus({
+                pairing: false,
+                error: e.toString(),
+            });
         }
-    }, [client]);
+    }, [controller]);
 
-    const reject = useCallback((params: ClientTypes.RejectParams) => {
-        client?.reject(params).finally(() => {
-            setPairStatus(null);
-        })
-    }, [client]);
-
-    return [pairStatus, pair, approve, reject]
+    return [pairStatus, connectToDapp]
 }

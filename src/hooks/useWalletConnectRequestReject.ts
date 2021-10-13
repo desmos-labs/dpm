@@ -1,32 +1,41 @@
-import {SessionTypes} from "@walletconnect/types";
 import {useCallback, useState} from "react";
-import walletConnectRejectResponse from "../utilils/walletConnectRejectResponse";
-import Deferred from "../types/defered";
 import {useWalletConnectContext} from "../contexts/WalletConnectContext";
+
+export type RejectStatus = {
+    rejecting: boolean,
+    rejected?: boolean,
+    error?: string,
+}
 
 /**
  * Hook to reject the WalletConnect requests.
  * Returns a stateful variable that provides the reject status and a function to reject the request.
  */
-export default function useWalletConnectRequestReject():
-    [Deferred<null> | null, (request: SessionTypes.RequestEvent) => void] {
+export default function useWalletConnectRequestReject(): [
+    RejectStatus, (sessionId: string, message?: string) => void]
+{
+    const {controller} = useWalletConnectContext();
+    const [status, setStatus] = useState<RejectStatus>({
+        rejecting: false,
+    });
 
-    const {client} = useWalletConnectContext();
-    const [status, setStatus] = useState<Deferred<null> | null>(null);
-
-    const reject = useCallback(async (request: SessionTypes.RequestEvent) => {
-        if (client !== null) {
-            setStatus(Deferred.pending());
-            try {
-                await client.respond(walletConnectRejectResponse(request));
-                setStatus(Deferred.completed(null))
-            } catch (e) {
-                setStatus(Deferred.failed(e.toString()));
-            }
-        } else {
-            setStatus(Deferred.failed("client not connected"));
+    const reject = useCallback((sessionId: string, message?: string) => {
+        setStatus({
+            rejecting: true
+        });
+        try {
+            controller.rejectSession(sessionId, message);
+            setStatus({
+                rejecting: false,
+                rejected: true,
+            })
+        } catch (e) {
+            setStatus({
+                rejecting: false,
+                error: e.toString(),
+            });
         }
-    }, [client]);
+    }, [controller]);
 
-    return [status, reject];
+    return [status, reject]
 }
