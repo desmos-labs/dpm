@@ -2,7 +2,7 @@ import React, {useCallback, useMemo} from "react";
 import {DrawerContentComponentProps} from "@react-navigation/drawer";
 import {useTranslation} from "react-i18next";
 import {Subtitle} from "./Subtitle";
-import Button from "./Button";
+import {Button} from "./Button";
 import {makeStyle} from "../theming";
 import {StyledSafeAreaView} from "./StyledSafeAreaView";
 import {FlatList, Image, View, ListRenderItemInfo} from "react-native";

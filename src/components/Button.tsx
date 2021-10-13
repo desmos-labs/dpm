@@ -1,7 +1,8 @@
 import React from "react";
 import {Button as MaterialButton, useTheme} from "react-native-paper"
-import {StyleProp, StyleSheet, TextStyle, ViewStyle} from "react-native";
+import {StyleProp, TextStyle, ViewStyle} from "react-native";
 import {IconSource} from "react-native-paper/lib/typescript/components/Icon";
+import {makeStyleWithProps} from "../theming";
 
 export type Props = {
     /**
@@ -37,27 +38,24 @@ export type Props = {
      * A disabled button is greyed out and `onPress` is not called on touch.
      */
     disabled?: boolean,
+    /**
+     * If tru display the button with the accent color from the current1 theme.
+     */
+    accent?: boolean,
     style?: StyleProp<ViewStyle>,
 }
 
-const Button: React.FC<Props> = props => {
+export const Button: React.FC<Props> = props => {
     const theme = useTheme()
-    const labelStyle = StyleSheet.compose(props.labelStyle, {
-        color: props.mode === "contained" ? theme.colors.buttonText : props.color ?? theme.colors.primary,
-        textTransform: "capitalize",
-    });
-
-    const btnStyle = StyleSheet.compose(props.style, {
-        borderColor: theme.colors.primary
-    });
+    const styles = useStyles(props);
 
     return <MaterialButton
         icon={props.icon}
-        color={props.color ?? theme.colors.primary}
+        color={props.color ?? props.accent ? theme.colors.accent : theme.colors.primary}
         onPress={props.onPress}
         mode={props.mode}
-        labelStyle={labelStyle}
-        style={btnStyle}
+        labelStyle={[styles.labelStyle, props.labelStyle]}
+        style={[styles.btnStyle, props.style]}
         loading={props.loading}
         disabled={props.disabled}
     >
@@ -65,4 +63,17 @@ const Button: React.FC<Props> = props => {
     </MaterialButton>;
 }
 
-export default Button;
+const useStyles = makeStyleWithProps((props: Props, theme) => {
+    const color = props.color ? props.color :
+        props.accent ? theme.colors.accent : theme.colors.primary;
+
+    return {
+        labelStyle: {
+            color: props.mode === "contained" ? theme.colors.buttonText : color,
+            textTransform: "capitalize",
+        },
+        btnStyle: {
+            borderColor: color
+        }
+    }
+})

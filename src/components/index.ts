@@ -1,5 +1,5 @@
 import AccountCard from "./AccountCard";
-import Button from "./Button";
+import {Button} from "./Button";
 import {StyledSafeAreaView} from "./StyledSafeAreaView";
 import {HdPathPicker} from "./HdPathPicker";
 import {MnemonicWordBadge} from "./MnemonicWordBadge";
