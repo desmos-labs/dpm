@@ -15,27 +15,22 @@ import {useWalletConnectContext, WalletContextProvider} from "./contexts/WalletC
 function AppContent(): JSX.Element {
     const appState = useInitAppState();
     const {accounts, selectedAccount} = useAppContext();
-    const {sessionRequests} = useWalletConnectContext();
+    const {initWalletConnect, initState} = useWalletConnectContext();
     const navigatorRef = useRef<NavigationContainerRef<RootStackParams>>(null);
 
-    const loading = appState.initializing;
+    useEffect(() => {
+        if (!initState.initializing && initState.error) {
+            console.error("Error initializing WalletConnect", initState.error);
+        }
+    }, [initState]);
 
     useEffect(() => {
-        // if (navigatorRef.current !== null && requests.length > 0) {
-        //     navigatorRef.current.navigate({
-        //         name: "WalletConnectRequest",
-        //         params: {
-        //             session: requests[0].session,
-        //             request: requests[0].request,
-        //         },
-        //         key: requests[0].request.request.id.toString()
-        //     });
-        // }
-    }, [sessionRequests]);
+        initWalletConnect()
+    }, [initWalletConnect])
 
     // Navigate to the correct screen after loading all the data.
     useEffect(() => {
-        if (!loading && navigatorRef.current !== null) {
+        if (!appState.initializing && navigatorRef.current !== null) {
             if (accounts.length === 0 || selectedAccount === null) {
                 // No account, go to the create account screens
                 navigatorRef.current.reset({
@@ -59,7 +54,7 @@ function AppContent(): JSX.Element {
             }
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [loading, navigatorRef, selectedAccount])
+    }, [appState.initializing, navigatorRef, selectedAccount])
 
 
     return <NavigationContainer ref={navigatorRef}>
