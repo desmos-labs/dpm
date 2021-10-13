@@ -26,7 +26,7 @@ export type SingleButtonModalParams = {
     /**
      * Function called when the user clicks on the button.
      */
-    action: (navigation: StackNavigationProp<RootStackParams>) => void,
+    action?: (navigation: StackNavigationProp<RootStackParams>) => void,
 }
 
 export const SingleButtonModal: ModalComponent<SingleButtonModalParams> = (props) => {
@@ -34,7 +34,11 @@ export const SingleButtonModal: ModalComponent<SingleButtonModalParams> = (props
     const styles = useStyles();
 
     const btnAction = useCallback(() => {
-        params.action(navigation);
+        if (params.action) {
+            params.action(navigation);
+        } else {
+            navigation.goBack();
+        }
     }, [params, navigation])
 
     return <View style={styles.root}>
