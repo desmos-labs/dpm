@@ -1,15 +1,22 @@
-import React, {ReactElement, useCallback} from "react";
+import React, {ReactElement} from "react";
 import {makeStyle} from "../theming";
 import {View} from "react-native";
 import {IconButton} from "react-native-paper";
 import {Subtitle} from "./Subtitle";
-import {StackScreenProps} from "@react-navigation/stack";
+
+type ScreenProps = {
+    navigation: {
+        readonly goBack: () => void,
+        readonly canGoBack: () => boolean,
+        readonly openDrawer?: () => void,
+    }
+}
 
 export type Props = {
     /**
      * Props regarding of the stack screen to manage.
      */
-    stackProps: StackScreenProps<any, any>,
+    stackProps: ScreenProps,
     /**
      * Optional title to display.
      */
@@ -24,14 +31,14 @@ export const TopBar: React.FC<Props> = (props) => {
     const styles = useStyles();
     const {navigation} = props.stackProps;
 
-    const onBackPressed = useCallback(() => {
-        navigation.goBack();
-    }, [navigation])
-
     return <View style={styles.root}>
         <View style={[styles.container, styles.containerLeft]}>
-            {navigation.canGoBack() &&
-            <IconButton icon="arrow-left" onPress={onBackPressed}/>}
+            {navigation.openDrawer ? (
+                <IconButton icon="menu" onPress={navigation.openDrawer}/>
+            ) : navigation.canGoBack() ? (
+                <IconButton icon="arrow-left" onPress={navigation.goBack}/>
+            ) : null
+            }
         </View>
         <View style={styles.container}>
             <Subtitle capitalize>{props.title}</Subtitle>
