@@ -142,7 +142,7 @@ export class WalletConnectController {
      * @private
      */
     private async saveClientsToDisk(): Promise<void> {
-        const clients: SerializedClient[] = Object.values(this.clients)
+        const clients: SerializedClient[] = Array.from(this.clients.values())
             .filter(client => client.connected)
             .map(client => ({
                 id: client.clientId,
@@ -405,7 +405,7 @@ export class WalletConnectController {
      * Gets all the current active sessions.
      */
     get sessions(): Session[] {
-        return Object.values(this.clients)
+        return Array.from(this.clients.values())
             .filter(client => client.connected)
             .map(client => {
                 const peerMeta: PeerMeta | undefined = client.peerMeta ? {
