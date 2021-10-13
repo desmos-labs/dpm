@@ -1,6 +1,6 @@
 import React, {ReactElement} from "react";
 import {makeStyle} from "../theming";
-import {View} from "react-native";
+import {StyleProp, View, ViewStyle} from "react-native";
 import {IconButton} from "react-native-paper";
 import {Subtitle} from "./Subtitle";
 
@@ -25,13 +25,14 @@ export type Props = {
      * Element to display on the top right corner.
      */
     rightElement?: ReactElement,
+    style?: StyleProp<ViewStyle>
 }
 
 export const TopBar: React.FC<Props> = (props) => {
     const styles = useStyles();
     const {navigation} = props.stackProps;
 
-    return <View style={styles.root}>
+    return <View style={[styles.root, props.style]}>
         <View style={[styles.container, styles.containerLeft]}>
             {navigation.openDrawer ? (
                 <IconButton icon="menu" onPress={navigation.openDrawer}/>
