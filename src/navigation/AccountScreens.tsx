@@ -5,9 +5,7 @@ import {
     AppDrawer,
     RootStackParams
 } from "../types/navigation";
-import NewWalletSession from "../screens/NewWalletSession";
-import AccountSessions from "../screens/AccountSessions";
-import WalletConnectRequest from "../screens/WalletConnectRequest";
+import AuthorizeSession from "../screens/AuthorizeSession";
 import SignTx from "../screens/SignTx";
 import {useTranslation} from "react-i18next";
 import {EditProfile} from "../screens/EditProfile";
@@ -63,25 +61,11 @@ export default function AccountScreens(_: AccountScreensProps) {
             component={ConfirmProfileEdit}
         />
         <AccountScreensStack.Screen
-            name="AccountSessions"
-            options={{
-                title: t("sessions")
-            }}
-            component={AccountSessions}
-        />
-        <AccountScreensStack.Screen
-            name="NewWalletSession"
+            name="AuthorizeSession"
             options={{
                 title: t("new session")
             }}
-            component={NewWalletSession}
-        />
-        <AccountScreensStack.Screen
-            name="WalletConnectRequest"
-            component={WalletConnectRequest}
-            options={{
-                headerShown: false
-            }}
+            component={AuthorizeSession}
         />
         <AccountScreensStack.Screen
             name="SignTx"

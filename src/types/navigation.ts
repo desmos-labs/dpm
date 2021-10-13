@@ -1,14 +1,13 @@
 import {createStackNavigator} from '@react-navigation/stack';
 import {CachedDesmosProfile, ChainAccount} from './chain';
-import {WalletConnectRequestEvent} from './walletconnect';
 import {CosmosTx, SignedCosmosTx} from './tx';
-import {SessionTypes} from '@walletconnect/types';
 import LocalWallet from "../wallet/LocalWallet";
 import {EncodeObject} from "@cosmjs/proto-signing";
 import {createDrawerNavigator} from "@react-navigation/drawer";
 import React from "react";
 import {StackNavigationProp} from "@react-navigation/stack/lib/typescript/src/types";
 import {createBottomTabNavigator} from "@react-navigation/bottom-tabs";
+import {SessionRequestDetails} from "./walletconnect";
 
 export type AccountCreationStackParams = {
     Home: undefined;
@@ -94,18 +93,10 @@ export type AccountScreensStackParams = {
          */
         localProfilePictureUri?: string
     },
-    AccountSessions: {
-        account: ChainAccount;
-    };
-    NewWalletSession: {
-        account: ChainAccount;
+    AuthorizeSession: {
+        sessionRequestDetails: SessionRequestDetails;
     };
     WalletConnectRequests: undefined;
-    WalletConnectRequest: {
-        session: SessionTypes.Settled;
-        request: WalletConnectRequestEvent;
-        signedTx?: SignedCosmosTx;
-    };
     SignTx: {
         address: string;
         tx: CosmosTx;
