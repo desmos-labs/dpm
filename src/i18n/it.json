@@ -20,6 +20,7 @@
   "deny": "Rifiuta",
   "note": "Nota",
   "never": "Never",
+  "revoke": "Revoca",
   "create wallet": "Crea Wallet",
   "import recovery passphrase": "Importa Recovery Passphrase",
   "secret recovery passphrase": "Secret recovery passphrase",
@@ -68,6 +69,7 @@
   "expires on": "Scade il",
   "app authorized": "{{app}} autorizzata",
   "go to authorization": "Vai a Autorizzazioni",
+  "are you sure you want to remove dapp?": "Sei sicuro di voler rimuovere {{dapp}}?",
 
   "accounts": "Account",
   "sessions": "Sessioni",
