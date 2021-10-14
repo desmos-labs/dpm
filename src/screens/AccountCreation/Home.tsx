@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useCallback} from "react";
 import {StackScreenProps} from "@react-navigation/stack";
 import {AccountCreationStackParams} from "../../types/navigation";
 import {useTranslation} from "react-i18next";
@@ -6,6 +6,7 @@ import {Button, StyledSafeAreaView} from "../../components";
 import {makeStyle} from "../../theming";
 import {Image, View} from "react-native";
 import {FlexPadding} from "../../components/FlexPadding";
+import {IconButton} from "react-native-paper";
 
 
 declare type Props = StackScreenProps<AccountCreationStackParams, "Home">
@@ -14,21 +15,31 @@ export default function Home({navigation}: Props): JSX.Element {
     const {t} = useTranslation();
     const styles = useStyle();
 
-    const onCreatePressed = () => {
+    const onCreatePressed = useCallback(() => {
         navigation.navigate({
             name: "GenerateNewMnemonic",
             params: undefined
         })
-    }
+    }, [navigation]);
 
-    const onImportPressed = () => {
+    const onImportPressed = useCallback(() => {
         navigation.navigate({
             name: "ImportRecoveryPassphrase",
             params: undefined
         })
-    }
+    }, [navigation]);
+
+    const goBack = useCallback(() => {
+        navigation.goBack();
+    }, [navigation])
 
     return <StyledSafeAreaView>
+        {navigation.canGoBack() ? (
+            <IconButton
+                style={styles.backArrow}
+                icon="arrow-left"
+                onPress={goBack}
+            />): null}
         <FlexPadding flex={1} />
         <Image
             style={styles.icon}
@@ -56,6 +67,11 @@ export default function Home({navigation}: Props): JSX.Element {
 }
 
 const useStyle = makeStyle(theme => ({
+    backArrow: {
+        position: "absolute",
+        top: theme.spacing.s,
+        left: 0,
+    },
     brandContainer: {
         display: "flex",
         flex: 2,
