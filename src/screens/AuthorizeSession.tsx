@@ -1,5 +1,5 @@
 import React, {useCallback, useEffect, useMemo} from "react";
-import {FlatList, Image, StyleProp, View, ViewStyle} from "react-native";
+import {FlatList, Image, ListRenderItemInfo, StyleProp, View, ViewStyle} from "react-native";
 import {AccountScreensStackParams} from "../types/navigation";
 import {StackScreenProps} from "@react-navigation/stack";
 import {Button, Divider, Paragraph, StyledSafeAreaView, Subtitle, TopBar} from "../components";
@@ -96,6 +96,22 @@ export default function AuthorizeSession(props: Props) {
         })
     }, [openModal, t]);
 
+    const renderListItem = useCallback((info: ListRenderItemInfo<Authorization>) => {
+        const {item, index} = info;
+        const style: any[] = [styles.permissionItem];
+        if (index === 0) {
+            style.push(styles.borderTop)
+        }
+        if (index === authorizations.length - 1) {
+            style.push(styles.borderBot)
+        }
+        return <AuthorizationListElement
+            key={index.toString()}
+            authorization={item}
+            style={style}
+        />
+    }, [authorizations.length, styles.borderBot, styles.borderTop, styles.permissionItem])
+
     useEffect(() => {
         if (approveStatus.error) {
             showErrorModal(approveStatus.error.toString());
@@ -136,19 +152,7 @@ export default function AuthorizeSession(props: Props) {
             <FlatList
                 style={styles.permissionList}
                 data={authorizations}
-                renderItem={({item, index}) => {
-                    const style: any[] = [styles.permissionItem];
-                    if (index === 0) {
-                        style.push(styles.borderTop)
-                    }
-                    if (index === authorizations.length - 1) {
-                        style.push(styles.borderBot)
-                    }
-                    return <AuthorizationListElement
-                        authorization={item}
-                        style={style}
-                    />
-                }}
+                renderItem={renderListItem}
                 ItemSeparatorComponent={Divider}
             />
         </View>
