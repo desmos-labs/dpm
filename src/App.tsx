@@ -42,7 +42,6 @@ function AppContent(): JSX.Element {
                 const route = navigatorRef.current.getCurrentRoute();
                 const state = navigatorRef.current.getState();
                 const homeRoutes = ["Profile", "Authorization"];
-                console.log(route, state);
                 if (route?.name === undefined || homeRoutes.indexOf(route?.name) === -1) {
                     const key = state?.routes.find(r => r.name === "AccountScreens")?.key;
                     navigatorRef.current.reset({
