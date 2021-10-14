@@ -54,6 +54,7 @@ export const UnlockWallet: React.FC<Props> = (props) => {
             style={styles.password}
             value={password}
             onChangeText={setPassword}
+            onSubmitEditing={unlockWallet}
             placeholder={t("password")}
         />
         <Paragraph
@@ -66,8 +67,9 @@ export const UnlockWallet: React.FC<Props> = (props) => {
             mode="contained"
             onPress={unlockWallet}
             loading={loading}
+            disabled={loading}
         >
-            {t("confirm")}
+            {loading ? t("unlocking") : t("confirm")}
         </Button>
         <TouchableOpacity
             onPress={resetPassword}
