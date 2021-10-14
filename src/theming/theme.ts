@@ -51,7 +51,6 @@ declare global {
 
         interface Theme {
             spacing: ReactNativePaper.Spacing,
-            test: boolean,
         }
     }
 }
@@ -67,7 +66,7 @@ export const DefaultSpacing: ReactNativePaper.Spacing = {
 export const AppTheme: ReactNativePaper.Theme = {
     ...DefaultTheme,
     spacing: DefaultSpacing,
-    test: false,
+    roundness: 8,
     colors: {
         ...DefaultTheme.colors,
         background: '#ffffff',
