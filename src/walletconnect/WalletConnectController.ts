@@ -23,21 +23,30 @@ type SessionRequestEventCallback = (event: SessionRequestEvent) => void;
 type SessionUpdateEventCallback = (event: SessionUpdateEvent) => void;
 type CallRequestEventCallback = (event: CallRequestEvent) => void;
 /**
- * Type that represents the callback to emit the WalletConnectController events.
+ * Type that represents a callback to emit the WalletConnectController events.
  */
 type EventCallBack = ConnectedEventCallback | DisconnectedEventCallback |
     SessionRequestEventCallback | SessionUpdateEventCallback | CallRequestEventCallback;
 
 /**
- * Type that represents a serialized WalletConnect session.
+ * Type that represents a WalletConnect session.
  */
-type SerializedClient = {
-    id: string,
-    session: IWalletConnectSession
+type WalletConnectSession = {
+    client: WalletConnect,
+    creationDate: Date,
 }
 
 /**
- * Keys used to store the WalletConnectController state into
+ * Type that represents a serialized WalletConnect session.
+ */
+type SerializedWalletConnectSession = {
+    id: string,
+    session: IWalletConnectSession
+    creationDate: string
+}
+
+/**
+ * Keys used to store the WalletConnectController state to
  * the device storage.
  */
 const STORAGE_KEYS = {
@@ -59,11 +68,11 @@ export class WalletConnectController {
      * WalletConnect `clientId` field.
      * @private
      */
-    private readonly clients: Map<string, WalletConnect>;
+    private readonly _sessions: Map<string, WalletConnectSession>;
 
     constructor() {
         this.eventsObservers = new Map();
-        this.clients = new Map()
+        this._sessions = new Map()
     }
 
     /**
@@ -112,14 +121,15 @@ export class WalletConnectController {
      * @private
      */
     private destroySessionClient(sessionId: string) {
-        const client = this.clients.get(sessionId);
-        if (client) {
+        const session = this._sessions.get(sessionId);
+        if (session) {
+            const {client} = session;
             client.off("connect");
             client.off("disconnect");
             client.off("session_update");
             client.off("session_request");
             client.off("call_request");
-            this.clients.delete(sessionId);
+            this._sessions.delete(sessionId);
         }
     }
 
@@ -130,56 +140,59 @@ export class WalletConnectController {
      * @private
      */
     private clientOrThrow(sessionId: string): WalletConnect {
-        const client = this.clients.get(sessionId);
-        if (client === undefined) {
-            throw new Error(`Can't fin client with id: ${sessionId}`)
+        const session = this._sessions.get(sessionId);
+        if (session === undefined) {
+            throw new Error(`Can't fin client for session: ${sessionId}`)
         }
-        return client;
+        return session.client;
     }
 
     /**
-     * Saves all the clients and theri session on the disk.
+     * Saves all the WalletConnect session to the disk.
      * @private
      */
-    private async saveClientsToDisk(): Promise<void> {
-        const clients: SerializedClient[] = Array.from(this.clients.values())
-            .filter(client => client.connected)
-            .map(client => ({
-                id: client.clientId,
-                session: client.session
+    private async saveSessionsToDisk(): Promise<void> {
+        const sessions: SerializedWalletConnectSession[] = Array.from(this._sessions.values())
+            .filter(session => session.client.connected)
+            .map(session => ({
+                id: session.client.clientId,
+                session: session.client.session,
+                creationDate: session.creationDate.toISOString()
             }));
-        const serializedClients = JSON.stringify(clients);
-        await AsyncStorage.setItem(STORAGE_KEYS.sessions, serializedClients);
+        const serializedSessions = JSON.stringify(sessions);
+        console.log(serializedSessions);
+        await AsyncStorage.setItem(STORAGE_KEYS.sessions, serializedSessions);
     }
 
     /**
-     * Loads the saved WalletConnect clients from the device disk.
+     * Loads the saved WalletConnect sessions from the device disk.
      * @private
      */
-    private async loadClientsFromDisk(): Promise<SerializedClient[]> {
+    private async loadSessionsFromDisk(): Promise<SerializedWalletConnectSession[]> {
         try {
-            const jsonClients = await AsyncStorage.getItem(STORAGE_KEYS.sessions);
-            if (jsonClients === null) {
+            const jsonSessions = await AsyncStorage.getItem(STORAGE_KEYS.sessions);
+            if (jsonSessions === null) {
                 return [];
             }
-            return JSON.parse(jsonClients);
+            console.log(jsonSessions);
+            return JSON.parse(jsonSessions);
         } catch (ex) {
-            console.error("Error while loading wallet connect clients", ex);
+            console.error("Error while loading WalletConnect sessions", ex);
             return [];
         }
     }
 
     /**
      * Callback that will be called when the session is established.
-     * @param client - The client that is manage the session.
+     * @param session - Object that represents the WalletConnect session.
      * @param error - Optional error that has occur.
      * @param payload - The event payload.
      * @private
      */
-    private async onConnect(client: WalletConnect, error: Error | null, payload: any) {
-        const {clientId} = client;
+    private async onConnect(session: WalletConnectSession, error: Error | null, payload: any) {
+        const {clientId} = session.client;
         if (error === null) {
-            await this.saveClientsToDisk()
+            await this.saveSessionsToDisk()
         }
         const event: ConnectedEvent = {
             sessionId: clientId,
@@ -190,15 +203,15 @@ export class WalletConnectController {
 
     /**
      * Callback that will be called when the session is terminated.
-     * @param client - The client that is manage the session.
+     * @param session - Object that represents the WalletConnect session.
      * @param error - Optional error that has occur.
      * @param payload - The event payload.
      * @private
      */
-    private async onDisconnect(client: WalletConnect, error: Error | null, payload: any) {
-        const {clientId} = client;
+    private async onDisconnect(session: WalletConnectSession, error: Error | null, payload: any) {
+        const {clientId} = session.client;
         if (error === null) {
-            await this.saveClientsToDisk()
+            await this.saveSessionsToDisk()
         }
         const event: ConnectedEvent = {
             sessionId: clientId,
@@ -210,13 +223,13 @@ export class WalletConnectController {
 
     /**
      * Callback that will be called when a client ask to initiate a session.
-     * @param client - The client that is manage the session.
+     * @param session - Object that represents the WalletConnect session.
      * @param error - Optional error that has occur.
      * @param payload - The event payload.
      * @private
      */
-    private async onSessionRequest(client: WalletConnect, error: Error | null, payload: SessionRequestPayload) {
-        const {clientId} = client;
+    private async onSessionRequest(session: WalletConnectSession, error: Error | null, payload: SessionRequestPayload) {
+        const {clientId} = session.client;
         const event: SessionRequestEvent = {
             error,
         }
@@ -242,14 +255,14 @@ export class WalletConnectController {
 
     /**
      * Callback that will be called when the session has bee updated.
-     * @param client - The client that is manage the session.
+     * @param session - Object that represents the WalletConnect session.
      * @param error - Optional error that has occur.
      * @param payload - The event payload.
      * @private
      */
-    private async onSessionUpdate(client: WalletConnect, error: Error | null, payload: any) {
+    private async onSessionUpdate(session: WalletConnectSession, error: Error | null, payload: any) {
         console.log("on session_update", payload);
-        const {clientId, chainId, accounts} = client;
+        const {clientId, chainId, accounts} = session.client;
         const event: SessionUpdateEvent = {
             error
         }
@@ -257,7 +270,8 @@ export class WalletConnectController {
             event.session = {
                 id: clientId,
                 chainId,
-                accounts
+                accounts,
+                creationDate: session.creationDate
             }
         }
 
@@ -266,16 +280,16 @@ export class WalletConnectController {
 
     /**
      * Callback that will be called when the client ask for an operation.
-     * @param client - The client that is manage the session.
+     * @param session - Object that represents the WalletConnect session.
      * @param error - Optional error that has occur.
      * @param payload - The event payload.
      * @private
      */
-    private async onCallRequest(client: WalletConnect, error: Error | null, payload: {
+    private async onCallRequest(session: WalletConnectSession, error: Error | null, payload: {
         method: string,
         params: string[],
     }) {
-        const {clientId} = client;
+        const {clientId} = session.client;
         const event: CallRequestEvent = {
             sessionId: clientId,
             error
@@ -291,30 +305,41 @@ export class WalletConnectController {
     }
 
     /**
-     * Function to bind a client to the private callbacks to
+     * Function to bind the WalletConnect client to the private callbacks to
      * manage the session lifecycle.
-     * @param client - The client of interest.
+     * @param session - The session of interest.
      * @private
      */
-    private subscribeToEvents(client: WalletConnect) {
-        client.on("connect", ((error, payload) => this.onConnect(client, error, payload)));
-        client.on("disconnect", ((error, payload) => this.onDisconnect(client, error, payload)));
-        client.on("session_update", ((error, payload) => this.onSessionUpdate(client, error, payload)));
-        client.on("session_request", ((error, payload) => this.onSessionRequest(client, error, payload)));
-        client.on("call_request", ((error, payload) => this.onCallRequest(client, error, payload)));
+    private subscribeToEvents(session: WalletConnectSession) {
+        const {client} = session;
+        client.on("connect", ((error, payload) => this.onConnect(session, error, payload)));
+        client.on("disconnect", ((error, payload) => this.onDisconnect(session, error, payload)));
+        client.on("session_update", ((error, payload) => this.onSessionUpdate(session, error, payload)));
+        client.on("session_request", ((error, payload) => this.onSessionRequest(session, error, payload)));
+        client.on("call_request", ((error, payload) => this.onCallRequest(session, error, payload)));
     }
 
     /**
      * Initialize the WalletConnect controller.
      */
     async init(): Promise<void> {
-        const serializedClients = await this.loadClientsFromDisk();
+        const serializedClients = await this.loadSessionsFromDisk();
         for (const serializedClient of serializedClients) {
             const client = new WalletConnect({
-                session: serializedClient.session
+                session: serializedClient.session,
+                clientMeta: {
+                    name: "DPM",
+                    description: "Desmos Profile Manager",
+                    url: "https://desmos.network/",
+                    icons: ["https://desmos.network/images/icons/apple-touch-icon.png"],
+                }
             })
-            this.clients.set(serializedClient.id, client);
-            this.subscribeToEvents(client);
+            const session: WalletConnectSession = {
+                client: client,
+                creationDate: new Date(serializedClient.creationDate),
+            }
+            this._sessions.set(serializedClient.id, session);
+            this.subscribeToEvents(session);
         }
     }
 
@@ -351,8 +376,12 @@ export class WalletConnectController {
                             url: params.peerMeta.url
                         } : undefined,
                     }
-                    this.clients.set(client.clientId, client);
-                    this.subscribeToEvents(client);
+                    const session: WalletConnectSession = {
+                        client: client,
+                        creationDate: new Date()
+                    }
+                    this._sessions.set(client.clientId, session);
+                    this.subscribeToEvents(session);
                     resolve(sessionDetails);
                 } else {
                     reject(error ?? new Error("unknown error"))
@@ -405,9 +434,9 @@ export class WalletConnectController {
      * Gets all the current active sessions.
      */
     get sessions(): Session[] {
-        return Array.from(this.clients.values())
-            .filter(client => client.connected)
-            .map(client => {
+        return Array.from(this._sessions.values())
+            .filter(session => session.client.connected)
+            .map(({client, creationDate}) => {
                 const peerMeta: PeerMeta | undefined = client.peerMeta ? {
                     description: client.peerMeta.description,
                     url: client.peerMeta.url,
@@ -416,6 +445,7 @@ export class WalletConnectController {
                 } : undefined
                 return {
                     id: client.clientId,
+                    creationDate: creationDate,
                     accounts: client.accounts,
                     chainId: client.chainId,
                     peerMeta
