@@ -10,10 +10,10 @@ export type ApproveStatus = {
 }
 
 /**
- * Hook to accept the WalletConnect requests.
+ * Hook to accept the WalletConnect session.
  * Returns a stateful variable that provides the approve status and a function to approve the request.
  */
-export default function useWalletConnectRequestApprove(): [
+export default function useWalletConnectSessionApprove(): [
     ApproveStatus,
     (id: string, accounts: string[], chaiId: string) => void]
 {

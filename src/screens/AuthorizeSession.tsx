@@ -4,8 +4,8 @@ import {AccountScreensStackParams} from "../types/navigation";
 import {StackScreenProps} from "@react-navigation/stack";
 import {Button, Divider, Paragraph, StyledSafeAreaView, Subtitle, TopBar} from "../components";
 import {useTranslation} from "react-i18next";
-import useWalletConnectRequestApproveTs from "../hooks/useWalletConnectRequestApprove";
-import useWalletConnectRequestReject from "../hooks/useWalletConnectRequestReject";
+import useWalletConnectRequestApproveTs from "../hooks/useWalletConnectSessionApprove";
+import useWalletConnectSessionReject from "../hooks/useWalletConnectSessionReject";
 import {useCurrentChainInfo} from "@desmoslabs/sdk-react";
 import useSelectedAccount from "../hooks/useSelectedAccount";
 import useNavigateToAccountScreen from "../hooks/useNavigateToAccountScreen";
@@ -28,7 +28,7 @@ export default function AuthorizeSession(props: Props) {
     const {t} = useTranslation()
     const styles = useStyles();
     const [approveStatus, approve] = useWalletConnectRequestApproveTs();
-    const [rejectStatus, reject] = useWalletConnectRequestReject();
+    const [rejectStatus, reject] = useWalletConnectSessionReject();
     const selectedAccount = useSelectedAccount();
     const currentChain = useCurrentChainInfo();
     const navigateToProfileScreen = useNavigateToAccountScreen();

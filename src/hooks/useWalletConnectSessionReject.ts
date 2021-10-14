@@ -11,7 +11,7 @@ export type RejectStatus = {
  * Hook to reject the WalletConnect requests.
  * Returns a stateful variable that provides the reject status and a function to reject the request.
  */
-export default function useWalletConnectRequestReject(): [
+export default function useWalletConnectSessionReject(): [
     RejectStatus, (sessionId: string, message?: string) => void]
 {
     const {controller} = useWalletConnectContext();
