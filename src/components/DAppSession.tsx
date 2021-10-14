@@ -1,6 +1,6 @@
 import React, {useCallback, useMemo} from "react";
 import {useTranslation} from "react-i18next";
-import {DAppSession as DAppSessionType} from "../types/DAppSession";
+import {DAppSession as DAppSessionType} from "../types/dapp";
 import {Image, View} from "react-native";
 import {Title} from "./Title";
 import {makeStyle} from "../theming";

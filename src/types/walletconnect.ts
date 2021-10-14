@@ -8,6 +8,7 @@ export enum Events {
 
 export type Session = {
     id: string,
+    creationDate: Date,
     accounts: string[],
     chainId: number,
     peerMeta?: PeerMeta

@@ -3,7 +3,6 @@ import {View} from "react-native";
 import {makeStyle} from "../theming";
 import {Button, Paragraph, Title} from "../components";
 import {ModalComponent} from "../types/navigation";
-import {useTheme} from "react-native-paper";
 
 export type TwoButtonModalParams = {
     /**
@@ -34,7 +33,6 @@ export type TwoButtonModalParams = {
 
 export const TwoButtonModal: ModalComponent<TwoButtonModalParams> = (props) => {
     const {params, navigation} = props;
-    const theme = useTheme();
     const styles = useStyles();
 
     const positiveAction = useCallback(() => {
@@ -70,14 +68,13 @@ export const TwoButtonModal: ModalComponent<TwoButtonModalParams> = (props) => {
             <Button
                 mode="contained"
                 onPress={negativeAction}
-                color={theme.colors.accent}
+                accent
             >
                 {params.negativeActionLabel}
             </Button>
             <Button
                 mode="contained"
                 onPress={positiveAction}
-                color={theme.colors.primary}
             >
                 {params.positiveActionLabel}
             </Button>
