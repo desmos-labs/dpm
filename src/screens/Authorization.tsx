@@ -103,7 +103,7 @@ export const Authorization: React.FC<Props> = (props) => {
         topBar={<TopBar
             style={styles.background}
             stackProps={props}
-            title={t("dAppSession")}
+            title={t("authorization")}
             rightElement={<AvatarImage
                 style={styles.avatarImage}
                 size={30}
