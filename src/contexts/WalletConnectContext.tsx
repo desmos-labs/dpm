@@ -1,6 +1,7 @@
 import React, {useCallback, useEffect, useMemo, useState} from "react";
 import {WalletConnectController} from "../walletconnect/WalletConnectController";
-import {CallRequest, CallRequestEvent, Events} from "../types/walletconnect";
+import {CallRequestEvent, Events, ParsedCallRequest} from "../types/walletconnect";
+import parseCallRequest from "../utilils/jsonRpcParse";
 
 type WalletConnectInitState = {
     initializing: boolean,
@@ -12,7 +13,7 @@ interface WalletConnectState {
     initState: WalletConnectInitState,
     initWalletConnect: () => void,
     controller: WalletConnectController
-    callRequests: CallRequest[],
+    callRequests: ParsedCallRequest[],
     removeCallRequest: (requestId: number) => void,
 }
 
@@ -24,7 +25,7 @@ export const WalletContextProvider: React.FC = ({children}) => {
         initializing: false,
     });
     const controller = useMemo(() => new WalletConnectController(), [])
-    const [callRequests, setCallRequests] = useState<CallRequest[]>([]);
+    const [callRequests, setCallRequests] = useState<ParsedCallRequest[]>([]);
 
     const initWalletConnect = useCallback(() => {
         (async () => {
@@ -49,12 +50,19 @@ export const WalletContextProvider: React.FC = ({children}) => {
 
     const onCallRequest = useCallback((event: CallRequestEvent) => {
         if (event.request) {
-            setCallRequests(old => [...old, event.request!])
+            const parsed = parseCallRequest(event.request);
+            if (parsed === null) {
+                const {id, sessionId, method} = event.request;
+                controller.rejectRequest(sessionId, id, `Invalid request method ${method}`);
+            }
+            else {
+                setCallRequests(old => [...old, parsed])
+            }
         }
-    }, [])
+    }, [controller])
 
     const removeCallRequest = useCallback((requestId: number) => {
-        setCallRequests(oldRequest => oldRequest.filter(r => r.id !== requestId))
+        setCallRequests(oldRequest => oldRequest.filter(r => r.requestId !== requestId))
     }, [])
 
     useEffect(() => {

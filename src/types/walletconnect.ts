@@ -1,3 +1,5 @@
+import {CosmosSignDocDirect} from "./jsonRpCosmosc";
+
 export enum Events {
     OnConnect = "connect",
     OnDisconnect = "disconnect",
@@ -56,3 +58,17 @@ export type CallRequestEvent = {
     error: Error | null,
     request?: CallRequest
 }
+
+export enum CallRequestType {
+    SignDirect = "cosmos_signDirect"
+}
+
+export type CosmosSignDirectCallRequest = {
+    type: CallRequestType.SignDirect,
+    sessionId: string,
+    requestId: number,
+    signerAddress: string,
+    signDoc: CosmosSignDocDirect
+}
+
+export type ParsedCallRequest = CosmosSignDirectCallRequest;

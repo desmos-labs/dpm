@@ -1,12 +1,11 @@
 import {JsonRpcRequest} from '@json-rpc-tools/utils';
-import {
-    CosmosMethod,
-    CosmosSignAminoParams,
-    CosmosSignDirectParams,
-} from '../types/jsonRpCosmosc';
+import {CosmosMethod, CosmosSignAminoParams, CosmosSignDirectParams,} from '../types/jsonRpCosmosc';
 import {Coin} from '@cosmjs/amino';
 import {AminoMsg} from '@cosmjs/amino/build/signdoc';
-import {RpcRequest} from '../types/jsonRpc';
+import {CallRequest, CallRequestType, ParsedCallRequest} from "../types/walletconnect";
+import Long from "long";
+import {fromHex} from "@cosmjs/encoding";
+import {AuthInfo, TxBody} from "cosmjs-types/cosmos/tx/v1beta1/tx";
 
 export function parseSignAminoParams(
     request: JsonRpcRequest,
@@ -78,11 +77,10 @@ export function parseSignAminoParams(
     };
 }
 
-export function parseSignDirectParams(
-    request: JsonRpcRequest,
-): CosmosSignDirectParams | null {
-    const signAddress: string | undefined = request.params?.signerAddress;
-    const signDoc: any | undefined = request.params?.signDoc;
+export function parseSignDirectParams(request: CallRequest): CosmosSignDirectParams | null {
+    const param = request.params.length > 0 ? request.params[0] : undefined;
+    const signAddress: string | undefined = param?.signerAddress;
+    const signDoc: any | undefined = param?.signDoc;
     const chainId: string | undefined = signDoc?.chainId;
     const accountNumber: string | undefined = signDoc?.accountNumber;
     const authInfo: string | undefined = signDoc?.authInfoBytes;
@@ -106,44 +104,29 @@ export function parseSignDirectParams(
         signerAddress: signAddress,
         signDoc: {
             chainId: chainId,
-            accountNumber: accountNumber,
-            authInfoBytes: authInfo,
-            bodyBytes: body,
+            accountNumber: Long.fromString(accountNumber, 16),
+            authInfo: AuthInfo.decode(fromHex(authInfo)),
+            body: TxBody.decode(fromHex(body)),
         },
     };
 }
 
-export default function parseRpcRequest(
-    request: JsonRpcRequest,
-): RpcRequest | null {
-    if (request.method === 'cosmos_signDirect') {
+export default function parseCallRequest(request: CallRequest): ParsedCallRequest | null {
+    if (request.method === CallRequestType.SignDirect.toString()) {
         const params = parseSignDirectParams(request);
         if (params === null) {
-            console.error(
-                'Error while parsing params of: ' + CosmosMethod.SignDirect,
-            );
+            console.error('Error while parsing params of: ' + CosmosMethod.SignDirect);
             return null;
         }
         return {
-            ...request,
-            method: CosmosMethod.SignDirect,
-            params: params!,
-        };
-    } else if (request.method === CosmosMethod.SignAmino) {
-        const params = parseSignAminoParams(request);
-        if (params === null) {
-            console.error(
-                'Error while parsing params of: ' + CosmosMethod.SignAmino,
-            );
-            return null;
-        }
-        return {
-            ...request,
-            method: CosmosMethod.SignAmino,
-            params: params!,
+            type: CallRequestType.SignDirect,
+            sessionId: request.sessionId,
+            requestId: request.id,
+            signerAddress: params.signerAddress,
+            signDoc: params.signDoc
         };
     } else {
-        console.error('Unknown rpc request: ' + request.method);
+        console.error('Unknown request method: ' + request.method);
         return null;
     }
 }
