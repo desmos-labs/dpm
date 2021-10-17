@@ -79,6 +79,9 @@
   "app authorized": "{{app}} authorized",
   "go to authorization": "Go to Authorization",
   "are you sure you want to remove dapp?": "Are you sure you want to remove {{dapp}}?",
+  "tx details": "Transaction details",
+  "Message Type": "Message Type",
+  "Message Value": "Message Value",
 
   "accounts": "Accounts",
   "sessions": "Sessions",

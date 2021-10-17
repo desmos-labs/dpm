@@ -1,23 +1,17 @@
 import {CosmosTx, SignedCosmosTx} from "../types/tx";
-import WalletSource from "../sources/LocalWalletsSource";
 import {CosmosMethod, CosmosSignDocDirect} from "../types/jsonRpCosmosc";
-import {useState} from "react";
+import {useCallback} from "react";
 import {serializeSignDoc, StdSignDoc} from "@cosmjs/amino";
-import Deferred from "../types/defered";
-import {AuthInfo, SignDoc} from "cosmjs-types/cosmos/tx/v1beta1/tx";
-import Long from "long";
+import {AuthInfo, SignDoc, TxBody} from "cosmjs-types/cosmos/tx/v1beta1/tx";
 import LocalWallet from "../wallet/LocalWallet";
 import {SignMode} from "cosmjs-types/cosmos/tx/signing/v1beta1/signing";
 import {encodeSecp256k1Pubkey} from "@cosmjs/amino";
 import {encodePubkey, makeAuthInfoBytes} from "@cosmjs/proto-signing";
-import {toHex, fromHex} from "@cosmjs/encoding"
+import {toHex} from "@cosmjs/encoding"
 
 async function signDirectTx(signDoc: CosmosSignDocDirect, wallet: LocalWallet): Promise<SignedCosmosTx> {
-    const bodyBytes = fromHex(signDoc.bodyBytes);
-
-    const authInfoBytes = fromHex(signDoc.authInfoBytes);
     // Parse the auth info
-    const authInfo = AuthInfo.decode(authInfoBytes);
+    const {authInfo} = signDoc;
     // Generate the direct pubkey
     const cosmosPubKey = encodePubkey(encodeSecp256k1Pubkey(Uint8Array.from(wallet.publicKey)));
     // Generate the auth info
@@ -28,10 +22,12 @@ async function signDirectTx(signDoc: CosmosSignDocDirect, wallet: LocalWallet): 
         SignMode.SIGN_MODE_DIRECT
     );
 
+    const bodyBytes = TxBody.encode(signDoc.body).finish();
+
     // Create the SignDoc that will be signed
     const finalSignDoc = SignDoc.fromPartial({
         chainId: signDoc.chainId,
-        accountNumber: Long.fromString(signDoc.accountNumber, 16),
+        accountNumber: signDoc.accountNumber,
         bodyBytes,
         authInfoBytes: authInfoBytesWithSigner,
     });
@@ -42,10 +38,10 @@ async function signDirectTx(signDoc: CosmosSignDocDirect, wallet: LocalWallet): 
     return {
         method: CosmosMethod.SignDirect,
         tx: {
-            bodyBytes: signDoc.bodyBytes,
+            body: signDoc.body,
             chainId: signDoc.chainId,
             accountNumber: signDoc.accountNumber,
-            authInfoBytes: toHex(authInfoBytesWithSigner)
+            authInfo: AuthInfo.decode(authInfoBytesWithSigner)
         },
         signature: toHex(signature),
     }
@@ -66,30 +62,15 @@ async function signAminoTx(signDoc: StdSignDoc, wallet: LocalWallet): Promise<Si
  * Hook to sign a Cosmos transaction
  * Returns a stateful variable that provides the signing status and a function to initiate the signing procedure.
  */
-export default function (): [Deferred<SignedCosmosTx> | null, (address: string, tx: CosmosTx, walletPassword: string) => void] {
+export default function useSignTx(): (wallet: LocalWallet, tx: CosmosTx) => Promise<SignedCosmosTx> {
 
-    const [signature, setSignature] = useState<Deferred<SignedCosmosTx> | null>(null);
+    return useCallback(async (wallet: LocalWallet, tx: CosmosTx) => {
+        switch (tx.method) {
+            case CosmosMethod.SignAmino:
+                return await signAminoTx(tx.tx, wallet);
 
-    const sign = async (address: string, tx: CosmosTx, walletPassword: string) => {
-        try {
-            setSignature(Deferred.pending());
-
-            const wallet = await WalletSource.getWallet(address, walletPassword);
-            switch (tx.method) {
-                case CosmosMethod.SignAmino:
-                    const signedAminoTx = await signAminoTx(tx.tx, wallet);
-                    setSignature(Deferred.completed(signedAminoTx));
-                    break;
-
-                case CosmosMethod.SignDirect:
-                    const signedDirectTx = await signDirectTx(tx.tx, wallet);
-                    setSignature(Deferred.completed(signedDirectTx));
-                    break;
-            }
-        } catch (e) {
-            setSignature(Deferred.failed(e.toString()));
+            case CosmosMethod.SignDirect:
+                return await signDirectTx(tx.tx, wallet);
         }
-    }
-
-    return [signature, sign];
+    } , []);
 }
