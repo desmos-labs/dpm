@@ -45,6 +45,7 @@ export type SessionUpdateEvent = {
 }
 
 export type CallRequest = {
+    id: number,
     sessionId: string,
     method: string,
     params: any[]

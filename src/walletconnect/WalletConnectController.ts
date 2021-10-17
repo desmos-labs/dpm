@@ -17,6 +17,16 @@ type SessionRequestPayload = {
     params: ISessionParams[]
 }
 
+/**
+ * Type that represents the payload received on
+ * `call_request` event.
+ */
+type WalletConnectCallRequestPayload = {
+    id: number,
+    method: string,
+    params: string[],
+}
+
 type ConnectedEventCallback = (event: ConnectedEvent) => void;
 type DisconnectedEventCallback = (event: DisconnectedEvent) => void;
 type SessionRequestEventCallback = (event: SessionRequestEvent) => void;
@@ -285,17 +295,16 @@ export class WalletConnectController {
      * @param payload - The event payload.
      * @private
      */
-    private async onCallRequest(session: WalletConnectSession, error: Error | null, payload: {
-        method: string,
-        params: string[],
-    }) {
+    private async onCallRequest(session: WalletConnectSession, error: Error | null,
+        payload?: WalletConnectCallRequestPayload) {
         const {clientId} = session.client;
         const event: CallRequestEvent = {
             sessionId: clientId,
             error
         }
-        if (error === null) {
+        if (payload) {
             event.request = {
+                id: payload.id,
                 sessionId: clientId,
                 method: payload.method,
                 params: payload.params
