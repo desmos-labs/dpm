@@ -96,18 +96,18 @@ export type AccountScreensStackParams = {
     AuthorizeSession: {
         sessionRequestDetails: SessionRequestDetails;
     };
-    WalletConnectRequests: undefined;
+    WalletConnectCallRequest: undefined,
     SignTx: {
         address: string;
         tx: CosmosTx;
         onSigned: (navigation: any, signedTx: SignedCosmosTx) => void;
-    };
+    },
     BroadcastTx: {
         signer: ChainAccount,
         msgs: EncodeObject [],
         onSuccess: () => void,
         onCancel: () => void,
-    }
+    },
     UnlockWallet: {
         address: string
         resolve: (wallet: LocalWallet | null) => void,

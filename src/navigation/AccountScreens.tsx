@@ -16,6 +16,8 @@ import {StackScreenProps} from "@react-navigation/stack";
 import {ConfirmProfileEdit} from "../screens/ConfirmProfileEdit";
 import {BiographyEditor} from "../screens/BiographyEditor";
 import {HomeScreens} from "./HomeScreens";
+import {WalletConnectCallRequest} from "../screens/WalletConnectCallRequest";
+import useHandleCallRequests from "../hooks/useHandleCallRequests";
 
 type ProfileWithAppDrawerProps = StackScreenProps<AccountScreensStackParams, "ProfileWithDrawerMenu">
 
@@ -37,6 +39,8 @@ type AccountScreensProps = StackScreenProps<RootStackParams, "AccountScreens">
 
 export default function AccountScreens(_: AccountScreensProps) {
     const {t} = useTranslation();
+
+    useHandleCallRequests();
 
     return <AccountScreensStack.Navigator
         initialRouteName={"ProfileWithDrawerMenu"}
@@ -89,6 +93,10 @@ export default function AccountScreens(_: AccountScreensProps) {
                 presentation: 'transparentModal',
             }}
             component={UnlockWallet}
+        />
+        <AccountScreensStack.Screen
+            name="WalletConnectCallRequest"
+            component={WalletConnectCallRequest}
         />
     </AccountScreensStack.Navigator>
 }
