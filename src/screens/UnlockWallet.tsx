@@ -33,7 +33,7 @@ export const UnlockWallet: React.FC<Props> = (props) => {
             const wallet = await WalletSource.getWallet(address, password);
             setLoading(false);
             resolve(wallet);
-            props.navigation.pop();
+            props.navigation.goBack();
         } catch (e) {
             setError(t("invalid password"));
         }
