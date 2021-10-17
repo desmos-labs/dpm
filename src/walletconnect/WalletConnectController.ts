@@ -2,12 +2,20 @@ import {ISessionParams, IWalletConnectSession} from "@walletconnect/types";
 import WalletConnect from "@walletconnect/client";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import {
-    CallRequestEvent, ConnectedEvent,
+    CallRequestEvent,
+    ConnectedEvent,
     DisconnectedEvent,
-    Events, PeerMeta, Session, SessionRequestDetails,
+    Events,
+    PeerMeta,
+    Session,
+    SessionRequestDetails,
     SessionRequestEvent,
     SessionUpdateEvent
 } from "../types/walletconnect";
+import {SignedCosmosTx} from "../types/tx";
+import {CosmosMethod} from "../types/jsonRpCosmosc";
+import {AuthInfo, TxBody} from "cosmjs-types/cosmos/tx/v1beta1/tx";
+import {toHex} from "@cosmjs/encoding";
 
 /**
  * Type that represents the payload returned from the
@@ -460,5 +468,56 @@ export class WalletConnectController {
                     peerMeta
                 }
             })
+    }
+
+    /**
+     * Approves a request received from a DApp.
+     * @param sessionId - The DApp session id.
+     * @param requestId - The request id.
+     * @param result - Payload that will be returned to the DApp.
+     */
+    approveRequest(sessionId: string, requestId: number, result: any) {
+        const client = this.clientOrThrow(sessionId);
+        client.approveRequest({
+            id: requestId,
+            result
+        })
+    }
+
+    /**
+     * Approves a cosmos sign request received from a DApp.
+     * @param sessionId - The DApp session id.
+     * @param requestId - The request id.
+     * @param signedTx - The signed transaction that will be returned to the DApp.
+     */
+    approveSignRequest(sessionId: string, requestId: number, signedTx: SignedCosmosTx) {
+        if (signedTx.method !== CosmosMethod.SignDirect) {
+            throw new Error("Is supported only direct sign")
+        }
+        const serializedTx = {
+            bodyBytes: toHex(TxBody.encode(signedTx.tx.body).finish()),
+            authInfoBytes: toHex(AuthInfo.encode(signedTx.tx.authInfo).finish()),
+            chainId: signedTx.tx.chainId,
+            accountNumber: signedTx.tx.accountNumber.toString(16),
+            signature: signedTx.signature
+        }
+
+        this.approveRequest(sessionId, requestId, serializedTx);
+    }
+
+    /**
+     * Rejects a request received from a DApp.
+     * @param sessionId - The DApp session id.
+     * @param requestId - The request id.
+     * @param message - Error message that will be returned to the application.
+     */
+    rejectRequest(sessionId: string, requestId: number, message: string) {
+        const client = this.clientOrThrow(sessionId);
+        client.rejectRequest({
+            id: requestId,
+            error: {
+                message
+            }
+        })
     }
 }

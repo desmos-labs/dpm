@@ -1,4 +1,6 @@
 import {StdSignDoc} from '@cosmjs/amino';
+import Long from "long";
+import {AuthInfo, TxBody} from "cosmjs-types/cosmos/tx/v1beta1/tx";
 
 export type CosmosPubKey = {
     type: string;
@@ -17,9 +19,9 @@ export enum CosmosMethod {
 
 export type CosmosSignDocDirect = {
     chainId: string;
-    accountNumber: string;
-    authInfoBytes: string;
-    bodyBytes: string;
+    accountNumber: Long;
+    authInfo: AuthInfo;
+    body: TxBody;
 };
 
 export type CosmosSignDirectParams = {
