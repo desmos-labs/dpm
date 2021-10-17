@@ -41,7 +41,7 @@ export const TopBar: React.FC<Props> = (props) => {
             ) : null
             }
         </View>
-        <View style={styles.container}>
+        <View style={[styles.container, styles.containerCenter]}>
             <Subtitle capitalize>{props.title}</Subtitle>
         </View>
         <View style={[styles.container, styles.containerRight]}>
@@ -65,6 +65,11 @@ const useStyles = makeStyle(theme => ({
     containerLeft: {
         alignItems: "flex-start",
         justifyContent: "flex-start",
+    },
+    containerCenter: {
+        position: "absolute",
+        left: 0,
+        right: 0
     },
     containerRight: {
         alignItems: "flex-end",
