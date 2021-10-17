@@ -13,7 +13,7 @@ interface WalletConnectState {
     initWalletConnect: () => void,
     controller: WalletConnectController
     callRequests: CallRequest[],
-    removeCallRequest: (request: CallRequest) => void,
+    removeCallRequest: (requestId: number) => void,
 }
 
 // @ts-ignore
@@ -53,8 +53,8 @@ export const WalletContextProvider: React.FC = ({children}) => {
         }
     }, [])
 
-    const removeCallRequest = useCallback((request: CallRequest) => {
-        setCallRequests(oldRequest => oldRequest.filter(r => r === request))
+    const removeCallRequest = useCallback((requestId: number) => {
+        setCallRequests(oldRequest => oldRequest.filter(r => r.id !== requestId))
     }, [])
 
     useEffect(() => {
