@@ -75,6 +75,9 @@ export default function AuthorizeSession(props: Props) {
             {
                 title: t("sign transactions"),
             },
+            {
+                title: t("broadcast signed transactions"),
+            },
         ]
     }, [t]);
 
@@ -106,7 +109,6 @@ export default function AuthorizeSession(props: Props) {
             style.push(styles.borderBot)
         }
         return <AuthorizationListElement
-            key={index.toString()}
             authorization={item}
             style={style}
         />
@@ -154,6 +156,7 @@ export default function AuthorizeSession(props: Props) {
                 data={authorizations}
                 renderItem={renderListItem}
                 ItemSeparatorComponent={Divider}
+                keyExtractor={(item, index) => index.toString()}
             />
         </View>
         <Paragraph

@@ -75,6 +75,7 @@
   "the application requires the following authorizations": "{{app}} requires the following authorizations to be granted in order to work properly",
   "you will be able to revoke such authorizations inside your authorization page": "You will be able to revoke such authorizations inside your Authorization page",
   "sign transactions": "Sign transactions",
+  "broadcast signed transactions": "Broadcast signed transactions",
   "expires on": "Expires on",
   "app authorized": "{{app}} authorized",
   "go to authorization": "Go to Authorization",

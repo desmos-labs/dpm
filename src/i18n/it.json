@@ -66,6 +66,7 @@
   "the application requires the following authorizations": "{{app}} necessità dei seguenti permessi per poter funzionare correttamente",
   "you will be able to revoke such authorizations inside your authorization page": "Potrai revocare queste autorizzazioni dalla pagina Autorizzazioni",
   "sign transactions": "Firma transazioni",
+  "broadcast signed transactions": "Broadcast transazioni firmate",
   "expires on": "Scade il",
   "app authorized": "{{app}} autorizzata",
   "go to authorization": "Vai a Autorizzazioni",
