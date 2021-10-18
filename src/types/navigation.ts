@@ -10,7 +10,7 @@ import {createBottomTabNavigator} from "@react-navigation/bottom-tabs";
 import {SessionRequestDetails} from "./walletconnect";
 
 export type AccountCreationStackParams = {
-    Home: undefined;
+    Login: undefined;
     GenerateNewMnemonic: undefined;
     ImportRecoveryPassphrase: undefined;
     CheckMnemonic: {

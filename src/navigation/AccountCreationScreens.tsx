@@ -1,6 +1,6 @@
 import React from 'react';
 import {AccountCreationStack} from "../types/navigation";
-import Home from "../screens/AccountCreation/Home";
+import Login from "../screens/AccountCreation/Login";
 import GenerateNewMnemonic from "../screens/AccountCreation/GenerateNewMnemonic";
 import CheckMnemonic from "../screens/AccountCreation/CheckMnemonic";
 import ImportRecoveryPassphrase from "../screens/AccountCreation/ImportRecoveryPassphrase";
@@ -10,14 +10,14 @@ import {PickDerivationPath} from "../screens/AccountCreation/PickDerivationPath"
 
 export default function AccountCreationScreens() {
     return <AccountCreationStack.Navigator
-        initialRouteName={"Home"}
+        initialRouteName={"Login"}
         screenOptions={{
             headerShown: false,
         }}
     >
         <AccountCreationStack.Screen
-            name="Home"
-            component={Home}
+            name="Login"
+            component={Login}
         />
         <AccountCreationStack.Screen
             name="GenerateNewMnemonic"

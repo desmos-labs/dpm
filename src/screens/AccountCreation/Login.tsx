@@ -9,9 +9,9 @@ import {FlexPadding} from "../../components/FlexPadding";
 import {IconButton} from "react-native-paper";
 
 
-declare type Props = StackScreenProps<AccountCreationStackParams, "Home">
+declare type Props = StackScreenProps<AccountCreationStackParams, "Login">
 
-export default function Home({navigation}: Props): JSX.Element {
+export default function Login({navigation}: Props): JSX.Element {
     const {t} = useTranslation();
     const styles = useStyle();
 
