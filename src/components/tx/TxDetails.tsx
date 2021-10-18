@@ -3,7 +3,6 @@ import {AuthInfo, TxBody} from "cosmjs-types/cosmos/tx/v1beta1/tx";
 import {ScrollView, StyleProp, ViewStyle} from "react-native";
 import {Divider, LabeledValue} from "../index";
 import {useTranslation} from "react-i18next";
-import {useCurrentChainInfo} from "@desmoslabs/sdk-react";
 import Long from "long";
 import {TxMessage} from "./TxMessage";
 
@@ -17,25 +16,24 @@ export const TxDetails: React.FC<Props> = (props) => {
     const {memo, messages} = props.body;
     const {fee} = props.authInfo;
     const {t} = useTranslation()
-    const chainInfo = useCurrentChainInfo();
 
     const txFex = useMemo(() => {
-        if (fee) {
+        if (fee !== undefined && fee.amount.length > 0) {
+            const denom = fee.amount[0].denom;
             const feeAmount = fee.amount
-                .filter(coin => coin.denom === chainInfo.coinDenom)
                 .map(coin => Long.fromString(coin.amount))
-                .reduce((previousValue, currentValue) => previousValue.add(currentValue));
-            return `${feeAmount.toString(10)} ${chainInfo.coinDenom}`;
+                .reduce((previousValue, currentValue) => previousValue.add(currentValue), Long.ZERO);
+            return `${feeAmount.toString(10)} ${denom}`;
         } else {
-            return `0 ${chainInfo.coinDenom}`;
+            return "0";
         }
-    }, [chainInfo.coinDenom, fee])
+    }, [fee])
 
     return <ScrollView style={props.style}>
         {messages.map((msg, i) => {
             return <>
                 <TxMessage key={`msg_${i}`} message={msg} />
-                <Divider />
+                <Divider key={`divider_${i}`}/>
             </>
         })}
         <LabeledValue
