@@ -20,6 +20,7 @@ import {LabeledValue} from "./LabeledValue";
 import {TopBar} from "./TopBar";
 import {InlineLabeledValue} from "./InlineLabeledValue";
 import {DAppSession} from "./DAppSession";
+import {AccountBalance} from "./AccountBalance";
 
 export {
     AccountCard,
@@ -44,4 +45,5 @@ export {
     TopBar,
     InlineLabeledValue,
     DAppSession,
+    AccountBalance,
 }

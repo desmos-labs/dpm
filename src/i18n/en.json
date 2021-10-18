@@ -83,6 +83,8 @@
   "tx details": "Transaction details",
   "Message Type": "Message Type",
   "Message Value": "Message Value",
+  "available": "Available",
+  "send": "Send",
 
   "accounts": "Accounts",
   "sessions": "Sessions",

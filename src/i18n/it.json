@@ -72,6 +72,8 @@
   "go to authorization": "Vai a Autorizzazioni",
   "are you sure you want to remove dapp?": "Sei sicuro di voler rimuovere {{dapp}}?",
   "tx details": "Dettagli transazione",
+  "available": "Disponibile",
+  "send": "Invia",
 
   "accounts": "Account",
   "sessions": "Sessioni",
