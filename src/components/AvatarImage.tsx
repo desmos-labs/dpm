@@ -1,7 +1,12 @@
 import React from "react";
 import {Avatar} from "react-native-paper";
 import {makeStyle} from "../theming";
-import {ImageSourcePropType, StyleProp, StyleSheet, ViewStyle} from "react-native";
+import {
+    ImageSourcePropType,
+    StyleProp,
+    StyleSheet,
+    ViewStyle
+} from "react-native";
 
 export type Props = {
     /**
@@ -12,6 +17,10 @@ export type Props = {
      * Size of the avatar.
      */
     size?: number,
+    /**
+     * Callback called when the user press on the avatar image.
+     */
+    onPress?: () => void,
     style?:  StyleProp<ViewStyle>
 }
 
@@ -22,6 +31,7 @@ export const AvatarImage: React.FC<Props> = (props) => {
     return <Avatar.Image
         style={style}
         source={props.source}
+        onTouchStart={props.onPress}
         size={props.size}/>
 }
 
