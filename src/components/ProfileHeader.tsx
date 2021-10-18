@@ -27,7 +27,7 @@ export const ProfileHeader: React.FC<Props> = (props) => {
     const coverPicture = useMemo(() => {
         return coverPictureUri ? {
             uri: coverPictureUri
-        } : require("../assets/default-profile-cover.png");
+        } : require("../assets/default-profile-cover-light.png");
     }, [coverPictureUri])
 
     const profilePicture = useMemo(() => {
@@ -48,7 +48,7 @@ export const ProfileHeader: React.FC<Props> = (props) => {
         <View style={styles.coverPictureContainer}>
             <Image
                 style={styles.coverPicture}
-                resizeMode="cover"
+                resizeMode="stretch"
                 source={coverPicture}
             />
             {props.onEditCoverPicture && <IconButton
@@ -120,6 +120,7 @@ const useStyles = makeStyle(theme => ({
         width: '100%',
     },
     coverPicture: {
+        width: "100%",
         height: 200,
     },
     editCoverPictureBtn: {
