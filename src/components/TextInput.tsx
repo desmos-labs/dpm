@@ -1,6 +1,6 @@
 import React from "react";
-import {StyleProp, StyleSheet, TextStyle, TextInput as NativeTextInput, View, ViewStyle} from "react-native";
-import {makeStyle} from "../theming";
+import {StyleProp, TextStyle, TextInput as NativeTextInput, View, ViewStyle} from "react-native";
+import {makeStyleWithProps} from "../theming";
 
 export type Props = Omit<React.ComponentProps<typeof NativeTextInput>, "style"> & {
     rightElement?: React.ReactNode | null,
@@ -10,12 +10,12 @@ export type Props = Omit<React.ComponentProps<typeof NativeTextInput>, "style"> 
 };
 
 export const TextInput: React.FC<Props> = (props) => {
-    const styles = useStyles();
+    const styles = useStyles(props);
 
-    return <View style={StyleSheet.compose(styles.container as StyleProp<ViewStyle>, props.style)}>
+    return <View style={[styles.container, props.style]}>
         <NativeTextInput
             {...props}
-            style={StyleSheet.compose(styles.input as StyleProp<TextStyle>, props.inputStyle)}
+            style={[styles.input, props.inputStyle]}
         />
         <View style={styles.right}>
             {props.rightElement}
@@ -23,19 +23,20 @@ export const TextInput: React.FC<Props> = (props) => {
     </View>
 }
 
-const useStyles = makeStyle(theme => ({
+const useStyles = makeStyleWithProps((props: Props, theme) => ({
     container: {
         display: "flex",
         flexDirection: "row",
         backgroundColor: theme.colors.surface,
         borderRadius: 6,
         minHeight: 44,
+        alignItems: "center"
     },
     input: {
         fontFamily: "SF Pro Text",
         paddingHorizontal: 11,
         flexGrow: 1,
-        textAlignVertical: "top",
+        textAlignVertical: props.multiline === true ? "top" : "center",
     },
     right: {
         padding: 0,
