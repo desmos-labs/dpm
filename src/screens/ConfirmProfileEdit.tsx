@@ -13,7 +13,7 @@ import {computeTxFees, messagesGas} from "../types/fees";
 import {CompositeScreenProps} from "@react-navigation/native";
 import {SingleButtonModal} from "../modals/SingleButtonModal";
 import useSaveProfile from "../hooks/useSaveProfile";
-import useNavigateToAccountScreen from "../hooks/useNavigateToAccountScreen";
+import useNavigateToHomeScreen from "../hooks/useNavigateToHomeScreen";
 import useShowModal from "../hooks/useShowModal";
 import useUploadPicture from "../hooks/useUploadPicture";
 import {TopBar} from "../components";
@@ -32,7 +32,7 @@ export const ConfirmProfileEdit: React.FC<Props> = (props) => {
     const unlockWallet = useUnlockWallet();
     const [broadcastingTx, setBroadcastingTx] = useState(false);
     const saveProfile = useSaveProfile();
-    const navigateToAccountScreen = useNavigateToAccountScreen()
+    const navigateToHomeScreen = useNavigateToHomeScreen()
     const showModal = useShowModal();
     const uploadPicture = useUploadPicture();
 
@@ -102,7 +102,7 @@ export const ConfirmProfileEdit: React.FC<Props> = (props) => {
                     title: t("success"),
                     message: t("profile saved"),
                     actionLabel: t("go to profile"),
-                    action: () => navigateToAccountScreen(true),
+                    action: () => navigateToHomeScreen(true),
                 });
             }
         } catch (e) {
@@ -118,7 +118,7 @@ export const ConfirmProfileEdit: React.FC<Props> = (props) => {
     }, [unlockWallet, account, dtag, nickname, bio,
         localCoverPictureUri, coverPictureUrl, localProfilePictureUri,
         profilePictureUrl, desmosClient, txFee, saveProfile, showModal,
-        t, uploadPicture, navigateToAccountScreen])
+        t, uploadPicture, navigateToHomeScreen])
 
     return <StyledSafeAreaView
         padding={0}

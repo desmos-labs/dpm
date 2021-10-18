@@ -40,6 +40,13 @@ export const Authorization: React.FC<Props> = (props) => {
     const [revokeStatus, walletConnectTerminate] = useWalletConnectTerminate();
     const unlockWallet = useUnlockWallet();
 
+    const openProfileDetails = useCallback(() => {
+        props.navigation.navigate({
+            name: "Profile",
+            params: undefined,
+        })
+    }, [props.navigation])
+
     const profilePicture = useMemo(() => {
         const userProfile = profiles[currentAccount.address];
         if (userProfile?.cachedProfilePictureUri !== undefined) {
@@ -108,6 +115,7 @@ export const Authorization: React.FC<Props> = (props) => {
                 style={styles.avatarImage}
                 size={30}
                 source={profilePicture}
+                onPress={openProfileDetails}
             />}
         />}
     >

@@ -8,7 +8,7 @@ import useWalletConnectRequestApproveTs from "../hooks/useWalletConnectSessionAp
 import useWalletConnectSessionReject from "../hooks/useWalletConnectSessionReject";
 import {useCurrentChainInfo} from "@desmoslabs/sdk-react";
 import useSelectedAccount from "../hooks/useSelectedAccount";
-import useNavigateToAccountScreen from "../hooks/useNavigateToAccountScreen";
+import useNavigateToHomeScreen from "../hooks/useNavigateToHomeScreen";
 import useUnlockWallet from "../hooks/useUnlockWallet";
 import {makeStyle} from "../theming";
 import {format} from "date-fns"
@@ -31,7 +31,7 @@ export default function AuthorizeSession(props: Props) {
     const [rejectStatus, reject] = useWalletConnectSessionReject();
     const selectedAccount = useSelectedAccount();
     const currentChain = useCurrentChainInfo();
-    const navigateToProfileScreen = useNavigateToAccountScreen();
+    const navigateToHomeScreen = useNavigateToHomeScreen();
     const unlockWallet = useUnlockWallet();
     const openModal = useShowModal();
 
@@ -87,9 +87,9 @@ export default function AuthorizeSession(props: Props) {
             title: t("success"),
             message: t("app authorized", {app: appName}),
             actionLabel: t("go to authorization"),
-            action: () => navigateToProfileScreen(true),
+            action: () => navigateToHomeScreen(true),
         })
-    }, [t, navigateToProfileScreen, appName, openModal]);
+    }, [t, navigateToHomeScreen, appName, openModal]);
 
     const showErrorModal = useCallback((errorMsg: string) => {
         openModal(SingleButtonModal, {
@@ -126,9 +126,9 @@ export default function AuthorizeSession(props: Props) {
         if (rejectStatus.error) {
             showErrorModal(rejectStatus.error.toString());
         } else if(rejectStatus.rejected) {
-            navigateToProfileScreen(true);
+            navigateToHomeScreen(true);
         }
-    }, [rejectStatus, navigateToProfileScreen, showErrorModal])
+    }, [rejectStatus, navigateToHomeScreen, showErrorModal])
 
     return <StyledSafeAreaView
         style={styles.root}

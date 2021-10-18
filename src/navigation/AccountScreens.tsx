@@ -15,6 +15,7 @@ import {BiographyEditor} from "../screens/BiographyEditor";
 import {WalletConnectCallRequest} from "../screens/WalletConnectCallRequest";
 import useHandleCallRequests from "../hooks/useHandleCallRequests";
 import {HomeScreens} from './HomeScreens';
+import Profile from "../screens/Profile";
 
 type AccountScreensProps = StackScreenProps<RootStackParams, "AccountScreens">
 
@@ -32,6 +33,10 @@ export default function AccountScreens(_: AccountScreensProps) {
         <AccountScreensStack.Screen
             name="HomeScreens"
             component={HomeScreens}
+        />
+        <AccountScreensStack.Screen
+            name="Profile"
+            component={Profile}
         />
         <AccountScreensStack.Screen
             name="EditProfile"

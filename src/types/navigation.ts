@@ -35,7 +35,7 @@ export type AccountCreationStackParams = {
 export const AccountCreationStack = createStackNavigator<AccountCreationStackParams>();
 
 export type HomeScreensBottomTabsParams = {
-    Profile: undefined,
+    Home: undefined,
     Authorization: undefined,
     ScanQr: undefined,
 }
@@ -50,6 +50,7 @@ export const HomeScreensDrawer = createDrawerNavigator<HomeScreensDrawerParams>(
 
 export type AccountScreensStackParams = {
     HomeScreens: undefined,
+    Profile: undefined,
     EditProfile: {
         account?: ChainAccount,
         profile?: CachedDesmosProfile | null,

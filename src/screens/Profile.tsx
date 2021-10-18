@@ -2,24 +2,17 @@ import {StyledSafeAreaView, Button, Divider} from "../components";
 import {makeStyle} from "../theming";
 import {IconButton, Snackbar} from "react-native-paper";
 import {StackScreenProps} from "@react-navigation/stack";
-import {AccountScreensStackParams, HomeScreensDrawerParams, HomeScreensBottomTabsParams} from "../types/navigation";
+import {AccountScreensStackParams} from "../types/navigation";
 import React, {useCallback, useMemo, useState} from 'react';
 import {ProfileHeader} from "../components/ProfileHeader";
-import {CompositeScreenProps} from "@react-navigation/native";
-import {DrawerScreenProps} from "@react-navigation/drawer";
 import useFetchProfile from "../hooks/useFetchProfile";
 import {Image, View, Text} from "react-native";
 import {useTranslation} from "react-i18next";
 import Clipboard from "@react-native-community/clipboard";
 import useSelectedAccount from "../hooks/useSelectedAccount";
-import {BottomTabScreenProps} from "@react-navigation/bottom-tabs";
 
 
-export type Props = CompositeScreenProps<
-    BottomTabScreenProps<HomeScreensBottomTabsParams, "Profile">,
-    CompositeScreenProps<
-        DrawerScreenProps<HomeScreensDrawerParams>, StackScreenProps<AccountScreensStackParams>>
-    >;
+export type Props = StackScreenProps<AccountScreensStackParams, "Profile">
 
 export default function Profile(props: Props): JSX.Element {
 
@@ -30,9 +23,9 @@ export default function Profile(props: Props): JSX.Element {
     const profile = useFetchProfile(account.address);
     const [snackBarMessage, setShowSnackbar] = useState<string | null>(null)
 
-    const drawerIconButton = useMemo(() => {
-        return <IconButton icon="menu" color="#fff" onPress={() => {
-            navigation.openDrawer();
+    const backIcon = useMemo(() => {
+        return <IconButton icon="arrow-left" color="#fff" onPress={() => {
+            navigation.goBack();
         }}/>
     }, [navigation]);
 
@@ -76,7 +69,7 @@ export default function Profile(props: Props): JSX.Element {
             profilePictureUri={profile?.cachedProfilePictureUri}
             dtag={profile?.dtag}
             nickname={profile?.nickname}
-            topLeftElement={drawerIconButton}
+            topLeftElement={backIcon}
             topRightElement={editProfileButton}
             onCopyPressed={onAddressCopy}
         />

@@ -3,7 +3,7 @@ import {useNavigation} from "@react-navigation/native";
 import {StackNavigationProp} from "@react-navigation/stack/lib/typescript/src/types";
 import {RootStackParams} from "../types/navigation";
 
-export default function useNavigateToAccountScreen() {
+export default function useNavigateToHomeScreen() {
     const navigation = useNavigation<StackNavigationProp<RootStackParams>>()
 
     return useCallback((reset?: boolean) => {

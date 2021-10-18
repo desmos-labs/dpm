@@ -1,6 +1,5 @@
 import React from "react";
 import {AccountScreensStackParams, HomeScreensDrawer, HomeScreensBottomTabs} from "../types/navigation";
-import Profile from "../screens/Profile";
 import {Authorization} from "../screens/Authorization";
 import {ScanQr} from "../screens/ScanQr";
 import {HomeScreenBottomBar} from "../components/HomeScreenBottomBar";
@@ -8,6 +7,7 @@ import {Image} from "react-native";
 import {useTranslation} from "react-i18next";
 import {StackScreenProps} from "@react-navigation/stack";
 import {AppDrawerContent} from "../components/AppDrawerContent";
+import {Home} from "../screens/Home";
 
 
 type HomeDrawerMenuProps = StackScreenProps<AccountScreensStackParams, "HomeScreens">
@@ -43,8 +43,8 @@ const HomeScreenBottomTabScreens: React.FC = () => {
         }}
     >
         <HomeScreensBottomTabs.Screen
-            name="Profile"
-            component={Profile}
+            name="Home"
+            component={Home}
             options={{
                 title: t("profile"),
                 tabBarIcon: ({focused, size}) => {
