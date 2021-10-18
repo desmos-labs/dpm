@@ -3,11 +3,10 @@ import {StyleProp, View, ViewStyle} from "react-native";
 import {Paragraph} from "./Paragraph";
 import {IconButton} from "react-native-paper";
 import {Button} from "./Button";
-import React, {useEffect, useState} from "react";
+import React from "react";
 import {useTranslation} from "react-i18next";
 import {makeStyle} from "../theming";
-import {useCurrentChainInfo, useDesmosClient} from "@desmoslabs/sdk-react";
-import {Coin} from "cosmjs-types/cosmos/base/v1beta1/coin";
+import useFetchUserBalance from "../hooks/useFetchUserBalance";
 
 export type Props = {
     /**
@@ -32,29 +31,7 @@ export type Props = {
 export const AccountBalance: React.FC<Props> = (props) => {
     const {t} = useTranslation();
     const styles = useStyles();
-    const client = useDesmosClient();
-    const chainInfo = useCurrentChainInfo();
-    const [userBalance, setUserBalance] = useState<Coin>({
-        amount: "0",
-        denom: chainInfo.coinDenom,
-    });
-
-    useEffect(() => {
-        (async () => {
-            setUserBalance({
-                amount: "0",
-                denom: chainInfo.coinDenom,
-            });
-            try {
-                await client.connect();
-                const balance = await client.getBalance(props.address, chainInfo.coinDenom);
-                setUserBalance(balance);
-            } catch (e) {
-                // Ignore network error and account not present
-                // on the chain
-            }
-        })()
-    }, [props.address, client, chainInfo])
+    const userBalance = useFetchUserBalance(props.address);
 
     return <View
         style={[styles.root, props.style]}
