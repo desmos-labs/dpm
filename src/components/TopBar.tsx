@@ -25,6 +25,10 @@ export type Props = {
      * Element to display on the top right corner.
      */
     rightElement?: ReactElement,
+    /**
+     * Color of the top left icon.
+     */
+    leftIconColor?: string
     style?: StyleProp<ViewStyle>
 }
 
@@ -35,9 +39,17 @@ export const TopBar: React.FC<Props> = (props) => {
     return <View style={[styles.root, props.style]}>
         <View style={[styles.container, styles.containerLeft]}>
             {navigation.openDrawer ? (
-                <IconButton icon="menu" onPress={navigation.openDrawer}/>
+                <IconButton
+                    color={props.leftIconColor}
+                    icon="menu"
+                    onPress={navigation.openDrawer}
+                />
             ) : navigation.canGoBack() ? (
-                <IconButton icon="arrow-left" onPress={navigation.goBack}/>
+                <IconButton
+                    color={props.leftIconColor}
+                    icon="arrow-left"
+                    onPress={navigation.goBack}
+                />
             ) : null
             }
         </View>
