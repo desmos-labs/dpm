@@ -3,12 +3,15 @@ import {AccountScreensStackParams, HomeScreensBottomTabsParams, HomeScreensDrawe
 import {CompositeScreenProps} from "@react-navigation/native";
 import {DrawerScreenProps} from "@react-navigation/drawer";
 import {StackScreenProps} from "@react-navigation/stack";
-import React, {useCallback, useMemo} from "react";
-import {AvatarImage, StyledSafeAreaView, Title, TopBar} from "../components";
+import React, {useCallback, useMemo, useState} from "react";
+import {AvatarImage, StyledSafeAreaView, TopBar, AccountBalance} from "../components";
 import useSelectedAccount from "../hooks/useSelectedAccount";
 import {useTranslation} from "react-i18next";
 import useFetchProfile from "../hooks/useFetchProfile";
 import {makeStyle} from "../theming";
+import {Image} from "react-native";
+import {Snackbar} from "react-native-paper";
+import Clipboard from "@react-native-community/clipboard";
 
 export type Props = CompositeScreenProps<BottomTabScreenProps<HomeScreensBottomTabsParams, "Home">,
     CompositeScreenProps<DrawerScreenProps<HomeScreensDrawerParams>, StackScreenProps<AccountScreensStackParams>>>;
@@ -19,6 +22,7 @@ export const Home: React.FC<Props> = (props) => {
     const {t} = useTranslation();
     const styles = useStyles();
     const profile = useFetchProfile(account.address);
+    const [snackBarMessage, setShowSnackbar] = useState<string | null>(null);
 
     const openProfileDetails = useCallback(() => {
         navigation.navigate({
@@ -38,18 +42,63 @@ export const Home: React.FC<Props> = (props) => {
         />
     }, [styles,profile, openProfileDetails]);
 
-    return <StyledSafeAreaView
-        topBar={<TopBar
+    const onAddressCopy = useCallback(() => {
+        Clipboard.setString(account.address)
+        setShowSnackbar(t("address copied"));
+    }, [t, account]);
+
+    const onSendPressed = useCallback(() => {
+        props.navigation.navigate({
+            name: "SendToken",
+            params: undefined
+        })
+    }, [props.navigation])
+
+    return <StyledSafeAreaView padding={0}>
+        <Image
+            source={require("../assets/home-background-light.png")}
+            resizeMode={"stretch"}
+            style={styles.background}
+        />
+        <TopBar
+            style={styles.topBar}
+            leftIconColor="#ffffff"
             stackProps={props}
             rightElement={profilePicture}
-        />}
-    >
-        <Title>{t("home")}</Title>
+        />
+        <AccountBalance
+            style={styles.userBalance}
+            address={account.address}
+            nickname={profile?.nickname}
+            onCopyPress={onAddressCopy}
+            onSendPressed={onSendPressed}
+        />
+        <Snackbar
+            visible={snackBarMessage !== null}
+            onDismiss={() => setShowSnackbar(null)}
+            action={{
+                label: t("hide")
+            }}
+            duration={Snackbar.DURATION_SHORT}
+        >
+            {snackBarMessage}
+        </Snackbar>
     </StyledSafeAreaView>
 }
 
 const useStyles = makeStyle(theme => ({
+    background: {
+        position: "absolute",
+        width: "100%",
+        height: "100%"
+    },
+    topBar: {
+        backgroundColor: "transparent"
+    },
     avatarImage: {
         right: 16,
+    },
+    userBalance: {
+        marginHorizontal: theme.spacing.m,
     }
 }))
