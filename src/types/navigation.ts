@@ -34,22 +34,22 @@ export type AccountCreationStackParams = {
 
 export const AccountCreationStack = createStackNavigator<AccountCreationStackParams>();
 
-export type HomeScreenBottomTabsParams = {
+export type HomeScreensBottomTabsParams = {
     Profile: undefined,
     Authorization: undefined,
     ScanQr: undefined,
 }
 
-export const HomeScreenBottomTabs = createBottomTabNavigator<HomeScreenBottomTabsParams>();
+export const HomeScreensBottomTabs = createBottomTabNavigator<HomeScreensBottomTabsParams>();
 
-export type AppDrawerParams = {
+export type HomeScreensDrawerParams = {
     HomeScreen: undefined
 }
 
-export const AppDrawer = createDrawerNavigator<AppDrawerParams>()
+export const HomeScreensDrawer = createDrawerNavigator<HomeScreensDrawerParams>()
 
 export type AccountScreensStackParams = {
-    ProfileWithDrawerMenu: undefined,
+    HomeScreens: undefined,
     EditProfile: {
         account?: ChainAccount,
         profile?: CachedDesmosProfile | null,

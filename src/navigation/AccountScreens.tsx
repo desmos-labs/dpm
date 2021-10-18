@@ -1,8 +1,6 @@
 import React from 'react';
 import {
     AccountScreensStack,
-    AccountScreensStackParams,
-    AppDrawer,
     RootStackParams
 } from "../types/navigation";
 import AuthorizeSession from "../screens/AuthorizeSession";
@@ -11,29 +9,12 @@ import {useTranslation} from "react-i18next";
 import {EditProfile} from "../screens/EditProfile";
 import {UnlockWallet} from "../screens/UnlockWallet";
 import {BroadcastTx} from "../screens/BroadcastTx";
-import {AppDrawerContent} from "../components/AppDrawerContent";
 import {StackScreenProps} from "@react-navigation/stack";
 import {ConfirmProfileEdit} from "../screens/ConfirmProfileEdit";
 import {BiographyEditor} from "../screens/BiographyEditor";
-import {HomeScreens} from "./HomeScreens";
 import {WalletConnectCallRequest} from "../screens/WalletConnectCallRequest";
 import useHandleCallRequests from "../hooks/useHandleCallRequests";
-
-type ProfileWithAppDrawerProps = StackScreenProps<AccountScreensStackParams, "ProfileWithDrawerMenu">
-
-function ProfileWithDrawerMenu(_: ProfileWithAppDrawerProps) {
-    return <AppDrawer.Navigator
-        screenOptions={{
-            headerShown: false,
-        }}
-        drawerContent={props => <AppDrawerContent {...props} />}
-    >
-        <AppDrawer.Screen
-            name="HomeScreen"
-            component={HomeScreens}
-        />
-    </AppDrawer.Navigator>
-}
+import {HomeScreens} from './HomeScreens';
 
 type AccountScreensProps = StackScreenProps<RootStackParams, "AccountScreens">
 
@@ -43,14 +24,14 @@ export default function AccountScreens(_: AccountScreensProps) {
     useHandleCallRequests();
 
     return <AccountScreensStack.Navigator
-        initialRouteName={"ProfileWithDrawerMenu"}
+        initialRouteName="HomeScreens"
         screenOptions={{
             headerShown: false,
         }}
     >
         <AccountScreensStack.Screen
-            name="ProfileWithDrawerMenu"
-            component={ProfileWithDrawerMenu}
+            name="HomeScreens"
+            component={HomeScreens}
         />
         <AccountScreensStack.Screen
             name="EditProfile"
@@ -73,23 +54,15 @@ export default function AccountScreens(_: AccountScreensProps) {
         />
         <AccountScreensStack.Screen
             name="SignTx"
-            options={{
-                headerShown: false
-            }}
             component={SignTx}
         />
         <AccountScreensStack.Screen
             name="BroadcastTx"
-            options={{
-                headerShown: false,
-                presentation: 'transparentModal',
-            }}
             component={BroadcastTx}
         />
         <AccountScreensStack.Screen
             name="UnlockWallet"
             options={{
-                headerShown: false,
                 presentation: 'transparentModal',
             }}
             component={UnlockWallet}

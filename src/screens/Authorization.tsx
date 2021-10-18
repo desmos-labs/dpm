@@ -1,6 +1,6 @@
 import React, {useCallback, useEffect, useMemo} from "react";
 import {BottomTabScreenProps} from "@react-navigation/bottom-tabs";
-import {AccountScreensStackParams, AppDrawerParams, HomeScreenBottomTabsParams} from "../types/navigation";
+import {AccountScreensStackParams, HomeScreensDrawerParams, HomeScreensBottomTabsParams} from "../types/navigation";
 import {FlatList} from "react-native";
 import {
     AvatarImage,
@@ -25,9 +25,9 @@ import useUnlockWallet from "../hooks/useUnlockWallet";
 import {SingleButtonModal} from "../modals/SingleButtonModal";
 
 export type Props = CompositeScreenProps<
-    BottomTabScreenProps<HomeScreenBottomTabsParams, "Authorization">,
+    BottomTabScreenProps<HomeScreensBottomTabsParams, "Authorization">,
     CompositeScreenProps<
-        DrawerScreenProps<AppDrawerParams>, StackScreenProps<AccountScreensStackParams>>
+        DrawerScreenProps<HomeScreensDrawerParams>, StackScreenProps<AccountScreensStackParams>>
     >;
 
 export const Authorization: React.FC<Props> = (props) => {

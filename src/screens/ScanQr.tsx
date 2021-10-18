@@ -1,6 +1,6 @@
 import React, {useCallback, useEffect, useState} from "react";
 import {BottomTabScreenProps} from "@react-navigation/bottom-tabs";
-import {AccountScreensStackParams, AppDrawerParams, HomeScreenBottomTabsParams} from "../types/navigation";
+import {AccountScreensStackParams, HomeScreensDrawerParams, HomeScreensBottomTabsParams} from "../types/navigation";
 import {StyledSafeAreaView, TextInput} from "../components";
 import {CompositeScreenProps} from "@react-navigation/native";
 import {DrawerScreenProps} from "@react-navigation/drawer";
@@ -15,9 +15,9 @@ import {SingleButtonModal} from "../modals/SingleButtonModal";
 import {useTranslation} from "react-i18next";
 
 export type Props = CompositeScreenProps<
-    BottomTabScreenProps<HomeScreenBottomTabsParams, "ScanQr">,
+    BottomTabScreenProps<HomeScreensBottomTabsParams, "ScanQr">,
     CompositeScreenProps<
-        DrawerScreenProps<AppDrawerParams>, StackScreenProps<AccountScreensStackParams>>
+        DrawerScreenProps<HomeScreensDrawerParams>, StackScreenProps<AccountScreensStackParams>>
     >;
 
 export const ScanQr: React.FC<Props> = ({navigation}) => {

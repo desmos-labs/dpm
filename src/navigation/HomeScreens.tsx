@@ -1,16 +1,35 @@
 import React from "react";
-import {HomeScreenBottomTabs} from "../types/navigation";
+import {AccountScreensStackParams, HomeScreensDrawer, HomeScreensBottomTabs} from "../types/navigation";
 import Profile from "../screens/Profile";
 import {Authorization} from "../screens/Authorization";
 import {ScanQr} from "../screens/ScanQr";
 import {HomeScreenBottomBar} from "../components/HomeScreenBottomBar";
 import {Image} from "react-native";
 import {useTranslation} from "react-i18next";
+import {StackScreenProps} from "@react-navigation/stack";
+import {AppDrawerContent} from "../components/AppDrawerContent";
 
-export const HomeScreens: React.FC = () => {
+
+type HomeDrawerMenuProps = StackScreenProps<AccountScreensStackParams, "HomeScreens">
+
+export const HomeScreens: React.FC<HomeDrawerMenuProps> = () => {
+    return <HomeScreensDrawer.Navigator
+        screenOptions={{
+            headerShown: false,
+        }}
+        drawerContent={props => <AppDrawerContent {...props} />}
+    >
+        <HomeScreensDrawer.Screen
+            name="HomeScreen"
+            component={HomeScreenBottomTabScreens}
+        />
+    </HomeScreensDrawer.Navigator>
+}
+
+const HomeScreenBottomTabScreens: React.FC = () => {
     const {t} = useTranslation();
 
-    return <HomeScreenBottomTabs.Navigator
+    return <HomeScreensBottomTabs.Navigator
         screenOptions={{
             headerShown: false,
         }}
@@ -23,7 +42,7 @@ export const HomeScreens: React.FC = () => {
             }
         }}
     >
-        <HomeScreenBottomTabs.Screen
+        <HomeScreensBottomTabs.Screen
             name="Profile"
             component={Profile}
             options={{
@@ -40,7 +59,7 @@ export const HomeScreens: React.FC = () => {
                 }
             }}
         />
-        <HomeScreenBottomTabs.Screen
+        <HomeScreensBottomTabs.Screen
             name="ScanQr"
             component={ScanQr}
             options={{
@@ -53,7 +72,7 @@ export const HomeScreens: React.FC = () => {
                 ),
             }}
         />
-        <HomeScreenBottomTabs.Screen
+        <HomeScreensBottomTabs.Screen
             name="Authorization"
             component={Authorization}
             options={{
@@ -70,5 +89,5 @@ export const HomeScreens: React.FC = () => {
                 }
             }}
         />
-    </HomeScreenBottomTabs.Navigator>
+    </HomeScreensBottomTabs.Navigator>
 }
