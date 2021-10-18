@@ -97,6 +97,7 @@ export type AccountScreensStackParams = {
     AuthorizeSession: {
         sessionRequestDetails: SessionRequestDetails;
     };
+    SendToken: undefined
     WalletConnectCallRequest: undefined,
     SignTx: {
         address: string;

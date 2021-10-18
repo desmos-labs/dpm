@@ -16,6 +16,7 @@ import {WalletConnectCallRequest} from "../screens/WalletConnectCallRequest";
 import useHandleCallRequests from "../hooks/useHandleCallRequests";
 import {HomeScreens} from './HomeScreens';
 import Profile from "../screens/Profile";
+import {SendToken} from "../screens/SendToken";
 
 type AccountScreensProps = StackScreenProps<RootStackParams, "AccountScreens">
 
@@ -56,6 +57,10 @@ export default function AccountScreens(_: AccountScreensProps) {
                 title: t("new session")
             }}
             component={AuthorizeSession}
+        />
+        <AccountScreensStack.Screen
+            name="SendToken"
+            component={SendToken}
         />
         <AccountScreensStack.Screen
             name="SignTx"
