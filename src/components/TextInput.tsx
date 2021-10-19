@@ -37,6 +37,7 @@ const useStyles = makeStyleWithProps((props: Props, theme) => ({
         paddingHorizontal: 11,
         flexGrow: 1,
         textAlignVertical: props.multiline === true ? "top" : "center",
+        height: "100%"
     },
     right: {
         padding: 0,
