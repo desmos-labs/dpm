@@ -3,6 +3,56 @@ apply plugin: 'kotlin-android'
 
 import com.android.build.OutputFile
 
+def getVersionTag(String variant) {
+    def stdout
+    try {
+        stdout = new ByteArrayOutputStream()
+        exec {
+            commandLine "git", "describe", "--tags", "--abbrev=0"
+            standardOutput = stdout
+        }
+        def longTag = stdout.toString().trim()
+
+        return longTag.substring(longTag.indexOf('/') + 1, longTag.indexOf('-'))
+    } catch (exception) {
+        return "v0.0.1"
+    }
+}
+
+static def getVersionCode(String gitTag, String abi) {
+    if (gitTag[0] != 'v') {
+        throw new RuntimeException("Invalid version tag \"${gitTag}\", format \"vx.y.z\" expected.")
+    }
+    def tag = gitTag.substring(1)
+    def parts = tag.tokenize('.')
+    if(parts.size() != 3 || parts[1].length() > 2 || parts[2].length() > 2) {
+        throw new RuntimeException("Invalid version tag \"${tag}\", format \"x.y.z\" expected.")
+    }
+
+    // Create different version for each abi
+    def versionCodes = ["armeabi-v7a": "1", "x86": "2", "arm64-v8a": "3", "x86_64": "4"]
+    def abiCode = "0"
+    if (abi != null) {
+        abiCode = versionCodes.get(abi)
+        if (abiCode == null) {
+            throw new RuntimeException("Invalid abi \"${abiCode}\".")
+        }
+    }
+
+    if(parts[1].length() == 1) {
+        parts[1] = "0" + parts[1]
+    }
+    if(parts[2].length() == 1) {
+        parts[2] = "0" + parts[2]
+    }
+
+    return Integer.parseInt(abiCode + parts[0] + parts[1] + parts[2])
+}
+
+static def getVersionName(String tag) {
+    return tag
+}
+
 /**
  * The react.gradle file registers a task for each build variant (e.g. bundleDebugJsAndAssets
  * and bundleReleaseJsAndAssets).
@@ -172,16 +222,12 @@ android {
     // applicationVariants are e.g. debug, release
     applicationVariants.all { variant ->
         variant.outputs.each { output ->
-            // For each separate APK per architecture, set a unique version code as described here:
-            // https://developer.android.com/studio/build/configure-apk-splits.html
-            // Example: versionCode 1 will generate 1001 for armeabi-v7a, 1002 for x86, etc.
-            def versionCodes = ["armeabi-v7a": 1, "x86": 2, "arm64-v8a": 3, "x86_64": 4]
+            def tag = getVersionTag(variant.toString())
             def abi = output.getFilter(OutputFile.ABI)
-            if (abi != null) {  // null for the universal-debug, universal-release variants
-                output.versionCodeOverride =
-                        defaultConfig.versionCode * 1000 + versionCodes.get(abi)
-            }
-
+            def versionCode = getVersionCode(tag, abi)
+            def versionName = getVersionName(tag)
+            output.versionCodeOverride = versionCode
+            output.versionNameOverride = versionName
         }
     }
 }
