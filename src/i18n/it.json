@@ -74,6 +74,11 @@
   "tx details": "Dettagli transazione",
   "available": "Disponibile",
   "send": "Invia",
+  "recipient address": "indirizzo ricevente",
+  "insert address": "inserisci l'indirizzo",
+  "insert amount": "inserisci ammontare",
+  "note (memo)": "Nota (Memo)",
+  "description (optional)": "Descrizione (Opzionale)",
 
   "accounts": "Account",
   "sessions": "Sessioni",

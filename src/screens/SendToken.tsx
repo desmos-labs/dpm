@@ -69,17 +69,17 @@ export const SendToken: React.FC<Props> = (props) => {
         <Paragraph
             style={styles.topMarginSmall}
         >
-            {t("Available")} {userBalance.amount} {userBalance.denom}
+            {t("available")} {userBalance.amount} {userBalance.denom}
         </Paragraph>
 
         <Subtitle
             style={styles.topMarginMedium}
         >
-            {t("Note (Memo)")}
+            {t("note (memo)")}
         </Subtitle>
         <TextInput
             style={styles.topMarginSmall}
-            placeholder={t("Description (Optional)")}
+            placeholder={t("description (optional)")}
             value={memo}
             onChangeText={onMemoChange}
             numberOfLines={4}
