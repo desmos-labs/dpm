@@ -78,7 +78,9 @@ function AppContent(): JSX.Element {
 }
 
 export default function App(): JSX.Element {
-    const chainId = __DEV__ ? 'morpheus-apollo-2' : 'desmos-mainnet'
+    //const chainId = __DEV__ ? 'morpheus-apollo-2' : 'desmos-mainnet'
+    // Force to testnet for the moment
+    const chainId = 'morpheus-apollo-2';
     return (
         <DesmosSdkProvider chainId={chainId}>
             <AppStateProvider>
