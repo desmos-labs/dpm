@@ -1,6 +1,7 @@
 import React from "react";
 import {StyleProp, TextStyle, TextInput as NativeTextInput, View, ViewStyle} from "react-native";
 import {makeStyleWithProps} from "../theming";
+import {useTheme} from "react-native-paper";
 
 export type Props = Omit<React.ComponentProps<typeof NativeTextInput>, "style"> & {
     rightElement?: React.ReactNode | null,
@@ -11,11 +12,13 @@ export type Props = Omit<React.ComponentProps<typeof NativeTextInput>, "style"> 
 
 export const TextInput: React.FC<Props> = (props) => {
     const styles = useStyles(props);
+    const theme = useTheme()
 
     return <View style={[styles.container, props.style]}>
         <NativeTextInput
             {...props}
             style={[styles.input, props.inputStyle]}
+            placeholderTextColor={theme.colors.placeholder}
         />
         <View style={styles.right}>
             {props.rightElement}
@@ -37,7 +40,8 @@ const useStyles = makeStyleWithProps((props: Props, theme) => ({
         paddingHorizontal: 11,
         flexGrow: 1,
         textAlignVertical: props.multiline === true ? "top" : "center",
-        height: "100%"
+        height: "100%",
+        color: theme.colors.text,
     },
     right: {
         padding: 0,
