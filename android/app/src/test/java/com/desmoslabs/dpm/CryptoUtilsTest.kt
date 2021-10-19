@@ -1,4 +1,4 @@
-package com.desmosprofilemanager
+package com.desmoslabs.dpm
 
 import com.google.common.truth.Truth.assertThat
 import org.junit.Test

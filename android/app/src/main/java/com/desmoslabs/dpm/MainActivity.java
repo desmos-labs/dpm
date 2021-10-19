@@ -1,4 +1,4 @@
-package com.desmosprofilemanager;
+package com.desmoslabs.dpm;
 
 import com.facebook.react.ReactActivity;
 
