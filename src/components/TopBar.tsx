@@ -1,7 +1,7 @@
 import React, {ReactElement} from "react";
 import {makeStyle} from "../theming";
 import {StyleProp, View, ViewStyle} from "react-native";
-import {IconButton} from "react-native-paper";
+import {IconButton} from "./IconButton";
 import {Subtitle} from "./Subtitle";
 
 type ScreenProps = {

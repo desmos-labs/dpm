@@ -1,6 +1,6 @@
 import React from "react";
 import {Text, TouchableOpacity} from "react-native";
-import {IconButton} from "react-native-paper";
+import {IconButton} from "./IconButton";
 import {makeStyle} from "../theming";
 
 export type MenuItemProps = {

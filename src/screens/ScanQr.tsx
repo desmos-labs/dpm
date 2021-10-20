@@ -1,14 +1,13 @@
 import React, {useCallback, useEffect, useState} from "react";
 import {BottomTabScreenProps} from "@react-navigation/bottom-tabs";
 import {AccountScreensStackParams, HomeScreensDrawerParams, HomeScreensBottomTabsParams} from "../types/navigation";
-import {StyledSafeAreaView, TextInput} from "../components";
+import {StyledSafeAreaView, TextInput, IconButton} from "../components";
 import {CompositeScreenProps} from "@react-navigation/native";
 import {DrawerScreenProps} from "@react-navigation/drawer";
 import {StackScreenProps} from "@react-navigation/stack";
 import QRCodeScanner from "react-native-qrcode-scanner";
 import {BarCodeReadEvent} from "react-native-camera";
 import {makeStyle} from "../theming";
-import {IconButton} from "react-native-paper";
 import useWalletConnectPair from "../hooks/useWalletConnectPair";
 import useShowModal from "../hooks/useShowModal";
 import {SingleButtonModal} from "../modals/SingleButtonModal";

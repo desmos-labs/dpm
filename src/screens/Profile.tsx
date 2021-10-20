@@ -1,6 +1,6 @@
-import {StyledSafeAreaView, Button, Divider} from "../components";
+import {StyledSafeAreaView, Button, Divider, IconButton} from "../components";
 import {makeStyle} from "../theming";
-import {IconButton, Snackbar} from "react-native-paper";
+import {Snackbar} from "react-native-paper";
 import {StackScreenProps} from "@react-navigation/stack";
 import {AccountScreensStackParams} from "../types/navigation";
 import React, {useCallback, useMemo, useState} from 'react';
@@ -24,9 +24,12 @@ export default function Profile(props: Props): JSX.Element {
     const [snackBarMessage, setShowSnackbar] = useState<string | null>(null)
 
     const backIcon = useMemo(() => {
-        return <IconButton icon="arrow-left" color="#fff" onPress={() => {
-            navigation.goBack();
-        }}/>
+        return <IconButton
+            icon="arrow-left"
+            color="#fff"
+            onPress={() => {
+                navigation.goBack();
+            }}/>
     }, [navigation]);
 
     const onEditProfile = useCallback(() => {

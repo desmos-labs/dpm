@@ -1,6 +1,8 @@
 import React, {useState} from "react";
 import {TextInput, Props as TextInputProps} from "./TextInput";
-import {IconButton, useTheme} from "react-native-paper";
+import {useTheme} from "react-native-paper";
+import {IconButton} from "./IconButton";
+
 
 
 export const SecureTextInput: React.FC<TextInputProps> = (props) => {

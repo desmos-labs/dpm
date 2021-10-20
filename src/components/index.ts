@@ -21,6 +21,7 @@ import {TopBar} from "./TopBar";
 import {InlineLabeledValue} from "./InlineLabeledValue";
 import {DAppSession} from "./DAppSession";
 import {AccountBalance} from "./AccountBalance";
+import {IconButton} from "./IconButton";
 
 export {
     AccountCard,
@@ -46,4 +47,5 @@ export {
     InlineLabeledValue,
     DAppSession,
     AccountBalance,
+    IconButton
 }

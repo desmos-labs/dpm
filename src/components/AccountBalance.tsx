@@ -1,7 +1,7 @@
 import {Title} from "./Title";
 import {StyleProp, View, ViewStyle} from "react-native";
 import {Paragraph} from "./Paragraph";
-import {IconButton} from "react-native-paper";
+import {IconButton} from "./IconButton";
 import {Button} from "./Button";
 import React from "react";
 import {useTranslation} from "react-i18next";

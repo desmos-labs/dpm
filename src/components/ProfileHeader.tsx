@@ -1,6 +1,6 @@
 import React, {ReactNode, useMemo} from "react";
 import {Image, Text, View} from "react-native";
-import {IconButton} from "react-native-paper";
+import {IconButton} from "./IconButton";
 import {makeStyle} from "../theming";
 import {useTranslation} from "react-i18next";
 import {AvatarImage} from "./AvatarImage";

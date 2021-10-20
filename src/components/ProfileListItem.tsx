@@ -2,10 +2,11 @@ import React, {useMemo, useState} from "react";
 import {ImageSourcePropType, Text, TouchableOpacity, View} from "react-native";
 import {AvatarImage} from "./AvatarImage";
 import {makeStyle} from "../theming";
-import {Menu, IconButton, useTheme} from "react-native-paper";
+import {Menu, useTheme} from "react-native-paper";
 import {useTranslation} from "react-i18next";
 import {MenuItem} from "./MenuItem";
 import {Divider} from "./Divider";
+import {IconButton} from "./IconButton";
 
 export type Props = {
     /**

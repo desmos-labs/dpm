@@ -2,11 +2,10 @@ import React, {useCallback} from "react";
 import {StackScreenProps} from "@react-navigation/stack";
 import {AccountCreationStackParams} from "../../types/navigation";
 import {useTranslation} from "react-i18next";
-import {Button, StyledSafeAreaView} from "../../components";
+import {Button, StyledSafeAreaView, IconButton} from "../../components";
 import {makeStyle} from "../../theming";
 import {Image, View} from "react-native";
 import {FlexPadding} from "../../components/FlexPadding";
-import {IconButton} from "react-native-paper";
 
 
 declare type Props = StackScreenProps<AccountCreationStackParams, "Login">
