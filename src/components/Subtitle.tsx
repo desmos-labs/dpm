@@ -25,7 +25,7 @@ export const Subtitle: React.FC<Props> = (props) => {
     />
 }
 
-const useStyles = makeStyleWithProps((props: Props, _) => ({
+const useStyles = makeStyleWithProps((props: Props, theme) => ({
     subtitle: {
         fontFamily: "SF Pro Text",
         fontSize: props.small ? 14 : 16,
@@ -35,5 +35,6 @@ const useStyles = makeStyleWithProps((props: Props, _) => ({
         lineHeight: 20,
         letterSpacing: 0.005,
         textAlign: "left",
+        color: theme.colors.text,
     },
 }));

@@ -1,20 +1,24 @@
 import React from "react";
 import {Title as MaterialTitle} from "react-native-paper"
-import {StyleProp, StyleSheet, Text, TextStyle} from "react-native";
+import {Text} from "react-native";
+import {makeStyle} from "../theming";
 
-const styles = StyleSheet.create({
+export const Title: React.FC<React.ComponentProps<typeof Text>> = (props) => {
+    const styles = useStyles();
+
+    return <MaterialTitle {...props}
+        style={[styles.title, props.style]}
+    >
+        {props.children}
+    </MaterialTitle>
+}
+
+const useStyles = makeStyle(theme => ({
     title: {
         fontWeight: "700",
         fontSize: 22,
         textTransform: "capitalize",
         fontFamily: "SF Pro Text",
+        color: theme.colors.text,
     }
-})
-
-export const Title: React.FC<React.ComponentProps<typeof Text>> = (props) => {
-    return <MaterialTitle {...props}
-        style={StyleSheet.compose(styles.title as StyleProp<TextStyle>, props.style)}
-    >
-        {props.children}
-    </MaterialTitle>
-}
+}))
