@@ -1,0 +1,35 @@
+fastlane_version '2.53.1'
+
+platform :ios do
+   # iOS Lanes
+end
+
+platform :android do
+  desc "Build the Android application."
+    lane :build do
+      gradle(task: "clean", project_dir: "android/")
+      gradle(
+        task: "assemble",
+        build_type: "Release",
+        print_command: false,
+        project_dir: "android/",
+        properties: {
+          "android.injected.signing.store.file" => ENV["ANDROID_KEYSTORE"],
+          "android.injected.signing.store.password" => ENV["ANDROID_SIGNING_STORE_PASSWORD"],
+          "android.injected.signing.key.alias" => ENV["ANDROID_SIGNING_ALIAS"],
+          "android.injected.signing.key.password" => ENV["ANDROID_SIGNING_KEY_PASSWORD"],
+        }
+      )
+    end
+
+    desc 'Release for internal testing'
+      lane :internal_release_to_play_store do
+        build
+        supply(
+          package_name: 'com.desmoslabs.dpm',
+          track: 'internal',
+          json_key: ENV['PLAYSTORE_JSON_KEY'],
+          apk: 'android/app/build/outputs/apk/release/app-release.apk',
+        )
+      end
+end
