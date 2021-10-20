@@ -1,6 +1,7 @@
 import RNFS from "react-native-fs"
 import {DesmosProfile} from "@desmoslabs/sdk-core";
 import {CachedDesmosProfile} from "../types/chain";
+import {Platform} from "react-native";
 
 /**
  * Checks if the provided uri is a remote http/https resource.
@@ -29,6 +30,19 @@ function getFileExtension(fileUri: string): string | undefined {
         return undefined;
     }
     return fileName.slice(extensionBegin + 1);
+}
+
+/**
+ * Converts an absolute path of a file to a uri that can be used to
+ * read it's content.
+ * @param path - Path of the file of interest.
+ */
+function pathToUri(path: string): string {
+    if (Platform.OS === "android") {
+        return `file://${path}`
+    } else {
+        return path;
+    }
 }
 
 export interface RemoteResourceOverride {
@@ -262,7 +276,7 @@ export class ProfileSource {
                         cacheable: false
                     }).promise;
                 }
-                newProfile.cachedProfilePictureUri = `file://${destFile}`;
+                newProfile.cachedProfilePictureUri = pathToUri(destFile);
             }
             else {
                 newProfile.cachedProfilePictureUri = undefined;
@@ -294,7 +308,7 @@ export class ProfileSource {
                         cacheable: false,
                     }).promise;
                 }
-                newProfile.cachedCoverPictureUri = `file://${destFile}`;
+                newProfile.cachedCoverPictureUri = pathToUri(destFile);
             }
             else {
                 newProfile.cachedCoverPictureUri = undefined;
