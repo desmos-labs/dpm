@@ -104,6 +104,7 @@ const useStyles = makeStyle(_ => ({
         top: 16,
         left: 8,
         elevation: 9,
+        zIndex: 99,
     },
     debugUri: {
         position: "absolute",
