@@ -50,17 +50,34 @@ jobs:
           keyStorePassword: ${{ secrets.ANDROID_SIGNING_STORE_PASSWORD }}
           keyPassword: ${{ secrets.ANDROID_SIGNING_KEY_PASSWORD }}
 
+      - name: "Unpack keystore"
+        run: |
+          cat ${{ secrets.ANDROID_SIGNING_KEY }} | base64 --decode >> /tmp/keystore.jks
+
+      - uses: actions/setup-ruby@v1
+        with:
+          ruby-version: '2.7.2'
+
+      - uses: maierj/fastlane-action@v2.0.1
+        with:
+          lane: 'android build'
+        env:
+          ANDROID_KEYSTORE: /tmp/keystore.jks
+          ANDROID_SIGNING_STORE_PASSWORD: ${{ secrets.ANDROID_SIGNING_STORE_PASSWORD }}
+          ANDROID_SIGNING_ALIAS: ${{ secrets.ANDROID_SIGNING_ALIAS }}
+          ANDROID_SIGNING_KEY_PASSWORD: ${{ secrets.ANDROID_SIGNING_KEY_PASSWORD }}
+
       - name: Upload artifacts 📤
         uses: actions/upload-artifact@v2
         with:
           name: app-release-signed.apk
-          path: ${{steps.sign_app.outputs.signedReleaseFile}}
+          path: android/app/build/outputs/apk/release/app-release.apk
 
       - name: Upload binaries to release
         uses: svenstaro/upload-release-action@v2
         with:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
-          file: ${{steps.sign_app.outputs.signedReleaseFile}}
+          file: android/app/build/outputs/apk/release/app-release.apk
           tag: ${{ github.ref }}
           overwrite: true
           file_glob: true
