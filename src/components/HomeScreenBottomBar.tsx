@@ -1,6 +1,6 @@
 import React from "react";
 import {BottomTabBarProps, BottomTabNavigationOptions} from "@react-navigation/bottom-tabs";
-import {Text, TouchableOpacity, View} from "react-native";
+import {Platform, Text, TouchableOpacity, View} from "react-native";
 import {makeStyle} from "../theming";
 import Colors from "../constants/colors";
 import {TabActions} from "@react-navigation/native";
@@ -48,6 +48,7 @@ const useStyles = makeStyle(theme => ({
         elevation: 9,
         justifyContent: "space-around",
         padding: theme.spacing.s,
+        paddingBottom: Platform.OS === "ios" ? theme.spacing.l : theme.spacing.s,
     },
     btn: {
         alignItems: "center",
