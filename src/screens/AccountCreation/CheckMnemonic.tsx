@@ -60,8 +60,10 @@ export default function CheckMnemonic(props: Props): JSX.Element {
         }
     }
 
-    return <StyledSafeAreaView style={styles.root}>
-        <TopBar stackProps={props} />
+    return <StyledSafeAreaView
+        style={styles.root}
+        topBar={<TopBar stackProps={props} />}
+    >
         <Title>
             {t("confirm recovery passphrase")}
         </Title>
