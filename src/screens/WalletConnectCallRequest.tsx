@@ -13,6 +13,7 @@ import useSignTx from "../hooks/useSignTx";
 import useUnlockWallet from "../hooks/useUnlockWallet";
 import {CosmosMethod} from "../types/jsonRpCosmosc";
 import {useWalletConnectContext} from "../contexts/WalletConnectContext";
+import {StdFee} from "@cosmjs/amino";
 
 export type Props = StackScreenProps<AccountScreensStackParams, "WalletConnectCallRequest">;
 
@@ -33,6 +34,18 @@ export const WalletConnectCallRequest: React.FC<Props> = (props) => {
             return null;
         }
     }, [callRequests])
+
+    const stdFee: StdFee | undefined = useMemo(() => {
+        if (request?.signDoc.authInfo.fee) {
+            const {amount, gasLimit} = request.signDoc.authInfo.fee;
+            return {
+                amount: amount.map(c => ({amount: c.amount, denom: c.denom})),
+                gas: gasLimit.toString()
+            }
+        } else {
+            return undefined
+        }
+    },  [request]);
 
     const onReject = useCallback(() => {
         rejectRequest(request!.sessionId, request!.requestId, "Rejected from the user");
@@ -75,7 +88,7 @@ export const WalletConnectCallRequest: React.FC<Props> = (props) => {
         <TxDetails
             style={styles.txDetails}
             messages={request.signDoc.body.messages}
-            fee={request.signDoc.authInfo.fee}
+            fee={stdFee}
             memo={request.signDoc.body.memo}
         />
         <View

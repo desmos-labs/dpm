@@ -13,5 +13,4 @@ export type CosmosDirectTx = {
 
 export type CosmosTx = CosmosAminoTx | CosmosDirectTx;
 
-
 export type SignedCosmosTx = CosmosTx & {signature: string}

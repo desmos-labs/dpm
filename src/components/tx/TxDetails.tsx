@@ -6,16 +6,11 @@ import Long from "long";
 import {TxMessage} from "./TxMessage";
 import {EncodeObject} from "@cosmjs/proto-signing";
 import {Any} from "cosmjs-types/google/protobuf/any";
-import {Coin} from "cosmjs-types/cosmos/base/v1beta1/coin";
-
-export type TxFee = {
-    amount: Coin[];
-    gasLimit: Long;
-}
+import {StdFee} from "@cosmjs/amino";
 
 export type Props = {
     messages: (EncodeObject | Any)[],
-    fee?: TxFee,
+    fee?: StdFee,
     memo?: string,
     style?: StyleProp<ViewStyle>
 }
