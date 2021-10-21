@@ -73,7 +73,8 @@ const useStyles = makeStyleWithProps((props: Props, theme) => {
             textTransform: "capitalize",
         },
         btnStyle: {
-            borderColor: color
+            borderColor: color,
+            borderWidth: props.mode === "outlined" ? 1 : 0,
         }
     }
 })
