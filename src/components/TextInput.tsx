@@ -4,6 +4,16 @@ import {makeStyleWithProps} from "../theming";
 import {useTheme} from "react-native-paper";
 
 export type Props = Omit<React.ComponentProps<typeof NativeTextInput>, "style"> & {
+    /**
+     * If true highlight the input field to
+     * signal to the user that the current value
+     * is not valid.
+     */
+    error?: boolean,
+    /**
+     * Element to show on the right side of the
+     * input area.
+     */
     rightElement?: React.ReactNode | null,
 
     style?: StyleProp<ViewStyle>,
@@ -31,9 +41,11 @@ const useStyles = makeStyleWithProps((props: Props, theme) => ({
         display: "flex",
         flexDirection: "row",
         backgroundColor: theme.colors.surface,
-        borderRadius: 6,
+        borderRadius: theme.roundness,
         minHeight: 44,
-        alignItems: "center"
+        alignItems: "center",
+        borderColor: props.error ? theme.colors.error : theme.colors.surface,
+        borderWidth: 2
     },
     input: {
         fontFamily: "SF Pro Text",
