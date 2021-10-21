@@ -75,6 +75,7 @@ const useStyles = makeStyleWithProps((props: Props, theme) => {
         btnStyle: {
             borderColor: color,
             borderWidth: props.mode === "outlined" ? 1 : 0,
+            elevation: 0,
         }
     }
 })
