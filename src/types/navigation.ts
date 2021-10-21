@@ -1,6 +1,5 @@
 import {createStackNavigator} from '@react-navigation/stack';
 import {CachedDesmosProfile, ChainAccount} from './chain';
-import {CosmosTx, SignedCosmosTx} from './tx';
 import LocalWallet from "../wallet/LocalWallet";
 import {EncodeObject} from "@cosmjs/proto-signing";
 import {createDrawerNavigator} from "@react-navigation/drawer";
@@ -8,6 +7,7 @@ import React from "react";
 import {StackNavigationProp} from "@react-navigation/stack/lib/typescript/src/types";
 import {createBottomTabNavigator} from "@react-navigation/bottom-tabs";
 import {SessionRequestDetails} from "./walletconnect";
+import {StdFee} from "@cosmjs/amino";
 
 export type AccountCreationStackParams = {
     Login: undefined;
@@ -98,18 +98,12 @@ export type AccountScreensStackParams = {
         sessionRequestDetails: SessionRequestDetails;
     };
     SendToken: undefined
+    ConfirmTx: {
+        messages: EncodeObject[],
+        fee: StdFee
+        memo?: string
+    },
     WalletConnectCallRequest: undefined,
-    SignTx: {
-        address: string;
-        tx: CosmosTx;
-        onSigned: (navigation: any, signedTx: SignedCosmosTx) => void;
-    },
-    BroadcastTx: {
-        signer: ChainAccount,
-        msgs: EncodeObject [],
-        onSuccess: () => void,
-        onCancel: () => void,
-    },
     UnlockWallet: {
         address: string
         resolve: (wallet: LocalWallet | null) => void,

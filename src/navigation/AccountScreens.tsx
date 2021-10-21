@@ -4,11 +4,9 @@ import {
     RootStackParams
 } from "../types/navigation";
 import AuthorizeSession from "../screens/AuthorizeSession";
-import SignTx from "../screens/SignTx";
 import {useTranslation} from "react-i18next";
 import {EditProfile} from "../screens/EditProfile";
 import {UnlockWallet} from "../screens/UnlockWallet";
-import {BroadcastTx} from "../screens/BroadcastTx";
 import {StackScreenProps} from "@react-navigation/stack";
 import {ConfirmProfileEdit} from "../screens/ConfirmProfileEdit";
 import {BiographyEditor} from "../screens/BiographyEditor";
@@ -17,6 +15,7 @@ import useHandleCallRequests from "../hooks/useHandleCallRequests";
 import {HomeScreens} from './HomeScreens';
 import Profile from "../screens/Profile";
 import {SendToken} from "../screens/SendToken";
+import {ConfirmTx} from "../screens/ConfirmTx";
 
 type AccountScreensProps = StackScreenProps<RootStackParams, "AccountScreens">
 
@@ -63,12 +62,8 @@ export default function AccountScreens(_: AccountScreensProps) {
             component={SendToken}
         />
         <AccountScreensStack.Screen
-            name="SignTx"
-            component={SignTx}
-        />
-        <AccountScreensStack.Screen
-            name="BroadcastTx"
-            component={BroadcastTx}
+            name="ConfirmTx"
+            component={ConfirmTx}
         />
         <AccountScreensStack.Screen
             name="UnlockWallet"

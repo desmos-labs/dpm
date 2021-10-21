@@ -91,6 +91,7 @@
   "insert amount": "Insert amount",
   "note (memo)": "Note (Memo)",
   "description (optional)": "Description (optional)",
+  "transaction sent successfully": "Transaction sent successfully",
 
   "accounts": "Accounts",
   "sessions": "Sessions",
