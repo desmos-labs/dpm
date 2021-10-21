@@ -74,8 +74,9 @@ export const WalletConnectCallRequest: React.FC<Props> = (props) => {
     >
         <TxDetails
             style={styles.txDetails}
-            body={request.signDoc.body}
-            authInfo={request.signDoc.authInfo}
+            messages={request.signDoc.body.messages}
+            fee={request.signDoc.authInfo.fee}
+            memo={request.signDoc.body.memo}
         />
         <View
             style={styles.buttonsContainer}
