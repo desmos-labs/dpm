@@ -8,7 +8,7 @@ import {ProfileHeader} from "../components/ProfileHeader";
 import {ScrollView} from "react-native";
 import useUnlockWallet from "../hooks/useUnlockWallet";
 import {useCurrentChainInfo, useDesmosClient} from "@desmoslabs/sdk-react";
-import {DesmosProfile, MsgSaveProfileEncodeObject} from "@desmoslabs/sdk-core";
+import {convertCoin, DesmosProfile, MsgSaveProfileEncodeObject} from "@desmoslabs/sdk-core";
 import {computeTxFees, messagesGas} from "../types/fees";
 import {CompositeScreenProps} from "@react-navigation/native";
 import {SingleButtonModal} from "../modals/SingleButtonModal";
@@ -53,6 +53,11 @@ export const ConfirmProfileEdit: React.FC<Props> = (props) => {
         return computeTxFees(gas, chainInfo.coinDenom).average;
     }, [account.address, bio, chainInfo.coinDenom,
         coverPictureUrl, dtag, nickname, profilePictureUrl])
+
+    const convertedTxFee = useMemo(() => {
+        const converted = convertCoin(txFee.amount[0], 6, chainInfo.denomUnits);
+        return converted !== null ? converted : txFee.amount[0];
+    }, [chainInfo.denomUnits, txFee.amount])
 
     const onConfirm = useCallback(async () => {
         setBroadcastingTx(true);
@@ -161,7 +166,7 @@ export const ConfirmProfileEdit: React.FC<Props> = (props) => {
 
             <LabeledValue
                 label={t("fee")}
-                value={`${txFee.amount[0].amount} ${txFee.amount[0].denom}`}
+                value={`${convertedTxFee.amount} ${convertedTxFee.denom.toUpperCase()}`}
             />
             <Divider/>
         </ScrollView>

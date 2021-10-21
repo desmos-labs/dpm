@@ -1,6 +1,7 @@
 import {useEffect, useState} from "react";
 import {Coin} from "cosmjs-types/cosmos/base/v1beta1/coin";
 import {useCurrentChainInfo, useDesmosClient} from "@desmoslabs/sdk-react";
+import {convertCoin} from "@desmoslabs/sdk-core";
 
 /**
  * Hook to fetches an account balance.
@@ -22,8 +23,13 @@ export default function useFetchUserBalance(address: string) {
             });
             try {
                 await client.connect();
-                const balance = await client.getBalance(address, chainInfo.coinDenom);
-                setUserBalance(balance);
+                const chainBalance = await client.getBalance(address, chainInfo.coinDenom);
+                const balance = convertCoin(chainBalance, 6, chainInfo.denomUnits);
+                if (balance !== null) {
+                    setUserBalance(balance);
+                } else {
+                    setUserBalance(chainBalance);
+                }
             } catch (e) {
                 // Ignore network error and account not present
                 // on the chain

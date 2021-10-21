@@ -1,10 +1,14 @@
 import React from "react";
 import {Title as MaterialTitle} from "react-native-paper"
 import {Text} from "react-native";
-import {makeStyle} from "../theming";
+import {makeStyleWithProps} from "../theming";
 
-export const Title: React.FC<React.ComponentProps<typeof Text>> = (props) => {
-    const styles = useStyles();
+type Props = React.ComponentProps<typeof Text> & {
+    capitalize?: boolean
+}
+
+export const Title: React.FC<Props> = (props) => {
+    const styles = useStyles(props);
 
     return <MaterialTitle {...props}
         style={[styles.title, props.style]}
@@ -13,11 +17,11 @@ export const Title: React.FC<React.ComponentProps<typeof Text>> = (props) => {
     </MaterialTitle>
 }
 
-const useStyles = makeStyle(theme => ({
+const useStyles = makeStyleWithProps((props: Props, theme) =>  ({
     title: {
         fontWeight: "700",
         fontSize: 22,
-        textTransform: "capitalize",
+        textTransform: props.capitalize === false ? "none" : "capitalize",
         fontFamily: "SF Pro Text",
         color: theme.colors.text,
     }

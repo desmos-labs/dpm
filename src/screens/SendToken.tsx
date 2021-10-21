@@ -22,10 +22,12 @@ export const SendToken: React.FC<Props> = (props) => {
     const [address, setAddress] = useState("");
     const [addressInvalid, setAddressInvalid] = useState(false);
     const [amount, setAmount] = useState("");
+    const [amountInvalid, setAmountInvalid] = useState(false);
     const [memo, setMemo] = useState("");
     const userBalance = useFetchUserBalance(currentAccount.address);
     const chainInfo = useCurrentChainInfo();
-    const nextDisabled = addressInvalid || address.length === 0 || amount.length === 0;
+    const nextDisabled = addressInvalid || amountInvalid ||
+        address.length === 0 || amount.length === 0;
 
     const onAddressChange = useCallback((newAddress: string) => {
         setAddress(newAddress);
@@ -33,6 +35,7 @@ export const SendToken: React.FC<Props> = (props) => {
     }, [])
 
     const onAmountChange = useCallback((amount: string) => {
+        setAmountInvalid(isNaN(parseFloat(amount)));
         setAmount(amount);
     }, [])
 
@@ -45,12 +48,14 @@ export const SendToken: React.FC<Props> = (props) => {
     }, [userBalance]);
 
     const onNextPressed = useCallback(() => {
+        const amountNumber = Math.floor(parseFloat(amount) * 1000000);
+
         const msgSend: MsgSendEncodeObject = {
             typeUrl: "/cosmos.bank.v1beta1.MsgSend",
             value: {
                 fromAddress: currentAccount.address,
                 toAddress: address,
-                amount: [{amount: amount, denom: chainInfo.coinDenom}],
+                amount: [{amount: amountNumber.toString(), denom: chainInfo.coinDenom}],
             }
         }
         const gas = messagesGas([msgSend]);
@@ -88,6 +93,7 @@ export const SendToken: React.FC<Props> = (props) => {
             keyboardType="numeric"
             onChangeText={onAmountChange}
             numberOfLines={1}
+            error={amountInvalid}
             rightElement={<Button
                 accent
                 onPress={onMaxPressed}

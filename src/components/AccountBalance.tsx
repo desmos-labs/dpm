@@ -31,7 +31,7 @@ export type Props = {
 export const AccountBalance: React.FC<Props> = (props) => {
     const {t} = useTranslation();
     const styles = useStyles();
-    const userBalance = useFetchUserBalance(props.address);
+    const chainBalance = useFetchUserBalance(props.address);
 
     return <View
         style={[styles.root, props.style]}
@@ -67,8 +67,8 @@ export const AccountBalance: React.FC<Props> = (props) => {
                 <Paragraph>
                     {t("available")}:
                 </Paragraph>
-                <Title>
-                    {userBalance.amount} {userBalance.denom}
+                <Title capitalize={false}>
+                    {chainBalance.amount} {chainBalance.denom.toUpperCase()}
                 </Title>
             </View>
             <Button
