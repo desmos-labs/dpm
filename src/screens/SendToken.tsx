@@ -7,20 +7,29 @@ import {makeStyle} from "../theming";
 import useSelectedAccount from "../hooks/useSelectedAccount";
 import useFetchUserBalance from "../hooks/useFetchUserBalance";
 import {FlexPadding} from "../components/FlexPadding";
+import {MsgSendEncodeObject} from "@desmoslabs/sdk-core";
+import {computeTxFees, messagesGas} from "../types/fees";
+import {useCurrentChainInfo} from "@desmoslabs/sdk-react";
+import {checkDesmosAddress} from "../utilils/validators";
 
 export type Props = StackScreenProps<AccountScreensStackParams, "SendToken">
 
 export const SendToken: React.FC<Props> = (props) => {
+    const {navigation} = props;
     const {t} = useTranslation();
     const styles = useStyle();
     const currentAccount = useSelectedAccount();
     const [address, setAddress] = useState("");
+    const [addressInvalid, setAddressInvalid] = useState(false);
     const [amount, setAmount] = useState("");
     const [memo, setMemo] = useState("");
     const userBalance = useFetchUserBalance(currentAccount.address);
+    const chainInfo = useCurrentChainInfo();
+    const nextDisabled = addressInvalid || address.length === 0 || amount.length === 0;
 
-    const onAddressChange = useCallback((address: string) => {
-        setAddress(address);
+    const onAddressChange = useCallback((newAddress: string) => {
+        setAddress(newAddress);
+        setAddressInvalid(newAddress.length !== 0 && !checkDesmosAddress(newAddress));
     }, [])
 
     const onAmountChange = useCallback((amount: string) => {
@@ -33,7 +42,28 @@ export const SendToken: React.FC<Props> = (props) => {
 
     const onMaxPressed = useCallback(() => {
         setAmount(userBalance.amount);
-    }, [userBalance])
+    }, [userBalance]);
+
+    const onNextPressed = useCallback(() => {
+        const msgSend: MsgSendEncodeObject = {
+            typeUrl: "/cosmos.bank.v1beta1.MsgSend",
+            value: {
+                fromAddress: currentAccount.address,
+                toAddress: address,
+                amount: [{amount: amount, denom: chainInfo.coinDenom}],
+            }
+        }
+        const gas = messagesGas([msgSend]);
+        const txFee = computeTxFees(gas, chainInfo.coinDenom).average;
+
+        navigation.navigate({
+            name: "ConfirmTx",
+            params: {
+                messages: [msgSend],
+                fee: txFee
+            }
+        })
+    }, [address, amount, chainInfo.coinDenom, currentAccount.address, navigation])
 
     return <StyledSafeAreaView
         topBar={<TopBar stackProps={props} title={t("send")} />}
@@ -49,7 +79,7 @@ export const SendToken: React.FC<Props> = (props) => {
             value={address}
             onChangeText={onAddressChange}
             numberOfLines={1}
-            multiline={false}
+            error={addressInvalid}
         />
         <TextInput
             style={styles.topMarginSmall}
@@ -58,7 +88,6 @@ export const SendToken: React.FC<Props> = (props) => {
             keyboardType="numeric"
             onChangeText={onAmountChange}
             numberOfLines={1}
-            multiline={false}
             rightElement={<Button
                 accent
                 onPress={onMaxPressed}
@@ -90,7 +119,8 @@ export const SendToken: React.FC<Props> = (props) => {
 
         <Button
             mode="contained"
-            disabled={address.length === 0 || amount.length === 0}
+            disabled={nextDisabled}
+            onPress={onNextPressed}
         >
             {t("next")}
         </Button>
