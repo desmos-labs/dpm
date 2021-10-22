@@ -31,13 +31,19 @@ export const SendToken: React.FC<Props> = (props) => {
 
     const onAddressChange = useCallback((newAddress: string) => {
         setAddress(newAddress);
-        setAddressInvalid(newAddress.length !== 0 && !checkDesmosAddress(newAddress));
-    }, [])
+        setAddressInvalid(newAddress.length > 0 && !checkDesmosAddress(newAddress));
+    }, []);
 
     const onAmountChange = useCallback((amount: string) => {
-        setAmountInvalid(isNaN(parseFloat(amount)));
+        let isValid = amount.length === 0 || /^[0-9]+(\.)?[0-9]*$/.test(amount);
+        if (isValid && amount.length > 0) {
+            const value = parseFloat(amount);
+            const balance = parseFloat(userBalance.amount);
+            isValid = balance >= value;
+        }
+        setAmountInvalid(!isValid);
         setAmount(amount);
-    }, [])
+    }, [userBalance]);
 
     const onMemoChange = useCallback((memo: string) => {
         setMemo(memo);
