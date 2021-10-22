@@ -1,12 +1,12 @@
+import React from "react";
 import {Title} from "./Title";
-import {StyleProp, View, ViewStyle} from "react-native";
+import {StyleProp, TouchableOpacity, View, ViewStyle, Text} from "react-native";
 import {Paragraph} from "./Paragraph";
 import {IconButton} from "./IconButton";
-import {Button} from "./Button";
-import React from "react";
 import {useTranslation} from "react-i18next";
 import {makeStyle} from "../theming";
 import useFetchUserBalance from "../hooks/useFetchUserBalance";
+
 
 export type Props = {
     /**
@@ -27,6 +27,7 @@ export type Props = {
     onSendPressed?: () => void,
     style?: StyleProp<ViewStyle>,
 }
+
 
 export const AccountBalance: React.FC<Props> = (props) => {
     const {t} = useTranslation();
@@ -71,12 +72,16 @@ export const AccountBalance: React.FC<Props> = (props) => {
                     {chainBalance.amount} {chainBalance.denom.toUpperCase()}
                 </Title>
             </View>
-            <Button
-                mode="contained"
+            <TouchableOpacity
+                style={styles.sendButton}
                 onPress={props.onSendPressed}
             >
-                {t("send")}
-            </Button>
+                <Text
+                    style={styles.sendButtonText}
+                >
+                    {t("send")}
+                </Text>
+            </TouchableOpacity>
         </View>
     </View>
 }
@@ -109,5 +114,20 @@ const useStyles = makeStyle(theme => ({
         display: "flex",
         flexDirection: "column",
         flex: 1,
+    },
+    sendButton: {
+        height: 54,
+        width: 54,
+        borderRadius: 100,
+        backgroundColor: theme.colors.primary,
+        alignItems: "center",
+        justifyContent: "center"
+    },
+    sendButtonText: {
+        color: "#FFF",
+        fontSize: 14,
+        lineHeight: 21,
+        padding: 0,
+        margin: 0,
     }
 }))
