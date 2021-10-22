@@ -92,6 +92,9 @@
   "note (memo)": "Note (Memo)",
   "description (optional)": "Description (optional)",
   "transaction sent successfully": "Transaction sent successfully",
+  "from": "From",
+  "to": "To",
+  "amount": "Amount",
 
   "accounts": "Accounts",
   "sessions": "Sessions",

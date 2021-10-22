@@ -5,6 +5,8 @@ import {toHex} from "@cosmjs/encoding";
 import {EncodeObject} from "@cosmjs/proto-signing";
 import {SaveProfileMessage} from "./SaveProfileMessage";
 import {UnknownTxMessage} from "./UnknownTxMessage";
+import {MessageSend} from "./MessageSend";
+import {MsgSend} from "cosmjs-types/cosmos/bank/v1beta1/tx";
 
 
 export type Props = {
@@ -22,9 +24,16 @@ export const TxMessage: React.FC<Props> = (props) => {
     if (typeUrl.endsWith("MsgSaveProfile")) {
         if (isProtobuf) {
             const msgSaveProfile = MsgSaveProfile.decode(value);
-            return <SaveProfileMessage protobufObject={msgSaveProfile} />
+            return <SaveProfileMessage protobufObject={msgSaveProfile}/>
         } else {
-            return <SaveProfileMessage encodeObject={value} />
+            return <SaveProfileMessage encodeObject={value}/>
+        }
+    } else if (typeUrl.endsWith("MsgSend")) {
+        if (isProtobuf) {
+            const decodedMessage = MsgSend.decode(value);
+            return <MessageSend protobufMessage={decodedMessage}/>
+        } else {
+            return <MessageSend encodeObject={value}/>
         }
     } else {
         return <UnknownTxMessage

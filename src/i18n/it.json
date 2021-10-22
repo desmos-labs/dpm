@@ -80,6 +80,9 @@
   "note (memo)": "Nota (memo)",
   "description (optional)": "Descrizione (Opzionale)",
   "transaction sent successfully": "Transazione inviata con successo",
+  "from": "Da",
+  "to": "A",
+  "amount": "Ammontare",
 
   "accounts": "Account",
   "sessions": "Sessioni",
