@@ -1,4 +1,4 @@
-import React, {useMemo, useState} from "react";
+import React, {useCallback, useMemo, useState} from "react";
 import {StackScreenProps} from "@react-navigation/stack";
 import {AccountCreationStackParams} from "../../types/navigation";
 import {Button, MnemonicWordBadge, StyledSafeAreaView, Title, Subtitle} from "../../components";
@@ -20,18 +20,18 @@ export default function CheckMnemonic(props: Props): JSX.Element {
         return shuffleArray(receivedMnemonic.split(" "), 100);
     }, [receivedMnemonic]);
     const [selectedWords, setSelectedWords] = useState<string[]>([]);
-    const [availableWords, setAvailableWords] = useState<string[]>(words);
+    const [availableWords, setAvailableWords] = useState<string[]>([...words]);
 
-    const onWordSelected = (word: string) => {
+    const onWordSelected = useCallback((word: string) => {
         const removeIndex = availableWords.indexOf(word);
         if (removeIndex >= 0) {
             availableWords.splice(removeIndex, 1);
             setAvailableWords(availableWords);
             setSelectedWords([...selectedWords, word]);
         }
-    }
+    }, [availableWords, selectedWords]);
 
-    const onWordDeselected = (word: string) => {
+    const onWordDeselected = useCallback((word: string) => {
         const removeIndex = selectedWords.indexOf(word);
         setErrorMessage(null);
         if (removeIndex >= 0) {
@@ -39,9 +39,9 @@ export default function CheckMnemonic(props: Props): JSX.Element {
             setSelectedWords(selectedWords);
             setAvailableWords([...availableWords, word]);
         }
-    }
+    }, [availableWords, selectedWords]);
 
-    const onCheckPressed = () => {
+    const onCheckPressed = useCallback(() => {
         if (selectedWords.length !== words.length) {
             setErrorMessage(t("invalid recovery passphrase"));
         }
@@ -58,7 +58,7 @@ export default function CheckMnemonic(props: Props): JSX.Element {
                 setErrorMessage(t("invalid recovery passphrase"));
             }
         }
-    }
+    }, [props.navigation, receivedMnemonic, selectedWords, t, words.length])
 
     return <StyledSafeAreaView
         style={styles.root}
