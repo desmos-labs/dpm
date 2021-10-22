@@ -24,7 +24,7 @@ export const ConfirmTx: React.FC<Props> = (props) => {
     const client = useDesmosClient();
     const unlockWallet = useUnlockWallet();
     const showModal = useShowModal();
-    const [broadcasting, setBroadcasting] = useState(false);
+    const [broadcastingTx, setBroadcastingTx] = useState(false);
     const navigateToHomeScreen = useNavigateToHomeScreen();
 
     const showSuccessModal = useCallback(() => {
@@ -46,8 +46,8 @@ export const ConfirmTx: React.FC<Props> = (props) => {
         })
     }, [showModal, t])
 
-    const broadcastingTx = useCallback(async () => {
-        setBroadcasting(true);
+    const broadcastTx = useCallback(async () => {
+        setBroadcastingTx(true);
         const wallet = await unlockWallet(currentAccount.address);
         if (wallet !== null) {
             try {
@@ -63,7 +63,7 @@ export const ConfirmTx: React.FC<Props> = (props) => {
                 showErrorModal(e.toString())
             }
         }
-        setBroadcasting(false);
+        setBroadcastingTx(false);
     }, [client, currentAccount.address, fee, memo, messages, showErrorModal, showSuccessModal, t, unlockWallet])
 
     return <StyledSafeAreaView
@@ -80,9 +80,9 @@ export const ConfirmTx: React.FC<Props> = (props) => {
         <Button
             style={styles.nextBtn}
             mode="contained"
-            onPress={broadcastingTx}
-            loading={broadcasting}
-            disabled={broadcasting}
+            onPress={broadcastTx}
+            loading={broadcastingTx}
+            disabled={broadcastingTx}
         >
             {!broadcastingTx ? t("confirm") : t("broadcasting tx")}
         </Button>
