@@ -60,10 +60,9 @@ export const PickDerivationPath: React.FC<Props> = (props) => {
         setSelectedHdPath(hdPath);
     }
 
-    const fetchWalletsPage: (pageIndex: number) => Promise<WalletHdPathPair[]> = async pageIndex => {
-        const itemsPerPage = 10;
+    const fetchWallets = useCallback(async (offset: number, limit: number) => {
         let wallets: WalletHdPathPair [] = [];
-        for (let walletIndex = itemsPerPage * pageIndex; wallets.length < itemsPerPage; walletIndex++) {
+        for (let walletIndex = offset; walletIndex < limit; walletIndex++) {
             const hdPath: HdPath = {
                 account: walletIndex,
                 change: 0,
@@ -80,7 +79,7 @@ export const PickDerivationPath: React.FC<Props> = (props) => {
             }
         }
         return wallets;
-    }
+    }, [accountExists, props.route.params.mnemonic]);
 
     const onNextPressed = async () => {
         let wallet: LocalWallet;
@@ -134,7 +133,8 @@ export const PickDerivationPath: React.FC<Props> = (props) => {
 
         <PaginatedFlatList
             style={styles.addressesList}
-            loadPage={fetchWalletsPage}
+            loadPage={fetchWallets}
+            itemsPerPage={20}
             renderItem={renderListItem}
             keyExtractor={listKeyExtractor}
             onEndReachedThreshold={0.5}
