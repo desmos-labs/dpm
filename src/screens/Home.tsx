@@ -150,7 +150,8 @@ const useStyles = makeStyle(theme => ({
     },
     transactionsContainer: {
         backgroundColor: "#F9F9F9",
-        padding: theme.spacing.m,
+        paddingTop: theme.spacing.m,
+        paddingHorizontal: theme.spacing.m,
         borderTopLeftRadius: theme.roundness,
         borderTopRightRadius: theme.roundness,
         marginTop: theme.spacing.l,
