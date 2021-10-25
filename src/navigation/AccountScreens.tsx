@@ -16,6 +16,7 @@ import {HomeScreens} from './HomeScreens';
 import Profile from "../screens/Profile";
 import {SendToken} from "../screens/SendToken";
 import {ConfirmTx} from "../screens/ConfirmTx";
+import {TxDetails} from "../screens/TxDetails";
 
 type AccountScreensProps = StackScreenProps<RootStackParams, "AccountScreens">
 
@@ -64,6 +65,10 @@ export default function AccountScreens(_: AccountScreensProps) {
         <AccountScreensStack.Screen
             name="ConfirmTx"
             component={ConfirmTx}
+        />
+        <AccountScreensStack.Screen
+            name="TxDetails"
+            component={TxDetails}
         />
         <AccountScreensStack.Screen
             name="UnlockWallet"

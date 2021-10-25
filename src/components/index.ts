@@ -23,6 +23,7 @@ import {InlineLabeledValue} from "./InlineLabeledValue";
 import {DAppSession} from "./DAppSession";
 import {AccountBalance} from "./AccountBalance";
 import {IconButton} from "./IconButton";
+import {TransactionsList} from "./tx/list";
 
 export {
     Typography,
@@ -49,5 +50,6 @@ export {
     InlineLabeledValue,
     DAppSession,
     AccountBalance,
-    IconButton
+    IconButton,
+    TransactionsList
 }

@@ -4,7 +4,7 @@ import {CompositeScreenProps} from "@react-navigation/native";
 import {DrawerScreenProps} from "@react-navigation/drawer";
 import {StackScreenProps} from "@react-navigation/stack";
 import React, {useCallback, useMemo, useState} from "react";
-import {AvatarImage, StyledSafeAreaView, TopBar, AccountBalance} from "../components";
+import {AvatarImage, StyledSafeAreaView, TopBar, AccountBalance, TransactionsList, Subtitle} from "../components";
 import useSelectedAccount from "../hooks/useSelectedAccount";
 import {useTranslation} from "react-i18next";
 import useFetchProfile from "../hooks/useFetchProfile";
@@ -13,6 +13,7 @@ import {Image, Text, View} from "react-native";
 import {Snackbar} from "react-native-paper";
 import Clipboard from "@react-native-community/clipboard";
 import {useCurrentChainInfo} from "@desmoslabs/sdk-react";
+import {BroadcastedTx} from "../types/tx";
 
 export type Props = CompositeScreenProps<BottomTabScreenProps<HomeScreensBottomTabsParams, "Home">,
     CompositeScreenProps<DrawerScreenProps<HomeScreensDrawerParams>, StackScreenProps<AccountScreensStackParams>>>;
@@ -54,7 +55,21 @@ export const Home: React.FC<Props> = (props) => {
             name: "SendToken",
             params: undefined
         })
-    }, [props.navigation])
+    }, [props.navigation]);
+
+    const onTxPressed = useCallback((tx: BroadcastedTx) => {
+        navigation.navigate({
+            name: "TxDetails",
+            params: {
+                messages: tx.msgs,
+                fee: tx.fee,
+                memo: tx.memo,
+                success: tx.success,
+                dateTime: new Date(tx.timestamp),
+                hash: tx.hash,
+            }
+        })
+    }, [navigation])
 
     return <StyledSafeAreaView padding={0}>
         {currentChain.chainId !== "desmos-mainnet" && (
@@ -80,6 +95,16 @@ export const Home: React.FC<Props> = (props) => {
             onCopyPress={onAddressCopy}
             onSendPressed={onSendPressed}
         />
+        <View style={styles.transactionsContainer}>
+            <Subtitle capitalize>
+                {t("transactions")}
+            </Subtitle>
+            <TransactionsList
+                style={styles.transactionList}
+                onTxPressed={onTxPressed}
+                chainAccount={account}
+            />
+        </View>
         <Snackbar
             visible={snackBarMessage !== null}
             onDismiss={() => setShowSnackbar(null)}
@@ -103,6 +128,7 @@ const useStyles = makeStyle(theme => ({
         borderBottomLeftRadius: theme.roundness,
         backgroundColor: theme.colors.background,
         zIndex: 999,
+        elevation: 4,
     },
     testnetText: {
         color: theme.colors.primary,
@@ -121,5 +147,16 @@ const useStyles = makeStyle(theme => ({
     },
     userBalance: {
         marginHorizontal: theme.spacing.m,
+    },
+    transactionsContainer: {
+        backgroundColor: "#F9F9F9",
+        padding: theme.spacing.m,
+        borderTopLeftRadius: theme.roundness,
+        borderTopRightRadius: theme.roundness,
+        marginTop: theme.spacing.l,
+        flex: 1,
+    },
+    transactionList: {
+        marginTop: 16,
     }
 }))

@@ -83,6 +83,11 @@
   "from": "Da",
   "to": "A",
   "amount": "Ammontare",
+  "transactions": "Transazioni",
+  "status": "Stato",
+  "time": "Ora",
+  "view on desmos explorer": "visualizza nell'explorer",
+
 
   "accounts": "Account",
   "sessions": "Sessioni",

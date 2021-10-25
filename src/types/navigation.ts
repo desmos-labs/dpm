@@ -103,6 +103,14 @@ export type AccountScreensStackParams = {
         fee: StdFee
         memo?: string
     },
+    TxDetails: {
+        hash: string,
+        messages: EncodeObject[],
+        fee: StdFee,
+        success: boolean,
+        dateTime: Date,
+        memo?: string,
+    },
     WalletConnectCallRequest: undefined,
     UnlockWallet: {
         address: string

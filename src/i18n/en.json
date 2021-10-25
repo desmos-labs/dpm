@@ -95,6 +95,10 @@
   "from": "From",
   "to": "To",
   "amount": "Amount",
+  "transactions": "Transactions",
+  "status": "Status",
+  "time": "Time",
+  "view on desmos explorer": "view on desmos explorer",
 
   "accounts": "Accounts",
   "sessions": "Sessions",
