@@ -1,5 +1,6 @@
 import {CosmosMethod, CosmosSignDocDirect} from './jsonRpCosmosc';
-import {StdSignDoc} from '@cosmjs/amino';
+import {StdFee, StdSignDoc} from '@cosmjs/amino';
+import {EncodeObject} from "@cosmjs/proto-signing";
 
 export type CosmosAminoTx = {
     method: CosmosMethod.SignAmino;
@@ -14,3 +15,13 @@ export type CosmosDirectTx = {
 export type CosmosTx = CosmosAminoTx | CosmosDirectTx;
 
 export type SignedCosmosTx = CosmosTx & {signature: string}
+
+
+export type BroadcastedTx = {
+    hash: string,
+    msgs: EncodeObject[],
+    fee: StdFee,
+    memo: string
+    success: boolean,
+    timestamp: string,
+}

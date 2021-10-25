@@ -11,6 +11,8 @@ import useInitAppState from "./hooks/useInitAppState";
 import {ModalScreen} from "./modals/ModalScreen";
 import {AppStateProvider, useAppContext} from "./contexts/AppContext";
 import {useWalletConnectContext, WalletContextProvider} from "./contexts/WalletConnectContext";
+import {ApolloProvider} from "@apollo/client";
+import useApolloClient from "./graphql/hooks/useApolloClient";
 
 function AppContent(): JSX.Element {
     const appState = useInitAppState();
@@ -78,18 +80,22 @@ function AppContent(): JSX.Element {
 }
 
 export default function App(): JSX.Element {
+    const client = useApolloClient();
+
     //const chainId = __DEV__ ? 'morpheus-apollo-2' : 'desmos-mainnet'
     // Force to testnet for the moment
     const chainId = 'morpheus-apollo-2';
     return (
-        <DesmosSdkProvider chainId={chainId}>
-            <AppStateProvider>
-                <WalletContextProvider>
-                    <PaperProvider theme={AppTheme}>
-                        <AppContent />
-                    </PaperProvider>
-                </WalletContextProvider>
-            </AppStateProvider>
-        </DesmosSdkProvider>
+        <ApolloProvider client={client}>
+            <DesmosSdkProvider chainId={chainId}>
+                <AppStateProvider>
+                    <WalletContextProvider>
+                        <PaperProvider theme={AppTheme}>
+                            <AppContent />
+                        </PaperProvider>
+                    </WalletContextProvider>
+                </AppStateProvider>
+            </DesmosSdkProvider>
+        </ApolloProvider>
     );
 }

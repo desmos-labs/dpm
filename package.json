@@ -11,6 +11,7 @@
     "lint": "eslint . --ext .js,.jsx,.ts,.tsx"
   },
   "dependencies": {
+    "@apollo/client": "3.4.16",
     "@cosmjs/amino": "0.25.6",
     "@cosmjs/crypto": "0.25.6",
     "@cosmjs/encoding": "0.25.6",
@@ -42,6 +43,7 @@
     "dns.js": "1.0.1",
     "domain-browser": "1.2.0",
     "events": "1.1.1",
+    "graphql": "15.6.1",
     "https-browserify": "0.0.1",
     "i18next": "20.6.1",
     "long": "4.0.0",
