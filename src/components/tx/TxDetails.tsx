@@ -9,11 +9,14 @@ import {Any} from "cosmjs-types/google/protobuf/any";
 import {StdFee} from "@cosmjs/amino";
 import {convertCoin} from "@desmoslabs/sdk-core";
 import {useCurrentChainInfo} from "@desmoslabs/sdk-react";
+import {format} from "date-fns";
 
 export type Props = {
     messages: (EncodeObject | Any)[],
     fee?: StdFee,
     memo?: string,
+    success?: boolean,
+    dateTime?: Date
     style?: StyleProp<ViewStyle>
 }
 
@@ -56,6 +59,20 @@ export const TxDetails: React.FC<Props> = (props) => {
             value={txFex}
         />
         <Divider/>
+        {props.dateTime && (<>
+            <LabeledValue
+                label={t("time")}
+                value={format(props.dateTime, "dd MMM yyyy, HH:mm:ss")}
+            />
+            <Divider/>
+        </>)}
+        {props.success && (<>
+            <LabeledValue
+                label={t("status")}
+                value={props.success ? t("success") : t("failure")}
+            />
+            <Divider/>
+        </>)}
         <LabeledValue
             label={t("memo")}
             value={memo}
