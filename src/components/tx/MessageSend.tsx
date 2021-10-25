@@ -40,7 +40,7 @@ export const MessageSend: React.FC<MessageSendProps> = ({protobufMessage, encode
         <View style={styles.txHeader}>
             <Image
                 style={styles.txIcon}
-                source={require("../../assets/send-tx-icon.png")}
+                source={require("../../assets/tx-icons/send.png")}
                 resizeMode="contain"
             />
             <Subtitle
