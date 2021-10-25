@@ -1,4 +1,5 @@
 import AccountCard from "./AccountCard";
+import {Typography} from "./typography";
 import {Button} from "./Button";
 import {StyledSafeAreaView} from "./StyledSafeAreaView";
 import {HdPathPicker} from "./HdPathPicker";
@@ -24,6 +25,7 @@ import {AccountBalance} from "./AccountBalance";
 import {IconButton} from "./IconButton";
 
 export {
+    Typography,
     AccountCard,
     Button,
     StyledSafeAreaView,
