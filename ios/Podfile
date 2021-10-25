@@ -12,6 +12,9 @@ target 'DesmosProfileManager' do
     :hermes_enabled => false
   )
 
+  permissions_path = '../node_modules/react-native-permissions/ios'
+  pod 'Permission-Camera', :path => "#{permissions_path}/Camera"
+
   pod 'react-native-randombytes', :path => '../node_modules/react-native-randombytes'
 
   pod 'RNVectorIcons', :path => '../node_modules/react-native-vector-icons'
