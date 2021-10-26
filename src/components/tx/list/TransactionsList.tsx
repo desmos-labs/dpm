@@ -1,5 +1,6 @@
 import React, {useCallback} from "react";
 import {
+    Image,
     SectionList, SectionListRenderItemInfo,
     StyleProp, TouchableOpacity,
     View, ViewStyle
@@ -14,6 +15,8 @@ import {Paragraph} from "../../Paragraph";
 import {TransactionListMessageItem} from "./TransactionListMessageItem";
 import {makeStyle} from "../../../theming";
 import {BroadcastedTx} from "../../../types/tx";
+import {Typography} from "../../index";
+import {useTranslation} from "react-i18next";
 
 export type Props = {
     chainAccount: ChainAccount,
@@ -24,6 +27,7 @@ export type Props = {
 export const TransactionsList: React.FC<Props> = ({chainAccount, style, onTxPressed}) => {
     const {txs, loading, fetchMore} = useFetchTxsGrouppedByDate(chainAccount);
     const styles = useStyles();
+    const {t} = useTranslation()
 
     const renderItem = useCallback((info: SectionListRenderItemInfo<BroadcastedTx, SectionedTx>) => {
         const begin = info.index === 0;
@@ -51,7 +55,7 @@ export const TransactionsList: React.FC<Props> = ({chainAccount, style, onTxPres
         </View>
     }, [onTxPressed, styles.txMessage])
 
-    return <SectionList
+    return txs.length > 0 || loading ? (<SectionList
         style={style}
         sections={txs}
         stickySectionHeadersEnabled={false}
@@ -75,7 +79,15 @@ export const TransactionsList: React.FC<Props> = ({chainAccount, style, onTxPres
             size="small"
         />}
         ItemSeparatorComponent={Divider}
-    />
+    />) : <View style={styles.noTransactionsView}>
+        <Image
+            style={styles.noTransactionsImage}
+            source={require("../../../assets/no-profile.png")}
+        />
+        <Typography.Body1>
+            {t("no transactions")}
+        </Typography.Body1>
+    </View>
 }
 
 const useStyles = makeStyle(theme => ({
@@ -91,5 +103,15 @@ const useStyles = makeStyle(theme => ({
         backgroundColor: theme.colors.background,
         paddingVertical: 8,
         paddingHorizontal: 8,
+    },
+    noTransactionsView: {
+        display: "flex",
+        flex: 1,
+        alignItems: "center",
+        justifyContent: "center"
+    },
+    noTransactionsImage: {
+        maxWidth: 150,
+        maxHeight: 150,
     }
 }))
