@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {useCallback, useState} from "react";
 import {StackScreenProps} from "@react-navigation/stack";
 import {AccountCreationStackParams} from "../../types/navigation";
 import {checkMnemonic} from "../../wallet/LocalWallet";
@@ -8,6 +8,7 @@ import {useTranslation} from "react-i18next";
 import {EnglishMnemonic} from "@cosmjs/crypto";
 import {FlexPadding} from "../../components/FlexPadding";
 import {TopBar} from "../../components";
+import {Keyboard} from "react-native";
 
 
 declare type Props = StackScreenProps<AccountCreationStackParams, "ImportRecoveryPassphrase">;
@@ -48,6 +49,10 @@ export default function ImportRecoveryPassphrase(props: Props): JSX.Element {
             }
         }
     }
+
+    const closeKeyboard = useCallback(() => {
+        Keyboard.dismiss();
+    }, []);
     
     const useDebugMnemonic = () => {
         setMnemonic("hour harbor fame unaware bunker junk garment decrease federal vicious island smile warrior fame right suit portion skate analyst multiply magnet medal fresh sweet");
@@ -84,7 +89,11 @@ export default function ImportRecoveryPassphrase(props: Props): JSX.Element {
             {errorMessage}
         </Paragraph>}
 
-        <FlexPadding flex={1}/>
+        <FlexPadding
+            flex={1}
+            onPress={closeKeyboard}
+        />
+
         {__DEV__ && <Button
             mode="contained"
             onPress={useDebugMnemonic}

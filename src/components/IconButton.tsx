@@ -7,7 +7,7 @@ type Props = React.ComponentProps<typeof BaseIconButton>
 export const IconButton: React.FC<Props> = (props) => {
     return <BaseIconButton
         {...props}
-        size={props.size}
+        size={props.size ?? 28}
     />
 
 }
