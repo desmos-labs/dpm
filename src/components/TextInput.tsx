@@ -54,6 +54,7 @@ const useStyles = makeStyleWithProps((props: Props, theme) => ({
         textAlignVertical: props.multiline === true ? "top" : "center",
         height: "100%",
         color: theme.colors.text,
+        minHeight: props.numberOfLines !== undefined ? 25 * props.numberOfLines : undefined,
     },
     right: {
         padding: 0,
