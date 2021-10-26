@@ -11,6 +11,7 @@ import {MsgSendEncodeObject} from "@desmoslabs/sdk-core";
 import {computeTxFees, messagesGas} from "../types/fees";
 import {useCurrentChainInfo} from "@desmoslabs/sdk-react";
 import {checkDesmosAddress} from "../utilils/validators";
+import useCloseKeyboard from "../hooks/useCloseKeyboard";
 
 export type Props = StackScreenProps<AccountScreensStackParams, "SendToken">
 
@@ -26,6 +27,7 @@ export const SendToken: React.FC<Props> = (props) => {
     const [memo, setMemo] = useState("");
     const userBalance = useFetchUserBalance(currentAccount.address);
     const chainInfo = useCurrentChainInfo();
+    const closeKeyboard = useCloseKeyboard();
     const nextDisabled = addressInvalid || amountInvalid ||
         address.length === 0 || amount.length === 0;
 
@@ -127,7 +129,10 @@ export const SendToken: React.FC<Props> = (props) => {
             multiline={true}
         />
 
-        <FlexPadding flex={1} />
+        <FlexPadding
+            flex={1}
+            onPress={closeKeyboard}
+        />
 
         <Button
             mode="contained"
