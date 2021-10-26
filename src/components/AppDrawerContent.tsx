@@ -112,7 +112,6 @@ export const AppDrawerContent: React.FC<DrawerContentComponentProps> = (props) =
         <IconButton
             style={styles.settingsBtn}
             icon="cog-outline"
-            size={20}
             onPress={openSettings}
         />
         <Image
