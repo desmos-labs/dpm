@@ -1,4 +1,4 @@
-import React, {useCallback, useState} from "react";
+import React, {useState} from "react";
 import {StackScreenProps} from "@react-navigation/stack";
 import {AccountCreationStackParams} from "../../types/navigation";
 import {checkMnemonic} from "../../wallet/LocalWallet";
@@ -8,7 +8,7 @@ import {useTranslation} from "react-i18next";
 import {EnglishMnemonic} from "@cosmjs/crypto";
 import {FlexPadding} from "../../components/FlexPadding";
 import {TopBar} from "../../components";
-import {Keyboard} from "react-native";
+import useCloseKeyboard from "../../hooks/useCloseKeyboard";
 
 
 declare type Props = StackScreenProps<AccountCreationStackParams, "ImportRecoveryPassphrase">;
@@ -19,6 +19,7 @@ export default function ImportRecoveryPassphrase(props: Props): JSX.Element {
     const {t} = useTranslation();
     const [mnemonic, setMnemonic] = useState<string>("");
     const [errorMessage, setErrorMessage] = useState<string | null>(null);
+    const closeKeyboard = useCloseKeyboard();
 
     const onMnemonicChange = (mnemonic: string) => {
         if (mnemonic.indexOf("\n") === -1) {
@@ -49,10 +50,6 @@ export default function ImportRecoveryPassphrase(props: Props): JSX.Element {
             }
         }
     }
-
-    const closeKeyboard = useCallback(() => {
-        Keyboard.dismiss();
-    }, []);
     
     const useDebugMnemonic = () => {
         setMnemonic("hour harbor fame unaware bunker junk garment decrease federal vicious island smile warrior fame right suit portion skate analyst multiply magnet medal fresh sweet");
