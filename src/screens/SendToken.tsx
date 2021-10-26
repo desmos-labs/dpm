@@ -121,7 +121,7 @@ export const SendToken: React.FC<Props> = (props) => {
             {t("note (memo)")}
         </Subtitle>
         <TextInput
-            style={styles.topMarginSmall}
+            style={[styles.topMarginSmall, styles.memoInput]}
             placeholder={t("description (optional)")}
             value={memo}
             onChangeText={onMemoChange}
@@ -150,5 +150,8 @@ const useStyle = makeStyle(theme => ({
     },
     topMarginSmall: {
         marginTop: theme.spacing.s,
+    },
+    memoInput: {
+        maxHeight: 200,
     }
 }))
