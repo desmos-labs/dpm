@@ -101,6 +101,9 @@
   "time": "Time",
   "view on desmos explorer": "view on desmos explorer",
   "no transactions": "No transactions",
+  "vote proposal number with vote": "Vote proposal #{{number}} with {{vote}}",
+  "delegate": "Delegate",
+  "withdraw rewards": "Withdraw rewards",
 
   "accounts": "Accounts",
   "sessions": "Sessions",

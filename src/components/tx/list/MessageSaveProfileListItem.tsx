@@ -11,11 +11,11 @@ export type Props = {
 }
 
 export const MessageSaveProfileListItem: React.FC<Props> = (props) => {
-    const {encodeObject, date} = props;
+    const {date} = props;
     const {t} = useTranslation();
 
     return <BaseMessageListItem
-        encodeObject={encodeObject}
+        icon={require("../../../assets/tx-icons/general.png")}
         date={date}
         renderContent={() => <View>
             <Typography.Body1>{t("tx type save profile")}</Typography.Body1>

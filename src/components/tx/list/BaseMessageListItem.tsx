@@ -1,39 +1,24 @@
 import React from "react";
-import {Image, View} from "react-native";
+import {Image, ImageProps, View} from "react-native";
 import {makeStyle} from "../../../theming";
 import {format} from "date-fns";
-import {EncodeObject} from "@cosmjs/proto-signing";
 import {Typography} from "../../typography";
-import {MsgTypes} from "../../../types/msgtypes";
 
 export type Props = {
-    encodeObject: EncodeObject,
     date: Date,
+    icon: ImageProps["source"],
     renderContent: () => React.ReactNode,
 }
 
-function msgTypeToIcon(typeUrl: string) {
-    switch (typeUrl) {
-        case MsgTypes.MsgSend:
-            return require("../../../assets/tx-icons/send.png");
-
-        case MsgTypes.MsgSaveProfile:
-            return require("../../../assets/tx-icons/general.png");
-
-        default:
-            return require("../../../assets/tx-icons/general-1.png");
-    }
-}
-
 export const BaseMessageListItem: React.FC<Props> = (props) => {
-    const {encodeObject, date} = props;
+    const {icon, date} = props;
     const styles = useStyles()
 
     return <View style={styles.root}>
         <View>
             <Image
                 style={styles.image}
-                source={msgTypeToIcon(encodeObject.typeUrl)}
+                source={icon}
                 resizeMode="contain"
             />
         </View>

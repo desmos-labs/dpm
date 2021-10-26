@@ -37,7 +37,7 @@ export const MessageSendListItem: React.FC<Props> = (props) => {
     }, [currentChainInfo.denomUnits, props.encodeObject.value.amount])
 
     return <BaseMessageListItem
-        encodeObject={encodeObject}
+        icon={require("../../../assets/tx-icons/send.png")}
         date={date}
         renderContent={() => <View>
             <Typography.Body1>{t("send")} {tokenSent}</Typography.Body1>

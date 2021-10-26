@@ -89,6 +89,9 @@
   "time": "Ora",
   "view on desmos explorer": "visualizza nell'explorer",
   "no transactions": "Nessuna transazione",
+  "vote proposal number with vote": "Votato {{vote}} alla proposta #{{number}}",
+  "delegate": "Delegati",
+  "withdraw rewards": "Ricompense ritirate",
 
   "accounts": "Account",
   "sessions": "Sessioni",

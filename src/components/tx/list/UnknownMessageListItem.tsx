@@ -13,7 +13,7 @@ export const UnknownMessageListItem: React.FC<Props> = (props) => {
     const {encodeObject, date} = props;
 
     return <BaseMessageListItem
-        encodeObject={encodeObject}
+        icon={require("../../../assets/tx-icons/general-1.png")}
         date={date}
         renderContent={() => <View>
             <Typography.Caption>
