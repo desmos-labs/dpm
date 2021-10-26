@@ -20,8 +20,12 @@ export default function ImportRecoveryPassphrase(props: Props): JSX.Element {
     const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
     const onMnemonicChange = (mnemonic: string) => {
-        setMnemonic(mnemonic);
-        setErrorMessage(null);
+        if (mnemonic.indexOf("\n") === -1) {
+            setMnemonic(mnemonic);
+            setErrorMessage(null);
+        } else {
+            onNextPressed();
+        }
     }
 
     const onNextPressed = () => {
@@ -37,7 +41,11 @@ export default function ImportRecoveryPassphrase(props: Props): JSX.Element {
                 return w.length > 0 && EnglishMnemonic.wordlist.indexOf(w) === -1
             }).join(",");
 
-            setErrorMessage(`${t("invalid words")}:\n${invalidWords}`)
+            if (invalidWords.length > 0) {
+                setErrorMessage(`${t("invalid words")}:\n${invalidWords}`)
+            } else {
+                setErrorMessage(t("invalid recovery passphrase"));
+            }
         }
     }
     
@@ -67,7 +75,7 @@ export default function ImportRecoveryPassphrase(props: Props): JSX.Element {
             value={mnemonic}
             multiline={true}
             onChangeText={onMnemonicChange}
-            onSubmitEditing={onNextPressed}
+            autoFocus={true}
         />
 
         {errorMessage !== null && <Paragraph

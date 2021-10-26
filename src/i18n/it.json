@@ -29,6 +29,7 @@
   "confirm recovery passphrase": "Verifica recovery passphrase",
   "select each word in order": "Seleziona le parole nell'ordine in cui ti sono state presentate precedentemente",
   "invalid recovery passphrase": "Recovery passphrase invalida",
+  "invalid words": "Parole invalide",
   "import accounts": "Importa account",
   "please select an account or enter hd derivation path": "Seleziona un account o digita la HD Derivation Path",
   "or": "o",

@@ -33,6 +33,7 @@
   "confirm recovery passphrase": "Confirm recovery passphrase",
   "select each word in order": "Select each in the order it was presented to you",
   "invalid recovery passphrase": "Invalid recovery passphrase",
+  "invalid words": "Invalid words",
   "import accounts": "Import accounts",
   "please select an account or enter hd derivation path": "Please select an account or enter HD Derivation Path",
   "enter HD derivation path": "Enter HD Derivation Path",
