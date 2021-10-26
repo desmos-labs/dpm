@@ -87,7 +87,7 @@ export const ProfileListItem: React.FC<Props> = (props) => {
             anchor={<IconButton
                 icon="dots-vertical"
                 onPress={onMenuOpen}
-                size={18}
+                size={22}
                 color={theme.colors.icon}
             />}
         >
