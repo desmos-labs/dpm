@@ -54,6 +54,7 @@ export const TransactionsList: React.FC<Props> = ({chainAccount, style, onTxPres
     return <SectionList
         style={style}
         sections={txs}
+        stickySectionHeadersEnabled={false}
         renderItem={renderItem}
         renderSectionHeader={info => {
             return <Paragraph style={styles.header}>
