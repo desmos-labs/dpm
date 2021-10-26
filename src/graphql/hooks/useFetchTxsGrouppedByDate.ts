@@ -2,9 +2,18 @@ import {useCallback, useState} from "react";
 import {GqlTransaction, useGetTransactionsByAddressQuery} from "../types";
 import {ChainAccount} from "../../types/chain";
 import {EncodeObject} from "@cosmjs/proto-signing";
-import {MsgSaveProfileEncodeObject, MsgSendEncodeObject} from "@desmoslabs/sdk-core"
+import {
+    MsgDelegateEncodeObject,
+    MsgSaveProfileEncodeObject,
+    MsgSendEncodeObject,
+    MsgVoteEncodeObject,
+    MsgWithdrawDelegatorRewardEncodeObject
+} from "@desmoslabs/sdk-core"
 import {Coin, StdFee} from "@cosmjs/amino";
 import {BroadcastedTx} from "../../types/tx";
+import {MsgTypes} from "../../types/msgtypes";
+import {VoteOption} from "cosmjs-types/cosmos/gov/v1beta1/gov";
+import Long from "long";
 
 const LIMIT = 20;
 
@@ -20,7 +29,7 @@ export type SectionedTx = {
 function gqlMessageToEncodeObject(msg: any): EncodeObject {
     const type = msg["@type"] ?? "Unknown message type";
     switch (type) {
-        case "/cosmos.bank.v1beta1.MsgSend":
+        case MsgTypes.MsgSend:
             return {
                 typeUrl: type,
                 value: {
@@ -29,6 +38,57 @@ function gqlMessageToEncodeObject(msg: any): EncodeObject {
                     fromAddress: msg["from_address"],
                 }
             } as MsgSendEncodeObject
+
+        case MsgTypes.MsgWithdrawDelegatorReward:
+            return {
+                typeUrl: type,
+                value: {
+                    delegatorAddress: msg["delegator_address"],
+                    validatorAddress: msg["validator_address"],
+                }
+            } as MsgWithdrawDelegatorRewardEncodeObject
+
+        case MsgTypes.MsgVote:
+            let voteOption: VoteOption;
+            switch (msg["option"]) {
+                case "VOTE_OPTION_YES":
+                    voteOption = VoteOption.VOTE_OPTION_YES;
+                    break;
+
+                case "VOTE_OPTION_ABSTAIN":
+                    voteOption = VoteOption.VOTE_OPTION_ABSTAIN;
+                    break;
+
+                case "VOTE_OPTION_NO":
+                    voteOption = VoteOption.VOTE_OPTION_NO;
+                    break;
+
+                case "VOTE_OPTION_NO_WITH_VETO":
+                    voteOption = VoteOption.VOTE_OPTION_NO_WITH_VETO;
+                    break;
+
+                default:
+                    voteOption = VoteOption.VOTE_OPTION_UNSPECIFIED;
+                    break;
+            }
+            return {
+                typeUrl: type,
+                value: {
+                    voter: msg["voter"],
+                    option: voteOption,
+                    proposalId: Long.fromString(msg["proposal_id"]),
+                }
+            } as MsgVoteEncodeObject
+
+        case MsgTypes.MsgDelegate:
+            return {
+                typeUrl: type,
+                value: {
+                    amount: msg["amount"],
+                    delegatorAddress: msg["delegator_address"],
+                    validatorAddress: msg["validator_address"],
+                }
+            } as MsgDelegateEncodeObject
 
         default:
             return {

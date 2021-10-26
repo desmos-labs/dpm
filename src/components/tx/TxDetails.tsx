@@ -21,7 +21,7 @@ export type Props = {
 }
 
 export const TxDetails: React.FC<Props> = (props) => {
-    const {memo, messages, fee} = props;
+    const {memo, messages, fee, success, dateTime} = props;
     const {t} = useTranslation();
     const chainInfo = useCurrentChainInfo();
 
@@ -59,23 +59,23 @@ export const TxDetails: React.FC<Props> = (props) => {
             value={txFex}
         />
         <Divider/>
-        {props.dateTime && (<>
+        {dateTime && (<>
             <LabeledValue
                 label={t("time")}
-                value={format(props.dateTime, "dd MMM yyyy, HH:mm:ss")}
+                value={format(dateTime, "dd MMM yyyy, HH:mm:ss")}
             />
             <Divider/>
         </>)}
-        {props.success && (<>
+        {success !== undefined && (<>
             <LabeledValue
                 label={t("status")}
-                value={props.success ? t("success") : t("failure")}
+                value={success ? t("success") : t("fail")}
             />
             <Divider/>
         </>)}
         <LabeledValue
             label={t("memo")}
-            value={memo}
+            value={(memo?.length ?? 0) > 0 ? memo : "N/A"}
         />
         <Divider/>
     </ScrollView>

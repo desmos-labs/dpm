@@ -16,6 +16,8 @@
   "done": "Fatto",
   "yes": "Si",
   "no": "No",
+  "no with veto": "No con veto",
+  "abstain": "Astenuto",
   "grant": "Concedi",
   "deny": "Rifiuta",
   "note": "Nota",
@@ -92,6 +94,8 @@
   "vote proposal number with vote": "Votato {{vote}} alla proposta #{{number}}",
   "delegate": "Delegati",
   "withdraw rewards": "Ricompense ritirate",
+  "vote": "Vote",
+  "proposal number": "Proposal number",
 
   "accounts": "Account",
   "sessions": "Sessioni",
