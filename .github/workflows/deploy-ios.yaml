@@ -15,7 +15,7 @@ jobs:
     name: Deploying to Testflight
     runs-on: macos-latest
     env:
-      working-directory: ./ios # not sure this works, maybe need to remove it later
+      working-directory: ios # not sure this works, maybe need to remove it later
 
     steps:
       - name: Checkout repository
