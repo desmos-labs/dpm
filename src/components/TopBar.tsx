@@ -77,6 +77,7 @@ const useStyles = makeStyle(theme => ({
     containerLeft: {
         alignItems: "flex-start",
         justifyContent: "flex-start",
+        zIndex: 1,
     },
     containerCenter: {
         position: "absolute",
@@ -85,5 +86,6 @@ const useStyles = makeStyle(theme => ({
     },
     containerRight: {
         alignItems: "flex-end",
+        zIndex: 1,
     },
 }))
