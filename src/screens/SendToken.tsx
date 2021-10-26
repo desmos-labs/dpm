@@ -12,6 +12,7 @@ import {computeTxFees, messagesGas} from "../types/fees";
 import {useCurrentChainInfo} from "@desmoslabs/sdk-react";
 import {checkDesmosAddress} from "../utilils/validators";
 import useCloseKeyboard from "../hooks/useCloseKeyboard";
+import {MEMO_MAX_LENGTH} from "../constants/chain";
 
 export type Props = StackScreenProps<AccountScreensStackParams, "SendToken">
 
@@ -126,6 +127,7 @@ export const SendToken: React.FC<Props> = (props) => {
             value={memo}
             onChangeText={onMemoChange}
             numberOfLines={4}
+            maxLength={MEMO_MAX_LENGTH}
             multiline={true}
         />
 
