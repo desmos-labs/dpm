@@ -14,8 +14,6 @@ jobs:
   deploy:
     name: Deploying to Testflight
     runs-on: macos-latest
-    env:
-      working-directory: ios # not sure this works, maybe need to remove it later
 
     steps:
       - name: Checkout repository
@@ -24,7 +22,7 @@ jobs:
       - name: Deploy iOS Beta to TestFlight via Fastlane
         uses: maierj/fastlane-action@v2.1.0
         with:
-          lane: closed_beta
+          lane: ios closed_beta
         env:
           APP_STORE_CONNECT_TEAM_ID: '${{ secrets.APP_STORE_CONNECT_TEAM_ID }}'
           DEVELOPER_APP_ID: '${{ secrets.DEVELOPER_APP_ID }}'
