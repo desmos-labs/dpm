@@ -182,7 +182,7 @@ android {
     }
 
     defaultConfig {
-        applicationId "com.desmoslabs.dpm"
+        applicationId "network.desmos.dpm"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 1
