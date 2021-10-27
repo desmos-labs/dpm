@@ -13,7 +13,7 @@ def getVersionTag(String variant) {
         }
         def longTag = stdout.toString().trim()
 
-        return longTag.substring(longTag.indexOf('/') + 1, longTag.indexOf('-'))
+        return longTag
     } catch (exception) {
         return "v0.0.1"
     }

@@ -105,31 +105,88 @@ end
 ###############################################################
 
 platform :android do
-  desc "Build the Android application."
-    lane :build do
-      gradle(task: "clean", project_dir: "android/")
-      gradle(
-        task: "assemble",
-        build_type: "Release",
-        print_command: false,
-        project_dir: "android/",
-        properties: {
-          "android.injected.signing.store.file" => ENV["ANDROID_KEYSTORE"],
-          "android.injected.signing.store.password" => ENV["ANDROID_SIGNING_STORE_PASSWORD"],
-          "android.injected.signing.key.alias" => ENV["ANDROID_SIGNING_ALIAS"],
-          "android.injected.signing.key.password" => ENV["ANDROID_SIGNING_KEY_PASSWORD"],
-        }
-      )
-    end
+  lane :prepare_keystore do
+    # Expand keystore from enviroment variable
+    sh(
+      command: "rm -f /tmp/keystore.jks && echo $ANDROID_KEYSTORE_BASE64 | base64 --decode >> /tmp/keystore.jks",
+      log: false
+    )
+    # Check keystore integrity
+    sh(
+      command: "md5sum /tmp/keystore.jks"
+    )
 
-    desc 'Release for internal testing'
-      lane :internal_release_to_play_store do
-        build
-        supply(
-          package_name: 'com.desmoslabs.dpm',
-          track: 'internal',
-          json_key: ENV['PLAYSTORE_JSON_KEY'],
-          apk: 'android/app/build/outputs/apk/release/app-release.apk',
-        )
-      end
+    sh(
+        command: "echo '4683f0f906c894411c0b4e0db125b603 /tmp/keystore.jks' | md5sum -c -"
+    )
+  end
+
+  lane :prepare_playstore_key do
+    sh(
+      command: "rm -f /tmp/playstore-key.json && printf '#{ENV["PLAYSTORE_JSON_KEY"]}' | base64 --decode >> /tmp/playstore-key.json",
+      log: false
+    )
+
+    validate_play_store_json_key(
+      json_key: '/tmp/playstore-key.json'
+    )
+  end
+
+  lane :build_apk do
+    # Prepares keystore to sign the application in /tmp/keystore.jks
+    prepare_keystore
+
+    gradle(task: 'clean', project_dir: "android/")
+
+    gradle(
+      task: "assemble",
+      build_type: "Release",
+      print_command: false,
+      project_dir: "android/",
+      properties: {
+        "android.injected.signing.store.file" => "/tmp/keystore.jks",
+        "android.injected.signing.store.password" => ENV["ANDROID_SIGNING_STORE_PASSWORD"],
+        "android.injected.signing.key.alias" => ENV["ANDROID_SIGNING_ALIAS"],
+        "android.injected.signing.key.password" => ENV["ANDROID_SIGNING_KEY_PASSWORD"],
+      }
+    )
+  end
+
+  lane :build_bundle do
+    # Prepares keystore to sign the application in /tmp/keystore.jks
+    prepare_keystore
+
+    gradle(task: 'clean', project_dir: "android/")
+
+    gradle(
+      task: "bundle",
+      build_type: "Release",
+      print_command: false,
+      project_dir: "android/",
+      properties: {
+        "android.injected.signing.store.file" => "/tmp/keystore.jks",
+        "android.injected.signing.store.password" => ENV["ANDROID_SIGNING_STORE_PASSWORD"],
+        "android.injected.signing.key.alias" => ENV["ANDROID_SIGNING_ALIAS"],
+        "android.injected.signing.key.password" => ENV["ANDROID_SIGNING_KEY_PASSWORD"],
+      }
+    )
+  end
+
+  lane :deploy_to_internal_testing do
+    # Build the application bundle
+    build_bundle
+
+    # Prepares the playstore key in /tmp/playstore-key.json
+    prepare_playstore_key
+
+    # Deplsy the bundle to the playstore
+    supply(
+      package_name: 'network.desmos.dpm',
+      track: 'internal',
+      json_key: '/tmp/playstore-key.json',
+      aab: 'android/app/build/outputs/bundle/release/app-release.aab',
+      # Uncomment this line to just upload without publishing
+      # release_status: 'draft',
+    )
+  end
 end
