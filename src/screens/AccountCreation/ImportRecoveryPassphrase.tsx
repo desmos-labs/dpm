@@ -8,7 +8,6 @@ import {useTranslation} from "react-i18next";
 import {EnglishMnemonic} from "@cosmjs/crypto";
 import {FlexPadding} from "../../components/FlexPadding";
 import {TopBar} from "../../components";
-import useCloseKeyboard from "../../hooks/useCloseKeyboard";
 
 
 declare type Props = StackScreenProps<AccountCreationStackParams, "ImportRecoveryPassphrase">;
@@ -19,7 +18,6 @@ export default function ImportRecoveryPassphrase(props: Props): JSX.Element {
     const {t} = useTranslation();
     const [mnemonic, setMnemonic] = useState<string>("");
     const [errorMessage, setErrorMessage] = useState<string | null>(null);
-    const closeKeyboard = useCloseKeyboard();
 
     const onMnemonicChange = (mnemonic: string) => {
         if (mnemonic.indexOf("\n") === -1) {
@@ -86,10 +84,7 @@ export default function ImportRecoveryPassphrase(props: Props): JSX.Element {
             {errorMessage}
         </Paragraph>}
 
-        <FlexPadding
-            flex={1}
-            onPress={closeKeyboard}
-        />
+        <FlexPadding flex={1}/>
 
         {__DEV__ && <Button
             mode="contained"

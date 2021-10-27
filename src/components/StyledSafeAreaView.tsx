@@ -1,7 +1,8 @@
 import React, {ReactElement} from "react";
-import {SafeAreaView, ScrollView, View, ViewProps} from "react-native";
+import {SafeAreaView, ScrollView, TouchableWithoutFeedback, View, ViewProps} from "react-native";
 import {makeStyleWithProps} from "../theming";
 import {Divider} from "./Divider";
+import useCloseKeyboard from "../hooks/useCloseKeyboard";
 
 export type Props = ViewProps & {
     /**
@@ -25,17 +26,20 @@ export type Props = ViewProps & {
 
 export const StyledSafeAreaView: React.FC<Props> = (props) => {
     const styles = useStyles(props);
+    const closeKeyboard = useCloseKeyboard();
 
     return <SafeAreaView style={styles.background}>
         {props.topBar}
         {props.divider && <Divider />}
-        <View style={[styles.content, props.style]}>
-            {props?.scrollable ? (
-                <ScrollView>
-                    {props.children}
-                </ScrollView>
-            ) : props.children }
-        </View>
+        <TouchableWithoutFeedback onPress={closeKeyboard}>
+            <View style={[styles.content, props.style]}>
+                {props?.scrollable ? (
+                    <ScrollView>
+                        {props.children}
+                    </ScrollView>
+                ) : props.children }
+            </View>
+        </TouchableWithoutFeedback>
     </SafeAreaView>
 }
 

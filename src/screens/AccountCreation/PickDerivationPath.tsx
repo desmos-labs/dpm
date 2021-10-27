@@ -191,7 +191,7 @@ export const PickDerivationPath: React.FC<Props> = (props) => {
                 ItemSeparatorComponent={ListItemSeparator}
             />
         ) : (
-            <FlexPadding flex={1} />
+            <FlexPadding flex={1}/>
         )}
         <Button
             style={styles.nextButton}
