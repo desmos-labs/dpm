@@ -70,6 +70,7 @@ const useStyle = makeStyle(theme => ({
         position: "absolute",
         top: theme.spacing.s,
         left: 0,
+        zIndex: 1,
     },
     brandContainer: {
         display: "flex",
