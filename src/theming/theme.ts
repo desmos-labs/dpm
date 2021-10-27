@@ -113,6 +113,7 @@ export const AppTheme: ReactNativePaper.Theme = {
             normal: "#379afe",
             strong: "#1ec490",
             veryStrong: "#1ec490",
-        }
+        },
+        error: '#fd565f'
     },
 };
