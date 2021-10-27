@@ -1,4 +1,4 @@
-import React, {useCallback, useState} from "react";
+import React, {useCallback, useEffect, useState} from "react";
 import {AccountCreationStackParams} from "../../types/navigation";
 import {
     HdPathPicker,
@@ -7,16 +7,17 @@ import {
     Subtitle,
     Divider,
     PaginatedFlatList,
-    AddressListItem, Button, ListItemSeparator
+    AddressListItem, Button, ListItemSeparator, Typography
 } from "../../components";
 import {StackScreenProps} from "@react-navigation/stack";
 import {makeStyle} from "../../theming";
 import {useTranslation} from "react-i18next";
-import {View, Text, ListRenderItemInfo} from "react-native";
+import {View, Text, ListRenderItemInfo, TouchableOpacity} from "react-native";
 import LocalWallet from "../../wallet/LocalWallet";
 import {HdPath} from "../../types/hdpath";
 import useAccountExists from "../../hooks/useAccountExists";
 import {TopBar} from "../../components";
+import {FlexPadding} from "../../components/FlexPadding";
 
 type WalletHdPathPair = {
     wallet: LocalWallet,
@@ -26,15 +27,38 @@ type WalletHdPathPair = {
 export type Props = StackScreenProps<AccountCreationStackParams, "PickDerivationPath">;
 
 export const PickDerivationPath: React.FC<Props> = (props) => {
+    const {mnemonic} = props.route.params;
     const {t} = useTranslation();
     const styles = useStyles();
-    const [selectedWallet, setSelectedWallet] = useState<LocalWallet| null>(null);
     const [selectedHdPath, setSelectedHdPath] = useState<HdPath>({
         account: 0,
         change: 0,
         addressIndex: 0,
     });
+    const [selectedWallet, setSelectedWallet] = useState<LocalWallet| null>(null);
+    const [addressPickerVisible, setAddressPickerVisible] = useState(false);
     const accountExists = useAccountExists();
+
+    useEffect(() => {
+        generateWalletFromHdPath(selectedHdPath);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
+
+    const toggleAddressPicker = useCallback(() => {
+        setAddressPickerVisible(visible => {
+            if (!visible) {
+                // The address picker is is being displayed,
+                // remove the wallet generated from the derivation path.
+                setSelectedWallet(null);
+                setSelectedHdPath({
+                    account: 0,
+                    change: 0,
+                    addressIndex: 0,
+                });
+            }
+            return !visible
+        });
+    }, []);
 
     const renderListItem = useCallback((info: ListRenderItemInfo<WalletHdPathPair>) => {
         const {wallet, hdPath} = info.item;
@@ -51,14 +75,26 @@ export const PickDerivationPath: React.FC<Props> = (props) => {
         />
     }, [selectedWallet]);
 
-    const listKeyExtractor = (item: WalletHdPathPair, _: number) => {
+    const listKeyExtractor = useCallback((item: WalletHdPathPair, _: number) => {
         return item.wallet.bech32Address;
-    }
+    }, []);
 
-    const onHdPathChange = (hdPath: HdPath) => {
+    const generateWalletFromHdPath = useCallback(async (hdPath: HdPath) => {
         setSelectedWallet(null);
+        try {
+            const wallet = await LocalWallet.fromMnemonic(mnemonic, {
+                hdPath: hdPath
+            });
+            setSelectedWallet(wallet);
+        } catch (e) {
+            console.error(e);
+        }
+    }, [mnemonic]);
+
+    const onHdPathChange = useCallback((hdPath: HdPath) => {
         setSelectedHdPath(hdPath);
-    }
+        generateWalletFromHdPath(hdPath);
+    }, [generateWalletFromHdPath]);
 
     const fetchWallets = useCallback(async (offset: number, limit: number) => {
         let wallets: WalletHdPathPair [] = [];
@@ -81,22 +117,16 @@ export const PickDerivationPath: React.FC<Props> = (props) => {
         return wallets;
     }, [accountExists, props.route.params.mnemonic]);
 
-    const onNextPressed = async () => {
-        let wallet: LocalWallet;
-        if (selectedWallet === null) {
-            wallet = await LocalWallet.fromMnemonic(props.route.params.mnemonic, {
-                hdPath: selectedHdPath,
-            });
-        } else {
-            wallet = selectedWallet;
+    const onNextPressed = useCallback(async () => {
+        if (selectedWallet !== null) {
+            props.navigation.navigate({
+                name: "CreateWalletPassword",
+                params: {
+                    wallet: selectedWallet,
+                }
+            })
         }
-        props.navigation.navigate({
-            name: "CreateWalletPassword",
-            params: {
-                wallet,
-            }
-        })
-    }
+    }, [props.navigation, selectedWallet]);
 
     return <StyledSafeAreaView
         style={styles.root}
@@ -111,7 +141,10 @@ export const PickDerivationPath: React.FC<Props> = (props) => {
         </Subtitle>
 
         <Subtitle bold
-            style={styles.hpPathLabel}
+            style={[
+                styles.hpPathLabel,
+                addressPickerVisible ? styles.disabledText : null
+            ]}
         >
             {t("enter HD derivation path")}.
         </Subtitle>
@@ -119,7 +152,16 @@ export const PickDerivationPath: React.FC<Props> = (props) => {
             style={styles.hdPathPicker}
             onChange={onHdPathChange}
             value={selectedHdPath}
+            disabled={addressPickerVisible}
         />
+
+        {!addressPickerVisible && (
+            <Typography.Body style={styles.addressText}>
+                {selectedWallet ?
+                    selectedWallet.bech32Address :
+                    `${t("generating address")}...`}
+            </Typography.Body>
+        )}
 
         <View style={styles.dividerContainer}>
             <Divider style={styles.dividerLine}/>
@@ -127,24 +169,35 @@ export const PickDerivationPath: React.FC<Props> = (props) => {
             <Divider style={styles.dividerLine}/>
         </View>
 
-        <Subtitle style={styles.accountLabel}>
-            {t("select account you want")}
-        </Subtitle>
+        <TouchableOpacity
+            onPress={toggleAddressPicker}
+        >
+            <Subtitle style={[
+                styles.accountLabel,
+                !addressPickerVisible ? styles.accentText : null,
+            ]}>
+                {t("select account you want")}
+            </Subtitle>
+        </TouchableOpacity>
 
-        <PaginatedFlatList
-            style={styles.addressesList}
-            loadPage={fetchWallets}
-            itemsPerPage={20}
-            renderItem={renderListItem}
-            keyExtractor={listKeyExtractor}
-            onEndReachedThreshold={0.5}
-            ItemSeparatorComponent={ListItemSeparator}
-        />
-
+        {addressPickerVisible ? (
+            <PaginatedFlatList
+                style={styles.addressesList}
+                loadPage={fetchWallets}
+                itemsPerPage={20}
+                renderItem={renderListItem}
+                keyExtractor={listKeyExtractor}
+                onEndReachedThreshold={0.5}
+                ItemSeparatorComponent={ListItemSeparator}
+            />
+        ) : (
+            <FlexPadding flex={1} />
+        )}
         <Button
             style={styles.nextButton}
             mode="contained"
             onPress={onNextPressed}
+            disabled={selectedWallet === null}
         >
             {t("next")}
         </Button>
@@ -162,11 +215,14 @@ const useStyles = makeStyle(theme => ({
     hdPathPicker: {
         marginTop: theme.spacing.s,
     },
+    addressText: {
+        marginTop: theme.spacing.m,
+    },
     dividerContainer: {
         display: "flex",
         flexDirection: "row",
         alignItems: "center",
-        marginTop: theme.spacing.l
+        marginTop: theme.spacing.s
     },
     dividerLine: {
         flex: 4,
@@ -186,5 +242,11 @@ const useStyles = makeStyle(theme => ({
     },
     nextButton: {
         marginTop: theme.spacing.m,
+    },
+    disabledText: {
+        color: theme.colors.disabled,
+    },
+    accentText: {
+        color: theme.colors.accent,
     }
 }));

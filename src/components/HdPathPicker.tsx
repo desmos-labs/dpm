@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from "react";
-import {makeStyle} from "../theming";
+import {makeStyleWithProps} from "../theming";
 import {View, Text, StyleProp, ViewStyle, StyleSheet} from "react-native";
 import {HdPath} from "../types/hdpath";
 import {TextInput} from "./TextInput";
@@ -10,6 +10,7 @@ export type Props = {
      */
     onChange?: (path: HdPath) => void,
     value?: HdPath,
+    disabled?: boolean,
     style?: StyleProp<ViewStyle>,
 }
 
@@ -23,7 +24,7 @@ const safeParseInt = (value: string) => {
 }
 
 export const HdPathPicker: React.FC<Props> = (props) => {
-    const classes = useStyle();
+    const styles = useStyle(props);
     const [hdPath, setHdPath] = useState<HdPath>({
         account: 0,
         change: 0,
@@ -65,48 +66,51 @@ export const HdPathPicker: React.FC<Props> = (props) => {
     }
 
     return <View
-        style={StyleSheet.compose(classes.root as StyleProp<ViewStyle>, props.style)}
+        style={StyleSheet.compose(styles.root as StyleProp<ViewStyle>, props.style)}
     >
         <Text
-            style={classes.hdPathText}
+            style={styles.hdPathText}
         >
             m/44'/852'/
         </Text>
         <TextInput
-            style={classes.elements}
-            inputStyle={classes.input}
+            style={styles.elements}
+            inputStyle={styles.input}
             keyboardType="numeric"
             onChangeText={v => onElementChange(v, "account")}
             value={hdPath.account.toString()}
+            editable={props.disabled !== true}
         />
         <Text
-            style={classes.hdPathText}
+            style={styles.hdPathText}
         >
            /
         </Text>
         <TextInput
-            style={classes.elements}
-            inputStyle={classes.input}
+            style={styles.elements}
+            inputStyle={styles.input}
             keyboardType="numeric"
             onChangeText={v => onElementChange(v, "change")}
             value={hdPath.change.toString()}
+            editable={props.disabled !== true}
         />
         <Text
-            style={classes.hdPathText}
+            style={styles.hdPathText}
         >
             /
         </Text>
         <TextInput
-            style={classes.elements}
-            inputStyle={classes.input}
+            style={styles.elements}
+            inputStyle={styles.input}
             keyboardType="numeric"
             onChangeText={v => onElementChange(v, "addressIndex")}
             value={hdPath.addressIndex.toString()}
+            editable={props.disabled !== true}
         />
     </View>
 }
 
-const useStyle = makeStyle(_theme => ({
+const useStyle = makeStyleWithProps((props: Props, theme) => ({
     root: {
         display: "flex",
         flexDirection: "row",
@@ -118,6 +122,7 @@ const useStyle = makeStyle(_theme => ({
     },
     input: {
         textAlignVertical: "center",
+        color: props.disabled ? theme.colors.disabled : theme.colors.text,
     },
     hdPathText: {
         fontFamily: "SF Pro Text",
@@ -127,5 +132,6 @@ const useStyle = makeStyle(_theme => ({
         lineHeight: 20,
         letterSpacing: 0.005,
         textAlign: "left",
+        color: props.disabled ? theme.colors.disabled : theme.colors.text,
     }
 }))

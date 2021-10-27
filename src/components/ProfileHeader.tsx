@@ -2,7 +2,6 @@ import React, {ReactNode, useMemo} from "react";
 import {Image, Text, View} from "react-native";
 import {IconButton} from "./IconButton";
 import {makeStyle} from "../theming";
-import {useTranslation} from "react-i18next";
 import {AvatarImage} from "./AvatarImage";
 
 export type Props = {
@@ -21,7 +20,6 @@ export type Props = {
 export const ProfileHeader: React.FC<Props> = (props) => {
 
     const styles = useStyles();
-    const {t} = useTranslation();
     const {address, dtag, nickname, coverPictureUri, profilePictureUri} = props;
 
     const coverPicture = useMemo(() => {
@@ -79,17 +77,17 @@ export const ProfileHeader: React.FC<Props> = (props) => {
         {props.address && <View style={styles.addressContainer}>
             <Text
                 style={styles.address}
-                lineBreakMode={"tail"}
+                ellipsizeMode="middle"
+                numberOfLines={1}
             >
                 {address}
             </Text>
             <View>
                 <IconButton
                     icon="content-copy"
-                    size={14}
+                    size={20}
                     onPress={props.onCopyPressed}
                 />
-                <Text>{t("copy")}</Text>
             </View>
         </View>}
     </View>
@@ -165,10 +163,9 @@ const useStyles = makeStyle(theme => ({
         flexDirection: "row",
         marginTop: 16,
         marginHorizontal: 32,
-        alignItems: "center"
+        alignItems: "center",
     },
     address: {
         color: theme.colors.text,
-        marginRight: 32,
     },
 }))
