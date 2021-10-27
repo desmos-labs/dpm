@@ -118,6 +118,7 @@ export default function WalletPassword(props: Props): JSX.Element {
             value={password}
             onChangeText={onPasswordChange}
             onSubmitEditing={onContinuePressed}
+            autoFocus={true}
         />
         {isCreatePassword && <Paragraph style={styles.passwordComplexityHint}>
             {t("password complexity hint")}.
