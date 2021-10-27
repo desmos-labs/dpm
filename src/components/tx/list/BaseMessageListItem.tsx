@@ -48,6 +48,6 @@ const useStyles = makeStyle(theme => ({
     },
     date: {
         marginTop: 11,
-        color: "#9d9d9d",
+        color: theme.colors.font["3"],
     }
 }))

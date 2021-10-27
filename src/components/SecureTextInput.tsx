@@ -15,7 +15,7 @@ export const SecureTextInput: React.FC<TextInputProps> = (props) => {
         textAlignVertical="center"
         rightElement={<IconButton
             icon={hideText ? "eye-off-outline" : "eye-outline"}
-            color={theme.colors.icon}
+            color={theme.colors.icon["3"]}
             onPress={() => {
                 setHideText((old) => !old);
             }}/>}

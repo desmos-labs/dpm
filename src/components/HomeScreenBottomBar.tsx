@@ -2,17 +2,18 @@ import React from "react";
 import {BottomTabBarProps, BottomTabNavigationOptions} from "@react-navigation/bottom-tabs";
 import {Platform, Text, TouchableOpacity, View} from "react-native";
 import {makeStyle} from "../theming";
-import Colors from "../constants/colors";
 import {TabActions} from "@react-navigation/native";
+import {useTheme} from "react-native-paper";
 
 export const HomeScreenBottomBar: React.FC<BottomTabBarProps> = (props) => {
     const styles = useStyles();
+    const theme = useTheme();
 
     return <View style={styles.root}>
         {props.state.routes.map((route, index) => {
             const options: BottomTabNavigationOptions = props.descriptors[route.key]["options"];
             const focused = props.state.index === index;
-            const color = focused ? Colors.DesmosOrange : "#ADADAD";
+            const color = focused ? theme.colors.primary : theme.colors.font["3"];
             const size = options.title === undefined ? 32 : 22;
             const textStyle = focused ?
                 [styles.btnText, styles.btnTextSelected] : styles.btnText;
@@ -57,7 +58,7 @@ const useStyles = makeStyle(theme => ({
     btnText: {
         fontSize: 9,
         lineHeight: 11,
-        color: '#9d9d9d',
+        color: theme.colors.font["3"],
         textTransform: "capitalize"
     },
     btnTextSelected: {

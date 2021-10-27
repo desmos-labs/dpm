@@ -16,29 +16,43 @@ declare global {
             veryStrong: string
         }
 
+        interface IconColors {
+            1: string,
+            2: string,
+            3: string,
+            4: string,
+            5: string,
+        }
+
+        interface FontColors {
+            1: string,
+            2: string,
+            3: string,
+            4: string,
+            5: string,
+            red: string,
+        }
+
         interface ThemeColors {
+            background2: string,
             /**
-             * Color used for the icons.
+             * Profile default
              */
-            icon: string,
+            background3: string,
+            popupBackground: string,
+            surface2: string,
+            popupSurface: string,
             /**
              * Color used for the lines like borders.
              */
             line: string,
-            /**
-             * Color used for the buttons with mode = contained
-             */
-            buttonText: string;
-            /**
-             * Color used for the elements present in the
-             * app bar.
-             */
-            appBarContent: string;
+            icon: IconColors,
+            font: FontColors
             /**
              * Colors used to provide to the user a feedback about the
              * complexity of a password.
              */
-            passwordComplexity: ComplexityHintColors
+            passwordComplexity: ComplexityHintColors,
         }
 
         interface Spacing {
@@ -69,14 +83,31 @@ export const AppTheme: ReactNativePaper.Theme = {
     roundness: 8,
     colors: {
         ...DefaultTheme.colors,
-        background: '#ffffff',
         primary: Colors.DesmosOrange,
         accent: Colors.DesmosBlue,
-        surface: '#f5f5f5',
+        background: '#ffffff',
+        background2: '#f9f9f9',
+        background3: '#dfdfdf',
+        popupBackground: 'rgba(0, 0, 0, 0.6)',
+        surface: '#f9f9f9',
+        surface2: '#ffffff',
+        popupSurface: '#ffffff',
         line: '#e8e8e8',
-        icon: '#afafaf',
-        buttonText: '#ffffff',
-        appBarContent: '#ffffff',
+        icon: {
+            1: '#0b0b0b',
+            2: '#3d3d3d',
+            3: '#afafaf',
+            4: '#dbdbde',
+            5: '#ffffff',
+        },
+        font: {
+            1: '#0b0b0b',
+            2: '#3d3d3d',
+            3: '#9d9d9d',
+            4: '#379afe',
+            5: '#ffffff',
+            red: '#fd565f',
+        },
         passwordComplexity: {
             weak: "#ecb140",
             normal: "#379afe",

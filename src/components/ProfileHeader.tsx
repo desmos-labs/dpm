@@ -3,6 +3,7 @@ import {Image, Text, View} from "react-native";
 import {IconButton} from "./IconButton";
 import {makeStyle} from "../theming";
 import {AvatarImage} from "./AvatarImage";
+import {useTheme} from "react-native-paper";
 
 export type Props = {
     address?: string,
@@ -18,7 +19,7 @@ export type Props = {
 }
 
 export const ProfileHeader: React.FC<Props> = (props) => {
-
+    const theme = useTheme();
     const styles = useStyles();
     const {address, dtag, nickname, coverPictureUri, profilePictureUri} = props;
 
@@ -52,7 +53,7 @@ export const ProfileHeader: React.FC<Props> = (props) => {
             {props.onEditCoverPicture && <IconButton
                 icon="camera-outline"
                 size={20}
-                color="#fff"
+                color={theme.colors.icon["5"]}
                 onPress={props.onEditCoverPicture}
                 style={styles.editCoverPictureBtn}
             />}
@@ -65,7 +66,7 @@ export const ProfileHeader: React.FC<Props> = (props) => {
             {props.onEditProfilePicture && <IconButton
                 icon="camera-outline"
                 size={20}
-                color="#fff"
+                color={theme.colors.icon["5"]}
                 onPress={props.onEditProfilePicture}
                 style={styles.editProfilePictureBtn}
             />}
@@ -125,7 +126,7 @@ const useStyles = makeStyle(theme => ({
         position: "absolute",
         bottom: 8,
         right: 8,
-        backgroundColor: '#7a7a7a',
+        backgroundColor: 'rgba(0, 0, 0, 0.6)',
         padding: 2,
     },
     profilePictureContainer: {
@@ -138,7 +139,7 @@ const useStyles = makeStyle(theme => ({
         position: "absolute",
         bottom: -10,
         right: -10,
-        backgroundColor: '#7a7a7a',
+        backgroundColor: 'rgba(0, 0, 0, 0.6)',
         padding: 2,
     },
     nickName: {

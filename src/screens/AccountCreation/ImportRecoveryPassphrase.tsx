@@ -122,6 +122,6 @@ const useStyles = makeStyle(theme => ({
     },
     errorParagraph: {
         marginBottom: theme.spacing.s,
-        color: theme.colors.error,
+        color: theme.colors.font.red,
     },
 }))

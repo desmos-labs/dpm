@@ -183,10 +183,10 @@ export default function AuthorizeSession(props: Props) {
 
 const useStyles = makeStyle(theme => ({
     root: {
-        backgroundColor: "#E5E5E5",
+        backgroundColor: theme.colors.background2,
     },
     topBar: {
-        backgroundColor: "#E5E5E5",
+        backgroundColor: theme.colors.background2,
     },
     dappDetails: {
         display: "flex",

@@ -133,9 +133,9 @@ export const Authorization: React.FC<Props> = (props) => {
     </StyledSafeAreaView>
 }
 
-const useStyles = makeStyle(_ => ({
+const useStyles = makeStyle(theme => ({
     background: {
-        backgroundColor: "#e5e5e5"
+        backgroundColor: theme.colors.background2
     },
     avatarImage: {
         right: 16,

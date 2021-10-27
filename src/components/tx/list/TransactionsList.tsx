@@ -93,7 +93,7 @@ export const TransactionsList: React.FC<Props> = ({chainAccount, style, onTxPres
 const useStyles = makeStyle(theme => ({
     header: {
         paddingBottom: 8,
-        color: "#3d3d3d",
+        color: theme.colors.font["2"],
         textTransform: "capitalize"
     },
     footer: {

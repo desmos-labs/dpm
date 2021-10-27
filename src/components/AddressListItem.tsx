@@ -57,10 +57,10 @@ const useStyles = (selected?: boolean) => {
             marginRight: 40
         },
         number: {
-            color: selected ? theme.colors.buttonText : theme.colors.text,
+            color: selected ? theme.colors.font["5"] : theme.colors.text,
         },
         address: {
-            color: selected ? theme.colors.buttonText : theme.colors.text,
+            color: selected ? theme.colors.font["5"] : theme.colors.text,
             marginLeft: 24,
         }
     }))();

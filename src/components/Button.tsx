@@ -69,7 +69,7 @@ const useStyles = makeStyleWithProps((props: Props, theme) => {
 
     return {
         labelStyle: {
-            color: props.mode === "contained" ? theme.colors.buttonText : color,
+            color: props.mode === "contained" ? theme.colors.font["5"] : color,
             textTransform: "capitalize",
         },
         btnStyle: {

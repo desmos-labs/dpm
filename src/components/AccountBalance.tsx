@@ -56,7 +56,7 @@ export const AccountBalance: React.FC<Props> = (props) => {
                 icon="content-copy"
                 size={16}
                 onPress={props.onCopyPress}
-                color="#ffffff"
+                color="#c4c4c4"
             />
         </View>
         <View
@@ -91,7 +91,7 @@ const useStyles = makeStyle(theme => ({
 
     },
     text: {
-        color: "#ffffff",
+        color: theme.colors.font["5"],
     },
     addressContainer: {
         display: "flex",
@@ -124,7 +124,7 @@ const useStyles = makeStyle(theme => ({
         justifyContent: "center"
     },
     sendButtonText: {
-        color: "#FFF",
+        color: theme.colors.font["5"],
         fontSize: 14,
         lineHeight: 21,
         padding: 0,

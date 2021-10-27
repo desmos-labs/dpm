@@ -26,7 +26,7 @@ export type Props = ViewProps & {
 export const StyledSafeAreaView: React.FC<Props> = (props) => {
     const styles = useStyles(props);
 
-    return <SafeAreaView style={styles.root}>
+    return <SafeAreaView style={styles.background}>
         {props.topBar}
         {props.divider && <Divider />}
         <View style={[styles.content, props.style]}>
@@ -40,7 +40,7 @@ export const StyledSafeAreaView: React.FC<Props> = (props) => {
 }
 
 const useStyles = makeStyleWithProps((props: Props, theme) =>({
-    root: {
+    background: {
         display: "flex",
         flexDirection: "column",
         flexGrow: 1,
@@ -50,6 +50,6 @@ const useStyles = makeStyleWithProps((props: Props, theme) =>({
         flexDirection: "column",
         flexGrow: 1,
         padding: props?.padding ?? theme.spacing.m,
-        backgroundColor: "#ffffff"
+        backgroundColor: theme.colors.background,
     }
 }));

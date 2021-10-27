@@ -21,14 +21,14 @@ export const ModalScreen: React.FC<Props> = (props) => {
 const useStyles = makeStyle(theme => ({
     root: {
         flexGrow: 1,
-        backgroundColor: "rgba(0, 0, 0, 0.6)",
+        backgroundColor: theme.colors.popupBackground,
         display: "flex",
         flexDirection: "column",
         justifyContent: "center",
         alignItems: "center"
     },
     content: {
-        backgroundColor: "#fff",
+        backgroundColor: theme.colors.popupSurface,
         elevation: 4,
         borderRadius: theme.roundness,
         padding: theme.spacing.l,

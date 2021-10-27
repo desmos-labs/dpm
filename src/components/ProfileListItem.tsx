@@ -88,7 +88,7 @@ export const ProfileListItem: React.FC<Props> = (props) => {
                 icon="dots-vertical"
                 onPress={onMenuOpen}
                 size={22}
-                color={theme.colors.icon}
+                color={theme.colors.icon["3"]}
             />}
         >
             {props.onEdit && <MenuItem

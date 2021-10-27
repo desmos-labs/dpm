@@ -10,7 +10,7 @@ import {useTranslation} from "react-i18next";
 import useFetchProfile from "../hooks/useFetchProfile";
 import {makeStyle} from "../theming";
 import {Image, Text, View} from "react-native";
-import {Snackbar} from "react-native-paper";
+import {Snackbar, useTheme} from "react-native-paper";
 import Clipboard from "@react-native-community/clipboard";
 import {useCurrentChainInfo} from "@desmoslabs/sdk-react";
 import {BroadcastedTx} from "../types/tx";
@@ -22,6 +22,7 @@ export const Home: React.FC<Props> = (props) => {
     const {navigation} = props;
     const account = useSelectedAccount();
     const {t} = useTranslation();
+    const theme = useTheme();
     const styles = useStyles();
     const profile = useFetchProfile(account.address);
     const [snackBarMessage, setShowSnackbar] = useState<string | null>(null);
@@ -84,7 +85,7 @@ export const Home: React.FC<Props> = (props) => {
         />
         <TopBar
             style={styles.topBar}
-            leftIconColor="#ffffff"
+            leftIconColor={theme.colors.icon["5"]}
             stackProps={props}
             rightElement={profilePicture}
         />
@@ -149,7 +150,7 @@ const useStyles = makeStyle(theme => ({
         marginHorizontal: theme.spacing.m,
     },
     transactionsContainer: {
-        backgroundColor: "#F9F9F9",
+        backgroundColor: theme.colors.background2,
         paddingTop: theme.spacing.m,
         paddingHorizontal: theme.spacing.m,
         borderTopLeftRadius: theme.roundness,

@@ -1,6 +1,6 @@
 import {StyledSafeAreaView, Button, Divider, IconButton} from "../components";
 import {makeStyle} from "../theming";
-import {Snackbar} from "react-native-paper";
+import {Snackbar, useTheme} from "react-native-paper";
 import {StackScreenProps} from "@react-navigation/stack";
 import {AccountScreensStackParams} from "../types/navigation";
 import React, {useCallback, useMemo, useState} from 'react';
@@ -20,17 +20,18 @@ export default function Profile(props: Props): JSX.Element {
     const account = useSelectedAccount();
     const {t} = useTranslation();
     const styles = useStyles();
+    const theme = useTheme();
     const profile = useFetchProfile(account.address);
     const [snackBarMessage, setShowSnackbar] = useState<string | null>(null)
 
     const backIcon = useMemo(() => {
         return <IconButton
             icon="arrow-left"
-            color="#fff"
+            color={theme.colors.icon["5"]}
             onPress={() => {
                 navigation.goBack();
             }}/>
-    }, [navigation]);
+    }, [navigation, theme]);
 
     const onEditProfile = useCallback(() => {
         navigation.navigate({
@@ -45,10 +46,10 @@ export default function Profile(props: Props): JSX.Element {
     const editProfileButton = useMemo(() => {
         return profile ? (<IconButton
             icon="pencil"
-            color="#fff"
+            color={theme.colors.icon["5"]}
             onPress={onEditProfile}
         />) : undefined;
-    }, [onEditProfile, profile])
+    }, [onEditProfile, profile, theme])
 
     const onCreateProfile = useCallback(() => {
         navigation.navigate({

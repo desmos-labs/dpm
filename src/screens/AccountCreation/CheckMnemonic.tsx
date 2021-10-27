@@ -118,7 +118,7 @@ const useStyles = makeStyle(theme => ({
         borderStyle: "solid",
         borderWidth: 1,
         borderRadius: theme.roundness,
-        borderColor: "#E8E8E8",
+        borderColor: theme.colors.surface,
         flexGrow: 1,
         maxHeight: "50%",
     },

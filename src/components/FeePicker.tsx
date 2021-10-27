@@ -61,7 +61,7 @@ const useStyles = makeStyle(theme => ({
         color: theme.colors.text,
     },
     selectedOptionTypography: {
-        color: theme.colors.buttonText,
+        color: theme.colors.font["5"],
     },
 }))
 

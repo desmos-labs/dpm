@@ -247,6 +247,6 @@ const useStyles = makeStyle(theme => ({
         color: theme.colors.disabled,
     },
     accentText: {
-        color: theme.colors.accent,
+        color: theme.colors.font["4"],
     }
 }));

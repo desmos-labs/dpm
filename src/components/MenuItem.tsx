@@ -51,6 +51,6 @@ const useStyles = makeStyle(theme => ({
     },
     text: {
         marginLeft: 8,
-        color: theme.colors.text,
+        color: theme.colors.font["1"],
     }
 }));
