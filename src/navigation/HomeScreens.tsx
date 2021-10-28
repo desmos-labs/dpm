@@ -53,7 +53,7 @@ const HomeScreenBottomTabScreens: React.FC = () => {
                         require("../assets/profile-button.png");
                     return <Image
                         style={{width: size, height: size}}
-                        resizeMode={"center"}
+                        resizeMode={"contain"}
                         source={image}
                     />
                 }
@@ -66,7 +66,7 @@ const HomeScreenBottomTabScreens: React.FC = () => {
                 tabBarIcon: ({size}) => (
                     <Image
                         style={{width: size, height: size}}
-                        resizeMode={"cover"}
+                        resizeMode={"contain"}
                         source={require("../assets/scan-qr-button.png")}
                     />
                 ),
@@ -83,7 +83,7 @@ const HomeScreenBottomTabScreens: React.FC = () => {
                         require("../assets/authorizaion-button.png")
                     return <Image
                         style={{width: size, height: size}}
-                        resizeMode={"center"}
+                        resizeMode={"contain"}
                         source={image}
                     />
                 }
