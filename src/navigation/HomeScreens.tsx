@@ -3,6 +3,7 @@ import {AccountScreensStackParams, HomeScreensDrawer, HomeScreensBottomTabs} fro
 import {Authorization} from "../screens/Authorization";
 import {ScanQr} from "../screens/ScanQr";
 import {HomeScreenBottomBar} from "../components/HomeScreenBottomBar";
+import {DesmosIcon} from "../components";
 import {Image} from "react-native";
 import {useTranslation} from "react-i18next";
 import {StackScreenProps} from "@react-navigation/stack";
@@ -47,14 +48,11 @@ const HomeScreenBottomTabScreens: React.FC = () => {
             component={Home}
             options={{
                 title: t("profile"),
-                tabBarIcon: ({focused, size}) => {
-                    const image = focused ?
-                        require("../assets/profile-button-selected.png") :
-                        require("../assets/profile-button.png");
-                    return <Image
-                        style={{width: size, height: size}}
-                        resizeMode={"contain"}
-                        source={image}
+                tabBarIcon: ({color, size}) => {
+                    return <DesmosIcon
+                        name="profile"
+                        size={size}
+                        color={color}
                     />
                 }
             }}
@@ -77,14 +75,11 @@ const HomeScreenBottomTabScreens: React.FC = () => {
             component={Authorization}
             options={{
                 title: t("authorization"),
-                tabBarIcon: ({focused, size}) => {
-                    const image = focused ?
-                        require("../assets/authorizaion-button-selected.png") :
-                        require("../assets/authorizaion-button.png")
-                    return <Image
-                        style={{width: size, height: size}}
-                        resizeMode={"contain"}
-                        source={image}
+                tabBarIcon: ({color,  size}) => {
+                    return <DesmosIcon
+                        name="authorization"
+                        size={size}
+                        color={color}
                     />
                 }
             }}

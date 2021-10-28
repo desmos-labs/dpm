@@ -85,14 +85,14 @@ export const ProfileListItem: React.FC<Props> = (props) => {
             visible={menuVisible}
             onDismiss={onMenuDismiss}
             anchor={<IconButton
-                icon="dots-vertical"
+                icon="more"
                 onPress={onMenuOpen}
                 size={22}
                 color={theme.colors.icon["3"]}
             />}
         >
             {props.onEdit && <MenuItem
-                icon="pencil"
+                icon="edit"
                 text={t("edit profile")}
                 onPress={() => {
                     setMenuVisible(false);
@@ -101,7 +101,7 @@ export const ProfileListItem: React.FC<Props> = (props) => {
             />}
             {props.onEdit && props.onDelete && <Divider style={styles.menuDivider}/>}
             {props.onDelete && <MenuItem
-                icon="delete-outline"
+                icon="delete"
                 text={t("delete account")}
                 onPress={() => {
                     setMenuVisible(false);

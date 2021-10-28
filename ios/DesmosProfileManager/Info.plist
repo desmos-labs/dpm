@@ -40,7 +40,7 @@
 	<key>NSFaceIDUsageDescription</key>
 	<string>Protect user keys</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string></string>
+	<string/>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>DPM would like to access your camera roll to fetch profile pictures</string>
 	<key>UIAppFonts</key>
@@ -79,6 +79,7 @@
 		<string>SF-Pro-Text-ThinItalic.otf</string>
 		<string>SF-Pro-Text-Ultralight.otf</string>
 		<string>SF-Pro-Text-UltralightItalic.otf</string>
+		<string>desmos.ttf</string>
 	</array>
 	<key>UILaunchStoryboardName</key>
 	<string>LaunchScreen</string>

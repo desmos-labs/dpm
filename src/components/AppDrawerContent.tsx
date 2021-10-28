@@ -111,7 +111,7 @@ export const AppDrawerContent: React.FC<DrawerContentComponentProps> = (props) =
     return <StyledSafeAreaView>
         <IconButton
             style={styles.settingsBtn}
-            icon="cog-outline"
+            icon="settings"
             onPress={openSettings}
         />
         <Image

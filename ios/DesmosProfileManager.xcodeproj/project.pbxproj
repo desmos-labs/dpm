@@ -36,6 +36,7 @@
 		F2FA814145E7ADFE9267351E /* libPods-DesmosProfileManager.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 306AEECA0B58C9F8022AB368 /* libPods-DesmosProfileManager.a */; };
 		F8BFCB35B18442F198508332 /* SF-Pro-Text-LightItalic.otf in Resources */ = {isa = PBXBuildFile; fileRef = 8B54C96DCB30412DA86B36D1 /* SF-Pro-Text-LightItalic.otf */; };
 		FC978F2B9D8E4AF3A87D4423 /* SF-Pro-Text-HeavyItalic.otf in Resources */ = {isa = PBXBuildFile; fileRef = 38CC69FADDAF49C7BE8AF60E /* SF-Pro-Text-HeavyItalic.otf */; };
+		0886D6E1AC51494CB60C05A2 /* desmos.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F46470D4008B41079D9374EF /* desmos.ttf */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -117,6 +118,7 @@
 		F4ACCAF0BDA95CC09DB6D308 /* Pods-DesmosProfileManager-DesmosProfileManagerTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DesmosProfileManager-DesmosProfileManagerTests.debug.xcconfig"; path = "Target Support Files/Pods-DesmosProfileManager-DesmosProfileManagerTests/Pods-DesmosProfileManager-DesmosProfileManagerTests.debug.xcconfig"; sourceTree = "<group>"; };
 		F4CCEB3A72DFECF367E2CC5D /* Pods-RCTCryptoUtilsTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RCTCryptoUtilsTests.debug.xcconfig"; path = "Target Support Files/Pods-RCTCryptoUtilsTests/Pods-RCTCryptoUtilsTests.debug.xcconfig"; sourceTree = "<group>"; };
 		FBC25241171DC577552836CC /* Pods-DesmosProfileManager-RCTCryptoUtilsTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DesmosProfileManager-RCTCryptoUtilsTests.debug.xcconfig"; path = "Target Support Files/Pods-DesmosProfileManager-RCTCryptoUtilsTests/Pods-DesmosProfileManager-RCTCryptoUtilsTests.debug.xcconfig"; sourceTree = "<group>"; };
+		F46470D4008B41079D9374EF /* desmos.ttf */ = {isa = PBXFileReference; name = "desmos.ttf"; path = "../assets/fonts/desmos.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -285,6 +287,7 @@
 				2E9171E747884E51A23D6617 /* SF-Pro-Text-ThinItalic.otf */,
 				57915FE2CEA94BF4A96A955C /* SF-Pro-Text-Ultralight.otf */,
 				EB8F4F2B841A4B51BB2E861C /* SF-Pro-Text-UltralightItalic.otf */,
+				F46470D4008B41079D9374EF /* desmos.ttf */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
@@ -430,6 +433,7 @@
 				C474AE2A5C0748F38BF5F6CA /* SF-Pro-Text-ThinItalic.otf in Resources */,
 				B5A3E7B0A8994F1289BF4AA9 /* SF-Pro-Text-Ultralight.otf in Resources */,
 				AF7B186BB16B4918BF2C2CA7 /* SF-Pro-Text-UltralightItalic.otf in Resources */,
+				0886D6E1AC51494CB60C05A2 /* desmos.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

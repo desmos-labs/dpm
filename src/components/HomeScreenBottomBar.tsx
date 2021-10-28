@@ -14,7 +14,7 @@ export const HomeScreenBottomBar: React.FC<BottomTabBarProps> = (props) => {
             const options: BottomTabNavigationOptions = props.descriptors[route.key]["options"];
             const focused = props.state.index === index;
             const color = focused ? theme.colors.primary : theme.colors.font["3"];
-            const size = options.title === undefined ? 36 : 26;
+            const size = options.title === undefined ? 36 : 32;
             const textStyle = focused ?
                 [styles.btnText, styles.btnTextSelected] : styles.btnText;
 

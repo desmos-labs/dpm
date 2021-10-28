@@ -36,7 +36,7 @@ export default function Profile(props: Props): JSX.Element {
 
     const editProfileButton = useMemo(() => {
         return profile ? (<IconButton
-            icon="pencil"
+            icon="edit"
             color={theme.colors.icon["5"]}
             onPress={onEditProfile}
         />) : undefined;

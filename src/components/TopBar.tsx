@@ -47,7 +47,7 @@ export const TopBar: React.FC<Props> = (props) => {
             ) : navigation.canGoBack() ? (
                 <IconButton
                     color={props.leftIconColor}
-                    icon="arrow-left"
+                    icon="back"
                     onPress={navigation.goBack}
                 />
             ) : null

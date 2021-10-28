@@ -14,6 +14,12 @@ import {useWalletConnectContext, WalletContextProvider} from "./contexts/WalletC
 import {ApolloProvider} from "@apollo/client";
 import useApolloClient from "./graphql/hooks/useApolloClient";
 import {StatusBar} from "react-native";
+import {DesmosIcon} from "./components";
+import {Settings} from "react-native-paper/lib/typescript/core/settings";
+
+const PaperProviderSettings: Settings = {
+    icon: props => <DesmosIcon {...props} />
+}
 
 function AppContent(): JSX.Element {
     const appState = useInitAppState();
@@ -91,7 +97,10 @@ export default function App(): JSX.Element {
             <DesmosSdkProvider chainId={chainId}>
                 <AppStateProvider>
                     <WalletContextProvider>
-                        <PaperProvider theme={AppTheme}>
+                        <PaperProvider
+                            theme={AppTheme}
+                            settings={PaperProviderSettings}
+                        >
                             <StatusBar
                                 translucent
                                 backgroundColor="transparent"

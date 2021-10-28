@@ -51,7 +51,7 @@ export const ProfileHeader: React.FC<Props> = (props) => {
                 source={coverPicture}
             />
             {props.onEditCoverPicture && <IconButton
-                icon="camera-outline"
+                icon="camera"
                 size={20}
                 color={theme.colors.icon["5"]}
                 onPress={props.onEditCoverPicture}
@@ -64,7 +64,7 @@ export const ProfileHeader: React.FC<Props> = (props) => {
                 source={profilePicture}
             />
             {props.onEditProfilePicture && <IconButton
-                icon="camera-outline"
+                icon="camera"
                 size={20}
                 color={theme.colors.icon["5"]}
                 onPress={props.onEditProfilePicture}

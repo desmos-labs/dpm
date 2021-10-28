@@ -24,6 +24,7 @@ import {DAppSession} from "./DAppSession";
 import {AccountBalance} from "./AccountBalance";
 import {IconButton} from "./IconButton";
 import {TransactionsList} from "./tx/list";
+import {DesmosIcon} from "./DesmosIcon"
 
 export {
     Typography,
@@ -51,5 +52,6 @@ export {
     DAppSession,
     AccountBalance,
     IconButton,
-    TransactionsList
+    TransactionsList,
+    DesmosIcon,
 }
