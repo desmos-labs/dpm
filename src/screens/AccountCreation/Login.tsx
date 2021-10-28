@@ -55,7 +55,7 @@ export default function Login({navigation}: Props): JSX.Element {
                 {t("create wallet")}
             </Button>
             <Button
-                style={styles.buttons}
+                style={[styles.buttons, styles.buttonMargin]}
                 mode="outlined"
                 onPress={onImportPressed}
             >
@@ -79,18 +79,18 @@ const useStyle = makeStyle(theme => ({
         justifyContent: "center",
     },
     icon: {
-        flex: 2,
+        flex: 2.2,
         alignSelf: "center"
-    },
-    typography: {
-        flex: 1,
-        marginTop: theme.spacing.m
     },
     buttonsContainer: {
         display: "flex",
         justifyContent: "flex-end"
     },
     buttons: {
-        marginTop: theme.spacing.m
+        height: 44,
+        justifyContent: "center"
+    },
+    buttonMargin: {
+        marginTop: theme.spacing.l,
     }
 }))
