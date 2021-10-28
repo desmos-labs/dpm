@@ -108,6 +108,7 @@ export const Home: React.FC<Props> = (props) => {
         </View>
         <Snackbar
             visible={snackBarMessage !== null}
+            style={styles.snackbar}
             onDismiss={() => setShowSnackbar(null)}
             action={{
                 label: t("hide")
@@ -128,8 +129,11 @@ const useStyles = makeStyle(theme => ({
         borderTopLeftRadius: theme.roundness,
         borderBottomLeftRadius: theme.roundness,
         backgroundColor: theme.colors.background,
-        zIndex: 999,
+        zIndex: 1,
         elevation: 4,
+    },
+    snackbar: {
+        zIndex: 2,
     },
     testnetText: {
         color: theme.colors.primary,
