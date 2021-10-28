@@ -82,7 +82,8 @@ export const TransactionsList: React.FC<Props> = ({chainAccount, style, onTxPres
     />) : <View style={styles.noTransactionsView}>
         <Image
             style={styles.noTransactionsImage}
-            source={require("../../../assets/no-profile.png")}
+            resizeMode="contain"
+            source={require("../../../assets/no-transaction-light.png")}
         />
         <Typography.Body1>
             {t("no transactions")}
@@ -108,10 +109,9 @@ const useStyles = makeStyle(theme => ({
         display: "flex",
         flex: 1,
         alignItems: "center",
-        justifyContent: "center"
     },
     noTransactionsImage: {
-        maxWidth: 150,
-        maxHeight: 150,
+        marginTop: 42,
+        height: 180,
     }
 }))

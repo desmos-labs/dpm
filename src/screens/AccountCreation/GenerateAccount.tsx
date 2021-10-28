@@ -7,7 +7,7 @@ import {
 import {ChainAccount, ChainAccountType} from "../../types/chain";
 import useSaveWallet from "../../hooks/useSaveWallet";
 import useSaveAccount from "../../hooks/useSaveAccount";
-import {StyledSafeAreaView, Button, Title, Paragraph} from "../../components";
+import {StyledSafeAreaView, Button, Title, Paragraph, Typography} from "../../components";
 import {useTranslation} from "react-i18next";
 import {makeStyle} from "../../theming";
 import {Image} from "react-native";
@@ -82,16 +82,16 @@ export default function GenerateAccount(props: Props): JSX.Element {
         ) : account !== null ? (<>
             <Image
                 style={styles.icon}
-                source={require("../../assets/success.png")}
-                resizeMode="center"
+                source={require("../../assets/result-sucess-light.png")}
+                resizeMode="contain"
             />
 
             <Title>
                 {t("success")}
             </Title>
-            <Paragraph fontSize={16}>
+            <Typography.Body1>
                 {t("account created")}
-            </Paragraph>
+            </Typography.Body1>
 
             <Button
                 style={styles.continueButton}
@@ -130,7 +130,7 @@ const useStyles = makeStyle(theme => ({
     generatingText: {
     },
     icon: {
-        height: 100,
+        height: 180,
     },
     continueButton: {
         alignSelf: "auto",

@@ -29,7 +29,7 @@ export const ConfirmTx: React.FC<Props> = (props) => {
 
     const showSuccessModal = useCallback(() => {
         showModal(SingleButtonModal, {
-            image: require("../assets/success.png"),
+            image: require("../assets/result-sucess-light.png"),
             title: t("success"),
             message: `${t("transaction sent successfully")}!`,
             actionLabel: t("go to profile"),
@@ -39,7 +39,7 @@ export const ConfirmTx: React.FC<Props> = (props) => {
 
     const showErrorModal = useCallback((error: string) => {
         showModal(SingleButtonModal, {
-            image: require("../assets/failure.png"),
+            image: require("../assets/result-fail-light.png"),
             title: t("failure"),
             message: error,
             actionLabel: t("ok"),

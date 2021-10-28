@@ -103,7 +103,7 @@ export const ConfirmProfileEdit: React.FC<Props> = (props) => {
                     coverPicture: localCoverPictureUri,
                 })
                 showModal(SingleButtonModal, {
-                    image: require("../assets/success.png"),
+                    image: require("../assets/result-sucess-light.png"),
                     title: t("success"),
                     message: t("profile saved"),
                     actionLabel: t("go to profile"),
@@ -112,7 +112,7 @@ export const ConfirmProfileEdit: React.FC<Props> = (props) => {
             }
         } catch (e) {
             showModal(SingleButtonModal, {
-                image: require("../assets/failure.png"),
+                image: require("../assets/result-fail-light.png"),
                 title: t("ops"),
                 message: `${t("unexpected error occurred")}\n${e.toString()}`,
                 actionLabel: t("close"),

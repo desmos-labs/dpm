@@ -97,7 +97,7 @@ export const Authorization: React.FC<Props> = (props) => {
     useEffect(() => {
         if (revokeStatus.error) {
             showModal(SingleButtonModal, {
-                image: require("../assets/failure.png"),
+                image: require("../assets/result-fail-light.png"),
                 title: t("error"),
                 message: revokeStatus.error,
                 actionLabel: t("ok"),

@@ -83,7 +83,7 @@ export default function AuthorizeSession(props: Props) {
 
     const showSuccessModal = useCallback(() => {
         openModal(SingleButtonModal, {
-            image: require("../assets/success.png"),
+            image: require("../assets/result-sucess-light.png"),
             title: t("success"),
             message: t("app authorized", {app: appName}),
             actionLabel: t("go to authorization"),

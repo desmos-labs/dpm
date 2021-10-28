@@ -1,4 +1,4 @@
-import {StyledSafeAreaView, Button, Divider, IconButton, TopBar} from "../components";
+import {StyledSafeAreaView, Button, Divider, IconButton, TopBar, Typography} from "../components";
 import {makeStyle} from "../theming";
 import {Snackbar, useTheme} from "react-native-paper";
 import {StackScreenProps} from "@react-navigation/stack";
@@ -85,12 +85,12 @@ export default function Profile(props: Props): JSX.Element {
             ) : <>
                 <Image
                     style={styles.noProfileImage}
-                    source={require("../assets/no-profile.png")}
+                    source={require("../assets/no-profile-light.png")}
                     resizeMode="contain"
                 />
-                <Text>
-                    {t("add your first desmos profile now")}
-                </Text>
+                <Typography.Body1>
+                    {t("create your first desmos profile now")}
+                </Typography.Body1>
                 <Button
                     style={styles.createProfileBtn}
                     mode="outlined"
@@ -138,7 +138,7 @@ const useStyles = makeStyle(theme => ({
         marginTop: theme.spacing.s,
     },
     noProfileImage: {
-        width: 140,
+        marginTop: 42,
         height: 140,
     },
     createProfileBtn: {
