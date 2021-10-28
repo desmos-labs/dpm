@@ -69,6 +69,7 @@ const useStyles = makeStyle(theme => ({
         alignItems: "center",
         justifyContent: "space-between",
         backgroundColor: theme.colors.background,
+        paddingTop: 24,
     },
     container: {
         flex: 1,
@@ -82,7 +83,8 @@ const useStyles = makeStyle(theme => ({
     containerCenter: {
         position: "absolute",
         left: 0,
-        right: 0
+        right: 0,
+        top: 40,
     },
     containerRight: {
         alignItems: "flex-end",

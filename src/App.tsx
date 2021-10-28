@@ -13,6 +13,7 @@ import {AppStateProvider, useAppContext} from "./contexts/AppContext";
 import {useWalletConnectContext, WalletContextProvider} from "./contexts/WalletConnectContext";
 import {ApolloProvider} from "@apollo/client";
 import useApolloClient from "./graphql/hooks/useApolloClient";
+import {StatusBar} from "react-native";
 
 function AppContent(): JSX.Element {
     const appState = useInitAppState();
@@ -91,6 +92,11 @@ export default function App(): JSX.Element {
                 <AppStateProvider>
                     <WalletContextProvider>
                         <PaperProvider theme={AppTheme}>
+                            <StatusBar
+                                translucent
+                                backgroundColor="transparent"
+                                barStyle={"dark-content"}
+                            />
                             <AppContent />
                         </PaperProvider>
                     </WalletContextProvider>

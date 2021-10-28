@@ -101,7 +101,7 @@ const useStyles = makeStyle(_ => ({
     backButton: {
         backgroundColor: "#fff",
         position: "absolute",
-        top: 16,
+        top: 40,
         left: 8,
         elevation: 9,
         zIndex: 99,

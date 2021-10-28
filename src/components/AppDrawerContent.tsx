@@ -43,11 +43,11 @@ export const AppDrawerContent: React.FC<DrawerContentComponentProps> = (props) =
             name: "AccountCreationScreens",
             params: undefined
         })
-    }, [navigation])
+    }, [navigation]);
 
     const openSettings = useCallback(() => {
         console.warn("Settings screen not implemented")
-    }, [])
+    }, []);
 
     const onChangeAccount = useCallback((account: ChainAccount) => {
         if (account.address !== selectedAccount?.address) {
@@ -146,13 +146,13 @@ export const AppDrawerContent: React.FC<DrawerContentComponentProps> = (props) =
 
 const useStyle = makeStyle(theme => ({
     desmosIcon: {
-        marginTop: 20,
+        marginTop: 40,
         width: "100%",
         flex: 1
     },
     settingsBtn: {
         position: "absolute",
-        top: 0,
+        top: 20,
         right: 0,
     },
     accountsContainer: {

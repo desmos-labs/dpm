@@ -1,4 +1,4 @@
-import {StyledSafeAreaView, Button, Divider, IconButton} from "../components";
+import {StyledSafeAreaView, Button, Divider, IconButton, TopBar} from "../components";
 import {makeStyle} from "../theming";
 import {Snackbar, useTheme} from "react-native-paper";
 import {StackScreenProps} from "@react-navigation/stack";
@@ -23,15 +23,6 @@ export default function Profile(props: Props): JSX.Element {
     const theme = useTheme();
     const profile = useFetchProfile(account.address);
     const [snackBarMessage, setShowSnackbar] = useState<string | null>(null)
-
-    const backIcon = useMemo(() => {
-        return <IconButton
-            icon="arrow-left"
-            color={theme.colors.icon["5"]}
-            onPress={() => {
-                navigation.goBack();
-            }}/>
-    }, [navigation, theme]);
 
     const onEditProfile = useCallback(() => {
         navigation.navigate({
@@ -66,15 +57,21 @@ export default function Profile(props: Props): JSX.Element {
         setShowSnackbar(t("address copied"));
     }, [t, account]);
 
-    return <StyledSafeAreaView padding={0}>
+    return <StyledSafeAreaView
+        padding={0}
+        topBar={<TopBar
+            style={styles.topBar}
+            leftIconColor={theme.colors.icon["5"]}
+            stackProps={props}
+            rightElement={editProfileButton}
+        />}
+    >
         <ProfileHeader
             address={account.address}
             coverPictureUri={profile?.cachedCoverPictureUri}
             profilePictureUri={profile?.cachedProfilePictureUri}
             dtag={profile?.dtag}
             nickname={profile?.nickname}
-            topLeftElement={backIcon}
-            topRightElement={editProfileButton}
             onCopyPressed={onAddressCopy}
         />
         <Divider style={styles.profileHeaderDivider}/>
@@ -117,6 +114,13 @@ export default function Profile(props: Props): JSX.Element {
 }
 
 const useStyles = makeStyle(theme => ({
+    topBar: {
+        backgroundColor: "transparent",
+        position: "absolute",
+        top: 0,
+        left: 0,
+        zIndex: 1
+    },
     profileHeaderDivider: {
         width: 63,
         alignSelf: "flex-start",

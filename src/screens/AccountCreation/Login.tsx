@@ -68,7 +68,7 @@ export default function Login({navigation}: Props): JSX.Element {
 const useStyle = makeStyle(theme => ({
     backArrow: {
         position: "absolute",
-        top: theme.spacing.s,
+        top: 40,
         left: 0,
         zIndex: 1,
     },
