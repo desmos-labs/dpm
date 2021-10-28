@@ -87,7 +87,6 @@ const useStyle = makeStyle(theme => ({
         justifyContent: "flex-end"
     },
     buttons: {
-        height: 44,
         justifyContent: "center"
     },
     buttonMargin: {

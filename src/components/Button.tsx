@@ -56,6 +56,7 @@ export const Button: React.FC<Props> = props => {
         mode={props.mode}
         labelStyle={[styles.labelStyle, props.labelStyle]}
         style={[styles.btnStyle, props.style]}
+        contentStyle={styles.contentStyle}
         loading={props.loading}
         disabled={props.disabled}
     >
@@ -76,6 +77,9 @@ const useStyles = makeStyleWithProps((props: Props, theme) => {
             borderColor: color,
             borderWidth: props.mode === "outlined" ? 1 : 0,
             elevation: 0,
+        },
+        contentStyle: {
+            height: 42,
         }
     }
 })
