@@ -186,7 +186,7 @@ platform :android do
       json_key: '/tmp/playstore-key.json',
       aab: 'android/app/build/outputs/bundle/release/app-release.aab',
       # Uncomment this line to just upload without publishing
-      # release_status: 'draft',
+      release_status: 'draft',
     )
   end
 end
