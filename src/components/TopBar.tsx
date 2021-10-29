@@ -1,6 +1,6 @@
 import React, {ReactElement} from "react";
 import {makeStyle} from "../theming";
-import {StyleProp, View, ViewStyle} from "react-native";
+import {StatusBar, StyleProp, View, ViewStyle} from "react-native";
 import {IconButton} from "./IconButton";
 import {Subtitle} from "./Subtitle";
 
@@ -69,7 +69,7 @@ const useStyles = makeStyle(theme => ({
         alignItems: "center",
         justifyContent: "space-between",
         backgroundColor: theme.colors.background,
-        paddingTop: 24,
+        paddingTop: StatusBar.currentHeight,
     },
     container: {
         flex: 1,
@@ -81,10 +81,6 @@ const useStyles = makeStyle(theme => ({
         zIndex: 1,
     },
     containerCenter: {
-        position: "absolute",
-        left: 0,
-        right: 0,
-        top: 40,
     },
     containerRight: {
         alignItems: "flex-end",
