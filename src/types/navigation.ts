@@ -7,6 +7,7 @@ import {StackNavigationProp} from "@react-navigation/stack/lib/typescript/src/ty
 import {createBottomTabNavigator} from "@react-navigation/bottom-tabs";
 import {SessionRequestDetails} from "./walletconnect";
 import {StdFee} from "@cosmjs/amino";
+import {NavigatorScreenParams} from "@react-navigation/native";
 
 export type AccountCreationStackParams = {
     Login: undefined;
@@ -42,7 +43,7 @@ export type HomeScreensBottomTabsParams = {
 export const HomeScreensBottomTabs = createBottomTabNavigator<HomeScreensBottomTabsParams>();
 
 export type AccountScreensStackParams = {
-    HomeScreens: undefined,
+    HomeScreens: NavigatorScreenParams<HomeScreensBottomTabsParams>,
     Profile: undefined,
     EditProfile: {
         account?: ChainAccount,
@@ -124,7 +125,7 @@ export type ModalComponent<T> = React.FC<ModalComponentProps<T>>
 export type RootStackParams = {
     SplashScreen: undefined,
     AccountCreationScreens: undefined,
-    AccountScreens: undefined,
+    AccountScreens: NavigatorScreenParams<AccountScreensStackParams>,
     ModalScreen: {
         component: ModalComponent<any>,
         params?: any

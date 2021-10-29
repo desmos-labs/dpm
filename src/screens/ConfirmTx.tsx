@@ -33,7 +33,7 @@ export const ConfirmTx: React.FC<Props> = (props) => {
             title: t("success"),
             message: `${t("transaction sent successfully")}!`,
             actionLabel: t("go to profile"),
-            action: () => navigateToHomeScreen(true),
+            action: () => navigateToHomeScreen({reset: true}),
         })
     }, [showModal, t, navigateToHomeScreen])
 

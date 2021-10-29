@@ -107,7 +107,7 @@ export const ConfirmProfileEdit: React.FC<Props> = (props) => {
                     title: t("success"),
                     message: t("profile saved"),
                     actionLabel: t("go to profile"),
-                    action: () => navigateToHomeScreen(true),
+                    action: () => navigateToHomeScreen({reset: true}),
                 });
             }
         } catch (e) {

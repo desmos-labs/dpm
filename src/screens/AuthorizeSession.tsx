@@ -87,7 +87,10 @@ export default function AuthorizeSession(props: Props) {
             title: t("success"),
             message: t("app authorized", {app: appName}),
             actionLabel: t("go to authorization"),
-            action: () => navigateToHomeScreen(true),
+            action: () => navigateToHomeScreen({
+                reset: true,
+                tab: "Authorization",
+            }),
         })
     }, [t, navigateToHomeScreen, appName, openModal]);
 
@@ -126,7 +129,10 @@ export default function AuthorizeSession(props: Props) {
         if (rejectStatus.error) {
             showErrorModal(rejectStatus.error.toString());
         } else if(rejectStatus.rejected) {
-            navigateToHomeScreen(true);
+            navigateToHomeScreen({
+                reset: true,
+                tab: "Authorization",
+            });
         }
     }, [rejectStatus, navigateToHomeScreen, showErrorModal])
 
