@@ -56,6 +56,7 @@ export const UnlockWallet: React.FC<Props> = (props) => {
             onChangeText={setPassword}
             onSubmitEditing={unlockWallet}
             placeholder={t("password")}
+            autoFocus={true}
         />
         <Paragraph
             style={styles.errorMsg}
