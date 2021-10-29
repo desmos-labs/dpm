@@ -1,7 +1,6 @@
 import {BottomTabScreenProps} from "@react-navigation/bottom-tabs";
-import {AccountScreensStackParams, HomeScreensBottomTabsParams, HomeScreensDrawerParams} from "../types/navigation";
+import {AccountScreensStackParams, HomeScreensBottomTabsParams} from "../types/navigation";
 import {CompositeScreenProps} from "@react-navigation/native";
-import {DrawerScreenProps} from "@react-navigation/drawer";
 import {StackScreenProps} from "@react-navigation/stack";
 import React, {useCallback, useMemo, useState} from "react";
 import {AvatarImage, StyledSafeAreaView, TopBar, AccountBalance, TransactionsList, Subtitle} from "../components";
@@ -14,12 +13,16 @@ import {Snackbar, useTheme} from "react-native-paper";
 import Clipboard from "@react-native-community/clipboard";
 import {useCurrentChainInfo} from "@desmoslabs/sdk-react";
 import {BroadcastedTx} from "../types/tx";
+import {useDrawerContext} from "../contexts/AppDrawerContex";
 
-export type Props = CompositeScreenProps<BottomTabScreenProps<HomeScreensBottomTabsParams, "Home">,
-    CompositeScreenProps<DrawerScreenProps<HomeScreensDrawerParams>, StackScreenProps<AccountScreensStackParams>>>;
+export type Props = CompositeScreenProps<
+    BottomTabScreenProps<HomeScreensBottomTabsParams, "Home">,
+    StackScreenProps<AccountScreensStackParams>
+    >;
 
 export const Home: React.FC<Props> = (props) => {
     const {navigation} = props;
+    const {openDrawer} = useDrawerContext();
     const account = useSelectedAccount();
     const {t} = useTranslation();
     const theme = useTheme();
@@ -86,7 +89,13 @@ export const Home: React.FC<Props> = (props) => {
         <TopBar
             style={styles.topBar}
             leftIconColor={theme.colors.icon["5"]}
-            stackProps={props}
+            stackProps={{
+                ...props,
+                navigation: {
+                    ...props.navigation,
+                    openDrawer,
+                }
+            }}
             rightElement={profilePicture}
         />
         <AccountBalance

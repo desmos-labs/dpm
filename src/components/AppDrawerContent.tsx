@@ -1,5 +1,4 @@
 import React, {useCallback, useMemo} from "react";
-import {DrawerContentComponentProps} from "@react-navigation/drawer";
 import {useTranslation} from "react-i18next";
 import {Subtitle} from "./Subtitle";
 import {Button} from "./Button";
@@ -16,11 +15,24 @@ import {TwoButtonModal} from "../modals/TwoButtonModal";
 import useChangeAccount from "../hooks/useChangeAccount";
 import useAccounts from "../hooks/useAccounts";
 import useProfiles from "../hooks/useProfiles";
+import {CompositeNavigationProp} from "@react-navigation/native";
+import {StackNavigationProp} from "@react-navigation/stack/lib/typescript/src/types";
+import {AccountScreensStackParams, RootStackParams} from "../types/navigation";
+import {useDrawerContext} from "../contexts/AppDrawerContex";
+
 
 type AccountProfilePair = [ChainAccount, CachedDesmosProfile | null];
 
-export const AppDrawerContent: React.FC<DrawerContentComponentProps> = (props) => {
+export type Props = {
+    navigation: CompositeNavigationProp<
+        StackNavigationProp<AccountScreensStackParams, "HomeScreens">,
+        StackNavigationProp<RootStackParams>
+        >
+}
+
+export const AppDrawerContent: React.FC<Props> = (props) => {
     const {navigation} = props;
+    const {closeDrawer} = useDrawerContext();
     const {t} = useTranslation();
     const styles = useStyle();
     const accounts = useAccounts();
@@ -38,12 +50,12 @@ export const AppDrawerContent: React.FC<DrawerContentComponentProps> = (props) =
     }, [accounts, profiles])
 
     const addAccount = useCallback(() => {
-        navigation.closeDrawer();
+        closeDrawer();
         navigation.navigate({
             name: "AccountCreationScreens",
             params: undefined
         })
-    }, [navigation]);
+    }, [navigation, closeDrawer]);
 
     const openSettings = useCallback(() => {
         console.warn("Settings screen not implemented")
@@ -53,8 +65,8 @@ export const AppDrawerContent: React.FC<DrawerContentComponentProps> = (props) =
         if (account.address !== selectedAccount?.address) {
             changeAccount(account);
         }
-        navigation.closeDrawer();
-    }, [changeAccount, navigation, selectedAccount]);
+        closeDrawer();
+    }, [closeDrawer, changeAccount, selectedAccount]);
 
     const onDeleteAccount = useCallback(async (pair: AccountProfilePair) => {
         const [account] = pair;
@@ -92,8 +104,8 @@ export const AppDrawerContent: React.FC<DrawerContentComponentProps> = (props) =
                 profile: pair[1]
             }
         });
-        navigation.closeDrawer();
-    }, [navigation])
+        closeDrawer()
+    }, [closeDrawer, navigation])
 
     const renderAccounts = useCallback(({item}: ListRenderItemInfo<AccountProfilePair>) => {
         const [account, profile] = item;

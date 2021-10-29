@@ -1,6 +1,6 @@
 import React, {useCallback, useEffect, useMemo} from "react";
 import {BottomTabScreenProps} from "@react-navigation/bottom-tabs";
-import {AccountScreensStackParams, HomeScreensDrawerParams, HomeScreensBottomTabsParams} from "../types/navigation";
+import {AccountScreensStackParams, HomeScreensBottomTabsParams} from "../types/navigation";
 import {FlatList, Image, View} from "react-native";
 import {
     AvatarImage, Button,
@@ -10,7 +10,6 @@ import {
     TopBar, Typography
 } from "../components";
 import {CompositeScreenProps} from "@react-navigation/native";
-import {DrawerScreenProps} from "@react-navigation/drawer";
 import {StackScreenProps} from "@react-navigation/stack";
 import {useTranslation} from "react-i18next";
 import useWalletConnectSessions from "../hooks/useWalletConnectSessions";
@@ -23,15 +22,16 @@ import useShowModal from "../hooks/useShowModal";
 import {TwoButtonModal} from "../modals/TwoButtonModal";
 import useUnlockWallet from "../hooks/useUnlockWallet";
 import {SingleButtonModal} from "../modals/SingleButtonModal";
+import {useDrawerContext} from "../contexts/AppDrawerContex";
 
 export type Props = CompositeScreenProps<
     BottomTabScreenProps<HomeScreensBottomTabsParams, "Authorization">,
-    CompositeScreenProps<
-        DrawerScreenProps<HomeScreensDrawerParams>, StackScreenProps<AccountScreensStackParams>>
+    StackScreenProps<AccountScreensStackParams>
     >;
 
 export const Authorization: React.FC<Props> = (props) => {
     const {navigation} = props;
+    const {openDrawer} = useDrawerContext();
     const {t} = useTranslation();
     const styles = useStyles();
     const currentAccount = useSelectedAccount();
@@ -117,7 +117,13 @@ export const Authorization: React.FC<Props> = (props) => {
         style={styles.background}
         topBar={<TopBar
             style={styles.background}
-            stackProps={props}
+            stackProps={{
+                ...props,
+                navigation: {
+                    ...props.navigation,
+                    openDrawer,
+                }
+            }}
             title={t("authorization")}
             rightElement={<AvatarImage
                 style={styles.avatarImage}

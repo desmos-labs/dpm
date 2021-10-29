@@ -2,7 +2,6 @@ import {createStackNavigator} from '@react-navigation/stack';
 import {CachedDesmosProfile, ChainAccount} from './chain';
 import LocalWallet from "../wallet/LocalWallet";
 import {EncodeObject} from "@cosmjs/proto-signing";
-import {createDrawerNavigator} from "@react-navigation/drawer";
 import React from "react";
 import {StackNavigationProp} from "@react-navigation/stack/lib/typescript/src/types";
 import {createBottomTabNavigator} from "@react-navigation/bottom-tabs";
@@ -41,12 +40,6 @@ export type HomeScreensBottomTabsParams = {
 }
 
 export const HomeScreensBottomTabs = createBottomTabNavigator<HomeScreensBottomTabsParams>();
-
-export type HomeScreensDrawerParams = {
-    HomeScreen: undefined
-}
-
-export const HomeScreensDrawer = createDrawerNavigator<HomeScreensDrawerParams>()
 
 export type AccountScreensStackParams = {
     HomeScreens: undefined,
