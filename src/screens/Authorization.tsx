@@ -1,13 +1,13 @@
 import React, {useCallback, useEffect, useMemo} from "react";
 import {BottomTabScreenProps} from "@react-navigation/bottom-tabs";
 import {AccountScreensStackParams, HomeScreensDrawerParams, HomeScreensBottomTabsParams} from "../types/navigation";
-import {FlatList} from "react-native";
+import {FlatList, Image, View} from "react-native";
 import {
-    AvatarImage,
+    AvatarImage, Button,
     DAppSession as DAppSessionComponent,
     ListItemSeparator,
     StyledSafeAreaView,
-    TopBar
+    TopBar, Typography
 } from "../components";
 import {CompositeScreenProps} from "@react-navigation/native";
 import {DrawerScreenProps} from "@react-navigation/drawer";
@@ -31,6 +31,7 @@ export type Props = CompositeScreenProps<
     >;
 
 export const Authorization: React.FC<Props> = (props) => {
+    const {navigation} = props;
     const {t} = useTranslation();
     const styles = useStyles();
     const currentAccount = useSelectedAccount();
@@ -41,11 +42,11 @@ export const Authorization: React.FC<Props> = (props) => {
     const unlockWallet = useUnlockWallet();
 
     const openProfileDetails = useCallback(() => {
-        props.navigation.navigate({
+        navigation.navigate({
             name: "Profile",
             params: undefined,
         })
-    }, [props.navigation])
+    }, [navigation])
 
     const profilePicture = useMemo(() => {
         const userProfile = profiles[currentAccount.address];
@@ -94,6 +95,13 @@ export const Authorization: React.FC<Props> = (props) => {
         })
     }, [showModal, t, revokeAuthorization]);
 
+    const navigateToAuthorize = useCallback(() => {
+        navigation.navigate({
+            name: "ScanQr",
+            params: undefined,
+        })
+    }, [navigation])
+
     useEffect(() => {
         if (revokeStatus.error) {
             showModal(SingleButtonModal, {
@@ -119,17 +127,40 @@ export const Authorization: React.FC<Props> = (props) => {
             />}
         />}
     >
-        <FlatList
-            data={dAppSessions}
-            renderItem={({item}) => {
-                return <DAppSessionComponent
-                    session={item}
-                    onRevoke={openRevokePopup}
+        {dAppSessions.length > 0 ? (
+            <FlatList
+                data={dAppSessions}
+                renderItem={({item}) => {
+                    return <DAppSessionComponent
+                        session={item}
+                        onRevoke={openRevokePopup}
+                    />
+                }}
+                keyExtractor={(item) => item.id}
+                ItemSeparatorComponent={ListItemSeparator}
+            />
+        ) : (
+            <View style={styles.noDAppContainer}>
+                <Image
+                    style={styles.noDAppImage}
+                    source={require("../assets/no-connection-light.png")}
+                    resizeMode="contain"
                 />
-            }}
-            keyExtractor={(item) => item.id}
-            ItemSeparatorComponent={ListItemSeparator}
-        />
+                <Typography.Body1
+                    style={styles.noDAppText}
+                >
+                    {t("there is no authorization\nlet's authorize now")}
+                </Typography.Body1>
+                <Button
+                    mode="outlined"
+                    style={styles.authorizeButton}
+                    onPress={navigateToAuthorize}
+                >
+                    {t("authorize")}
+                </Button>
+            </View>
+        )}
+
     </StyledSafeAreaView>
 }
 
@@ -139,5 +170,19 @@ const useStyles = makeStyle(theme => ({
     },
     avatarImage: {
         right: 16,
+    },
+    noDAppContainer: {
+        display: "flex",
+        flex: 1,
+        alignItems: "center",
+    },
+    noDAppImage: {
+        width: 150,
+    },
+    noDAppText: {
+        textAlign: "center"
+    },
+    authorizeButton: {
+        marginTop: theme.spacing.l
     }
 }))

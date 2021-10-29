@@ -66,6 +66,7 @@
   "create profile": "Crea profilo",
   "profile": "Profilo",
   "authorization": "Autorizzazioni",
+  "there is no authorization\nlet's authorize now": "Non ci sono autorizzazioni\nAutorizza ora",
   "invalid qr code. try a new one or try again": "Qr code invalido. Riprova con uno nuovo o prova ancora",
   "the application requires the following authorizations": "{{app}} necessità dei seguenti permessi per poter funzionare correttamente",
   "you will be able to revoke such authorizations inside your authorization page": "Potrai revocare queste autorizzazioni dalla pagina Autorizzazioni",

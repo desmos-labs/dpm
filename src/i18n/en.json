@@ -77,6 +77,7 @@
   "create profile": "Create profile",
   "profile": "Profile",
   "authorization": "Authorization",
+  "there is no authorization\nlet's authorize now": "There is no authorization\nLet's authorize now",
   "invalid qr code. try a new one or try again": "Invalid qr code. try a new one or try again",
   "the application requires the following authorizations": "{{app}} requires the following authorizations to be granted in order to work properly",
   "you will be able to revoke such authorizations inside your authorization page": "You will be able to revoke such authorizations inside your Authorization page",
