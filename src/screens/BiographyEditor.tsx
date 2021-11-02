@@ -78,6 +78,7 @@ const useStyles = makeStyle(theme => ({
     input: {
         flexGrow: 1,
         textAlignVertical: "top",
+        color: theme.colors.font["1"]
     },
     charCount: {
         alignSelf: "flex-end",
