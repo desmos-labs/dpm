@@ -1,7 +1,7 @@
 import React, {useCallback} from "react";
 import {View} from "react-native";
 import {makeStyle} from "../theming";
-import {Button, Paragraph, Title} from "../components";
+import {Button, Typography} from "../components";
 import {ModalComponent} from "../types/navigation";
 
 export type TwoButtonModalParams = {
@@ -54,16 +54,16 @@ export const TwoButtonModal: ModalComponent<TwoButtonModalParams> = (props) => {
     }, [params, navigation])
 
     return <View style={styles.root}>
-        <Title
+        <Typography.Title
             style={[styles.centred, styles.title]}
         >
             {params.title}
-        </Title>
-        <Paragraph
+        </Typography.Title>
+        <Typography.Body
             style={styles.message}
         >
             {params.message}
-        </Paragraph>
+        </Typography.Body>
         <View style={styles.buttonsRow}>
             <Button
                 mode="contained"

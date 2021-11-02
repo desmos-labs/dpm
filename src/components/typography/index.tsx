@@ -13,17 +13,22 @@ function createTextComponent(
             return styleProvider(theme);
         }, [theme]);
 
+        const commonStyle = useMemo<StyleProp<TextStyle>>(() => {
+            return {
+                color: theme.colors.font["1"]
+            }
+        }, [theme]);
+
         return <Text
             {...props}
-            style={[style, props.style]}
+            style={[commonStyle, props.style, style]}
         />
     }
 }
 
 export const Typography = {
-    Body: createTextComponent(theme => ({
-        fontFamily: "SF Pro Text",
-        color: theme.colors.font["1"],
+    Body: createTextComponent(_ => ({
+        fontFamily: "Poppins-Regular",
         fontSize: 14,
         fontStyle: "normal",
         fontWeight: "400",
@@ -31,9 +36,8 @@ export const Typography = {
         letterSpacing: 0.0025,
         textAlign: "left",
     })),
-    Body1: createTextComponent(theme => ({
-        fontFamily: "SF Pro Text",
-        color: theme.colors.font["1"],
+    Body1: createTextComponent(_ => ({
+        fontFamily: "Poppins-Regular",
         fontSize: 16,
         fontStyle: "normal",
         fontWeight: "400",
@@ -41,9 +45,8 @@ export const Typography = {
         letterSpacing: 0.005,
         textAlign: "left",
     })),
-    Caption: createTextComponent(theme => ({
-        fontFamily: "SF Pro Text",
-        color: theme.colors.font["1"],
+    Caption: createTextComponent(_ => ({
+        fontFamily: "Poppins-Regular",
         fontSize: 12,
         fontStyle: "normal",
         fontWeight: "400",
@@ -51,14 +54,27 @@ export const Typography = {
         letterSpacing: 0.004,
         textAlign: "left",
     })),
-    Subtitle: createTextComponent(theme => ({
-        fontFamily: "SF Pro Text",
-        color: theme.colors.font["1"],
+    Title: createTextComponent(_ => ({
+        fontFamily: "Poppins-Bold",
+        fontWeight: "700",
+        fontSize: 22,
+    })),
+    Subtitle: createTextComponent(_ => ({
+        fontFamily: "Poppins-Medium",
         fontSize: 16,
         fontStyle: "normal",
         fontWeight: "500",
         lineHeight: 24,
         letterSpacing: 0.0015,
         textAlign: "left",
-    }))
+    })),
+    Subtitle2: createTextComponent(_ => ({
+        fontFamily: "Poppins-Medium",
+        fontSize: 14,
+        fontStyle: "normal",
+        fontWeight: "500",
+        lineHeight: 21,
+        letterSpacing: 0.001,
+        textAlign: "left",
+    })),
 }

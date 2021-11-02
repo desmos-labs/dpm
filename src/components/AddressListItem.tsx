@@ -1,7 +1,7 @@
 import React, {Key} from "react";
 import {TouchableOpacity, View} from "react-native";
-import {Paragraph} from "./Paragraph";
 import {makeStyle} from "../theming";
+import {Typography} from "./index";
 
 export type Props = {
     /**
@@ -28,13 +28,13 @@ export const AddressListItem: React.FC<Props> = (props) => {
 
     return <TouchableOpacity style={styles.container} onPress={props.onPress} key={props.key}>
         <View style={styles.row}>
-            <Paragraph style={styles.number} fontSize={16}>
+            <Typography.Body1 style={styles.number}>
                 #{props.number}
-            </Paragraph>
+            </Typography.Body1>
 
-            <Paragraph style={styles.address} ellipsizeMode={"middle"} numberOfLines={1} >
+            <Typography.Body1 style={styles.address} ellipsizeMode={"middle"} numberOfLines={1} >
                 {props.address}
-            </Paragraph>
+            </Typography.Body1>
         </View>
     </TouchableOpacity>
 }

@@ -152,7 +152,7 @@ const useStyles = makeStyle(theme => ({
     },
     dtag: {
         color: theme.colors.text,
-        fontFamily: 'SF Pro Text',
+        fontFamily: 'Poppins-Regular',
         fontStyle: 'normal',
         fontWeight: 'normal',
         fontSize: 14,

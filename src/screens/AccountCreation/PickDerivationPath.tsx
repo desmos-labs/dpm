@@ -3,8 +3,6 @@ import {AccountCreationStackParams} from "../../types/navigation";
 import {
     HdPathPicker,
     StyledSafeAreaView,
-    Title,
-    Subtitle,
     Divider,
     PaginatedFlatList,
     AddressListItem, Button, ListItemSeparator, Typography
@@ -132,22 +130,22 @@ export const PickDerivationPath: React.FC<Props> = (props) => {
         style={styles.root}
         topBar={<TopBar stackProps={props} />}
     >
-        <Title>
+        <Typography.Title>
             {t("import accounts")}
-        </Title>
+        </Typography.Title>
 
-        <Subtitle small>
+        <Typography.Body>
             {t("please select an account or enter hd derivation path")}.
-        </Subtitle>
+        </Typography.Body>
 
-        <Subtitle bold
+        <Typography.Subtitle
             style={[
                 styles.hpPathLabel,
                 addressPickerVisible ? styles.disabledText : null
             ]}
         >
             {t("enter HD derivation path")}.
-        </Subtitle>
+        </Typography.Subtitle>
         <HdPathPicker
             style={styles.hdPathPicker}
             onChange={onHdPathChange}
@@ -172,12 +170,12 @@ export const PickDerivationPath: React.FC<Props> = (props) => {
         <TouchableOpacity
             onPress={toggleAddressPicker}
         >
-            <Subtitle style={[
+            <Typography.Subtitle style={[
                 styles.accountLabel,
                 !addressPickerVisible ? styles.accentText : null,
             ]}>
                 {t("select account you want")}
-            </Subtitle>
+            </Typography.Subtitle>
         </TouchableOpacity>
 
         {addressPickerVisible ? (
@@ -231,7 +229,7 @@ const useStyles = makeStyle(theme => ({
         flex: 2,
         textAlign: "center",
         fontSize: 16,
-        fontFamily: "SF Pro Text"
+        fontFamily: "Poppins-Regular"
     },
     accountLabel: {
         marginTop: theme.spacing.l,

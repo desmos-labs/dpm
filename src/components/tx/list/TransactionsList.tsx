@@ -11,7 +11,6 @@ import Colors from "../../../constants/colors";
 import {Divider} from "../../Divider";
 import {useFetchTxsGrouppedByDate, SectionedTx} from "../../../graphql/hooks/useFetchTxsGrouppedByDate";
 import {formatDistance} from "date-fns";
-import {Paragraph} from "../../Paragraph";
 import {TransactionListMessageItem} from "./TransactionListMessageItem";
 import {makeStyle} from "../../../theming";
 import {BroadcastedTx} from "../../../types/tx";
@@ -61,11 +60,11 @@ export const TransactionsList: React.FC<Props> = ({chainAccount, style, onTxPres
         stickySectionHeadersEnabled={false}
         renderItem={renderItem}
         renderSectionHeader={info => {
-            return <Paragraph style={styles.header}>
+            return <Typography.Body style={styles.header}>
                 {formatDistance(new Date(info.section.date), new Date(), {
                     addSuffix: true
                 })}
-            </Paragraph>
+            </Typography.Body>
         }}
         renderSectionFooter={() => <View style={styles.footer}/>}
         keyExtractor={(_, index) => index.toString()}

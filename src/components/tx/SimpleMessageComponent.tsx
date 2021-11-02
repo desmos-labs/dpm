@@ -1,9 +1,9 @@
 import React from "react";
 import {Image, View, ImageProps} from "react-native";
-import {Subtitle} from "../Subtitle";
 import {Divider} from "../Divider";
 import {LabeledValue} from "../LabeledValue";
 import {makeStyle} from "../../theming";
+import {Typography} from "../index";
 
 
 export type Props = {
@@ -22,11 +22,11 @@ export const SimpleMessageComponent: React.FC<Props> = (props) => {
                 source={props.icon}
                 resizeMode="contain"
             />
-            <Subtitle
+            <Typography.Subtitle
                 style={styles.headerAmount}
-                capitalize={false}>
+            >
                 {props.iconSubtitle}
-            </Subtitle>
+            </Typography.Subtitle>
         </View>
         {props.fields?.map((field, index) => {
             return <View key={`field-${index}`}>

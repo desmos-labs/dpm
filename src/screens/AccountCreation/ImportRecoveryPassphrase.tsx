@@ -2,7 +2,7 @@ import React, {useState} from "react";
 import {StackScreenProps} from "@react-navigation/stack";
 import {AccountCreationStackParams} from "../../types/navigation";
 import {checkMnemonic} from "../../wallet/LocalWallet";
-import {Title, Paragraph, TextInput, StyledSafeAreaView, Button, Subtitle} from "../../components";
+import {Typography, TextInput, StyledSafeAreaView, Button} from "../../components";
 import {makeStyle} from "../../theming";
 import {useTranslation} from "react-i18next";
 import {EnglishMnemonic} from "@cosmjs/crypto";
@@ -58,17 +58,18 @@ export default function ImportRecoveryPassphrase(props: Props): JSX.Element {
         style={styles.root}
         topBar={<TopBar stackProps={props} />}
     >
-        <Title>
+        <Typography.Title>
             {t("import recovery passphrase")}
-        </Title>
-        <Paragraph>{t("please enter you recovery passphrase")}.</Paragraph>
+        </Typography.Title>
+        <Typography.Body>
+            {t("please enter you recovery passphrase")}.
+        </Typography.Body>
 
-        <Subtitle
+        <Typography.Body
             style={styles.mnemonicInputLabel}
-            capitalize
         >
             {t("recovery passphrase")}
-        </Subtitle>
+        </Typography.Body>
         <TextInput
             style={styles.mnemonicInput}
             placeholder={t("enter recovery passphrase placeholder")}
@@ -78,11 +79,11 @@ export default function ImportRecoveryPassphrase(props: Props): JSX.Element {
             autoFocus={true}
         />
 
-        {errorMessage !== null && <Paragraph
+        {errorMessage !== null && <Typography.Body
             style={styles.errorParagraph}
         >
             {errorMessage}
-        </Paragraph>}
+        </Typography.Body>}
 
         <FlexPadding flex={1}/>
 
@@ -107,6 +108,7 @@ const useStyles = makeStyle(theme => ({
     },
     mnemonicInputLabel: {
         marginTop: theme.spacing.l,
+        textTransform: "capitalize"
     },
     mnemonicInput: {
         marginTop: theme.spacing.s,

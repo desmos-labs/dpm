@@ -1,7 +1,7 @@
 import {StackScreenProps} from "@react-navigation/stack";
 import {AccountScreensStackParams} from "../types/navigation";
 import React, {useCallback, useState} from "react";
-import {Button, Paragraph, StyledSafeAreaView, Subtitle, TextInput, TopBar} from "../components";
+import {Button, StyledSafeAreaView, TextInput, TopBar, Typography} from "../components";
 import {useTranslation} from "react-i18next";
 import {makeStyle} from "../theming";
 import useSelectedAccount from "../hooks/useSelectedAccount";
@@ -80,11 +80,9 @@ export const SendToken: React.FC<Props> = (props) => {
     return <StyledSafeAreaView
         topBar={<TopBar stackProps={props} title={t("send")} />}
     >
-        <Subtitle
-            capitalize
-        >
+        <Typography.Subtitle>
             {t("recipient address")}
-        </Subtitle>
+        </Typography.Subtitle>
         <TextInput
             style={styles.topMarginSmall}
             placeholder={t("insert address")}
@@ -108,17 +106,17 @@ export const SendToken: React.FC<Props> = (props) => {
                 {t("max")}
             </Button>}
         />
-        <Paragraph
+        <Typography.Body
             style={styles.topMarginSmall}
         >
             {t("available")} {userBalance.amount} {userBalance.denom}
-        </Paragraph>
+        </Typography.Body>
 
-        <Subtitle
+        <Typography.Subtitle
             style={styles.topMarginMedium}
         >
             {t("note (memo)")}
-        </Subtitle>
+        </Typography.Subtitle>
         <TextInput
             style={[styles.topMarginSmall, styles.memoInput]}
             placeholder={t("description (optional)")}

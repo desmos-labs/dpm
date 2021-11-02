@@ -1,6 +1,6 @@
 import React from "react";
 import {StyleProp, StyleSheet, ViewStyle, Text, TouchableOpacity} from "react-native";
-import {Subtitle} from "./Subtitle";
+import {Typography} from "./index";
 
 type InlineInputProps = {
     /**
@@ -25,7 +25,11 @@ export const InlineLabeledValue: React.FC<InlineInputProps> = (props) => {
         style={[styles.container, props.style]}
         onPress={props.onPress}
     >
-        <Subtitle style={styles.label}>{props.label}</Subtitle>
+        <Typography.Subtitle
+            style={styles.label}
+        >
+            {props.label}
+        </Typography.Subtitle>
         <Text style={styles.text}>{props.value}</Text>
     </TouchableOpacity>
 }

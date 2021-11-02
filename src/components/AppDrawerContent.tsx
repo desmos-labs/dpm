@@ -1,13 +1,12 @@
 import React, {useCallback, useMemo} from "react";
 import {useTranslation} from "react-i18next";
-import {Subtitle} from "./Subtitle";
 import {Button} from "./Button";
 import {makeStyle} from "../theming";
 import {StyledSafeAreaView} from "./StyledSafeAreaView";
 import {FlatList, Image, View, ListRenderItemInfo} from "react-native";
 import {CachedDesmosProfile, ChainAccount} from "../types/chain";
 import {IconButton} from "./IconButton";
-import {ListItemSeparator, ProfileListItem} from "./index";
+import {ListItemSeparator, ProfileListItem, Typography} from "./index";
 import useSelectedAccount from "../hooks/useSelectedAccount";
 import useDeleteAccount from "../hooks/useDeleteAccount";
 import useShowModal from "../hooks/useShowModal";
@@ -133,9 +132,9 @@ export const AppDrawerContent: React.FC<Props> = (props) => {
         />
 
         <View style={styles.accountsContainer}>
-            <Subtitle>
+            <Typography.Subtitle>
                 {t("accounts")}
-            </Subtitle>
+            </Typography.Subtitle>
 
             <FlatList
                 style={styles.accountsList}

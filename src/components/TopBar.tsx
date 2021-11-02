@@ -2,7 +2,7 @@ import React, {ReactElement} from "react";
 import {makeStyle} from "../theming";
 import {Platform, StatusBar, StyleProp, View, ViewStyle} from "react-native";
 import {IconButton} from "./IconButton";
-import {Subtitle} from "./Subtitle";
+import {Typography} from "./index";
 
 type ScreenProps = {
     navigation: {
@@ -54,7 +54,9 @@ export const TopBar: React.FC<Props> = (props) => {
             }
         </View>
         <View style={[styles.container, styles.containerCenter]}>
-            <Subtitle capitalize>{props.title}</Subtitle>
+            <Typography.Subtitle style={styles.title}>
+                {props.title}
+            </Typography.Subtitle>
         </View>
         <View style={[styles.container, styles.containerRight]}>
             {props.rightElement}
@@ -81,6 +83,9 @@ const useStyles = makeStyle(theme => ({
         zIndex: 1,
     },
     containerCenter: {
+    },
+    title: {
+        textTransform: "capitalize",
     },
     containerRight: {
         alignItems: "flex-end",

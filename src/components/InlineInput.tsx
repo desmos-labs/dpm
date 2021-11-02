@@ -1,7 +1,7 @@
 import React, {ComponentProps} from "react";
 import {StyleProp, TextInput, TextStyle, View, ViewStyle} from "react-native";
-import {Subtitle} from "./Subtitle";
 import {makeStyle} from "../theming";
+import {Typography} from "./index";
 
 type InlineInputProps = Omit<ComponentProps<typeof TextInput>, "style"> & {
     label: string
@@ -13,7 +13,11 @@ export const InlineInput: React.FC<InlineInputProps> = (props) => {
     const styles = useStyles();
 
     return <View style={[styles.container, props.style]}>
-        <Subtitle style={styles.label}>{props.label}</Subtitle>
+        <Typography.Subtitle
+            style={styles.label}
+        >
+            {props.label}
+        </Typography.Subtitle>
         <TextInput
             {...props}
             style={[styles.input, props.inputStyle]}
@@ -29,9 +33,8 @@ const useStyles = makeStyle(theme => ({
         paddingVertical: 4,
     },
     label: {
-        flex: 2,
+        flex: 3,
         paddingTop: 8,
-
     },
     input: {
         flex: 7,

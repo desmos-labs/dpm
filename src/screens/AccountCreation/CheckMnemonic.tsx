@@ -1,8 +1,7 @@
 import React, {useCallback, useMemo, useState} from "react";
 import {StackScreenProps} from "@react-navigation/stack";
 import {AccountCreationStackParams} from "../../types/navigation";
-import {Button, MnemonicWordBadge, StyledSafeAreaView, Title, Subtitle} from "../../components";
-import {Paragraph} from "react-native-paper";
+import {Button, MnemonicWordBadge, StyledSafeAreaView, Typography} from "../../components";
 import {useTranslation} from "react-i18next";
 import {makeStyle} from "../../theming";
 import {View} from "react-native";
@@ -64,12 +63,12 @@ export default function CheckMnemonic(props: Props): JSX.Element {
         style={styles.root}
         topBar={<TopBar stackProps={props} />}
     >
-        <Title>
+        <Typography.Title>
             {t("confirm recovery passphrase")}
-        </Title>
-        <Subtitle small>
+        </Typography.Title>
+        <Typography.Subtitle2>
             {t("select each word in order")}.
-        </Subtitle>
+        </Typography.Subtitle2>
 
         <View style={styles.selectedWordsContainer}>
             {selectedWords.map((w, i) => <MnemonicWordBadge
@@ -89,9 +88,9 @@ export default function CheckMnemonic(props: Props): JSX.Element {
                 />)}
         </View>
 
-        <Paragraph style={styles.errorParagraph}>
+        <Typography.Body style={styles.errorParagraph}>
             {errorMessage}
-        </Paragraph>
+        </Typography.Body>
         <Button onPress={onCheckPressed} mode="contained">
             {t("check")}
         </Button>

@@ -48,7 +48,7 @@ const useStyles = makeStyleWithProps((props: Props, theme) => ({
         borderWidth: 2
     },
     input: {
-        fontFamily: "SF Pro Text",
+        fontFamily: "Poppins-Regular",
         paddingHorizontal: 11,
         flexGrow: 1,
         textAlignVertical: props.multiline === true ? "top" : "center",

@@ -125,7 +125,7 @@ const useStyle = makeStyleWithProps((props: Props, theme) => ({
         color: props.disabled ? theme.colors.disabled : theme.colors.text,
     },
     hdPathText: {
-        fontFamily: "SF Pro Text",
+        fontFamily: "Poppins-Regular",
         fontSize: 16,
         fontStyle: "normal",
         fontWeight: "400",

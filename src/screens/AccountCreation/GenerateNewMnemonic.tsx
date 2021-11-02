@@ -2,10 +2,10 @@ import React, {useCallback, useEffect, useState} from "react";
 import {StackScreenProps} from "@react-navigation/stack";
 import {AccountCreationStackParams} from "../../types/navigation";
 import {randomMnemonic} from "../../wallet/LocalWallet";
-import {StyledSafeAreaView, Button, MnemonicGrid, Title, Subtitle} from "../../components";
+import {StyledSafeAreaView, Button, MnemonicGrid, Typography} from "../../components";
 import {useTranslation, Trans} from "react-i18next";
 import {makeStyle} from "../../theming";
-import {Text, View} from "react-native";
+import {View} from "react-native";
 import {FlexPadding} from "../../components/FlexPadding";
 import Colors from "../../constants/colors";
 import {TopBar} from "../../components";
@@ -64,23 +64,24 @@ export default function GenerateNewMnemonic(props: Props): JSX.Element {
         style={styles.root}
         topBar={<TopBar stackProps={props} />}
     >
-        <Title>
+        <Typography.Title>
             {t("secret recovery passphrase")}
-        </Title>
-        <Subtitle
+        </Typography.Title>
+        <Typography.Subtitle
             style={styles.saveMnemonicAdvice}
         >
             <Trans
                 i18nKey="save the recovery passphrase"
                 components={{
-                    bold: <Text style={{
+                    bold: <Typography.Subtitle style={{
                         color: Colors.DesmosOrange,
+                        fontFamily: "Poppins-Bold",
                         fontWeight: "bold"
                     }}/>
                 }}
             >
             </Trans>
-        </Subtitle>
+        </Typography.Subtitle>
 
         {generatingMnemonic ? (
             <View style={styles.loadingView}>

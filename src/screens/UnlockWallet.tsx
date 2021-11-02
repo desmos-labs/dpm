@@ -3,7 +3,7 @@ import {StackScreenProps} from "@react-navigation/stack";
 import {AccountScreensStackParams} from "../types/navigation";
 import {SecureTextInput} from "../components/SecureTextInput";
 import {useTranslation} from "react-i18next";
-import {Button, Paragraph, StyledSafeAreaView, Subtitle, TopBar} from "../components";
+import {Button, StyledSafeAreaView, TopBar, Typography} from "../components";
 import WalletSource from "../sources/LocalWalletsSource";
 import {makeStyle} from "../theming";
 import {FlexPadding} from "../components/FlexPadding";
@@ -47,9 +47,9 @@ export const UnlockWallet: React.FC<Props> = (props) => {
     return <StyledSafeAreaView
         topBar={<TopBar stackProps={props} title={t("wallet password")} />}
     >
-        <Subtitle>
+        <Typography.Subtitle>
             {t("please enter you wallet password")}
-        </Subtitle>
+        </Typography.Subtitle>
         <SecureTextInput
             style={styles.password}
             value={password}
@@ -58,11 +58,11 @@ export const UnlockWallet: React.FC<Props> = (props) => {
             placeholder={t("password")}
             autoFocus={true}
         />
-        <Paragraph
+        <Typography.Body
             style={styles.errorMsg}
         >
             {error}
-        </Paragraph>
+        </Typography.Body>
         <FlexPadding flex={1} />
         <Button
             mode="contained"
@@ -76,7 +76,7 @@ export const UnlockWallet: React.FC<Props> = (props) => {
             onPress={resetPassword}
             style={styles.forgotPasswordBtn}
         >
-            <Paragraph>{t("forgot password?")}</Paragraph>
+            <Typography.Body>{t("forgot password?")}</Typography.Body>
         </TouchableOpacity>
     </StyledSafeAreaView>
 }

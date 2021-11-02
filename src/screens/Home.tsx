@@ -3,7 +3,7 @@ import {AccountScreensStackParams, HomeScreensBottomTabsParams} from "../types/n
 import {CompositeScreenProps} from "@react-navigation/native";
 import {StackScreenProps} from "@react-navigation/stack";
 import React, {useCallback, useMemo, useState} from "react";
-import {AvatarImage, StyledSafeAreaView, TopBar, AccountBalance, TransactionsList, Subtitle} from "../components";
+import {AvatarImage, StyledSafeAreaView, TopBar, AccountBalance, TransactionsList, Typography} from "../components";
 import useSelectedAccount from "../hooks/useSelectedAccount";
 import {useTranslation} from "react-i18next";
 import useFetchProfile from "../hooks/useFetchProfile";
@@ -106,9 +106,9 @@ export const Home: React.FC<Props> = (props) => {
             onSendPressed={onSendPressed}
         />
         <View style={styles.transactionsContainer}>
-            <Subtitle capitalize>
+            <Typography.Subtitle>
                 {t("transactions")}
-            </Subtitle>
+            </Typography.Subtitle>
             <TransactionsList
                 style={styles.transactionList}
                 onTxPressed={onTxPressed}

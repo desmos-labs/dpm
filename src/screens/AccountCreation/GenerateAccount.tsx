@@ -7,7 +7,7 @@ import {
 import {ChainAccount, ChainAccountType} from "../../types/chain";
 import useSaveWallet from "../../hooks/useSaveWallet";
 import useSaveAccount from "../../hooks/useSaveAccount";
-import {StyledSafeAreaView, Button, Title, Paragraph, Typography} from "../../components";
+import {StyledSafeAreaView, Button, Typography} from "../../components";
 import {useTranslation} from "react-i18next";
 import {makeStyle} from "../../theming";
 import {Image} from "react-native";
@@ -74,11 +74,11 @@ export default function GenerateAccount(props: Props): JSX.Element {
 
     return <StyledSafeAreaView style={styles.root}>
         {generating ? (
-            <Title
+            <Typography.Title
                 style={styles.generatingText}
             >
                 {t("generating account")}...
-            </Title>
+            </Typography.Title>
         ) : account !== null ? (<>
             <Image
                 style={styles.icon}
@@ -86,9 +86,9 @@ export default function GenerateAccount(props: Props): JSX.Element {
                 resizeMode="contain"
             />
 
-            <Title>
+            <Typography.Title>
                 {t("success")}
-            </Title>
+            </Typography.Title>
             <Typography.Body1>
                 {t("account created")}
             </Typography.Body1>
@@ -107,16 +107,16 @@ export default function GenerateAccount(props: Props): JSX.Element {
                 (DBG) Regenerate keys
             </Button>}
         </>) : (<>
-            <Paragraph
+            <Typography.Body
                 style={styles.errorText}
             >
                 {t("error generating account")}
-            </Paragraph>
-            <Paragraph
+            </Typography.Body>
+            <Typography.Body
                 style={styles.errorText}
             >
                 {error}
-            </Paragraph>
+            </Typography.Body>
         </>)}
     </StyledSafeAreaView>
 }

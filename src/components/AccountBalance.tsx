@@ -1,11 +1,10 @@
 import React from "react";
-import {Title} from "./Title";
 import {StyleProp, TouchableOpacity, View, ViewStyle, Text} from "react-native";
-import {Paragraph} from "./Paragraph";
 import {IconButton} from "./IconButton";
 import {useTranslation} from "react-i18next";
 import {makeStyle} from "../theming";
 import useFetchUserBalance from "../hooks/useFetchUserBalance";
+import {Typography} from "./index";
 
 
 export type Props = {
@@ -37,21 +36,21 @@ export const AccountBalance: React.FC<Props> = (props) => {
     return <View
         style={[styles.root, props.style]}
     >
-        {props?.nickname ? (<Title
+        {props?.nickname ? (<Typography.Title
             style={styles.text}
         >
             {props?.nickname}
-        </Title>) : null}
+        </Typography.Title>) : null}
         <View
             style={styles.addressContainer}
         >
-            <Paragraph
+            <Typography.Body
                 style={[styles.address, styles.text]}
                 ellipsizeMode={"middle"}
                 numberOfLines={1}
             >
                 {props.address}
-            </Paragraph>
+            </Typography.Body>
             <IconButton
                 icon="content-copy"
                 size={16}
@@ -65,12 +64,12 @@ export const AccountBalance: React.FC<Props> = (props) => {
             <View
                 style={styles.balanceTextContainer}
             >
-                <Paragraph>
+                <Typography.Body>
                     {t("available")}:
-                </Paragraph>
-                <Title capitalize={false}>
+                </Typography.Body>
+                <Typography.Title>
                     {chainBalance.amount} {chainBalance.denom.toUpperCase()}
-                </Title>
+                </Typography.Title>
             </View>
             <TouchableOpacity
                 style={styles.sendButton}

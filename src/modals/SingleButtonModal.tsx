@@ -1,7 +1,7 @@
 import React, {useCallback} from "react";
 import {Image, ImageSourcePropType, View} from "react-native";
 import {makeStyle} from "../theming";
-import {Button, Paragraph, Title} from "../components";
+import {Button, Typography} from "../components";
 import {ModalComponent, RootStackParams} from "../types/navigation";
 import {StackNavigationProp} from "@react-navigation/stack/lib/typescript/src/types";
 
@@ -47,16 +47,16 @@ export const SingleButtonModal: ModalComponent<SingleButtonModalParams> = (props
             resizeMode="contain"
             source={params.image}
         />}
-        <Title
+        <Typography.Title
             style={[styles.centred, styles.title]}
         >
             {params.title}
-        </Title>
-        <Paragraph
+        </Typography.Title>
+        <Typography.Body
             style={styles.centred}
         >
             {params.message}
-        </Paragraph>
+        </Typography.Body>
         <Button
             style={styles.button}
             mode="contained"

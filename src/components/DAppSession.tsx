@@ -2,10 +2,9 @@ import React, {useCallback, useMemo} from "react";
 import {useTranslation} from "react-i18next";
 import {DAppSession as DAppSessionType} from "../types/dapp";
 import {Image, View} from "react-native";
-import {Title} from "./Title";
 import {makeStyle} from "../theming";
 import {format} from "date-fns";
-import {Button, Paragraph} from "./index";
+import {Button, Typography} from "./index";
 
 export type Props = {
     session: DAppSessionType,
@@ -46,17 +45,17 @@ export function DAppSession(props: Props) {
             source={appIcon}
             resizeMode="center"
         />
-        <Title
+        <Typography.Title
             style={styles.appName}
         >
             {session.name}
-        </Title>
-        <Paragraph>{dateString}</Paragraph>
-        <Paragraph
+        </Typography.Title>
+        <Typography.Body>{dateString}</Typography.Body>
+        <Typography.Body
             style={styles.permissions}
         >
             {permissionsString}
-        </Paragraph>
+        </Typography.Body>
         <Button
             style={styles.revokeButton}
             mode="contained"

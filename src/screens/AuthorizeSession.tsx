@@ -2,7 +2,7 @@ import React, {useCallback, useEffect, useMemo} from "react";
 import {FlatList, Image, ListRenderItemInfo, StyleProp, View, ViewStyle} from "react-native";
 import {AccountScreensStackParams} from "../types/navigation";
 import {StackScreenProps} from "@react-navigation/stack";
-import {Button, Divider, Paragraph, StyledSafeAreaView, Subtitle, TopBar} from "../components";
+import {Button, Divider, StyledSafeAreaView, TopBar, Typography} from "../components";
 import {useTranslation} from "react-i18next";
 import useWalletConnectRequestApproveTs from "../hooks/useWalletConnectSessionApprove";
 import useWalletConnectSessionReject from "../hooks/useWalletConnectSessionReject";
@@ -150,13 +150,13 @@ export default function AuthorizeSession(props: Props) {
                 source={dappIcon}
                 resizeMode="center"
             />
-            <Paragraph
+            <Typography.Body
                 style={styles.permissionMessage}
             >
                 {t("the application requires the following authorizations", {
                     app: appName
                 })}:
-            </Paragraph>
+            </Typography.Body>
             <FlatList
                 style={styles.permissionList}
                 data={authorizations}
@@ -165,11 +165,11 @@ export default function AuthorizeSession(props: Props) {
                 keyExtractor={(item, index) => index.toString()}
             />
         </View>
-        <Paragraph
+        <Typography.Body
             style={styles.bottomMessage}
         >
             {t("note")}: {t("you will be able to revoke such authorizations inside your authorization page")}
-        </Paragraph>
+        </Typography.Body>
         <Button
             mode="contained"
             onPress={onGrant}
@@ -248,11 +248,18 @@ const AuthorizationListElement: React.FC<AuthorizationListElementProps> = (props
     const expiration = authorization.expiration ? format(authorization.expiration, "EEE MMM dd, yyyy") : t("never")
 
     return <View style={style}>
-        <Subtitle bold>{authorization.title}</Subtitle>
-        {authorization.limit && <Paragraph>{t("limit")}: {authorization.limit}</Paragraph>}
-        <Paragraph>
+        <Typography.Subtitle>
+            {authorization.title}
+        </Typography.Subtitle>
+
+        {authorization.limit && (
+            <Typography.Body>
+                {t("limit")}: {authorization.limit}
+            </Typography.Body>
+        )}
+        <Typography.Body>
             {t("expires on")}: {expiration}
-        </Paragraph>
+        </Typography.Body>
 
     </View>
 }

@@ -2,7 +2,7 @@ import React, {useState} from "react";
 import {View} from "react-native";
 import {StackScreenProps} from "@react-navigation/stack";
 import {AccountCreationStackParams} from "../../types/navigation";
-import {StyledSafeAreaView, Button, Title, Subtitle, Paragraph, PasswordComplexity} from "../../components";
+import {StyledSafeAreaView, Button, Typography, PasswordComplexity} from "../../components";
 import {useTranslation} from "react-i18next";
 import {makeStyle} from "../../theming";
 import {SecureTextInput} from "../../components/SecureTextInput";
@@ -95,20 +95,20 @@ export default function WalletPassword(props: Props): JSX.Element {
         style={styles.root}
         topBar={<TopBar stackProps={props} />}
     >
-        <Title>
+        <Typography.Title>
             {t("protect your wallet")}
-        </Title>
-        <Subtitle>
+        </Typography.Title>
+        <Typography.Body>
             {t("add an extra layer of security to keep your tokens safe")}
-        </Subtitle>
+        </Typography.Body>
 
         <View style={styles.passwordLabel}>
-            <Paragraph capitalize>
+            <Typography.Body>
                 {isCreatePassword ?
                     t("enter security password") :
                     t("confirm security password")
                 }
-            </Paragraph>
+            </Typography.Body>
 
             {isCreatePassword && <PasswordComplexity score={evaluatePasswordComplexity(password)}/>}
         </View>
@@ -120,14 +120,14 @@ export default function WalletPassword(props: Props): JSX.Element {
             onSubmitEditing={onContinuePressed}
             autoFocus={true}
         />
-        {isCreatePassword && <Paragraph style={styles.passwordComplexityHint}>
+        {isCreatePassword && <Typography.Body style={styles.passwordComplexityHint}>
             {t("password complexity hint")}.
-        </Paragraph> }
-        <Paragraph
+        </Typography.Body> }
+        <Typography.Body
             style={styles.errorParagraph}
         >
             {errorMessage}
-        </Paragraph>
+        </Typography.Body>
         <Button
             style={styles.continueButton}
             mode="contained"

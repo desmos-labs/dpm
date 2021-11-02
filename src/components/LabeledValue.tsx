@@ -1,8 +1,7 @@
 import React from "react";
 import {View} from "react-native";
-import {Subtitle} from "./Subtitle";
-import {Paragraph} from "./Paragraph";
 import {makeStyle} from "../theming";
+import {Typography} from "./typography";
 
 export type Props = {
     /**
@@ -19,8 +18,8 @@ export const LabeledValue: React.FC<Props> = (props) => {
     const styles = useStyles();
 
     return <View style={styles.root}>
-        <Subtitle>{props.label}</Subtitle>
-        <Paragraph>{props.value}</Paragraph>
+        <Typography.Subtitle>{props.label}</Typography.Subtitle>
+        <Typography.Body>{props.value}</Typography.Body>
     </View>
 }
 
