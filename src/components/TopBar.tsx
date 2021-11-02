@@ -1,6 +1,6 @@
 import React, {ReactElement} from "react";
 import {makeStyle} from "../theming";
-import {StatusBar, StyleProp, View, ViewStyle} from "react-native";
+import {Platform, StatusBar, StyleProp, View, ViewStyle} from "react-native";
 import {IconButton} from "./IconButton";
 import {Subtitle} from "./Subtitle";
 
@@ -69,7 +69,7 @@ const useStyles = makeStyle(theme => ({
         alignItems: "center",
         justifyContent: "space-between",
         backgroundColor: theme.colors.background,
-        paddingTop: StatusBar.currentHeight,
+        paddingTop: Platform.OS === "android" ? StatusBar.currentHeight : 20,
     },
     container: {
         flex: 1,

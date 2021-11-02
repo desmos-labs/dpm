@@ -1,5 +1,5 @@
 import React, {ReactElement} from "react";
-import {SafeAreaView, ScrollView, TouchableWithoutFeedback, View, ViewProps} from "react-native";
+import {Platform, ScrollView, TouchableWithoutFeedback, View, ViewProps} from "react-native";
 import {makeStyleWithProps} from "../theming";
 import {Divider} from "./Divider";
 import useCloseKeyboard from "../hooks/useCloseKeyboard";
@@ -28,7 +28,7 @@ export const StyledSafeAreaView: React.FC<Props> = (props) => {
     const styles = useStyles(props);
     const closeKeyboard = useCloseKeyboard();
 
-    return <SafeAreaView style={styles.background}>
+    return <View style={styles.background}>
         {props.topBar}
         {props.divider && <Divider />}
         <TouchableWithoutFeedback onPress={closeKeyboard}>
@@ -40,7 +40,7 @@ export const StyledSafeAreaView: React.FC<Props> = (props) => {
                 ) : props.children }
             </View>
         </TouchableWithoutFeedback>
-    </SafeAreaView>
+    </View>
 }
 
 const useStyles = makeStyleWithProps((props: Props, theme) =>({
@@ -48,6 +48,7 @@ const useStyles = makeStyleWithProps((props: Props, theme) =>({
         display: "flex",
         flexDirection: "column",
         flexGrow: 1,
+        paddingBottom: Platform.OS === "android" ?  0 : 24,
     },
     content: {
         display: "flex",
