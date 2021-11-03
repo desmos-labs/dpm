@@ -69,7 +69,6 @@ const useStyles = makeStyle(theme => ({
         display: "flex",
         flexDirection: "row",
         alignItems: "center",
-        justifyContent: "space-between",
         backgroundColor: theme.colors.background,
         paddingTop: Platform.OS === "android" ? StatusBar.currentHeight : 20,
     },
@@ -83,6 +82,7 @@ const useStyles = makeStyle(theme => ({
         zIndex: 1,
     },
     containerCenter: {
+        flex: 4,
     },
     title: {
         textTransform: "capitalize",
