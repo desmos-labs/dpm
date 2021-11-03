@@ -52,7 +52,7 @@ export const Button: React.FC<Props> = props => {
 
     return <MaterialButton
         icon={props.icon}
-        color={props.color ?? props.accent ? theme.colors.accent : theme.colors.primary}
+        color={props.color ? props.color : props.accent ? theme.colors.accent : theme.colors.primary}
         onPress={props.onPress}
         mode={props.mode}
         labelStyle={[styles.labelStyle, props.labelStyle]}
