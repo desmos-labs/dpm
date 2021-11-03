@@ -24,6 +24,12 @@ type WalletHdPathPair = {
 
 export type Props = StackScreenProps<AccountCreationStackParams, "PickDerivationPath">;
 
+const DEFAULT_HD_PATH: HdPath = {
+    account: 0,
+    change: 0,
+    addressIndex: 0,
+}
+
 export const PickDerivationPath: React.FC<Props> = (props) => {
     const {mnemonic} = props.route.params;
     const {t} = useTranslation();
@@ -37,6 +43,18 @@ export const PickDerivationPath: React.FC<Props> = (props) => {
     const [addressPickerVisible, setAddressPickerVisible] = useState(false);
     const accountExists = useAccountExists();
 
+    const generateWalletFromHdPath = useCallback(async (hdPath: HdPath) => {
+        setSelectedWallet(null);
+        try {
+            const wallet = await LocalWallet.fromMnemonic(mnemonic, {
+                hdPath: hdPath
+            });
+            setSelectedWallet(wallet);
+        } catch (e) {
+            console.error(e);
+        }
+    }, [mnemonic]);
+
     useEffect(() => {
         generateWalletFromHdPath(selectedHdPath);
         // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -48,15 +66,16 @@ export const PickDerivationPath: React.FC<Props> = (props) => {
                 // The address picker is is being displayed,
                 // remove the wallet generated from the derivation path.
                 setSelectedWallet(null);
-                setSelectedHdPath({
-                    account: 0,
-                    change: 0,
-                    addressIndex: 0,
-                });
+                setSelectedHdPath(DEFAULT_HD_PATH);
+            } else {
+                if (selectedWallet === null) {
+                    setSelectedHdPath(DEFAULT_HD_PATH);
+                    generateWalletFromHdPath(DEFAULT_HD_PATH);
+                }
             }
             return !visible
         });
-    }, []);
+    }, [generateWalletFromHdPath, selectedWallet]);
 
     const renderListItem = useCallback((info: ListRenderItemInfo<WalletHdPathPair>) => {
         const {wallet, hdPath} = info.item;
@@ -76,18 +95,6 @@ export const PickDerivationPath: React.FC<Props> = (props) => {
     const listKeyExtractor = useCallback((item: WalletHdPathPair, _: number) => {
         return item.wallet.bech32Address;
     }, []);
-
-    const generateWalletFromHdPath = useCallback(async (hdPath: HdPath) => {
-        setSelectedWallet(null);
-        try {
-            const wallet = await LocalWallet.fromMnemonic(mnemonic, {
-                hdPath: hdPath
-            });
-            setSelectedWallet(wallet);
-        } catch (e) {
-            console.error(e);
-        }
-    }, [mnemonic]);
 
     const onHdPathChange = useCallback((hdPath: HdPath) => {
         setSelectedHdPath(hdPath);
