@@ -22,6 +22,7 @@ import {AccountBalance} from "./AccountBalance";
 import {IconButton} from "./IconButton";
 import {TransactionsList} from "./tx/list";
 import {DesmosIcon} from "./DesmosIcon"
+import {InlineButtons} from "./InlineButtons";
 
 export {
     Typography,
@@ -48,4 +49,5 @@ export {
     IconButton,
     TransactionsList,
     DesmosIcon,
+    InlineButtons
 }

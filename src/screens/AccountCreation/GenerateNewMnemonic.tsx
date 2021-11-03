@@ -2,12 +2,11 @@ import React, {useCallback, useEffect, useState} from "react";
 import {StackScreenProps} from "@react-navigation/stack";
 import {AccountCreationStackParams} from "../../types/navigation";
 import {randomMnemonic} from "../../wallet/LocalWallet";
-import {StyledSafeAreaView, Button, MnemonicGrid, Typography} from "../../components";
-import {useTranslation, Trans} from "react-i18next";
+import {Button, InlineButtons, MnemonicGrid, StyledSafeAreaView, TopBar, Typography} from "../../components";
+import {Trans, useTranslation} from "react-i18next";
 import {makeStyle} from "../../theming";
 import {View} from "react-native";
 import Colors from "../../constants/colors";
-import {TopBar} from "../../components";
 import {ActivityIndicator} from "react-native-paper";
 
 declare type Props = StackScreenProps<AccountCreationStackParams, "GenerateNewMnemonic">;
@@ -35,13 +34,12 @@ export default function GenerateNewMnemonic(props: Props): JSX.Element {
         }
     }, [generationDelay]);
 
-    const onChangeLengthChanged = useCallback(async () => {
-        let newLength: 12 | 24 = mnemonicLength === 24 ? 12 : 24;
+    const changeMnemonicLength = useCallback(async (newLength: 12 | 24) => {
         setMnemonicLength(newLength);
         setMnemonic(null);
         const newMnemonic = await generateMnemonic(newLength);
         setMnemonic(newMnemonic);
-    }, [generateMnemonic, mnemonicLength]);
+    }, [generateMnemonic]);
 
     // Hook to launch the generation when the user enter on the screen
     useEffect(() => {
@@ -90,17 +88,22 @@ export default function GenerateNewMnemonic(props: Props): JSX.Element {
             </View>
         ) : (
             <>
+                <InlineButtons
+                    selected={mnemonicLength === 24 ? 0 : 1}
+                    buttons={[
+                        {
+                            label: `24 ${t("words")}`,
+                            onPress: () => changeMnemonicLength(24)
+                        },
+                        {
+                            label: `12 ${t("words")}`,
+                            onPress: () => changeMnemonicLength(12)
+                        }
+                    ]}/>
                 <MnemonicGrid
                     style={styles.mnemonic}
                     mnemonic={mnemonic!}
                 />
-                <View style={styles.wordsBtnContainer}>
-                    <Button
-                        onPress={onChangeLengthChanged}
-                    >
-                        {mnemonicLength === 12 ? 24 : 12} {t("words")}
-                    </Button>
-                </View>
             </>
         )}
         <Button

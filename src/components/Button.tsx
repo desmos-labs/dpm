@@ -42,6 +42,7 @@ export type Props = {
      * If tru display the button with the accent color from the current1 theme.
      */
     accent?: boolean,
+    contentStyle?: StyleProp<ViewStyle>;
     style?: StyleProp<ViewStyle>,
 }
 
@@ -56,7 +57,7 @@ export const Button: React.FC<Props> = props => {
         mode={props.mode}
         labelStyle={[styles.labelStyle, props.labelStyle]}
         style={[styles.btnStyle, props.style]}
-        contentStyle={styles.contentStyle}
+        contentStyle={[styles.contentStyle, props.contentStyle]}
         loading={props.loading}
         disabled={props.disabled}
     >
@@ -72,6 +73,8 @@ const useStyles = makeStyleWithProps((props: Props, theme) => {
         labelStyle: {
             color: props.mode === "contained" ? theme.colors.font["5"] : color,
             textTransform: "capitalize",
+            fontFamily: "Poppins-Regular",
+            fontWeight: "bold",
         },
         btnStyle: {
             borderColor: color,
