@@ -98,7 +98,6 @@ export default function GenerateNewMnemonic(props: Props): JSX.Element {
                 <View style={styles.wordsBtnContainer}>
                     <Button
                         onPress={onChangeLengthChanged}
-                        accent
                     >
                         {mnemonicLength === 12 ? 24 : 12} {t("words")}
                     </Button>

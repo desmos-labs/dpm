@@ -100,7 +100,6 @@ export const SendToken: React.FC<Props> = (props) => {
             numberOfLines={1}
             error={amountInvalid}
             rightElement={<Button
-                accent
                 onPress={onMaxPressed}
             >
                 {t("max")}

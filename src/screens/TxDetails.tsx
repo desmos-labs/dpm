@@ -41,7 +41,6 @@ export const TxDetails: React.FC<Props> = (props) => {
         <Button
             mode="text"
             onPress={openExplorer}
-            accent
         >
             {t("view on desmos explorer")}
         </Button>
