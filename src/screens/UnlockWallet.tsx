@@ -7,7 +7,7 @@ import {Button, StyledSafeAreaView, TopBar, Typography} from "../components";
 import WalletSource from "../sources/LocalWalletsSource";
 import {makeStyle} from "../theming";
 import {FlexPadding} from "../components/FlexPadding";
-import {TouchableOpacity} from "react-native";
+
 
 type Props = StackScreenProps<AccountScreensStackParams, "UnlockWallet">
 
@@ -40,9 +40,6 @@ export const UnlockWallet: React.FC<Props> = (props) => {
         setLoading(false);
     }, [address, password, props.navigation, resolve, t]);
 
-    const resetPassword = useCallback(() => {
-        console.warn("Not implemented");
-    }, [])
 
     return <StyledSafeAreaView
         topBar={<TopBar stackProps={props} title={t("wallet password")} />}
@@ -72,12 +69,12 @@ export const UnlockWallet: React.FC<Props> = (props) => {
         >
             {loading ? t("unlocking") : t("confirm")}
         </Button>
-        <TouchableOpacity
-            onPress={resetPassword}
-            style={styles.forgotPasswordBtn}
-        >
-            <Typography.Body>{t("forgot password?")}</Typography.Body>
-        </TouchableOpacity>
+        {/*<TouchableOpacity*/}
+        {/*    onPress={resetPassword}*/}
+        {/*    style={styles.forgotPasswordBtn}*/}
+        {/*>*/}
+        {/*    <Typography.Body>{t("forgot password?")}</Typography.Body>*/}
+        {/*</TouchableOpacity>*/}
     </StyledSafeAreaView>
 }
 
