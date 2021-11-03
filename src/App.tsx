@@ -16,8 +16,8 @@ const PaperProviderSettings: Settings = {
 }
 
 export default function App(): JSX.Element {
-    const client = useApolloClient();
     const chainId = __DEV__ ? 'morpheus-apollo-2' : 'desmos-mainnet';
+    const client = useApolloClient(chainId);
 
     return (
         <ApolloProvider client={client}>
