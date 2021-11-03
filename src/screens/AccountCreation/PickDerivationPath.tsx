@@ -171,10 +171,10 @@ export const PickDerivationPath: React.FC<Props> = (props) => {
             onPress={toggleAddressPicker}
         >
             <Typography.Subtitle style={[
-                styles.accountLabel,
-                !addressPickerVisible ? styles.accentText : null,
+                styles.toggleSelectAccount,
+                !addressPickerVisible ? styles.toggleSelectAccountEnabled : null,
             ]}>
-                {t("select account you want")}
+                {t("select the account you want")}
             </Typography.Subtitle>
         </TouchableOpacity>
 
@@ -231,8 +231,11 @@ const useStyles = makeStyle(theme => ({
         fontSize: 16,
         fontFamily: "Poppins-Regular"
     },
-    accountLabel: {
+    toggleSelectAccount: {
         marginTop: theme.spacing.l,
+    },
+    toggleSelectAccountEnabled: {
+        color: theme.colors.primary,
     },
     addressesList: {
         flex: 1,
@@ -244,7 +247,4 @@ const useStyles = makeStyle(theme => ({
     disabledText: {
         color: theme.colors.disabled,
     },
-    accentText: {
-        color: theme.colors.font["4"],
-    }
 }));
