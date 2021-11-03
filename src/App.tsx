@@ -17,10 +17,8 @@ const PaperProviderSettings: Settings = {
 
 export default function App(): JSX.Element {
     const client = useApolloClient();
+    const chainId = __DEV__ ? 'morpheus-apollo-2' : 'desmos-mainnet';
 
-    //const chainId = __DEV__ ? 'morpheus-apollo-2' : 'desmos-mainnet'
-    // Force to testnet for the moment
-    const chainId = 'morpheus-apollo-2';
     return (
         <ApolloProvider client={client}>
             <DesmosSdkProvider chainId={chainId}>
