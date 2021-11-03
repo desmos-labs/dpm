@@ -178,7 +178,6 @@ export class WalletConnectController {
                 creationDate: session.creationDate.toISOString()
             }));
         const serializedSessions = JSON.stringify(sessions);
-        console.log(serializedSessions);
         await AsyncStorage.setItem(STORAGE_KEYS.sessions, serializedSessions);
     }
 
@@ -192,7 +191,6 @@ export class WalletConnectController {
             if (jsonSessions === null) {
                 return [];
             }
-            console.log(jsonSessions);
             return JSON.parse(jsonSessions);
         } catch (ex) {
             console.error("Error while loading WalletConnect sessions", ex);
@@ -279,7 +277,6 @@ export class WalletConnectController {
      * @private
      */
     private async onSessionUpdate(session: WalletConnectSession, error: Error | null, payload: any) {
-        console.log("on session_update", payload);
         const {clientId, chainId, accounts} = session.client;
         const event: SessionUpdateEvent = {
             error
