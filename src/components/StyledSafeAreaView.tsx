@@ -28,7 +28,7 @@ export const StyledSafeAreaView: React.FC<Props> = (props) => {
     const styles = useStyles(props);
     const closeKeyboard = useCloseKeyboard();
 
-    return <View style={styles.background}>
+    return <View style={styles.root}>
         {props.topBar}
         {props.divider && <Divider />}
         <TouchableWithoutFeedback onPress={closeKeyboard}>
@@ -44,7 +44,7 @@ export const StyledSafeAreaView: React.FC<Props> = (props) => {
 }
 
 const useStyles = makeStyleWithProps((props: Props, theme) =>({
-    background: {
+    root: {
         display: "flex",
         flexDirection: "column",
         flexGrow: 1,

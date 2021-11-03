@@ -5,7 +5,7 @@ import {Button, Divider, LabeledValue, StyledSafeAreaView} from "../components";
 import {useTranslation} from "react-i18next";
 import {makeStyle} from "../theming";
 import {ProfileHeader} from "../components/ProfileHeader";
-import {ScrollView} from "react-native";
+import {ScrollView, View} from "react-native";
 import useUnlockWallet from "../hooks/useUnlockWallet";
 import {useCurrentChainInfo, useDesmosClient} from "@desmoslabs/sdk-react";
 import {convertCoin, DesmosProfile, MsgSaveProfileEncodeObject} from "@desmoslabs/sdk-core";
@@ -133,43 +133,48 @@ export const ConfirmProfileEdit: React.FC<Props> = (props) => {
             coverPictureUri={localCoverPictureUri}
             profilePictureUri={localProfilePictureUri}
         />
-        <ScrollView style={styles.details}>
-            <LabeledValue
-                label={t("nickname")}
-                value={nickname}
-            />
-            <Divider/>
+        <View
+            style={styles.details}
+            onStartShouldSetResponder={() => true}
+        >
+            <ScrollView>
+                <LabeledValue
+                    label={t("nickname")}
+                    value={nickname}
+                />
+                <Divider/>
 
-            <LabeledValue
-                label={t("dtag")}
-                value={dtag}
-            />
-            <Divider/>
+                <LabeledValue
+                    label={t("dtag")}
+                    value={dtag}
+                />
+                <Divider/>
 
-            <LabeledValue
-                label={t("bio")}
-                value={bio}
-            />
-            <Divider/>
+                <LabeledValue
+                    label={t("bio")}
+                    value={bio}
+                />
+                <Divider/>
 
-            <LabeledValue
-                label={t("address")}
-                value={account.address}
-            />
-            <Divider/>
+                <LabeledValue
+                    label={t("address")}
+                    value={account.address}
+                />
+                <Divider/>
 
-            <LabeledValue
-                label={t("tx type")}
-                value={t("tx type save profile")}
-            />
-            <Divider/>
+                <LabeledValue
+                    label={t("tx type")}
+                    value={t("tx type save profile")}
+                />
+                <Divider/>
 
-            <LabeledValue
-                label={t("fee")}
-                value={`${convertedTxFee.amount} ${convertedTxFee.denom.toUpperCase()}`}
-            />
-            <Divider/>
-        </ScrollView>
+                <LabeledValue
+                    label={t("fee")}
+                    value={`${convertedTxFee.amount} ${convertedTxFee.denom.toUpperCase()}`}
+                />
+                <Divider/>
+            </ScrollView>
+        </View>
 
         <Button
             style={styles.confirmBtn}

@@ -1,5 +1,5 @@
 import React, {useMemo} from "react";
-import {ScrollView, StyleProp, View, ViewStyle} from "react-native";
+import {ScrollView, StyleProp, StyleSheet, View, ViewStyle} from "react-native";
 import {Divider, LabeledValue} from "../index";
 import {useTranslation} from "react-i18next";
 import Long from "long";
@@ -47,36 +47,48 @@ export const TxDetails: React.FC<Props> = (props) => {
         }
     }, [chainInfo.coinDenom, chainInfo.denomUnits, fee])
 
-    return <ScrollView style={props.style}>
-        {messages.map((msg: EncodeObject | Any, i: number) => {
-            return <View key={`view_${i}`}>
-                <TxMessage key={`msg_${i}`} message={msg}/>
-                <Divider key={`divider_${i}`}/>
-            </View>
-        })}
-        <LabeledValue
-            label={t("fee")}
-            value={txFex}
-        />
-        <Divider/>
-        {dateTime && (<>
+    return <View
+        style={styles.root}
+        onStartShouldSetResponder={() => true}
+    >
+        <ScrollView style={props.style}>
+            {messages.map((msg: EncodeObject | Any, i: number) => {
+                return <View key={`view_${i}`}>
+                    <TxMessage key={`msg_${i}`} message={msg}/>
+                    <Divider key={`divider_${i}`}/>
+                </View>
+            })}
             <LabeledValue
-                label={t("time")}
-                value={format(dateTime, "dd MMM yyyy, HH:mm:ss")}
+                label={t("fee")}
+                value={txFex}
             />
             <Divider/>
-        </>)}
-        {success !== undefined && (<>
+            {dateTime && (<>
+                <LabeledValue
+                    label={t("time")}
+                    value={format(dateTime, "dd MMM yyyy, HH:mm:ss")}
+                />
+                <Divider/>
+            </>)}
+            {success !== undefined && (<>
+                <LabeledValue
+                    label={t("status")}
+                    value={success ? t("success") : t("fail")}
+                />
+                <Divider/>
+            </>)}
             <LabeledValue
-                label={t("status")}
-                value={success ? t("success") : t("fail")}
+                label={t("memo")}
+                value={(memo?.length ?? 0) > 0 ? memo : "N/A"}
             />
             <Divider/>
-        </>)}
-        <LabeledValue
-            label={t("memo")}
-            value={(memo?.length ?? 0) > 0 ? memo : "N/A"}
-        />
-        <Divider/>
-    </ScrollView>
+        </ScrollView>
+    </View>
 }
+
+
+const styles = StyleSheet.create({
+    root: {
+        flex: 1,
+    }
+})

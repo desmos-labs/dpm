@@ -6,7 +6,6 @@ import {StyledSafeAreaView, Button, MnemonicGrid, Typography} from "../../compon
 import {useTranslation, Trans} from "react-i18next";
 import {makeStyle} from "../../theming";
 import {View} from "react-native";
-import {FlexPadding} from "../../components/FlexPadding";
 import Colors from "../../constants/colors";
 import {TopBar} from "../../components";
 import {ActivityIndicator} from "react-native-paper";
@@ -102,7 +101,6 @@ export default function GenerateNewMnemonic(props: Props): JSX.Element {
                         {mnemonicLength === 12 ? 24 : 12} {t("words")}
                     </Button>
                 </View>
-                <FlexPadding flex={1}/>
             </>
         )}
         <Button
@@ -129,7 +127,8 @@ const useStyles = makeStyle((theme) => ({
         marginTop: theme.spacing.s,
     },
     mnemonic: {
-        marginTop: theme.spacing.m
+        marginTop: theme.spacing.m,
+        flex: 1,
     },
     wordsBtnContainer: {
         display: "flex",

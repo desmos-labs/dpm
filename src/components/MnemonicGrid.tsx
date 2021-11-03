@@ -1,5 +1,5 @@
-import React, {useMemo} from "react";
-import {StyleProp, StyleSheet, View, ViewStyle} from "react-native";
+import React, {useCallback, useMemo} from "react";
+import {FlatList, ListRenderItemInfo, StyleProp, StyleSheet, View, ViewStyle} from "react-native";
 import {MnemonicWordBadge} from "./MnemonicWordBadge";
 import {makeStyle} from "../theming";
 
@@ -26,24 +26,29 @@ export const MnemonicGrid: React.FC<Props> = (props) => {
         return matrix;
     }, [words]);
 
-    const components = useMemo(() => {
-        return wordMatrix.map((row, rI) => {
-            return <View key={`row-${rI}`} style={styles.row}>
-                {row.map((w, wI) => {
-                    const wordIndex = (rI * 3) + wI + 1;
-                    return <MnemonicWordBadge
-                        key={`word-${wordIndex}`}
-                        style={styles.word}
-                        value={w}
-                        index={wordIndex}
-                    />
-                })}
-            </View>
-        })
-    }, [wordMatrix, styles])
+    const renderRow = useCallback((info: ListRenderItemInfo<string[]>) => {
+        const row = info.item;
+        const rowIndex = info.index;
+        return <View style={styles.row}>
+            {row.map((w, index) => {
+                const wordIndex = (rowIndex * 3) + index + 1;
+                return <MnemonicWordBadge
+                    key={`word-${wordIndex}`}
+                    style={styles.word}
+                    value={w}
+                    index={wordIndex}
+                />
+            })}
+        </View>
+    }, [styles.row, styles.word]);
 
     return <View style={StyleSheet.compose(props.style, styles.root)}>
-        {components}
+        <FlatList
+            data={wordMatrix}
+            renderItem={renderRow}
+            keyExtractor={((item, index) => `row-${index}`)}
+            showsVerticalScrollIndicator={true}
+        />
     </View>
 }
 
