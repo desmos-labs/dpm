@@ -5,7 +5,6 @@ import {makeStyle} from "../theming";
 import {StyledSafeAreaView} from "./StyledSafeAreaView";
 import {FlatList, Image, View, ListRenderItemInfo} from "react-native";
 import {CachedDesmosProfile, ChainAccount} from "../types/chain";
-import {IconButton} from "./IconButton";
 import {ListItemSeparator, ProfileListItem, Typography} from "./index";
 import useSelectedAccount from "../hooks/useSelectedAccount";
 import useDeleteAccount from "../hooks/useDeleteAccount";
@@ -55,10 +54,6 @@ export const AppDrawerContent: React.FC<Props> = (props) => {
             params: undefined
         })
     }, [navigation, closeDrawer]);
-
-    const openSettings = useCallback(() => {
-        console.warn("Settings screen not implemented")
-    }, []);
 
     const onChangeAccount = useCallback((account: ChainAccount) => {
         if (account.address !== selectedAccount?.address) {
@@ -120,11 +115,6 @@ export const AppDrawerContent: React.FC<Props> = (props) => {
     }, [onChangeAccount, editProfile, showDeleteModal]);
 
     return <StyledSafeAreaView>
-        <IconButton
-            style={styles.settingsBtn}
-            icon="settings"
-            onPress={openSettings}
-        />
         <Image
             style={styles.desmosIcon}
             source={require("../assets/desmos-vertical-orange.png")}
