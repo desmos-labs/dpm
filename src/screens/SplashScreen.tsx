@@ -1,13 +1,12 @@
 import React from "react";
-import {Image, ImageBackground, StyleSheet} from "react-native";
+import {ImageBackground, StyleSheet} from "react-native";
 
 export const SplashScreen: React.FC = (_props) => {
     return <ImageBackground
         style={styles.root}
-        source={require("../assets/splashscreen_background.png")}
+        source={require("../assets/home-background-light.png")}
         resizeMode="cover"
     >
-        <Image source={require("../assets/desmos-icon.png")}/>
     </ImageBackground>
 }
 

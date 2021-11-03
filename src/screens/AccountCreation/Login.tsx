@@ -1,11 +1,10 @@
-import React, {useCallback} from "react";
+import React, {useCallback, useEffect, useRef} from "react";
 import {StackScreenProps} from "@react-navigation/stack";
 import {AccountCreationStackParams} from "../../types/navigation";
 import {useTranslation} from "react-i18next";
-import {Button, StyledSafeAreaView, IconButton} from "../../components";
+import {Button, IconButton, StyledSafeAreaView} from "../../components";
 import {makeStyle} from "../../theming";
-import {Image, View} from "react-native";
-import {FlexPadding} from "../../components/FlexPadding";
+import {Animated, Image, ImageBackground, Text} from "react-native";
 
 
 declare type Props = StackScreenProps<AccountCreationStackParams, "Login">
@@ -13,6 +12,39 @@ declare type Props = StackScreenProps<AccountCreationStackParams, "Login">
 export default function Login({navigation}: Props): JSX.Element {
     const {t} = useTranslation();
     const styles = useStyle();
+    const animate = !navigation.canGoBack();
+    const initialOpacity = animate ? 0 : 1;
+    const iconOpacity = useRef(new Animated.Value(initialOpacity)).current;
+    const profileManagerTextOpacity = useRef(new Animated.Value(initialOpacity)).current;
+    const buttonsOpacity = useRef(new Animated.Value(initialOpacity)).current;
+
+    useEffect(() => {
+        if (animate) {
+            Animated.sequence([
+                Animated.timing(
+                    iconOpacity, {
+                        duration: 750,
+                        toValue: 1,
+                        useNativeDriver: true,
+                    }
+                ),
+                Animated.timing(
+                    profileManagerTextOpacity, {
+                        duration: 500,
+                        toValue: 1,
+                        useNativeDriver: true
+                    }
+                ),
+                Animated.timing(
+                    buttonsOpacity, {
+                        duration: 500,
+                        toValue: 1,
+                        useNativeDriver: true
+                    }
+                ),
+            ]).start();
+        }
+    }, [animate, iconOpacity, profileManagerTextOpacity, buttonsOpacity])
 
     const onCreatePressed = useCallback(() => {
         navigation.navigate({
@@ -32,62 +64,106 @@ export default function Login({navigation}: Props): JSX.Element {
         navigation.goBack();
     }, [navigation])
 
-    return <StyledSafeAreaView>
-        {navigation.canGoBack() ? (
-            <IconButton
-                style={styles.backArrow}
-                icon="arrow-left"
-                onPress={goBack}
-            />): null}
-        <FlexPadding flex={1} />
-        <Image
-            style={styles.icon}
-            source={require("../../assets/desmos-vertical-orange.png")}
-            resizeMode="contain"
-        />
-        <FlexPadding flex={7} />
-        <View style={styles.buttonsContainer}>
-            <Button
-                style={styles.buttons}
-                mode="contained"
-                onPress={onCreatePressed}
+    return <StyledSafeAreaView style={styles.root}>
+        <ImageBackground
+            source={require("../../assets/home-background-light.png")}
+            resizeMode="stretch"
+            style={styles.background}
+        >
+            {navigation.canGoBack() ? (
+                <IconButton
+                    style={styles.backArrow}
+                    icon="back"
+                    onPress={goBack}
+                    color="#ffffff"
+                />): null}
+
+            <Animated.View
+                style={{
+                    ...styles.icon,
+                    opacity: iconOpacity,
+                }}
             >
-                {t("create wallet")}
-            </Button>
-            <Button
-                style={[styles.buttons, styles.buttonMargin]}
-                mode="outlined"
-                onPress={onImportPressed}
+                <Image
+                    style={styles.icon}
+                    source={require("../../assets/desmos-vertical-white.png")}
+                    resizeMode="contain"
+                />
+            </Animated.View>
+            <Animated.View style={{
+                opacity: profileManagerTextOpacity,
+            }}>
+                <Text style={styles.profileManagerText}>
+                    Profile Manager
+                </Text>
+            </Animated.View>
+            <Animated.View
+                style={{
+                    ...styles.buttonsContainer,
+                    opacity: buttonsOpacity,
+                }}
             >
-                {t("import recovery passphrase")}
-            </Button>
-        </View>
+                <Button
+                    style={styles.buttons}
+                    mode="contained"
+                    color="#ffffff"
+                    onPress={onCreatePressed}
+                    labelStyle={styles.createWalletLabel}
+                >
+                    {t("create wallet")}
+                </Button>
+                <Button
+                    style={[styles.buttons, styles.buttonMargin]}
+                    mode="outlined"
+                    color="#ffffff"
+                    onPress={onImportPressed}
+                >
+                    {t("import recovery passphrase")}
+                </Button>
+            </Animated.View>
+        </ImageBackground>
     </StyledSafeAreaView>
 }
 
 const useStyle = makeStyle(theme => ({
+    root: {
+        padding: 0,
+    },
+    background: {
+        justifyContent: "center",
+        width: "100%",
+        height: "100%",
+    },
     backArrow: {
         position: "absolute",
         top: 40,
         left: 0,
         zIndex: 1,
     },
-    brandContainer: {
-        display: "flex",
-        flex: 2,
-        alignItems: "center",
-        justifyContent: "center",
-    },
     icon: {
-        flex: 2.2,
-        alignSelf: "center"
+        alignSelf: "center",
+        width: 140,
+        height: 115,
+    },
+    profileManagerText: {
+        alignSelf: "center",
+        color: "#ffffff",
+        fontFamily: "Poppins-Regular",
+        fontWeight: "600",
+        fontSize: 17,
+        lineHeight: 24,
     },
     buttonsContainer: {
         display: "flex",
-        justifyContent: "flex-end"
+        justifyContent: "flex-end",
+        marginTop: 78,
+        marginHorizontal: theme.spacing.m,
     },
     buttons: {
         justifyContent: "center"
+    },
+    createWalletLabel: {
+        color: theme.colors.primary,
     },
     buttonMargin: {
         marginTop: theme.spacing.l,
