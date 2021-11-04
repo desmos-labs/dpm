@@ -70,7 +70,7 @@ const useStyles = makeStyle(theme => ({
         flexDirection: "row",
         alignItems: "center",
         backgroundColor: theme.colors.background,
-        paddingTop: Platform.OS === "android" ? StatusBar.currentHeight : 20,
+        paddingTop: Platform.OS === "android" ? StatusBar.currentHeight : 32,
     },
     container: {
         flex: 1,
