@@ -7,7 +7,7 @@ import {makeStyle} from "../theming";
 import {ProfileHeader} from "../components/ProfileHeader";
 import {ScrollView, View} from "react-native";
 import useUnlockWallet from "../hooks/useUnlockWallet";
-import {useCurrentChainInfo, useDesmosClient} from "@desmoslabs/sdk-react";
+import {useCurrentChainInfo} from "@desmoslabs/sdk-react";
 import {convertCoin, DesmosProfile, MsgSaveProfileEncodeObject} from "@desmoslabs/sdk-core";
 import {computeTxFees, messagesGas} from "../types/fees";
 import {CompositeScreenProps} from "@react-navigation/native";
@@ -17,6 +17,7 @@ import useNavigateToHomeScreen from "../hooks/useNavigateToHomeScreen";
 import useShowModal from "../hooks/useShowModal";
 import useUploadPicture from "../hooks/useUploadPicture";
 import {TopBar} from "../components";
+import useBroadcastMessages from "../hooks/useBroadcastMessages";
 
 
 export type Props = CompositeScreenProps<StackScreenProps<AccountScreensStackParams, "ConfirmProfileEdit">,
@@ -27,7 +28,6 @@ export const ConfirmProfileEdit: React.FC<Props> = (props) => {
     const {account, dtag, nickname, bio, coverPictureUrl, localCoverPictureUri, profilePictureUrl, localProfilePictureUri} = route.params;
     const {t} = useTranslation();
     const styles = useStyles();
-    const desmosClient = useDesmosClient();
     const chainInfo = useCurrentChainInfo();
     const unlockWallet = useUnlockWallet();
     const [broadcastingTx, setBroadcastingTx] = useState(false);
@@ -35,6 +35,7 @@ export const ConfirmProfileEdit: React.FC<Props> = (props) => {
     const navigateToHomeScreen = useNavigateToHomeScreen()
     const showModal = useShowModal();
     const uploadPicture = useUploadPicture();
+    const broadcastMessages = useBroadcastMessages()
 
     const txFee = useMemo(() => {
         const saveProfileMessage: MsgSaveProfileEncodeObject = {
@@ -95,9 +96,7 @@ export const ConfirmProfileEdit: React.FC<Props> = (props) => {
                     }
                 };
                 const messages = [saveProfileMessage];
-                await desmosClient.connect();
-                desmosClient.setSigner(wallet);
-                await desmosClient.signAndBroadcast(account.address, messages, txFee);
+                await broadcastMessages(wallet, messages, txFee);
                 await saveProfile(profile, {
                     profilePicture: localProfilePictureUri,
                     coverPicture: localCoverPictureUri,
@@ -122,7 +121,7 @@ export const ConfirmProfileEdit: React.FC<Props> = (props) => {
         setBroadcastingTx(false);
     }, [unlockWallet, account, dtag, nickname, bio,
         localCoverPictureUri, coverPictureUrl, localProfilePictureUri,
-        profilePictureUrl, desmosClient, txFee, saveProfile, showModal,
+        profilePictureUrl, broadcastMessages, txFee, saveProfile, showModal,
         t, uploadPicture, navigateToHomeScreen])
 
     return <StyledSafeAreaView
