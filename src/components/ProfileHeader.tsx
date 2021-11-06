@@ -72,8 +72,8 @@ export const ProfileHeader: React.FC<Props> = (props) => {
             />}
         </View>
 
-        {nickname && <Text style={styles.nickName}>{nickname}</Text>}
-        {dtag && <Text style={styles.dtag}>@{dtag}</Text>}
+        {nickname !== undefined && <Text style={styles.nickName}>{nickname}</Text>}
+        {dtag !== undefined && <Text style={styles.dtag}>@{dtag}</Text>}
 
         {props.address && <View style={styles.addressContainer}>
             <Text
