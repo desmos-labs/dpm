@@ -5,14 +5,12 @@ import {AccountScreensStackParams} from "../types/navigation";
 import {useTranslation} from "react-i18next";
 import {TxDetails} from "../components/tx/TxDetails";
 import {makeStyle} from "../theming";
-import {useDesmosClient} from "@desmoslabs/sdk-react";
 import useUnlockWallet from "../hooks/useUnlockWallet";
 import useSelectedAccount from "../hooks/useSelectedAccount";
 import useShowModal from "../hooks/useShowModal";
 import {SingleButtonModal} from "../modals/SingleButtonModal";
 import useNavigateToHomeScreen from "../hooks/useNavigateToHomeScreen";
-import {isBroadcastTxSuccess} from "@desmoslabs/sdk-core";
-import {BroadcastTxFailure} from "@cosmjs/stargate/build/stargateclient";
+import useBroadcastMessages from "../hooks/useBroadcastMessages";
 
 export type Props = StackScreenProps<AccountScreensStackParams, "ConfirmTx">
 
@@ -21,7 +19,7 @@ export const ConfirmTx: React.FC<Props> = (props) => {
     const {t} = useTranslation();
     const styles = useStyles();
     const currentAccount = useSelectedAccount();
-    const client = useDesmosClient();
+    const broadcastMessages = useBroadcastMessages();
     const unlockWallet = useUnlockWallet();
     const showModal = useShowModal();
     const [broadcastingTx, setBroadcastingTx] = useState(false);
@@ -51,20 +49,15 @@ export const ConfirmTx: React.FC<Props> = (props) => {
         const wallet = await unlockWallet(currentAccount.address);
         if (wallet !== null) {
             try {
-                await client.connect()
-                client.setSigner(wallet);
-                const tx = await client.signAndBroadcast(currentAccount.address, messages, fee, memo);
-                if (isBroadcastTxSuccess(tx)) {
-                    showSuccessModal()
-                } else {
-                    showErrorModal((tx as BroadcastTxFailure).rawLog ?? t("unknown error"))
-                }
+                await broadcastMessages(wallet, messages, fee);
+                showSuccessModal();
             } catch (e) {
                 showErrorModal(e.toString())
             }
         }
         setBroadcastingTx(false);
-    }, [client, currentAccount.address, fee, memo, messages, showErrorModal, showSuccessModal, t, unlockWallet])
+    }, [broadcastMessages, currentAccount.address,
+        fee, messages, showErrorModal, showSuccessModal, unlockWallet])
 
     return <StyledSafeAreaView
         topBar={<TopBar
