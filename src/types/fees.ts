@@ -62,7 +62,7 @@ export function messagesGas(msg: EncodeObject[]): number {
     msg.forEach(m => {
         switch (m.typeUrl) {
             case "/desmos.profiles.v1beta1.MsgSaveProfile":
-                gas += 140000;
+                gas += 200000;
                 break;
 
             default:
