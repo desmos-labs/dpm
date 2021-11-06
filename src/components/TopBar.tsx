@@ -82,7 +82,7 @@ const useStyles = makeStyle(theme => ({
         zIndex: 1,
     },
     containerCenter: {
-        flex: 4,
+        flex: 2,
     },
     title: {
         textTransform: "capitalize",
