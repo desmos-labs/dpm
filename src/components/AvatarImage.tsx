@@ -4,7 +4,6 @@ import {makeStyle} from "../theming";
 import {
     ImageSourcePropType,
     StyleProp,
-    StyleSheet,
     ViewStyle
 } from "react-native";
 
@@ -26,17 +25,17 @@ export type Props = {
 
 export const AvatarImage: React.FC<Props> = (props) => {
     const styles = useStyles();
-    const style = StyleSheet.compose(styles.style as StyleProp<ViewStyle>, props.style)
 
     return <Avatar.Image
-        style={style}
+        style={[styles.image, props.style]}
         source={props.source}
         onTouchStart={props.onPress}
         size={props.size}/>
 }
 
 const useStyles = makeStyle(theme => ({
-    style: {
+    image: {
         backgroundColor: theme.colors.surface,
+        overflow: "hidden",
     }
 }))
