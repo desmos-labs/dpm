@@ -49,7 +49,7 @@ export const EditProfile: React.FC<Props> = (props) => {
 
     const pickPicture = useCallback((setter: (value: string | undefined) => void) => {
         launchImageLibrary({
-            quality: 0.5,
+            quality: 1,
             mediaType: "photo",
             selectionLimit: 1,
             includeBase64: false

@@ -17,22 +17,6 @@ function isRemoteUrl(uri?: string): boolean {
 }
 
 /**
- * Gets the file extension from it's uri.
- * The extensions is resolved finding the last "." symbol and
- * returning all the text after that.
- * @param fileUri - The uri from where will be extracted the file extension.
- * @returns the parsed extension or undefined if the extension can not be parsed.
- */
-function getFileExtension(fileUri: string): string | undefined {
-    const fileName = fileUri.substring(fileUri.lastIndexOf('/') + 1, fileUri.length);
-    const extensionBegin = fileName.lastIndexOf(".");
-    if (extensionBegin === -1 || extensionBegin === fileUri.length) {
-        return undefined;
-    }
-    return fileName.slice(extensionBegin + 1);
-}
-
-/**
  * Converts an absolute path of a file to a uri that can be used to
  * read it's content.
  * @param path - Path of the file of interest.
@@ -115,9 +99,9 @@ export class ProfileSource {
      * profile with the provided address.
      * @private
      */
-    private async profilePictureFile(address: string, extension: string): Promise<string> {
+    private async profilePictureFile(address: string): Promise<string> {
         const cachePath = await this.profileFilesDirectoryPath(address);
-        return `${cachePath}/profile-picture-${Date.now()}.${extension}`;
+        return `${cachePath}/profile-picture-${Date.now()}`;
     }
 
     /**
@@ -125,9 +109,9 @@ export class ProfileSource {
      * profile with the provided address.
      * @private
      */
-    private async coverPictureFile(address: string, extension: string): Promise<string> {
+    private async coverPictureFile(address: string): Promise<string> {
         const cachePath = await this.profileFilesDirectoryPath(address);
-        return `${cachePath}/cover-picture-${Date.now()}.${extension}`;
+        return `${cachePath}/cover-picture-${Date.now()}`;
     }
 
     /**
@@ -261,9 +245,7 @@ export class ProfileSource {
             }
 
             if (isRemoteUrl(profile.profilePicture)) {
-                const extension = getFileExtension(profile.profilePicture!) ?? "jpg";
-                const destFile = await this.profilePictureFile(profile.address, extension);
-
+                const destFile = await this.profilePictureFile(profile.address);
 
                 if (remoteResourceOverride?.profilePicture !== undefined) {
                     if (remoteResourceOverride.profilePicture !== destFile) {
@@ -294,8 +276,7 @@ export class ProfileSource {
             }
 
             if (isRemoteUrl(profile.coverPicture)) {
-                const extension = getFileExtension(profile.coverPicture!) ?? "jpg";
-                const destFile = await this.coverPictureFile(profile.address, extension);
+                const destFile = await this.coverPictureFile(profile.address);
 
                 if (remoteResourceOverride?.coverPicture !== undefined) {
                     if (remoteResourceOverride.coverPicture !== destFile) {
