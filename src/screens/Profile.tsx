@@ -68,8 +68,8 @@ export default function Profile(props: Props): JSX.Element {
     >
         <ProfileHeader
             address={account.address}
-            coverPictureUri={profile?.cachedCoverPictureUri}
-            profilePictureUri={profile?.cachedProfilePictureUri}
+            coverPictureUri={profile?.coverPicture}
+            profilePictureUri={profile?.profilePicture}
             dtag={profile?.dtag}
             nickname={profile?.nickname}
             onCopyPressed={onAddressCopy}

@@ -2,7 +2,7 @@ import {BottomTabScreenProps} from "@react-navigation/bottom-tabs";
 import {AccountScreensStackParams, HomeScreensBottomTabsParams} from "../types/navigation";
 import {CompositeScreenProps} from "@react-navigation/native";
 import {StackScreenProps} from "@react-navigation/stack";
-import React, {useCallback, useMemo, useState} from "react";
+import React, {useCallback, useState} from "react";
 import {AvatarImage, StyledSafeAreaView, TopBar, AccountBalance, TransactionsList, Typography} from "../components";
 import useSelectedAccount from "../hooks/useSelectedAccount";
 import {useTranslation} from "react-i18next";
@@ -37,17 +37,6 @@ export const Home: React.FC<Props> = (props) => {
             params: undefined,
         })
     }, [navigation])
-
-    const profilePicture = useMemo(() => {
-        return <AvatarImage
-            size={30}
-            style={styles.avatarImage}
-            source={profile?.cachedProfilePictureUri ? {
-                uri: profile.cachedProfilePictureUri
-            } : require("../assets/default-profile-picture.png")}
-            onPress={openProfileDetails}
-        />
-    }, [styles,profile, openProfileDetails]);
 
     const onAddressCopy = useCallback(() => {
         Clipboard.setString(account.address)
@@ -96,7 +85,14 @@ export const Home: React.FC<Props> = (props) => {
                     openDrawer,
                 }
             }}
-            rightElement={profilePicture}
+            rightElement={<AvatarImage
+                size={30}
+                style={styles.avatarImage}
+                source={profile?.profilePicture ? {
+                    uri: profile.profilePicture
+                } : require("../assets/default-profile-picture.png")}
+                onPress={openProfileDetails}
+            />}
         />
         <AccountBalance
             style={styles.userBalance}
@@ -157,7 +153,7 @@ const useStyles = makeStyle(theme => ({
         backgroundColor: "transparent"
     },
     avatarImage: {
-        right: 16,
+        marginRight: 16,
     },
     userBalance: {
         marginHorizontal: theme.spacing.m,

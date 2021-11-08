@@ -50,9 +50,9 @@ export const Authorization: React.FC<Props> = (props) => {
 
     const profilePicture = useMemo(() => {
         const userProfile = profiles[currentAccount.address];
-        if (userProfile?.cachedProfilePictureUri !== undefined) {
+        if (userProfile?.profilePicture !== undefined) {
             return {
-                uri: userProfile.cachedProfilePictureUri
+                uri: userProfile.profilePicture
             }
         } else {
             return require("../assets/default-profile-picture.png");
