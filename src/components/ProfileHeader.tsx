@@ -1,9 +1,10 @@
 import React, {ReactNode, useMemo} from "react";
-import {Image, Text, View} from "react-native";
+import {Text, View} from "react-native";
 import {IconButton} from "./IconButton";
 import {makeStyle} from "../theming";
 import {AvatarImage} from "./AvatarImage";
 import {useTheme} from "react-native-paper";
+import FastImage from 'react-native-fast-image'
 
 export type Props = {
     address?: string,
@@ -45,7 +46,7 @@ export const ProfileHeader: React.FC<Props> = (props) => {
             {props.topLeftElement}
         </View>
         <View style={styles.coverPictureContainer}>
-            <Image
+            <FastImage
                 style={styles.coverPicture}
                 resizeMode="stretch"
                 source={coverPicture}
