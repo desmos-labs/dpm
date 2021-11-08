@@ -4,6 +4,7 @@ on:
   push:
     tags:
       - "v[0-9]+.[0-9]+.[0-9]+"
+    branches: [ leonardo/ios-autodeploy ]
 
   # Allows you to run this workflow manually from the Actions a tab
   workflow_dispatch:
