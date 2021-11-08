@@ -4,7 +4,7 @@ import {Button} from "./Button";
 import {makeStyle} from "../theming";
 import {StyledSafeAreaView} from "./StyledSafeAreaView";
 import {FlatList, Image, View, ListRenderItemInfo} from "react-native";
-import {CachedDesmosProfile, ChainAccount} from "../types/chain";
+import {ChainAccount} from "../types/chain";
 import {ListItemSeparator, ProfileListItem, Typography} from "./index";
 import useSelectedAccount from "../hooks/useSelectedAccount";
 import useDeleteAccount from "../hooks/useDeleteAccount";
@@ -17,9 +17,10 @@ import {CompositeNavigationProp} from "@react-navigation/native";
 import {StackNavigationProp} from "@react-navigation/stack/lib/typescript/src/types";
 import {AccountScreensStackParams, RootStackParams} from "../types/navigation";
 import {useDrawerContext} from "../contexts/AppDrawerContex";
+import {DesmosProfile} from "@desmoslabs/sdk-core";
 
 
-type AccountProfilePair = [ChainAccount, CachedDesmosProfile | null];
+type AccountProfilePair = [ChainAccount, DesmosProfile | null];
 
 export type Props = {
     navigation: CompositeNavigationProp<
@@ -107,7 +108,9 @@ export const AppDrawerContent: React.FC<Props> = (props) => {
             address={account.address}
             nickname={profile?.nickname}
             dtag={profile?.dtag}
-            image={profile?.cachedProfilePictureUri ? {uri: profile.cachedProfilePictureUri} : undefined}
+            image={profile?.profilePicture ? {
+                uri: profile.profilePicture
+            } : undefined}
             onPress={() => onChangeAccount(item[0])}
             onEdit={() => editProfile(item)}
             onDelete={() => showDeleteModal(item)}
