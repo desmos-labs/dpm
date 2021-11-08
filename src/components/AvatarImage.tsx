@@ -1,17 +1,16 @@
 import React from "react";
-import {Avatar} from "react-native-paper";
-import {makeStyle} from "../theming";
+import {makeStyleWithProps} from "../theming";
 import {
-    ImageSourcePropType,
     StyleProp,
-    ViewStyle
+    TouchableWithoutFeedback,
 } from "react-native";
+import FastImage, {Source, ImageStyle} from 'react-native-fast-image';
 
 export type Props = {
     /**
      * Image to display for the `Avatar`.
      */
-    source: ImageSourcePropType,
+    source: Source,
     /**
      * Size of the avatar.
      */
@@ -20,22 +19,29 @@ export type Props = {
      * Callback called when the user press on the avatar image.
      */
     onPress?: () => void,
-    style?:  StyleProp<ViewStyle>
+    style?:  StyleProp<ImageStyle>
 }
 
 export const AvatarImage: React.FC<Props> = (props) => {
-    const styles = useStyles();
+    const styles = useStyles(props);
 
-    return <Avatar.Image
-        style={[styles.image, props.style]}
-        source={props.source}
-        onTouchStart={props.onPress}
-        size={props.size}/>
+    return <TouchableWithoutFeedback
+        onPress={props.onPress}
+    >
+        <FastImage
+            style={[props.style, styles.image]}
+            source={props.source}
+            resizeMode="cover"
+        />
+    </TouchableWithoutFeedback>
 }
 
-const useStyles = makeStyle(theme => ({
+const useStyles = makeStyleWithProps((props: Props, theme) => ({
     image: {
         backgroundColor: theme.colors.surface,
         overflow: "hidden",
+        borderRadius: 100,
+        height: (props.size ?? 24),
+        width: (props.size ?? 24),
     }
 }))
