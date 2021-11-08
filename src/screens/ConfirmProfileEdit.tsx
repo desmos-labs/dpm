@@ -25,7 +25,7 @@ export type Props = CompositeScreenProps<StackScreenProps<AccountScreensStackPar
 
 export const ConfirmProfileEdit: React.FC<Props> = (props) => {
     const {route} = props;
-    const {account, dtag, nickname, bio, coverPictureUrl, localCoverPictureUri, profilePictureUrl, localProfilePictureUri} = route.params;
+    const {account, profile, localCoverPictureUri, localProfilePictureUri} = route.params;
     const {t} = useTranslation();
     const styles = useStyles();
     const chainInfo = useCurrentChainInfo();
@@ -42,18 +42,17 @@ export const ConfirmProfileEdit: React.FC<Props> = (props) => {
             typeUrl: "/desmos.profiles.v1beta1.MsgSaveProfile",
             value: {
                 creator: account.address,
-                dtag: dtag,
-                nickname: nickname,
-                bio: bio,
-                profilePicture: profilePictureUrl,
-                coverPicture: coverPictureUrl,
+                dtag: profile.dtag,
+                nickname: profile.nickname,
+                bio: profile.bio,
+                profilePicture: profile.profilePicture,
+                coverPicture: profile.coverPicture,
             }
         };
         const messages = [saveProfileMessage];
         const gas = messagesGas(messages);
         return computeTxFees(gas, chainInfo.coinDenom).average;
-    }, [account.address, bio, chainInfo.coinDenom,
-        coverPictureUrl, dtag, nickname, profilePictureUrl])
+    }, [account.address, profile, chainInfo.coinDenom])
 
     const convertedTxFee = useMemo(() => {
         const converted = convertCoin(txFee.amount[0], 6, chainInfo.denomUnits);
@@ -65,42 +64,30 @@ export const ConfirmProfileEdit: React.FC<Props> = (props) => {
         try {
             const wallet = await unlockWallet(account.address);
             if (wallet !== null) {
-                const profile: DesmosProfile = {
-                    address: account.address,
-                    dtag,
-                    nickname,
-                    bio,
+                const newProfile: DesmosProfile = {
+                    ...profile
                 }
 
-                if (localCoverPictureUri !== undefined && coverPictureUrl === undefined) {
+                if (localCoverPictureUri !== undefined) {
                     const response = await uploadPicture(localCoverPictureUri);
-                    profile.coverPicture = response.url;
-                }
-                else {
-                    profile.coverPicture = coverPictureUrl;
+                    newProfile.coverPicture = response.url;
                 }
 
-                if (localProfilePictureUri !== undefined && profilePictureUrl === undefined) {
+                if (localProfilePictureUri !== undefined) {
                     const response = await uploadPicture(localProfilePictureUri);
-                    profile.profilePicture = response.url;
-                }
-                else {
-                    profile.profilePicture = profilePictureUrl;
+                    newProfile.profilePicture = response.url;
                 }
 
                 const saveProfileMessage: MsgSaveProfileEncodeObject = {
                     typeUrl: "/desmos.profiles.v1beta1.MsgSaveProfile",
                     value: {
                         creator: account.address,
-                        ...profile,
+                        ...newProfile,
                     }
                 };
                 const messages = [saveProfileMessage];
                 await broadcastMessages(wallet, messages, txFee);
-                await saveProfile(profile, {
-                    profilePicture: localProfilePictureUri,
-                    coverPicture: localCoverPictureUri,
-                })
+                await saveProfile(profile)
                 showModal(SingleButtonModal, {
                     image: require("../assets/result-sucess-light.png"),
                     title: t("success"),
@@ -119,9 +106,9 @@ export const ConfirmProfileEdit: React.FC<Props> = (props) => {
             })
         }
         setBroadcastingTx(false);
-    }, [unlockWallet, account, dtag, nickname, bio,
-        localCoverPictureUri, coverPictureUrl, localProfilePictureUri,
-        profilePictureUrl, broadcastMessages, txFee, saveProfile, showModal,
+    }, [unlockWallet, account, profile,
+        localCoverPictureUri, localProfilePictureUri,
+        broadcastMessages, txFee, saveProfile, showModal,
         t, uploadPicture, navigateToHomeScreen])
 
     return <StyledSafeAreaView
@@ -129,8 +116,8 @@ export const ConfirmProfileEdit: React.FC<Props> = (props) => {
         topBar={<TopBar stackProps={props} title={t("confirm")}/>}
     >
         <ProfileHeader
-            coverPictureUri={localCoverPictureUri}
-            profilePictureUri={localProfilePictureUri}
+            coverPictureUri={localCoverPictureUri ?? profile.coverPicture}
+            profilePictureUri={localProfilePictureUri ?? profile.profilePicture}
         />
         <View
             style={styles.details}
@@ -139,19 +126,19 @@ export const ConfirmProfileEdit: React.FC<Props> = (props) => {
             <ScrollView>
                 <LabeledValue
                     label={t("nickname")}
-                    value={nickname}
+                    value={profile.nickname}
                 />
                 <Divider/>
 
                 <LabeledValue
                     label={t("dtag")}
-                    value={dtag}
+                    value={profile.dtag}
                 />
                 <Divider/>
 
                 <LabeledValue
                     label={t("bio")}
-                    value={bio}
+                    value={profile.bio}
                 />
                 <Divider/>
 

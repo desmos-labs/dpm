@@ -10,6 +10,7 @@ import {ScrollView} from "react-native";
 import {launchImageLibrary} from 'react-native-image-picker';
 import {ImagePickerResponse} from "react-native-image-picker/src/types";
 import {TopBar} from "../components";
+import {DesmosProfile} from "@desmoslabs/sdk-core";
 
 type Props = CompositeScreenProps<StackScreenProps<AccountScreensStackParams, "EditProfile">,
     StackScreenProps<RootStackParams>>;
@@ -36,13 +37,15 @@ export const EditProfile: React.FC<Props> = (props) => {
             name: "ConfirmProfileEdit",
             params: {
                 account: account,
-                dtag: dtag,
-                nickname: nickname,
-                bio: bio,
-                coverPictureUrl: selectedCoverPicture !== undefined ? undefined : profile?.coverPicture,
-                localCoverPictureUri: selectedCoverPicture ?? profile?.cachedCoverPictureUri,
-                profilePictureUrl: selectedProfilePicture !== undefined ? undefined : profile?.profilePicture,
-                localProfilePictureUri: selectedProfilePicture ?? profile?.cachedProfilePictureUri,
+                profile: {
+                    ...profile,
+                    address: account.address,
+                    dtag,
+                    nickname,
+                    bio,
+                } as DesmosProfile,
+                localCoverPictureUri: selectedCoverPicture,
+                localProfilePictureUri: selectedProfilePicture,
             }
         });
     }
@@ -86,8 +89,8 @@ export const EditProfile: React.FC<Props> = (props) => {
         />}
     >
         <ProfileHeader
-            coverPictureUri={selectedCoverPicture ?? profile?.cachedCoverPictureUri}
-            profilePictureUri={selectedProfilePicture ?? profile?.cachedProfilePictureUri}
+            coverPictureUri={selectedCoverPicture ?? profile?.coverPicture}
+            profilePictureUri={selectedProfilePicture ?? profile?.profilePicture}
             onEditCoverPicture={onEditCoverPicture}
             onEditProfilePicture={onEditProfilePicture}
         />

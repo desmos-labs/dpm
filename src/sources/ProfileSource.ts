@@ -1,38 +1,6 @@
 import RNFS from "react-native-fs"
 import {DesmosProfile} from "@desmoslabs/sdk-core";
-import {CachedDesmosProfile} from "../types/chain";
-import {Platform} from "react-native";
 
-/**
- * Checks if the provided uri is a remote http/https resource.
- * @param uri - The uri of interest.
- * @returns true if the provided uri is referencing a remote http/https resource.
- */
-function isRemoteUrl(uri?: string): boolean {
-    if (uri === undefined) {
-        return false;
-    }
-
-    return uri.indexOf("http://") === 0 || uri.indexOf("https://") === 0;
-}
-
-/**
- * Converts an absolute path of a file to a uri that can be used to
- * read it's content.
- * @param path - Path of the file of interest.
- */
-function pathToUri(path: string): string {
-    if (Platform.OS === "android") {
-        return `file://${path}`
-    } else {
-        return path;
-    }
-}
-
-export interface RemoteResourceOverride {
-    readonly profilePicture?: string,
-    readonly coverPicture?: string,
-}
 
 /**
  * Class that stores the desmos profiles
@@ -92,26 +60,6 @@ export class ProfileSource {
     private async profileFile(address: string): Promise<string> {
         const cachePath = await this.profileFilesDirectoryPath(address);
         return `${cachePath}/profile.json`;
-    }
-
-    /**
-     * Gets the file path of the profile picture associated to the
-     * profile with the provided address.
-     * @private
-     */
-    private async profilePictureFile(address: string): Promise<string> {
-        const cachePath = await this.profileFilesDirectoryPath(address);
-        return `${cachePath}/profile-picture-${Date.now()}`;
-    }
-
-    /**
-     * Gets the file path of the cover picture associated to the
-     * profile with the provided address.
-     * @private
-     */
-    private async coverPictureFile(address: string): Promise<string> {
-        const cachePath = await this.profileFilesDirectoryPath(address);
-        return `${cachePath}/cover-picture-${Date.now()}`;
     }
 
     /**
@@ -179,9 +127,9 @@ export class ProfileSource {
      * @returns a promise that resolves to a list of all the profile
      * saved inside the source.
      */
-    async getAllProfiles(): Promise<CachedDesmosProfile[]> {
+    async getAllProfiles(): Promise<DesmosProfile[]> {
         const addresses = await this.getStoredProfilesAddress();
-        const result: CachedDesmosProfile [] = []
+        const result: DesmosProfile [] = []
 
         for (let i = 0; i < addresses.length; i++) {
             const profile = await this.getProfile(addresses[i]);
@@ -201,7 +149,7 @@ export class ProfileSource {
      * @returns a promise that resolves to the profile with the provided address
      * or null if the profile is not present.
      */
-    async getProfile(address: string): Promise<CachedDesmosProfile | null> {
+    async getProfile(address: string): Promise<DesmosProfile | null> {
         const profileJson = await this.profileFile(address);
         const exist = await RNFS.exists(profileJson);
         if (!exist) {
@@ -219,85 +167,22 @@ export class ProfileSource {
     /**
      * Saves a profile downloading all the remote resource so that can be available offline.
      * @param profile - The profile to add.
-     * @param remoteResourceOverride - Optional configuration to tell the source
-     * to copy a local file instead of downloading a remote file.
      * @returns a promise that resolves to a tuple where the first value is the saved
      * profile and the second value is boolean flag that tells if the profile
      * is different from the one previously cached.
      */
-    async saveProfile(profile: DesmosProfile, remoteResourceOverride?: RemoteResourceOverride): Promise<[CachedDesmosProfile, boolean]> {
+    async saveProfile(profile: DesmosProfile): Promise<[DesmosProfile, boolean]> {
         let storedProfile = await this.getProfile(profile.address);
-        let newProfile: CachedDesmosProfile = {
+        let newProfile: DesmosProfile = {
             ...profile,
-            cachedProfilePictureUri: storedProfile?.cachedProfilePictureUri,
-            cachedCoverPictureUri: storedProfile?.cachedCoverPictureUri,
         };
 
         let changed = storedProfile === null;
         const wasPresent = storedProfile !== null;
 
-        if (profile.profilePicture !== storedProfile?.profilePicture) {
-            if (storedProfile?.cachedProfilePictureUri !== undefined) {
-                await RNFS.unlink(storedProfile.cachedProfilePictureUri)
-                    .catch(e => {
-                        console.error("Error while removing old profile picture", e);
-                    });
-            }
-
-            if (isRemoteUrl(profile.profilePicture)) {
-                const destFile = await this.profilePictureFile(profile.address);
-
-                if (remoteResourceOverride?.profilePicture !== undefined) {
-                    if (remoteResourceOverride.profilePicture !== destFile) {
-                        await RNFS.copyFile(remoteResourceOverride.profilePicture, destFile);
-                    }
-                } else {
-                    await RNFS.downloadFile({
-                        fromUrl: profile.profilePicture!,
-                        toFile: destFile,
-                        cacheable: false
-                    }).promise;
-                }
-                newProfile.cachedProfilePictureUri = pathToUri(destFile);
-            }
-            else {
-                newProfile.cachedProfilePictureUri = undefined;
-            }
-
-            changed = true;
-        }
-
-        if (profile.coverPicture !== storedProfile?.coverPicture) {
-            if (storedProfile?.cachedCoverPictureUri !== undefined) {
-                await RNFS.unlink(storedProfile.cachedCoverPictureUri)
-                    .catch(e => {
-                        console.error("Error while removing old cover picture", e);
-                    });
-            }
-
-            if (isRemoteUrl(profile.coverPicture)) {
-                const destFile = await this.coverPictureFile(profile.address);
-
-                if (remoteResourceOverride?.coverPicture !== undefined) {
-                    if (remoteResourceOverride.coverPicture !== destFile) {
-                        await RNFS.copyFile(remoteResourceOverride.coverPicture, destFile);
-                    }
-                } else {
-                    await RNFS.downloadFile({
-                        fromUrl: profile.coverPicture!,
-                        toFile: destFile,
-                        cacheable: false,
-                    }).promise;
-                }
-                newProfile.cachedCoverPictureUri = pathToUri(destFile);
-            }
-            else {
-                newProfile.cachedCoverPictureUri = undefined;
-            }
-            changed = true;
-        }
-
         changed = changed || profile.dtag !== storedProfile?.dtag ||
+            profile.profilePicture !== storedProfile?.profilePicture ||
+            profile.coverPicture !== storedProfile?.coverPicture ||
             profile.nickname !== storedProfile?.nickname ||
             profile.bio !== storedProfile?.bio;
 
@@ -329,16 +214,6 @@ export class ProfileSource {
             // Delete the json file
             await RNFS.unlink(profileFile)
                 .catch(e => console.error("unlink profileFile", e));
-            // Delete the cached cover picture
-            if (profile.cachedCoverPictureUri) {
-                await RNFS.unlink(profile.cachedCoverPictureUri.replace("file://", ""))
-                    .catch(e => console.error("unlink coverPicture", e));
-            }
-            // Delete the cached profile picture
-            if (profile.cachedProfilePictureUri) {
-                await RNFS.unlink(profile.cachedProfilePictureUri.replace("file://", ""))
-                    .catch(e => console.error("unlink profilePicture", e));
-            }
             // Delete the profile dir
             await RNFS.unlink(profileDir)
                 .catch(e => console.error("unlink profileDir", e));

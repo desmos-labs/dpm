@@ -1,8 +1,8 @@
 import {useEffect, useState} from "react";
 import {useDesmosClient} from "@desmoslabs/sdk-react";
 import ProfileSource from "../sources/ProfileSource";
-import {CachedDesmosProfile} from "../types/chain";
 import {useAppContext} from "../contexts/AppContext";
+import {DesmosProfile} from "@desmoslabs/sdk-core";
 
 /**
  * Hook that fetch a profile from the chain and cache it on the device storage.
@@ -10,10 +10,10 @@ import {useAppContext} from "../contexts/AppContext";
  * fetched from the device storage.
  * @param address - Address of the profile of interest.
  */
-export default function useFetchProfile(address: string): CachedDesmosProfile | null {
+export default function useFetchProfile(address: string): DesmosProfile | null {
     const client = useDesmosClient();
     const {profiles, setProfiles} = useAppContext();
-    const [profile, setProfile] = useState<CachedDesmosProfile | null>(profiles[address] ?? null);
+    const [profile, setProfile] = useState<DesmosProfile | null>(profiles[address] ?? null);
 
     useEffect(() => {
         (async () => {

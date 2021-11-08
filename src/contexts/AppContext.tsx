@@ -1,5 +1,6 @@
-import {CachedDesmosProfile, ChainAccount} from "../types/chain";
+import {ChainAccount} from "../types/chain";
 import React, {useState} from "react";
+import {DesmosProfile} from "@desmoslabs/sdk-core";
 
 export type InitState = {
     initializing: boolean,
@@ -12,8 +13,8 @@ export interface AppState {
 
     accounts: ChainAccount[],
     setAccounts: React.Dispatch<React.SetStateAction<ChainAccount[]>>,
-    profiles: Record<string, CachedDesmosProfile>,
-    setProfiles: React.Dispatch<React.SetStateAction<Record<string, CachedDesmosProfile>>>,
+    profiles: Record<string, DesmosProfile>,
+    setProfiles: React.Dispatch<React.SetStateAction<Record<string, DesmosProfile>>>,
     selectedAccount: ChainAccount | null,
     setSelectedAccount: React.Dispatch<React.SetStateAction<ChainAccount | null>>,
 }
@@ -28,7 +29,7 @@ export const AppStateProvider: React.FC = ({children}) => {
         initializing: true,
     });
     const [accounts, setAccounts] = useState<ChainAccount[]>([]);
-    const [profiles, setProfiles] = useState<Record<string, CachedDesmosProfile>>({});
+    const [profiles, setProfiles] = useState<Record<string, DesmosProfile>>({});
     const [selectedAccount, setSelectedAccount] = useState<ChainAccount | null>(null);
 
     return <AppContext.Provider value={{

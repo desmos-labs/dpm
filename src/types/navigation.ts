@@ -1,5 +1,5 @@
 import {createStackNavigator} from '@react-navigation/stack';
-import {CachedDesmosProfile, ChainAccount} from './chain';
+import {ChainAccount} from './chain';
 import LocalWallet from "../wallet/LocalWallet";
 import {EncodeObject} from "@cosmjs/proto-signing";
 import React from "react";
@@ -8,6 +8,7 @@ import {createBottomTabNavigator} from "@react-navigation/bottom-tabs";
 import {SessionRequestDetails} from "./walletconnect";
 import {StdFee} from "@cosmjs/amino";
 import {NavigatorScreenParams} from "@react-navigation/native";
+import {DesmosProfile} from "@desmoslabs/sdk-core";
 
 export type AccountCreationStackParams = {
     Login: undefined;
@@ -47,7 +48,7 @@ export type AccountScreensStackParams = {
     Profile: undefined,
     EditProfile: {
         account?: ChainAccount,
-        profile?: CachedDesmosProfile | null,
+        profile?: DesmosProfile | null,
         bio?: string
     },
     BiographyEditor: {
@@ -56,35 +57,15 @@ export type AccountScreensStackParams = {
     ConfirmProfileEdit: {
         account: ChainAccount,
         /**
-         * Profile dtag.
+         * The profile created from the user.
          */
-        dtag: string,
+        profile: DesmosProfile,
         /**
-         * Profile nickname.
-         */
-        nickname?: string,
-        /**
-         * Profile biography.
-         */
-        bio?: string,
-        /**
-         * Remote URL to the profile cover picture.
-         */
-        coverPictureUrl?: string,
-        /**
-         * Local URI to the profile cover picture.
-         * If the coverPictureUrl is undefined and
-         * this field is defined, this file will be uploaded.
+         * Local URI to the new cover picture.
          */
         localCoverPictureUri?: string,
         /**
-         * Remote URL to the profile picture.
-         */
-        profilePictureUrl?: string,
-        /**
-         * Local URI to the profile picture.
-         * If the profilePictureUrl is undefined and
-         * this field is defined this file will be uploaded.
+         * Local URI to the new profile picture.
          */
         localProfilePictureUri?: string
     },
