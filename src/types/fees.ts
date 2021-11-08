@@ -1,6 +1,7 @@
 import {StdFee} from "@cosmjs/amino";
 import {calculateFee} from "@desmoslabs/sdk-core";
 import {EncodeObject} from "@cosmjs/proto-signing";
+import {MsgTypes} from "./msgtypes";
 
 /**
  * Interface that represents the various level
@@ -61,8 +62,12 @@ export function messagesGas(msg: EncodeObject[]): number {
 
     msg.forEach(m => {
         switch (m.typeUrl) {
-            case "/desmos.profiles.v1beta1.MsgSaveProfile":
+            case MsgTypes.MsgSaveProfile:
                 gas += 200000;
+                break;
+
+            case MsgTypes.MsgSend:
+                gas += 140000;
                 break;
 
             default:
