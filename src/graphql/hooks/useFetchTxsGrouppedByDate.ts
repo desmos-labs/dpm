@@ -90,13 +90,26 @@ function gqlMessageToEncodeObject(msg: any): EncodeObject {
                 }
             } as MsgDelegateEncodeObject
 
+        case MsgTypes.MsgSaveProfile:
+            return {
+                typeUrl: "/desmos.profiles.v1beta1.MsgSaveProfile",
+                value: {
+                    dtag: msg["dtag"],
+                    nickname: msg["nickname"],
+                    bio: msg["bio"],
+                    coverPicture: msg["cover_picture"],
+                    profilePicture: msg["profile_picture"],
+                    creator: msg["creator"],
+                }
+            } as MsgSaveProfileEncodeObject
+
         default:
             return {
                 typeUrl: type,
                 value: {
                     ...msg,
                 }
-            } as MsgSaveProfileEncodeObject
+            }
     }
 }
 
