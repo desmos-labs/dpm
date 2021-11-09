@@ -21,7 +21,9 @@ export const ThemeProvider: React.FC = ({children}) => {
                 const colorScheme = preferences.colorScheme ?? "light";
                 setAppTheme(colorScheme === "light" ? AppThemeLight : AppThemeDark);
             }
-
+            listener({
+                colorScheme: Appearance.getColorScheme(),
+            })
             Appearance.addChangeListener(listener);
             return () => {
                 Appearance.removeChangeListener(listener);
