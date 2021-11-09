@@ -785,7 +785,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = network.desmos.dpm;
 				PRODUCT_NAME = DesmosProfileManager;
-				PROVISIONING_PROFILE_SPECIFIER = "match AppStore network.desmos.dpm";
+				PROVISIONING_PROFILE_SPECIFIER = "match AppStore network.desmos.dpm 1636454351";
 				SWIFT_OBJC_BRIDGING_HEADER = "DesmosProfileManager-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
@@ -818,7 +818,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = network.desmos.dpm;
 				PRODUCT_NAME = DesmosProfileManager;
-				PROVISIONING_PROFILE_SPECIFIER = "match AppStore network.desmos.dpm";
+				PROVISIONING_PROFILE_SPECIFIER = "match AppStore network.desmos.dpm 1636454351";
 				SWIFT_OBJC_BRIDGING_HEADER = "DesmosProfileManager-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
 				VERSIONING_SYSTEM = "apple-generic";

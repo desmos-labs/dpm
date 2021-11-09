@@ -1,4 +1,4 @@
-git_url("https://github.com/desmos-labs/dpm.git")
+git_url("https://github.com/desmos-labs/dpm")
 
 storage_mode("git")
 
