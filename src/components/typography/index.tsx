@@ -1,5 +1,5 @@
 import React, {useMemo} from "react";
-import {StyleProp, Text, TextStyle} from "react-native";
+import {StyleProp, StyleSheet, Text, TextStyle} from "react-native";
 import {useTheme} from "react-native-paper";
 
 export type TypographyComponentProps = React.ComponentProps<typeof Text>;
@@ -21,7 +21,7 @@ function createTextComponent(
 
         return <Text
             {...props}
-            style={[commonStyle, props.style, style]}
+            style={StyleSheet.compose([commonStyle, style], props.style)}
         />
     }
 }
