@@ -23,5 +23,5 @@ export const AppSettingsStorageKey = "dpm_app_settings";
  * Default application settings.
  */
 export const DefaultAppSettings: AppSettings = {
-    theme: "light",
+    theme: "auto",
 }
