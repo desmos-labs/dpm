@@ -117,3 +117,38 @@ export const AppTheme: ReactNativePaper.Theme = {
         error: '#fd565f'
     },
 };
+
+export const AppThemeDark: ReactNativePaper.Theme = {
+    ...AppThemeLight,
+    dark: true,
+    colors: {
+        ...AppThemeLight.colors,
+        primary: "#C35B47",
+        accent: "#407AEC",
+        background: "#1D1E22",
+        background2: "#1D1E22",
+        background3: "#292A2E",
+        popupBackground: "rgba(0, 0, 0, 0.7)",
+        surface: "#25282D",
+        surface2: "#25282D",
+        popupSurface: "#25282D",
+        line: "#34383E",
+        icon: {
+            1: "#E6E6E6",
+            2: "#CBCBCB",
+            3: "#AFAFAF",
+            4: "#333333",
+            5: "#FFFFFF",
+        },
+        font: {
+            1: "#E6E6E6",
+            2: "#CBCBCB",
+            3: "#9D9D9D",
+            4: "#379AFE",
+            5: "#FFFFFF",
+            red: "#FD565F"
+        },
+        text: "#E6E6E6",
+        disabled: "#9d9d9d"
+    }
+}
