@@ -77,7 +77,7 @@ export const DefaultSpacing: ReactNativePaper.Spacing = {
     xl: 32,
 }
 
-export const AppTheme: ReactNativePaper.Theme = {
+export const AppThemeLight: ReactNativePaper.Theme = {
     ...DefaultTheme,
     spacing: DefaultSpacing,
     roundness: 8,
