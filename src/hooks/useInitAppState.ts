@@ -3,6 +3,7 @@ import useLoadAccounts from "./useLoadAccounts";
 import {useInitI18n} from "../i18n/i18n";
 import useLoadAllProfiles from "./useLoadAllProfiles";
 import {InitState, useAppContext} from "../contexts/AppContext";
+import useLoadSettings from "./settings/useLoadSettings";
 
 
 /**
@@ -15,6 +16,7 @@ export default function useInitAppState(): InitState {
     const initLocalization = useInitI18n();
     const loadAccounts = useLoadAccounts();
     const loadProfiles = useLoadAllProfiles();
+    const loadSettings = useLoadSettings()
 
 
     useEffect(() => {
@@ -24,6 +26,7 @@ export default function useInitAppState(): InitState {
                 // Load accounts and profiles from disk.
                 await loadAccounts();
                 await loadProfiles();
+                await loadSettings();
 
                 setInitializing({
                     initializing: false,
