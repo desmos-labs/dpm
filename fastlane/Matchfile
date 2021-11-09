@@ -1,4 +1,4 @@
-git_url("git@github.com:desmos-labs/ios-dpm-fastlane-certs.git")
+git_url("https://github.com/desmos-labs/ios-dpm-fastlane-certs.git")
 
 storage_mode("git")
 
