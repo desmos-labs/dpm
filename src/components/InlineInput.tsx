@@ -40,6 +40,6 @@ const useStyles = makeStyle(theme => ({
         flex: 7,
         paddingTop: 8,
         paddingBottom: 0,
-        color: theme.colors.text,
+        color: theme.colors.font["1"],
     }
 }))

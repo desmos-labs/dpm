@@ -1,7 +1,8 @@
 import React from "react";
-import {Text, TouchableOpacity} from "react-native";
+import {TouchableOpacity} from "react-native";
 import {IconButton} from "./IconButton";
 import {makeStyle} from "../theming";
+import {Typography} from "./index";
 
 export type MenuItemProps = {
     /**
@@ -34,15 +35,15 @@ export const MenuItem: React.FC<MenuItemProps> = (props) => {
             size={props.iconSize ?? 16}
             color="#c4c4c4"
         />
-        <Text
+        <Typography.Body
             style={styles.text}
         >
             {props.text}
-        </Text>
+        </Typography.Body>
     </TouchableOpacity>
 }
 
-const useStyles = makeStyle(theme => ({
+const useStyles = makeStyle(_ => ({
     root: {
         display: "flex",
         flexDirection: "row",
@@ -51,6 +52,5 @@ const useStyles = makeStyle(theme => ({
     },
     text: {
         marginLeft: 8,
-        color: theme.colors.font["1"],
     }
 }));

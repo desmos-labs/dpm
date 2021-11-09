@@ -3,6 +3,7 @@ import {makeStyle} from "../theming";
 import {Platform, StatusBar, StyleProp, View, ViewStyle} from "react-native";
 import {IconButton} from "./IconButton";
 import {Typography} from "./index";
+import {useTheme} from "react-native-paper";
 
 type ScreenProps = {
     navigation: {
@@ -33,6 +34,7 @@ export type Props = {
 }
 
 export const TopBar: React.FC<Props> = (props) => {
+    const theme = useTheme();
     const styles = useStyles();
     const {navigation} = props.stackProps;
 
@@ -40,13 +42,13 @@ export const TopBar: React.FC<Props> = (props) => {
         <View style={[styles.container, styles.containerLeft]}>
             {navigation.openDrawer ? (
                 <IconButton
-                    color={props.leftIconColor}
+                    color={props.leftIconColor ?? theme.colors.icon["1"]}
                     icon="menu"
                     onPress={navigation.openDrawer}
                 />
             ) : navigation.canGoBack() ? (
                 <IconButton
-                    color={props.leftIconColor}
+                    color={props.leftIconColor ?? theme.colors.icon["1"]}
                     icon="back"
                     onPress={navigation.goBack}
                 />

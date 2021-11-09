@@ -1,6 +1,7 @@
 import React from "react";
 import {Text, StyleProp, ViewStyle, StyleSheet, TouchableOpacity} from "react-native";
 import {makeStyle} from "../theming";
+import {Typography} from "./index";
 
 export type Props = {
     /**
@@ -27,9 +28,9 @@ export const MnemonicWordBadge: React.FC<Props> = (props) => {
             props.onPress!(props.value)
         }: undefined}
     >
-        <Text style={styles.word}>
+        <Typography.Subtitle>
             {props.value}
-        </Text>
+        </Typography.Subtitle>
         <Text style={styles.index}>
             {props.index}
         </Text>
@@ -42,13 +43,11 @@ const useStyles = makeStyle(theme => ({
         borderRadius: 4,
         padding: theme.spacing.s
     },
-    word: {
-
-    },
     index: {
         position: "absolute",
         top: theme.spacing.s,
         right: theme.spacing.s,
         fontSize: 8,
+        color: theme.colors.text,
     }
 }));

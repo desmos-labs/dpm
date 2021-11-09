@@ -6,7 +6,7 @@ import {AccountScreensStackParams} from "../types/navigation";
 import React, {useCallback, useMemo, useState} from 'react';
 import {ProfileHeader} from "../components/ProfileHeader";
 import useFetchProfile from "../hooks/useFetchProfile";
-import {Image, View, Text} from "react-native";
+import {Image, View} from "react-native";
 import {useTranslation} from "react-i18next";
 import Clipboard from "@react-native-community/clipboard";
 import useSelectedAccount from "../hooks/useSelectedAccount";
@@ -78,9 +78,9 @@ export default function Profile(props: Props): JSX.Element {
         <View style={styles.content}>
             {profile ? (
                 <>
-                    <Text style={styles.bio}>
+                    <Typography.Body1 style={styles.bio}>
                         {profile.bio}
-                    </Text>
+                    </Typography.Body1>
                 </>
             ) : <>
                 <Image

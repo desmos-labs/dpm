@@ -28,7 +28,7 @@ export const TextInput: React.FC<Props> = (props) => {
         <NativeTextInput
             {...props}
             style={[styles.input, props.inputStyle]}
-            placeholderTextColor={theme.colors.placeholder}
+            placeholderTextColor={theme.colors.font["3"]}
         />
         <View style={styles.right}>
             {props.rightElement}
@@ -53,7 +53,7 @@ const useStyles = makeStyleWithProps((props: Props, theme) => ({
         flexGrow: 1,
         textAlignVertical: props.multiline === true ? "top" : "center",
         height: "100%",
-        color: theme.colors.text,
+        color: theme.colors.font["1"],
         minHeight: props.numberOfLines !== undefined ? 25 * props.numberOfLines : undefined,
     },
     right: {

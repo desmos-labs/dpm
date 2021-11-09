@@ -1,10 +1,10 @@
 import React, {useCallback, useMemo, useState} from "react";
 import {StackScreenProps} from "@react-navigation/stack";
 import {AccountScreensStackParams} from "../types/navigation";
-import {Button, StyledSafeAreaView, TopBar} from "../components";
+import {Button, StyledSafeAreaView, TopBar, Typography} from "../components";
 import {useTranslation} from "react-i18next";
 import {makeStyle} from "../theming";
-import {StyleProp, StyleSheet, Text, TextInput, TextStyle} from "react-native";
+import {StyleProp, StyleSheet, TextInput, TextStyle} from "react-native";
 
 export type Props = StackScreenProps<AccountScreensStackParams, "BiographyEditor">
 
@@ -66,11 +66,11 @@ export const BiographyEditor: React.FC<Props> = (props) => {
             multiline={true}
             onChangeText={onTextChange}
         />
-        <Text
+        <Typography.Body
             style={charCountStyle}
         >
             {charCount}
-        </Text>
+        </Typography.Body>
     </StyledSafeAreaView>
 }
 
@@ -78,11 +78,11 @@ const useStyles = makeStyle(theme => ({
     input: {
         flexGrow: 1,
         textAlignVertical: "top",
-        color: theme.colors.font["1"]
+        color: theme.colors.font["1"],
+        maxHeight: "85%",
     },
     charCount: {
         alignSelf: "flex-end",
-        color: "black",
         right: 0,
     },
     charCountWarning: {

@@ -120,7 +120,9 @@ export const Home: React.FC<Props> = (props) => {
             }}
             duration={Snackbar.DURATION_SHORT}
         >
-            {snackBarMessage}
+            <Typography.Body>
+                {snackBarMessage}
+            </Typography.Body>
         </Snackbar>
     </StyledSafeAreaView>
 }
@@ -139,6 +141,7 @@ const useStyles = makeStyle(theme => ({
     },
     snackbar: {
         zIndex: 2,
+        backgroundColor: theme.colors.popupSurface,
     },
     testnetText: {
         color: theme.colors.primary,

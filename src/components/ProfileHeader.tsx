@@ -1,10 +1,11 @@
 import React, {ReactNode, useMemo} from "react";
-import {Text, View} from "react-native";
+import {View} from "react-native";
 import {IconButton} from "./IconButton";
 import {makeStyle} from "../theming";
 import {AvatarImage} from "./AvatarImage";
 import {useTheme} from "react-native-paper";
 import FastImage from 'react-native-fast-image'
+import {Typography} from "./index";
 
 export type Props = {
     address?: string,
@@ -73,22 +74,31 @@ export const ProfileHeader: React.FC<Props> = (props) => {
             />}
         </View>
 
-        {nickname !== undefined && <Text style={styles.nickName}>{nickname}</Text>}
-        {dtag !== undefined && <Text style={styles.dtag}>@{dtag}</Text>}
+        {nickname !== undefined && <Typography.Body
+            style={styles.nickName}
+        >
+            {nickname}
+        </Typography.Body>}
+
+        {dtag !== undefined && <Typography.Body
+            style={styles.dtag}
+        >
+            @{dtag}
+        </Typography.Body>}
 
         {props.address && <View style={styles.addressContainer}>
-            <Text
-                style={styles.address}
+            <Typography.Body
                 ellipsizeMode="middle"
                 numberOfLines={1}
             >
                 {address}
-            </Text>
+            </Typography.Body>
             <View>
                 <IconButton
                     icon="content-copy"
                     size={20}
                     onPress={props.onCopyPressed}
+                    color={"#c4c4c4"}
                 />
             </View>
         </View>}
@@ -152,12 +162,6 @@ const useStyles = makeStyle(theme => ({
         marginTop: 16,
     },
     dtag: {
-        color: theme.colors.text,
-        fontFamily: 'Poppins-Regular',
-        fontStyle: 'normal',
-        fontWeight: 'normal',
-        fontSize: 14,
-        lineHeight: 17,
         marginTop: 6,
     },
     addressContainer: {
@@ -166,8 +170,5 @@ const useStyles = makeStyle(theme => ({
         marginTop: 16,
         marginHorizontal: 32,
         alignItems: "center",
-    },
-    address: {
-        color: theme.colors.text,
     },
 }))

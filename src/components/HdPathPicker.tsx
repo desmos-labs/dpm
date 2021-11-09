@@ -3,6 +3,7 @@ import {makeStyleWithProps} from "../theming";
 import {View, Text, StyleProp, ViewStyle, StyleSheet} from "react-native";
 import {HdPath} from "../types/hdpath";
 import {TextInput} from "./TextInput";
+import {Typography} from "./index";
 
 export type Props = {
     /**
@@ -68,11 +69,11 @@ export const HdPathPicker: React.FC<Props> = (props) => {
     return <View
         style={StyleSheet.compose(styles.root as StyleProp<ViewStyle>, props.style)}
     >
-        <Text
+        <Typography.Body1
             style={styles.hdPathText}
         >
             m/44'/852'/
-        </Text>
+        </Typography.Body1>
         <TextInput
             style={styles.elements}
             inputStyle={styles.input}

@@ -1,5 +1,5 @@
 import React from "react";
-import {StyleProp, TouchableOpacity, View, ViewStyle, Text} from "react-native";
+import {StyleProp, TouchableOpacity, View, ViewStyle} from "react-native";
 import {IconButton} from "./IconButton";
 import {useTranslation} from "react-i18next";
 import {makeStyle} from "../theming";
@@ -64,10 +64,14 @@ export const AccountBalance: React.FC<Props> = (props) => {
             <View
                 style={styles.balanceTextContainer}
             >
-                <Typography.Body>
+                <Typography.Body
+                    style={styles.balanceText}
+                >
                     {t("available")}:
                 </Typography.Body>
-                <Typography.Title>
+                <Typography.Title
+                    style={styles.balanceText}
+                >
                     {chainBalance.amount} {chainBalance.denom.toUpperCase()}
                 </Typography.Title>
             </View>
@@ -75,11 +79,11 @@ export const AccountBalance: React.FC<Props> = (props) => {
                 style={styles.sendButton}
                 onPress={props.onSendPressed}
             >
-                <Text
+                <Typography.Body
                     style={styles.sendButtonText}
                 >
                     {t("send")}
-                </Text>
+                </Typography.Body>
             </TouchableOpacity>
         </View>
     </View>
@@ -114,6 +118,9 @@ const useStyles = makeStyle(theme => ({
         flexDirection: "column",
         flex: 1,
     },
+    balanceText: {
+        color: theme.dark ? theme.colors.background : theme.colors.text,
+    },
     sendButton: {
         height: 54,
         width: 54,
@@ -124,9 +131,5 @@ const useStyles = makeStyle(theme => ({
     },
     sendButtonText: {
         color: theme.colors.font["5"],
-        fontSize: 14,
-        lineHeight: 21,
-        padding: 0,
-        margin: 0,
     }
 }))

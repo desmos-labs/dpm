@@ -10,7 +10,7 @@ import {
 import {StackScreenProps} from "@react-navigation/stack";
 import {makeStyle} from "../../theming";
 import {useTranslation} from "react-i18next";
-import {View, Text, ListRenderItemInfo, TouchableOpacity} from "react-native";
+import {View, ListRenderItemInfo, TouchableOpacity} from "react-native";
 import LocalWallet from "../../wallet/LocalWallet";
 import {HdPath} from "../../types/hdpath";
 import useAccountExists from "../../hooks/useAccountExists";
@@ -170,7 +170,11 @@ export const PickDerivationPath: React.FC<Props> = (props) => {
 
         <View style={styles.dividerContainer}>
             <Divider style={styles.dividerLine}/>
-            <Text style={styles.dividerText}>{t("or")}</Text>
+            <Typography.Subtitle
+                style={styles.dividerText}
+            >
+                {t("or")}
+            </Typography.Subtitle>
             <Divider style={styles.dividerLine}/>
         </View>
 

@@ -1,5 +1,5 @@
 import React from "react";
-import {StyleProp, StyleSheet, ViewStyle, Text, TouchableOpacity} from "react-native";
+import {StyleProp, StyleSheet, ViewStyle, TouchableOpacity} from "react-native";
 import {Typography} from "./index";
 
 type InlineInputProps = {
@@ -30,7 +30,11 @@ export const InlineLabeledValue: React.FC<InlineInputProps> = (props) => {
         >
             {props.label}
         </Typography.Subtitle>
-        <Text style={styles.text}>{props.value}</Text>
+        <Typography.Body1
+            style={styles.text}
+        >
+            {props.value}
+        </Typography.Body1>
     </TouchableOpacity>
 }
 

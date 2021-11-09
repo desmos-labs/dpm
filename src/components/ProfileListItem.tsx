@@ -1,5 +1,5 @@
 import React, {useMemo, useState} from "react";
-import {Text, TouchableOpacity, View} from "react-native";
+import {TouchableOpacity, View} from "react-native";
 import {AvatarImage} from "./AvatarImage";
 import {makeStyle} from "../theming";
 import {Menu, useTheme} from "react-native-paper";
@@ -8,6 +8,7 @@ import {MenuItem} from "./MenuItem";
 import {Divider} from "./Divider";
 import {IconButton} from "./IconButton";
 import {Source} from "react-native-fast-image"
+import {Typography} from "./index";
 
 export type Props = {
     /**
@@ -67,20 +68,20 @@ export const ProfileListItem: React.FC<Props> = (props) => {
             size={48}
         />
         <View style={styles.textContainer}>
-            <Text
+            <Typography.Subtitle
                 style={styles.nickname}
                 numberOfLines={1}
                 ellipsizeMode="tail"
             >
                 {props.nickname ?? "-"}
-            </Text>
-            <Text
+            </Typography.Subtitle>
+            <Typography.Body
                 style={styles.dtag}
                 ellipsizeMode="middle"
                 numberOfLines={1}
             >
                 {props.dtag !== undefined ? `@${props.dtag}` : props.address}
-            </Text>
+            </Typography.Body>
         </View>
         {showMenu && <Menu
             visible={menuVisible}
