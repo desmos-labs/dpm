@@ -4,7 +4,7 @@ import {MessageSendListItem} from "./MessageSendListItem";
 import {
     MsgDelegateEncodeObject, MsgLinkChainAccountEncodeObject,
     MsgSaveProfileEncodeObject,
-    MsgSendEncodeObject,
+    MsgSendEncodeObject, MsgUnlinkChainAccountEncodeObject,
     MsgVoteEncodeObject, MsgWithdrawDelegatorRewardEncodeObject
 } from "@desmoslabs/sdk-core";
 import {UnknownMessageListItem} from "./UnknownMessageListItem";
@@ -14,6 +14,7 @@ import {MessageVoteListItem} from "./MessageVoteListItem";
 import {MessageDelegateListItem} from "./MessageDelegateListItem";
 import {MessageWithdrawDelegatorRewardListItem} from "./MessageWithdrawDelegatorRewardListItem";
 import {MessageLinkChainAccountListItem} from "./MessageLinkChainAccountListItem";
+import {MessageUnlinkChainAccountListItem} from "./MessageUnlinkChainAccountListItem";
 
 export type Props = {
     encodeObject: EncodeObject,
@@ -56,6 +57,12 @@ export const TransactionListMessageItem: React.FC<Props> = (props) => {
         case MsgTypes.MsgLinkChainAccount:
             return <MessageLinkChainAccountListItem
                 encodeObject={encodeObject as MsgLinkChainAccountEncodeObject}
+                date={date}
+            />
+
+        case MsgTypes.MsgUnlinkChainAccount:
+            return <MessageUnlinkChainAccountListItem
+                encodeObject={encodeObject as MsgUnlinkChainAccountEncodeObject}
                 date={date}
             />
 

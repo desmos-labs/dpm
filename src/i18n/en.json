@@ -146,5 +146,7 @@
   "is this your address?": "Is this your address?",
   "connected on": "Connected on",
   "are you sure you want to disconnect chain account?": "Are you sure you want to disconnect {{chain}} account?",
-  "chain account was disconnected": "{{chain}} account was disconnected"
+  "chain account was disconnected": "{{chain}} account was disconnected",
+  "tx type unlink chain account": "Unlink chain account",
+  "unlinked account": "Unlinked account"
 }

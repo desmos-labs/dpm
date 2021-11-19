@@ -125,5 +125,6 @@
   "is this your address?": "E' questo il tuo indirizzo?",
   "connected on": "Connessa il",
   "are you sure you want to disconnect chain account?": "Sei sicuro di voler disconnettere l'account {{chain}}?",
-  "chain account was disconnected": "l'account {{chain}} è stato disconnesso"
+  "chain account was disconnected": "L'account {{chain}} è stato disconnesso",
+  "unlinked account": "Account disconnesso"
 }

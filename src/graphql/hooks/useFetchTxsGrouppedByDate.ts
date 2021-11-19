@@ -5,7 +5,7 @@ import {EncodeObject} from "@cosmjs/proto-signing";
 import {
     MsgDelegateEncodeObject, MsgLinkChainAccountEncodeObject,
     MsgSaveProfileEncodeObject,
-    MsgSendEncodeObject,
+    MsgSendEncodeObject, MsgUnlinkChainAccountEncodeObject,
     MsgVoteEncodeObject,
     MsgWithdrawDelegatorRewardEncodeObject
 } from "@desmoslabs/sdk-core"
@@ -149,8 +149,19 @@ function gqlMessageToEncodeObject(msg: any): EncodeObject {
                 }
             } as MsgLinkChainAccountEncodeObject
 
+        case MsgTypes.MsgUnlinkChainAccount:
+            return {
+                typeUrl: "/desmos.profiles.v1beta1.MsgUnlinkChainAccount",
+                value: {
+                    target: msg["target"],
+                    owner: msg["owner"],
+                    chainName: msg["chain_name"],
+                }
+
+            } as MsgUnlinkChainAccountEncodeObject
+
         default:
-            console.warn("Unsupported msg type while parsing tx from graphql", type)
+            console.warn("Unsupported msg type while parsing tx from graphql", type, msg);
             return {
                 typeUrl: type,
                 value: {
