@@ -14,6 +14,8 @@ import {MessageDelegate} from "./MessageDelegate";
 import {MsgDelegate} from "cosmjs-types/cosmos/staking/v1beta1/tx";
 import {MessageWithdrawDelegatorRewards} from "./MessageWithdrawDelegatorRewards";
 import {MsgWithdrawDelegatorReward} from "cosmjs-types/cosmos/distribution/v1beta1/tx";
+import {MessageLinkChainAccount} from "./MessageLinkChainAccount";
+import {MsgLinkChainAccount} from "@desmoslabs/proto/desmos/profiles/v1beta1/msgs_chain_links";
 
 
 export type Props = {
@@ -63,6 +65,15 @@ export const TxMessage: React.FC<Props> = (props) => {
                 protobufMessage={decodedMessage}/>
         } else {
             return <MessageWithdrawDelegatorRewards
+                encodeObject={value}/>
+        }
+    } else if (typeUrl === MsgTypes.MsgLinkChainAccount) {
+        if (isProtobuf) {
+            const decodedMessage = MsgLinkChainAccount.decode(value);
+            return <MessageLinkChainAccount
+                protobufMessage={decodedMessage}/>
+        } else {
+            return <MessageLinkChainAccount
                 encodeObject={value}/>
         }
     } else {

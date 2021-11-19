@@ -2,7 +2,7 @@ import React from "react";
 import {EncodeObject} from "@cosmjs/proto-signing";
 import {MessageSendListItem} from "./MessageSendListItem";
 import {
-    MsgDelegateEncodeObject,
+    MsgDelegateEncodeObject, MsgLinkChainAccountEncodeObject,
     MsgSaveProfileEncodeObject,
     MsgSendEncodeObject,
     MsgVoteEncodeObject, MsgWithdrawDelegatorRewardEncodeObject
@@ -13,6 +13,7 @@ import {MsgTypes} from "../../../types/msgtypes";
 import {MessageVoteListItem} from "./MessageVoteListItem";
 import {MessageDelegateListItem} from "./MessageDelegateListItem";
 import {MessageWithdrawDelegatorRewardListItem} from "./MessageWithdrawDelegatorRewardListItem";
+import {MessageLinkChainAccountListItem} from "./MessageLinkChainAccountListItem";
 
 export type Props = {
     encodeObject: EncodeObject,
@@ -49,6 +50,12 @@ export const TransactionListMessageItem: React.FC<Props> = (props) => {
         case MsgTypes.MsgWithdrawDelegatorReward:
             return <MessageWithdrawDelegatorRewardListItem
                 encodeObject={encodeObject as MsgWithdrawDelegatorRewardEncodeObject}
+                date={date}
+            />
+
+        case MsgTypes.MsgLinkChainAccount:
+            return <MessageLinkChainAccountListItem
+                encodeObject={encodeObject as MsgLinkChainAccountEncodeObject}
                 date={date}
             />
 

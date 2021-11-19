@@ -3,7 +3,7 @@ import {GqlTransaction, useGetTransactionsByAddressQuery} from "../types";
 import {ChainAccount} from "../../types/chain";
 import {EncodeObject} from "@cosmjs/proto-signing";
 import {
-    MsgDelegateEncodeObject,
+    MsgDelegateEncodeObject, MsgLinkChainAccountEncodeObject,
     MsgSaveProfileEncodeObject,
     MsgSendEncodeObject,
     MsgVoteEncodeObject,
@@ -14,12 +14,29 @@ import {BroadcastedTx} from "../../types/tx";
 import {MsgTypes} from "../../types/msgtypes";
 import {VoteOption} from "cosmjs-types/cosmos/gov/v1beta1/gov";
 import Long from "long";
+import {Bech32Address} from "@desmoslabs/proto/desmos/profiles/v1beta1/models_chain_links";
+import {Any} from "cosmjs-types/google/protobuf/any";
+import {PubKey} from "cosmjs-types/cosmos/crypto/secp256k1/keys";
 
 const LIMIT = 20;
 
 export type SectionedTx = {
     date: string,
     data: BroadcastedTx[],
+}
+
+function gqlPubKeyToAny(gqlPubKey: any): Any | undefined {
+    const type = gqlPubKey["@type"];
+    const key = gqlPubKey["key"];
+
+    if (type === "/cosmos.crypto.secp256k1.PubKey") {
+        return Any.fromPartial({
+            typeUrl: type,
+            value: PubKey.encode(PubKey.fromPartial({
+                key: Buffer.from(key, "utf-8"),
+            })).finish()
+        })
+    }
 }
 
 /**
@@ -103,7 +120,37 @@ function gqlMessageToEncodeObject(msg: any): EncodeObject {
                 }
             } as MsgSaveProfileEncodeObject
 
+        case MsgTypes.MsgLinkChainAccount:
+            const chainAddress = msg["chain_address"];
+            const chainConfig = msg["chain_config"];
+            const proof = msg["proof"];
+
+            const chainAddressRaw = Bech32Address.encode({
+                value: chainAddress["value"],
+                prefix: chainAddress["prefix"],
+            }).finish();
+
+            return {
+                typeUrl: "/desmos.profiles.v1beta1.MsgLinkChainAccount",
+                value: {
+                    chainAddress: {
+                        typeUrl: chainAddress["@type"],
+                        value: chainAddressRaw,
+                    },
+                    chainConfig: {
+                        name: chainConfig["name"]
+                    },
+                    signer: msg["signer"],
+                    proof: {
+                        plainText: proof["plain_text"],
+                        signature: proof["signature"],
+                        pubKey: gqlPubKeyToAny(proof["pub_key"]),
+                    }
+                }
+            } as MsgLinkChainAccountEncodeObject
+
         default:
+            console.warn("Unsupported msg type while parsing tx from graphql", type)
             return {
                 typeUrl: type,
                 value: {
