@@ -7,7 +7,8 @@ import {Typography} from "../index";
 
 
 export type Props = {
-    icon: ImageProps["source"],
+    icon?: ImageProps["source"],
+    customIconView?: React.ReactElement,
     iconSubtitle?: string,
     fields?: {label: string, value?: string}[],
 }
@@ -17,11 +18,15 @@ export const SimpleMessageComponent: React.FC<Props> = (props) => {
 
     return <View>
         <View style={styles.txHeader}>
-            <Image
-                style={styles.txIcon}
-                source={props.icon}
-                resizeMode="contain"
-            />
+            {props.icon !== undefined ? (
+                <Image
+                    style={styles.txIcon}
+                    source={props.icon}
+                    resizeMode="contain"
+                />
+            ) : props.customIconView !== undefined ? (
+                props.customIconView
+            ): null}
             <Typography.Subtitle
                 style={styles.headerAmount}
             >
