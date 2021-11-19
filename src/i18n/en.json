@@ -28,6 +28,7 @@
   "never": "Never",
   "revoke": "Revoke",
   "max": "max",
+  "disconnect": "Disconnect",
   "create wallet": "Create Wallet",
   "import recovery passphrase": "Import recovery passphrase",
   "secret recovery passphrase": "Secret recovery passphrase",
@@ -142,5 +143,8 @@
   "import account": "Import account",
   "connect to": "Connect to",
   "tx type link chain account": "Link chain account",
-  "is this your address?": "Is this your address?"
+  "is this your address?": "Is this your address?",
+  "connected on": "Connected on",
+  "are you sure you want to disconnect chain account?": "Are you sure you want to disconnect {{chain}} account?",
+  "chain account was disconnected": "{{chain}} account was disconnected"
 }

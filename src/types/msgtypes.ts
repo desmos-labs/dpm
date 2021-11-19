@@ -5,4 +5,5 @@ export enum MsgTypes {
     MsgDelegate = "/cosmos.staking.v1beta1.MsgDelegate",
     MsgSaveProfile = "/desmos.profiles.v1beta1.MsgSaveProfile",
     MsgLinkChainAccount = "/desmos.profiles.v1beta1.MsgLinkChainAccount",
+    MsgUnlinkChainAccount = "/desmos.profiles.v1beta1.MsgUnlinkChainAccount",
 }

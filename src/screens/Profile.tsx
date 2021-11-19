@@ -67,8 +67,13 @@ export default function Profile(props: Props): JSX.Element {
     }, [navigation]);
 
     const showChainLinkInfo = useCallback((chainLink: ChainLink) => {
-        console.log("show info", chainLink);
-    }, [])
+        navigation.navigate({
+            name: "ChainLinkDetails",
+            params: {
+                chainLink
+            }
+        })
+    }, [navigation]);
 
     return <StyledSafeAreaView
         padding={0}

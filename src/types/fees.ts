@@ -63,6 +63,7 @@ export function messagesGas(msg: EncodeObject[]): number {
     msg.forEach(m => {
         switch (m.typeUrl) {
             case MsgTypes.MsgLinkChainAccount:
+            case MsgTypes.MsgUnlinkChainAccount:
             case MsgTypes.MsgSaveProfile:
                 gas += 200000;
                 break;

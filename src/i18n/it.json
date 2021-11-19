@@ -23,6 +23,7 @@
   "note": "Nota",
   "never": "Never",
   "revoke": "Revoca",
+  "disconnect": "Disconnetti",
   "create wallet": "Crea Wallet",
   "import recovery passphrase": "Importa Recovery Passphrase",
   "secret recovery passphrase": "Secret recovery passphrase",
@@ -121,5 +122,8 @@
   "select chain": "Seleziona chain",
   "import account": "Importa account",
   "connect to": "Connetti a",
-  "is this your address?": "E' questo il tuo indirizzo?"
+  "is this your address?": "E' questo il tuo indirizzo?",
+  "connected on": "Connessa il",
+  "are you sure you want to disconnect chain account?": "Sei sicuro di voler disconnettere l'account {{chain}}?",
+  "chain account was disconnected": "l'account {{chain}} è stato disconnesso"
 }

@@ -9,6 +9,7 @@ import {SessionRequestDetails} from "./walletconnect";
 import {StdFee} from "@cosmjs/amino";
 import {NavigatorScreenParams} from "@react-navigation/native";
 import {DesmosProfile} from "@desmoslabs/sdk-core";
+import {ChainLink} from "./link";
 
 export type AccountCreationStackParams = {
     Login: undefined;
@@ -93,6 +94,9 @@ export type AccountScreensStackParams = {
         reject: (error: Error) => void
     },
     ChainLinkScreens: undefined,
+    ChainLinkDetails: {
+        chainLink: ChainLink
+    }
 };
 
 export const AccountScreensStack = createStackNavigator<AccountScreensStackParams>();

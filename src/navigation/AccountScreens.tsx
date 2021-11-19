@@ -18,6 +18,7 @@ import {SendToken} from "../screens/SendToken";
 import {ConfirmTx} from "../screens/ConfirmTx";
 import {TxDetails} from "../screens/TxDetails";
 import {ChainLinkScreens} from "./ChainLinkScreens";
+import {ChainLinkDetails} from "../screens/ChainLinkDetails";
 
 type AccountScreensProps = StackScreenProps<RootStackParams, "AccountScreens">
 
@@ -85,6 +86,13 @@ export default function AccountScreens(_: AccountScreensProps) {
         <AccountScreensStack.Screen
             name="WalletConnectCallRequest"
             component={WalletConnectCallRequest}
+        />
+        <AccountScreensStack.Screen
+            name="ChainLinkDetails"
+            component={ChainLinkDetails}
+            options={{
+                presentation: "transparentModal"
+            }}
         />
     </AccountScreensStack.Navigator>
 }
