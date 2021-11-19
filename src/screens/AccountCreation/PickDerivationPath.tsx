@@ -12,7 +12,7 @@ import {makeStyle} from "../../theming";
 import {useTranslation} from "react-i18next";
 import {View, ListRenderItemInfo, TouchableOpacity} from "react-native";
 import LocalWallet from "../../wallet/LocalWallet";
-import {HdPath} from "../../types/hdpath";
+import {DesmosHdPath, HdPath} from "../../types/hdpath";
 import useAccountExists from "../../hooks/useAccountExists";
 import {TopBar} from "../../components";
 import {FlexPadding} from "../../components/FlexPadding";
@@ -24,21 +24,12 @@ type WalletHdPathPair = {
 
 export type Props = StackScreenProps<AccountCreationStackParams, "PickDerivationPath">;
 
-const DEFAULT_HD_PATH: HdPath = {
-    account: 0,
-    change: 0,
-    addressIndex: 0,
-}
 
 export const PickDerivationPath: React.FC<Props> = (props) => {
     const {mnemonic} = props.route.params;
     const {t} = useTranslation();
     const styles = useStyles();
-    const [selectedHdPath, setSelectedHdPath] = useState<HdPath>({
-        account: 0,
-        change: 0,
-        addressIndex: 0,
-    });
+    const [selectedHdPath, setSelectedHdPath] = useState<HdPath>(DesmosHdPath);
     const [selectedWallet, setSelectedWallet] = useState<LocalWallet| null>(null);
     const [addressPickerVisible, setAddressPickerVisible] = useState(false);
     const accountExists = useAccountExists();
@@ -66,11 +57,11 @@ export const PickDerivationPath: React.FC<Props> = (props) => {
                 // The address picker is is being displayed,
                 // remove the wallet generated from the derivation path.
                 setSelectedWallet(null);
-                setSelectedHdPath(DEFAULT_HD_PATH);
+                setSelectedHdPath(DesmosHdPath);
             } else {
                 if (selectedWallet === null) {
-                    setSelectedHdPath(DEFAULT_HD_PATH);
-                    generateWalletFromHdPath(DEFAULT_HD_PATH);
+                    setSelectedHdPath(DesmosHdPath);
+                    generateWalletFromHdPath(DesmosHdPath);
                 }
             }
             return !visible
@@ -105,9 +96,8 @@ export const PickDerivationPath: React.FC<Props> = (props) => {
         let wallets: WalletHdPathPair [] = [];
         for (let walletIndex = offset; walletIndex < limit; walletIndex++) {
             const hdPath: HdPath = {
+                ...DesmosHdPath,
                 account: walletIndex,
-                change: 0,
-                addressIndex: 0,
             }
             const wallet = await LocalWallet.fromMnemonic(props.route.params.mnemonic, {
                 hdPath
