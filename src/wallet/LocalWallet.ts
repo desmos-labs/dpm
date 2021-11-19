@@ -3,57 +3,59 @@ import {
     sha256,
     Secp256k1
 } from "@cosmjs/crypto";
-import {HdPath} from "../types/hdpath";
+import {DesmosHdPath, HdPath} from "../types/hdpath";
 import {DirectSignResponse, OfflineDirectSigner, AccountData, makeSignBytes} from "@cosmjs/proto-signing";
 import {SignDoc} from "cosmjs-types/cosmos/tx/v1beta1/tx";
 import {encodeSecp256k1Signature, rawSecp256k1PubkeyToRawAddress} from "@cosmjs/amino";
 import {Bech32, fromBase64, fromHex, toBase64} from "@cosmjs/encoding";
 import {CryptoUtils} from "../native/CryptoUtils";
 
-// See https://github.com/satoshilabs/slips/blob/master/slip-0044.md for the list of all slips.
-const DESMOS_COIN_TYPE = 852;
-
 export interface LocalWalletOptions {
     /**
      * Wallet HdPath.
      */
-    hdPath: HdPath,
+    hdPath?: HdPath,
+    /**
+     * Prefix of the bech32 address.
+     */
+    prefix?: string
 }
 
-const DEFAULT_OPTIONS: LocalWalletOptions = {
-    hdPath: {
-        account: 0,
-        change: 0,
-        addressIndex: 0,
-    }
+const DEFAULT_OPTIONS = {
+    hdPath: DesmosHdPath,
+    prefix: "desmos",
 };
 
 export default class LocalWallet implements OfflineDirectSigner {
+    private readonly prefix: string;
     private readonly privateKey: Uint8Array;
     readonly publicKey: Uint8Array;
     private readonly _address: string;
 
     /**
      *
+     * @param prefix - Prefix of the bech32 address.
      * @param privateKey - The private key.
      * @param publicKey - The compressed public key.
      */
-    constructor(privateKey: Uint8Array, publicKey: Uint8Array) {
+    constructor(prefix: string, privateKey: Uint8Array, publicKey: Uint8Array) {
+        this.prefix = prefix;
         this.privateKey = privateKey;
         this.publicKey = publicKey
-        this._address = Bech32.encode('desmos', rawSecp256k1PubkeyToRawAddress(publicKey));
+        this._address = Bech32.encode(prefix, rawSecp256k1PubkeyToRawAddress(publicKey));
     }
 
     static async fromMnemonic(
         mnemonic: string,
         options?: LocalWalletOptions,
     ): Promise<LocalWallet> {
-        const {hdPath} = {...DEFAULT_OPTIONS, ...options};
-        const {privkey, pubkey} = await CryptoUtils.deriveKeyPairFromMnemonic(mnemonic, DESMOS_COIN_TYPE, hdPath.account, hdPath.change, hdPath.addressIndex);
+        const {hdPath, prefix} = {...DEFAULT_OPTIONS, ...options};
+        const {privkey, pubkey} = await CryptoUtils.deriveKeyPairFromMnemonic(mnemonic,
+            hdPath.coinType, hdPath.account, hdPath.change, hdPath.addressIndex);
         const privkeyBytes = fromHex(privkey)
         const pubkeyBytes = fromHex(pubkey)
         const compressedPubKey = await Secp256k1.compressPubkey(pubkeyBytes);
-        return new LocalWallet(privkeyBytes, compressedPubKey);
+        return new LocalWallet(prefix, privkeyBytes, compressedPubKey);
     }
 
     async sign(payload: Uint8Array): Promise<Uint8Array> {
@@ -68,9 +70,10 @@ export default class LocalWallet implements OfflineDirectSigner {
 
     public serialize(): string {
         const json = {
-            version: 2,
+            version: 3,
             privateKey: toBase64(this.privateKey),
             publicKey: toBase64(this.publicKey),
+            prefix: this.prefix,
         };
         return JSON.stringify(json);
     }
@@ -98,8 +101,10 @@ export default class LocalWallet implements OfflineDirectSigner {
                 publicKey = fromBase64(json.publicKey);
             }
         }
+        // Handle case of old wallets.
+        const prefix = json.prefix ?? DEFAULT_OPTIONS.prefix;
 
-        return new LocalWallet(privateKey, publicKey);
+        return new LocalWallet(prefix, privateKey, publicKey);
     }
 
     async signDirect(signerAddress: string, signDoc: SignDoc): Promise<DirectSignResponse> {
