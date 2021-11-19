@@ -10,19 +10,21 @@ import {Image, ScrollView, View} from "react-native";
 import {useTranslation} from "react-i18next";
 import Clipboard from "@react-native-community/clipboard";
 import useSelectedAccount from "../hooks/useSelectedAccount";
+import useFetchChainLink from "../graphql/hooks/useFetchChainLink";
+import {ChainLink} from "../types/link";
 
 
 export type Props = StackScreenProps<AccountScreensStackParams, "Profile">
 
 export default function Profile(props: Props): JSX.Element {
-
     const {navigation} = props;
     const account = useSelectedAccount();
     const {t} = useTranslation();
     const styles = useStyles();
     const theme = useTheme();
     const profile = useFetchProfile(account.address);
-    const [snackBarMessage, setShowSnackbar] = useState<string | null>(null)
+    const [snackBarMessage, setShowSnackbar] = useState<string | null>(null);
+    const {loading, chainLinks} = useFetchChainLink(account);
 
     const onEditProfile = useCallback(() => {
         navigation.navigate({
@@ -64,6 +66,10 @@ export default function Profile(props: Props): JSX.Element {
         })
     }, [navigation]);
 
+    const showChainLinkInfo = useCallback((chainLink: ChainLink) => {
+        console.log("show info", chainLink);
+    }, [])
+
     return <StyledSafeAreaView
         padding={0}
         topBar={<TopBar
@@ -97,8 +103,10 @@ export default function Profile(props: Props): JSX.Element {
                     </ScrollView>
                     <ChainConnections
                         style={styles.chainConnections}
-                        connections={[]}
+                        connections={chainLinks}
                         onConnectChain={connectChain}
+                        onShowChainInfo={showChainLinkInfo}
+                        loading={loading}
                     />
                 </>
             ) : <>
@@ -160,7 +168,8 @@ const useStyles = makeStyle(theme => ({
         marginTop: theme.spacing.s,
     },
     chainConnections: {
-        flex: 2,
+        flex: 3,
+        marginTop: theme.spacing.s,
     },
     noProfileImage: {
         marginTop: 42,

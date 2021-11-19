@@ -13,7 +13,11 @@ export type ChainLink = {
     /**
      * User address on the linked chain.
      */
-    externalAddress: string
+    externalAddress: string,
+    /**
+     * Time when the chain link has been created.
+     */
+    creationTime: Date,
 }
 
 /**

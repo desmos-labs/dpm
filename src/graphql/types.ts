@@ -130,3 +130,33 @@ export function useGetTransactionsByAddressQuery(baseOptions?: QueryHookOptions<
     const options = {...defaultOptions, ...baseOptions}
     return useQuery<GetTransactionsByAddressQuery, GetTransactionsByAddressQueryVariables>(GetTransactionsByAddressDocument, options);
 }
+
+export type GetChainLinkByAddressQuery = { chain_link: Array<{
+        user_address: string,
+        external_address: string,
+        chain_config: {
+            name: string,
+        },
+        creation_time: string,
+    }>};
+
+export type GetChainLinkByAddressQueryVariable = Exact<{
+    address?: Maybe<Scalars['String']>;
+}>;
+
+export const GetChainLinkByAddressDocument = gql`
+    query GetChainLinkByAddress($address: String) {
+        chain_link(where: {user_address: {_eq: $address}}) {
+            user_address
+            external_address
+            chain_config {
+                name
+            },
+            creation_time
+        }
+    }`;
+
+export function useGetChainLinkByAddress(baseOptions?: QueryHookOptions<GetChainLinkByAddressQuery, GetChainLinkByAddressQueryVariable>) {
+    const options = {...defaultOptions, ...baseOptions};
+    return useQuery(GetChainLinkByAddressDocument, options);
+}

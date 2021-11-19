@@ -54,6 +54,15 @@ export const Typography = {
         letterSpacing: 0.004,
         textAlign: "left",
     })),
+    Caption2: createTextComponent(_ => ({
+        fontFamily: "Poppins-Regular",
+        fontSize: 10,
+        fontStyle: "normal",
+        fontWeight: "400",
+        lineHeight: 15,
+        letterSpacing: 0.004,
+        textAlign: "left",
+    })),
     Title: createTextComponent(_ => ({
         fontFamily: "Poppins-Bold",
         fontWeight: "700",
