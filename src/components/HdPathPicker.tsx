@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from "react";
 import {makeStyleWithProps} from "../theming";
 import {View, Text, StyleProp, ViewStyle, StyleSheet} from "react-native";
-import {HdPath} from "../types/hdpath";
+import {DESMOS_COIN_TYPE, HdPath} from "../types/hdpath";
 import {TextInput} from "./TextInput";
 import {Typography} from "./index";
 
@@ -26,7 +26,8 @@ const safeParseInt = (value: string) => {
 
 export const HdPathPicker: React.FC<Props> = (props) => {
     const styles = useStyle(props);
-    const [hdPath, setHdPath] = useState<HdPath>({
+    const [hdPath, setHdPath] = useState<HdPath>(props.value ?? {
+        coinType: DESMOS_COIN_TYPE,
         account: 0,
         change: 0,
         addressIndex: 0,
@@ -72,7 +73,7 @@ export const HdPathPicker: React.FC<Props> = (props) => {
         <Typography.Body1
             style={styles.hdPathText}
         >
-            m/44'/852'/
+            m/44'/{hdPath.coinType}'/
         </Typography.Body1>
         <TextInput
             style={styles.elements}
