@@ -104,7 +104,7 @@
   "transactions": "Transactions",
   "status": "Status",
   "time": "Time",
-  "view on desmos explorer": "View on Desmos explorer",
+  "view on desmos explorer": "view on desmos explorer",
   "no transactions": "No transactions",
   "vote proposal number with vote": "Vote proposal #{{number}} with {{vote}}",
   "delegate": "Delegate",
@@ -132,5 +132,15 @@
   "average fee": "Average",
   "high fee": "High",
   "gas": "Gas",
-  "override gas": "Override gas"
+  "override gas": "Override gas",
+  "connect chain": "Connect chain",
+  "connect your chain account": "Connect your chain account",
+  "select the method you would like to connect your chain account": "Select the method you would like to connect your chain account",
+  "use secret recovery passphrase": "Use Secret Recovery Passphrase",
+  "connect with ledger": "Connect with Ledger",
+  "select chain": "Select chain",
+  "import account": "Import account",
+  "connect to": "Connect to",
+  "tx type link chain account": "Link chain account",
+  "is this your address?": "Is this your address?"
 }

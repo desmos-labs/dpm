@@ -1,4 +1,4 @@
-import {StyledSafeAreaView, Button, Divider, IconButton, TopBar, Typography} from "../components";
+import {Button, ChainConnections, Divider, IconButton, StyledSafeAreaView, TopBar, Typography} from "../components";
 import {makeStyle} from "../theming";
 import {Snackbar, useTheme} from "react-native-paper";
 import {StackScreenProps} from "@react-navigation/stack";
@@ -6,7 +6,7 @@ import {AccountScreensStackParams} from "../types/navigation";
 import React, {useCallback, useMemo, useState} from 'react';
 import {ProfileHeader} from "../components/ProfileHeader";
 import useFetchProfile from "../hooks/useFetchProfile";
-import {Image, View} from "react-native";
+import {Image, ScrollView, View} from "react-native";
 import {useTranslation} from "react-i18next";
 import Clipboard from "@react-native-community/clipboard";
 import useSelectedAccount from "../hooks/useSelectedAccount";
@@ -57,6 +57,13 @@ export default function Profile(props: Props): JSX.Element {
         setShowSnackbar(t("address copied"));
     }, [t, account]);
 
+    const connectChain = useCallback(() => {
+        navigation.navigate({
+            name: "ChainLinkScreens",
+            params: undefined,
+        })
+    }, [navigation]);
+
     return <StyledSafeAreaView
         padding={0}
         topBar={<TopBar
@@ -75,12 +82,24 @@ export default function Profile(props: Props): JSX.Element {
             onCopyPressed={onAddressCopy}
         />
         <Divider style={styles.profileHeaderDivider}/>
-        <View style={styles.content}>
+        <View
+            style={styles.content}
+            onStartShouldSetResponder={() => true}
+        >
             {profile ? (
                 <>
-                    <Typography.Body1 style={styles.bio}>
-                        {profile.bio}
-                    </Typography.Body1>
+                    <ScrollView
+                        style={styles.bioContainer}
+                    >
+                        <Typography.Body1 style={styles.bio}>
+                            {profile.bio}
+                        </Typography.Body1>
+                    </ScrollView>
+                    <ChainConnections
+                        style={styles.chainConnections}
+                        connections={[]}
+                        onConnectChain={connectChain}
+                    />
                 </>
             ) : <>
                 <Image
@@ -134,8 +153,14 @@ const useStyles = makeStyle(theme => ({
         flexGrow: 1,
         paddingHorizontal: theme.spacing.m,
     },
+    bioContainer: {
+        flex: 2,
+    },
     bio: {
         marginTop: theme.spacing.s,
+    },
+    chainConnections: {
+        flex: 2,
     },
     noProfileImage: {
         marginTop: 42,

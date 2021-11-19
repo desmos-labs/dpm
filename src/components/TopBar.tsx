@@ -88,6 +88,7 @@ const useStyles = makeStyle(theme => ({
     },
     title: {
         textTransform: "capitalize",
+        textAlign: "center",
     },
     containerRight: {
         alignItems: "flex-end",

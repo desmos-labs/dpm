@@ -1,5 +1,5 @@
 import {createStackNavigator} from '@react-navigation/stack';
-import {ChainAccount} from './chain';
+import {ChainAccount, LinkableChain} from './chain';
 import LocalWallet from "../wallet/LocalWallet";
 import {EncodeObject} from "@cosmjs/proto-signing";
 import React from "react";
@@ -91,10 +91,41 @@ export type AccountScreensStackParams = {
         address: string
         resolve: (wallet: LocalWallet | null) => void,
         reject: (error: Error) => void
-    }
+    },
+    ChainLinkScreens: undefined,
 };
 
 export const AccountScreensStack = createStackNavigator<AccountScreensStackParams>();
+
+export enum ImportMode {
+    Mnemonic,
+    Ledger
+}
+
+export type ChainLinkScreensStackParams = {
+    ConnectChain: undefined,
+    SelectChain: {
+        importMode: ImportMode,
+    },
+    LinkWithMnemonic: {
+        importMode: ImportMode,
+        chain: LinkableChain,
+    },
+    ConnectLedger: undefined,
+    SelectLedgerApp: undefined,
+    ConfirmAddress: {
+        importMode: ImportMode,
+        chain: LinkableChain,
+        mnemonic?: string
+    },
+    PickAddress: {
+        importMode: ImportMode,
+        chain: LinkableChain,
+        mnemonic?: string,
+    },
+}
+
+export const ChainLinkScreensStack = createStackNavigator<ChainLinkScreensStackParams>();
 
 export type ModalComponentProps<T> = {
     navigation: StackNavigationProp<RootStackParams>,

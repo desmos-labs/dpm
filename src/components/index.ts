@@ -23,6 +23,7 @@ import {IconButton} from "./IconButton";
 import {TransactionsList} from "./tx/list";
 import {DesmosIcon} from "./DesmosIcon"
 import {InlineButtons} from "./InlineButtons";
+import {ChainConnections} from "./ChainConnections";
 
 export {
     Typography,
@@ -49,5 +50,6 @@ export {
     IconButton,
     TransactionsList,
     DesmosIcon,
-    InlineButtons
+    InlineButtons,
+    ChainConnections
 }
