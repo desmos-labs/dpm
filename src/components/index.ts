@@ -24,6 +24,7 @@ import {TransactionsList} from "./tx/list";
 import {DesmosIcon} from "./DesmosIcon"
 import {InlineButtons} from "./InlineButtons";
 import {ChainConnections} from "./ChainConnections";
+import {AirdropBanner} from "./AirdropBanner";
 
 export {
     Typography,
@@ -51,5 +52,6 @@ export {
     TransactionsList,
     DesmosIcon,
     InlineButtons,
-    ChainConnections
+    ChainConnections,
+    AirdropBanner
 }

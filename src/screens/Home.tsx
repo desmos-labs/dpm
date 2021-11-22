@@ -3,7 +3,15 @@ import {AccountScreensStackParams, HomeScreensBottomTabsParams} from "../types/n
 import {CompositeScreenProps} from "@react-navigation/native";
 import {StackScreenProps} from "@react-navigation/stack";
 import React, {useCallback, useState} from "react";
-import {AvatarImage, StyledSafeAreaView, TopBar, AccountBalance, TransactionsList, Typography} from "../components";
+import {
+    AvatarImage,
+    StyledSafeAreaView,
+    TopBar,
+    AccountBalance,
+    TransactionsList,
+    Typography,
+    AirdropBanner
+} from "../components";
 import useSelectedAccount from "../hooks/useSelectedAccount";
 import {useTranslation} from "react-i18next";
 import useFetchProfile from "../hooks/useFetchProfile";
@@ -14,6 +22,7 @@ import Clipboard from "@react-native-community/clipboard";
 import {useCurrentChainInfo} from "@desmoslabs/sdk-react";
 import {BroadcastedTx} from "../types/tx";
 import {useDrawerContext} from "../contexts/AppDrawerContex";
+import useAirdropClaimable from "../hooks/useAirdropClaimable";
 
 export type Props = CompositeScreenProps<
     BottomTabScreenProps<HomeScreensBottomTabsParams, "Home">,
@@ -30,6 +39,7 @@ export const Home: React.FC<Props> = (props) => {
     const profile = useFetchProfile(account.address);
     const [snackBarMessage, setShowSnackbar] = useState<string | null>(null);
     const currentChain = useCurrentChainInfo();
+    const airDropClaimable = useAirdropClaimable();
 
     const openProfileDetails = useCallback(() => {
         navigation.navigate({
@@ -63,6 +73,10 @@ export const Home: React.FC<Props> = (props) => {
             }
         })
     }, [navigation])
+
+    const claimAirdrop = useCallback(() => {
+        console.log("Claim airdrop");
+    }, [])
 
     return <StyledSafeAreaView padding={0}>
         {currentChain.chainId !== "desmos-mainnet" && (
@@ -111,6 +125,11 @@ export const Home: React.FC<Props> = (props) => {
                 chainAccount={account}
             />
         </View>
+        <AirdropBanner
+            style={styles.airdropBanner}
+            visible={airDropClaimable}
+            onClaimPressed={claimAirdrop}
+        />
         <Snackbar
             visible={snackBarMessage !== null}
             style={styles.snackbar}
@@ -172,5 +191,12 @@ const useStyles = makeStyle(theme => ({
     },
     transactionList: {
         marginTop: 16,
+    },
+    airdropBanner: {
+        position: "absolute",
+        zIndex: 2,
+        bottom: 0,
+        width: "100%",
+        height: 80,
     }
 }))
