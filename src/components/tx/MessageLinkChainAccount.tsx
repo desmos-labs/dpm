@@ -29,14 +29,19 @@ export const MessageLinkChainAccount: React.FC<Props> = ({protobufMessage, encod
         }
     }, [protobufMessage, encodeObject]);
 
+    const chainName = useMemo(() => {
+        return protobufMessage?.chainConfig?.name ?? encodeObject?.chainConfig?.name;
+    }, [protobufMessage, encodeObject]);
+
+
     const chainIcon = useMemo(() => {
-        const chain = LinkableChains.find(c => c.prefix === bech32Address?.prefix);
+        const chain = LinkableChains.find(c => c.chainConfig.name === chainName);
         if (chain !== undefined) {
             return chain.icon
         } else {
             return require("../../assets/chains/cosmos.png");
         }
-    }, [bech32Address])
+    }, [chainName])
 
     return <SimpleMessageComponent
         customIconView={<View style={styles.customIconView}>
