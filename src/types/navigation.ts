@@ -7,9 +7,10 @@ import {StackNavigationProp} from "@react-navigation/stack/lib/typescript/src/ty
 import {createBottomTabNavigator} from "@react-navigation/bottom-tabs";
 import {SessionRequestDetails} from "./walletconnect";
 import {StdFee} from "@cosmjs/amino";
-import {NavigatorScreenParams} from "@react-navigation/native";
+import {CommonActions, NavigationAction, NavigatorScreenParams} from "@react-navigation/native";
 import {DesmosProfile} from "@desmoslabs/sdk-core";
 import {ChainLink} from "./link";
+import {StackNavigationState} from "@react-navigation/routers/lib/typescript/src/StackRouter";
 
 export type AccountCreationStackParams = {
     Login: undefined;
@@ -50,7 +51,9 @@ export type AccountScreensStackParams = {
     EditProfile: {
         account?: ChainAccount,
         profile?: DesmosProfile | null,
-        bio?: string
+        bio?: string,
+        goBackTo?: string,
+        feeGranter?: string
     },
     BiographyEditor: {
         bio?: string,
@@ -68,7 +71,15 @@ export type AccountScreensStackParams = {
         /**
          * Local URI to the new profile picture.
          */
-        localProfilePictureUri?: string
+        localProfilePictureUri?: string,
+        /**
+         * Name of the route to go back to.
+         */
+        goBackTo?: string,
+        /**
+         * Address of the account that will pay for the transaction.
+         */
+        feeGranter?: string
     },
     AuthorizeSession: {
         sessionRequestDetails: SessionRequestDetails;
@@ -77,7 +88,10 @@ export type AccountScreensStackParams = {
     ConfirmTx: {
         messages: EncodeObject[],
         fee: StdFee
-        memo?: string
+        memo?: string,
+        feeGranter?: string,
+        backAction?: ((state: StackNavigationState<any>) => NavigationAction) | NavigationAction,
+        successAction?: () => void,
     },
     TxDetails: {
         hash: string,
@@ -93,10 +107,11 @@ export type AccountScreensStackParams = {
         resolve: (wallet: LocalWallet | null) => void,
         reject: (error: Error) => void
     },
-    ChainLinkScreens: undefined,
+    ChainLinkScreens: NavigatorScreenParams<ChainLinkScreensStackParams>,
     ChainLinkDetails: {
         chainLink: ChainLink
     }
+    AirdropScreens: undefined,
 };
 
 export const AccountScreensStack = createStackNavigator<AccountScreensStackParams>();
@@ -107,29 +122,59 @@ export enum ImportMode {
 }
 
 export type ChainLinkScreensStackParams = {
-    ConnectChain: undefined,
+    ConnectChain: {
+        feeGranter?: string,
+        backAction?: ((state: StackNavigationState<any>) => NavigationAction) | NavigationAction,
+    },
     SelectChain: {
         importMode: ImportMode,
+        feeGranter?: string,
+        backAction?: ((state: StackNavigationState<any>) => NavigationAction) | NavigationAction,
     },
     LinkWithMnemonic: {
         importMode: ImportMode,
         chain: LinkableChain,
+        feeGranter?: string,
+        backAction?: ((state: StackNavigationState<any>) => NavigationAction) | NavigationAction,
     },
     ConnectLedger: undefined,
     SelectLedgerApp: undefined,
     ConfirmAddress: {
         importMode: ImportMode,
         chain: LinkableChain,
-        mnemonic?: string
+        mnemonic?: string,
+        feeGranter?: string,
+        backAction?: ((state: StackNavigationState<any>) => NavigationAction) | NavigationAction,
     },
     PickAddress: {
         importMode: ImportMode,
         chain: LinkableChain,
         mnemonic?: string,
+        feeGranter?: string,
+        backAction?: ((state: StackNavigationState<any>) => NavigationAction) | NavigationAction,
     },
 }
 
 export const ChainLinkScreensStack = createStackNavigator<ChainLinkScreensStackParams>();
+
+export type AirdropScreensStackParams = {
+    AirdropHome: undefined,
+    AirdropAllocation: {
+        address: string,
+    },
+    AirdropClaimStatus: {
+        address: string,
+    },
+    AirdropClaimAction: {
+        address: string,
+        granter?: string,
+    },
+    AirdropClaimRewards: {
+        address: string,
+    }
+}
+
+export const AirdropScreensStack = createStackNavigator<AirdropScreensStackParams>()
 
 export type ModalComponentProps<T> = {
     navigation: StackNavigationProp<RootStackParams>,
@@ -148,4 +193,36 @@ export type RootStackParams = {
     },
 }
 
-export const RootStack = createStackNavigator<RootStackParams>()
+export const RootStack = createStackNavigator<RootStackParams>();
+
+export const resetTo = (routeName: string) => (state: StackNavigationState<any>) => {
+    const routeIndex = state.routes.findIndex(item => item.name === routeName);
+
+    if (routeIndex >= 0) {
+        const routes = state.routes.slice(0, routeIndex + 1);
+        return CommonActions.reset({
+            ...state,
+            routes,
+            index: routes.length - 1,
+        })
+    } else {
+        console.error("Can't find route with name: " + routeName);
+        return CommonActions.navigate({name: routeName});
+    }
+}
+
+export const insertAfter = (insertAfter: string, routeName: string, params: any) => (state: StackNavigationState<any>) => {
+    const routeIndex = state.routes.findIndex(item => item.name === insertAfter);
+
+    if (routeIndex >= 0) {
+        const routes = [...state.routes.slice(0, routeIndex + 1), {name: routeName, params}];
+        return CommonActions.reset({
+            ...state,
+            routes,
+            index: routes.length - 1,
+        })
+    } else {
+        console.error("Can't find route with name: " + insertAfter);
+        return CommonActions.navigate({name: routeName, params});
+    }
+}

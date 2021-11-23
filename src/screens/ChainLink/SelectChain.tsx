@@ -10,19 +10,22 @@ import {LinkableChain, LinkableChains} from "../../types/chain";
 export type Props = StackScreenProps<ChainLinkScreensStackParams, "SelectChain">
 
 export const SelectChain: React.FC<Props> = ({navigation, route}) => {
-    const {importMode} = route.params
+    const {importMode, feeGranter, backAction} = route.params
     const {t} = useTranslation();
     const styles = useStyle();
 
     const linkChain = useCallback((chain: LinkableChain) => {
+        console.log(chain);
         navigation.navigate({
             name: "LinkWithMnemonic",
             params: {
                 importMode,
                 chain,
+                feeGranter,
+                backAction
             }
         })
-    }, [navigation, importMode])
+    }, [navigation, importMode, feeGranter, backAction])
 
     const renderListItem = useCallback(({item, index}: ListRenderItemInfo<LinkableChain>) => {
         return <TouchableOpacity

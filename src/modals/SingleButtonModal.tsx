@@ -35,6 +35,7 @@ export const SingleButtonModal: ModalComponent<SingleButtonModalParams> = (props
 
     const btnAction = useCallback(() => {
         if (params.action) {
+            navigation.goBack();
             params.action(navigation);
         } else {
             navigation.goBack();

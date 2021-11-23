@@ -10,8 +10,8 @@ import {Image, ScrollView, View} from "react-native";
 import {useTranslation} from "react-i18next";
 import Clipboard from "@react-native-community/clipboard";
 import useSelectedAccount from "../hooks/useSelectedAccount";
-import useFetchChainLink from "../graphql/hooks/useFetchChainLink";
 import {ChainLink} from "../types/link";
+import useChainLinks from "../hooks/useChainLinks";
 
 
 export type Props = StackScreenProps<AccountScreensStackParams, "Profile">
@@ -24,7 +24,7 @@ export default function Profile(props: Props): JSX.Element {
     const theme = useTheme();
     const profile = useFetchProfile(account.address);
     const [snackBarMessage, setShowSnackbar] = useState<string | null>(null);
-    const {loading, chainLinks} = useFetchChainLink(account);
+    const chainLinks = useChainLinks(account.address);
 
     const onEditProfile = useCallback(() => {
         navigation.navigate({
@@ -62,7 +62,10 @@ export default function Profile(props: Props): JSX.Element {
     const connectChain = useCallback(() => {
         navigation.navigate({
             name: "ChainLinkScreens",
-            params: undefined,
+            params: {
+                screen: "ConnectChain",
+                params: {},
+            },
         })
     }, [navigation]);
 
@@ -111,7 +114,6 @@ export default function Profile(props: Props): JSX.Element {
                         connections={chainLinks}
                         onConnectChain={connectChain}
                         onShowChainInfo={showChainLinkInfo}
-                        loading={loading}
                     />
                 </>
             ) : <>

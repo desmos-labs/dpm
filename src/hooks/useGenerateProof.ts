@@ -1,7 +1,7 @@
 import {LinkableChain} from "../types/chain";
 import {useCallback} from "react";
 import LocalWallet from "../wallet/LocalWallet";
-import {Bech32Address, ChainConfig, Proof} from "@desmoslabs/proto/desmos/profiles/v1beta1/models_chain_links";
+import {Bech32Address, Proof} from "@desmoslabs/proto/desmos/profiles/v1beta1/models_chain_links";
 import {toHex} from "@cosmjs/encoding";
 import {Buffer} from "buffer";
 import {Any} from "cosmjs-types/google/protobuf/any";
@@ -23,7 +23,6 @@ export default function useGenerateProof(): (config: GenerateProofConfig) => Pro
 
         const addressBinary = Uint8Array.from(Buffer.from(externalChainWallet.bech32Address, "utf-8"));
         const signature = await externalChainWallet.sign(addressBinary);
-
         const proof = Proof.fromPartial({
             signature: toHex(signature),
             plainText: toHex(addressBinary),
@@ -34,9 +33,7 @@ export default function useGenerateProof(): (config: GenerateProofConfig) => Pro
                 })).finish(),
             })
         });
-        const chainConfig = ChainConfig.fromPartial({
-            name: chain.prefix
-        });
+        const chainConfig = chain.chainConfig;
         const chainAddress = Any.fromPartial({
             typeUrl: "/desmos.profiles.v1beta1.Bech32Address",
             value: Bech32Address.encode(Bech32Address.fromPartial({

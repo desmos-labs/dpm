@@ -15,7 +15,7 @@ import useBroadcastMessages from "../hooks/useBroadcastMessages";
 export type Props = StackScreenProps<AccountScreensStackParams, "ConfirmTx">
 
 export const ConfirmTx: React.FC<Props> = (props) => {
-    const {messages, memo, fee} = props.route.params;
+    const {messages, memo, fee, feeGranter, backAction, successAction} = props.route.params;
     const {t} = useTranslation();
     const styles = useStyles();
     const currentAccount = useSelectedAccount();
@@ -26,14 +26,21 @@ export const ConfirmTx: React.FC<Props> = (props) => {
     const navigateToHomeScreen = useNavigateToHomeScreen();
 
     const showSuccessModal = useCallback(() => {
+        const modalAction = () => {
+            if (backAction === undefined) {
+                navigateToHomeScreen({reset: true});
+            } else {
+                props.navigation.dispatch(backAction);
+            }
+        };
         showModal(SingleButtonModal, {
             image: require("../assets/result-sucess-light.png"),
             title: t("success"),
             message: `${t("transaction sent successfully")}!`,
-            actionLabel: t("go to profile"),
-            action: () => navigateToHomeScreen({reset: true}),
+            actionLabel: backAction === undefined ? t("go to profile") : t("continue"),
+            action: modalAction,
         })
-    }, [showModal, t, navigateToHomeScreen])
+    }, [showModal, t, backAction, navigateToHomeScreen, props.navigation])
 
     const showErrorModal = useCallback((error: string) => {
         showModal(SingleButtonModal, {
@@ -49,15 +56,18 @@ export const ConfirmTx: React.FC<Props> = (props) => {
         const wallet = await unlockWallet(currentAccount.address);
         if (wallet !== null) {
             try {
-                await broadcastMessages(wallet, messages, fee);
+                await broadcastMessages(wallet, messages, fee, undefined, feeGranter);
+                if (successAction !== undefined) {
+                    successAction();
+                }
                 showSuccessModal();
             } catch (e) {
                 showErrorModal(e.toString())
             }
         }
         setBroadcastingTx(false);
-    }, [broadcastMessages, currentAccount.address,
-        fee, messages, showErrorModal, showSuccessModal, unlockWallet])
+    }, [broadcastMessages, currentAccount.address, fee, feeGranter, messages,
+        showErrorModal, showSuccessModal, successAction, unlockWallet])
 
     return <StyledSafeAreaView
         topBar={<TopBar

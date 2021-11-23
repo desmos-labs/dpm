@@ -1,5 +1,5 @@
 import React, {ReactElement} from "react";
-import {Platform, ScrollView, TouchableWithoutFeedback, View, ViewProps} from "react-native";
+import {ImageBackground, Platform, ScrollView, TouchableWithoutFeedback, View, ViewProps} from "react-native";
 import {makeStyleWithProps} from "../theming";
 import {Divider} from "./Divider";
 import useCloseKeyboard from "../hooks/useCloseKeyboard";
@@ -22,6 +22,10 @@ export type Props = ViewProps & {
      * top bar and the content.
      */
     divider?: boolean,
+    /**
+     * Image that will be displayed as background.
+     */
+    background?: React.ComponentProps<typeof ImageBackground>["source"],
 };
 
 export const StyledSafeAreaView: React.FC<Props> = (props) => {
@@ -29,6 +33,10 @@ export const StyledSafeAreaView: React.FC<Props> = (props) => {
     const closeKeyboard = useCloseKeyboard();
 
     return <View style={styles.root}>
+        {props.background !== undefined && <ImageBackground
+            style={styles.background}
+            source={props.background}
+        />}
         {props.topBar}
         {props.divider && <Divider />}
         <TouchableWithoutFeedback onPress={closeKeyboard}>
@@ -50,11 +58,16 @@ const useStyles = makeStyleWithProps((props: Props, theme) =>({
         flexGrow: 1,
         paddingBottom: Platform.OS === "android" ?  0 : 24,
     },
+    background: {
+        position: "absolute",
+        width: "100%",
+        height: "100%",
+    },
     content: {
         display: "flex",
         flexDirection: "column",
         flexGrow: 1,
         padding: props?.padding ?? theme.spacing.m,
-        backgroundColor: theme.colors.background,
+        backgroundColor: props.background === undefined ? theme.colors.background : "transparent",
     }
 }));

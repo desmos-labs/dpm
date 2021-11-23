@@ -11,7 +11,7 @@ import {FlexPadding} from "../../components/FlexPadding";
 export type Props = StackScreenProps<ChainLinkScreensStackParams, "LinkWithMnemonic">
 
 export const LinkWithMnemonic: React.FC<Props> = ({navigation, route}) => {
-    const {importMode, chain} = route.params
+    const {importMode, chain, feeGranter, backAction} = route.params
     const styles = useStyles();
     const {t} = useTranslation();
     const [mnemonic, setMnemonic] = useState<string>("");
@@ -33,7 +33,9 @@ export const LinkWithMnemonic: React.FC<Props> = ({navigation, route}) => {
                 params: {
                     importMode,
                     chain,
-                    mnemonic
+                    mnemonic,
+                    feeGranter,
+                    backAction
                 }
             })
         } else {

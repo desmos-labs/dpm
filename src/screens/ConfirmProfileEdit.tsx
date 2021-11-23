@@ -1,6 +1,6 @@
 import React, {useCallback, useMemo, useState} from "react";
 import {StackScreenProps} from "@react-navigation/stack";
-import {AccountScreensStackParams, RootStackParams} from "../types/navigation";
+import {AccountScreensStackParams, resetTo, RootStackParams} from "../types/navigation";
 import {Button, Divider, LabeledValue, StyledSafeAreaView} from "../components";
 import {useTranslation} from "react-i18next";
 import {makeStyle} from "../theming";
@@ -25,7 +25,7 @@ export type Props = CompositeScreenProps<StackScreenProps<AccountScreensStackPar
 
 export const ConfirmProfileEdit: React.FC<Props> = (props) => {
     const {route} = props;
-    const {account, profile, localCoverPictureUri, localProfilePictureUri} = route.params;
+    const {account, profile, localCoverPictureUri, localProfilePictureUri, feeGranter, goBackTo} = route.params;
     const {t} = useTranslation();
     const styles = useStyles();
     const chainInfo = useCurrentChainInfo();
@@ -35,7 +35,7 @@ export const ConfirmProfileEdit: React.FC<Props> = (props) => {
     const navigateToHomeScreen = useNavigateToHomeScreen()
     const showModal = useShowModal();
     const uploadPicture = useUploadPicture();
-    const broadcastMessages = useBroadcastMessages()
+    const broadcastMessages = useBroadcastMessages();
 
     const txFee = useMemo(() => {
         const saveProfileMessage: MsgSaveProfileEncodeObject = {
@@ -86,15 +86,25 @@ export const ConfirmProfileEdit: React.FC<Props> = (props) => {
                     }
                 };
                 const messages = [saveProfileMessage];
-                await broadcastMessages(wallet, messages, txFee);
-                await saveProfile(profile)
-                showModal(SingleButtonModal, {
-                    image: require("../assets/result-sucess-light.png"),
-                    title: t("success"),
-                    message: t("profile saved"),
-                    actionLabel: t("go to profile"),
-                    action: () => navigateToHomeScreen({reset: true}),
-                });
+                await broadcastMessages(wallet, messages, txFee, undefined, feeGranter);
+                await saveProfile(profile);
+                if (goBackTo === undefined) {
+                    showModal(SingleButtonModal, {
+                        image: require("../assets/result-sucess-light.png"),
+                        title: t("success"),
+                        message: t("profile saved"),
+                        actionLabel: t("go to profile"),
+                        action: () => navigateToHomeScreen({reset: true}),
+                    });
+                } else {
+                    showModal(SingleButtonModal, {
+                        image: require("../assets/result-sucess-light.png"),
+                        title: t("success"),
+                        message: t("profile saved"),
+                        actionLabel: t("continue"),
+                        action: () => props.navigation.dispatch(resetTo(goBackTo)),
+                    });
+                }
             }
         } catch (e) {
             showModal(SingleButtonModal, {
@@ -106,10 +116,9 @@ export const ConfirmProfileEdit: React.FC<Props> = (props) => {
             })
         }
         setBroadcastingTx(false);
-    }, [unlockWallet, account, profile,
-        localCoverPictureUri, localProfilePictureUri,
-        broadcastMessages, txFee, saveProfile, showModal,
-        t, uploadPicture, navigateToHomeScreen])
+    }, [unlockWallet, account.address, profile, localCoverPictureUri,
+        localProfilePictureUri, broadcastMessages, txFee, feeGranter, saveProfile,
+        goBackTo, uploadPicture, showModal, t, navigateToHomeScreen, props.navigation])
 
     return <StyledSafeAreaView
         padding={0}

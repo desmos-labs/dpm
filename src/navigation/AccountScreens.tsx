@@ -19,6 +19,7 @@ import {ConfirmTx} from "../screens/ConfirmTx";
 import {TxDetails} from "../screens/TxDetails";
 import {ChainLinkScreens} from "./ChainLinkScreens";
 import {ChainLinkDetails} from "../screens/ChainLinkDetails";
+import {AirdropScreens} from "./AirdropScreens";
 
 type AccountScreensProps = StackScreenProps<RootStackParams, "AccountScreens">
 
@@ -93,6 +94,10 @@ export default function AccountScreens(_: AccountScreensProps) {
             options={{
                 presentation: "transparentModal"
             }}
+        />
+        <AccountScreensStack.Screen
+            name="AirdropScreens"
+            component={AirdropScreens}
         />
     </AccountScreensStack.Navigator>
 }

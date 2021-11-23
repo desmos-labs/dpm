@@ -9,10 +9,11 @@ import {useTheme} from "react-native-paper";
 
 export type Props = StackScreenProps<ChainLinkScreensStackParams, "ConnectChain">
 
-export const ConnectChain: React.FC<Props> = ({navigation}) => {
+export const ConnectChain: React.FC<Props> = ({navigation, route}) => {
     const theme = useTheme();
     const {t} = useTranslation();
     const styles = useStyle();
+    const {backAction, feeGranter} = route.params
 
     const connectMnemonicImage = useMemo(() => {
         return theme.dark ? require("../../assets/connect_mnemonic_dark.png") :
@@ -28,10 +29,12 @@ export const ConnectChain: React.FC<Props> = ({navigation}) => {
         navigation.navigate({
             name: "SelectChain",
             params: {
-                importMode: ImportMode.Mnemonic
+                importMode: ImportMode.Mnemonic,
+                backAction,
+                feeGranter,
             }
         })
-    }, [navigation]);
+    }, [navigation, backAction, feeGranter]);
 
     // const connectWithLedger = useCallback(() => {
     //     navigation.navigate({

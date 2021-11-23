@@ -4,6 +4,7 @@ import {useInitI18n} from "../i18n/i18n";
 import useLoadAllProfiles from "./useLoadAllProfiles";
 import {InitState, useAppContext} from "../contexts/AppContext";
 import useLoadSettings from "./settings/useLoadSettings";
+import useLoadAllChainLinks from "./useLoadChainLinks";
 
 
 /**
@@ -16,7 +17,8 @@ export default function useInitAppState(): InitState {
     const initLocalization = useInitI18n();
     const loadAccounts = useLoadAccounts();
     const loadProfiles = useLoadAllProfiles();
-    const loadSettings = useLoadSettings()
+    const loadSettings = useLoadSettings();
+    const loadChainLinks = useLoadAllChainLinks();
 
 
     useEffect(() => {
@@ -24,9 +26,10 @@ export default function useInitAppState(): InitState {
             try {
                 await initLocalization();
                 // Load accounts and profiles from disk.
-                await loadAccounts();
+                const accounts = await loadAccounts();
                 await loadProfiles();
                 await loadSettings();
+                await loadChainLinks(accounts.accounts.map(account => account.address));
 
                 setInitializing({
                     initializing: false,

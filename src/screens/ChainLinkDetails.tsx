@@ -13,6 +13,8 @@ import useDisconnectChainLink from "../hooks/useDisconnectChainLink";
 import useUnlockWallet from "../hooks/useUnlockWallet";
 import {SingleButtonModal} from "../modals/SingleButtonModal";
 import useNavigateToHomeScreen from "../hooks/useNavigateToHomeScreen";
+import useRemoveChainLink from "../hooks/useRemoveChainLink";
+import useSelectedAccount from "../hooks/useSelectedAccount";
 
 export type Props = StackScreenProps<AccountScreensStackParams, "ChainLinkDetails">
 
@@ -25,7 +27,9 @@ export const ChainLinkDetails: React.FC<Props> = (props) => {
     const [disconnecting, setDisconnecting] = useState(false);
     const unlockWallet = useUnlockWallet();
     const disconnectChainLink = useDisconnectChainLink();
-    const goToProfile = useNavigateToHomeScreen()
+    const goToProfile = useNavigateToHomeScreen();
+    const account = useSelectedAccount();
+    const removeChainLink = useRemoveChainLink(account.address);
 
     const {chainIcon, chainName} = useMemo(() => {
         const chainInfo =  LinkableChains.find(chain => chain.prefix === chainLink.chainName);
@@ -71,6 +75,10 @@ export const ChainLinkDetails: React.FC<Props> = (props) => {
                     const wallet = await unlockWallet(chainLink.userAddress);
                     if (wallet !== null) {
                         await disconnectChainLink(wallet, chainLink);
+                        removeChainLink({
+                            chainName: chainLink.chainName,
+                            externalAddress: chainLink.externalAddress,
+                        })
                         showSuccessModal();
                     }
                 } catch (ex) {
@@ -79,7 +87,7 @@ export const ChainLinkDetails: React.FC<Props> = (props) => {
                 setDisconnecting(false);
             })();
         }
-    }, [chainLink, disconnectChain, disconnectChainLink, showErrorModal, showSuccessModal, unlockWallet]);
+    }, [chainLink, disconnectChain, disconnectChainLink, removeChainLink, showErrorModal, showSuccessModal, unlockWallet]);
 
     const disconnect = useCallback(() => {
         showModal(TwoButtonModal, {

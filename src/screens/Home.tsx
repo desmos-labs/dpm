@@ -75,8 +75,11 @@ export const Home: React.FC<Props> = (props) => {
     }, [navigation])
 
     const claimAirdrop = useCallback(() => {
-        console.log("Claim airdrop");
-    }, [])
+        navigation.navigate({
+            name: "AirdropScreens",
+            params: undefined,
+        })
+    }, [navigation]);
 
     return <StyledSafeAreaView padding={0}>
         {currentChain.chainId !== "desmos-mainnet" && (

@@ -30,7 +30,7 @@ export const EditProfile: React.FC<Props> = (props) => {
         if (props.route.params.bio !== undefined) {
             setBio(props.route.params.bio);
         }
-    }, [props.route.params.bio])
+    }, [props.route.params.bio]);
 
     const onSavePressed = () => {
         props.navigation.navigate({
@@ -46,6 +46,8 @@ export const EditProfile: React.FC<Props> = (props) => {
                 } as DesmosProfile,
                 localCoverPictureUri: selectedCoverPicture,
                 localProfilePictureUri: selectedProfilePicture,
+                goBackTo: props.route.params.goBackTo,
+                feeGranter: props.route.params.feeGranter,
             }
         });
     }

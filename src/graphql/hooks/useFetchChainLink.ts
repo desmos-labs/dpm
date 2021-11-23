@@ -1,16 +1,16 @@
 import {useGetChainLinkByAddress} from "../types";
-import {ChainAccount} from "../../types/chain";
 import {useState} from "react";
 import {ChainLink} from "../../types/link";
 
-export default function useFetchChainLink(account: ChainAccount) {
+export default function useFetchChainLink(address: string) {
     const [loading, setLoading] = useState(true);
     const [chainLinks, setChainLinks] = useState<ChainLink[]>([]);
     const [error, setError] = useState<string | null>(null);
 
     useGetChainLinkByAddress({
+        pollInterval: 500,
         variables: {
-            address: account.address,
+            address: address,
         },
         onCompleted: ({chain_link}) => {
             const chainLinks = chain_link.map(link => {

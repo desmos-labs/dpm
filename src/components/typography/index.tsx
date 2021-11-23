@@ -86,4 +86,22 @@ export const Typography = {
         letterSpacing: 0.001,
         textAlign: "left",
     })),
+    H1: createTextComponent(_ => ({
+        fontFamily: "Poppins-SemiBold",
+        fontSize: 32,
+        fontStyle: "normal",
+        fontWeight: "600",
+        lineHeight: 48,
+        letterSpacing: 0.0025,
+        textAlign: "left",
+    })),
+    H2: createTextComponent(_ => ({
+        fontFamily: "Poppins-SemiBold",
+        fontSize: 24,
+        fontStyle: "normal",
+        fontWeight: "600",
+        lineHeight: 36,
+        letterSpacing: 0.0015,
+        textAlign: "left",
+    }))
 }

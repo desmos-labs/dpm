@@ -29,6 +29,7 @@ import useSelectedAccount from "../../hooks/useSelectedAccount";
 import {CompositeScreenProps} from "@react-navigation/native";
 import {computeTxFees, messagesGas} from "../../types/fees";
 import {useCurrentChainInfo} from "@desmoslabs/sdk-react";
+import useAddChinLink from "../../hooks/useAddChainLink";
 
 type WalletHdPathPair = {
     wallet: LocalWallet,
@@ -42,7 +43,7 @@ export type Props = CompositeScreenProps<
 
 export const PickAddress: React.FC<Props> = (props) => {
     const {navigation} = props;
-    const {mnemonic, importMode, chain} = props.route.params;
+    const {mnemonic, importMode, chain, feeGranter, backAction} = props.route.params;
     const {t} = useTranslation();
     const styles = useStyles();
     const [selectedHdPath, setSelectedHdPath] = useState<HdPath>(chain.hdPath);
@@ -51,6 +52,7 @@ export const PickAddress: React.FC<Props> = (props) => {
     const chainInfo = useCurrentChainInfo();
     const selectedAccount = useSelectedAccount();
     const generateProof = useGenerateProof();
+    const addChainLink = useAddChinLink(selectedAccount.address);
 
     const generateWalletFromHdPath = useCallback(async (hdPath: HdPath) => {
         setSelectedWallet(null);
@@ -130,6 +132,7 @@ export const PickAddress: React.FC<Props> = (props) => {
     }, [mnemonic, chain]);
 
     const onNextPressed = useCallback(async () => {
+        console.log(chain);
         if (selectedWallet !== null) {
             const proof = await generateProof({
                 externalChainWallet: selectedWallet,
@@ -151,12 +154,24 @@ export const PickAddress: React.FC<Props> = (props) => {
                 name: "ConfirmTx",
                 params: {
                     messages,
-                    fee
+                    fee,
+                    feeGranter,
+                    backAction,
+                    successAction: () => {
+                        addChainLink({
+                            externalAddress: selectedWallet.bech32Address,
+                            chainName: proof.chainConfig.name,
+                            userAddress: selectedAccount.address,
+                            creationTime: new Date()
+                        })
+                    }
                 }
             });
 
         }
-    }, [selectedWallet, generateProof, chain, selectedAccount.address, chainInfo.coinDenom, navigation]);
+    }, [chain, selectedWallet, generateProof,
+        selectedAccount.address, chainInfo.coinDenom, navigation,
+        feeGranter, backAction, addChainLink]);
 
     return <StyledSafeAreaView
         style={styles.root}

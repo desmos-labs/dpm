@@ -1,13 +1,13 @@
 import {useEffect, useState} from "react";
+import {AirdropApi} from "../api/AirdropApi";
 
 export default function useAirdropClaimable(): boolean {
     const [claimable, setClaimable] = useState(false);
 
     useEffect(() => {
         (async () => {
-            const response = await fetch('https://test-api.airdrop.desmos.network/config');
-            const jsonResponse = await response.json();
-            setClaimable(jsonResponse["airdrop_enabled"] === true || __DEV__);
+            const config = await AirdropApi.config();
+            setClaimable(config.airdropEnabled || __DEV__);
         })()
     }, []);
 

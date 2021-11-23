@@ -228,6 +228,7 @@ export function useFetchTxsGrouppedByDate(chainAccount: ChainAccount) {
     const [dataAvailable, setDataAvailable] = useState(true);
 
     const transactionQuery = useGetTransactionsByAddressQuery({
+        pollInterval: 1000,
         variables: {
             address: `{${chainAccount.address}}`,
             limit: LIMIT + 1,
