@@ -10,8 +10,8 @@ import {ThemeProvider} from "./contexts/ThemeContext";
 
 
 export default function App(): JSX.Element {
-    //const chainId = __DEV__ ? 'morpheus-apollo-2' : 'desmos-mainnet';
-    const chainId = 'morpheus-apollo-2';
+    const chainId = __DEV__ ? 'morpheus-apollo-2' : 'desmos-mainnet';
+    //const chainId = 'morpheus-apollo-2';
     const client = useApolloClient(chainId);
 
     return (
