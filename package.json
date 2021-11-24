@@ -62,6 +62,7 @@
     "react-native-gesture-handler": "^1.10.3",
     "react-native-http": "0.0.3",
     "react-native-image-picker": "^4.1.1",
+    "react-native-keyboard-aware-scroll-view": "^0.9.5",
     "react-native-level-fs": "3.0.1",
     "react-native-os": "1.2.6",
     "react-native-paper": "^4.9.2",

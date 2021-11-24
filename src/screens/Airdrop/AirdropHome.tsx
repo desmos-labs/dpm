@@ -4,10 +4,11 @@ import React, {useCallback, useState} from "react";
 import {Button, StyledSafeAreaView, TextInput, TopBar, Typography} from "../../components";
 import {makeStyle} from "../../theming";
 import {useTranslation} from "react-i18next";
-import {Image, View} from "react-native";
+import {Image, Platform} from "react-native";
 import {Bech32} from "@cosmjs/encoding";
 import useShowModal from "../../hooks/useShowModal";
 import {SingleButtonModal} from "../../modals/SingleButtonModal";
+import {KeyboardAwareScrollView} from "react-native-keyboard-aware-scroll-view";
 
 
 export type Props = StackScreenProps<AirdropScreensStackParams, "AirdropHome">;
@@ -40,10 +41,14 @@ export const AirdropHome: React.FC<Props> = ({navigation}) => {
     return <StyledSafeAreaView
         topBar={<TopBar
             stackProps={{navigation}}
-            style={styles.topBar}
         />}
     >
-        <View style={styles.imageContainer}>
+        <KeyboardAwareScrollView
+            enableAutomaticScroll={(Platform.OS === 'ios')}
+            style={styles.container}
+            resetScrollToCoords={{x: 0, y: 0}}
+            scrollEnabled={false}
+        >
             <Image
                 style={styles.airdropText}
                 source={require("../../assets/dsm_airdrop_text.png")}
@@ -57,8 +62,6 @@ export const AirdropHome: React.FC<Props> = ({navigation}) => {
                 style={styles.airdropLogo}
                 resizeMode="contain"
             />
-        </View>
-        <View style={styles.inputContainer}>
             <Typography.Body1>
                 {t("please insert your address")}
             </Typography.Body1>
@@ -75,12 +78,12 @@ export const AirdropHome: React.FC<Props> = ({navigation}) => {
             >
                 {t("calculate")}
             </Button>
-        </View>
+        </KeyboardAwareScrollView>
     </StyledSafeAreaView>
 }
 
 const useStyles = makeStyle(theme => ({
-    topBar: {
+    container: {
 
     },
     imageContainer: {
@@ -92,10 +95,11 @@ const useStyles = makeStyle(theme => ({
     },
     airdropLogo: {
         width: "100%",
-        height: "60%",
+        height: 200,
         marginTop: theme.spacing.m,
     },
     eligibilityText: {
+        alignSelf: "center",
     },
     inputContainer: {
         flex: 2,
