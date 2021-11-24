@@ -132,7 +132,6 @@ export const PickAddress: React.FC<Props> = (props) => {
     }, [mnemonic, chain]);
 
     const onNextPressed = useCallback(async () => {
-        console.log(chain);
         if (selectedWallet !== null) {
             const proof = await generateProof({
                 externalChainWallet: selectedWallet,

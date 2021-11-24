@@ -20,7 +20,6 @@ export default function useChainLinks(address: string) {
                     creationTime: new Date(link.creation_time + "Z"),
                 } as ChainLink
             });
-            console.log(userLinks);
             if (userLinks === undefined) {
                 setChainLinks(old => {
                     const newState = {

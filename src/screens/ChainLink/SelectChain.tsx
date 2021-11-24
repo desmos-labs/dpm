@@ -15,7 +15,6 @@ export const SelectChain: React.FC<Props> = ({navigation, route}) => {
     const styles = useStyle();
 
     const linkChain = useCallback((chain: LinkableChain) => {
-        console.log(chain);
         navigation.navigate({
             name: "LinkWithMnemonic",
             params: {
