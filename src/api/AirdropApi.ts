@@ -1,4 +1,4 @@
-const API_ENDPOINT = __DEV__ ? 'https://test-api.airdrop.desmos.network' : 'https://api.airdrop.desmos.network';
+const API_ENDPOINT = false ? 'https://test-api.airdrop.desmos.network' : 'https://api.airdrop.desmos.network';
 
 
 export enum AllocationType {
