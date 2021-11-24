@@ -1,7 +1,8 @@
-import {useEffect, useState} from "react";
+import {useCallback, useEffect, useState} from "react";
 import {Coin} from "cosmjs-types/cosmos/base/v1beta1/coin";
 import {useCurrentChainInfo, useDesmosClient} from "@desmoslabs/sdk-react";
 import {convertCoin} from "@desmoslabs/sdk-core";
+import {useNavigation} from "@react-navigation/native";
 
 /**
  * Hook to fetches an account balance.
@@ -14,28 +15,37 @@ export default function useFetchUserBalance(address: string) {
         denom: chainInfo.coinDenom,
     });
     const client = useDesmosClient();
+    const navigation = useNavigation();
+
+    const fetchBalance = useCallback(async () => {
+        setUserBalance({
+            amount: "0",
+            denom: chainInfo.coinDenom,
+        });
+        try {
+            console.log("fetch");
+            await client.connect();
+            const chainBalance = await client.getBalance(address, chainInfo.coinDenom);
+            const balance = convertCoin(chainBalance, 6, chainInfo.denomUnits);
+            if (balance !== null) {
+                setUserBalance(balance);
+            } else {
+                setUserBalance(chainBalance);
+            }
+        } catch (e) {
+            // Ignore network error and account not present
+            // on the chain
+        }
+    }, [address, client, chainInfo]);
 
     useEffect(() => {
-        (async () => {
-            setUserBalance({
-                amount: "0",
-                denom: chainInfo.coinDenom,
-            });
-            try {
-                await client.connect();
-                const chainBalance = await client.getBalance(address, chainInfo.coinDenom);
-                const balance = convertCoin(chainBalance, 6, chainInfo.denomUnits);
-                if (balance !== null) {
-                    setUserBalance(balance);
-                } else {
-                    setUserBalance(chainBalance);
-                }
-            } catch (e) {
-                // Ignore network error and account not present
-                // on the chain
-            }
-        })()
-    }, [address, client, chainInfo])
+        const unsubscribe = navigation.addListener('focus', () => {
+            fetchBalance();
+        });
+        return () => {
+            unsubscribe();
+        }
+    }, [fetchBalance, navigation])
 
     return userBalance;
 }
