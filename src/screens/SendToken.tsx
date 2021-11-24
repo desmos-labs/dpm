@@ -12,6 +12,7 @@ import {computeTxFees, messagesGas} from "../types/fees";
 import {useCurrentChainInfo} from "@desmoslabs/sdk-react";
 import {checkDesmosAddress} from "../utilils/validators";
 import {MEMO_MAX_LENGTH} from "../constants/chain";
+import {decimalSeparator, localeParseFloat} from "../utilils/parsing";
 
 export type Props = StackScreenProps<AccountScreensStackParams, "SendToken">
 
@@ -36,9 +37,10 @@ export const SendToken: React.FC<Props> = (props) => {
     }, []);
 
     const onAmountChange = useCallback((amount: string) => {
-        let isValid = amount.length === 0 || /^[0-9]+(\.)?[0-9]*$/.test(amount);
+        const separator = decimalSeparator();
+        let isValid = amount.length === 0 || new RegExp(`^[0-9]+(\\${separator})?[0-9]*$`).test(amount);
         if (isValid && amount.length > 0) {
-            const value = parseFloat(amount);
+            const value = localeParseFloat(amount)
             const balance = parseFloat(userBalance.amount);
             isValid = balance >= value;
         }
@@ -55,7 +57,7 @@ export const SendToken: React.FC<Props> = (props) => {
     }, [userBalance]);
 
     const onNextPressed = useCallback(() => {
-        const amountNumber = Math.floor(parseFloat(amount) * 1000000);
+        const amountNumber = Math.floor(localeParseFloat(amount) * 1000000);
 
         const msgSend: MsgSendEncodeObject = {
             typeUrl: "/cosmos.bank.v1beta1.MsgSend",
