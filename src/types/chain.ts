@@ -1,4 +1,4 @@
-import {CosmosHdPath, HdPath, KavaHdPath, LunaHdPath} from "./hdpath";
+import {CosmosHdPath, CroHdPath, HdPath, KavaHdPath, LunaHdPath} from "./hdpath";
 import {ImageSourcePropType} from "react-native";
 import {ChainConfig} from "@desmoslabs/proto/desmos/profiles/v1beta1/models_chain_links";
 
@@ -51,7 +51,7 @@ export const LinkableChains: LinkableChain[] = [
     },
     {
         name: "Osmosis",
-        prefix: "osmosis",
+        prefix: "osmo",
         hdPath: CosmosHdPath,
         icon: require("../assets/chains/osmosis.png"),
         chainConfig: ChainConfig.fromPartial({
@@ -70,7 +70,7 @@ export const LinkableChains: LinkableChain[] = [
     {
         name: "Crypto.com",
         prefix: "cro",
-        hdPath: CosmosHdPath,
+        hdPath: CroHdPath,
         icon: require("../assets/chains/crypto_com.png"),
         chainConfig: ChainConfig.fromPartial({
             name: "crypto.com"

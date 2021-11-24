@@ -32,7 +32,7 @@ export const ChainLinkDetails: React.FC<Props> = (props) => {
     const removeChainLink = useRemoveChainLink(account.address);
 
     const {chainIcon, chainName} = useMemo(() => {
-        const chainInfo =  LinkableChains.find(chain => chain.prefix === chainLink.chainName);
+        const chainInfo =  LinkableChains.find(chain => chain.chainConfig.name === chainLink.chainName);
         const chainIcon = chainInfo?.icon ?? require("../assets/chains/cosmos.png");
         const chainName = chainInfo?.name ?? chainLink.chainName;
         return {

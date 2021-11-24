@@ -21,7 +21,7 @@ export const MessageUnlinkChainAccount: React.FC<Props> = ({protobufMessage, enc
 
     const chainIcon = useMemo(() => {
         const chainName = protobufMessage?.chainName ?? encodeObject?.chainName;
-        const chain = LinkableChains.find(c => c.prefix === chainName);
+        const chain = LinkableChains.find(c => c.chainConfig.name === chainName);
         if (chain !== undefined) {
             return chain.icon
         } else {

@@ -29,7 +29,7 @@ export const ChainConnections: React.FC<Props> = ({connections, style, onConnect
     const renderItem = useCallback((info: ListRenderItemInfo<ChainLink>) => {
         const {item} = info;
 
-        const chainInfo = LinkableChains.find(chain => chain.prefix === item.chainName);
+        const chainInfo = LinkableChains.find(chain => chain.chainConfig.name === item.chainName);
         const chainIcon = chainInfo?.icon ?? require("../assets/chains/cosmos.png");
         const chainName = chainInfo?.name ?? item.chainName;
 

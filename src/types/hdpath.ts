@@ -4,6 +4,7 @@ export const COSMOS_COIN_TYPE = 118;
 export const LUNA_COIN_TYPE = 330;
 export const KAVA_COIN_TYPE = 459;
 export const BAND_COIN_TYPE = 494;
+export const CRO_COIN_TYPE = 394;
 
 export type HdPath = {
     coinType: number
@@ -42,6 +43,13 @@ export const KavaHdPath: HdPath = {
 
 export const BandHdPath: HdPath = {
     coinType: BAND_COIN_TYPE,
+    account: 0,
+    change: 0,
+    addressIndex: 0,
+}
+
+export const CroHdPath: HdPath = {
+    coinType: CRO_COIN_TYPE,
     account: 0,
     change: 0,
     addressIndex: 0,
