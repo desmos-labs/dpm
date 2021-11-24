@@ -146,5 +146,7 @@
   "the next transaction fee has bee allocated to you now": "Le fee per la prossima transazione sono disponibili",
   "an error occurred when requesting the feegrant": "Si è verificato un errore durante la richiesta del fee grant: {{error}}",
   "looks like you are allowed to claim": "Sembra che tu possa ottenere",
-  "claim pending rewards": "Richiedi i rewards in sospeso"
+  "claim pending rewards": "Richiedi i rewards in sospeso",
+  "you have claimed amount": "Hai ottenuto {{amount}}",
+  "claim more": "Continua"
 }

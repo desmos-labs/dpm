@@ -27,7 +27,9 @@ export const AirdropClaimRewards: React.FC<Props> = ({navigation, route}) => {
         showModal(SingleButtonModal, {
             image: require("../../assets/result-sucess-light.png"),
             title: t("congratulations!"),
-            message: t("you have claimed amount", {amount: pendingRewards.toBeClaimed}),
+            message: t("you have claimed amount", {
+                amount: `${pendingRewards.toBeClaimed} DSM`
+            }),
             actionLabel: t("claim more"),
             action: () => navigation.goBack(),
         })

@@ -169,5 +169,8 @@
   "the next transaction fee has bee allocated to you now": "The next transaction fee has bee allocated to you now",
   "an error occurred when requesting the feegrant": "An error occurred when requesting the feegrant: {{error}}",
   "looks like you are allowed to claim": "Looks like you are allowed to claim",
-  "claim pending rewards": "Claim pending rewards"
+  "claim pending rewards": "Claim pending rewards",
+  "congratulations!": "Congratulations !",
+  "you have claimed amount": "You have claimed {{amount}}",
+  "claim more": "Claim more"
 }
