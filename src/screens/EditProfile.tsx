@@ -11,6 +11,7 @@ import {launchImageLibrary} from 'react-native-image-picker';
 import {ImagePickerResponse} from "react-native-image-picker/src/types";
 import {TopBar} from "../components";
 import {DesmosProfile} from "@desmoslabs/sdk-core";
+import useProfileValidators from "../hooks/useProfileValidators";
 
 type Props = CompositeScreenProps<StackScreenProps<AccountScreensStackParams, "EditProfile">,
     StackScreenProps<RootStackParams>>;
@@ -21,10 +22,13 @@ export const EditProfile: React.FC<Props> = (props) => {
     const styles = useStyles();
     const {t} = useTranslation();
     const [dtag, setDtag] = useState(profile?.dtag ?? "");
+    const [dtagError, setDtagError] = useState<string | undefined>(undefined);
     const [nickname, setNickname] = useState(profile?.nickname);
+    const [nicknameError, setNicknameError] = useState<string | undefined>(undefined);
     const [bio, setBio] = useState(profile?.bio);
     const [selectedProfilePicture, setProfilePicture] = useState<string | undefined>(undefined);
     const [selectedCoverPicture, setCoverPicture] = useState<string | undefined>(undefined);
+    const {validateDtag, validateNickname} = useProfileValidators();
 
     useEffect(() => {
         if (props.route.params.bio !== undefined) {
@@ -83,6 +87,16 @@ export const EditProfile: React.FC<Props> = (props) => {
         })
     }, [bio, props.navigation]);
 
+    const dtagChanged = useCallback((dtag: string) => {
+        setDtagError(validateDtag(dtag));
+        setDtag(dtag);
+    }, [validateDtag]);
+
+    const nicknameChanged = useCallback((nickname: string) => {
+        setNicknameError(validateNickname(nickname));
+        setNickname(nickname);
+    }, [validateNickname]);
+
     return <StyledSafeAreaView
         padding={0}
         topBar={<TopBar
@@ -101,14 +115,16 @@ export const EditProfile: React.FC<Props> = (props) => {
                 label={t("nickname")}
                 placeholder={t("nickname")}
                 value={nickname}
-                onChangeText={setNickname}
+                onChangeText={nicknameChanged}
+                error={nicknameError}
             />
             <Divider/>
             <InlineInput
                 label="DTag"
                 placeholder="DTag"
                 value={dtag}
-                onChangeText={setDtag}
+                error={dtagError}
+                onChangeText={dtagChanged}
             />
             <Divider/>
             <InlineLabeledValue
@@ -121,7 +137,7 @@ export const EditProfile: React.FC<Props> = (props) => {
             style={styles.saveBtn}
             mode="contained"
             onPress={onSavePressed}
-            disabled={dtag.length === 0}
+            disabled={dtag.length === 0 || dtagError !== undefined || nicknameError !== undefined}
         >
             {t("next")}
         </Button>

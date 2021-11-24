@@ -6,24 +6,38 @@ import {Typography} from "./index";
 type InlineInputProps = Omit<ComponentProps<typeof TextInput>, "style"> & {
     label: string
     style?: StyleProp<ViewStyle>,
-    inputStyle?: StyleProp<TextStyle>
+    inputStyle?: StyleProp<TextStyle>,
+    error?: string,
 }
 
 export const InlineInput: React.FC<InlineInputProps> = (props) => {
     const styles = useStyles();
 
-    return <View style={[styles.container, props.style]}>
-        <Typography.Subtitle
-            style={styles.label}
-        >
-            {props.label}
-        </Typography.Subtitle>
-        <TextInput
-            {...props}
-            style={[styles.input, props.inputStyle]}
-            textAlignVertical="top"
-        />
+    return <View style={{
+        display: "flex",
+        flexDirection: "column",
+    }}>
+        <View style={[styles.container, props.style]}>
+            <Typography.Subtitle
+                style={styles.label}
+            >
+                {props.label}
+            </Typography.Subtitle>
+            <TextInput
+                {...props}
+                style={[styles.input, props.inputStyle]}
+                textAlignVertical="top"
+            />
+        </View>
+        {props.error !== undefined && (
+            <Typography.Caption
+                style={styles.errorLabel}
+            >
+                {props.error}
+            </Typography.Caption>
+        )}
     </View>
+
 }
 
 const useStyles = makeStyle(theme => ({
@@ -41,5 +55,8 @@ const useStyles = makeStyle(theme => ({
         paddingTop: 8,
         paddingBottom: 0,
         color: theme.colors.font["1"],
+    },
+    errorLabel: {
+        color: theme.colors.error,
     }
 }))

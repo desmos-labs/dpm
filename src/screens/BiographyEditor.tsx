@@ -5,17 +5,18 @@ import {Button, StyledSafeAreaView, TopBar, Typography} from "../components";
 import {useTranslation} from "react-i18next";
 import {makeStyle} from "../theming";
 import {StyleProp, StyleSheet, TextInput, TextStyle} from "react-native";
+import useProfileValidators from "../hooks/useProfileValidators";
 
 export type Props = StackScreenProps<AccountScreensStackParams, "BiographyEditor">
 
-const MAX_BIO_LENGTH = 1000;
 
 export const BiographyEditor: React.FC<Props> = (props) => {
     const {t} = useTranslation();
     const {navigation} = props;
     const styles = useStyles();
+    const {bioValidationParams} = useProfileValidators()
     const [bio, setBio] = useState(props.route.params.bio ?? "");
-    const [charCount, setCharCount] = useState(MAX_BIO_LENGTH - bio.length);
+    const [charCount, setCharCount] = useState(bioValidationParams.maxLength - bio.length);
     const charCountWarning = charCount <= 20;
 
     const onDonePressed = useCallback(() => {
@@ -29,15 +30,15 @@ export const BiographyEditor: React.FC<Props> = (props) => {
     }, [navigation, bio]);
 
     const onTextChange = useCallback((text: string) => {
-        const allowedChars = MAX_BIO_LENGTH - text.length;
+        const allowedChars = bioValidationParams.maxLength - text.length;
         if (allowedChars >= 0) {
             setBio(text);
             setCharCount(allowedChars);
         } else {
-            setBio(_ => text.substring(0, MAX_BIO_LENGTH));
+            setBio(_ => text.substring(0, bioValidationParams.maxLength));
             setCharCount(0);
         }
-    }, [setBio]);
+    }, [bioValidationParams.maxLength]);
 
     const charCountStyle = useMemo(() => {
         if (charCountWarning) {

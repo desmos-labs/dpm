@@ -172,5 +172,8 @@
   "claim pending rewards": "Claim pending rewards",
   "congratulations!": "Congratulations !",
   "you have claimed amount": "You have claimed {{amount}}",
-  "claim more": "Claim more"
+  "claim more": "Claim more",
+  "field length should be greater equal then min": "{{field}} length should be greater equal then {{min}}",
+  "field length should be les equal then max": "{{field}} length should be les equal then {{max}}",
+  "field should match this regular expression regex": "{{field}} should match this regular expression {{regex}}"
 }

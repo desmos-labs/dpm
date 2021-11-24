@@ -148,5 +148,8 @@
   "looks like you are allowed to claim": "Sembra che tu possa ottenere",
   "claim pending rewards": "Richiedi i rewards in sospeso",
   "you have claimed amount": "Hai ottenuto {{amount}}",
-  "claim more": "Continua"
+  "claim more": "Continua",
+  "field length should be greater equal then min": "la lunghezza di {{field} deve essere almeno {{min}}",
+  "field length should be les equal then max": "la lunghezza di {{field} può essere al massimo {{max}}",
+  "field should match this regular expression regex": "{{field}} deve rispettare questa espression regolare {{regex}}"
 }

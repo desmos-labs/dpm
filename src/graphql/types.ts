@@ -160,3 +160,35 @@ export function useGetChainLinkByAddress(baseOptions?: QueryHookOptions<GetChain
     const options = {...defaultOptions, ...baseOptions};
     return useQuery(GetChainLinkByAddressDocument, options);
 }
+
+export type GetProfileModuleParams = { profiles_params: Array<{
+        params: {
+            bio: {
+                max_length: string
+            },
+            dtag: {
+                reg_ex: string,
+                max_length: string,
+                min_length: string
+            },
+            oracle: {
+                ask_count: number,
+                min_count: number,
+                script_id: Array<any>,
+                fee_amount: number,
+                execute_gas: number,
+                prepare_gas: number
+            },
+            nickname: {
+                max_length: string,
+                min_length: string
+            }
+        },
+    }>};
+
+export const GetProfileModuleParamsDocument = gql`
+    query Params {
+        profiles_params {
+            params
+        }
+    }`;
