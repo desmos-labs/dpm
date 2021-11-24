@@ -4,7 +4,7 @@ import React, {useCallback, useState} from "react";
 import {Button, StyledSafeAreaView, TextInput, TopBar, Typography} from "../../components";
 import {makeStyle} from "../../theming";
 import {useTranslation} from "react-i18next";
-import {Image, KeyboardAvoidingView} from "react-native";
+import {Image, KeyboardAvoidingView, Platform} from "react-native";
 import {Bech32} from "@cosmjs/encoding";
 import useShowModal from "../../hooks/useShowModal";
 import {SingleButtonModal} from "../../modals/SingleButtonModal";
@@ -45,6 +45,7 @@ export const AirdropHome: React.FC<Props> = ({navigation}) => {
         <KeyboardAvoidingView
             behavior="padding"
             style={styles.container}
+            keyboardVerticalOffset={Platform.OS === "ios" ? 100 : 0}
         >
             <Image
                 style={styles.airdropText}
@@ -69,6 +70,7 @@ export const AirdropHome: React.FC<Props> = ({navigation}) => {
                 numberOfLines={1}
                 placeholder={"cosmos / kava / regen / ... address"}
                 onChangeText={setAddress}
+                onSubmitEditing={calculate}
             />
             <Button
                 mode="contained"
