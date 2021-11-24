@@ -1,4 +1,4 @@
-const API_ENDPOINT = 'https://test-api.airdrop.desmos.network'
+const API_ENDPOINT = __DEV__ ? 'https://test-api.airdrop.desmos.network' : 'https://api.airdrop.desmos.network';
 
 
 export enum AllocationType {
@@ -32,6 +32,7 @@ export const AirdropApi = {
         airdropEnabled: boolean,
         feeGranter: string,
     }> {
+        console.log(API_ENDPOINT);
         const configResponse = await fetch(`${API_ENDPOINT}/config`);
         const configJson = await configResponse.json();
         const feeGranter = configJson["granter"];
