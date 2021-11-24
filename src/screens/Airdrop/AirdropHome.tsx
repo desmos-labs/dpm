@@ -4,11 +4,10 @@ import React, {useCallback, useState} from "react";
 import {Button, StyledSafeAreaView, TextInput, TopBar, Typography} from "../../components";
 import {makeStyle} from "../../theming";
 import {useTranslation} from "react-i18next";
-import {Image, Platform} from "react-native";
+import {Image, KeyboardAvoidingView} from "react-native";
 import {Bech32} from "@cosmjs/encoding";
 import useShowModal from "../../hooks/useShowModal";
 import {SingleButtonModal} from "../../modals/SingleButtonModal";
-import {KeyboardAwareScrollView} from "react-native-keyboard-aware-scroll-view";
 
 
 export type Props = StackScreenProps<AirdropScreensStackParams, "AirdropHome">;
@@ -43,11 +42,9 @@ export const AirdropHome: React.FC<Props> = ({navigation}) => {
             stackProps={{navigation}}
         />}
     >
-        <KeyboardAwareScrollView
-            enableAutomaticScroll={(Platform.OS === 'ios')}
+        <KeyboardAvoidingView
+            behavior="padding"
             style={styles.container}
-            resetScrollToCoords={{x: 0, y: 0}}
-            scrollEnabled={false}
         >
             <Image
                 style={styles.airdropText}
@@ -62,7 +59,9 @@ export const AirdropHome: React.FC<Props> = ({navigation}) => {
                 style={styles.airdropLogo}
                 resizeMode="contain"
             />
-            <Typography.Body1>
+            <Typography.Body1
+                style={styles.addressInputLabel}
+            >
                 {t("please insert your address")}
             </Typography.Body1>
             <TextInput
@@ -78,31 +77,27 @@ export const AirdropHome: React.FC<Props> = ({navigation}) => {
             >
                 {t("calculate")}
             </Button>
-        </KeyboardAwareScrollView>
+        </KeyboardAvoidingView>
     </StyledSafeAreaView>
 }
 
 const useStyles = makeStyle(theme => ({
     container: {
-
-    },
-    imageContainer: {
-        flex: 3,
-        alignItems: "center",
+        flex: 1,
     },
     airdropText: {
         width: "100%",
     },
     airdropLogo: {
         width: "100%",
-        height: 200,
+        height: "40%",
         marginTop: theme.spacing.m,
     },
     eligibilityText: {
         alignSelf: "center",
     },
-    inputContainer: {
-        flex: 2,
+    addressInputLabel: {
+        marginTop: theme.spacing.m,
     },
     addressInput: {
         marginTop: theme.spacing.s,
