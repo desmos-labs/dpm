@@ -32,7 +32,6 @@ export const AirdropApi = {
         airdropEnabled: boolean,
         feeGranter: string,
     }> {
-        console.log(API_ENDPOINT);
         const configResponse = await fetch(`${API_ENDPOINT}/config`);
         const configJson = await configResponse.json();
         const feeGranter = configJson["granter"];
