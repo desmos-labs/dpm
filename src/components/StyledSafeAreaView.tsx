@@ -26,6 +26,11 @@ export type Props = ViewProps & {
      * Image that will be displayed as background.
      */
     background?: React.ComponentProps<typeof ImageBackground>["source"],
+
+    /**
+     * If true removes the bottom padding on iOS bottom swipe area
+     */
+    noIosPadding?: boolean
 };
 
 export const StyledSafeAreaView: React.FC<Props> = (props) => {
@@ -56,7 +61,8 @@ const useStyles = makeStyleWithProps((props: Props, theme) =>({
         display: "flex",
         flexDirection: "column",
         flexGrow: 1,
-        paddingBottom: Platform.OS === "android" ?  0 : 24,
+        paddingBottom: Platform.OS === "android" || props.noIosPadding === true ?  0 : 24,
+        backgroundColor: theme.colors.background
     },
     background: {
         position: "absolute",

@@ -64,7 +64,7 @@ export default function Login({navigation}: Props): JSX.Element {
         navigation.goBack();
     }, [navigation])
 
-    return <StyledSafeAreaView style={styles.root}>
+    return <StyledSafeAreaView style={styles.root} noIosPadding>
         <ImageBackground
             source={require("../../assets/home-background-light.png")}
             resizeMode="stretch"

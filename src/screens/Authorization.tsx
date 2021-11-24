@@ -115,6 +115,7 @@ export const Authorization: React.FC<Props> = (props) => {
 
     return <StyledSafeAreaView
         style={styles.background}
+        noIosPadding
         topBar={<TopBar
             style={styles.background}
             stackProps={{

@@ -81,7 +81,7 @@ export const Home: React.FC<Props> = (props) => {
         })
     }, [navigation]);
 
-    return <StyledSafeAreaView padding={0}>
+    return <StyledSafeAreaView padding={0} noIosPadding>
         {currentChain.chainId !== "desmos-mainnet" && (
             <View style={styles.testnetBadge}>
                 <Text style={styles.testnetText}>TESTNET</Text>
