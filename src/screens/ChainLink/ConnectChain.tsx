@@ -4,7 +4,7 @@ import {ChainLinkScreensStackParams, ImportMode} from "../../types/navigation";
 import {StyledSafeAreaView, TopBar, Typography} from "../../components";
 import {useTranslation} from "react-i18next";
 import {makeStyle} from "../../theming";
-import {Image, ImageSourcePropType, StyleProp, StyleSheet, TouchableOpacity, ViewStyle} from "react-native";
+import {Image, ImageSourcePropType, StyleProp, TouchableOpacity, ViewStyle} from "react-native";
 import {useTheme} from "react-native-paper";
 
 export type Props = StackScreenProps<ChainLinkScreensStackParams, "ConnectChain">
@@ -58,7 +58,7 @@ export const ConnectChain: React.FC<Props> = ({navigation, route}) => {
         </Typography.Body>
 
         <ImageButton
-            style={styles.button}
+            style={styles.topMargin}
             image={connectMnemonicImage}
             label={t("use secret recovery passphrase")}
             onPress={connectWithMnemonic}
@@ -79,9 +79,6 @@ const useStyle = makeStyle(theme => ({
     background: {
         backgroundColor: theme.colors.background2
     },
-    button: {
-        backgroundColor: theme.colors.background,
-    },
     topMargin: {
         marginTop: theme.spacing.l
     }
@@ -96,8 +93,10 @@ type ImageButtonProps = {
 }
 
 const ImageButton: React.FC<ImageButtonProps> = ({image, label, onPress, disabled, style}) => {
+    const styles = useImageButtonStyles()
+
     return <TouchableOpacity
-        style={[imageButtonStyles.root, style]}
+        style={[styles.root, style]}
         onPress={onPress}
         disabled={disabled}
     >
@@ -110,11 +109,12 @@ const ImageButton: React.FC<ImageButtonProps> = ({image, label, onPress, disable
     </TouchableOpacity>
 }
 
-const imageButtonStyles = StyleSheet.create({
+const useImageButtonStyles = makeStyle(theme => ({
     root: {
         display: "flex",
         flexDirection: "column",
         alignItems: "center",
         padding: 16,
+        backgroundColor: theme.colors.surface2,
     }
-})
+}))
