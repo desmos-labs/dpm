@@ -1,4 +1,4 @@
-import {CosmosHdPath, CroHdPath, HdPath, KavaHdPath, LunaHdPath} from "./hdpath";
+import {BandHdPath, CosmosHdPath, CroHdPath, HdPath, KavaHdPath, LunaHdPath} from "./hdpath";
 import {ImageSourcePropType} from "react-native";
 import {ChainConfig} from "@desmoslabs/proto/desmos/profiles/v1beta1/models_chain_links";
 
@@ -128,6 +128,15 @@ export const LinkableChains: LinkableChain[] = [
         icon: require("../assets/chains/regen.png"),
         chainConfig: ChainConfig.fromPartial({
             name: "regen"
+        }),
+    },
+    {
+        name: "Band",
+        prefix: "band",
+        hdPath: BandHdPath,
+        icon: require("../assets/chains/band.png"),
+        chainConfig: ChainConfig.fromPartial({
+            name: "band"
         }),
     },
 ]
