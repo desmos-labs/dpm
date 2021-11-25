@@ -74,11 +74,11 @@ export const ProfileHeader: React.FC<Props> = (props) => {
             />}
         </View>
 
-        {nickname !== undefined && <Typography.Body
+        {nickname !== undefined && <Typography.H4
             style={styles.nickName}
         >
             {nickname}
-        </Typography.Body>}
+        </Typography.H4>}
 
         {dtag !== undefined && <Typography.Body
             style={styles.dtag}

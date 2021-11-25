@@ -36,11 +36,11 @@ export const AccountBalance: React.FC<Props> = (props) => {
     return <View
         style={[styles.root, props.style]}
     >
-        {props?.nickname ? (<Typography.Title
+        {props?.nickname !== undefined ? (<Typography.H4
             style={styles.text}
         >
             {props?.nickname}
-        </Typography.Title>) : null}
+        </Typography.H4>) : null}
         <View
             style={styles.addressContainer}
         >
