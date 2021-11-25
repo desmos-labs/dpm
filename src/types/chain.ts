@@ -68,7 +68,7 @@ export const LinkableChains: LinkableChain[] = [
         }),
     },
     {
-        name: "Crypto.com",
+        name: "Crypto.org",
         prefix: "cro",
         hdPath: CroHdPath,
         icon: require("../assets/chains/crypto_com.png"),
