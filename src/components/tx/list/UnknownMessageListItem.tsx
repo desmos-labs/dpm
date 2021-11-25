@@ -17,7 +17,7 @@ export const UnknownMessageListItem: React.FC<Props> = (props) => {
         date={date}
         renderContent={() => <View>
             <Typography.Caption>
-                {JSON.stringify(encodeObject, null, 2)}
+                {encodeObject.typeUrl}
             </Typography.Caption>
         </View>}
     />
