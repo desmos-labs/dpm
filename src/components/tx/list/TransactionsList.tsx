@@ -60,8 +60,13 @@ export const TransactionsList: React.FC<Props> = ({chainAccount, style, onTxPres
         stickySectionHeadersEnabled={false}
         renderItem={renderItem}
         renderSectionHeader={info => {
+            const sectionDate = new Date(info.section.date);
+            const currentDate = new Date();
+            const todaySection = currentDate.getUTCDay() === sectionDate.getUTCDay() &&
+                currentDate.getUTCMonth() === sectionDate.getUTCMonth() &&
+                currentDate.getUTCFullYear() === sectionDate.getUTCFullYear();
             return <Typography.Body style={styles.header}>
-                {formatDistance(new Date(info.section.date), new Date(), {
+                {todaySection ? t("today") : formatDistance(sectionDate, currentDate, {
                     addSuffix: true
                 })}
             </Typography.Body>
