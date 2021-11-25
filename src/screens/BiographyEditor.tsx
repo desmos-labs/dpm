@@ -66,6 +66,7 @@ export const BiographyEditor: React.FC<Props> = (props) => {
             style={styles.input}
             multiline={true}
             onChangeText={onTextChange}
+            placeholder={t("add a bio to your profile")}
         />
         <Typography.Body
             style={charCountStyle}
@@ -85,6 +86,7 @@ const useStyles = makeStyle(theme => ({
     charCount: {
         alignSelf: "flex-end",
         right: 0,
+        color: theme.colors.font["3"],
     },
     charCountWarning: {
         color: theme.colors.primary
