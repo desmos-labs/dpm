@@ -55,7 +55,6 @@ export const AccountBalance: React.FC<Props> = (props) => {
                 icon="content-copy"
                 size={16}
                 onPress={props.onCopyPress}
-                color="#c4c4c4"
             />
         </View>
         <View
