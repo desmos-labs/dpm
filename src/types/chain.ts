@@ -41,7 +41,7 @@ export type LinkableChain = {
 
 export const LinkableChains: LinkableChain[] = [
     {
-        name: "Cosmos",
+        name: "Cosmos Hub",
         prefix: "cosmos",
         hdPath: CosmosHdPath,
         icon: require("../assets/chains/cosmos.png"),
