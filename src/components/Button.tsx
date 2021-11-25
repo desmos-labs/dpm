@@ -71,10 +71,14 @@ const useStyles = makeStyleWithProps((props: Props, theme) => {
 
     return {
         labelStyle: {
+            fontFamily: "Poppins-Medium",
+            fontStyle: "normal",
+            fontWeight: "500",
+            fontSize: 16,
+            lineHeight: 24,
+            letterSpacing: 0.0125,
             color: props.mode === "contained" ? theme.colors.font["5"] : color,
             textTransform: "capitalize",
-            fontFamily: "Poppins-Regular",
-            fontWeight: "bold",
         },
         btnStyle: {
             borderColor: color,
