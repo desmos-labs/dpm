@@ -66,13 +66,13 @@ export const AccountBalance: React.FC<Props> = (props) => {
                 <Typography.Body
                     style={styles.balanceText}
                 >
-                    {t("available")}:
+                    {t("available")}
                 </Typography.Body>
-                <Typography.Title
+                <Typography.H4
                     style={styles.balanceText}
                 >
                     {chainBalance.amount} {chainBalance.denom.toUpperCase()}
-                </Typography.Title>
+                </Typography.H4>
             </View>
             <TouchableOpacity
                 style={styles.sendButton}

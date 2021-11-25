@@ -103,5 +103,13 @@ export const Typography = {
         lineHeight: 36,
         letterSpacing: 0.0015,
         textAlign: "left",
-    }))
+    })),
+    H4: createTextComponent(_ => ({
+        fontFamily: "Poppins-Medium",
+        fontStyle: "normal",
+        fontWeight: "500",
+        fontSize: 22,
+        lineHeight: 32,
+        letterSpacing: 0.0015,
+    })),
 }
