@@ -1,5 +1,5 @@
 import React, {ReactElement} from "react";
-import {makeStyle} from "../theming";
+import {makeStyleWithProps} from "../theming";
 import {Platform, StatusBar, StyleProp, View, ViewStyle} from "react-native";
 import {IconButton} from "./IconButton";
 import {Typography} from "./index";
@@ -23,6 +23,11 @@ export type Props = {
      */
     title?: string,
     /**
+     * Tells if the title should be capitalized or not.
+     * If undefined the title will be capitalized.
+     */
+    capitalizeTitle?: boolean,
+    /**
      * Element to display on the top right corner.
      */
     rightElement?: ReactElement,
@@ -35,7 +40,7 @@ export type Props = {
 
 export const TopBar: React.FC<Props> = (props) => {
     const theme = useTheme();
-    const styles = useStyles();
+    const styles = useStyles(props);
     const {navigation} = props.stackProps;
 
     return <View style={[styles.root, props.style]}>
@@ -66,7 +71,7 @@ export const TopBar: React.FC<Props> = (props) => {
     </View>
 }
 
-const useStyles = makeStyle(theme => ({
+const useStyles = makeStyleWithProps((props: Props, theme) => ({
     root: {
         display: "flex",
         flexDirection: "row",
@@ -87,7 +92,7 @@ const useStyles = makeStyle(theme => ({
         flex: 2,
     },
     title: {
-        textTransform: "capitalize",
+        textTransform: props.capitalizeTitle === false ? "none" : "capitalize",
         textAlign: "center",
     },
     containerRight: {

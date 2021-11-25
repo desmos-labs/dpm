@@ -55,7 +55,8 @@ export const AirdropClaimStatus: React.FC<Props> = ({navigation, route}) => {
     return <StyledSafeAreaView
         topBar={<TopBar
             stackProps={{navigation}}
-            title={t("claim DSM airdrop")}
+            title={t("Claim DSM Airdrop")}
+            capitalizeTitle={false}
         />}
     >
 
