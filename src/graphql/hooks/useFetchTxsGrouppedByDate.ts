@@ -229,6 +229,7 @@ export function useFetchTxsGrouppedByDate(chainAccount: ChainAccount) {
 
     const transactionQuery = useGetTransactionsByAddressQuery({
         pollInterval: 1000,
+        fetchPolicy: "no-cache",
         variables: {
             address: `{${chainAccount.address}}`,
             limit: LIMIT + 1,
