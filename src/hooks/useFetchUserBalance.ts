@@ -17,13 +17,12 @@ export default function useFetchUserBalance(address: string) {
     const client = useDesmosClient();
     const navigation = useNavigation();
 
-    const fetchBalance = useCallback(async () => {
+    const fetchBalance = useCallback(async (address: string) => {
         setUserBalance({
             amount: "0",
             denom: chainInfo.coinDenom,
         });
         try {
-            console.log("fetch");
             await client.connect();
             const chainBalance = await client.getBalance(address, chainInfo.coinDenom);
             const balance = convertCoin(chainBalance, 6, chainInfo.denomUnits);
@@ -36,16 +35,20 @@ export default function useFetchUserBalance(address: string) {
             // Ignore network error and account not present
             // on the chain
         }
-    }, [address, client, chainInfo]);
+    }, [client, chainInfo]);
 
     useEffect(() => {
         const unsubscribe = navigation.addListener('focus', () => {
-            fetchBalance();
+            fetchBalance(address);
         });
         return () => {
             unsubscribe();
         }
-    }, [fetchBalance, navigation])
+    }, [fetchBalance, navigation, address]);
+
+    useEffect(() => {
+        fetchBalance(address)
+    }, [address, fetchBalance]);
 
     return userBalance;
 }
