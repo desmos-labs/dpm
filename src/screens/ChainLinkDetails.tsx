@@ -43,7 +43,7 @@ export const ChainLinkDetails: React.FC<Props> = (props) => {
 
     const showSuccessModal = useCallback(() => {
         showModal(SingleButtonModal, {
-            image: require("../assets/result-sucess-light.png"),
+            image: "success",
             title: t("success"),
             message: t("chain account was disconnected", {
                 chain: chainName
@@ -59,7 +59,7 @@ export const ChainLinkDetails: React.FC<Props> = (props) => {
 
     const showErrorModal = useCallback((error) => {
         showModal(SingleButtonModal, {
-            image: require("../assets/result-fail-light.png"),
+            image: "fail",
             title: t("error"),
             message: error.toString(),
             actionLabel: t("cancel"),

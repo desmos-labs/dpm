@@ -1,9 +1,10 @@
 import React, {useCallback} from "react";
-import {Image, ImageSourcePropType, View} from "react-native";
+import {ImageSourcePropType, View} from "react-native";
 import {makeStyle} from "../theming";
 import {Button, Typography} from "../components";
 import {ModalComponent, RootStackParams} from "../types/navigation";
 import {StackNavigationProp} from "@react-navigation/stack/lib/typescript/src/types";
+import {DpmImage, DpmImages} from "../components/DpmImage";
 
 export type SingleButtonModalParams = {
     /**
@@ -18,7 +19,7 @@ export type SingleButtonModalParams = {
      * Optional image that will be displayed on top
      * of the title.
      */
-    image?: ImageSourcePropType,
+    image?: ImageSourcePropType | DpmImages,
     /**
      * Text displayed on the action button.
      */
@@ -43,7 +44,7 @@ export const SingleButtonModal: ModalComponent<SingleButtonModalParams> = (props
     }, [params, navigation])
 
     return <View style={styles.root}>
-        {params.image && <Image
+        {params.image && <DpmImage
             style={styles.image}
             resizeMode="contain"
             source={params.image}

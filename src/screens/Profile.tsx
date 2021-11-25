@@ -6,12 +6,13 @@ import {AccountScreensStackParams} from "../types/navigation";
 import React, {useCallback, useMemo, useState} from 'react';
 import {ProfileHeader} from "../components/ProfileHeader";
 import useFetchProfile from "../hooks/useFetchProfile";
-import {Image, ScrollView, View} from "react-native";
+import {ScrollView, View} from "react-native";
 import {useTranslation} from "react-i18next";
 import Clipboard from "@react-native-community/clipboard";
 import useSelectedAccount from "../hooks/useSelectedAccount";
 import {ChainLink} from "../types/link";
 import useChainLinks from "../hooks/useChainLinks";
+import {DpmImage} from "../components";
 
 
 export type Props = StackScreenProps<AccountScreensStackParams, "Profile">
@@ -117,9 +118,9 @@ export default function Profile(props: Props): JSX.Element {
                     />
                 </>
             ) : <>
-                <Image
+                <DpmImage
                     style={styles.noProfileImage}
-                    source={require("../assets/no-profile-light.png")}
+                    source="no-profile"
                     resizeMode="contain"
                 />
                 <Typography.Body1>

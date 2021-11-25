@@ -1,13 +1,14 @@
 import React, {useCallback, useEffect, useMemo} from "react";
 import {BottomTabScreenProps} from "@react-navigation/bottom-tabs";
 import {AccountScreensStackParams, HomeScreensBottomTabsParams} from "../types/navigation";
-import {FlatList, Image, View} from "react-native";
+import {FlatList, View} from "react-native";
 import {
     AvatarImage, Button,
     DAppSession as DAppSessionComponent,
     ListItemSeparator,
     StyledSafeAreaView,
-    TopBar, Typography
+    TopBar, Typography,
+    DpmImage
 } from "../components";
 import {CompositeScreenProps} from "@react-navigation/native";
 import {StackScreenProps} from "@react-navigation/stack";
@@ -105,7 +106,7 @@ export const Authorization: React.FC<Props> = (props) => {
     useEffect(() => {
         if (revokeStatus.error) {
             showModal(SingleButtonModal, {
-                image: require("../assets/result-fail-light.png"),
+                image: "fail",
                 title: t("error"),
                 message: revokeStatus.error,
                 actionLabel: t("ok"),
@@ -148,9 +149,9 @@ export const Authorization: React.FC<Props> = (props) => {
             />
         ) : (
             <View style={styles.noDAppContainer}>
-                <Image
+                <DpmImage
                     style={styles.noDAppImage}
-                    source={require("../assets/no-connection-light.png")}
+                    source="no-connection"
                     resizeMode="contain"
                 />
                 <Typography.Body1

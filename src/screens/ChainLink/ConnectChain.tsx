@@ -1,29 +1,18 @@
-import React, {useCallback, useMemo} from "react";
+import React, {useCallback} from "react";
 import {StackScreenProps} from "@react-navigation/stack";
 import {ChainLinkScreensStackParams, ImportMode} from "../../types/navigation";
-import {StyledSafeAreaView, TopBar, Typography} from "../../components";
+import {DpmImage, StyledSafeAreaView, TopBar, Typography} from "../../components";
 import {useTranslation} from "react-i18next";
 import {makeStyle} from "../../theming";
-import {Image, ImageSourcePropType, StyleProp, TouchableOpacity, ViewStyle} from "react-native";
-import {useTheme} from "react-native-paper";
+import {ImageSourcePropType, StyleProp, TouchableOpacity, ViewStyle} from "react-native";
+import {DpmImages} from "../../components/DpmImage";
 
 export type Props = StackScreenProps<ChainLinkScreensStackParams, "ConnectChain">
 
 export const ConnectChain: React.FC<Props> = ({navigation, route}) => {
-    const theme = useTheme();
     const {t} = useTranslation();
     const styles = useStyle();
     const {backAction, feeGranter} = route.params
-
-    const connectMnemonicImage = useMemo(() => {
-        return theme.dark ? require("../../assets/connect_mnemonic_dark.png") :
-            require("../../assets/connect_mnemonic_light.png");
-    }, [theme.dark]);
-
-    // const connectLedgerImage = useMemo(() => {
-    //     return theme.dark ? require("../../assets/connect_ledger_dark.png") :
-    //         require("../../assets/connect_ledger_light.png");
-    // }, [theme.dark]);
 
     const connectWithMnemonic = useCallback(() => {
         navigation.navigate({
@@ -59,7 +48,7 @@ export const ConnectChain: React.FC<Props> = ({navigation, route}) => {
 
         <ImageButton
             style={styles.topMargin}
-            image={connectMnemonicImage}
+            image="connect-mnemonic"
             label={t("use secret recovery passphrase")}
             onPress={connectWithMnemonic}
         />
@@ -85,7 +74,7 @@ const useStyle = makeStyle(theme => ({
 }));
 
 type ImageButtonProps = {
-    image: ImageSourcePropType,
+    image: ImageSourcePropType | DpmImages,
     label: string,
     onPress?: () => void,
     disabled?: boolean,
@@ -100,7 +89,7 @@ const ImageButton: React.FC<ImageButtonProps> = ({image, label, onPress, disable
         onPress={onPress}
         disabled={disabled}
     >
-        <Image
+        <DpmImage
             source={image}
         />
         <Typography.Body1>

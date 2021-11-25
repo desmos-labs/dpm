@@ -7,10 +7,9 @@ import {
 import {ChainAccount, ChainAccountType} from "../../types/chain";
 import useSaveWallet from "../../hooks/useSaveWallet";
 import useSaveAccount from "../../hooks/useSaveAccount";
-import {StyledSafeAreaView, Button, Typography} from "../../components";
+import {StyledSafeAreaView, Button, Typography, DpmImage} from "../../components";
 import {useTranslation} from "react-i18next";
 import {makeStyle} from "../../theming";
-import {Image} from "react-native";
 import {CompositeScreenProps} from "@react-navigation/native";
 import useChangeAccount from "../../hooks/useChangeAccount";
 import useSaveSelectedAccount from "../../hooks/useSaveSelectedAccount";
@@ -80,9 +79,9 @@ export default function GenerateAccount(props: Props): JSX.Element {
                 {t("generating account")}...
             </Typography.Title>
         ) : account !== null ? (<>
-            <Image
+            <DpmImage
                 style={styles.icon}
-                source={require("../../assets/result-sucess-light.png")}
+                source="success"
                 resizeMode="contain"
             />
 

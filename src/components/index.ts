@@ -25,6 +25,7 @@ import {DesmosIcon} from "./DesmosIcon"
 import {InlineButtons} from "./InlineButtons";
 import {ChainConnections} from "./ChainConnections";
 import {AirdropBanner} from "./AirdropBanner";
+import {DpmImage} from "./DpmImage";
 
 export {
     Typography,
@@ -53,5 +54,6 @@ export {
     DesmosIcon,
     InlineButtons,
     ChainConnections,
-    AirdropBanner
+    AirdropBanner,
+    DpmImage
 }

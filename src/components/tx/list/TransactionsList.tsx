@@ -1,6 +1,5 @@
 import React, {useCallback} from "react";
 import {
-    Image,
     SectionList, SectionListRenderItemInfo,
     StyleProp, TouchableOpacity,
     View, ViewStyle
@@ -16,6 +15,7 @@ import {makeStyle} from "../../../theming";
 import {BroadcastedTx} from "../../../types/tx";
 import {Typography} from "../../index";
 import {useTranslation} from "react-i18next";
+import {DpmImage} from "../../DpmImage";
 
 export type Props = {
     chainAccount: ChainAccount,
@@ -26,7 +26,7 @@ export type Props = {
 export const TransactionsList: React.FC<Props> = ({chainAccount, style, onTxPressed}) => {
     const {txs, loading, fetchMore} = useFetchTxsGrouppedByDate(chainAccount);
     const styles = useStyles();
-    const {t} = useTranslation()
+    const {t} = useTranslation();
 
     const renderItem = useCallback((info: SectionListRenderItemInfo<BroadcastedTx, SectionedTx>) => {
         const begin = info.index === 0;
@@ -79,10 +79,10 @@ export const TransactionsList: React.FC<Props> = ({chainAccount, style, onTxPres
         />}
         ItemSeparatorComponent={Divider}
     />) : <View style={styles.noTransactionsView}>
-        <Image
+        <DpmImage
             style={styles.noTransactionsImage}
             resizeMode="contain"
-            source={require("../../../assets/no-transaction-light.png")}
+            source="no-transaction"
         />
         <Typography.Body1>
             {t("no transactions")}

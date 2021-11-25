@@ -1,9 +1,8 @@
 import React, {useCallback, useMemo} from "react";
 import {StackScreenProps} from "@react-navigation/stack";
 import {AccountScreensStackParams, AirdropScreensStackParams} from "../../types/navigation";
-import {Button, StyledSafeAreaView, TopBar, Typography} from "../../components";
+import {Button, DpmImage, StyledSafeAreaView, TopBar, Typography} from "../../components";
 import {useTranslation} from "react-i18next";
-import {Image} from "react-native";
 import {FlexPadding} from "../../components/FlexPadding";
 import {makeStyle} from "../../theming";
 import useFetchProfile from "../../hooks/useFetchProfile";
@@ -68,13 +67,10 @@ export const AirdropClaimAction: React.FC<Props> = ({navigation, route}) => {
                 t("now it's time to connect your Desmos Profile to your first wallet account and claim your airdrop for such account")}
         </Typography.Body1>
 
-        <Image
+        <DpmImage
             style={styles.image}
             resizeMode="contain"
-            source={!profileTaskCompleted ?
-                require("../../assets/no-profile-light.png") :
-                require("../../assets/connect_chain_light.png")
-            }
+            source={!profileTaskCompleted ? "no-profile" : "connect-chain"}
         />
 
         <FlexPadding flex={1} />

@@ -15,6 +15,7 @@ import {format} from "date-fns"
 import useShowModal from "../hooks/useShowModal";
 import {SingleButtonModal} from "../modals/SingleButtonModal";
 
+
 type Authorization = {
     title: string,
     limit?: string,
@@ -83,7 +84,7 @@ export default function AuthorizeSession(props: Props) {
 
     const showSuccessModal = useCallback(() => {
         openModal(SingleButtonModal, {
-            image: require("../assets/result-sucess-light.png"),
+            image: "success",
             title: t("success"),
             message: t("app authorized", {app: appName}),
             actionLabel: t("go to authorization"),

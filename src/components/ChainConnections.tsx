@@ -1,9 +1,9 @@
-import React, {useCallback, useMemo} from "react";
+import React, {useCallback} from "react";
 import {FlatList, Image, ListRenderItemInfo, StyleProp, TouchableOpacity, View, ViewStyle} from "react-native";
 import {useTranslation} from "react-i18next";
-import {Button, ListItemSeparator, Typography} from "./index";
+import {Button, ListItemSeparator, Typography, DpmImage} from "./index";
 import {makeStyle} from "../theming";
-import {ActivityIndicator, useTheme} from "react-native-paper";
+import {ActivityIndicator} from "react-native-paper";
 import {ChainLink} from "../types/link";
 import {LinkableChains} from "../types/chain";
 
@@ -17,14 +17,8 @@ export type Props = {
 
 export const ChainConnections: React.FC<Props> = ({connections, style, onConnectChain, onShowChainInfo, loading}) => {
     const {t} = useTranslation();
-    const theme = useTheme();
     const styles = useStyles();
     const noConnections = connections.length === 0 || loading === true;
-
-    const connectChainImage = useMemo(() => {
-        return theme.dark ? require("../assets/no-connection-dark.png") :
-            require("../assets/no-connection-light.png");
-    }, [theme.dark]);
 
     const renderItem = useCallback((info: ListRenderItemInfo<ChainLink>) => {
         const {item} = info;
@@ -64,10 +58,10 @@ export const ChainConnections: React.FC<Props> = ({connections, style, onConnect
                 ItemSeparatorComponent={ListItemSeparator}
                 ListEmptyComponent={() =>
                     <View style={styles.noConnections}>
-                        <Image
+                        <DpmImage
                             style={styles.noConnectionImage}
                             resizeMode="cover"
-                            source={connectChainImage}
+                            source="no-connection"
                         />
                         <Typography.Body>
                             {t("connect your chain account")}

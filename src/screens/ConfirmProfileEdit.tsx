@@ -1,7 +1,7 @@
 import React, {useCallback, useMemo, useState} from "react";
 import {StackScreenProps} from "@react-navigation/stack";
 import {AccountScreensStackParams, resetTo, RootStackParams} from "../types/navigation";
-import {Button, Divider, LabeledValue, StyledSafeAreaView} from "../components";
+import {Button, Divider, LabeledValue, StyledSafeAreaView, TopBar} from "../components";
 import {useTranslation} from "react-i18next";
 import {makeStyle} from "../theming";
 import {ProfileHeader} from "../components/ProfileHeader";
@@ -16,7 +16,6 @@ import useSaveProfile from "../hooks/useSaveProfile";
 import useNavigateToHomeScreen from "../hooks/useNavigateToHomeScreen";
 import useShowModal from "../hooks/useShowModal";
 import useUploadPicture from "../hooks/useUploadPicture";
-import {TopBar} from "../components";
 import useBroadcastMessages from "../hooks/useBroadcastMessages";
 
 
@@ -88,27 +87,21 @@ export const ConfirmProfileEdit: React.FC<Props> = (props) => {
                 const messages = [saveProfileMessage];
                 await broadcastMessages(wallet, messages, txFee, undefined, feeGranter);
                 await saveProfile(profile);
-                if (goBackTo === undefined) {
-                    showModal(SingleButtonModal, {
-                        image: require("../assets/result-sucess-light.png"),
-                        title: t("success"),
-                        message: t("profile saved"),
-                        actionLabel: t("go to profile"),
-                        action: () => navigateToHomeScreen({reset: true}),
-                    });
-                } else {
-                    showModal(SingleButtonModal, {
-                        image: require("../assets/result-sucess-light.png"),
-                        title: t("success"),
-                        message: t("profile saved"),
-                        actionLabel: t("continue"),
-                        action: () => props.navigation.dispatch(resetTo(goBackTo)),
-                    });
-                }
+
+                showModal(SingleButtonModal, {
+                    image: "success",
+                    title: t("success"),
+                    message: t("profile saved"),
+                    actionLabel: goBackTo === undefined ? t("go to profile") :
+                        t("continue"),
+                    action: goBackTo === undefined ?
+                        () => navigateToHomeScreen({reset: true}) :
+                        () => props.navigation.dispatch(resetTo(goBackTo))
+                });
             }
         } catch (e) {
             showModal(SingleButtonModal, {
-                image: require("../assets/result-fail-light.png"),
+                image: "fail",
                 title: t("ops"),
                 message: `${t("unexpected error occurred")}\n${e.toString()}`,
                 actionLabel: t("close"),

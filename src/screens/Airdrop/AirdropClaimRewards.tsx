@@ -25,7 +25,7 @@ export const AirdropClaimRewards: React.FC<Props> = ({navigation, route}) => {
 
     const showSuccessModal = useCallback(() => {
         showModal(SingleButtonModal, {
-            image: require("../../assets/result-sucess-light.png"),
+            image: "success",
             title: t("congratulations!"),
             message: t("you have claimed amount", {
                 amount: `${pendingRewards.toBeClaimed} DSM`
@@ -37,7 +37,7 @@ export const AirdropClaimRewards: React.FC<Props> = ({navigation, route}) => {
 
     const showErrorModal = useCallback((error: string) => {
         showModal(SingleButtonModal, {
-            image: require("../../assets/result-fail-light.png"),
+            image: "fail",
             title: t("fail"),
             message: error,
             actionLabel: t("try again"),

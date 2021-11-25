@@ -31,7 +31,7 @@ export const AirdropHome: React.FC<Props> = ({navigation}) => {
             showModal(SingleButtonModal, {
                 title: t("invalid address"),
                 message: t("invalid address"),
-                image: require("../../assets/result-fail-light.png"),
+                image: "fail",
                 actionLabel: t("ok"),
             })
         }
