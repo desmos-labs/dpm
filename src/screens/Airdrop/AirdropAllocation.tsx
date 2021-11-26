@@ -7,6 +7,7 @@ import {makeStyle} from "../../theming";
 import {useTranslation} from "react-i18next";
 import useFetchAllottedDsm from "../../hooks/useFetchAllottedDsm";
 import {Allocation, AllocationType} from "../../api/AirdropApi";
+import useNavigateToHomeScreen from "../../hooks/useNavigateToHomeScreen";
 
 
 export type Props = StackScreenProps<AirdropScreensStackParams, "AirdropAllocation">;
@@ -15,7 +16,8 @@ export const AirdropAllocation: React.FC<Props> = ({navigation, route}) => {
     const {params} = route;
     const styles = useStyles();
     const {t} = useTranslation();
-    const {loading, allocations, allottedCoins, error, allClaimed} = useFetchAllottedDsm(params.address)
+    const {loading, allocations, allottedCoins, error, allClaimed} = useFetchAllottedDsm(params.address);
+    const navigateToHome = useNavigateToHomeScreen()
 
     const claimNow = useCallback(() => {
         navigation.navigate({
@@ -25,6 +27,12 @@ export const AirdropAllocation: React.FC<Props> = ({navigation, route}) => {
             }
         })
     }, [navigation, params.address]);
+
+    const claimLater = useCallback(() => {
+        navigateToHome({
+            reset: true,
+        })
+    }, [navigateToHome]);
 
     const renderAllocation = useCallback(({item}: ListRenderItemInfo<Allocation>) => {
         const {chainName, claimed, amount} = item;
@@ -102,6 +110,13 @@ export const AirdropAllocation: React.FC<Props> = ({navigation, route}) => {
                 {t("claim now")}
             </Button>
         )}
+        <Button
+            style={styles.claimLater}
+            mode="outlined"
+            onPress={claimLater}
+        >
+            {t("claim later")}
+        </Button>
     </StyledSafeAreaView>
 }
 
@@ -149,5 +164,8 @@ const useStyles = makeStyle(theme => ({
     info: {
         color: theme.colors.font["2"],
         flex: 9,
+    },
+    claimLater: {
+        marginTop: theme.spacing.m,
     }
 }))
