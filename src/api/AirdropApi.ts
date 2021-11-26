@@ -21,6 +21,18 @@ type LpAllocation = {
     amount: number,
 }
 
+export enum FeeGrantStatus {
+    NotRequested,
+    Allowed,
+    Pending,
+    Fail,
+}
+
+export type FeeGrantRequestStatus = {
+    status: FeeGrantStatus,
+    message?: string,
+}
+
 export type Allocation = StakingAllocation | LpAllocation;
 
 export const AirdropApi = {
@@ -66,6 +78,53 @@ export const AirdropApi = {
             if (text !== "You already have some DSM in your balance"  &&
                 text !== "Grant already requested") {
                 throw text;
+            }
+        }
+    },
+
+    /**
+     * Checks if an account is allowed to use the feegrant module.
+     */
+    feeGrantStatus: async function(desmosAddress: string, externalAddress: string): Promise<FeeGrantRequestStatus> {
+        try {
+            const response = await fetch(`${API_ENDPOINT}/airdrop/grants/${desmosAddress}/${externalAddress}`);
+            if (response.status !== 200) {
+                return {
+                    status: FeeGrantStatus.Fail,
+                    message: await response.text().catch(ex => ex.toString()),
+                }
+            } else {
+                const json = await response.json();
+                const canGetGrant = json["can_get_grant"];
+                const grantRequested = json["has_requested_grant"];
+                const grantIssued = json["has_grant_been_issued"];
+
+                if (canGetGrant === false) {
+                    return {
+                        status: FeeGrantStatus.Fail,
+                        message: `Can't get fee grant for ${desmosAddress} ${externalAddress}`
+                    }
+                }
+                else if (grantRequested === false) {
+                    return {
+                        status: FeeGrantStatus.NotRequested,
+                    }
+                }
+                else if (grantIssued === false) {
+                    return {
+                        status: FeeGrantStatus.Pending,
+                    }
+                }
+                else {
+                    return {
+                        status: FeeGrantStatus.Allowed,
+                    }
+                }
+            }
+        } catch (e) {
+            return  {
+                status: FeeGrantStatus.Fail,
+                message: e.toString()
             }
         }
     },
