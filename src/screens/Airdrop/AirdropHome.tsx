@@ -39,8 +39,10 @@ export const AirdropHome: React.FC<Props> = ({navigation}) => {
 
     return <StyledSafeAreaView
         topBar={<TopBar
+            style={styles.topBar}
             stackProps={{navigation}}
         />}
+        background={require("../../assets/airdrop-background.png")}
     >
         <KeyboardAvoidingView
             behavior="padding"
@@ -106,5 +108,8 @@ const useStyles = makeStyle(theme => ({
     },
     calculateBtn: {
         marginTop: theme.spacing.m,
+    },
+    topBar: {
+        backgroundColor: "transparent",
     }
 }))
