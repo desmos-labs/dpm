@@ -155,5 +155,6 @@
   "field length should be les equal then max": "la lunghezza di {{field} può essere al massimo {{max}}",
   "field should match this regular expression regex": "{{field}} deve rispettare questa espression regolare {{regex}}",
   "claimed": "ottenuto",
-  "The more accounts you connected, the more DSM that allow you to claim": "Più account collegherai più DSM otterrai"
+  "The more accounts you connected, the more DSM that allow you to claim": "Più account collegherai più DSM otterrai",
+  "claim later": "Reclama più tardi"
 }
