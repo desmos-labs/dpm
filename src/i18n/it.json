@@ -153,5 +153,7 @@
   "claim more": "Continua",
   "field length should be greater equal then min": "la lunghezza di {{field} deve essere almeno {{min}}",
   "field length should be les equal then max": "la lunghezza di {{field} può essere al massimo {{max}}",
-  "field should match this regular expression regex": "{{field}} deve rispettare questa espression regolare {{regex}}"
+  "field should match this regular expression regex": "{{field}} deve rispettare questa espression regolare {{regex}}",
+  "claimed": "ottenuto",
+  "The more accounts you connected, the more DSM that allow you to claim": "Più account collegherai più DSM otterrai"
 }

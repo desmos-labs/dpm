@@ -10,6 +10,7 @@ export default function useFetchAllottedDsm(externalAddress: string) {
     const [error, setError] = useState<string | null>();
     const [allottedCoins, setAllottedCoins] = useState(0);
     const [allocations, setAllocations] = useState<Allocation[]>([]);
+    const [allClaimed, setAllClaimed] = useState(false);
 
     useEffect(() => {
         (async () => {
@@ -19,6 +20,8 @@ export default function useFetchAllottedDsm(externalAddress: string) {
             setAllottedCoins(0);
             try {
                 const allottedDsm = await AirdropApi.fetchAllottedDsm(externalAddress);
+                const notClaimed = allottedDsm.allocations.find(allocation => !allocation.claimed);
+                setAllClaimed(notClaimed === undefined);
                 setAllottedCoins(allottedDsm.total);
                 setAllocations(allottedDsm.allocations);
             } catch (e) {
@@ -32,6 +35,7 @@ export default function useFetchAllottedDsm(externalAddress: string) {
         loading,
         error,
         allocations,
+        allClaimed,
         allottedCoins,
     }
 }

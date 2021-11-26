@@ -177,5 +177,7 @@
   "claim more": "Claim more",
   "field length should be greater equal then min": "{{field}} length should be greater equal then {{min}}",
   "field length should be les equal then max": "{{field}} length should be les equal then {{max}}",
-  "field should match this regular expression regex": "{{field}} should match this regular expression {{regex}}"
+  "field should match this regular expression regex": "{{field}} should match this regular expression {{regex}}",
+  "claimed": "claimed",
+  "The more accounts you connected, the more DSM that allow you to claim": "The more accounts you connected, the more DSM that allow you to claim"
 }

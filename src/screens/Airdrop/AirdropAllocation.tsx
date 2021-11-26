@@ -15,7 +15,7 @@ export const AirdropAllocation: React.FC<Props> = ({navigation, route}) => {
     const {params} = route;
     const styles = useStyles();
     const {t} = useTranslation();
-    const {loading, allocations, allottedCoins, error} = useFetchAllottedDsm(params.address)
+    const {loading, allocations, allottedCoins, error, allClaimed} = useFetchAllottedDsm(params.address)
 
     const claimNow = useCallback(() => {
         navigation.navigate({
@@ -27,6 +27,7 @@ export const AirdropAllocation: React.FC<Props> = ({navigation, route}) => {
     }, [navigation, params.address]);
 
     const renderAllocation = useCallback(({item}: ListRenderItemInfo<Allocation>) => {
+        const {chainName, claimed, amount} = item;
         return <View style={styles.allocation}>
             <Image
                 source={require("../../assets/tick_orange.png")}
@@ -34,15 +35,20 @@ export const AirdropAllocation: React.FC<Props> = ({navigation, route}) => {
             />
             {item.type === AllocationType.Staking ? (
                 <Typography.Body1 style={styles.allocationText}>
-                    {item.chainName} Staker {item.forboleDelegator ? "& Forbole Delegator" : ""}
+                    {chainName} Staker {item.forboleDelegator ? "& Forbole Delegator" : ""}
                 </Typography.Body1>
             ) : (
                 <Typography.Body1 style={styles.allocationText}>
-                    {item.chainName} LP
+                    {chainName} LP
                 </Typography.Body1>
             )}
+            <Typography.Body1 style={[styles.allocationAmount, claimed ? styles.allocationClaimed : null]}>
+                {amount} DSM {claimed ? t("claimed") : ""}
+            </Typography.Body1>
+
         </View>
-    }, [styles.allocation, styles.allocationText, styles.allocationTick])
+    }, [styles.allocation, styles.allocationTick, styles.allocationText,
+        styles.allocationAmount, styles.allocationClaimed, t])
 
     return <StyledSafeAreaView topBar={
         <TopBar stackProps={{navigation}} />
@@ -83,14 +89,19 @@ export const AirdropAllocation: React.FC<Props> = ({navigation, route}) => {
                 renderItem={renderAllocation}
                 keyExtractor={(_, index) => index.toString()}
             />
+            {!loading && <Typography.Body1 style={styles.info}>
+                * {t("The more accounts you connected, the more DSM that allow you to claim")}
+            </Typography.Body1>}
         </View>
-        <Button
-            mode="contained"
-            onPress={claimNow}
-            disabled={loading || error !== null || allottedCoins === 0}
-        >
-            {t("claim now")}
-        </Button>
+        {loading || allClaimed ? null : (
+            <Button
+                mode="contained"
+                onPress={claimNow}
+                disabled={loading || error !== null || allottedCoins === 0 || allClaimed}
+            >
+                {t("claim now")}
+            </Button>
+        )}
     </StyledSafeAreaView>
 }
 
@@ -119,6 +130,7 @@ const useStyles = makeStyle(theme => ({
         display: "flex",
         flexDirection: "row",
         alignItems: "center",
+        flexWrap: "wrap"
     },
     allocationTick: {
         width: 16,
@@ -127,5 +139,15 @@ const useStyles = makeStyle(theme => ({
     allocationText: {
         color: theme.colors.primary,
         marginLeft: theme.spacing.s,
+    },
+    allocationAmount: {
+        marginLeft: 8,
+    },
+    allocationClaimed: {
+        color: theme.colors.font["3"],
+    },
+    info: {
+        color: theme.colors.font["2"],
+        flex: 9,
     }
 }))
