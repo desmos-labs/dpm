@@ -156,5 +156,6 @@
   "field should match this regular expression regex": "{{field}} deve rispettare questa espression regolare {{regex}}",
   "claimed": "ottenuto",
   "The more accounts you connected, the more DSM that allow you to claim": "Più account collegherai più DSM otterrai",
-  "claim later": "Reclama più tardi"
+  "claim later": "Reclama più tardi",
+  "Get a grant": "Ottieni grant"
 }

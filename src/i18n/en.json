@@ -180,5 +180,6 @@
   "field should match this regular expression regex": "{{field}} should match this regular expression {{regex}}",
   "claimed": "claimed",
   "The more accounts you connected, the more DSM that allow you to claim": "The more accounts you connected, the more DSM that allow you to claim",
-  "claim later": "Claim later"
+  "claim later": "Claim later",
+  "Get a grant": "Get a grant"
 }

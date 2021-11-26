@@ -6,6 +6,7 @@ import {AirdropAllocation} from "../screens/Airdrop/AirdropAllocation";
 import {AirdropClaimStatus} from "../screens/Airdrop/AirdropClaimStatus";
 import {AirdropClaimAction} from "../screens/Airdrop/AirdropClaimAction";
 import {AirdropClaimRewards} from "../screens/Airdrop/AirdropClaimRewards";
+import {AirdropRequestFeeGrant} from "../screens/Airdrop/AirdropRequestFeeGrant";
 
 export type Props = StackScreenProps<AccountScreensStackParams, "AirdropScreens">;
 
@@ -20,22 +21,22 @@ export const AirdropScreens: React.FC<Props> = () => {
             name="AirdropHome"
             component={AirdropHome}
         />
-
         <AirdropScreensStack.Screen
             name="AirdropAllocation"
             component={AirdropAllocation}
         />
-
         <AirdropScreensStack.Screen
             name="AirdropClaimStatus"
             component={AirdropClaimStatus}
         />
-
+        <AirdropScreensStack.Screen
+            name="AirdropRequestFeeGrant"
+            component={AirdropRequestFeeGrant}
+        />
         <AirdropScreensStack.Screen
             name="AirdropClaimAction"
             component={AirdropClaimAction}
         />
-
         <AirdropScreensStack.Screen
             name="AirdropClaimRewards"
             component={AirdropClaimRewards}

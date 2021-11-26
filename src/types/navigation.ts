@@ -165,6 +165,11 @@ export type AirdropScreensStackParams = {
     AirdropClaimStatus: {
         address: string,
     },
+    AirdropRequestFeeGrant: {
+        externalAddress: string,
+        desmosAddress: string,
+        request: boolean,
+    }
     AirdropClaimAction: {
         address: string,
         granter?: string,

@@ -1,4 +1,4 @@
-import React, {useCallback, useMemo} from "react";
+import React, {useCallback, useEffect, useMemo} from "react";
 import {StackScreenProps} from "@react-navigation/stack";
 import {AccountScreensStackParams, AirdropScreensStackParams} from "../../types/navigation";
 import {Button, Divider, StyledSafeAreaView, TopBar, Typography} from "../../components";
@@ -9,8 +9,9 @@ import {makeStyle} from "../../theming";
 import useFetchProfile from "../../hooks/useFetchProfile";
 import useSelectedAccount from "../../hooks/useSelectedAccount";
 import {CompositeScreenProps} from "@react-navigation/native";
-import useAirdropFeeGrant from "../../hooks/useAirdropFeeGrant";
 import useChainLinks from "../../hooks/useChainLinks";
+import useFeeGrantStatus from "../../hooks/useFeeGrantStatus";
+import {FeeGrantStatus} from "../../api/AirdropApi";
 
 type Props = CompositeScreenProps<
     StackScreenProps<AirdropScreensStackParams, "AirdropClaimStatus">,
@@ -22,7 +23,7 @@ export const AirdropClaimStatus: React.FC<Props> = ({navigation, route}) => {
     const {t} = useTranslation();
     const account = useSelectedAccount();
     const profile = useFetchProfile(account.address);
-    const {loading, error, feeGrantStatus, feeGranter} = useAirdropFeeGrant(account.address, params.address);
+    const {loading, feeGranter, feeGrantStatus, feeGrantMessage} = useFeeGrantStatus(account.address, params.address);
     const chainLinks = useChainLinks(account.address);
 
     const profileTaskCompleted = useMemo(() => {
@@ -32,6 +33,51 @@ export const AirdropClaimStatus: React.FC<Props> = ({navigation, route}) => {
     const accountConnectedTask = useMemo(() => {
         return chainLinks.length > 0;
     }, [chainLinks]);
+
+    const grantTaskCompleted = useMemo(() => {
+        return feeGrantStatus === FeeGrantStatus.Allowed;
+    }, [feeGrantStatus]);
+
+    const canRequestFeeGrant = useMemo(() => {
+        return feeGrantStatus === FeeGrantStatus.NotRequested
+    }, [feeGrantStatus])
+
+    const feeGrantUiText = useMemo(() => {
+        if (loading) {
+            return  t("requesting fee grant");
+        } else {
+            switch (feeGrantStatus) {
+                case FeeGrantStatus.NotRequested:
+                    return t("Get a grant to create a Desmos Profile");
+
+                case FeeGrantStatus.Pending:
+                    return t("The grant is on it's way this can take a few minutes");
+
+                case FeeGrantStatus.Allowed:
+                    return t("the next transaction fee has bee allocated to you now");
+
+                case FeeGrantStatus.Fail:
+                    return feeGrantMessage;
+            }
+        }
+    }, [feeGrantMessage, feeGrantStatus, loading, t]);
+
+    const requestFeeGrant = useCallback((request: boolean) => {
+        navigation.navigate({
+            name: "AirdropRequestFeeGrant",
+            params: {
+                externalAddress: params.address,
+                desmosAddress: account.address,
+                request,
+            }
+        })
+    }, [navigation, params.address, account.address]);
+
+    useEffect(() => {
+        if (!loading && feeGrantStatus === FeeGrantStatus.Pending) {
+            requestFeeGrant(false)
+        }
+    }, [feeGrantStatus, loading, requestFeeGrant]);
 
     const claim = useCallback(() => {
         navigation.navigate({
@@ -59,12 +105,16 @@ export const AirdropClaimStatus: React.FC<Props> = ({navigation, route}) => {
             capitalizeTitle={false}
         />}
     >
-
         <Typography.Body1>
             {t("to claim DSM, you will need to")}
         </Typography.Body1>
 
         <View style={styles.tasksContainer}>
+            <TaskItem
+                text={t("Get a grant")}
+                completed={grantTaskCompleted}
+            />
+            <Divider/>
             <TaskItem
                 text={t("create Desmos Profile")}
                 completed={profileTaskCompleted}
@@ -75,12 +125,8 @@ export const AirdropClaimStatus: React.FC<Props> = ({navigation, route}) => {
                 completed={accountConnectedTask}
             />
         </View>
-        <Typography.Body1>
-            {loading ? t("requesting fee grant") :
-                error !== null ? t("an error occurred when requesting the feegrant", {
-                    error,
-                }) : t("the next transaction fee has bee allocated to you now")
-            }
+        <Typography.Body1 style={styles.feeGrantStatus}>
+            {feeGrantUiText}
         </Typography.Body1>
         <FlexPadding flex={1} />
         {profileTaskCompleted && accountConnectedTask && (
@@ -92,13 +138,19 @@ export const AirdropClaimStatus: React.FC<Props> = ({navigation, route}) => {
                 {t("claim pending rewards")}
             </Button>
         )}
-        <Button
-            mode="contained"
-            onPress={claim}
-            disabled={loading || error !== null || !feeGrantStatus}
-        >
-            {t("get started")}
-        </Button>
+        {loading ? null : (
+            <Button
+                mode="contained"
+                onPress={
+                    canRequestFeeGrant ? () => requestFeeGrant(true) : claim
+                }
+                disabled={feeGrantStatus === FeeGrantStatus.Fail}
+            >
+                {
+                    canRequestFeeGrant ? t("Get grant") : t("get started")
+                }
+            </Button>
+        )}
     </StyledSafeAreaView>
 }
 
@@ -107,6 +159,9 @@ const useStyles = makeStyle(theme => ({
         marginTop: theme.spacing.l,
         backgroundColor: theme.colors.surface,
         borderRadius: theme.roundness,
+    },
+    feeGrantStatus: {
+        marginTop: theme.spacing.m,
     },
     claimRewardsBtn: {
         marginBottom: theme.spacing.m,
