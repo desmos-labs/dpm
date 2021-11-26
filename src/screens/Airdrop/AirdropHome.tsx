@@ -95,7 +95,8 @@ const useStyles = makeStyle(theme => ({
     airdropLogo: {
         width: "100%",
         height: "40%",
-        marginTop: theme.spacing.m,
+        marginTop: "4%",
+        marginBottom: "8.8%",
     },
     eligibilityText: {
         alignSelf: "center",
