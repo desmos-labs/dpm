@@ -67,7 +67,9 @@ export const AirdropAllocation: React.FC<Props> = ({navigation, route}) => {
                 source={require("../../assets/dsm_token.png")}
                 resizeMode="contain"
             />
-            <Typography.Body1>
+            <Typography.Body1
+                style={styles.allocationIsText}
+            >
                 {t("your allocation is")}
             </Typography.Body1>
             {error === null ? (
@@ -83,7 +85,10 @@ export const AirdropAllocation: React.FC<Props> = ({navigation, route}) => {
                 </Typography.Body>
             )}
         </View>
-        <View style={styles.allocationDetails}>
+        <View
+            style={styles.allocationDetails}
+            onStartShouldSetResponder={() => true}
+        >
             <Typography.Body1
                 style={styles.address}
                 numberOfLines={1}
@@ -96,8 +101,9 @@ export const AirdropAllocation: React.FC<Props> = ({navigation, route}) => {
                 data={allocations}
                 renderItem={renderAllocation}
                 keyExtractor={(_, index) => index.toString()}
+                ItemSeparatorComponent={() => <View style={{height: 8}}/>}
             />
-            {!loading && <Typography.Body1 style={styles.info}>
+            {allocations.length > 0 && <Typography.Body1 style={styles.info}>
                 * {t("The more accounts you connected, the more DSM that allow you to claim")}
             </Typography.Body1>}
         </View>
@@ -122,12 +128,16 @@ export const AirdropAllocation: React.FC<Props> = ({navigation, route}) => {
 
 const useStyles = makeStyle(theme => ({
     allocationContainer: {
-        flex: 2,
+        flex: 3,
         alignItems: "center",
     },
     dsmToken: {
-        height: "60%",
+        height: "50%",
         width: "100%",
+        maxHeight: 99,
+    },
+    allocationIsText: {
+        marginTop: theme.spacing.l,
     },
     allocationDetails: {
         flex: 4,
@@ -140,6 +150,7 @@ const useStyles = makeStyle(theme => ({
     },
     allocationList: {
         marginTop: theme.spacing.m,
+        maxHeight: "65%"
     },
     allocation: {
         display: "flex",
