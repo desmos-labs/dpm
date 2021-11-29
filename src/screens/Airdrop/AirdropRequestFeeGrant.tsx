@@ -1,51 +1,92 @@
-import React, {useEffect, useMemo, useState} from "react";
+import React, {useCallback, useEffect} from "react";
 import {StackScreenProps} from "@react-navigation/stack";
 import {AirdropScreensStackParams} from "../../types/navigation";
-import {StyledSafeAreaView} from "../../components";
-import {AirdropApi, FeeGrantStatus} from "../../api/AirdropApi";
-import usePoolFeeGrantStatus from "../../hooks/usePoolFeeGrantStatus";
+import {Button, DpmImage, StyledSafeAreaView, ThemedLottieView, Typography} from "../../components";
+import useReuestFeeGrant from "../../hooks/useRequestFeeGrant";
+import {useTranslation} from "react-i18next";
+import {makeStyle} from "../../theming";
+import {Dimensions} from "react-native";
+import {FlexPadding} from "../../components/FlexPadding";
 
 
 export type Props = StackScreenProps<AirdropScreensStackParams, "AirdropRequestFeeGrant">;
 
 export const AirdropRequestFeeGrant: React.FC<Props> = ({navigation, route}) => {
-    const {desmosAddress, externalAddress, request} = route.params;
-    const {loading, status, startPool} = usePoolFeeGrantStatus(desmosAddress, externalAddress);
-    const [requestingGrant, setRequestingGrant] = useState(false);
-    const [grantRequestError, setGrantRequestError] = useState<string | undefined>(undefined);
-
-    const gettingGrant = useMemo(() => {
-        return requestingGrant || loading || status?.status === FeeGrantStatus.Pending;
-    }, [loading, requestingGrant, status])
-
-    const error = useMemo(() => {
-        if (grantRequestError !== undefined) {
-            return grantRequestError;
-        } else if (!loading && status?.status === FeeGrantStatus.Fail) {
-            return status!.message;
-        } else {
-            return undefined;
-        }
-    }, [grantRequestError, loading, status]);
+    const {desmosAddress, externalAddress} = route.params;
+    const {t} = useTranslation();
+    const styles = useStyles();
+    const {error, issued} = useReuestFeeGrant(desmosAddress, externalAddress);
 
     useEffect(() => {
-        if (request) {
-            (async () => {
-                setRequestingGrant(true);
-                try {
-                    await AirdropApi.requestFeeGrant(externalAddress, desmosAddress);
-                    startPool();
-                } catch (e) {
-                    setGrantRequestError(e.toString());
-                }
-                setRequestingGrant(false)
-            })()
-        } else {
-            startPool();
+        if (issued) {
+            navigation.goBack();
         }
-    }, [desmosAddress, externalAddress, request, startPool]);
+    }, [issued, navigation]);
 
-    return <StyledSafeAreaView>
+    const goBack = useCallback(() => {
+        navigation.goBack();
+    }, [navigation])
 
+    return <StyledSafeAreaView
+        style={styles.root}
+    >
+        {error === undefined ? (
+            <ThemedLottieView
+                style={styles.loadingAnimation}
+                source={"broadcast-tx"}
+                autoPlay
+                loop
+                autoSize
+                resizeMode="cover"
+            />
+        ) : (
+            <DpmImage
+                style={styles.loadingAnimation}
+                source={"fail"}
+            />
+        )}
+
+        <Typography.H4
+            style={styles.title}
+        >
+            {t("getting grant")}
+        </Typography.H4>
+        <Typography.Body
+            style={styles.message}
+        >
+            {error ?? t("please wait, it may take a few minutes, you can check back later...")}
+        </Typography.Body>
+
+        <FlexPadding flex={1} />
+        {error !== undefined && (
+            <Button
+                mode="outlined"
+                onPress={goBack}
+            >
+                {t("go back")}
+            </Button>
+        )}
     </StyledSafeAreaView>
 }
+
+const useStyles = makeStyle(() => ({
+    root: {
+        display: "flex",
+        flexDirection: "column",
+    },
+    loadingAnimation: {
+        marginTop: "26%",
+        height: Dimensions.get('window').height * 0.30 ?? 240,
+        alignItems: "center",
+        justifyContent: "center",
+        alignSelf: "center",
+    },
+    title: {
+        textTransform: "capitalize",
+        alignSelf: "center",
+    },
+    message: {
+        textAlign: "center",
+        alignSelf: "center",
+    }
+}))

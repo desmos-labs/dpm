@@ -167,7 +167,7 @@
   "to claim DSM, you will need to": "To claim DSM, you will need to to",
   "create Desmos Profile": "Create Desmos Profile",
   "connect Desmos Profile to your wallet accounts": "Connect Desmos Profile to your wallet accounts",
-  "requesting fee grant": "Requesting fee grant",
+  "checking fee grant...": "Checking fee grant...",
   "the next transaction fee has bee allocated to you now": "The next transaction fee has bee allocated to you now",
   "an error occurred when requesting the feegrant": "An error occurred when requesting the feegrant: {{error}}",
   "looks like you are allowed to claim": "Looks like you are allowed to claim",
@@ -181,5 +181,9 @@
   "claimed": "claimed",
   "The more accounts you connected, the more DSM that allow you to claim": "The more accounts you connected, the more DSM that allow you to claim",
   "claim later": "Claim later",
-  "Get a grant": "Get a grant"
+  "Get a grant": "Get a grant",
+  "Get a grant to create a Desmos Profile": "Get a grant to create a Desmos Profile",
+  "Get grant": "Get grant",
+  "getting grant": "Getting grant",
+  "please wait, it may take a few minutes, you can check back later...": "Please wait, it may take a few minutes, you can check back later..."
 }

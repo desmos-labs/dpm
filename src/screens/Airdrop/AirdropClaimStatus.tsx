@@ -10,8 +10,8 @@ import useFetchProfile from "../../hooks/useFetchProfile";
 import useSelectedAccount from "../../hooks/useSelectedAccount";
 import {CompositeScreenProps} from "@react-navigation/native";
 import useChainLinks from "../../hooks/useChainLinks";
-import useFeeGrantStatus from "../../hooks/useFeeGrantStatus";
-import {FeeGrantStatus} from "../../api/AirdropApi";
+import useFeeGrantStatus, {FeeGrantStatus} from "../../hooks/useFeeGrantStatus";
+import useCheckPendingRewards from "../../hooks/useCheckPendingRewards";
 
 type Props = CompositeScreenProps<
     StackScreenProps<AirdropScreensStackParams, "AirdropClaimStatus">,
@@ -22,9 +22,14 @@ export const AirdropClaimStatus: React.FC<Props> = ({navigation, route}) => {
     const styles = useStyles();
     const {t} = useTranslation();
     const account = useSelectedAccount();
+    const {loading, feeGranter, feeGrantRequestStatus} = useFeeGrantStatus(account.address, params.address);
     const profile = useFetchProfile(account.address);
-    const {loading, feeGranter, feeGrantStatus, feeGrantMessage} = useFeeGrantStatus(account.address, params.address);
     const chainLinks = useChainLinks(account.address);
+    const pendingRewards = useCheckPendingRewards(account.address);
+
+    useEffect(() => {
+        return navigation.addListener("focus", pendingRewards.updatePendingRewards);
+    }, [navigation, pendingRewards.updatePendingRewards])
 
     const profileTaskCompleted = useMemo(() => {
         return profile !== null;
@@ -35,49 +40,32 @@ export const AirdropClaimStatus: React.FC<Props> = ({navigation, route}) => {
     }, [chainLinks]);
 
     const grantTaskCompleted = useMemo(() => {
-        return feeGrantStatus === FeeGrantStatus.Allowed;
-    }, [feeGrantStatus]);
+        return feeGrantRequestStatus?.type === FeeGrantStatus.Claimed;
+    }, [feeGrantRequestStatus]);
 
     const canRequestFeeGrant = useMemo(() => {
-        return feeGrantStatus === FeeGrantStatus.NotRequested
-    }, [feeGrantStatus])
+        return feeGrantRequestStatus?.type === FeeGrantStatus.Claimable;
+    }, [feeGrantRequestStatus])
 
     const feeGrantUiText = useMemo(() => {
         if (loading) {
-            return  t("requesting fee grant");
-        } else {
-            switch (feeGrantStatus) {
-                case FeeGrantStatus.NotRequested:
-                    return t("Get a grant to create a Desmos Profile");
-
-                case FeeGrantStatus.Pending:
-                    return t("The grant is on it's way this can take a few minutes");
-
-                case FeeGrantStatus.Allowed:
-                    return t("the next transaction fee has bee allocated to you now");
-
-                case FeeGrantStatus.Fail:
-                    return feeGrantMessage;
-            }
+            return t("checking fee grant...");
+        } else if (feeGrantRequestStatus?.type === FeeGrantStatus.Error) {
+            return feeGrantRequestStatus.error;
+        } else if (feeGrantRequestStatus?.type === FeeGrantStatus.Claimable) {
+            return t("Get a grant to create a Desmos Profile");
         }
-    }, [feeGrantMessage, feeGrantStatus, loading, t]);
+    }, [feeGrantRequestStatus, loading, t]);
 
-    const requestFeeGrant = useCallback((request: boolean) => {
+    const requestFeeGrant = useCallback(() => {
         navigation.navigate({
             name: "AirdropRequestFeeGrant",
             params: {
                 externalAddress: params.address,
                 desmosAddress: account.address,
-                request,
             }
         })
     }, [navigation, params.address, account.address]);
-
-    useEffect(() => {
-        if (!loading && feeGrantStatus === FeeGrantStatus.Pending) {
-            requestFeeGrant(false)
-        }
-    }, [feeGrantStatus, loading, requestFeeGrant]);
 
     const claim = useCallback(() => {
         navigation.navigate({
@@ -129,7 +117,7 @@ export const AirdropClaimStatus: React.FC<Props> = ({navigation, route}) => {
             {feeGrantUiText}
         </Typography.Body1>
         <FlexPadding flex={1} />
-        {profileTaskCompleted && accountConnectedTask && (
+        {pendingRewards.available && (
             <Button
                 style={styles.claimRewardsBtn}
                 mode="outlined"
@@ -142,9 +130,9 @@ export const AirdropClaimStatus: React.FC<Props> = ({navigation, route}) => {
             <Button
                 mode="contained"
                 onPress={
-                    canRequestFeeGrant ? () => requestFeeGrant(true) : claim
+                    canRequestFeeGrant ? requestFeeGrant : claim
                 }
-                disabled={feeGrantStatus === FeeGrantStatus.Fail}
+                disabled={feeGrantRequestStatus?.type === FeeGrantStatus.Error}
             >
                 {
                     canRequestFeeGrant ? t("Get grant") : t("get started")

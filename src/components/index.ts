@@ -26,6 +26,7 @@ import {InlineButtons} from "./InlineButtons";
 import {ChainConnections} from "./ChainConnections";
 import {AirdropBanner} from "./AirdropBanner";
 import {DpmImage} from "./DpmImage";
+import {ThemedLottieView} from "./ThemedLottieView";
 
 export {
     Typography,
@@ -55,5 +56,6 @@ export {
     InlineButtons,
     ChainConnections,
     AirdropBanner,
-    DpmImage
+    DpmImage,
+    ThemedLottieView
 }

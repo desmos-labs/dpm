@@ -29,8 +29,42 @@ export enum FeeGrantStatus {
 }
 
 export type FeeGrantRequestStatus = {
-    status: FeeGrantStatus,
-    message?: string,
+    /**
+     * Whether the given user can get a grant or not.
+     * This will be false if the user has not been allotted any DSM for the airdrop,
+     * or if they already have enough tokens to pay for fees.
+     */
+    canGetGrant: boolean,
+    /**
+     * Whether the user cannot get a grant cause their account already has
+     * enough tokens inside.
+     * This can be true only if can_get_grant is false.
+     */
+    hasEnoughDsm: boolean,
+    /**
+     * Whether the given user has already requested a grant or not.
+     * If false you can call the POST /airdrop/grants APIs and request
+     * for a grant to be issued.
+     */
+    hasRequestedGrant: boolean,
+    /**
+     * Whether a grant has already been issued on-chain or not and it still can be used.
+     * If false it can mean two things:
+     * (1) the grant will be issued shortly (no need to call POST /airdrop/grants again);
+     * (2) the grant has already been completely used to create other links.
+     * Due to the fact that grants are wiped out from the storage when used,
+     * we cannot determine in which case we are.
+     */
+    isGrantActive: boolean,
+    /**
+     * Whether the user can claim an airdrop by calling the POST /airdrop/claims APIs.
+     */
+    canClaimAirdrop: boolean,
+    /**
+     * The Desmos address used to request a grant previously.
+     * This will be populated only if has_requested_grant is true
+     */
+    usedDesmosAddress?: string,
 }
 
 export type Allocation = StakingAllocation | LpAllocation;
@@ -86,45 +120,25 @@ export const AirdropApi = {
      * Checks if an account is allowed to use the feegrant module.
      */
     feeGrantStatus: async function(desmosAddress: string, externalAddress: string): Promise<FeeGrantRequestStatus> {
-        try {
-            const response = await fetch(`${API_ENDPOINT}/airdrop/grants/${desmosAddress}/${externalAddress}`);
-            if (response.status !== 200) {
-                return {
-                    status: FeeGrantStatus.Fail,
-                    message: await response.text().catch(ex => ex.toString()),
-                }
-            } else {
-                const json = await response.json();
-                const canGetGrant = json["can_get_grant"];
-                const grantRequested = json["has_requested_grant"];
-                const grantIssued = json["has_grant_been_issued"];
-
-                if (canGetGrant === false) {
-                    return {
-                        status: FeeGrantStatus.Fail,
-                        message: `Can't get fee grant for ${desmosAddress} ${externalAddress}`
-                    }
-                }
-                else if (grantRequested === false) {
-                    return {
-                        status: FeeGrantStatus.NotRequested,
-                    }
-                }
-                else if (grantIssued === false) {
-                    return {
-                        status: FeeGrantStatus.Pending,
-                    }
-                }
-                else {
-                    return {
-                        status: FeeGrantStatus.Allowed,
-                    }
-                }
-            }
-        } catch (e) {
-            return  {
-                status: FeeGrantStatus.Fail,
-                message: e.toString()
+        const response = await fetch(`${API_ENDPOINT}/airdrop/grants/${desmosAddress}/${externalAddress}`);
+        if (response.status !== 200) {
+            throw await response.text();
+        } else {
+            const json = await response.json();
+            console.log(json);
+            const canGetGrant = json["can_get_grant"];
+            const hasRequestedGrant = json["has_requested_grant"];
+            const isGrantActive = json["is_grant_active"];
+            const hasEnoughDsm = json["has_enough_dsm"];
+            const usedDesmosAddress = json["used_desmos_address"];
+            const canClaimAirdrop = json["can_claim_airdrop"];
+            return {
+                canGetGrant,
+                hasRequestedGrant,
+                isGrantActive,
+                hasEnoughDsm,
+                usedDesmosAddress,
+                canClaimAirdrop
             }
         }
     },
@@ -139,6 +153,7 @@ export const AirdropApi = {
     }> {
         const response = await fetch(`${API_ENDPOINT}/users/${externalAddress}`);
         const jsonResponse = await response.json();
+        console.log(externalAddress, "allotted rewards", jsonResponse);
         const stakingInfos = jsonResponse["staking_infos"];
         const lpInfos = jsonResponse["lp_infos"];
         const allotted = jsonResponse["dsm_allotted"];

@@ -144,7 +144,7 @@
   "to claim DSM, you will need to": "Per ottenere i DSM devi",
   "create Desmos Profile": "Creare un profilo Desmos",
   "connect Desmos Profile to your wallet accounts": "Collegare il profilo Desmos ai tuoi account",
-  "requesting fee grant": "Richiedo fee grant",
+  "checking fee grant...": "Verifico fee grant...",
   "the next transaction fee has bee allocated to you now": "Le fee per la prossima transazione sono disponibili",
   "an error occurred when requesting the feegrant": "Si è verificato un errore durante la richiesta del fee grant: {{error}}",
   "looks like you are allowed to claim": "Sembra che tu possa ottenere",
@@ -157,5 +157,9 @@
   "claimed": "ottenuto",
   "The more accounts you connected, the more DSM that allow you to claim": "Più account collegherai più DSM otterrai",
   "claim later": "Reclama più tardi",
-  "Get a grant": "Ottieni grant"
+  "Get a grant": "Ottieni grant",
+  "Get a grant to create a Desmos Profile": "Richiedi grant per creare il Profilo Desmos",
+  "Get grant": "Richiedi grant",
+  "getting grant": "Richiedo grant",
+  "please wait, it may take a few minutes, you can check back later...": "Per favore attenti, l'operazione poptrebbe impiegarci alcuni minuti, controlla pure più tarrdi"
 }

@@ -1,4 +1,4 @@
-import React, {useCallback, useState} from "react";
+import React, {useCallback, useEffect, useState} from "react";
 import {StackScreenProps} from "@react-navigation/stack";
 import {AirdropScreensStackParams} from "../../types/navigation";
 import {Button, StyledSafeAreaView, TopBar, Typography} from "../../components";
@@ -14,14 +14,18 @@ import {SingleButtonModal} from "../../modals/SingleButtonModal";
 
 export type Props = StackScreenProps<AirdropScreensStackParams, "AirdropClaimRewards">
 
-export const AirdropClaimRewards: React.FC<Props> = ({navigation, route}) => {
+export const AirdropClaimRewards: React.FC<Props> = ({navigation}) => {
     const {t} = useTranslation();
     const styles = useStyles();
     const account = useSelectedAccount();
     const [claimingRewards, setClaimingRewards] = useState(false);
     const [error, setError] = useState<string | null>(null);
-    const pendingRewards = useCheckPendingRewards(route.params.address, account.address);
+    const pendingRewards = useCheckPendingRewards(account.address);
     const showModal = useShowModal();
+
+    useEffect(() => {
+        return navigation.addListener("focus", pendingRewards.updatePendingRewards);
+    }, [navigation, pendingRewards.updatePendingRewards]);
 
     const showSuccessModal = useCallback(() => {
         showModal(SingleButtonModal, {

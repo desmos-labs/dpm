@@ -1,6 +1,6 @@
 import {StackScreenProps} from "@react-navigation/stack";
 import {AirdropScreensStackParams} from "../../types/navigation";
-import React, {useCallback} from "react";
+import React, {useCallback, useEffect} from "react";
 import {Button, StyledSafeAreaView, TopBar, Typography} from "../../components";
 import {FlatList, Image, ListRenderItemInfo, View} from "react-native";
 import {makeStyle} from "../../theming";
@@ -16,7 +16,7 @@ export const AirdropAllocation: React.FC<Props> = ({navigation, route}) => {
     const {params} = route;
     const styles = useStyles();
     const {t} = useTranslation();
-    const {loading, allocations, allottedCoins, error, allClaimed} = useFetchAllottedDsm(params.address);
+    const {loading, allocations, allottedCoins, error, allClaimed, fetchAllocations} = useFetchAllottedDsm(params.address);
     const navigateToHome = useNavigateToHomeScreen()
 
     const claimNow = useCallback(() => {
@@ -33,6 +33,10 @@ export const AirdropAllocation: React.FC<Props> = ({navigation, route}) => {
             reset: true,
         })
     }, [navigateToHome]);
+
+    useEffect(() => {
+        return navigation.addListener("focus", fetchAllocations);
+    }, [fetchAllocations, navigation]);
 
     const renderAllocation = useCallback(({item}: ListRenderItemInfo<Allocation>) => {
         const {chainName, claimed, amount} = item;
