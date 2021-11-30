@@ -5,7 +5,7 @@ import {Button, DpmImage, StyledSafeAreaView, ThemedLottieView, Typography} from
 import useReuestFeeGrant from "../../hooks/useRequestFeeGrant";
 import {useTranslation} from "react-i18next";
 import {makeStyle} from "../../theming";
-import {Dimensions} from "react-native";
+import {Dimensions, Platform} from "react-native";
 import {FlexPadding} from "../../components/FlexPadding";
 
 
@@ -82,7 +82,7 @@ const useStyles = makeStyle(theme => ({
         alignSelf: "center",
     },
     title: {
-        marginTop: theme.spacing.m,
+        marginTop: Platform.OS === "ios" ? 62 : theme.spacing.l,
         textTransform: "capitalize",
         alignSelf: "center",
     },
