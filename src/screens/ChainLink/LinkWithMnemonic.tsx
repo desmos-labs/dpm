@@ -7,6 +7,7 @@ import {makeStyle} from "../../theming";
 import {checkMnemonic} from "../../wallet/LocalWallet";
 import {EnglishMnemonic} from "@cosmjs/crypto";
 import {FlexPadding} from "../../components/FlexPadding";
+import {sanitizeMnemonic} from "../../utilils/mnemonic";
 
 export type Props = StackScreenProps<ChainLinkScreensStackParams, "LinkWithMnemonic">
 
@@ -18,16 +19,26 @@ export const LinkWithMnemonic: React.FC<Props> = ({navigation, route}) => {
     const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
     const onMnemonicChange = (mnemonic: string) => {
-        if (mnemonic.indexOf("\n") === -1) {
-            setMnemonic(mnemonic);
-            setErrorMessage(null);
-        } else {
+        const sanitizedMnemonic = sanitizeMnemonic(mnemonic, {
+            removeStartingSpaces: true,
+            removeDoubleSpaces: true,
+        })
+
+        // Handle enter pressed
+        if (sanitizedMnemonic.indexOf("\n") > 0) {
             onNextPressed();
+        } else {
+            setMnemonic(sanitizedMnemonic);
+            setErrorMessage(null);
         }
     }
 
     const onNextPressed = () => {
-        if (checkMnemonic(mnemonic)) {
+        const sanitizedMnemonic = sanitizeMnemonic(mnemonic, {
+            removeTrailingSpaces: true
+        });
+
+        if (checkMnemonic(sanitizedMnemonic)) {
             navigation.navigate({
                 name: "PickAddress",
                 params: {
@@ -39,7 +50,7 @@ export const LinkWithMnemonic: React.FC<Props> = ({navigation, route}) => {
                 }
             })
         } else {
-            const invalidWords = mnemonic.split(" ").filter(w => {
+            const invalidWords = sanitizedMnemonic.split(" ").filter(w => {
                 return w.length > 0 && EnglishMnemonic.wordlist.indexOf(w) === -1
             }).join(",");
 

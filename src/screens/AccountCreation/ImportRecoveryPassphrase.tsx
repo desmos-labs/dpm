@@ -8,6 +8,7 @@ import {useTranslation} from "react-i18next";
 import {EnglishMnemonic} from "@cosmjs/crypto";
 import {FlexPadding} from "../../components/FlexPadding";
 import {TopBar} from "../../components";
+import {sanitizeMnemonic} from "../../utilils/mnemonic";
 
 
 declare type Props = StackScreenProps<AccountCreationStackParams, "ImportRecoveryPassphrase">;
@@ -20,24 +21,34 @@ export default function ImportRecoveryPassphrase(props: Props): JSX.Element {
     const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
     const onMnemonicChange = (mnemonic: string) => {
-        if (mnemonic.indexOf("\n") === -1) {
-            setMnemonic(mnemonic);
-            setErrorMessage(null);
-        } else {
+        const sanitizedMnemonic = sanitizeMnemonic(mnemonic, {
+            removeStartingSpaces: true,
+            removeDoubleSpaces: true,
+        })
+
+        // Handle enter pressed
+        if (sanitizedMnemonic.indexOf("\n") > 0) {
             onNextPressed();
+        } else {
+            setMnemonic(sanitizedMnemonic);
+            setErrorMessage(null);
         }
     }
 
     const onNextPressed = () => {
-        if (checkMnemonic(mnemonic)) {
+        const sanitizedMnemonic = sanitizeMnemonic(mnemonic, {
+            removeTrailingSpaces: true
+        });
+
+        if (checkMnemonic(sanitizedMnemonic)) {
             props.navigation.navigate({
                 name: "PickDerivationPath",
                 params: {
-                    mnemonic: mnemonic,
+                    mnemonic: sanitizedMnemonic,
                 }
             })
         } else {
-            const invalidWords = mnemonic.split(" ").filter(w => {
+            const invalidWords = sanitizedMnemonic.split(" ").filter(w => {
                 return w.length > 0 && EnglishMnemonic.wordlist.indexOf(w) === -1
             }).join(",");
 
