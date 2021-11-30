@@ -69,7 +69,7 @@ export const AirdropRequestFeeGrant: React.FC<Props> = ({navigation, route}) => 
     </StyledSafeAreaView>
 }
 
-const useStyles = makeStyle(() => ({
+const useStyles = makeStyle(theme => ({
     root: {
         display: "flex",
         flexDirection: "column",
@@ -82,6 +82,7 @@ const useStyles = makeStyle(() => ({
         alignSelf: "center",
     },
     title: {
+        marginTop: theme.spacing.m,
         textTransform: "capitalize",
         alignSelf: "center",
     },
