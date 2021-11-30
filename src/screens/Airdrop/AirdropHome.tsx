@@ -47,7 +47,7 @@ export const AirdropHome: React.FC<Props> = ({navigation}) => {
         <KeyboardAvoidingView
             behavior="padding"
             style={styles.container}
-            keyboardVerticalOffset={Platform.OS === "ios" ? 100 : 0}
+            keyboardVerticalOffset={Platform.OS === "ios" ? 190 : 0}
         >
             <Image
                 style={styles.airdropText}
