@@ -11,11 +11,10 @@ export default function useRequestFeeGrant(desmosAddress: string, externalAddres
         const fetchStatus = (async () => {
             try {
                 const result = await AirdropApi.feeGrantStatus(desmosAddress, externalAddress);
-                console.log("pool fee grant status", result);
-                if (result.isGrantActive) {
+                if (result.hasEnoughDsm) {
                     setRunningInterval(undefined);
                 }
-                setIssued(result.isGrantActive);
+                setIssued(result.hasEnoughDsm);
             } catch (e) {
                 setError(e.toString());
                 setRunningInterval(undefined);
@@ -36,7 +35,7 @@ export default function useRequestFeeGrant(desmosAddress: string, externalAddres
         (async () => {
             try {
                 const result = await AirdropApi.feeGrantStatus(desmosAddress, externalAddress);
-                if (result.isGrantActive || result.hasEnoughDsm) {
+                if (result.hasEnoughDsm) {
                     setIssued(true)
                 } else if (result.hasRequestedGrant &&
                     result.usedDesmosAddress !== undefined &&

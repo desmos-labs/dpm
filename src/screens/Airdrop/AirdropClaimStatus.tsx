@@ -22,7 +22,7 @@ export const AirdropClaimStatus: React.FC<Props> = ({navigation, route}) => {
     const styles = useStyles();
     const {t} = useTranslation();
     const account = useSelectedAccount();
-    const {loading, feeGranter, feeGrantRequestStatus} = useFeeGrantStatus(account.address, params.address);
+    const {loading, feeGrantRequestStatus} = useFeeGrantStatus(account.address, params.address);
     const profile = useFetchProfile(account.address);
     const chainLinks = useChainLinks(account.address);
     const pendingRewards = useCheckPendingRewards(account.address);
@@ -72,10 +72,9 @@ export const AirdropClaimStatus: React.FC<Props> = ({navigation, route}) => {
             name: "AirdropClaimAction",
             params: {
                 address: params.address,
-                granter: feeGranter,
             }
         })
-    }, [navigation, params.address, feeGranter]);
+    }, [navigation, params.address]);
 
     const claimRewards = useCallback(() => {
         navigation.navigate({

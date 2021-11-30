@@ -11,7 +11,6 @@ export enum FeeGrantStatus {
 type FeeGrantRequestClaimed = {
     type: FeeGrantStatus.Claimed,
     hasEnoughDsm: boolean,
-    hasGrantBeenIssued: boolean,
 }
 
 type FeeGrantRequestClaimable = {
@@ -27,7 +26,6 @@ export type FeeGrantRequest = FeeGrantRequestClaimed | FeeGrantRequestClaimable 
 
 export default function useFeeGrantStatus(desmosAddress: string, externalAddress: string) {
     const [loading, setLoading] = useState(true);
-    const [feeGranter, setFeeGranter] = useState<string | undefined>(undefined);
     const [feeGrantRequestStatus, setFeeGrantRequestStatus] = useState<FeeGrantRequest | undefined>(undefined);
     const navigation = useNavigation();
 
@@ -41,7 +39,6 @@ export default function useFeeGrantStatus(desmosAddress: string, externalAddress
                     setFeeGrantRequestStatus({
                         type: FeeGrantStatus.Claimed,
                         hasEnoughDsm: result.hasEnoughDsm,
-                        hasGrantBeenIssued: result.isGrantActive,
                     })
                 }
                 else {
@@ -62,15 +59,6 @@ export default function useFeeGrantStatus(desmosAddress: string, externalAddress
                     type: FeeGrantStatus.Error,
                     error: `Grant already request on ${result.usedDesmosAddress}`,
                 });
-            } else if (result.isGrantActive) {
-                const config = await AirdropApi.config();
-                setFeeGranter(config.feeGranter);
-
-                setFeeGrantRequestStatus({
-                    type: FeeGrantStatus.Claimed,
-                    hasEnoughDsm: result.hasEnoughDsm,
-                    hasGrantBeenIssued: result.isGrantActive,
-                })
             } else {
                 setFeeGrantRequestStatus({
                     type: FeeGrantStatus.Claimable,
@@ -91,7 +79,6 @@ export default function useFeeGrantStatus(desmosAddress: string, externalAddress
 
     return {
         loading,
-        feeGranter,
         feeGrantRequestStatus
     }
 }

@@ -48,15 +48,6 @@ export type FeeGrantRequestStatus = {
      */
     hasRequestedGrant: boolean,
     /**
-     * Whether a grant has already been issued on-chain or not and it still can be used.
-     * If false it can mean two things:
-     * (1) the grant will be issued shortly (no need to call POST /airdrop/grants again);
-     * (2) the grant has already been completely used to create other links.
-     * Due to the fact that grants are wiped out from the storage when used,
-     * we cannot determine in which case we are.
-     */
-    isGrantActive: boolean,
-    /**
      * Whether the user can claim an airdrop by calling the POST /airdrop/claims APIs.
      */
     canClaimAirdrop: boolean,
@@ -125,17 +116,14 @@ export const AirdropApi = {
             throw await response.text();
         } else {
             const json = await response.json();
-            console.log(json);
             const canGetGrant = json["can_get_grant"];
             const hasRequestedGrant = json["has_requested_grant"];
-            const isGrantActive = json["is_grant_active"];
             const hasEnoughDsm = json["has_enough_dsm"];
             const usedDesmosAddress = json["used_desmos_address"];
             const canClaimAirdrop = json["can_claim_airdrop"];
             return {
                 canGetGrant,
                 hasRequestedGrant,
-                isGrantActive,
                 hasEnoughDsm,
                 usedDesmosAddress,
                 canClaimAirdrop
@@ -153,7 +141,6 @@ export const AirdropApi = {
     }> {
         const response = await fetch(`${API_ENDPOINT}/users/${externalAddress}`);
         const jsonResponse = await response.json();
-        console.log(externalAddress, "allotted rewards", jsonResponse);
         const stakingInfos = jsonResponse["staking_infos"];
         const lpInfos = jsonResponse["lp_infos"];
         const allotted = jsonResponse["dsm_allotted"];
