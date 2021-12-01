@@ -15,6 +15,8 @@ import {MessageDelegateListItem} from "./MessageDelegateListItem";
 import {MessageWithdrawDelegatorRewardListItem} from "./MessageWithdrawDelegatorRewardListItem";
 import {MessageLinkChainAccountListItem} from "./MessageLinkChainAccountListItem";
 import {MessageUnlinkChainAccountListItem} from "./MessageUnlinkChainAccountListItem";
+import {MessageMultiSendListItem} from "./MessageMultiSendListItem";
+import {MsgMultiSendEncodeObject} from "../../../types/encodeobject";
 
 export type Props = {
     encodeObject: EncodeObject,
@@ -29,6 +31,12 @@ export const TransactionListMessageItem: React.FC<Props> = (props) => {
             return <MessageSendListItem
                 encodeObject={encodeObject as MsgSendEncodeObject}
                 date={date} />
+
+        case MsgTypes.MsgMultiSend:
+            return <MessageMultiSendListItem
+                encodeObject={encodeObject as MsgMultiSendEncodeObject}
+                date={date}
+            />
 
         case MsgTypes.MsgSaveProfile:
             return <MessageSaveProfileListItem
