@@ -52,6 +52,7 @@ export const AccountBalance: React.FC<Props> = (props) => {
                 {props.address}
             </Typography.Body>
             <IconButton
+                color="#ffffff"
                 icon="content-copy"
                 size={16}
                 onPress={props.onCopyPress}
