@@ -60,7 +60,11 @@ export const AirdropClaimRewards: React.FC<Props> = ({navigation}) => {
             showErrorModal(e.toString());
         }
         setClaimingRewards(false);
-    }, [account.address, showErrorModal, showSuccessModal])
+    }, [account.address, showErrorModal, showSuccessModal]);
+
+    const connectMoreAccounts = useCallback(() => {
+        navigation.goBack();
+    }, [navigation]);
 
 
     return <StyledSafeAreaView
@@ -88,11 +92,21 @@ export const AirdropClaimRewards: React.FC<Props> = ({navigation}) => {
         >
             {t("claim now")}
         </Button>
+        <Button
+            style={styles.connectMore}
+            mode="outlined"
+            onPress={connectMoreAccounts}
+        >
+            {t("connect more accounts")}
+        </Button>
     </StyledSafeAreaView>
 }
 
-const useStyles = makeStyle(_ => ({
+const useStyles = makeStyle(theme => ({
     amount: {
         alignSelf: "center"
+    },
+    connectMore: {
+        marginTop: theme.spacing.l,
     }
 }))
