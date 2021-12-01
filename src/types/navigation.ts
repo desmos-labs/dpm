@@ -168,10 +168,6 @@ export type AirdropScreensStackParams = {
     AirdropRequestFeeGrant: {
         externalAddress: string,
         desmosAddress: string,
-    }
-    AirdropClaimAction: {
-        address: string,
-        granter?: string,
     },
     AirdropClaimRewards: {
         address: string,

@@ -1,6 +1,6 @@
 import React, {useCallback, useEffect, useState} from "react";
 import {StackScreenProps} from "@react-navigation/stack";
-import {AirdropScreensStackParams} from "../../types/navigation";
+import {AccountScreensStackParams, AirdropScreensStackParams} from "../../types/navigation";
 import {Button, StyledSafeAreaView, TopBar, Typography} from "../../components";
 import {useTranslation} from "react-i18next";
 import {FlexPadding} from "../../components/FlexPadding";
@@ -10,12 +10,16 @@ import {AirdropApi} from "../../api/AirdropApi";
 import useCheckPendingRewards from "../../hooks/useCheckPendingRewards";
 import useShowModal from "../../hooks/useShowModal";
 import {SingleButtonModal} from "../../modals/SingleButtonModal";
+import {CommonActions, CompositeScreenProps} from "@react-navigation/native";
 
 
-export type Props = StackScreenProps<AirdropScreensStackParams, "AirdropClaimRewards">
+type Props = CompositeScreenProps<
+    StackScreenProps<AirdropScreensStackParams, "AirdropClaimRewards">,
+    StackScreenProps<AccountScreensStackParams>>
 
-export const AirdropClaimRewards: React.FC<Props> = ({navigation}) => {
+export const AirdropClaimRewards: React.FC<Props> = ({navigation, route}) => {
     const {t} = useTranslation();
+    const {params} = route;
     const styles = useStyles();
     const account = useSelectedAccount();
     const [claimingRewards, setClaimingRewards] = useState(false);
@@ -63,8 +67,22 @@ export const AirdropClaimRewards: React.FC<Props> = ({navigation}) => {
     }, [account.address, showErrorModal, showSuccessModal]);
 
     const connectMoreAccounts = useCallback(() => {
-        navigation.goBack();
-    }, [navigation]);
+        navigation.pop(1);
+        navigation.navigate({
+            name: "ChainLinkScreens",
+            params: {
+                screen: "ConnectChain",
+                params: {
+                    backAction: CommonActions.navigate({
+                        name: "AirdropClaimRewards",
+                        params: {
+                            address: params.address,
+                        }
+                    })
+                }
+            }
+        })
+    }, [navigation, params.address]);
 
 
     return <StyledSafeAreaView

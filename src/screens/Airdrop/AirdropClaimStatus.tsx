@@ -8,7 +8,7 @@ import {FlexPadding} from "../../components/FlexPadding";
 import {makeStyle} from "../../theming";
 import useFetchProfile from "../../hooks/useFetchProfile";
 import useSelectedAccount from "../../hooks/useSelectedAccount";
-import {CompositeScreenProps} from "@react-navigation/native";
+import {CommonActions, CompositeScreenProps} from "@react-navigation/native";
 import useChainLinks from "../../hooks/useChainLinks";
 import useFeeGrantStatus, {FeeGrantStatus} from "../../hooks/useFeeGrantStatus";
 import useCheckPendingRewards from "../../hooks/useCheckPendingRewards";
@@ -67,14 +67,32 @@ export const AirdropClaimStatus: React.FC<Props> = ({navigation, route}) => {
         })
     }, [navigation, params.address, account.address]);
 
-    const claim = useCallback(() => {
+    const createProfile = useCallback(() => {
         navigation.navigate({
-            name: "AirdropClaimAction",
+            name: "EditProfile",
             params: {
-                address: params.address,
+                account: account,
+                goBackTo: "AirdropScreens",
+            },
+        })
+    }, [navigation, account]);
+
+    const connectAccount = useCallback(() => {
+        navigation.navigate({
+            name: "ChainLinkScreens",
+            params: {
+                screen: "ConnectChain",
+                params: {
+                    backAction: CommonActions.navigate({
+                        name: "AirdropClaimRewards",
+                        params: {
+                            address: params.address,
+                        }
+                    })
+                }
             }
         })
-    }, [navigation, params.address]);
+    }, [navigation, params.address])
 
     const claimRewards = useCallback(() => {
         navigation.navigate({
@@ -129,12 +147,14 @@ export const AirdropClaimStatus: React.FC<Props> = ({navigation, route}) => {
             <Button
                 mode="contained"
                 onPress={
-                    canRequestFeeGrant ? requestFeeGrant : claim
+                    canRequestFeeGrant ? requestFeeGrant : profileTaskCompleted ?
+                        connectAccount: createProfile
                 }
                 disabled={feeGrantRequestStatus?.type === FeeGrantStatus.Error}
             >
                 {
-                    canRequestFeeGrant ? t("Get grant") : t("get started")
+                    canRequestFeeGrant ? t("Get grant") : profileTaskCompleted ?
+                        t("connect account") : t("create profile")
                 }
             </Button>
         )}
