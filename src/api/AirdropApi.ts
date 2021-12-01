@@ -7,7 +7,8 @@ export enum AllocationType {
 }
 
 type StakingAllocation = {
-    type: AllocationType.Staking
+    type: AllocationType.Staking,
+    address: string,
     chainName: string,
     claimed: boolean,
     forboleDelegator: boolean,
@@ -15,17 +16,11 @@ type StakingAllocation = {
 }
 
 type LpAllocation = {
-    type: AllocationType.LiquidityProvider
+    type: AllocationType.LiquidityProvider,
+    address: string,
     chainName: string,
     claimed: boolean,
     amount: number,
-}
-
-export enum FeeGrantStatus {
-    NotRequested,
-    Allowed,
-    Pending,
-    Fail,
 }
 
 export type FeeGrantRequestStatus = {
@@ -144,9 +139,10 @@ export const AirdropApi = {
         const stakingInfos = jsonResponse["staking_infos"];
         const lpInfos = jsonResponse["lp_infos"];
         const allotted = jsonResponse["dsm_allotted"];
-        const parsedAllocations: Allocation[] = []
+        const parsedAllocations: Allocation[] = [];
 
         stakingInfos?.forEach((stakingInfo: any) => {
+            const address = stakingInfo["address"];
             const chainName = stakingInfo["chain_name"];
             const claimed = stakingInfo["claimed"] === true;
             const amount = stakingInfo["dsm_allotted"];
@@ -154,6 +150,7 @@ export const AirdropApi = {
             if (chainName !== undefined && amount !== undefined) {
                 parsedAllocations.push({
                     type: AllocationType.Staking,
+                    address,
                     chainName,
                     claimed,
                     amount,
@@ -162,12 +159,14 @@ export const AirdropApi = {
             }
         });
         lpInfos?.forEach((lpInfo: any) => {
+            const address = lpInfo["address"];
             const chainName = lpInfo["chain_name"];
             const claimed = lpInfo["claimed"] === true;
             const amount = lpInfo["dsm_allotted"];
             if (chainName !== undefined && amount !== undefined) {
                 parsedAllocations.push({
                     type: AllocationType.LiquidityProvider,
+                    address,
                     chainName,
                     claimed,
                     amount,

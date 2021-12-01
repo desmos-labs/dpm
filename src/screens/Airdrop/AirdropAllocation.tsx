@@ -40,24 +40,32 @@ export const AirdropAllocation: React.FC<Props> = ({navigation, route}) => {
 
     const renderAllocation = useCallback(({item}: ListRenderItemInfo<Allocation>) => {
         const {chainName, claimed, amount} = item;
-        return <View style={styles.allocation}>
-            <Image
-                source={require("../../assets/tick_orange.png")}
-                style={styles.allocationTick}
-            />
-            {item.type === AllocationType.Staking ? (
-                <Typography.Body1 style={styles.allocationText}>
-                    {chainName} Staker {item.forboleDelegator ? "& Forbole Delegator" : ""}
+        return <View>
+            <View style={styles.allocation}>
+                <Image
+                    source={require("../../assets/tick_orange.png")}
+                    style={styles.allocationTick}
+                />
+                {item.type === AllocationType.Staking ? (
+                    <Typography.Body1 style={styles.allocationText}>
+                        {chainName} Staker {item.forboleDelegator ? "& Forbole Delegator" : ""}
+                    </Typography.Body1>
+                ) : (
+                    <Typography.Body1 style={styles.allocationText}>
+                        {chainName} LP
+                    </Typography.Body1>
+                )}
+                <Typography.Body1 style={[styles.allocationAmount, claimed ? styles.allocationClaimed : null]}>
+                    {amount} DSM {claimed ? t("claimed") : ""}
                 </Typography.Body1>
-            ) : (
-                <Typography.Body1 style={styles.allocationText}>
-                    {chainName} LP
-                </Typography.Body1>
-            )}
-            <Typography.Body1 style={[styles.allocationAmount, claimed ? styles.allocationClaimed : null]}>
-                {amount} DSM {claimed ? t("claimed") : ""}
-            </Typography.Body1>
-
+            </View>
+            <Typography.Caption
+                style={styles.allocationAddress}
+                numberOfLines={1}
+                ellipsizeMode="middle"
+            >
+                {item.address}
+            </Typography.Caption>
         </View>
     }, [styles.allocation, styles.allocationTick, styles.allocationText,
         styles.allocationAmount, styles.allocationClaimed, t])
@@ -175,6 +183,13 @@ const useStyles = makeStyle(theme => ({
     },
     allocationClaimed: {
         color: theme.colors.font["3"],
+    },
+    allocationAddress: {
+        marginLeft: 24,
+        borderRadius: theme.roundness,
+        paddingVertical: 1,
+        paddingHorizontal: 8,
+        backgroundColor: theme.colors.line,
     },
     info: {
         color: theme.colors.font["2"],
