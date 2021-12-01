@@ -49,7 +49,7 @@ export const ProfileHeader: React.FC<Props> = (props) => {
         <View style={styles.coverPictureContainer}>
             <FastImage
                 style={styles.coverPicture}
-                resizeMode="stretch"
+                resizeMode="cover"
                 source={coverPicture}
             />
             {props.onEditCoverPicture && <IconButton
