@@ -6,7 +6,7 @@ import {EncodeObject} from "@cosmjs/proto-signing";
 import {SaveProfileMessage} from "./SaveProfileMessage";
 import {UnknownTxMessage} from "./UnknownTxMessage";
 import {MessageSend} from "./MessageSend";
-import {MsgSend} from "cosmjs-types/cosmos/bank/v1beta1/tx";
+import {MsgMultiSend, MsgSend} from "cosmjs-types/cosmos/bank/v1beta1/tx";
 import {MsgTypes} from "../../types/msgtypes";
 import {MessageVote} from "./MessageVote";
 import {MsgVote} from "cosmjs-types/cosmos/gov/v1beta1/tx";
@@ -17,6 +17,7 @@ import {MsgWithdrawDelegatorReward} from "cosmjs-types/cosmos/distribution/v1bet
 import {MessageLinkChainAccount} from "./MessageLinkChainAccount";
 import {MsgLinkChainAccount, MsgUnlinkChainAccount} from "@desmoslabs/proto/desmos/profiles/v1beta1/msgs_chain_links";
 import {MessageUnlinkChainAccount} from "./MessageUnlinkChainAccount";
+import {MessageMultiSend} from "./MessageMultiSend";
 
 
 export type Props = {
@@ -44,6 +45,13 @@ export const TxMessage: React.FC<Props> = (props) => {
             return <MessageSend protobufMessage={decodedMessage}/>
         } else {
             return <MessageSend encodeObject={value}/>
+        }
+    } else if (typeUrl === MsgTypes.MsgMultiSend) {
+        if (isProtobuf) {
+            const decodedMessage = MsgMultiSend.decode(value);
+            return <MessageMultiSend protobufMessage={decodedMessage}/>
+        } else {
+            return <MessageMultiSend encodeObject={value}/>
         }
     } else if (typeUrl === MsgTypes.MsgVote) {
         if (isProtobuf) {
