@@ -17,6 +17,7 @@ import Long from "long";
 import {Bech32Address} from "@desmoslabs/proto/desmos/profiles/v1beta1/models_chain_links";
 import {Any} from "cosmjs-types/google/protobuf/any";
 import {PubKey} from "cosmjs-types/cosmos/crypto/secp256k1/keys";
+import {MsgMultiSendEncodeObject} from "../../types/encodeobject";
 
 const LIMIT = 20;
 
@@ -55,6 +56,15 @@ function gqlMessageToEncodeObject(msg: any): EncodeObject {
                     fromAddress: msg["from_address"],
                 }
             } as MsgSendEncodeObject
+
+        case MsgTypes.MsgMultiSend:
+            return {
+                typeUrl: type,
+                value: {
+                    inputs: msg["inputs"],
+                    outputs: msg["outputs"],
+                }
+            } as MsgMultiSendEncodeObject
 
         case MsgTypes.MsgWithdrawDelegatorReward:
             return {
