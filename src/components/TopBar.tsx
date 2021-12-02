@@ -50,6 +50,7 @@ export const TopBar: React.FC<Props> = (props) => {
                     color={props.leftIconColor ?? theme.colors.icon["1"]}
                     icon="menu"
                     onPress={navigation.openDrawer}
+                    size={20}
                 />
             ) : navigation.canGoBack() ? (
                 <IconButton
@@ -77,7 +78,7 @@ const useStyles = makeStyleWithProps((props: Props, theme) => ({
         flexDirection: "row",
         alignItems: "center",
         backgroundColor: theme.colors.background,
-        paddingTop: Platform.OS === "android" ? StatusBar.currentHeight : 32,
+        paddingTop: Platform.OS === "android" ? StatusBar.currentHeight : 42,
     },
     container: {
         flex: 1,

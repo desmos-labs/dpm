@@ -181,7 +181,7 @@ const useStyles = makeStyle(theme => ({
         marginRight: 16,
     },
     userBalance: {
-        marginHorizontal: theme.spacing.m,
+        marginHorizontal: 13,
     },
     transactionsContainer: {
         backgroundColor: theme.colors.background2,

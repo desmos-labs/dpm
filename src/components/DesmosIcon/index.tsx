@@ -5,7 +5,8 @@ import MaterialCommunityIcon from "react-native-paper/src/components/MaterialCom
 
 const desmosIcons = [
     "authorization", "profile", "back", "camera", "settings",
-    "edit", "more", "delete", "show", "hide", "arrow-right"
+    "edit", "more", "delete", "show", "hide", "arrow-right",
+    "menu",
 ]
 
 const CustomIcon = createIconSetFromIcoMoon(icoMoonConfig);
