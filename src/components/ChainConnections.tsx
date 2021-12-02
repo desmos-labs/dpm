@@ -5,7 +5,7 @@ import {Button, ListItemSeparator, Typography, DpmImage} from "./index";
 import {makeStyle} from "../theming";
 import {ActivityIndicator} from "react-native-paper";
 import {ChainLink} from "../types/link";
-import {LinkableChains} from "../types/chain";
+import findLinkableChainInfoByName from "../utilils/find";
 
 export type Props = {
     connections: ChainLink[],
@@ -23,7 +23,7 @@ export const ChainConnections: React.FC<Props> = ({connections, style, onConnect
     const renderItem = useCallback((info: ListRenderItemInfo<ChainLink>) => {
         const {item} = info;
 
-        const chainInfo = LinkableChains.find(chain => chain.chainConfig.name === item.chainName);
+        const chainInfo = findLinkableChainInfoByName(item.chainName);
         const chainIcon = chainInfo?.icon ?? require("../assets/chains/cosmos.png");
         const chainName = chainInfo?.name ?? item.chainName;
 

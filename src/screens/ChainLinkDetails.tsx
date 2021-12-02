@@ -6,7 +6,6 @@ import {makeStyle} from "../theming";
 import {Image, View} from "react-native";
 import {useTranslation} from "react-i18next";
 import {format} from "date-fns";
-import {LinkableChains} from "../types/chain";
 import useShowModal from "../hooks/useShowModal";
 import {TwoButtonModal} from "../modals/TwoButtonModal";
 import useDisconnectChainLink from "../hooks/useDisconnectChainLink";
@@ -15,6 +14,7 @@ import {SingleButtonModal} from "../modals/SingleButtonModal";
 import useNavigateToHomeScreen from "../hooks/useNavigateToHomeScreen";
 import useRemoveChainLink from "../hooks/useRemoveChainLink";
 import useSelectedAccount from "../hooks/useSelectedAccount";
+import findLinkableChainInfoByName from "../utilils/find";
 
 export type Props = StackScreenProps<AccountScreensStackParams, "ChainLinkDetails">
 
@@ -32,7 +32,7 @@ export const ChainLinkDetails: React.FC<Props> = (props) => {
     const removeChainLink = useRemoveChainLink(account.address);
 
     const {chainIcon, chainName} = useMemo(() => {
-        const chainInfo =  LinkableChains.find(chain => chain.chainConfig.name === chainLink.chainName);
+        const chainInfo =  findLinkableChainInfoByName(chainLink.chainName);
         const chainIcon = chainInfo?.icon ?? require("../assets/chains/cosmos.png");
         const chainName = chainInfo?.name ?? chainLink.chainName;
         return {

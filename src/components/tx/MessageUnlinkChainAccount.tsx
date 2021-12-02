@@ -4,7 +4,7 @@ import {MsgUnlinkChainAccountEncodeObject} from "@desmoslabs/sdk-core";
 import {SimpleMessageComponent} from "./SimpleMessageComponent";
 import {MsgUnlinkChainAccount} from "@desmoslabs/proto/desmos/profiles/v1beta1/msgs_chain_links";
 import {Image, StyleSheet, View} from "react-native";
-import {LinkableChains} from "../../types/chain";
+import findLinkableChainInfoByName from "../../utilils/find";
 
 
 export type Props = {
@@ -21,7 +21,7 @@ export const MessageUnlinkChainAccount: React.FC<Props> = ({protobufMessage, enc
 
     const chainIcon = useMemo(() => {
         const chainName = protobufMessage?.chainName ?? encodeObject?.chainName;
-        const chain = LinkableChains.find(c => c.chainConfig.name === chainName);
+        const chain = chainName !== undefined ? findLinkableChainInfoByName(chainName) : undefined;
         if (chain !== undefined) {
             return chain.icon
         } else {

@@ -5,7 +5,7 @@ import {SimpleMessageComponent} from "./SimpleMessageComponent";
 import {MsgLinkChainAccount} from "@desmoslabs/proto/desmos/profiles/v1beta1/msgs_chain_links";
 import {Bech32Address} from "@desmoslabs/proto/desmos/profiles/v1beta1/models_chain_links";
 import {Image, StyleSheet, View} from "react-native";
-import {LinkableChains} from "../../types/chain";
+import findLinkableChainInfoByName from "../../utilils/find";
 
 
 export type Props = {
@@ -35,7 +35,7 @@ export const MessageLinkChainAccount: React.FC<Props> = ({protobufMessage, encod
 
 
     const chainIcon = useMemo(() => {
-        const chain = LinkableChains.find(c => c.chainConfig.name === chainName);
+        const chain = chainName !== undefined ? findLinkableChainInfoByName(chainName) : undefined;
         if (chain !== undefined) {
             return chain.icon
         } else {

@@ -73,7 +73,7 @@ export const LinkableChains: LinkableChain[] = [
         hdPath: CroHdPath,
         icon: require("../assets/chains/crypto_com.png"),
         chainConfig: ChainConfig.fromPartial({
-            name: "crypto.com"
+            name: "crypto.org"
         }),
     },
     {
