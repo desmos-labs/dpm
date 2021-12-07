@@ -1,10 +1,10 @@
 import React, {useCallback} from "react";
 import {StackScreenProps} from "@react-navigation/stack";
-import {ChainLinkScreensStackParams} from "../../types/navigation";
-import {ListItemSeparator, StyledSafeAreaView, TopBar, Typography} from "../../components";
+import {ChainLinkScreensStackParams, ImportMode} from "../../types/navigation";
+import {BlockchainListItem, ListItemSeparator, StyledSafeAreaView, TopBar} from "../../components";
 import {useTranslation} from "react-i18next";
 import {makeStyle} from "../../theming";
-import {FlatList, Image, ListRenderItemInfo, TouchableOpacity} from "react-native";
+import {FlatList, ListRenderItemInfo} from "react-native";
 import {LinkableChain, LinkableChains} from "../../types/chain";
 
 export type Props = StackScreenProps<ChainLinkScreensStackParams, "SelectChain">
@@ -26,24 +26,13 @@ export const SelectChain: React.FC<Props> = ({navigation, route}) => {
         })
     }, [navigation, importMode, feeGranter, backAction])
 
-    const renderListItem = useCallback(({item, index}: ListRenderItemInfo<LinkableChain>) => {
-        return <TouchableOpacity
-            style={styles.chainItem}
-            key={index.toString()}
+    const renderListItem = useCallback(({item}: ListRenderItemInfo<LinkableChain>) => {
+        return <BlockchainListItem
+            name={item.name}
+            icon={item.icon}
             onPress={() => linkChain(item)}
-        >
-            <Image
-                style={styles.chainLogo}
-                source={item.icon}
-                resizeMode="contain"
-            />
-            <Typography.Body1
-                style={styles.chainName}
-            >
-                {item.name}
-            </Typography.Body1>
-        </TouchableOpacity>
-    }, [styles.chainItem, styles.chainLogo, styles.chainName, linkChain]);
+        />
+    }, [linkChain]);
 
     return <StyledSafeAreaView
         style={styles.background}
@@ -73,19 +62,4 @@ const useStyle = makeStyle(theme => ({
     topMargin: {
         marginTop: theme.spacing.l
     },
-    chainItem: {
-        display: "flex",
-        flexDirection: "row",
-        alignItems: "center",
-        backgroundColor: theme.colors.background,
-        padding: theme.spacing.s,
-        borderRadius: theme.roundness,
-    },
-    chainLogo: {
-        width: 32,
-        height: 32,
-    },
-    chainName: {
-        marginLeft: theme.spacing.s,
-    }
 }));
