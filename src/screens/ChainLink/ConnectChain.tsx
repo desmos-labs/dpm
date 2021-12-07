@@ -25,14 +25,15 @@ export const ConnectChain: React.FC<Props> = ({navigation, route}) => {
         })
     }, [navigation, backAction, feeGranter]);
 
-    // const connectWithLedger = useCallback(() => {
-    //     navigation.navigate({
-    //         name: "SelectChain",
-    //         params: {
-    //             importMode: ImportMode.Ledger
-    //         }
-    //     })
-    // }, [navigation]);
+    const connectWithLedger = useCallback(() => {
+        navigation.navigate({
+            name: "SelectChain",
+            params: {
+                importMode: ImportMode.Ledger,
+                backAction,
+            }
+        })
+    }, [navigation, backAction]);
 
     return <StyledSafeAreaView
         style={styles.background}
@@ -53,13 +54,12 @@ export const ConnectChain: React.FC<Props> = ({navigation, route}) => {
             onPress={connectWithMnemonic}
         />
 
-        {/*<ImageButton*/}
-        {/*    style={[styles.button, styles.topMargin]}*/}
-        {/*    image={connectLedgerImage}*/}
-        {/*    label={t("connect with ledger")}*/}
-        {/*    onPress={connectWithLedger}*/}
-        {/*    disabled*/}
-        {/*/>*/}
+        <ImageButton
+            style={[styles.topMargin]}
+            image="connect-ledger"
+            label={t("connect with ledger")}
+            onPress={connectWithLedger}
+        />
 
     </StyledSafeAreaView>
 }
