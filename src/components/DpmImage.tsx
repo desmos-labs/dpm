@@ -6,7 +6,8 @@ import useIsCurrentThemeDark from "../hooks/useIsCurrentThemeDark";
 type ImageProps = React.ComponentProps<typeof Image>;
 
 export type DpmImages = "no-transaction" | "no-profile" | "success" | "fail" |
-    "no-connection" | "connect-chain" | "connect-mnemonic"
+    "no-connection" | "connect-chain" | "connect-mnemonic" | "connect-ledger" |
+    "ledger"
 
 export type Props = Omit<ImageProps, "source"> & {
     source: DpmImages | ImageProps["source"],
@@ -41,6 +42,11 @@ export const DpmImage: React.FC<Props> = (props) => {
                 case "connect-mnemonic":
                     return darkTheme ? require("../assets/connect_mnemonic_dark.png") :
                         require("../assets/connect_mnemonic_light.png");
+                case "connect-ledger":
+                    return darkTheme ? require("../assets/connect_ledger_dark.png") :
+                        require("../assets/connect_ledger_light.png");
+                case "ledger":
+                    return require("../assets/ledger.png");
             }
         } else {
             return props.source
