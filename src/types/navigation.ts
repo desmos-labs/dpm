@@ -11,6 +11,7 @@ import {CommonActions, NavigationAction, NavigatorScreenParams} from "@react-nav
 import {DesmosProfile} from "@desmoslabs/sdk-core";
 import {ChainLink} from "./link";
 import {StackNavigationState} from "@react-navigation/routers/lib/typescript/src/StackRouter";
+import {BleLedger, LedgerApp} from "./ledger";
 
 export type AccountCreationStackParams = {
     Login: undefined;
@@ -129,6 +130,10 @@ export type ChainLinkScreensStackParams = {
     SelectChain: {
         importMode: ImportMode,
         feeGranter?: string,
+        backAction?: ((state: StackNavigationState<any>) => NavigationAction) | NavigationAction,
+    },
+    SelectLedgerApp: {
+        chain: LinkableChain,
         backAction?: ((state: StackNavigationState<any>) => NavigationAction) | NavigationAction,
     },
     LinkWithMnemonic: {

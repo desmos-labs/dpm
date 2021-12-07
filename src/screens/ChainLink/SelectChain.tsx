@@ -15,15 +15,25 @@ export const SelectChain: React.FC<Props> = ({navigation, route}) => {
     const styles = useStyle();
 
     const linkChain = useCallback((chain: LinkableChain) => {
-        navigation.navigate({
-            name: "LinkWithMnemonic",
-            params: {
-                importMode,
-                chain,
-                feeGranter,
-                backAction
-            }
-        })
+        if (importMode === ImportMode.Mnemonic) {
+            navigation.navigate({
+                name: "LinkWithMnemonic",
+                params: {
+                    importMode,
+                    chain,
+                    feeGranter,
+                    backAction
+                }
+            })
+        } else {
+            navigation.navigate({
+                name: "SelectLedgerApp",
+                params: {
+                    chain,
+                    backAction,
+                }
+            })
+        }
     }, [navigation, importMode, feeGranter, backAction])
 
     const renderListItem = useCallback(({item}: ListRenderItemInfo<LinkableChain>) => {

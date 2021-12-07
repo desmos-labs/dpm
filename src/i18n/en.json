@@ -188,5 +188,12 @@
   "getting grant": "Getting grant",
   "please wait, it may take a few minutes, you can check back later...": "Please wait, it may take a few minutes, you can check back later...",
   "connect more accounts": "Connect more accounts",
-  "please enter your chain recovery passphrase": "Please enter your <bold>{{chain}}</bold> recovery passphrase (12 or 24 words) in order and make sure each word it's written correctly"
+  "please enter your chain recovery passphrase": "Please enter your <bold>{{chain}}</bold> recovery passphrase (12 or 24 words) in order and make sure each word it's written correctly",
+  "Select app": "Select app",
+  "Select the App you would like to connect": "Select the App you would like to connect",
+  "Looking for devices": "Looking for devices",
+  "Please make sure your Ledger Nano X is unlocked and bluetooth is enabled": "Please make sure your Ledger Nano X is unlocked and bluetooth is enabled",
+  "retry": "Retry",
+  "Sorry, no device found": "Sorry, no device found"
+
 }

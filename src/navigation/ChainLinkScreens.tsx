@@ -21,6 +21,10 @@ export const ChainLinkScreens: React.FC = () => {
             component={SelectChain}
         />
         <ChainLinkScreensStack.Screen
+            name="SelectLedgerApp"
+            component={SelectLedgerApp}
+        />
+        <ChainLinkScreensStack.Screen
             name="LinkWithMnemonic"
             component={LinkWithMnemonic}
         />

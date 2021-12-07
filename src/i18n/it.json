@@ -58,7 +58,7 @@
   "edit profile": "Modifica profilo",
   "add a bio to your profile": "Aggiungi una biografia al tuo profilo",
   "delete account": "Elimina account",
-  "create your first desmos profile now": "Crea il tuo primo profilo Desmos!",
+  "create your first desmos profile now": "Crea il tuo primo Profilo Desmos!",
   "address copied": "Indirizzo copiato!",
   "address": "Indirizzo",
   "tx type": "Tipo di transazione",
@@ -163,5 +163,11 @@
   "getting grant": "Richiedo grant",
   "please wait, it may take a few minutes, you can check back later...": "Per favore, attendi. L'operazione potrebbe impiegarci alcuni minuti",
   "connect more accounts": "Connetti altri account",
-  "please enter your chain recovery passphrase": "Per favore, inserisci la frase segreta del tuo account <bold>{{chain}}</bold> (12 o 24 parole) e verifica che le parole siano scritte correttamente e nell'ordine corretto"
+  "please enter your chain recovery passphrase": "Per favore, inserisci la frase segreta del tuo account <bold>{{chain}}</bold> (12 o 24 parole) e verifica che le parole siano scritte correttamente e nell'ordine corretto",
+  "Select app": "Seleziona app",
+  "Select the App you would like to connect": "Seleziona l'app che vuoi collegare",
+  "Looking for devices": "Ricerca dispositivi",
+  "Please make sure your Ledger Nano X is unlocked and bluetooth is enabled": "Assicurati che il tuo Ledger Nano X sia sbloccato e con il bluetooth attivo",
+  "retry": "Riprova",
+  "Sorry, no device found": "Nessun dispositivo rilevato"
 }
