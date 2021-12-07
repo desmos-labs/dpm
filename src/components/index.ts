@@ -9,7 +9,7 @@ import {TextInput} from "./TextInput";
 import {Divider} from "./Divider";
 import {PaginatedFlatList} from "./PaginatedFlatList";
 import {AddressListItem} from "./AddressListItem";
-import {ListItemSeparator} from "./ListItemSeparator";
+import {ListItemSeparator, BlockchainListItem} from "./List";
 import {PasswordComplexity} from "./PasswordComplexityScore";
 import {AvatarImage} from "./AvatarImage";
 import {ProfileListItem} from "./ProfileListItem";
@@ -57,5 +57,6 @@ export {
     ChainConnections,
     AirdropBanner,
     DpmImage,
-    ThemedLottieView
+    ThemedLottieView,
+    BlockchainListItem,
 }
