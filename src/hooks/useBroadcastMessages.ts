@@ -3,11 +3,11 @@ import {useCallback} from "react";
 import {EncodeObject, OfflineSigner} from "@cosmjs/proto-signing";
 import {StdFee} from "@cosmjs/amino";
 import {isBroadcastTxFailure} from "@desmoslabs/sdk-core";
-import {AuthInfo, SignerInfo, TxRaw} from "@cosmjs/proto-signing/build/codec/cosmos/tx/v1beta1/tx";
 import Long from "long";
-import {SignMode} from "@cosmjs/proto-signing/build/codec/cosmos/tx/signing/v1beta1/signing";
-import {Any} from "@cosmjs/proto-signing/build/codec/google/protobuf/any";
-import {Coin} from "@cosmjs/proto-signing/build/codec/cosmos/base/v1beta1/coin";
+import {SignerInfo, AuthInfo, TxRaw} from "cosmjs-types/cosmos/tx/v1beta1/tx";
+import {SignMode} from "cosmjs-types/cosmos/tx/signing/v1beta1/signing";
+import {Any} from "cosmjs-types/google/protobuf/any";
+import {Coin} from "cosmjs-types/cosmos/base/v1beta1/coin";
 
 function makeSignerInfo(
     signer: { readonly pubkey: Any; readonly sequence: number},
