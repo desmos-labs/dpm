@@ -187,5 +187,6 @@
   "Get grant": "Get grant",
   "getting grant": "Getting grant",
   "please wait, it may take a few minutes, you can check back later...": "Please wait, it may take a few minutes, you can check back later...",
-  "connect more accounts": "Connect more accounts"
+  "connect more accounts": "Connect more accounts",
+  "please enter your chain recovery passphrase": "Please enter your <bold>{{chain}}</bold> recovery passphrase (12 or 24 words) in order and make sure each word it's written correctly"
 }

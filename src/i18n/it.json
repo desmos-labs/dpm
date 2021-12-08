@@ -51,9 +51,9 @@
   "generating account": "Generazione account",
   "account created": "Account creato",
   "error generating account": "Errore durante la generazione dell'account",
-  "please enter you recovery passphrase": "Per favore inserisci la recovery passphrase (12 or 24 parole) e verifica che le parole siano scritte correttamente e nell'ordine corretto",
+  "please enter you recovery passphrase": "Per favore inserisci la recovery passphrase (12 o 24 parole) e verifica che le parole siano scritte correttamente e nell'ordine corretto",
   "recovery passphrase": "Recovery passphrase",
-  "enter recovery passphrase placeholder": "Per favore inserisci la recovery passphrase (12 or 24 parole) separando le parole con degli spazzi",
+  "enter recovery passphrase placeholder": "Per favore inserisci la recovery passphrase (12 o 24 parole) separando le parole con degli spazzi",
   "add account": "Aggiungi account",
   "edit profile": "Modifica profilo",
   "add a bio to your profile": "Aggiungi una biografia al tuo profilo",
@@ -162,5 +162,6 @@
   "Get grant": "Richiedi grant",
   "getting grant": "Richiedo grant",
   "please wait, it may take a few minutes, you can check back later...": "Per favore attenti, l'operazione poptrebbe impiegarci alcuni minuti, controlla pure più tarrdi",
-  "connect more accounts": "Connetti altri account"
+  "connect more accounts": "Connetti altri account",
+  "please enter your chain recovery passphrase": "Per favore inserisci la recovery passphrase di <bold>{{chain}}</bold> (12 o 24 parole) e verifica che le parole siano scritte correttamente e nell'ordine corretto"
 }

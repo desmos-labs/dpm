@@ -2,12 +2,13 @@ import React, {useState} from "react";
 import {StackScreenProps} from "@react-navigation/stack";
 import {ChainLinkScreensStackParams} from "../../types/navigation";
 import {Button, StyledSafeAreaView, TextInput, TopBar, Typography} from "../../components";
-import {useTranslation} from "react-i18next";
+import {useTranslation, Trans} from "react-i18next";
 import {makeStyle} from "../../theming";
 import {checkMnemonic} from "../../wallet/LocalWallet";
 import {EnglishMnemonic} from "@cosmjs/crypto";
 import {FlexPadding} from "../../components/FlexPadding";
 import {sanitizeMnemonic} from "../../utilils/mnemonic";
+import Colors from "../../constants/colors";
 
 export type Props = StackScreenProps<ChainLinkScreensStackParams, "LinkWithMnemonic">
 
@@ -70,8 +71,17 @@ export const LinkWithMnemonic: React.FC<Props> = ({navigation, route}) => {
     return <StyledSafeAreaView
         topBar={<TopBar stackProps={{navigation}} />}
     >
+
         <Typography.Body>
-            {t("please enter you recovery passphrase")}.
+            <Trans
+                i18nKey="please enter your chain recovery passphrase"
+                components={{
+                    bold: <Typography.Subtitle />
+                }}
+                values={{
+                    chain: chain.name,
+                }}
+            />
         </Typography.Body>
 
         <Typography.Body
