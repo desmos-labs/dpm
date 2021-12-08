@@ -102,7 +102,7 @@
   "delegate": "Delegati",
   "withdraw rewards": "Ricompense ritirate",
   "vote": "Vote" ,
-  "proposal number": "Proposal number",
+  "proposal number": "Numero proposta",
   "authorize": "Autorizza",
   "accounts": "Account",
   "sessions": "Sessioni",
@@ -161,7 +161,7 @@
   "Get a grant to create a Desmos Profile": "Richiedi grant per creare il Profilo Desmos",
   "Get grant": "Richiedi grant",
   "getting grant": "Richiedo grant",
-  "please wait, it may take a few minutes, you can check back later...": "Per favore attenti, l'operazione poptrebbe impiegarci alcuni minuti, controlla pure più tarrdi",
+  "please wait, it may take a few minutes, you can check back later...": "Per favore attendi, l'operazione potrebbe impiegare alcuni minuti, controlla pure più tardi",
   "connect more accounts": "Connetti altri account",
   "please enter your chain recovery passphrase": "Per favore inserisci la recovery passphrase di <bold>{{chain}}</bold> (12 o 24 parole) e verifica che le parole siano scritte correttamente e nell'ordine corretto"
 }
