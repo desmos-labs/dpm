@@ -7,7 +7,6 @@ import {makeStyle} from "../../theming";
 import {useTranslation} from "react-i18next";
 import useFetchAllottedDsm from "../../hooks/useFetchAllottedDsm";
 import {Allocation, AllocationType} from "../../api/AirdropApi";
-import useNavigateToHomeScreen from "../../hooks/useNavigateToHomeScreen";
 
 
 export type Props = StackScreenProps<AirdropScreensStackParams, "AirdropAllocation">;
@@ -17,7 +16,6 @@ export const AirdropAllocation: React.FC<Props> = ({navigation, route}) => {
     const styles = useStyles();
     const {t} = useTranslation();
     const {loading, allocations, allottedCoins, error, allClaimed, fetchAllocations} = useFetchAllottedDsm(params.address);
-    const navigateToHome = useNavigateToHomeScreen()
 
     const claimNow = useCallback(() => {
         navigation.navigate({
@@ -27,12 +25,6 @@ export const AirdropAllocation: React.FC<Props> = ({navigation, route}) => {
             }
         })
     }, [navigation, params.address]);
-
-    const claimLater = useCallback(() => {
-        navigateToHome({
-            reset: true,
-        })
-    }, [navigateToHome]);
 
     useEffect(() => {
         return navigation.addListener("focus", fetchAllocations);
@@ -68,7 +60,7 @@ export const AirdropAllocation: React.FC<Props> = ({navigation, route}) => {
             </Typography.Caption>
         </View>
     }, [styles.allocation, styles.allocationTick, styles.allocationText,
-        styles.allocationAmount, styles.allocationClaimed, t])
+        styles.allocationAmount, styles.allocationClaimed, styles.allocationAddress, t]);
 
     return <StyledSafeAreaView topBar={
         <TopBar stackProps={{navigation}} />
@@ -128,13 +120,6 @@ export const AirdropAllocation: React.FC<Props> = ({navigation, route}) => {
                 {t("claim now")}
             </Button>
         )}
-        <Button
-            style={styles.claimLater}
-            mode="outlined"
-            onPress={claimLater}
-        >
-            {t("claim later")}
-        </Button>
     </StyledSafeAreaView>
 }
 
@@ -195,7 +180,4 @@ const useStyles = makeStyle(theme => ({
         color: theme.colors.font["2"],
         flex: 9,
     },
-    claimLater: {
-        marginTop: theme.spacing.m,
-    }
 }))
