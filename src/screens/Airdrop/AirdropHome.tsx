@@ -8,6 +8,7 @@ import {Image, KeyboardAvoidingView, Platform} from "react-native";
 import {Bech32} from "@cosmjs/encoding";
 import useShowModal from "../../hooks/useShowModal";
 import {SingleButtonModal} from "../../modals/SingleButtonModal";
+import useIsCurrentThemeDark from "../../hooks/useIsCurrentThemeDark";
 
 
 export type Props = StackScreenProps<AirdropScreensStackParams, "AirdropHome">;
@@ -17,6 +18,7 @@ export const AirdropHome: React.FC<Props> = ({navigation}) => {
     const {t} = useTranslation();
     const showModal = useShowModal()
     const [address, setAddress] = useState("");
+    const isDarkTheme = useIsCurrentThemeDark();
 
     const calculate = useCallback(() => {
         try {
@@ -42,7 +44,9 @@ export const AirdropHome: React.FC<Props> = ({navigation}) => {
             style={styles.topBar}
             stackProps={{navigation}}
         />}
-        background={require("../../assets/airdrop-background.png")}
+        background={isDarkTheme ? require("../../assets/airdrop-background-dark.png") :
+            require("../../assets/airdrop-background.png")
+        }
     >
         <KeyboardAvoidingView
             behavior="padding"
