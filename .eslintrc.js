@@ -46,7 +46,7 @@ module.exports = {
         "no-bitwise": "off",
         "no-case-declarations": "off",
         "no-console": ["warn", { allow: ["warn", "error"] }],
-        "no-console-log": "error",
+        "no-console-log": "off",
         "no-continue": "off",
         "no-else-return": "off",
         "no-empty": "off",
