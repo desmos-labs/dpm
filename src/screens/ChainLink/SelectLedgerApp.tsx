@@ -48,6 +48,7 @@ export const SelectLedgerApp: React.FC<Props> = ({navigation, route}) => {
         </Typography.Body>
 
         <FlatList
+            style={styles.appList}
             data={LedgerApps}
             renderItem={renderLedgerApp}
             ItemSeparatorComponent={ListItemSeparator}
@@ -61,4 +62,7 @@ const useStyles = makeStyle(theme => ({
     background: {
         backgroundColor: theme.colors.background2
     },
+    appList: {
+        marginTop: theme.spacing.m,
+    }
 }))
