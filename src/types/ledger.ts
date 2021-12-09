@@ -27,23 +27,28 @@ export type LedgerApp = {
 
 export const LedgerApps: LedgerApp[] = [
     {
-        name: "cosmos",
-        icon: require("../assets/chains/cosmos.png"),
-        uiName: "Cosmos",
-    },
-    {
         name: "band",
         icon: require("../assets/chains/band.png"),
         uiName: "Band",
     },
     {
-        name: "terra",
-        icon: require("../assets/chains/terra.png"),
-        uiName: "Terra",
+        name: "cosmos",
+        icon: require("../assets/chains/cosmos.png"),
+        uiName: "Cosmos",
+    },
+    {
+        name: "crypto.org",
+        icon: require("../assets/chains/crypto_com.png"),
+        uiName: "Crypto.org",
     },
     {
         name: "kava",
         icon: require("../assets/chains/kava.png"),
         uiName: "Kava",
+    },
+    {
+        name: "terra",
+        icon: require("../assets/chains/terra.png"),
+        uiName: "Terra",
     },
 ]
