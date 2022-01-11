@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useEffect} from "react";
 import {View} from "react-native";
 import {makeStyle} from "../theming";
 import {StackScreenProps} from "@react-navigation/stack";
@@ -6,14 +6,21 @@ import {RootStackParams} from "../types/navigation";
 
 export type Props = StackScreenProps<RootStackParams, "ModalScreen">
 
-export const ModalScreen: React.FC<Props> = (props) => {
+export const ModalScreen: React.FC<Props> = ({navigation, route}) => {
     const styles = useStyles();
-    const {component, params} = props.route.params;
+    const {component, params, navigationRef} = route.params;
     const ModalContent = component;
+
+    useEffect(() => {
+        navigationRef.current = navigation;
+        return () => {
+            navigationRef.current
+        }
+    }, [navigationRef, navigation])
 
     return <View style={styles.root}>
         <View style={styles.content}>
-            <ModalContent navigation={props.navigation} params={params}/>
+            <ModalContent navigation={navigation} params={params}/>
         </View>
     </View>
 }
