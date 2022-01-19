@@ -18,7 +18,7 @@ import {ListRenderItemInfo, TouchableOpacity, View} from "react-native";
 import LocalWallet from "../../wallet/LocalWallet";
 import {HdPath} from "../../types/hdpath";
 import {FlexPadding} from "../../components/FlexPadding";
-import useGenerateProof from "../../hooks/useGenerateProof";
+import {generateProof} from "../../utilils/chainlink";
 import {MsgLinkChainAccountEncodeObject} from "@desmoslabs/sdk-core";
 import {MsgLinkChainAccount} from "@desmoslabs/proto/desmos/profiles/v1beta1/msgs_chain_links";
 import useSelectedAccount from "../../hooks/useSelectedAccount";
@@ -93,7 +93,6 @@ export const PickAddress: React.FC<Props> = (props) => {
     const [generatingAddresses, setGeneratingAddresses] = useState(false);
     const chainInfo = useCurrentChainInfo();
     const selectedAccount = useSelectedAccount();
-    const generateProof = useGenerateProof();
     const addChainLink = useAddChinLink(selectedAccount.address);
     const showModal = useShowModal();
     const generateWalletFromHdPath = useCallback(async (hdPath: HdPath) => {
@@ -256,7 +255,7 @@ export const PickAddress: React.FC<Props> = (props) => {
                 }
             }
         }
-    }, [selectedWallet, importMode, generateProof, chain, selectedAccount.address, chainInfo.coinDenom, navigation, feeGranter, backAction, showModal, t, addChainLink]);
+    }, [selectedWallet, importMode, chain, selectedAccount.address, chainInfo.coinDenom, navigation, feeGranter, backAction, showModal, t, addChainLink]);
 
     return <StyledSafeAreaView
         style={styles.root}
