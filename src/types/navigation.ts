@@ -2,7 +2,7 @@ import {createStackNavigator} from '@react-navigation/stack';
 import {ChainAccount, LinkableChain} from './chain';
 import LocalWallet from "../wallet/LocalWallet";
 import {EncodeObject} from "@cosmjs/proto-signing";
-import React from "react";
+import React, {MutableRefObject} from "react";
 import {StackNavigationProp} from "@react-navigation/stack/lib/typescript/src/types";
 import {createBottomTabNavigator} from "@react-navigation/bottom-tabs";
 import {SessionRequestDetails} from "./walletconnect";
@@ -12,6 +12,7 @@ import {DesmosProfile} from "@desmoslabs/sdk-core";
 import {ChainLink} from "./link";
 import {StackNavigationState} from "@react-navigation/routers/lib/typescript/src/StackRouter";
 import {BleLedger, LedgerApp} from "./ledger";
+import BluetoothTransport from "@ledgerhq/react-native-hw-transport-ble";
 
 export type AccountCreationStackParams = {
     Login: undefined;
@@ -142,8 +143,17 @@ export type ChainLinkScreensStackParams = {
         feeGranter?: string,
         backAction?: ((state: StackNavigationState<any>) => NavigationAction) | NavigationAction,
     },
-    ConnectLedger: undefined,
-    SelectLedgerApp: undefined,
+    ScanForLedger: {
+        chain: LinkableChain,
+        ledgerApp: LedgerApp,
+        backAction?: ((state: StackNavigationState<any>) => NavigationAction) | NavigationAction,
+    },
+    ConnectToLedger: {
+        chain: LinkableChain,
+        ledgerApp: LedgerApp,
+        bleLedger: BleLedger,
+        backAction?: ((state: StackNavigationState<any>) => NavigationAction) | NavigationAction,
+    },
     ConfirmAddress: {
         importMode: ImportMode,
         chain: LinkableChain,
@@ -154,6 +164,8 @@ export type ChainLinkScreensStackParams = {
     PickAddress: {
         importMode: ImportMode,
         chain: LinkableChain,
+        ledgerTransport?: BluetoothTransport,
+        ledgerApp?: LedgerApp,
         mnemonic?: string,
         feeGranter?: string,
         backAction?: ((state: StackNavigationState<any>) => NavigationAction) | NavigationAction,
@@ -194,6 +206,7 @@ export type RootStackParams = {
     AccountScreens: NavigatorScreenParams<AccountScreensStackParams>,
     ModalScreen: {
         component: ModalComponent<any>,
+        navigationRef: MutableRefObject<StackNavigationProp<RootStackParams> | undefined>,
         params?: any
     },
 }

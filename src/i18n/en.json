@@ -194,6 +194,6 @@
   "Looking for devices": "Looking for devices",
   "Please make sure your Ledger Nano X is unlocked and bluetooth is enabled": "Please make sure your Ledger Nano X is unlocked and bluetooth is enabled",
   "retry": "Retry",
-  "Sorry, no device found": "Sorry, no device found"
-
+  "Sorry, no device found": "Sorry, no device found",
+  "Waiting for Ledger to confirm": "Waiting for Ledger to confirm"
 }

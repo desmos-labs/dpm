@@ -2,12 +2,13 @@
  * @format
  */
 
+import "text-encoding";
+import './shim';
 import {AppRegistry, LogBox} from 'react-native';
 import App from './src/App';
 import {name as appName} from './app.json';
 import 'react-native-gesture-handler';
 import SInfo from 'react-native-sensitive-info';
-import './shim';
 import 'react-native-gesture-handler';
 
 SInfo.setInvalidatedByBiometricEnrollment(true);

@@ -3,7 +3,7 @@ import LottieView from "lottie-react-native";
 import {useTheme} from "react-native-paper";
 
 
-export type DesmosAnimations = "broadcast-tx" | "looking-for-devices"
+export type DesmosAnimations = "broadcast-tx" | "looking-for-devices" | "connect-to-ledger"
 
 type Props = Omit<React.ComponentProps<typeof LottieView>, "source"> & {
     source: DesmosAnimations
@@ -19,6 +19,9 @@ export const ThemedLottieView: React.FC<Props> = (props) => {
             case "looking-for-devices":
                 return theme.dark ? require("../assets/animations/looking-for-devices-dark.json") :
                     require("../assets/animations/looking-for-devices-light.json");
+            case "connect-to-ledger":
+                return theme.dark ? require("../assets/animations/connect-to-ledger-dark.json") :
+                    require("../assets/animations/connect-to-ledger-light.json");
             default:
                 throw new Error(`Unknown animation ${props.source}`)
         }
