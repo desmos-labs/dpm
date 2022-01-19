@@ -22,7 +22,8 @@ export const SelectLedgerApp: React.FC<Props> = ({navigation, route}) => {
         return <BlockchainListItem
             onPress={() => {
                 navigation.navigate({
-                    name: "LinkWithLedger",
+                    key: "ledger",
+                    name: "ScanForLedger",
                     params: {
                         chain,
                         backAction,
