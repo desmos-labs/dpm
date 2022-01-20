@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from "react";
 import {makeStyleWithProps} from "../theming";
-import {View, Text, StyleProp, ViewStyle, StyleSheet} from "react-native";
+import {StyleProp, StyleSheet, Text, View, ViewStyle} from "react-native";
 import {DESMOS_COIN_TYPE, HdPath} from "../types/hdpath";
 import {TextInput} from "./TextInput";
 import {Typography} from "./index";
@@ -10,8 +10,18 @@ export type Props = {
      * Function called when the HDPath changes.
      */
     onChange?: (path: HdPath) => void,
+    /**
+     * The component value
+     */
     value?: HdPath,
+    /**
+     * True to make the component read only.
+     */
     disabled?: boolean,
+    /**
+     * True to allow the editing of the coin type value.
+     */
+    allowCoinTypeEdit?: boolean,
     style?: StyleProp<ViewStyle>,
 }
 
@@ -42,6 +52,13 @@ export const HdPathPicker: React.FC<Props> = (props) => {
     const onElementChange = (value: string, element: keyof HdPath) => {
         let newHdPath = hdPath;
         switch (element) {
+            case "coinType": {
+                newHdPath = {
+                    ...hdPath,
+                    coinType: safeParseInt(value)
+                }
+                break;
+            }
             case "account":
                 newHdPath = {
                     ...hdPath,
@@ -70,11 +87,35 @@ export const HdPathPicker: React.FC<Props> = (props) => {
     return <View
         style={StyleSheet.compose(styles.root as StyleProp<ViewStyle>, props.style)}
     >
-        <Typography.Body1
-            style={styles.hdPathText}
-        >
-            m/44'/{hdPath.coinType}'/
-        </Typography.Body1>
+        {props.allowCoinTypeEdit === true ? (
+            <>
+                <Typography.Body1
+                    style={styles.hdPathText}
+                >
+                    m/44'/
+                </Typography.Body1>
+                <TextInput
+                    style={styles.elements}
+                    inputStyle={styles.input}
+                    keyboardType="numeric"
+                    onChangeText={v => onElementChange(v, "coinType")}
+                    value={hdPath.coinType.toString()}
+                    editable={props.disabled !== true}
+                />
+                <Text
+                    style={styles.hdPathText}
+                >
+                    /
+                </Text>
+            </>
+        ) : (
+            <Typography.Body1
+                style={styles.hdPathText}
+            >
+                m/44'/{hdPath.coinType}'/
+            </Typography.Body1>
+        )}
+
         <TextInput
             style={styles.elements}
             inputStyle={styles.input}
@@ -119,7 +160,7 @@ const useStyle = makeStyleWithProps((props: Props, theme) => ({
         alignItems: "center",
     },
     elements: {
-        maxWidth: 80,
+        maxWidth: 70,
         flexGrow: 1,
     },
     input: {
