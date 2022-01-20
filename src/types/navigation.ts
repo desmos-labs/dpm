@@ -135,6 +135,7 @@ export type ChainLinkScreensStackParams = {
     },
     SelectLedgerApp: {
         chain: LinkableChain,
+        ledgerApplications: LedgerApp[]
         backAction?: ((state: StackNavigationState<any>) => NavigationAction) | NavigationAction,
     },
     LinkWithMnemonic: {

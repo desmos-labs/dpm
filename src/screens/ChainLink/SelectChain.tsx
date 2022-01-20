@@ -6,8 +6,19 @@ import {useTranslation} from "react-i18next";
 import {makeStyle} from "../../theming";
 import {FlatList, ListRenderItemInfo} from "react-native";
 import {LinkableChain, LinkableChains} from "../../types/chain";
+import {CosmosLedgerApp, CryptoOrgLedgerApp, LedgerApp, TerraLedgerApp} from "../../types/ledger";
 
 export type Props = StackScreenProps<ChainLinkScreensStackParams, "SelectChain">
+
+function getLedgerApplicationForChain(chain: LinkableChain): LedgerApp[] {
+    if (chain.chainConfig.name === "terra") {
+        return [TerraLedgerApp]
+    } else if (chain.chainConfig.name === "crypto.org") {
+        return [CryptoOrgLedgerApp]
+    } else {
+        return [CosmosLedgerApp]
+    }
+}
 
 export const SelectChain: React.FC<Props> = ({navigation, route}) => {
     const {importMode, feeGranter, backAction} = route.params
@@ -30,6 +41,7 @@ export const SelectChain: React.FC<Props> = ({navigation, route}) => {
                 name: "SelectLedgerApp",
                 params: {
                     chain,
+                    ledgerApplications: getLedgerApplicationForChain(chain),
                     backAction,
                 }
             })

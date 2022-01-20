@@ -5,7 +5,7 @@ import {ChainLinkScreensStackParams, RootStackParams} from "../../types/navigati
 import {BlockchainListItem, ListItemSeparator, StyledSafeAreaView, TopBar, Typography} from "../../components";
 import {useTranslation} from "react-i18next";
 import {FlatList, ListRenderItemInfo} from "react-native";
-import {LedgerApp, LedgerApps} from "../../types/ledger";
+import {LedgerApp} from "../../types/ledger";
 import {makeStyle} from "../../theming";
 
 
@@ -14,7 +14,7 @@ export type Props = CompositeScreenProps<
     StackScreenProps<RootStackParams>>;
 
 export const SelectLedgerApp: React.FC<Props> = ({navigation, route}) => {
-    const {chain, backAction} = route.params
+    const {chain, ledgerApplications, backAction} = route.params
     const {t} = useTranslation();
     const styles = useStyles();
 
@@ -50,7 +50,7 @@ export const SelectLedgerApp: React.FC<Props> = ({navigation, route}) => {
 
         <FlatList
             style={styles.appList}
-            data={LedgerApps}
+            data={ledgerApplications}
             renderItem={renderLedgerApp}
             ItemSeparatorComponent={ListItemSeparator}
             keyExtractor={((item, index) => index.toString())}

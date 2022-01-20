@@ -29,6 +29,27 @@ export type LedgerApp = {
 }
 
 
+export const CosmosLedgerApp: LedgerApp = {
+    name: "Cosmos",
+    icon: require("../assets/chains/cosmos.png"),
+    uiName: "Cosmos",
+    minVersion: "1.5.3",
+}
+
+export const CryptoOrgLedgerApp: LedgerApp = {
+    name: "Crypto.org Chain",
+    icon: require("../assets/chains/crypto_com.png"),
+    uiName: "Crypto.org",
+    minVersion: "2.16.5",
+}
+
+export const TerraLedgerApp: LedgerApp = {
+    name: "Terra",
+    icon: require("../assets/chains/terra.png"),
+    uiName: "Terra",
+    minVersion: "1.0.0",
+}
+
 export const LedgerApps: LedgerApp[] = [
     // {
     //     name: "band",
@@ -36,22 +57,7 @@ export const LedgerApps: LedgerApp[] = [
     //     uiName: "Band",
     //     minVersion: "1.5.3",
     // },
-    {
-        name: "Cosmos",
-        icon: require("../assets/chains/cosmos.png"),
-        uiName: "Cosmos",
-        minVersion: "1.5.3",
-    },
-    {
-        name: "Crypto.org Chain",
-        icon: require("../assets/chains/crypto_com.png"),
-        uiName: "Crypto.org",
-        minVersion: "2.16.5",
-    },
-    {
-        name: "Terra",
-        icon: require("../assets/chains/terra.png"),
-        uiName: "Terra",
-        minVersion: "1.0.0",
-    },
+    CosmosLedgerApp,
+    CryptoOrgLedgerApp,
+    TerraLedgerApp
 ]
