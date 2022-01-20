@@ -26,7 +26,7 @@ import {CompositeScreenProps} from "@react-navigation/native";
 import {computeTxFees, messagesGas} from "../../types/fees";
 import {useCurrentChainInfo} from "@desmoslabs/sdk-react";
 import useAddChinLink from "../../hooks/useAddChainLink";
-import {LedgerSigner} from "@cosmjs/ledger-amino";
+import {LedgerSigner, LedgerApp as CosmosLedgerApp} from "@cosmjs/ledger-amino";
 import {OfflineSigner} from "@cosmjs/proto-signing";
 import {toCosmjsHdPath} from "../../utilils/hdpath";
 import BluetoothTransport from "@ledgerhq/react-native-hw-transport-ble";
@@ -34,6 +34,7 @@ import {LedgerApp} from "../../types/ledger";
 import {debounce} from "lodash";
 import useShowModal from "../../hooks/useShowModal";
 import {LoadingModal} from "../../modals/LodingModal";
+import {TerraLedgerApp} from "../../utilils/terra";
 
 type Wallet = {
     signer: OfflineSigner,
@@ -64,12 +65,20 @@ async function generateWalletsFromMnemonic(mnemonic: string, prefix: string, hdP
 
 async function generateWalletsFromLedger(transport: BluetoothTransport, ledgerApp: LedgerApp, prefix: string, hdPaths: HdPath[]): Promise<Wallet[]> {
     const cosmJsPaths = hdPaths.map(toCosmjsHdPath);
+
+    let cosmosLedgerApp: CosmosLedgerApp | undefined;
+    if (ledgerApp!.name === "Terra") {
+        cosmosLedgerApp = new TerraLedgerApp(transport!);
+    }
+
     const ledgerSigner = new LedgerSigner(transport, {
         ledgerAppName: ledgerApp.name,
         minLedgerAppVersion: ledgerApp.minVersion,
         hdPaths: cosmJsPaths,
         prefix,
+        ledgerApp: cosmosLedgerApp,
     });
+
     const accounts = await ledgerSigner.getAccounts();
     return accounts.map((account, index) => {
         return {
@@ -104,11 +113,16 @@ export const PickAddress: React.FC<Props> = (props) => {
                     prefix: chain.prefix,
                 });
             } else {
+                let cosmosLedgerApp: CosmosLedgerApp | undefined;
+                if (ledgerApp!.name === "Terra") {
+                    cosmosLedgerApp = new TerraLedgerApp(ledgerTransport!);
+                }
                 signer = new LedgerSigner(ledgerTransport!, {
                     minLedgerAppVersion: ledgerApp!.minVersion,
                     ledgerAppName: ledgerApp!.name,
                     hdPaths: [toCosmjsHdPath(hdPath)],
                     prefix: chain.prefix,
+                    ledgerApp: cosmosLedgerApp
                 });
             }
             const address = (await signer.getAccounts())[0].address;
