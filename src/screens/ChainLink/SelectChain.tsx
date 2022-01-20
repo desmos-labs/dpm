@@ -14,7 +14,7 @@ function getLedgerApplicationForChain(chain: LinkableChain): LedgerApp[] {
     if (chain.chainConfig.name === "terra") {
         return [TerraLedgerApp]
     } else if (chain.chainConfig.name === "crypto.org") {
-        return [CryptoOrgLedgerApp]
+        return [CryptoOrgLedgerApp, CosmosLedgerApp]
     } else {
         return [CosmosLedgerApp]
     }
