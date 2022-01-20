@@ -1,4 +1,4 @@
-import React, {useCallback, useEffect, useState} from "react";
+import React, {useCallback, useEffect, useMemo, useState} from "react";
 import {AccountScreensStackParams, ChainLinkScreensStackParams, ImportMode,} from "../../types/navigation";
 import {
     AddressListItem,
@@ -16,7 +16,7 @@ import {makeStyle} from "../../theming";
 import {useTranslation} from "react-i18next";
 import {ListRenderItemInfo, TouchableOpacity, View} from "react-native";
 import LocalWallet from "../../wallet/LocalWallet";
-import {HdPath} from "../../types/hdpath";
+import {CosmosHdPath, HdPath} from "../../types/hdpath";
 import {FlexPadding} from "../../components/FlexPadding";
 import {generateProof} from "../../utilils/chainlink";
 import {MsgLinkChainAccountEncodeObject} from "@desmoslabs/sdk-core";
@@ -26,7 +26,7 @@ import {CompositeScreenProps} from "@react-navigation/native";
 import {computeTxFees, messagesGas} from "../../types/fees";
 import {useCurrentChainInfo} from "@desmoslabs/sdk-react";
 import useAddChinLink from "../../hooks/useAddChainLink";
-import {LedgerSigner, LedgerApp as CosmosLedgerApp} from "@cosmjs/ledger-amino";
+import {LedgerApp as CosmosLedgerApp, LedgerSigner} from "@cosmjs/ledger-amino";
 import {OfflineSigner} from "@cosmjs/proto-signing";
 import {toCosmjsHdPath} from "../../utilils/hdpath";
 import BluetoothTransport from "@ledgerhq/react-native-hw-transport-ble";
@@ -95,7 +95,18 @@ export const PickAddress: React.FC<Props> = (props) => {
     const {mnemonic, importMode, chain, feeGranter, backAction, ledgerTransport, ledgerApp} = props.route.params;
     const {t} = useTranslation();
     const styles = useStyles();
-    const [selectedHdPath, setSelectedHdPath] = useState<HdPath>(chain.hdPath);
+    const defaultHdPath = useMemo(() => {
+        if (importMode === ImportMode.Mnemonic) {
+            return chain.hdPath
+        } else {
+            if (ledgerApp!.name === "Cosmos") {
+                return CosmosHdPath;
+            } else {
+                return chain.hdPath;
+            }
+        }
+    }, [chain.hdPath, importMode, ledgerApp]);
+    const [selectedHdPath, setSelectedHdPath] = useState<HdPath>(defaultHdPath);
     const [selectedWallet, setSelectedWallet] = useState<Wallet | null>(null);
     const [addressPickerVisible, setAddressPickerVisible] = useState(false);
     const [, setGenerationError] = useState<string | null>(null);
@@ -153,16 +164,16 @@ export const PickAddress: React.FC<Props> = (props) => {
                 // The address picker is is being displayed,
                 // remove the wallet generated from the derivation path.
                 setSelectedWallet(null);
-                setSelectedHdPath(chain.hdPath);
+                setSelectedHdPath(defaultHdPath);
             } else {
                 if (selectedWallet === null) {
-                    setSelectedHdPath(chain.hdPath);
-                    generateWalletFromHdPath(chain.hdPath).then(setSelectedWallet);
+                    setSelectedHdPath(defaultHdPath);
+                    generateWalletFromHdPath(defaultHdPath).then(setSelectedWallet);
                 }
             }
             return !visible
         });
-    }, [chain, generateWalletFromHdPath, selectedWallet]);
+    }, [generateWalletFromHdPath, selectedWallet, defaultHdPath]);
 
     const renderListItem = useCallback((info: ListRenderItemInfo<Wallet>) => {
         const {hdPath, address} = info.item;
@@ -200,8 +211,10 @@ export const PickAddress: React.FC<Props> = (props) => {
         const hdPaths: HdPath[] = [];
         for (let walletIndex = offset; walletIndex < limit; walletIndex++) {
             const hdPath: HdPath = {
-                ...chain.hdPath,
+                coinType: selectedHdPath.coinType,
                 account: walletIndex,
+                change: 0,
+                addressIndex: 0,
             }
             hdPaths.push(hdPath)
         }
@@ -213,7 +226,7 @@ export const PickAddress: React.FC<Props> = (props) => {
         }
         setGeneratingAddresses(false);
         return wallets;
-    }, [chain.hdPath, chain.prefix, importMode, ledgerApp, ledgerTransport, mnemonic]);
+    }, [chain.prefix, importMode, ledgerApp, ledgerTransport, mnemonic, selectedHdPath.coinType]);
 
     const onNextPressed = useCallback(async () => {
         if (selectedWallet !== null) {
@@ -295,6 +308,7 @@ export const PickAddress: React.FC<Props> = (props) => {
             onChange={onHdPathChange}
             value={selectedHdPath}
             disabled={addressPickerVisible}
+            allowCoinTypeEdit={importMode === ImportMode.Mnemonic}
         />
 
         {!addressPickerVisible && (
