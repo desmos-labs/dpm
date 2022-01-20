@@ -123,6 +123,8 @@
   "new session": "New session",
   "dapps": "DAPPs",
   "disconnecting": "Disconnecting...",
+  "connecting": "Connecting",
+  "connected": "Connected",
   "an error occurred": "An error occurred",
   "dtag": "DTag",
   "nickname": "Nickname",

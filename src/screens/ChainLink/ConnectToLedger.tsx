@@ -66,8 +66,8 @@ export const ConnectToLeger: React.FC<Props> = ({navigation, route}) => {
         <Typography.Subtitle
             style={styles.status}
         >
-            {connecting ? t("Connecting") :
-                connected ? t("Connected") : t("Error")}
+            {connecting ? t("connecting") :
+                connected ? t("connected") : t("error")}
         </Typography.Subtitle>
 
         <Typography.Body
@@ -83,7 +83,7 @@ export const ConnectToLeger: React.FC<Props> = ({navigation, route}) => {
             disabled={connecting}
             loading={connecting}
         >
-            {connecting ? t("Connecting") :
+            {connecting ? t("connecting") :
                 connected ? t("next") : t("retry")
             }
         </Button>
