@@ -30,12 +30,12 @@ export type LedgerApp = {
 
 
 export const LedgerApps: LedgerApp[] = [
-    {
-        name: "band",
-        icon: require("../assets/chains/band.png"),
-        uiName: "Band",
-        minVersion: "1.5.3",
-    },
+    // {
+    //     name: "band",
+    //     icon: require("../assets/chains/band.png"),
+    //     uiName: "Band",
+    //     minVersion: "1.5.3",
+    // },
     {
         name: "Cosmos",
         icon: require("../assets/chains/cosmos.png"),
@@ -47,12 +47,6 @@ export const LedgerApps: LedgerApp[] = [
         icon: require("../assets/chains/crypto_com.png"),
         uiName: "Crypto.org",
         minVersion: "2.16.5",
-    },
-    {
-        name: "kava",
-        icon: require("../assets/chains/kava.png"),
-        uiName: "Kava",
-        minVersion: "1.5.3",
     },
     {
         name: "Terra",
