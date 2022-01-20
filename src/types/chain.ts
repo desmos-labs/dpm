@@ -41,24 +41,6 @@ export type LinkableChain = {
 
 export const LinkableChains: LinkableChain[] = [
     {
-        name: "Cosmos Hub",
-        prefix: "cosmos",
-        hdPath: CosmosHdPath,
-        icon: require("../assets/chains/cosmos.png"),
-        chainConfig: ChainConfig.fromPartial({
-            name: "cosmos"
-        }),
-    },
-    {
-        name: "Osmosis",
-        prefix: "osmo",
-        hdPath: CosmosHdPath,
-        icon: require("../assets/chains/osmosis.png"),
-        chainConfig: ChainConfig.fromPartial({
-            name: "osmosis"
-        }),
-    },
-    {
         name: "Akash",
         prefix: "akash",
         hdPath: CosmosHdPath,
@@ -68,12 +50,39 @@ export const LinkableChains: LinkableChain[] = [
         }),
     },
     {
+        name: "Band",
+        prefix: "band",
+        hdPath: BandHdPath,
+        icon: require("../assets/chains/band.png"),
+        chainConfig: ChainConfig.fromPartial({
+            name: "band"
+        }),
+    },
+    {
+        name: "Cosmos Hub",
+        prefix: "cosmos",
+        hdPath: CosmosHdPath,
+        icon: require("../assets/chains/cosmos.png"),
+        chainConfig: ChainConfig.fromPartial({
+            name: "cosmos"
+        }),
+    },
+    {
         name: "Crypto.org",
         prefix: "cro",
         hdPath: CroHdPath,
         icon: require("../assets/chains/crypto_com.png"),
         chainConfig: ChainConfig.fromPartial({
             name: "crypto.org"
+        }),
+    },
+    {
+        name: "e-Money",
+        prefix: "emoney",
+        hdPath: CosmosHdPath,
+        icon: require("../assets/chains/e_money.png"),
+        chainConfig: ChainConfig.fromPartial({
+            name: "emoney"
         }),
     },
     {
@@ -104,21 +113,12 @@ export const LinkableChains: LinkableChain[] = [
         }),
     },
     {
-        name: "Terra",
-        prefix: "terra",
-        hdPath: LunaHdPath,
-        icon: require("../assets/chains/terra.png"),
-        chainConfig: ChainConfig.fromPartial({
-            name: "terra"
-        }),
-    },
-    {
-        name: "e-Money",
-        prefix: "emoney",
+        name: "Osmosis",
+        prefix: "osmo",
         hdPath: CosmosHdPath,
-        icon: require("../assets/chains/e_money.png"),
+        icon: require("../assets/chains/osmosis.png"),
         chainConfig: ChainConfig.fromPartial({
-            name: "emoney"
+            name: "osmosis"
         }),
     },
     {
@@ -131,12 +131,12 @@ export const LinkableChains: LinkableChain[] = [
         }),
     },
     {
-        name: "Band",
-        prefix: "band",
-        hdPath: BandHdPath,
-        icon: require("../assets/chains/band.png"),
+        name: "Terra",
+        prefix: "terra",
+        hdPath: LunaHdPath,
+        icon: require("../assets/chains/terra.png"),
         chainConfig: ChainConfig.fromPartial({
-            name: "band"
+            name: "terra"
         }),
     },
 ]
