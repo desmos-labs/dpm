@@ -173,7 +173,7 @@
   "retry": "Riprova",
   "Sorry, no device found": "Nessun dispositivo rilevato",
   "Waiting for Ledger to confirm": "In attesa di conferma sul Ledger",
-  "please turn on the bluetooth": "Il bluetooth è disattivo, per favore attivalo",
+  "please turn on the bluetooth": "Il bluetooth è disattivato, per favore attivalo",
   "please allow access to location to perform the BLE scan": "Per favore, concedi l'accesso alla posizione per eseguire la scansione bluetooth",
   "please allow access to the bluetooth": "Per favore, concedi l'accesso al bluetooth"
 }
