@@ -50,7 +50,11 @@ export default function useStartBleScan() {
 
     const scan = useCallback(async (durationMs: number = 10000) => {
         if (scanError?.cause === ScanErrorCause.PoweredOff) {
-            BluetoothStateManager.openSettings();
+            if (Platform.OS === "ios") {
+                Linking.openURL('App-Prefs:Bluetooth');
+            } else {
+                BluetoothStateManager.openSettings();
+            }
             setScanError(undefined);
         } else if (scanError?.cause === ScanErrorCause.Unauthorized) {
             if (Platform.OS === 'ios') {
