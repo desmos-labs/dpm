@@ -58,7 +58,7 @@ const useStyles = makeStyle(theme => ({
         fontSize: 14,
     },
     contentStyle: {
-        height: 34,
+        height: 38,
     },
     selected: {
         backgroundColor: theme.colors.primary,
