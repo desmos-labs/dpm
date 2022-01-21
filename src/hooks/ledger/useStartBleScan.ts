@@ -1,14 +1,29 @@
 import {useCallback, useEffect, useState} from "react";
 import {BleLedger, Subscription} from "../../types/ledger";
 import TransportBLE from "@ledgerhq/react-native-hw-transport-ble";
+import BluetoothStateManager from 'react-native-bluetooth-state-manager';
+import {useTranslation} from "react-i18next";
+import {Linking, Platform} from "react-native";
+
+export enum ScanErrorCause {
+    PoweredOff,
+    Unauthorized,
+    Unknown
+}
+
+export type ScanError = {
+    cause: ScanErrorCause,
+    message: string,
+}
 
 export default function useStartBleScan() {
 
+    const {t} = useTranslation();
     const [subscription, setScanSubscription] = useState<Subscription | undefined>(undefined);
     const [stopScanTimeout, setStopStopScanTimeout] = useState<NodeJS.Timer | undefined>(undefined);
     const [scanning, setScanning] = useState(false);
     const [devices, setDevices] = useState<BleLedger []>([]);
-    const [scanError, setScanError] = useState<string | undefined>(undefined);
+    const [scanError, setScanError] = useState<ScanError | undefined>(undefined);
 
     // Clear the subscription when leaving the screen or when staring a new scan.
     useEffect(() => {
@@ -33,41 +48,100 @@ export default function useStartBleScan() {
         setScanSubscription(undefined);
     }, [])
 
-    const scan = useCallback((durationMs: number = 10000) => {
-        setScanning(true);
-        setDevices([]);
-        setScanError(undefined);
-        setScanSubscription(TransportBLE.listen({
-            complete: () => {
-                setScanning(false);
-            },
-            next: (e: any) => {
-                if (e.type === "add") {
-                    const {id, name} = e.descriptor;
+    const scan = useCallback(async (durationMs: number = 10000) => {
+        if (scanError?.cause === ScanErrorCause.PoweredOff) {
+            BluetoothStateManager.openSettings();
+            setScanError(undefined);
+        } else if (scanError?.cause === ScanErrorCause.Unauthorized) {
+            if (Platform.OS === 'ios') {
+                Linking.openURL('app-settings:');
+            } else {
+                Linking.openSettings();
+            }
+            setScanError(undefined);
+        }
+        else {
+            setScanning(true);
+            setDevices([]);
+            setScanError(undefined);
 
-                    setDevices(currentDevices => {
-                        const devicePresent = currentDevices.find(d => d.id === id) !== undefined;
-                        if (!devicePresent) {
-                            return [...currentDevices, {
-                                id,
-                                name
-                            }]
-                        } else {
-                            return currentDevices;
+            const state = await BluetoothStateManager.getState();
+
+            if (state === "PoweredOn") {
+                setScanSubscription(TransportBLE.listen({
+                    complete: () => {
+                        setScanning(false);
+                    },
+                    next: (e: any) => {
+                        if (e.type === "add") {
+                            const {id, name} = e.descriptor;
+
+                            setDevices(currentDevices => {
+                                const devicePresent = currentDevices.find(d => d.id === id) !== undefined;
+                                if (!devicePresent) {
+                                    return [...currentDevices, {
+                                        id,
+                                        name
+                                    }]
+                                } else {
+                                    return currentDevices;
+                                }
+                            })
                         }
-                    })
+                    },
+                    error: (error: any) => {
+                        console.error("BLE scan error", error);
+                        const errorMessage = error.toString();
+                        if (errorMessage.indexOf("not authorized") > 0) {
+                            let message: string
+                            if (Platform.OS === "android") {
+                                message = t("please allow access to location to perform the BLE scan");
+                            } else {
+                                message = t("please allow access to the bluetooth");
+                            }
+                            setScanError({
+                                cause: ScanErrorCause.Unauthorized,
+                                message,
+                            })
+                        } else {
+                            setScanError({
+                                cause: ScanErrorCause.Unknown,
+                                message: errorMessage,
+                            });
+                        }
+                        setScanning(false);
+                    }
+                }));
+                setStopStopScanTimeout(setTimeout(() => {
+                    stopScan();
+                }, durationMs));
+            } else if (state === "PoweredOff") {
+                setScanError({
+                    cause: ScanErrorCause.PoweredOff,
+                    message: t("please turn on the bluetooth")
+                });
+                setScanning(false);
+            } else if (state === "Unauthorized") {
+                let message: string
+                if (Platform.OS === "android") {
+                    message = t("please allow access to location to perform the BLE scan");
+                } else {
+                    message = t("please allow access to the bluetooth");
                 }
-            },
-            error: (error: any) => {
-                console.error("BLE scan error", error);
-                setScanError(error.toString());
+                setScanError({
+                    cause: ScanErrorCause.Unauthorized,
+                    message,
+                })
+                setScanning(false);
+            } else {
+                setScanError({
+                    cause: ScanErrorCause.Unknown,
+                    message: `Unknown bluetooth state ${state}`
+                })
                 setScanning(false);
             }
-        }));
-        setStopStopScanTimeout(setTimeout(() => {
-            stopScan();
-        }, durationMs));
-    }, [stopScan]);
+        }
+    }, [stopScan, t, scanError]);
 
 
     return {

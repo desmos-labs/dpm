@@ -27,7 +27,8 @@ export const ScanForLedger: React.FC<Props> = ({navigation, route}) => {
 
     useEffect(() => {
         scan();
-    }, [scan]);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
 
     const selectDevice = useCallback(async (ledger: BleLedger) => {
         navigation.navigate({
@@ -54,6 +55,10 @@ export const ScanForLedger: React.FC<Props> = ({navigation, route}) => {
             </Typography.Subtitle>
         </TouchableOpacity>
     }, [selectDevice, styles.ledgerListItem, styles.ledgerName]);
+
+    const onRetryPressed = useCallback(() => {
+        scan();
+    }, [scan]);
 
     return <StyledSafeAreaView
         topBar={<TopBar stackProps={{navigation}} />}
@@ -91,7 +96,7 @@ export const ScanForLedger: React.FC<Props> = ({navigation, route}) => {
             <Typography.Subtitle
                 style={styles.noDeviceError}
             >
-                {scanError ?? t("Sorry, no device found")}
+                {scanError?.message ?? t("Sorry, no device found")}
             </Typography.Subtitle>)
         }
 
@@ -99,7 +104,7 @@ export const ScanForLedger: React.FC<Props> = ({navigation, route}) => {
             <Button
                 style={styles.retryScan}
                 mode="contained"
-                onPress={() => scan()}
+                onPress={onRetryPressed}
             >
                 {t("retry")}
             </Button>

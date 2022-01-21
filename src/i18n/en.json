@@ -197,5 +197,8 @@
   "Please make sure your Ledger Nano X is unlocked and bluetooth is enabled": "Please make sure your Ledger Nano X is unlocked and bluetooth is enabled",
   "retry": "Retry",
   "Sorry, no device found": "Sorry, no device found",
-  "Waiting for Ledger to confirm": "Waiting for Ledger to confirm"
+  "Waiting for Ledger to confirm": "Waiting for Ledger to confirm",
+  "please turn on the bluetooth": "Please turn on the bluetooth",
+  "please allow access to location to perform the BLE scan": "Please allow access to location to perform the bluetooth scan",
+  "please allow access to the bluetooth": "Please allow access to the bluetooth"
 }

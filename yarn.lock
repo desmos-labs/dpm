@@ -7274,6 +7274,11 @@ react-native-ble-plx@2.0.3, react-native-ble-plx@^2.0.3:
   resolved "https://registry.yarnpkg.com/react-native-ble-plx/-/react-native-ble-plx-2.0.3.tgz#b0a746f33389dbf7fd7b158513330d487d5d0fbb"
   integrity sha512-62LRDBPf/03K7sge+qq2ZuF8PWCGB782G+SBrpgNm5fA5Hs3FCY1ExTJZ1G0tB5ZhBPYEXcKRxPLuFegcDFrqA==
 
+react-native-bluetooth-state-manager@^1.3.2:
+  version "1.3.2"
+  resolved "https://registry.yarnpkg.com/react-native-bluetooth-state-manager/-/react-native-bluetooth-state-manager-1.3.2.tgz#bc729c0770d687473a6ed56b3ff5efb18d293dde"
+  integrity sha512-tWdctovK5oJ9gW5NHSwWfQxp52k9DKuoN36avzspp38eORR6YBw4ureR9/ZJl9fB3sC/YzmVIYGn7X6+2GC67w==
+
 react-native-camera@4.0.1:
   version "4.0.1"
   resolved "https://registry.yarnpkg.com/react-native-camera/-/react-native-camera-4.0.1.tgz#355c20a4eb849cb42032b91003290c269a930300"
