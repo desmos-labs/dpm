@@ -61,6 +61,7 @@ export default function useStartBleScan() {
             error: (error: any) => {
                 console.error("BLE scan error", error);
                 setScanError(error.toString());
+                setScanning(false);
             }
         }));
         setStopStopScanTimeout(setTimeout(() => {

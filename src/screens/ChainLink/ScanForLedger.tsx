@@ -23,7 +23,7 @@ export const ScanForLedger: React.FC<Props> = ({navigation, route}) => {
     const {chain, ledgerApp, backAction} = route.params;
     const styles = useStyles();
     const {t} = useTranslation();
-    const {scanning, scan, devices} = useStartBleScan();
+    const {scanning, scan, devices, scanError} = useStartBleScan();
 
     useEffect(() => {
         scan();
@@ -91,7 +91,7 @@ export const ScanForLedger: React.FC<Props> = ({navigation, route}) => {
             <Typography.Subtitle
                 style={styles.noDeviceError}
             >
-                {t("Sorry, no device found")}
+                {scanError ?? t("Sorry, no device found")}
             </Typography.Subtitle>)
         }
 
