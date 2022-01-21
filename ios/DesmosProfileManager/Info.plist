@@ -35,6 +35,8 @@
 			</dict>
 		</dict>
 	</dict>
+  <key>NSBluetoothAlwaysUsageDescription</key>
+  <string>This app uses BLE to communicate with ledger nano</string>
 	<key>NSCameraUsageDescription</key>
 	<string>DPM would like to access your camera to scan QRs</string>
 	<key>NSFaceIDUsageDescription</key>
@@ -44,8 +46,6 @@
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>DPM would like to access your camera roll to fetch profile pictures</string>
 	<key>UIAppFonts</key>
-  <key>NSBluetoothAlwaysUsageDescription</key>
-  <string>This app uses BLE to communicate with ledger nano</string>
 	<array>
 		<string>AntDesign.ttf</string>
 		<string>Entypo.ttf</string>
