@@ -67,8 +67,13 @@ PODS:
   - libwebp/mux (1.2.1):
     - libwebp/demux
   - libwebp/webp (1.2.1)
+  - lottie-ios (3.2.3)
+  - lottie-react-native (5.0.1):
+    - lottie-ios (~> 3.2.3)
+    - React-Core
+  - MultiplatformBleAdapter (0.1.9)
   - OpenSSL-Universal (1.1.180)
-  - Permission-Camera (3.1.0):
+  - Permission-Camera (3.2.0):
     - RNPermissions
   - RCT-Folly (2020.01.13.00):
     - boost-for-react-native
@@ -265,6 +270,9 @@ PODS:
   - React-jsinspector (0.64.2)
   - react-native-aes (1.3.10):
     - React-Core
+  - react-native-ble-plx (2.0.3):
+    - MultiplatformBleAdapter (= 0.1.9)
+    - React-Core
   - react-native-camera (4.0.1):
     - React-Core
     - react-native-camera/RCT (= 4.0.1)
@@ -273,7 +281,7 @@ PODS:
     - React-Core
   - react-native-camera/RN (4.0.1):
     - React-Core
-  - react-native-image-picker (4.1.1):
+  - react-native-image-picker (4.7.1):
     - React-Core
   - react-native-randombytes (3.6.1):
     - React-Core
@@ -345,7 +353,7 @@ PODS:
     - React-cxxreact (= 0.64.2)
     - React-jsi (= 0.64.2)
     - React-perflogger (= 0.64.2)
-  - RNCAsyncStorage (1.15.9):
+  - RNCAsyncStorage (1.15.15):
     - React-Core
   - RNCClipboard (1.5.1):
     - React-Core
@@ -361,9 +369,9 @@ PODS:
     - React-Core
   - RNOS (1.2.6):
     - React
-  - RNPermissions (3.1.0):
+  - RNPermissions (3.2.0):
     - React-Core
-  - RNReanimated (2.2.2):
+  - RNReanimated (2.3.1):
     - DoubleConversion
     - FBLazyVector
     - FBReactNativeSpec
@@ -389,7 +397,6 @@ PODS:
     - React-RCTNetwork
     - React-RCTSettings
     - React-RCTText
-    - React-RCTVibration
     - ReactCommon/turbomodule/core
     - Yoga
   - RNScreens (3.5.0):
@@ -432,6 +439,8 @@ DEPENDENCIES:
   - FlipperKit/FlipperKitUserDefaultsPlugin (~> 0.75.1)
   - FlipperKit/SKIOSNetworkPlugin (~> 0.75.1)
   - glog (from `../node_modules/react-native/third-party-podspecs/glog.podspec`)
+  - lottie-ios (from `../node_modules/lottie-ios`)
+  - lottie-react-native (from `../node_modules/lottie-react-native`)
   - Permission-Camera (from `../node_modules/react-native-permissions/ios/Camera`)
   - RCT-Folly (from `../node_modules/react-native/third-party-podspecs/RCT-Folly.podspec`)
   - RCTRequired (from `../node_modules/react-native/Libraries/RCTRequired`)
@@ -447,6 +456,7 @@ DEPENDENCIES:
   - React-jsiexecutor (from `../node_modules/react-native/ReactCommon/jsiexecutor`)
   - React-jsinspector (from `../node_modules/react-native/ReactCommon/jsinspector`)
   - react-native-aes (from `../node_modules/react-native-aes-crypto`)
+  - react-native-ble-plx (from `../node_modules/react-native-ble-plx`)
   - react-native-camera (from `../node_modules/react-native-camera`)
   - react-native-image-picker (from `../node_modules/react-native-image-picker`)
   - react-native-randombytes (from `../node_modules/react-native-randombytes`)
@@ -491,6 +501,7 @@ SPEC REPOS:
     - FlipperKit
     - libevent
     - libwebp
+    - MultiplatformBleAdapter
     - OpenSSL-Universal
     - SDWebImage
     - SDWebImageWebPCoder
@@ -506,6 +517,10 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native/React/FBReactNativeSpec"
   glog:
     :podspec: "../node_modules/react-native/third-party-podspecs/glog.podspec"
+  lottie-ios:
+    :path: "../node_modules/lottie-ios"
+  lottie-react-native:
+    :path: "../node_modules/lottie-react-native"
   Permission-Camera:
     :path: "../node_modules/react-native-permissions/ios/Camera"
   RCT-Folly:
@@ -532,6 +547,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native/ReactCommon/jsinspector"
   react-native-aes:
     :path: "../node_modules/react-native-aes-crypto"
+  react-native-ble-plx:
+    :path: "../node_modules/react-native-ble-plx"
   react-native-camera:
     :path: "../node_modules/react-native-camera"
   react-native-image-picker:
@@ -607,8 +624,11 @@ SPEC CHECKSUMS:
   glog: 73c2498ac6884b13ede40eda8228cb1eee9d9d62
   libevent: 4049cae6c81cdb3654a443be001fb9bdceff7913
   libwebp: 98a37e597e40bfdb4c911fc98f2c53d0b12d05fc
+  lottie-ios: c058aeafa76daa4cf64d773554bccc8385d0150e
+  lottie-react-native: a029a86e1689c86a07169c520ae770e84348cd20
+  MultiplatformBleAdapter: 5a6a897b006764392f9cef785e4360f54fb9477d
   OpenSSL-Universal: 1aa4f6a6ee7256b83db99ec1ccdaa80d10f9af9b
-  Permission-Camera: 0db4fd6e1c556c1cf47f38b989a8084cea3ec3dd
+  Permission-Camera: 53efcbb755b0e8bdf253dbb27cc7559ccfce8480
   RCT-Folly: ec7a233ccc97cc556cf7237f0db1ff65b986f27c
   RCTRequired: 6d3e854f0e7260a648badd0d44fc364bc9da9728
   RCTTypeSafety: c1f31d19349c6b53085766359caac425926fafaa
@@ -621,8 +641,9 @@ SPEC CHECKSUMS:
   React-jsiexecutor: 80c46bd381fd06e418e0d4f53672dc1d1945c4c3
   React-jsinspector: cc614ec18a9ca96fd275100c16d74d62ee11f0ae
   react-native-aes: c6e4e3ffcff410535e31e161fca95d50e608d4ee
+  react-native-ble-plx: f10240444452dfb2d2a13a0e4f58d7783e92d76e
   react-native-camera: 11166fe7e3a673493c152f52966e8ab1c5cdcacc
-  react-native-image-picker: 92f51a85a62c2d829dcbd0dda5af99e6f988a113
+  react-native-image-picker: 5fe0a96bef4935bbdfb02f59b910bf40d5526109
   react-native-randombytes: 421f1c7d48c0af8dbcd471b0324393ebf8fe7846
   react-native-safe-area-context: 61c8c484a3a9e7d1fda19f7b1794b35bbfd2262a
   react-native-sensitive-info: 400c6e3d27945e15c8cddb5b4b92233c85ee06f8
@@ -638,15 +659,15 @@ SPEC CHECKSUMS:
   React-RCTVibration: 24600e3b1aaa77126989bc58b6747509a1ba14f3
   React-runtimeexecutor: a9904c6d0218fb9f8b19d6dd88607225927668f9
   ReactCommon: 149906e01aa51142707a10665185db879898e966
-  RNCAsyncStorage: 26f25150da507524a7815f2ada06ca0967f65633
+  RNCAsyncStorage: 0bef6a21517c0254bd6bd59a3672963abfa0d18e
   RNCClipboard: 41d8d918092ae8e676f18adada19104fa3e68495
   RNCMaskedView: 0e1bc4bfa8365eba5fbbb71e07fbdc0555249489
   RNFastImage: 1f2cab428712a4baaf78d6169eaec7f622556dd7
   RNFS: 3ab21fa6c56d65566d1fb26c2228e2b6132e5e32
   RNGestureHandler: a479ebd5ed4221a810967000735517df0d2db211
   RNOS: 6f2f9a70895bbbfbdad7196abd952e7b01d45027
-  RNPermissions: 4b54095940aea8c03fa3e6c92d4ac3647b31ed4e
-  RNReanimated: 241c586663f44f19a53883c63375fdd041253960
+  RNPermissions: f7ebe52db07c00901127966ca080b4ec6a6ceb0a
+  RNReanimated: 7f143675d94978c3555345d5bfa8ed6ae800c5d3
   RNScreens: 01ab149b5dd5c27f5ff26741b1d2bdf2cee1af35
   RNVectorIcons: 31cebfcf94e8cf8686eb5303ae0357da64d7a5a4
   SDWebImage: a7f831e1a65eb5e285e3fb046a23fcfbf08e696d
@@ -655,6 +676,6 @@ SPEC CHECKSUMS:
   Yoga: 575c581c63e0d35c9a83f4b46d01d63abc1100ac
   YogaKit: f782866e155069a2cca2517aafea43200b01fd5a
 
-PODFILE CHECKSUM: 960a12169dba1e1c66f8ffb1bee50d1632d99138
+PODFILE CHECKSUM: a15ffe80da2f4b340594c47f7d85ab723d2bcaab
 
 COCOAPODS: 1.11.2
