@@ -12,7 +12,7 @@ export type Props = StackScreenProps<ChainLinkScreensStackParams, "SelectChain">
 
 function getLedgerApplicationForChain(chain: LinkableChain): LedgerApp[] {
     if (chain.chainConfig.name === "terra") {
-        return [TerraLedgerApp]
+        return [TerraLedgerApp, CosmosLedgerApp]
     } else if (chain.chainConfig.name === "crypto.org") {
         return [CryptoOrgLedgerApp, CosmosLedgerApp]
     } else {
