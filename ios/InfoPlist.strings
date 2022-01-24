@@ -1,0 +1,10 @@
+/* 
+  InfoPlist.strings
+  DesmosProfileManager
+
+  Created by Leonardo on 24/01/22.
+  
+*/
+
+NSBluetoothAlwaysUsageDescription = "Questa applicazione utilizza il bluetooth per comunicare con Ledger nano";
+NSBluetoothPeripheralUsageDescription = "È richiesta l'autorizzazione all'utilizzo del blutooth per comunicare con il dispositivo Ledger nano";
