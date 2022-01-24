@@ -5,8 +5,6 @@ import {SelectChain} from "../screens/ChainLink/SelectChain";
 import {LinkWithMnemonic} from "../screens/ChainLink/LinkWithMnemonic";
 import {PickAddress} from "../screens/ChainLink/PickAddress";
 import {SelectLedgerApp} from "../screens/ChainLink/SelectLedgerApp";
-import {ScanForLedger} from "../screens/ChainLink/ScanForLedger";
-import {ConnectToLeger} from "../screens/ChainLink/ConnectToLedger";
 
 export const ChainLinkScreens: React.FC = () => {
     return <ChainLinkScreensStack.Navigator
@@ -30,14 +28,6 @@ export const ChainLinkScreens: React.FC = () => {
         <ChainLinkScreensStack.Screen
             name="LinkWithMnemonic"
             component={LinkWithMnemonic}
-        />
-        <ChainLinkScreensStack.Screen
-            name="ScanForLedger"
-            component={ScanForLedger}
-        />
-        <ChainLinkScreensStack.Screen
-            name="ConnectToLedger"
-            component={ConnectToLeger}
         />
         <ChainLinkScreensStack.Screen
             name="PickAddress"

@@ -1,16 +1,16 @@
 import React, {useCallback} from "react";
 import {CompositeScreenProps} from "@react-navigation/native";
 import {StackScreenProps} from "@react-navigation/stack";
-import {ChainLinkScreensStackParams, RootStackParams} from "../../types/navigation";
+import {ChainLinkScreensStackParams, ImportMode, RootStackParams} from "../../types/navigation";
 import {BlockchainListItem, ListItemSeparator, StyledSafeAreaView, TopBar, Typography} from "../../components";
 import {useTranslation} from "react-i18next";
 import {FlatList, ListRenderItemInfo} from "react-native";
 import {LedgerApp} from "../../types/ledger";
 import {makeStyle} from "../../theming";
+import BluetoothTransport from "@ledgerhq/react-native-hw-transport-ble";
 
 
-export type Props = CompositeScreenProps<
-    StackScreenProps<ChainLinkScreensStackParams, "SelectLedgerApp">,
+export type Props = CompositeScreenProps<StackScreenProps<ChainLinkScreensStackParams, "SelectLedgerApp">,
     StackScreenProps<RootStackParams>>;
 
 export const SelectLedgerApp: React.FC<Props> = ({navigation, route}) => {
@@ -22,12 +22,21 @@ export const SelectLedgerApp: React.FC<Props> = ({navigation, route}) => {
         return <BlockchainListItem
             onPress={() => {
                 navigation.navigate({
-                    key: "ledger",
-                    name: "ScanForLedger",
+                    name: "ConnectToLedgerScreens",
                     params: {
-                        chain,
-                        backAction,
                         ledgerApp: item,
+                        onConnectionEstablished: (transport: BluetoothTransport) => {
+                            navigation.navigate({
+                                name: "PickAddress",
+                                params: {
+                                    importMode: ImportMode.Ledger,
+                                    chain,
+                                    backAction,
+                                    ledgerTransport: transport,
+                                    ledgerApp: item,
+                                }
+                            });
+                        }
                     }
                 })
             }}

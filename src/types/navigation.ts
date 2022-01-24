@@ -144,17 +144,6 @@ export type ChainLinkScreensStackParams = {
         feeGranter?: string,
         backAction?: ((state: StackNavigationState<any>) => NavigationAction) | NavigationAction,
     },
-    ScanForLedger: {
-        chain: LinkableChain,
-        ledgerApp: LedgerApp,
-        backAction?: ((state: StackNavigationState<any>) => NavigationAction) | NavigationAction,
-    },
-    ConnectToLedger: {
-        chain: LinkableChain,
-        ledgerApp: LedgerApp,
-        bleLedger: BleLedger,
-        backAction?: ((state: StackNavigationState<any>) => NavigationAction) | NavigationAction,
-    },
     ConfirmAddress: {
         importMode: ImportMode,
         chain: LinkableChain,
@@ -194,6 +183,20 @@ export type AirdropScreensStackParams = {
 
 export const AirdropScreensStack = createStackNavigator<AirdropScreensStackParams>()
 
+export type ConnectToLedgerScreensStackParams = {
+    ScanForLedger: {
+        ledgerApp: LedgerApp,
+        onConnectionEstablished: (transport: BluetoothTransport) => void,
+    },
+    ConnectToLedger: {
+        ledgerApp: LedgerApp,
+        bleLedger: BleLedger,
+        onConnectionEstablished: (transport: BluetoothTransport) => void,
+    }
+}
+
+export const ConnectToLedgerScreensStack = createStackNavigator<ConnectToLedgerScreensStackParams>()
+
 export type ModalComponentProps<T> = {
     navigation: StackNavigationProp<RootStackParams>,
     params: T
@@ -205,6 +208,10 @@ export type RootStackParams = {
     SplashScreen: undefined,
     AccountCreationScreens: undefined,
     AccountScreens: NavigatorScreenParams<AccountScreensStackParams>,
+    ConnectToLedgerScreens: {
+        ledgerApp: LedgerApp,
+        onConnectionEstablished: (transport: BluetoothTransport) => void,
+    },
     ModalScreen: {
         component: ModalComponent<any>,
         navigationRef: MutableRefObject<StackNavigationProp<RootStackParams> | undefined>,

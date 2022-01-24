@@ -1,6 +1,5 @@
 import React, {useCallback, useEffect} from "react";
 import {StackScreenProps} from "@react-navigation/stack";
-import {ChainLinkScreensStackParams} from "../../types/navigation";
 import {
     Button,
     DpmImage,
@@ -15,12 +14,13 @@ import {useTranslation} from "react-i18next";
 import useStartBleScan from "../../hooks/ledger/useStartBleScan";
 import {FlatList, ListRenderItemInfo, TouchableOpacity} from "react-native";
 import {BleLedger} from "../../types/ledger";
+import {ConnectToLedgerScreensStackParams} from "../../types/navigation";
 
 
-export type Props = StackScreenProps<ChainLinkScreensStackParams, "ScanForLedger">
+export type Props = StackScreenProps<ConnectToLedgerScreensStackParams, "ScanForLedger">
 
 export const ScanForLedger: React.FC<Props> = ({navigation, route}) => {
-    const {chain, ledgerApp, backAction} = route.params;
+    const {ledgerApp, onConnectionEstablished} = route.params;
     const styles = useStyles();
     const {t} = useTranslation();
     const {scanning, scan, devices, scanError} = useStartBleScan();
@@ -30,38 +30,37 @@ export const ScanForLedger: React.FC<Props> = ({navigation, route}) => {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
-    const selectDevice = useCallback(async (ledger: BleLedger) => {
+    const onDeviceSelected = useCallback((bleLedger: BleLedger) => {
         navigation.navigate({
             name: "ConnectToLedger",
             params: {
-                chain,
+                bleLedger,
                 ledgerApp,
-                bleLedger: ledger,
-                backAction,
+                onConnectionEstablished,
             }
         })
-    }, [navigation, backAction, chain, ledgerApp]);
+    }, [ledgerApp, navigation, onConnectionEstablished]);
 
     const renderLedgerDevice = useCallback((info: ListRenderItemInfo<BleLedger>) => {
         return <TouchableOpacity
             style={styles.ledgerListItem}
-            onPress={() => selectDevice(info.item)}
+            onPress={() => onDeviceSelected(info.item)}
         >
-            <DpmImage source="ledger" />
+            <DpmImage source="ledger"/>
             <Typography.Subtitle
                 style={styles.ledgerName}
             >
                 {info.item.name}
             </Typography.Subtitle>
         </TouchableOpacity>
-    }, [selectDevice, styles.ledgerListItem, styles.ledgerName]);
+    }, [onDeviceSelected, styles.ledgerListItem, styles.ledgerName]);
 
     const onRetryPressed = useCallback(() => {
         scan();
     }, [scan]);
 
     return <StyledSafeAreaView
-        topBar={<TopBar stackProps={{navigation}} />}
+        topBar={<TopBar stackProps={{navigation}}/>}
         style={styles.root}
     >
         <ThemedLottieView

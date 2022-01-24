@@ -8,6 +8,7 @@ import {SplashScreen} from "../screens/SplashScreen";
 import AccountScreens from "./AccountScreens";
 import AccountCreationScreens from "./AccountCreationScreens";
 import {ModalScreen} from "../modals/ModalScreen";
+import {ConnectToLedgerScreens} from "./ConnectToLedgerScreens";
 
 
 export const RootStackScreens: React.FC = () => {
@@ -74,6 +75,10 @@ export const RootStackScreens: React.FC = () => {
             <RootStack.Screen
                 name="AccountCreationScreens"
                 component={AccountCreationScreens}
+            />
+            <RootStack.Screen
+                name="ConnectToLedgerScreens"
+                component={ConnectToLedgerScreens}
             />
             <RootStack.Screen
                 name="ModalScreen"
