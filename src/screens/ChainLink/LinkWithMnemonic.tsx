@@ -74,7 +74,7 @@ export const LinkWithMnemonic: React.FC<Props> = ({navigation, route}) => {
 
         <Typography.Body>
             <Trans
-                i18nKey="please enter your chain recovery passphrase"
+                i18nKey="enter chain recovery passphrase"
                 components={{
                     bold: <Typography.Subtitle />
                 }}

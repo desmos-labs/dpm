@@ -54,7 +54,7 @@ export const AirdropRequestFeeGrant: React.FC<Props> = ({navigation, route}) => 
         <Typography.Body
             style={styles.message}
         >
-            {error ?? t("please wait, it may take a few minutes, you can check back later...")}
+            {error ?? t("wait for grant")}
         </Typography.Body>
 
         <FlexPadding flex={1} />

@@ -14,12 +14,12 @@ export const UnknownTxMessage: React.FC<UnknownTxMessageProps> = (props) => {
 
     return <View>
         <LabeledValue
-            label={t("Message Type")}
+            label={t("message type")}
             value={props.typeUrl}
         />
         <Divider />
         <LabeledValue
-            label={t("Message Value")}
+            label={t("message value")}
             value={props.value}
         />
     </View>

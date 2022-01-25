@@ -45,7 +45,7 @@ export const UnlockWallet: React.FC<Props> = (props) => {
         topBar={<TopBar stackProps={props} title={t("wallet password")} />}
     >
         <Typography.Subtitle>
-            {t("please enter you wallet password")}
+            {t("enter  wallet password")}
         </Typography.Subtitle>
         <SecureTextInput
             style={styles.password}
@@ -73,7 +73,7 @@ export const UnlockWallet: React.FC<Props> = (props) => {
         {/*    onPress={resetPassword}*/}
         {/*    style={styles.forgotPasswordBtn}*/}
         {/*>*/}
-        {/*    <Typography.Body>{t("forgot password?")}</Typography.Body>*/}
+        {/*    <Typography.Body>{t("forgot password")}</Typography.Body>*/}
         {/*</TouchableOpacity>*/}
     </StyledSafeAreaView>
 }

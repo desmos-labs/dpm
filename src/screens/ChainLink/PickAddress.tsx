@@ -233,7 +233,7 @@ export const PickAddress: React.FC<Props> = (props) => {
             let closeModal;
             if (importMode === ImportMode.Ledger) {
                 closeModal = showModal(LoadingModal, {
-                    text: t("Waiting for Ledger to confirm")
+                    text: t("waiting ledger confirmation")
                 });
             }
             try {
@@ -292,7 +292,7 @@ export const PickAddress: React.FC<Props> = (props) => {
         />}
     >
         <Typography.Body>
-            {t("please select an account or enter hd derivation path")}.
+            {t("select account or enter derivation path")}.
         </Typography.Body>
 
         <Typography.Subtitle
@@ -301,7 +301,7 @@ export const PickAddress: React.FC<Props> = (props) => {
                 addressPickerVisible ? styles.disabledText : null
             ]}
         >
-            {t("enter HD derivation path")}.
+            {t("enter derivation path")}.
         </Typography.Subtitle>
         <HdPathPicker
             style={styles.hdPathPicker}
@@ -337,7 +337,7 @@ export const PickAddress: React.FC<Props> = (props) => {
                 styles.toggleSelectAccount,
                 !addressPickerVisible ? styles.toggleSelectAccountEnabled : null,
             ]}>
-                {t("select the account you want")}
+                {t("select account")}
             </Typography.Subtitle>
         </TouchableOpacity>
 

@@ -99,9 +99,9 @@ export default function useStartBleScan() {
                         if (errorMessage.indexOf("not authorized") > 0) {
                             let message: string
                             if (Platform.OS === "android") {
-                                message = t("please allow access to location to perform the BLE scan");
+                                message = t("ble scan request");
                             } else {
-                                message = t("please allow access to the bluetooth");
+                                message = t("bluetooth access request");
                             }
                             setScanError({
                                 cause: ScanErrorCause.Unauthorized,
@@ -122,15 +122,15 @@ export default function useStartBleScan() {
             } else if (state === "PoweredOff") {
                 setScanError({
                     cause: ScanErrorCause.PoweredOff,
-                    message: t("please turn on the bluetooth")
+                    message: t("turn on bluetooth")
                 });
                 setScanning(false);
             } else if (state === "Unauthorized") {
                 let message: string
                 if (Platform.OS === "android") {
-                    message = t("please allow access to location to perform the BLE scan");
+                    message = t("ble scan request");
                 } else {
-                    message = t("please allow access to the bluetooth");
+                    message = t("bluetooth access request");
                 }
                 setScanError({
                     cause: ScanErrorCause.Unauthorized,

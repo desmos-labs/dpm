@@ -68,7 +68,7 @@ export default function GenerateNewMnemonic(props: Props): JSX.Element {
             style={styles.saveMnemonicAdvice}
         >
             <Trans
-                i18nKey="save the recovery passphrase"
+                i18nKey="save recovery passphrase"
                 components={{
                     bold: <Typography.Subtitle style={{
                         color: Colors.DesmosOrange,
@@ -112,7 +112,7 @@ export default function GenerateNewMnemonic(props: Props): JSX.Element {
             labelStyle={styles.saveButton}
             disabled={generatingMnemonic}
         >
-            {t("mnemonic saved")}
+            {t("recovery passphrase saved")}
         </Button>
     </StyledSafeAreaView>
 }

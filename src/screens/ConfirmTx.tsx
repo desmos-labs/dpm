@@ -36,7 +36,7 @@ export const ConfirmTx: React.FC<Props> = (props) => {
         showModal(SingleButtonModal, {
             image: "success",
             title: t("success"),
-            message: `${t("transaction sent successfully")}!`,
+            message: `${t("tx sent successfully")}!`,
             actionLabel: backAction === undefined ? t("go to profile") : t("continue"),
             action: modalAction,
         })

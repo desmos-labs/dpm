@@ -49,19 +49,19 @@ export default function useProfileValidators() {
     const validateDtag = useCallback((dtag: string) => {
         const {minLength, maxLength, regEx} = dtagValidationParams;
         if (dtag.length < minLength) {
-            return t("field length should be greater equal then min", {
+            return t("min field length", {
                 field: "dtag",
                 min: minLength
             });
         }
         if (dtag.length > maxLength) {
-            return t("field length should be les equal then max", {
+            return t("max field length", {
                 field: "dtag",
                 max: maxLength
             });
         }
         if (!dtag.match(regEx)) {
-            return t("field should match this regular expression regex", {
+            return t("field regex", {
                 field: "dtag",
                 regex: regEx.source
             });
@@ -72,7 +72,7 @@ export default function useProfileValidators() {
     const validateBio = useCallback((bio: string) => {
         const {maxLength} = bioValidationParams;
         if (bio.length > maxLength) {
-            return t("field length should be les equal then max", {
+            return t("max field length", {
                 field: "bio",
                 max: maxLength
             });
@@ -83,13 +83,13 @@ export default function useProfileValidators() {
     const validateNickname = useCallback((nickname: string) => {
         const {minLength, maxLength} = nicknameValidationParams;
         if (nickname.length < minLength) {
-            return t("field length should be greater equal then min", {
+            return t("min field length", {
                 field: "nickname",
                 min: minLength
             });
         }
         if (nickname.length > maxLength) {
-            return t("field length should be les equal then max", {
+            return t("max field length", {
                 field: "nickname",
                 max: maxLength
             });
