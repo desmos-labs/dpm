@@ -13,6 +13,7 @@ import {ChainLink} from "./link";
 import {StackNavigationState} from "@react-navigation/routers/lib/typescript/src/StackRouter";
 import {BleLedger, LedgerApp} from "./ledger";
 import BluetoothTransport from "@ledgerhq/react-native-hw-transport-ble";
+import {Wallet} from "./wallet";
 
 export type AccountCreationStackParams = {
     Login: undefined;
@@ -22,18 +23,19 @@ export type AccountCreationStackParams = {
         mnemonic: string
     };
     PickDerivationPath: {
-        mnemonic: string,
+        mnemonic?: string,
+        ledgerTransport?: BluetoothTransport,
     }
     CreateWalletPassword: {
-        wallet: LocalWallet,
+        wallet: Wallet,
     };
     CheckWalletPassword: {
         password: string,
-        wallet: LocalWallet,
+        wallet: Wallet,
     }
     GenerateAccount: {
         password: string,
-        wallet: LocalWallet,
+        wallet: Wallet,
     };
 };
 

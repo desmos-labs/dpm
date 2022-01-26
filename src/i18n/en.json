@@ -34,6 +34,7 @@
   "today": "Today",
   "create wallet": "Create Wallet",
   "import recovery passphrase": "Import recovery passphrase",
+  "import with Ledger": "Import with Ledger",
   "secret recovery passphrase": "Secret recovery passphrase",
   "save recovery passphrase": "Please write down and save your recovery passphrase, it's the <bold>ONLY WAY</bold> to restore your account.",
   "recovery passphrase saved": "I've written it down",

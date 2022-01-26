@@ -1,116 +1,30 @@
-import React, {useCallback, useEffect, useState} from "react";
+import React, {useCallback, useState} from "react";
 import {AccountCreationStackParams} from "../../types/navigation";
 import {
-    HdPathPicker,
     StyledSafeAreaView,
-    Divider,
-    PaginatedFlatList,
-    AddressListItem, Button, ListItemSeparator, Typography
+    Button,
+    Typography
 } from "../../components";
 import {StackScreenProps} from "@react-navigation/stack";
 import {makeStyle} from "../../theming";
 import {useTranslation} from "react-i18next";
-import {View, ListRenderItemInfo, TouchableOpacity} from "react-native";
-import LocalWallet from "../../wallet/LocalWallet";
-import {DesmosHdPath, HdPath} from "../../types/hdpath";
-import useAccountExists from "../../hooks/useAccountExists";
+import {DesmosHdPath} from "../../types/hdpath";
 import {TopBar} from "../../components";
-import {FlexPadding} from "../../components/FlexPadding";
+import {WalletPicker} from "../../components/WalletPicker";
+import {DesmosLedgerApp} from "../../types/ledger";
+import {Wallet} from "../../types/wallet";
 
-type WalletHdPathPair = {
-    wallet: LocalWallet,
-    hdPath: HdPath,
-}
 
 export type Props = StackScreenProps<AccountCreationStackParams, "PickDerivationPath">;
 
 
 export const PickDerivationPath: React.FC<Props> = (props) => {
-    const {mnemonic} = props.route.params;
+    const {mnemonic, ledgerTransport} = props.route.params;
     const {t} = useTranslation();
     const styles = useStyles();
-    const [selectedHdPath, setSelectedHdPath] = useState<HdPath>(DesmosHdPath);
-    const [selectedWallet, setSelectedWallet] = useState<LocalWallet| null>(null);
-    const [addressPickerVisible, setAddressPickerVisible] = useState(false);
-    const accountExists = useAccountExists();
+    const [selectedWallet, setSelectedWallet] = useState<Wallet| null>(null);
+    const [generatingAddresses, setGeneratingAddresses] = useState(false);
 
-    const generateWalletFromHdPath = useCallback(async (hdPath: HdPath) => {
-        setSelectedWallet(null);
-        try {
-            const wallet = await LocalWallet.fromMnemonic(mnemonic, {
-                hdPath: hdPath
-            });
-            setSelectedWallet(wallet);
-        } catch (e) {
-            console.error(e);
-        }
-    }, [mnemonic]);
-
-    useEffect(() => {
-        generateWalletFromHdPath(selectedHdPath);
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []);
-
-    const toggleAddressPicker = useCallback(() => {
-        setAddressPickerVisible(visible => {
-            if (!visible) {
-                // The address picker is is being displayed,
-                // remove the wallet generated from the derivation path.
-                setSelectedWallet(null);
-                setSelectedHdPath(DesmosHdPath);
-            } else {
-                if (selectedWallet === null) {
-                    setSelectedHdPath(DesmosHdPath);
-                    generateWalletFromHdPath(DesmosHdPath);
-                }
-            }
-            return !visible
-        });
-    }, [generateWalletFromHdPath, selectedWallet]);
-
-    const renderListItem = useCallback((info: ListRenderItemInfo<WalletHdPathPair>) => {
-        const {wallet, hdPath} = info.item;
-        return <AddressListItem
-            number={hdPath.account}
-            address={wallet.bech32Address}
-            highlight={wallet.bech32Address === selectedWallet?.bech32Address}
-            onPress={() => {
-                setSelectedWallet(old => {
-                    return old?.bech32Address === wallet.bech32Address ? null : wallet;
-                });
-                setSelectedHdPath(hdPath);
-            }}
-        />
-    }, [selectedWallet]);
-
-    const listKeyExtractor = useCallback((item: WalletHdPathPair, _: number) => {
-        return item.wallet.bech32Address;
-    }, []);
-
-    const onHdPathChange = useCallback((hdPath: HdPath) => {
-        setSelectedHdPath(hdPath);
-        generateWalletFromHdPath(hdPath);
-    }, [generateWalletFromHdPath]);
-
-    const fetchWallets = useCallback(async (offset: number, limit: number) => {
-        let wallets: WalletHdPathPair [] = [];
-        for (let walletIndex = offset; walletIndex < limit; walletIndex++) {
-            const hdPath: HdPath = {
-                ...DesmosHdPath,
-                account: walletIndex,
-            }
-            const wallet = await LocalWallet.fromMnemonic(props.route.params.mnemonic, {
-                hdPath
-            })
-            if (!(await accountExists(wallet.bech32Address))) {
-                wallets.push({
-                    wallet,
-                    hdPath,
-                });
-            }
-        }
-        return wallets;
-    }, [accountExists, props.route.params.mnemonic]);
 
     const onNextPressed = useCallback(async () => {
         if (selectedWallet !== null) {
@@ -135,68 +49,21 @@ export const PickDerivationPath: React.FC<Props> = (props) => {
             {t("select account or enter derivation path")}.
         </Typography.Body>
 
-        <Typography.Subtitle
-            style={[
-                styles.hpPathLabel,
-                addressPickerVisible ? styles.disabledText : null
-            ]}
-        >
-            {t("enter derivation path")}.
-        </Typography.Subtitle>
-        <HdPathPicker
-            style={styles.hdPathPicker}
-            onChange={onHdPathChange}
-            value={selectedHdPath}
-            disabled={addressPickerVisible}
+        <WalletPicker
+            onWalletSelected={setSelectedWallet}
+            onGeneratingAddressesStateChange={setGeneratingAddresses}
+            mnemonic={mnemonic}
+            ledgerTransport={ledgerTransport}
+            ledgerApp={DesmosLedgerApp}
+            defaultHdPath={DesmosHdPath}
+            addressPrefix={'desmos'}
         />
 
-        {!addressPickerVisible && (
-            <Typography.Body style={styles.addressText}>
-                {selectedWallet ?
-                    selectedWallet.bech32Address :
-                    `${t("generating address")}...`}
-            </Typography.Body>
-        )}
-
-        <View style={styles.dividerContainer}>
-            <Divider style={styles.dividerLine}/>
-            <Typography.Subtitle
-                style={styles.dividerText}
-            >
-                {t("or")}
-            </Typography.Subtitle>
-            <Divider style={styles.dividerLine}/>
-        </View>
-
-        <TouchableOpacity
-            onPress={toggleAddressPicker}
-        >
-            <Typography.Subtitle style={[
-                styles.toggleSelectAccount,
-                !addressPickerVisible ? styles.toggleSelectAccountEnabled : null,
-            ]}>
-                {t("select account")}
-            </Typography.Subtitle>
-        </TouchableOpacity>
-
-        {addressPickerVisible ? (
-            <PaginatedFlatList
-                style={styles.addressesList}
-                loadPage={fetchWallets}
-                itemsPerPage={20}
-                renderItem={renderListItem}
-                keyExtractor={listKeyExtractor}
-                onEndReachedThreshold={0.5}
-                ItemSeparatorComponent={ListItemSeparator}
-            />
-        ) : (
-            <FlexPadding flex={1}/>
-        )}
         <Button
             style={styles.nextButton}
             mode="contained"
             onPress={onNextPressed}
-            disabled={selectedWallet === null}
+            disabled={selectedWallet === null || generatingAddresses}
         >
             {t("next")}
         </Button>

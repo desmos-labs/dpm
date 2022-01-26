@@ -29,6 +29,13 @@ export type LedgerApp = {
 }
 
 
+export const DesmosLedgerApp: LedgerApp = {
+    name: "Desmos",
+    icon: require("../assets/chains/desmos.png"),
+    uiName: "Desmos",
+    minVersion: "2.18.2",
+}
+
 export const CosmosLedgerApp: LedgerApp = {
     name: "Cosmos",
     icon: require("../assets/chains/cosmos.png"),

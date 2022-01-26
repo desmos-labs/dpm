@@ -1,19 +1,17 @@
 import React, {useCallback, useEffect, useState} from "react";
 import {StackScreenProps} from "@react-navigation/stack";
-import {
-    AccountCreationStackParams,
-    RootStackParams
-} from "../../types/navigation";
+import {AccountCreationStackParams, RootStackParams} from "../../types/navigation";
 import {ChainAccount, ChainAccountType} from "../../types/chain";
 import useSaveWallet from "../../hooks/useSaveWallet";
 import useSaveAccount from "../../hooks/useSaveAccount";
-import {StyledSafeAreaView, Button, Typography, DpmImage} from "../../components";
+import {Button, DpmImage, StyledSafeAreaView, Typography} from "../../components";
 import {useTranslation} from "react-i18next";
 import {makeStyle} from "../../theming";
 import {CompositeScreenProps} from "@react-navigation/native";
 import useChangeAccount from "../../hooks/useChangeAccount";
 import useSaveSelectedAccount from "../../hooks/useSaveSelectedAccount";
 import useSetAccounts from "../../hooks/useSetAccounts";
+import {WalletType} from "../../types/wallet";
 
 
 declare type Props = CompositeScreenProps<StackScreenProps<AccountCreationStackParams, "GenerateAccount">,
@@ -37,11 +35,13 @@ export default function GenerateAccount(props: Props): JSX.Element {
     const generateAccount = useCallback(async () => {
         setGenerating(true);
         try {
-            await saveWallet(wallet, password);
+            if (wallet.type === WalletType.Mnemonic) {
+                await saveWallet(wallet.localWallet, password);
+            }
             const account: ChainAccount = {
-                type: ChainAccountType.Local,
-                name: wallet.bech32Address,
-                address: wallet.bech32Address,
+                type: wallet.type === WalletType.Mnemonic ? ChainAccountType.Local : ChainAccountType.Ledger,
+                name: wallet.address,
+                address: wallet.address,
             }
             await saveAccount(account);
             await saveSelectedAccount(account);

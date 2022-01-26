@@ -32,6 +32,7 @@
   "today": "Oggi",
   "create wallet": "Crea wallet",
   "import recovery passphrase": "Importa frase segreta",
+  "import with Ledger": "Importa con Ledger",
   "secret recovery passphrase": "Frase segreta",
   "save recovery passphrase": "Salva la frase segreta in un posto sicuro, questo è <bold>L'UNICO MODO</bold> per recuperare il tuo account!",
   "recovery passphrase saved": "L'ho salvata in un posto sicuro",

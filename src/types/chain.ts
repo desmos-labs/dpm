@@ -4,6 +4,7 @@ import {ChainConfig} from "@desmoslabs/proto/desmos/profiles/v1beta1/models_chai
 
 export enum ChainAccountType {
     Local,
+    Ledger,
 }
 
 export interface ChainAccount {

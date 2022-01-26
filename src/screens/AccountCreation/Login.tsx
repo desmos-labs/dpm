@@ -1,13 +1,19 @@
 import React, {useCallback, useEffect, useRef} from "react";
 import {StackScreenProps} from "@react-navigation/stack";
-import {AccountCreationStackParams} from "../../types/navigation";
+import {AccountCreationStackParams, RootStackParams} from "../../types/navigation";
 import {useTranslation} from "react-i18next";
 import {Button, IconButton, StyledSafeAreaView} from "../../components";
 import {makeStyle} from "../../theming";
 import {Animated, Image, ImageBackground, Text} from "react-native";
+import {CompositeScreenProps} from "@react-navigation/native";
+import {DesmosLedgerApp} from "../../types/ledger";
+import BluetoothTransport from "@ledgerhq/react-native-hw-transport-ble";
 
 
-declare type Props = StackScreenProps<AccountCreationStackParams, "Login">
+declare type Props = CompositeScreenProps<
+    StackScreenProps<AccountCreationStackParams, "Login">,
+    StackScreenProps<RootStackParams>
+    >
 
 export default function Login({navigation}: Props): JSX.Element {
     const {t} = useTranslation();
@@ -53,10 +59,27 @@ export default function Login({navigation}: Props): JSX.Element {
         })
     }, [navigation]);
 
-    const onImportPressed = useCallback(() => {
+    const onImportMnemonic = useCallback(() => {
         navigation.navigate({
             name: "ImportRecoveryPassphrase",
             params: undefined
+        })
+    }, [navigation]);
+
+    const onImportLedger = useCallback(() => {
+        navigation.navigate({
+            name: "ConnectToLedgerScreens",
+            params: {
+                ledgerApp: DesmosLedgerApp,
+                onConnectionEstablished: (transport: BluetoothTransport) => {
+                    navigation.navigate({
+                        name: "PickDerivationPath",
+                        params: {
+                            ledgerTransport: transport,
+                        }
+                    })
+                }
+            }
         })
     }, [navigation]);
 
@@ -116,9 +139,17 @@ export default function Login({navigation}: Props): JSX.Element {
                     style={[styles.buttons, styles.buttonMargin]}
                     mode="outlined"
                     color="#ffffff"
-                    onPress={onImportPressed}
+                    onPress={onImportMnemonic}
                 >
                     {t("import recovery passphrase")}
+                </Button>
+                <Button
+                    style={[styles.buttons, styles.buttonMargin]}
+                    mode="outlined"
+                    color="#ffffff"
+                    onPress={onImportLedger}
+                >
+                    {t("import with Ledger")}
                 </Button>
             </Animated.View>
         </ImageBackground>
