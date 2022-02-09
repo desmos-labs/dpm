@@ -11,6 +11,7 @@ export interface ChainAccount {
     type: ChainAccountType;
     name: string;
     address: string;
+    hdPath: HdPath,
 }
 
 /**
