@@ -44,7 +44,7 @@ export const ScanQr: React.FC<Props> = ({navigation}) => {
         try {
             await pair(event.data);
         } catch (e) {
-            openErrorModal(t("invalid qr code. try a new one or try again"));
+            openErrorModal(t("invalid qr code"));
         }
     }, [pair, openErrorModal, t]);
 

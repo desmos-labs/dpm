@@ -154,7 +154,7 @@ export default function AuthorizeSession(props: Props) {
             <Typography.Body
                 style={styles.permissionMessage}
             >
-                {t("the application requires the following authorizations", {
+                {t("app requires authorizations", {
                     app: appName
                 })}:
             </Typography.Body>
@@ -169,7 +169,7 @@ export default function AuthorizeSession(props: Props) {
         <Typography.Body
             style={styles.bottomMessage}
         >
-            {t("note")}: {t("you will be able to revoke such authorizations inside your authorization page")}
+            {t("note")}: {t("ability to revoke authorizations")}
         </Typography.Body>
         <Button
             mode="contained"

@@ -85,7 +85,7 @@ export const Authorization: React.FC<Props> = (props) => {
     const openRevokePopup = useCallback((dAppSession: DAppSession) => {
         showModal(TwoButtonModal, {
             title: t("revoke"),
-            message: t("are you sure you want to remove dapp?", {dapp: dAppSession.name}),
+            message: t("remove dapp confirmation", {dapp: dAppSession.name}),
             positiveActionLabel: t("yes"),
             positiveAction: () => revokeAuthorization(dAppSession),
             negativeActionLabel: t("cancel"),
@@ -158,7 +158,7 @@ export const Authorization: React.FC<Props> = (props) => {
                 <Typography.Body1
                     style={styles.noDAppText}
                 >
-                    {t("there is no authorization\nlet's authorize now")}
+                    {t("no authorization present")}
                 </Typography.Body1>
                 <Button
                     mode="outlined"

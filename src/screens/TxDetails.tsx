@@ -42,7 +42,7 @@ export const TxDetails: React.FC<Props> = (props) => {
             mode="text"
             onPress={openExplorer}
         >
-            {t("view on desmos explorer")}
+            {t("view on explorer")}
         </Button>
     </StyledSafeAreaView>
 }

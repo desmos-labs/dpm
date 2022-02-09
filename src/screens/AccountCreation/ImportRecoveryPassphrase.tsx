@@ -73,7 +73,7 @@ export default function ImportRecoveryPassphrase(props: Props): JSX.Element {
             {t("import recovery passphrase")}
         </Typography.Title>
         <Typography.Body>
-            {t("please enter you recovery passphrase")}.
+            {t("enter recovery passphrase")}.
         </Typography.Body>
 
         <Typography.Body

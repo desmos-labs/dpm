@@ -92,7 +92,7 @@ export const ChainLinkDetails: React.FC<Props> = (props) => {
     const disconnect = useCallback(() => {
         showModal(TwoButtonModal, {
             title: t("disconnect"),
-            message: t("are you sure you want to disconnect chain account?", {
+            message: t("disconnect chain account confirmation", {
                 chain: chainName
             }),
             positiveActionLabel: t("yes"),

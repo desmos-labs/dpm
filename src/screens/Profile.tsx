@@ -124,7 +124,7 @@ export default function Profile(props: Props): JSX.Element {
                     resizeMode="contain"
                 />
                 <Typography.Body1>
-                    {t("create your first desmos profile now")}
+                    {t("create first desmos profile")}
                 </Typography.Body1>
                 <Button
                     style={styles.createProfileBtn}

@@ -34,8 +34,8 @@ export const AirdropClaimRewards: React.FC<Props> = ({navigation, route}) => {
     const showSuccessModal = useCallback(() => {
         showModal(SingleButtonModal, {
             image: "success",
-            title: t("congratulations!"),
-            message: t("you have claimed amount", {
+            title: t("congratulations"),
+            message: t("claimed amount", {
                 amount: `${pendingRewards.toBeClaimed} DSM`
             }),
             actionLabel: t("claim more"),
@@ -88,12 +88,12 @@ export const AirdropClaimRewards: React.FC<Props> = ({navigation, route}) => {
     return <StyledSafeAreaView
         topBar={<TopBar
             stackProps={{navigation}}
-            title={t("Claim DSM Airdrop")}
+            title={t("claim airdrop")}
             capitalizeTitle={false}
         />}
     >
         <Typography.Body1>
-            {t("looks like you are allowed to claim")}
+            {t("claimable amount")}
         </Typography.Body1>
 
         <Typography.H2 style={styles.amount}>

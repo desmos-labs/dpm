@@ -78,7 +78,7 @@ export default function WalletPassword(props: Props): JSX.Element {
         } else {
             // @ts-ignore
             if (password !== props.route.params?.password) {
-                setErrorMessage(t("confirmation password don't match"));
+                setErrorMessage(t("wrong confirmation password"));
             } else {
                 props.navigation.navigate({
                     name: "GenerateAccount",
@@ -99,7 +99,7 @@ export default function WalletPassword(props: Props): JSX.Element {
             {t("protect your wallet")}
         </Typography.Title>
         <Typography.Body>
-            {t("add an extra layer of security to keep your tokens safe")}
+            {t("add an extra security")}
         </Typography.Body>
 
         <View style={styles.passwordLabel}>

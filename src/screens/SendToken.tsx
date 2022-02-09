@@ -116,11 +116,11 @@ export const SendToken: React.FC<Props> = (props) => {
         <Typography.Subtitle
             style={styles.topMarginMedium}
         >
-            {t("note (memo)")}
+            {t("tx note")}
         </Typography.Subtitle>
         <TextInput
             style={[styles.topMarginSmall, styles.memoInput]}
-            placeholder={t("description (optional)")}
+            placeholder={t("tx description")}
             value={memo}
             onChangeText={onMemoChange}
             numberOfLines={4}

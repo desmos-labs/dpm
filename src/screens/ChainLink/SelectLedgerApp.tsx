@@ -41,11 +41,11 @@ export const SelectLedgerApp: React.FC<Props> = ({navigation, route}) => {
         topBar={<TopBar
             style={styles.background}
             stackProps={{navigation}}
-            title={t("Select app")}
+            title={t("select app")}
         />}>
 
         <Typography.Body>
-            {t("Select the App you would like to connect")}
+            {t("select app to connect")}
         </Typography.Body>
 
         <FlatList

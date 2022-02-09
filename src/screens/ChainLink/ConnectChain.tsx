@@ -44,7 +44,7 @@ export const ConnectChain: React.FC<Props> = ({navigation, route}) => {
         />}
     >
         <Typography.Body>
-            {t("select the method you would like to connect your chain account")}
+            {t("select connection method")}
         </Typography.Body>
 
         <ImageButton

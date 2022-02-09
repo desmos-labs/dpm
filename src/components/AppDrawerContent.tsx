@@ -84,7 +84,7 @@ export const AppDrawerContent: React.FC<Props> = (props) => {
     const showDeleteModal = useCallback((pair: AccountProfilePair) => {
         showModal(TwoButtonModal, {
             title: t("remove account"),
-            message: t("are you sure you want to remove this account"),
+            message: t("remove account confirmation"),
             positiveActionLabel: t("yes"),
             positiveAction: () => onDeleteAccount(pair),
             negativeActionLabel: t("cancel"),

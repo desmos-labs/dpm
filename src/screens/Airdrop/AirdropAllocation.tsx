@@ -108,7 +108,7 @@ export const AirdropAllocation: React.FC<Props> = ({navigation, route}) => {
                 ItemSeparatorComponent={() => <View style={{height: 8}}/>}
             />
             {allocations.length > 0 && <Typography.Body1 style={styles.info}>
-                * {t("The more accounts you connected, the more DSM that allow you to claim")}
+                * {t("airdrop accounts tip")}
             </Typography.Body1>}
         </View>
         {loading || allClaimed ? null : (

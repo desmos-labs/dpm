@@ -53,7 +53,7 @@ export const AirdropClaimStatus: React.FC<Props> = ({navigation, route}) => {
         } else if (feeGrantRequestStatus?.type === FeeGrantStatus.Error) {
             return feeGrantRequestStatus.error;
         } else if (feeGrantRequestStatus?.type === FeeGrantStatus.Claimable) {
-            return t("Get a grant to create a Desmos Profile");
+            return t("get a grant text");
         }
     }, [feeGrantRequestStatus, loading, t]);
 
@@ -106,27 +106,27 @@ export const AirdropClaimStatus: React.FC<Props> = ({navigation, route}) => {
     return <StyledSafeAreaView
         topBar={<TopBar
             stackProps={{navigation}}
-            title={t("Claim DSM Airdrop")}
+            title={t("claim airdrop")}
             capitalizeTitle={false}
         />}
     >
         <Typography.Body1>
-            {t("to claim DSM, you will need to")}
+            {t("claim requirements")}
         </Typography.Body1>
 
         <View style={styles.tasksContainer}>
             <TaskItem
-                text={t("Get a grant")}
+                text={t("get a grant title")}
                 completed={grantTaskCompleted}
             />
             <Divider/>
             <TaskItem
-                text={t("create Desmos Profile")}
+                text={t("airdrop requirement - create desmos profile")}
                 completed={profileTaskCompleted}
             />
             <Divider/>
             <TaskItem
-                text={t("connect Desmos Profile to your wallet accounts")}
+                text={t("airdrop requirement - connect profile to accounts")}
                 completed={accountConnectedTask}
             />
         </View>
@@ -153,7 +153,7 @@ export const AirdropClaimStatus: React.FC<Props> = ({navigation, route}) => {
                 disabled={feeGrantRequestStatus?.type === FeeGrantStatus.Error}
             >
                 {
-                    canRequestFeeGrant ? t("Get grant") : profileTaskCompleted ?
+                    canRequestFeeGrant ? t("get a grant button") : profileTaskCompleted ?
                         t("connect account") : t("create profile")
                 }
             </Button>

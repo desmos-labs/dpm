@@ -76,13 +76,13 @@ export const ScanForLedger: React.FC<Props> = ({navigation, route}) => {
         <Typography.Subtitle
             style={styles.title}
         >
-            {t("Looking for devices")}
+            {t("looking for devices")}
         </Typography.Subtitle>
 
         <Typography.Body
             style={styles.advice}
         >
-            {t("Please make sure your Ledger Nano X is unlocked and bluetooth is enabled")}
+            {t("nano x unlock bluetooth check")}
         </Typography.Body>
 
         {scanning || devices.length > 0 ? (
@@ -96,7 +96,7 @@ export const ScanForLedger: React.FC<Props> = ({navigation, route}) => {
             <Typography.Subtitle
                 style={styles.noDeviceError}
             >
-                {scanError?.message ?? t("Sorry, no device found")}
+                {scanError?.message ?? t("no device found")}
             </Typography.Subtitle>)
         }
 
