@@ -12,6 +12,7 @@ import useChangeAccount from "../../hooks/useChangeAccount";
 import useSaveSelectedAccount from "../../hooks/useSaveSelectedAccount";
 import useSetAccounts from "../../hooks/useSetAccounts";
 import {WalletType} from "../../types/wallet";
+import * as SecureStorage from '../../utilils/SecureStorage';
 
 
 declare type Props = CompositeScreenProps<StackScreenProps<AccountCreationStackParams, "GenerateAccount">,
@@ -46,6 +47,11 @@ export default function GenerateAccount(props: Props): JSX.Element {
             }
             await saveAccount(account);
             await saveSelectedAccount(account);
+            // Save a secret encrypted with user provided password to
+            // authenticate the user when performing sensitive operations.
+            await SecureStorage.setItem(`${account.address}-auth-challenge`, account.address, {
+                password,
+            });
             setAccount(account);
         } catch (e) {
             setError(e.toString());
