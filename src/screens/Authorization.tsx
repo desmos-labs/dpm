@@ -136,17 +136,22 @@ export const Authorization: React.FC<Props> = (props) => {
         />}
     >
         {dAppSessions.length > 0 ? (
-            <FlatList
-                data={dAppSessions}
-                renderItem={({item}) => {
-                    return <DAppSessionComponent
-                        session={item}
-                        onRevoke={openRevokePopup}
-                    />
-                }}
-                keyExtractor={(item) => item.id}
-                ItemSeparatorComponent={ListItemSeparator}
-            />
+            <View
+                style={styles.dAppSessions}
+                onStartShouldSetResponder={() => true}
+            >
+                <FlatList
+                    data={dAppSessions}
+                    renderItem={({item}) => {
+                        return <DAppSessionComponent
+                            session={item}
+                            onRevoke={openRevokePopup}
+                        />
+                    }}
+                    keyExtractor={(item) => item.id}
+                    ItemSeparatorComponent={ListItemSeparator}
+                />
+            </View>
         ) : (
             <View style={styles.noDAppContainer}>
                 <DpmImage
@@ -178,6 +183,9 @@ const useStyles = makeStyle(theme => ({
     },
     avatarImage: {
         right: 16,
+    },
+    dAppSessions: {
+        flex: 1,
     },
     noDAppContainer: {
         display: "flex",
