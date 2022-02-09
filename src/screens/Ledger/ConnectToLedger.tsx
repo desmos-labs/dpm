@@ -1,4 +1,4 @@
-import React, {useCallback} from "react";
+import React, {useCallback, useEffect} from "react";
 import {StackScreenProps} from "@react-navigation/stack";
 import {ConnectToLedgerScreensStackParams} from "../../types/navigation";
 import {Button, DpmImage, StyledSafeAreaView, ThemedLottieView, TopBar, Typography} from "../../components";
@@ -11,7 +11,7 @@ import {FlexPadding} from "../../components/FlexPadding";
 export type Props = StackScreenProps<ConnectToLedgerScreensStackParams, "ConnectToLedger">
 
 export const ConnectToLedger: React.FC<Props> = ({navigation, route}) => {
-    const {bleLedger, ledgerApp, onConnectionEstablished} = route.params
+    const {bleLedger, ledgerApp, onConnectionEstablished, onCancel} = route.params
     const {t} = useTranslation();
     const styles = useStyles();
     const {connecting, connected, connectionError, transport, retry} = useConnectToLedger(bleLedger, ledgerApp);
@@ -19,12 +19,20 @@ export const ConnectToLedger: React.FC<Props> = ({navigation, route}) => {
 
     const onButtonPressed = useCallback(() => {
         if (connected) {
-            navigation.pop(1);
+            navigation.goBack();
             onConnectionEstablished(transport!!)
         } else {
             retry();
         }
     }, [connected, navigation, onConnectionEstablished, retry, transport]);
+
+    useEffect(() => {
+        return navigation.addListener("beforeRemove", e => {
+            if (e.data.action.type === "GO_BACK" && !connected && onCancel !== undefined) {
+                onCancel()
+            }
+        });
+    }, [navigation, connected, onCancel]);
 
     return <StyledSafeAreaView
         topBar={<TopBar

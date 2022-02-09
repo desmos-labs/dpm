@@ -189,11 +189,13 @@ export type ConnectToLedgerScreensStackParams = {
     ScanForLedger: {
         ledgerApp: LedgerApp,
         onConnectionEstablished: (transport: BluetoothTransport) => void,
+        onCancel?: () => void,
     },
     ConnectToLedger: {
         ledgerApp: LedgerApp,
         bleLedger: BleLedger,
         onConnectionEstablished: (transport: BluetoothTransport) => void,
+        onCancel?: () => void,
     }
 }
 
@@ -213,6 +215,7 @@ export type RootStackParams = {
     ConnectToLedgerScreens: {
         ledgerApp: LedgerApp,
         onConnectionEstablished: (transport: BluetoothTransport) => void,
+        onCancel?: () => void,
     },
     ModalScreen: {
         component: ModalComponent<any>,

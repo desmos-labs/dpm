@@ -15,12 +15,13 @@ import useStartBleScan from "../../hooks/ledger/useStartBleScan";
 import {FlatList, ListRenderItemInfo, TouchableOpacity} from "react-native";
 import {BleLedger} from "../../types/ledger";
 import {ConnectToLedgerScreensStackParams} from "../../types/navigation";
+import {StackActions} from "@react-navigation/native";
 
 
 export type Props = StackScreenProps<ConnectToLedgerScreensStackParams, "ScanForLedger">
 
 export const ScanForLedger: React.FC<Props> = ({navigation, route}) => {
-    const {ledgerApp, onConnectionEstablished} = route.params;
+    const {ledgerApp, onConnectionEstablished, onCancel} = route.params;
     const styles = useStyles();
     const {t} = useTranslation();
     const {scanning, scan, devices, scanError} = useStartBleScan();
@@ -30,16 +31,22 @@ export const ScanForLedger: React.FC<Props> = ({navigation, route}) => {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
-    const onDeviceSelected = useCallback((bleLedger: BleLedger) => {
-        navigation.navigate({
-            name: "ConnectToLedger",
-            params: {
-                bleLedger,
-                ledgerApp,
-                onConnectionEstablished,
+    useEffect(() => {
+        return navigation.addListener("beforeRemove", e => {
+            if (e.data.action.type === "GO_BACK" && onCancel !== undefined) {
+                onCancel()
             }
-        })
-    }, [ledgerApp, navigation, onConnectionEstablished]);
+        });
+    }, [navigation, onCancel])
+
+    const onDeviceSelected = useCallback((bleLedger: BleLedger) => {
+        navigation.dispatch(StackActions.replace("ConnectToLedger", {
+            bleLedger,
+            ledgerApp,
+            onConnectionEstablished,
+            onCancel,
+        }));
+    }, [ledgerApp, navigation, onConnectionEstablished, onCancel]);
 
     const renderLedgerDevice = useCallback((info: ListRenderItemInfo<BleLedger>) => {
         return <TouchableOpacity
