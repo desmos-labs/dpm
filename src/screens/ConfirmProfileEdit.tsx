@@ -61,7 +61,7 @@ export const ConfirmProfileEdit: React.FC<Props> = (props) => {
     const onConfirm = useCallback(async () => {
         setBroadcastingTx(true);
         try {
-            const wallet = await unlockWallet(account.address);
+            const wallet = await unlockWallet(account);
             if (wallet !== null) {
                 const newProfile: DesmosProfile = {
                     ...profile
@@ -70,11 +70,23 @@ export const ConfirmProfileEdit: React.FC<Props> = (props) => {
                 if (localCoverPictureUri !== undefined) {
                     const response = await uploadPicture(localCoverPictureUri);
                     newProfile.coverPicture = response.url;
+                } else {
+                    newProfile.coverPicture = undefined;
                 }
 
                 if (localProfilePictureUri !== undefined) {
                     const response = await uploadPicture(localProfilePictureUri);
                     newProfile.profilePicture = response.url;
+                } else {
+                    newProfile.profilePicture = undefined;
+                }
+
+                if (newProfile.bio?.length === 0) {
+                    newProfile.bio = undefined;
+                }
+
+                if (newProfile.nickname?.length === 0) {
+                    newProfile.nickname = undefined;
                 }
 
                 const saveProfileMessage: MsgSaveProfileEncodeObject = {
@@ -109,9 +121,9 @@ export const ConfirmProfileEdit: React.FC<Props> = (props) => {
             })
         }
         setBroadcastingTx(false);
-    }, [unlockWallet, account.address, profile, localCoverPictureUri,
-        localProfilePictureUri, broadcastMessages, txFee, feeGranter, saveProfile,
-        goBackTo, uploadPicture, showModal, t, navigateToHomeScreen, props.navigation])
+    }, [unlockWallet, account, profile, localCoverPictureUri,
+        localProfilePictureUri, broadcastMessages, txFee, feeGranter,
+        saveProfile, showModal, t, goBackTo, uploadPicture, navigateToHomeScreen, props.navigation])
 
     return <StyledSafeAreaView
         padding={0}

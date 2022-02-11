@@ -55,7 +55,7 @@ export type AccountScreensStackParams = {
     EditProfile: {
         account?: ChainAccount,
         profile?: DesmosProfile | null,
-        bio?: string,
+        bio?: string | null,
         goBackTo?: string,
         feeGranter?: string
     },

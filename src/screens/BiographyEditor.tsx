@@ -15,15 +15,15 @@ export const BiographyEditor: React.FC<Props> = (props) => {
     const {navigation} = props;
     const styles = useStyles();
     const {bioValidationParams} = useProfileValidators()
-    const [bio, setBio] = useState(props.route.params.bio ?? "");
-    const [charCount, setCharCount] = useState(bioValidationParams.maxLength - bio.length);
+    const [bio, setBio] = useState(props.route.params.bio);
+    const [charCount, setCharCount] = useState(bioValidationParams.maxLength - (bio?.length ?? 0));
     const charCountWarning = charCount <= 20;
 
     const onDonePressed = useCallback(() => {
         navigation.navigate({
             name: "EditProfile",
             params: {
-                bio,
+                bio: bio === undefined ? null : bio,
             },
             merge: true
         })
@@ -31,7 +31,11 @@ export const BiographyEditor: React.FC<Props> = (props) => {
 
     const onTextChange = useCallback((text: string) => {
         const allowedChars = bioValidationParams.maxLength - text.length;
-        if (allowedChars >= 0) {
+        if (text.length === 0) {
+            setBio(undefined);
+            setCharCount(allowedChars);
+        }
+        else if (allowedChars >= 0) {
             setBio(text);
             setCharCount(allowedChars);
         } else {
