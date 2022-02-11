@@ -1,27 +1,58 @@
-import {useNavigation} from "@react-navigation/native";
-import {AccountScreensStackParams} from "../types/navigation";
+import {CompositeNavigationProp, useNavigation} from "@react-navigation/native";
+import {AccountScreensStackParams, RootStackParams} from "../types/navigation";
 import {StackNavigationProp} from "@react-navigation/stack";
 import {useCallback} from "react";
-import LocalWallet from "../wallet/LocalWallet";
+import {ChainAccount, ChainAccountType} from "../types/chain";
+import {OfflineSigner} from "@cosmjs/proto-signing";
+import {DesmosLedgerApp} from "../types/ledger";
+import BluetoothTransport from "@ledgerhq/react-native-hw-transport-ble";
+import {LedgerSigner} from "@cosmjs/ledger-amino";
+import {toCosmjsHdPath} from "../utilils/hdpath";
+
+type NavigationProps = CompositeNavigationProp<
+    StackNavigationProp<AccountScreensStackParams>,
+    StackNavigationProp<RootStackParams>>
 
 /**
  * Hooks that provides a function to unlock and access the user wallet.
  */
-export default function useUnlockWallet(): (address: string) => Promise<LocalWallet | null> {
+export default function useUnlockWallet(): (account: ChainAccount) => Promise<OfflineSigner | null> {
 
-    const navigation = useNavigation<StackNavigationProp<AccountScreensStackParams>>();
+    const navigation = useNavigation<NavigationProps>();
 
-    return useCallback(async (address: string) => {
-        return await (new Promise((resolve, reject) => {
-            navigation.navigate({
-                name: "UnlockWallet",
-                params: {
-                    address,
-                    resolve,
-                    reject,
-                }
-            })
-        }));
+    return useCallback(async (account: ChainAccount) => {
+        if (account.type === ChainAccountType.Local) {
+            return await (new Promise((resolve, reject) => {
+                navigation.navigate({
+                    name: "UnlockWallet",
+                    params: {
+                        address: account.address,
+                        resolve,
+                        reject,
+                    }
+                })
+            }));
+        } else {
+            return await (new Promise((resolve) => {
+                navigation.navigate({
+                    name: "ConnectToLedgerScreens",
+                    params: {
+                        ledgerApp: DesmosLedgerApp,
+                        onConnectionEstablished: (transport: BluetoothTransport) => {
+                            resolve(new LedgerSigner(transport!, {
+                                minLedgerAppVersion: DesmosLedgerApp!.minVersion,
+                                ledgerAppName: DesmosLedgerApp!.name,
+                                hdPaths: [toCosmjsHdPath(account.hdPath)],
+                                prefix: 'desmos'
+                            }))
+                        },
+                        onCancel: () => {
+                            resolve(null);
+                        }
+                    }
+                })
+            }));
+        }
     }, [navigation])
 
 }

@@ -72,7 +72,7 @@ export const ChainLinkDetails: React.FC<Props> = (props) => {
             (async () => {
                 setDisconnecting(true);
                 try {
-                    const wallet = await unlockWallet(chainLink.userAddress);
+                    const wallet = await unlockWallet(account);
                     if (wallet !== null) {
                         await disconnectChainLink(wallet, chainLink);
                         removeChainLink({
@@ -87,7 +87,7 @@ export const ChainLinkDetails: React.FC<Props> = (props) => {
                 setDisconnecting(false);
             })();
         }
-    }, [chainLink, disconnectChain, disconnectChainLink, removeChainLink, showErrorModal, showSuccessModal, unlockWallet]);
+    }, [account, chainLink, disconnectChain, disconnectChainLink, removeChainLink, showErrorModal, showSuccessModal, unlockWallet]);
 
     const disconnect = useCallback(() => {
         showModal(TwoButtonModal, {

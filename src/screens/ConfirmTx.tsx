@@ -53,7 +53,7 @@ export const ConfirmTx: React.FC<Props> = (props) => {
 
     const broadcastTx = useCallback(async () => {
         setBroadcastingTx(true);
-        const wallet = await unlockWallet(currentAccount.address);
+        const wallet = await unlockWallet(currentAccount);
         if (wallet !== null) {
             try {
                 await broadcastMessages(wallet, messages, fee, undefined, feeGranter);

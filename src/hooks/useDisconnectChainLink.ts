@@ -1,21 +1,22 @@
 import {useCurrentChainInfo} from "@desmoslabs/sdk-react";
 import {useCallback} from "react";
 import {ChainLink} from "../types/link";
-import LocalWallet from "../wallet/LocalWallet";
 import {MsgUnlinkChainAccountEncodeObject} from "@desmoslabs/sdk-core";
 import {computeTxFees, messagesGas} from "../types/fees";
 import useBroadcastMessages from "./useBroadcastMessages";
+import {OfflineSigner} from "@cosmjs/proto-signing";
 
 export default function useDisconnectChainLink() {
     const chainInfo = useCurrentChainInfo();
     const broadcastMessages = useBroadcastMessages()
 
-    return useCallback(async (wallet: LocalWallet, chainLink: ChainLink) => {
+    return useCallback(async (wallet: OfflineSigner, chainLink: ChainLink) => {
+        const accounts = await wallet.getAccounts();
         const msgs = [{
             typeUrl: "/desmos.profiles.v1beta1.MsgUnlinkChainAccount",
             value: {
                 chainName: chainLink.chainName,
-                owner: wallet.bech32Address,
+                owner: accounts[0].address,
                 target: chainLink.externalAddress
             }
         } as MsgUnlinkChainAccountEncodeObject];

@@ -31,8 +31,9 @@ export const EditProfile: React.FC<Props> = (props) => {
     const {validateDtag, validateNickname} = useProfileValidators();
 
     useEffect(() => {
-        if (props.route.params.bio !== undefined) {
-            setBio(props.route.params.bio);
+        const bio = props.route.params.bio;
+        if (bio === null || bio !== undefined) {
+            setBio(bio === null ? undefined : bio);
         }
     }, [props.route.params.bio]);
 
@@ -93,8 +94,13 @@ export const EditProfile: React.FC<Props> = (props) => {
     }, [validateDtag]);
 
     const nicknameChanged = useCallback((nickname: string) => {
-        setNicknameError(validateNickname(nickname));
-        setNickname(nickname);
+        if (nickname.length === 0) {
+            setNicknameError(undefined);
+            setNickname(undefined);
+        } else {
+            setNicknameError(validateNickname(nickname));
+            setNickname(nickname);
+        }
     }, [validateNickname]);
 
     return <StyledSafeAreaView

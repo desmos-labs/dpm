@@ -52,7 +52,8 @@ export const WalletConnectCallRequest: React.FC<Props> = (props) => {
     }, [request, rejectRequest]);
 
     const onApprove = useCallback(async () => {
-        const wallet = await unlockWallet(request!.signerAddress);
+        // Todo: Handle wallet connect request
+        const wallet = null;
         if (wallet !== null) {
             const signature = await signTx(wallet, {
                 method: CosmosMethod.SignDirect,

@@ -61,13 +61,13 @@ export default function AuthorizeSession(props: Props) {
     }, [reject, sessionRequestDetails]);
 
     const onGrant = useCallback(async () => {
-        const wallet = await unlockWallet(selectedAccount.address);
+        // TODO: Use the auth challenge instead of unlock the wallet to authorize the
+        // operation.
+        const wallet = null;
         if (wallet !== null) {
             approve(sessionRequestDetails.sessionId, [selectedAccount.address], currentChain.chainId);
         }
-    }, [approve, currentChain.chainId,
-        selectedAccount.address, sessionRequestDetails.sessionId,
-        unlockWallet])
+    }, [approve, currentChain.chainId, selectedAccount, sessionRequestDetails.sessionId, unlockWallet])
 
     const authorizations: Authorization[] = useMemo(() => {
         // NOTE: At the moment we support only wallet connect so the authorizations
