@@ -9,7 +9,7 @@ import useWalletConnectSessionReject from "../hooks/useWalletConnectSessionRejec
 import {useCurrentChainInfo} from "@desmoslabs/sdk-react";
 import useSelectedAccount from "../hooks/useSelectedAccount";
 import useNavigateToHomeScreen from "../hooks/useNavigateToHomeScreen";
-import useUnlockWallet from "../hooks/useUnlockWallet";
+import useAuthorizeOperation from "../hooks/useAuthorizeOperation";
 import {makeStyle} from "../theming";
 import {format} from "date-fns"
 import useShowModal from "../hooks/useShowModal";
@@ -33,7 +33,7 @@ export default function AuthorizeSession(props: Props) {
     const selectedAccount = useSelectedAccount();
     const currentChain = useCurrentChainInfo();
     const navigateToHomeScreen = useNavigateToHomeScreen();
-    const unlockWallet = useUnlockWallet();
+    const authorizeOperation = useAuthorizeOperation();
     const openModal = useShowModal();
 
     const appName = useMemo(() => {
@@ -61,13 +61,11 @@ export default function AuthorizeSession(props: Props) {
     }, [reject, sessionRequestDetails]);
 
     const onGrant = useCallback(async () => {
-        // TODO: Use the auth challenge instead of unlock the wallet to authorize the
-        // operation.
-        const wallet = null;
-        if (wallet !== null) {
+        const authorized = await authorizeOperation(selectedAccount);
+        if (authorized) {
             approve(sessionRequestDetails.sessionId, [selectedAccount.address], currentChain.chainId);
         }
-    }, [approve, currentChain.chainId, selectedAccount, sessionRequestDetails.sessionId, unlockWallet])
+    }, [approve, currentChain.chainId, selectedAccount, sessionRequestDetails.sessionId, authorizeOperation])
 
     const authorizations: Authorization[] = useMemo(() => {
         // NOTE: At the moment we support only wallet connect so the authorizations

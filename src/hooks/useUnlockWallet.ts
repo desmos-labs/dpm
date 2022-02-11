@@ -1,5 +1,5 @@
 import {CompositeNavigationProp, useNavigation} from "@react-navigation/native";
-import {AccountScreensStackParams, RootStackParams} from "../types/navigation";
+import {AccountScreensStackParams, AuthorizeOperationResolveParams, RootStackParams} from "../types/navigation";
 import {StackNavigationProp} from "@react-navigation/stack";
 import {useCallback} from "react";
 import {ChainAccount, ChainAccountType} from "../types/chain";
@@ -24,10 +24,13 @@ export default function useUnlockWallet(): (account: ChainAccount) => Promise<Of
         if (account.type === ChainAccountType.Local) {
             return await (new Promise((resolve, reject) => {
                 navigation.navigate({
-                    name: "UnlockWallet",
+                    name: "AuthorizeOperation",
                     params: {
                         address: account.address,
-                        resolve,
+                        provideWallet: true,
+                        resolve: (result: AuthorizeOperationResolveParams) => {
+                            resolve(result.wallet);
+                        },
                         reject,
                     }
                 })

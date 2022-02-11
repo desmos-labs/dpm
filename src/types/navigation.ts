@@ -106,9 +106,24 @@ export type AccountScreensStackParams = {
         memo?: string,
     },
     WalletConnectCallRequest: undefined,
-    UnlockWallet: {
-        address: string
-        resolve: (wallet: LocalWallet | null) => void,
+    AuthorizeOperation: {
+        /**
+         * Address of the account that is requesting the operation.
+         **/
+        address: string,
+        /**
+         * True if should also returned the user wallet that is stored
+         * encrypted in the device memory
+         */
+        provideWallet: boolean,
+        /**
+         * Callback called if the user authorized
+         * the operation or cancel it.
+         */
+        resolve: (result: AuthorizeOperationResolveParams) => void,
+        /**
+         * Callback called if an error occur.
+         */
         reject: (error: Error) => void
     },
     ChainLinkScreens: NavigatorScreenParams<ChainLinkScreensStackParams>,
@@ -117,6 +132,11 @@ export type AccountScreensStackParams = {
     }
     AirdropScreens: undefined,
 };
+
+export type AuthorizeOperationResolveParams = {
+    authorized: boolean,
+    wallet: LocalWallet | null,
+}
 
 export const AccountScreensStack = createStackNavigator<AccountScreensStackParams>();
 

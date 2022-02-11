@@ -7,12 +7,14 @@ import {Button, StyledSafeAreaView, TopBar, Typography} from "../components";
 import WalletSource from "../sources/LocalWalletsSource";
 import {makeStyle} from "../theming";
 import {FlexPadding} from "../components/FlexPadding";
+import LocalWallet from "../wallet/LocalWallet";
+import * as SecureStorage from "../utilils/SecureStorage";
 
 
-type Props = StackScreenProps<AccountScreensStackParams, "UnlockWallet">
+type Props = StackScreenProps<AccountScreensStackParams, "AuthorizeOperation">
 
-export const UnlockWallet: React.FC<Props> = (props) => {
-    const {address, resolve} = props.route.params;
+export const AuthorizeOperation: React.FC<Props> = (props) => {
+    const {address, resolve, provideWallet} = props.route.params;
     const styles = useStyles();
     const {t} = useTranslation();
     const [loading, setLoading] = useState(false);
@@ -22,7 +24,10 @@ export const UnlockWallet: React.FC<Props> = (props) => {
     useEffect(() => {
         return props.navigation.addListener("beforeRemove", e => {
             if (e.data.action.type === "GO_BACK") {
-                resolve(null);
+                resolve({
+                    authorized: false,
+                    wallet: null,
+                });
             }
         })
     }, [props.navigation, resolve])
@@ -30,15 +35,37 @@ export const UnlockWallet: React.FC<Props> = (props) => {
     const unlockWallet = useCallback(async () => {
         setLoading(true);
         try {
-            const wallet = await WalletSource.getWallet(address, password);
+            let wallet: LocalWallet | null;
+            if (provideWallet) {
+                wallet = await WalletSource.getWallet(address, password);
+            } else {
+                wallet = null;
+                // Get the auth challenge from the device memory
+                // if is correct the value should be the user addres.
+                const value = await SecureStorage.getItem(`${address}-auth-challenge`, {
+                    password: password
+                });
+                if (value !== null) {
+                    if (value !== address) {
+                        throw new Error(`Invalid auth challenge value "${value}"`);
+                    }
+                } else {
+                    // On the old version this key may not exist
+                    // fallback to unlock wallet to check the password
+                    await WalletSource.getWallet(address, password);
+                }
+            }
             setLoading(false);
-            resolve(wallet);
+            resolve({
+                authorized: true,
+                wallet
+            });
             props.navigation.goBack();
         } catch (e) {
             setError(t("invalid password"));
         }
         setLoading(false);
-    }, [address, password, props.navigation, resolve, t]);
+    }, [address, password, props.navigation, provideWallet, resolve, t]);
 
 
     return <StyledSafeAreaView

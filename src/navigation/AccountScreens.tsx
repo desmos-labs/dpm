@@ -6,7 +6,7 @@ import {
 import AuthorizeSession from "../screens/AuthorizeSession";
 import {useTranslation} from "react-i18next";
 import {EditProfile} from "../screens/EditProfile";
-import {UnlockWallet} from "../screens/UnlockWallet";
+import {AuthorizeOperation} from "../screens/AuthorizeOperation";
 import {StackScreenProps} from "@react-navigation/stack";
 import {ConfirmProfileEdit} from "../screens/ConfirmProfileEdit";
 import {BiographyEditor} from "../screens/BiographyEditor";
@@ -74,11 +74,11 @@ export default function AccountScreens(_: AccountScreensProps) {
             component={TxDetails}
         />
         <AccountScreensStack.Screen
-            name="UnlockWallet"
+            name="AuthorizeOperation"
             options={{
                 presentation: 'transparentModal',
             }}
-            component={UnlockWallet}
+            component={AuthorizeOperation}
         />
         <AccountScreensStack.Screen
             name="ChainLinkScreens"
