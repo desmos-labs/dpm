@@ -18,6 +18,7 @@ import BluetoothTransport from "@ledgerhq/react-native-hw-transport-ble";
 import {LedgerApp} from "../types/ledger";
 import {useTranslation} from "react-i18next";
 import {Wallet, WalletType} from "../types/wallet";
+import {toBase64} from "@cosmjs/encoding";
 
 
 export type Props = {
@@ -259,7 +260,9 @@ async function generateWalletsFromMnemonic(mnemonic: string, prefix: string, hdP
             address: signer.bech32Address,
             localWallet: signer,
             signer,
-            hdPath
+            hdPath,
+            pubKey: toBase64(signer.publicKey),
+            signAlgorithm: "secp256k1",
         })
     }
     return wallets;
@@ -287,7 +290,9 @@ async function generateWalletsFromLedger(transport: BluetoothTransport, ledgerAp
             type: WalletType.Ledger,
             signer: ledgerSigner,
             hdPath: hdPaths[index],
-            address: account.address
+            address: account.address,
+            signAlgorithm: account.algo,
+            pubKey: toBase64(account.pubkey),
         }
     })
 }

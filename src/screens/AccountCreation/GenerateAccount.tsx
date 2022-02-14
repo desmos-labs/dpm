@@ -41,9 +41,10 @@ export default function GenerateAccount(props: Props): JSX.Element {
             }
             const account: ChainAccount = {
                 type: wallet.type === WalletType.Mnemonic ? ChainAccountType.Local : ChainAccountType.Ledger,
-                name: wallet.address,
                 address: wallet.address,
                 hdPath: wallet.hdPath,
+                pubKey: wallet.pubKey,
+                signAlgorithm: wallet.signAlgorithm,
             }
             await saveAccount(account);
             await saveSelectedAccount(account);

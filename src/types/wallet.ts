@@ -30,6 +30,14 @@ interface IWallet {
      */
     hdPath: HdPath,
     /**
+     * Base64 encoded public key;
+     */
+    pubKey: string,
+    /**
+     * Algorithm used for signing
+     */
+    signAlgorithm: "secp256k1" | "ed25519" | "sr25519",
+    /**
      * cosmjs signer that can be used to sign and broadcast transactions.
      */
     signer: OfflineSigner,

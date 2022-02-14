@@ -8,10 +8,28 @@ export enum ChainAccountType {
 }
 
 export interface ChainAccount {
+    /**
+     * Account type.
+     * Can be a local account or an
+     * account imported from an external device like Leder.
+     */
     type: ChainAccountType;
-    name: string;
+    /**
+     * The bech32 address of this account.
+     */
     address: string;
+    /**
+     * The derivation path used to generate this account.
+     */
     hdPath: HdPath,
+    /**
+     * Base64 encoded public key.
+     */
+    pubKey: string,
+    /**
+     * Algorithm used to sign a transaction.
+     */
+    signAlgorithm: "secp256k1" | "ed25519" | "sr25519"
 }
 
 /**
