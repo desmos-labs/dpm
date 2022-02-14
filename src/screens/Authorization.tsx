@@ -21,9 +21,9 @@ import useProfiles from "../hooks/useProfiles";
 import useWalletConnectTerminate from "../hooks/useWalletConnectTerminate";
 import useShowModal from "../hooks/useShowModal";
 import {TwoButtonModal} from "../modals/TwoButtonModal";
-import useUnlockWallet from "../hooks/useUnlockWallet";
 import {SingleButtonModal} from "../modals/SingleButtonModal";
 import {useDrawerContext} from "../contexts/AppDrawerContex";
+import useAuthorizeOperation from "../hooks/useAuthorizeOperation";
 
 export type Props = CompositeScreenProps<
     BottomTabScreenProps<HomeScreensBottomTabsParams, "Authorization">,
@@ -40,7 +40,7 @@ export const Authorization: React.FC<Props> = (props) => {
     const sessions = useWalletConnectSessions(currentAccount);
     const showModal = useShowModal();
     const [revokeStatus, walletConnectTerminate] = useWalletConnectTerminate();
-    const unlockWallet = useUnlockWallet();
+    const authorizeOperation = useAuthorizeOperation();
 
     const openProfileDetails = useCallback(() => {
         navigation.navigate({
@@ -76,11 +76,11 @@ export const Authorization: React.FC<Props> = (props) => {
     }, [sessions])
 
     const revokeAuthorization = useCallback(async (dAppSession: DAppSession) => {
-        const wallet = await unlockWallet(currentAccount.address);
-        if (wallet !== null) {
+        const authorized = await authorizeOperation(currentAccount);
+        if (authorized) {
             walletConnectTerminate(dAppSession.id);
         }
-    }, [currentAccount, walletConnectTerminate, unlockWallet]);
+    }, [currentAccount, walletConnectTerminate, authorizeOperation]);
 
     const openRevokePopup = useCallback((dAppSession: DAppSession) => {
         showModal(TwoButtonModal, {
