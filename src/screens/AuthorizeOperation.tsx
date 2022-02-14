@@ -9,6 +9,9 @@ import {makeStyle} from "../theming";
 import {FlexPadding} from "../components/FlexPadding";
 import LocalWallet from "../wallet/LocalWallet";
 import * as SecureStorage from "../utilils/SecureStorage";
+import {toBase64} from "@cosmjs/encoding";
+import AccountSource from "../sources/AccountSource";
+import {useAppContext} from "../contexts/AppContext";
 
 
 type Props = StackScreenProps<AccountScreensStackParams, "AuthorizeOperation">
@@ -20,6 +23,7 @@ export const AuthorizeOperation: React.FC<Props> = (props) => {
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState<string | null>(null);
     const [password, setPassword] = useState<string>("");
+    const {setAccounts} = useAppContext();
 
     useEffect(() => {
         return props.navigation.addListener("beforeRemove", e => {
@@ -52,7 +56,20 @@ export const AuthorizeOperation: React.FC<Props> = (props) => {
                 } else {
                     // On the old version this key may not exist
                     // fallback to unlock wallet to check the password
-                    await WalletSource.getWallet(address, password);
+                    const wallet = await WalletSource.getWallet(address, password);
+                    if (wallet !== null) {
+                        const account = await AccountSource.getAccount(address);
+                        // If the current chain account don't have the public key field or the
+                        // signAlgorithm filed update if after unlocking the wallet.
+                        if (account!.pubKey === undefined || account!.signAlgorithm === undefined) {
+                            const accountsData = await wallet.getAccounts();
+                            account!.pubKey = toBase64(wallet.publicKey);
+                            account!.signAlgorithm = accountsData[0].algo
+                            await AccountSource.putAccount(account!);
+                            const accounts = await AccountSource.getAllAccounts();
+                            setAccounts(accounts);
+                        }
+                    }
                 }
             }
             setLoading(false);
@@ -65,7 +82,7 @@ export const AuthorizeOperation: React.FC<Props> = (props) => {
             setError(t("invalid password"));
         }
         setLoading(false);
-    }, [address, password, props.navigation, provideWallet, resolve, t]);
+    }, [address, password, props.navigation, provideWallet, resolve, setAccounts, t]);
 
 
     return <StyledSafeAreaView
