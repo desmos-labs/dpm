@@ -65,6 +65,10 @@ export type AccountScreensStackParams = {
     ConfirmProfileEdit: {
         account: ChainAccount,
         /**
+         * The profile before modifications.
+         */
+        oldProfile: Partial<DesmosProfile>,
+        /**
          * The profile created from the user.
          */
         profile: DesmosProfile,

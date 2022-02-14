@@ -24,7 +24,7 @@ export type Props = CompositeScreenProps<StackScreenProps<AccountScreensStackPar
 
 export const ConfirmProfileEdit: React.FC<Props> = (props) => {
     const {route} = props;
-    const {account, profile, localCoverPictureUri, localProfilePictureUri, feeGranter, goBackTo} = route.params;
+    const {account, oldProfile, profile, localCoverPictureUri, localProfilePictureUri, feeGranter, goBackTo} = route.params;
     const {t} = useTranslation();
     const styles = useStyles();
     const chainInfo = useCurrentChainInfo();
@@ -67,26 +67,38 @@ export const ConfirmProfileEdit: React.FC<Props> = (props) => {
                     ...profile
                 }
 
+                if (newProfile.dtag === oldProfile.dtag) {
+                    newProfile.dtag = "[do-not-modify]";
+                }
+
                 if (localCoverPictureUri !== undefined) {
                     const response = await uploadPicture(localCoverPictureUri);
                     newProfile.coverPicture = response.url;
-                } else {
+                } else if (newProfile.coverPicture?.length === 0) {
                     newProfile.coverPicture = undefined;
+                } else if (newProfile.coverPicture === oldProfile.coverPicture) {
+                    newProfile.coverPicture = "[do-not-modify]";
                 }
 
                 if (localProfilePictureUri !== undefined) {
                     const response = await uploadPicture(localProfilePictureUri);
                     newProfile.profilePicture = response.url;
-                } else {
+                } else if (newProfile.profilePicture?.length === 0) {
                     newProfile.profilePicture = undefined;
+                } else if (newProfile.profilePicture === oldProfile.profilePicture) {
+                    newProfile.profilePicture = "[do-not-modify]";
                 }
 
                 if (newProfile.bio?.length === 0) {
                     newProfile.bio = undefined;
+                } else if (newProfile.bio === oldProfile.bio) {
+                    newProfile.bio = "[do-not-modify]";
                 }
 
                 if (newProfile.nickname?.length === 0) {
                     newProfile.nickname = undefined;
+                } else if (newProfile.nickname === oldProfile.nickname) {
+                    newProfile.nickname = "[do-not-modify]";
                 }
 
                 const saveProfileMessage: MsgSaveProfileEncodeObject = {
@@ -121,7 +133,7 @@ export const ConfirmProfileEdit: React.FC<Props> = (props) => {
             })
         }
         setBroadcastingTx(false);
-    }, [unlockWallet, account, profile, localCoverPictureUri,
+    }, [unlockWallet, account, profile, localCoverPictureUri, oldProfile,
         localProfilePictureUri, broadcastMessages, txFee, feeGranter,
         saveProfile, showModal, t, goBackTo, uploadPicture, navigateToHomeScreen, props.navigation])
 

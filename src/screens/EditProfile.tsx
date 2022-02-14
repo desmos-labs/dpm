@@ -42,6 +42,9 @@ export const EditProfile: React.FC<Props> = (props) => {
             name: "ConfirmProfileEdit",
             params: {
                 account: account,
+                oldProfile: {
+                    ...profile
+                },
                 profile: {
                     ...profile,
                     address: account.address,
