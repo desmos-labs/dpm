@@ -1,6 +1,6 @@
 import React, {useMemo} from "react";
 import {useTranslation} from "react-i18next";
-import {MsgVoteEncodeObject} from "@desmoslabs/sdk-core";
+import {AminoMsgVote, MsgVoteEncodeObject} from "@desmoslabs/sdk-core";
 import {MsgVote} from "cosmjs-types/cosmos/gov/v1beta1/tx";
 import {VoteOption} from "cosmjs-types/cosmos/gov/v1beta1/gov";
 import {SimpleMessageComponent} from "./SimpleMessageComponent";
@@ -9,13 +9,14 @@ import {SimpleMessageComponent} from "./SimpleMessageComponent";
 export type Props = {
     protobufMessage?: MsgVote
     encodeObject?: MsgVoteEncodeObject["value"],
+    aminoMessage?: AminoMsgVote["value"]
 }
 
-export const MessageVote: React.FC<Props> = ({protobufMessage, encodeObject}) => {
+export const MessageVote: React.FC<Props> = ({protobufMessage, encodeObject, aminoMessage}) => {
     const {t} = useTranslation();
 
     const voteValue = useMemo(() => {
-        const option = protobufMessage?.option ?? encodeObject?.option;
+        const option = protobufMessage?.option ?? encodeObject?.option ?? aminoMessage?.option;
 
         switch (option) {
             case VoteOption.VOTE_OPTION_YES:
@@ -36,7 +37,7 @@ export const MessageVote: React.FC<Props> = ({protobufMessage, encodeObject}) =>
                 return "undefined";
         }
 
-    }, [t, encodeObject?.option, protobufMessage?.option]);
+    }, [t, encodeObject?.option, protobufMessage?.option, aminoMessage?.option]);
 
     const proposalId = useMemo(() => {
         return protobufMessage?.proposalId?.toString() ??

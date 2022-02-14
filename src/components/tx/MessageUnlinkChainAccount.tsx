@@ -1,6 +1,6 @@
 import React, {useMemo} from "react";
 import {useTranslation} from "react-i18next";
-import {MsgUnlinkChainAccountEncodeObject} from "@desmoslabs/sdk-core";
+import {AminoMsgUnlinkChainAccount, MsgUnlinkChainAccountEncodeObject} from "@desmoslabs/sdk-core";
 import {SimpleMessageComponent} from "./SimpleMessageComponent";
 import {MsgUnlinkChainAccount} from "@desmoslabs/proto/desmos/profiles/v1beta1/msgs_chain_links";
 import {Image, StyleSheet, View} from "react-native";
@@ -10,24 +10,25 @@ import findLinkableChainInfoByName from "../../utilils/find";
 export type Props = {
     protobufMessage?: MsgUnlinkChainAccount
     encodeObject?: MsgUnlinkChainAccountEncodeObject["value"],
+    aminoMessage?: AminoMsgUnlinkChainAccount["value"],
 }
 
-export const MessageUnlinkChainAccount: React.FC<Props> = ({protobufMessage, encodeObject}) => {
+export const MessageUnlinkChainAccount: React.FC<Props> = ({protobufMessage, encodeObject, aminoMessage}) => {
     const {t} = useTranslation();
 
     const target = useMemo(() => {
-        return protobufMessage?.target ?? encodeObject?.target ?? ""
-    }, [protobufMessage, encodeObject]);
+        return protobufMessage?.target ?? encodeObject?.target ?? aminoMessage?.target ?? ""
+    }, [protobufMessage, encodeObject, aminoMessage]);
 
     const chainIcon = useMemo(() => {
-        const chainName = protobufMessage?.chainName ?? encodeObject?.chainName;
+        const chainName = protobufMessage?.chainName ?? encodeObject?.chainName ?? aminoMessage?.chain_name;
         const chain = chainName !== undefined ? findLinkableChainInfoByName(chainName) : undefined;
         if (chain !== undefined) {
             return chain.icon
         } else {
             return require("../../assets/chains/cosmos.png");
         }
-    }, [protobufMessage, encodeObject])
+    }, [protobufMessage, encodeObject, aminoMessage]);
 
     return <SimpleMessageComponent
         customIconView={<View style={styles.customIconView}>

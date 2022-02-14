@@ -10,9 +10,10 @@ import {StdFee} from "@cosmjs/amino";
 import {convertCoin} from "@desmoslabs/sdk-core";
 import {useCurrentChainInfo} from "@desmoslabs/sdk-react";
 import {format} from "date-fns";
+import {AminoMsg} from "@cosmjs/amino/build/signdoc";
 
 export type Props = {
-    messages: (EncodeObject | Any)[],
+    messages: readonly (EncodeObject | Any | AminoMsg)[],
     fee?: StdFee,
     memo?: string,
     success?: boolean,
@@ -52,7 +53,7 @@ export const TxDetails: React.FC<Props> = (props) => {
         onStartShouldSetResponder={() => true}
     >
         <ScrollView style={props.style}>
-            {messages.map((msg: EncodeObject | Any, i: number) => {
+            {messages.map((msg: EncodeObject | Any | AminoMsg, i: number) => {
                 return <View key={`view_${i}`}>
                     <TxMessage key={`msg_${i}`} message={msg}/>
                     <Divider key={`divider_${i}`}/>

@@ -1,6 +1,6 @@
 import React, {useMemo} from "react";
 import {useTranslation} from "react-i18next";
-import {MsgLinkChainAccountEncodeObject} from "@desmoslabs/sdk-core";
+import {AminoMsgLinkChainAccount, MsgLinkChainAccountEncodeObject} from "@desmoslabs/sdk-core";
 import {SimpleMessageComponent} from "./SimpleMessageComponent";
 import {MsgLinkChainAccount} from "@desmoslabs/proto/desmos/profiles/v1beta1/msgs_chain_links";
 import {Bech32Address} from "@desmoslabs/proto/desmos/profiles/v1beta1/models_chain_links";
@@ -11,27 +11,35 @@ import findLinkableChainInfoByName from "../../utilils/find";
 export type Props = {
     protobufMessage?: MsgLinkChainAccount
     encodeObject?: MsgLinkChainAccountEncodeObject["value"],
+    aminoMessage?: AminoMsgLinkChainAccount["value"],
 }
 
-export const MessageLinkChainAccount: React.FC<Props> = ({protobufMessage, encodeObject}) => {
+export const MessageLinkChainAccount: React.FC<Props> = ({protobufMessage, encodeObject, aminoMessage}) => {
     const {t} = useTranslation();
 
     const from = useMemo(() => {
-        return protobufMessage?.signer ?? encodeObject?.signer;
-    }, [protobufMessage, encodeObject]);
+        return protobufMessage?.signer ?? encodeObject?.signer ?? aminoMessage?.signer;
+    }, [protobufMessage, encodeObject, aminoMessage]);
 
     const bech32Address = useMemo(() => {
         const chainAddress = protobufMessage?.chainAddress ?? encodeObject?.chainAddress;
-        if (chainAddress !== undefined && chainAddress.typeUrl === "/desmos.profiles.v1beta1.Bech32Address") {
+        if (aminoMessage !== undefined) {
+            return aminoMessage.chain_address.value
+        }
+        else if (chainAddress !== undefined && chainAddress.typeUrl === "/desmos.profiles.v1beta1.Bech32Address") {
             return Bech32Address.decode(chainAddress.value);
         } else {
             return undefined;
         }
-    }, [protobufMessage, encodeObject]);
+    }, [protobufMessage, encodeObject, aminoMessage]);
 
     const chainName = useMemo(() => {
-        return protobufMessage?.chainConfig?.name ?? encodeObject?.chainConfig?.name;
-    }, [protobufMessage, encodeObject]);
+        if (aminoMessage !== undefined) {
+            return aminoMessage.chain_config.name;
+        } else {
+            return protobufMessage?.chainConfig?.name ?? encodeObject?.chainConfig?.name;
+        }
+    }, [protobufMessage, encodeObject, aminoMessage]);
 
 
     const chainIcon = useMemo(() => {
