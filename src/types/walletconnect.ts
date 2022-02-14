@@ -1,4 +1,5 @@
 import {CosmosSignDocDirect} from "./jsonRpCosmosc";
+import {StdSignDoc} from "@cosmjs/amino";
 
 export enum Events {
     OnConnect = "connect",
@@ -60,7 +61,15 @@ export type CallRequestEvent = {
 }
 
 export enum CallRequestType {
-    SignDirect = "cosmos_signDirect"
+    GetAccounts = "cosmos_getAccounts",
+    SignDirect = "cosmos_signDirect",
+    SignAmino = "cosmos_signAmino"
+}
+
+export type CosmosGetAccountRequest = {
+    type: CallRequestType.GetAccounts,
+    sessionId: string,
+    requestId: number,
 }
 
 export type CosmosSignDirectCallRequest = {
@@ -71,4 +80,12 @@ export type CosmosSignDirectCallRequest = {
     signDoc: CosmosSignDocDirect
 }
 
-export type ParsedCallRequest = CosmosSignDirectCallRequest;
+export type CosmosSignAminoCallRequest = {
+    type: CallRequestType.SignAmino,
+    sessionId: string,
+    requestId: number,
+    signerAddress: string,
+    signDoc: StdSignDoc
+}
+
+export type ParsedCallRequest = CosmosGetAccountRequest | CosmosSignDirectCallRequest | CosmosSignAminoCallRequest;

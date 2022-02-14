@@ -1,4 +1,3 @@
-import {JsonRpcRequest} from '@json-rpc-tools/utils';
 import {CosmosMethod, CosmosSignAminoParams, CosmosSignDirectParams,} from '../types/jsonRpCosmosc';
 import {Coin} from '@cosmjs/amino';
 import {AminoMsg} from '@cosmjs/amino/build/signdoc';
@@ -8,10 +7,11 @@ import {fromHex} from "@cosmjs/encoding";
 import {AuthInfo, TxBody} from "cosmjs-types/cosmos/tx/v1beta1/tx";
 
 export function parseSignAminoParams(
-    request: JsonRpcRequest,
+    request: CallRequest,
 ): CosmosSignAminoParams | null {
-    const signAddress: string | undefined = request.params?.signerAddress;
-    const signDoc: any | undefined = request.params?.signDoc;
+    const param = request.params.length > 0 ? request.params[0] : undefined;
+    const signAddress: string | undefined = param?.signerAddress;
+    const signDoc: any | undefined = param?.signDoc;
     const chainId: string | undefined = signDoc?.chain_id;
     const accountNumber: string | undefined = signDoc?.account_number;
     const sequence: string | undefined = signDoc?.sequence;
@@ -125,7 +125,27 @@ export default function parseCallRequest(request: CallRequest): ParsedCallReques
             signerAddress: params.signerAddress,
             signDoc: params.signDoc
         };
-    } else {
+    } else if (request.method === CallRequestType.SignAmino.toString()) {
+        const params = parseSignAminoParams(request);
+        if (params === null) {
+            console.error('Error while parsing params of: ' + CosmosMethod.SignAmino);
+            return null;
+        }
+        return {
+            type: CallRequestType.SignAmino,
+            sessionId: request.sessionId,
+            requestId: request.id,
+            signerAddress: params.signerAddress,
+            signDoc: params.signDoc
+        };
+    } else if (request.method === CallRequestType.GetAccounts.toString()) {
+        return {
+            type: CallRequestType.GetAccounts,
+            sessionId: request.sessionId,
+            requestId: request.id,
+        }
+    }
+    else {
         console.error('Unknown request method: ' + request.method);
         return null;
     }

@@ -488,18 +488,24 @@ export class WalletConnectController {
      * @param signedTx - The signed transaction that will be returned to the DApp.
      */
     approveSignRequest(sessionId: string, requestId: number, signedTx: SignedCosmosTx) {
-        if (signedTx.method !== CosmosMethod.SignDirect) {
-            throw new Error("Is supported only direct sign")
-        }
-        const serializedTx = {
-            bodyBytes: toHex(TxBody.encode(signedTx.tx.body).finish()),
-            authInfoBytes: toHex(AuthInfo.encode(signedTx.tx.authInfo).finish()),
-            chainId: signedTx.tx.chainId,
-            accountNumber: signedTx.tx.accountNumber.toString(16),
-            signature: signedTx.signature
-        }
+        if (signedTx.method === CosmosMethod.SignDirect) {
+            const serializedTx = {
+                bodyBytes: toHex(TxBody.encode(signedTx.tx.body).finish()),
+                authInfoBytes: toHex(AuthInfo.encode(signedTx.tx.authInfo).finish()),
+                chainId: signedTx.tx.chainId,
+                accountNumber: signedTx.tx.accountNumber.toString(16),
+                signature: signedTx.signature
+            }
 
-        this.approveRequest(sessionId, requestId, serializedTx);
+            this.approveRequest(sessionId, requestId, serializedTx);
+        } else if (signedTx.method === CosmosMethod.SignAmino) {
+            const serializedTx = {
+                signature: signedTx.signature,
+                signDoc: signedTx.tx,
+            }
+
+            this.approveRequest(sessionId, requestId, serializedTx);
+        }
     }
 
     /**
