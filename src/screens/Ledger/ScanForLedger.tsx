@@ -21,7 +21,7 @@ import {StackActions} from "@react-navigation/native";
 export type Props = StackScreenProps<ConnectToLedgerScreensStackParams, "ScanForLedger">
 
 export const ScanForLedger: React.FC<Props> = ({navigation, route}) => {
-    const {ledgerApp, onConnectionEstablished, onCancel} = route.params;
+    const {ledgerApp, onConnectionEstablished, onCancel, autoClose} = route.params;
     const styles = useStyles();
     const {t} = useTranslation();
     const {scanning, scan, devices, scanError} = useStartBleScan();
@@ -45,8 +45,9 @@ export const ScanForLedger: React.FC<Props> = ({navigation, route}) => {
             ledgerApp,
             onConnectionEstablished,
             onCancel,
+            autoClose,
         }));
-    }, [ledgerApp, navigation, onConnectionEstablished, onCancel]);
+    }, [navigation, ledgerApp, onConnectionEstablished, onCancel, autoClose]);
 
     const renderLedgerDevice = useCallback((info: ListRenderItemInfo<BleLedger>) => {
         return <TouchableOpacity

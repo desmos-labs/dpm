@@ -66,8 +66,8 @@ export const ConfirmTx: React.FC<Props> = (props) => {
             }
         }
         setBroadcastingTx(false);
-    }, [broadcastMessages, currentAccount.address, fee, feeGranter, messages,
-        showErrorModal, showSuccessModal, successAction, unlockWallet])
+    }, [broadcastMessages, currentAccount, fee, feeGranter, messages, showErrorModal,
+        showSuccessModal, successAction, unlockWallet])
 
     return <StyledSafeAreaView
         topBar={<TopBar

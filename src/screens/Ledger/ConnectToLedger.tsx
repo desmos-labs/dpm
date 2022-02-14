@@ -11,11 +11,17 @@ import {FlexPadding} from "../../components/FlexPadding";
 export type Props = StackScreenProps<ConnectToLedgerScreensStackParams, "ConnectToLedger">
 
 export const ConnectToLedger: React.FC<Props> = ({navigation, route}) => {
-    const {bleLedger, ledgerApp, onConnectionEstablished, onCancel} = route.params
+    const {bleLedger, ledgerApp, onConnectionEstablished, onCancel, autoClose} = route.params
     const {t} = useTranslation();
     const styles = useStyles();
     const {connecting, connected, connectionError, transport, retry} = useConnectToLedger(bleLedger, ledgerApp);
 
+    useEffect(() => {
+        if (connected && autoClose === true) {
+            navigation.goBack();
+            onConnectionEstablished(transport!);
+        }
+    }, [connected, autoClose, onConnectionEstablished, transport, navigation]);
 
     const onButtonPressed = useCallback(() => {
         if (connected) {

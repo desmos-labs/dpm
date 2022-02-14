@@ -41,6 +41,7 @@ export default function useUnlockWallet(): (account: ChainAccount) => Promise<Of
                     name: "ConnectToLedgerScreens",
                     params: {
                         ledgerApp: DesmosLedgerApp,
+                        autoClose: true,
                         onConnectionEstablished: (transport: BluetoothTransport) => {
                             resolve(new LedgerSigner(transport!, {
                                 minLedgerAppVersion: DesmosLedgerApp!.minVersion,

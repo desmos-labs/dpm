@@ -8,7 +8,7 @@ export type Props = StackScreenProps<RootStackParams, "ConnectToLedgerScreens">
 
 
 export const ConnectToLedgerScreens: React.FC<Props> = ({route}) => {
-    const {ledgerApp, onConnectionEstablished, onCancel} = route.params;
+    const {ledgerApp, onConnectionEstablished, onCancel, autoClose} = route.params;
 
     return <ConnectToLedgerScreensStack.Navigator
         initialRouteName={"ScanForLedger"}
@@ -22,7 +22,8 @@ export const ConnectToLedgerScreens: React.FC<Props> = ({route}) => {
             initialParams={{
                 ledgerApp,
                 onConnectionEstablished,
-                onCancel
+                onCancel,
+                autoClose
             }}
         />
         <ConnectToLedgerScreensStack.Screen

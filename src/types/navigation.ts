@@ -209,12 +209,14 @@ export type ConnectToLedgerScreensStackParams = {
     ScanForLedger: {
         ledgerApp: LedgerApp,
         onConnectionEstablished: (transport: BluetoothTransport) => void,
+        autoClose?: boolean,
         onCancel?: () => void,
     },
     ConnectToLedger: {
         ledgerApp: LedgerApp,
         bleLedger: BleLedger,
         onConnectionEstablished: (transport: BluetoothTransport) => void,
+        autoClose?: boolean,
         onCancel?: () => void,
     }
 }
@@ -235,6 +237,11 @@ export type RootStackParams = {
     ConnectToLedgerScreens: {
         ledgerApp: LedgerApp,
         onConnectionEstablished: (transport: BluetoothTransport) => void,
+        /**
+         * If true closes the screen after connecting
+         * to the ledger.
+         */
+        autoClose?: boolean,
         onCancel?: () => void,
     },
     ModalScreen: {
