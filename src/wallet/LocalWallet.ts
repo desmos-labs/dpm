@@ -1,12 +1,19 @@
 import * as bip39 from 'bip39';
 import {
     sha256,
-    Secp256k1
+    Secp256k1,
 } from "@cosmjs/crypto";
 import {DesmosHdPath, HdPath} from "../types/hdpath";
 import {DirectSignResponse, OfflineDirectSigner, AccountData, makeSignBytes} from "@cosmjs/proto-signing";
 import {SignDoc} from "cosmjs-types/cosmos/tx/v1beta1/tx";
-import {encodeSecp256k1Signature, rawSecp256k1PubkeyToRawAddress} from "@cosmjs/amino";
+import {
+    encodeSecp256k1Signature,
+    OfflineAminoSigner,
+    rawSecp256k1PubkeyToRawAddress,
+    StdSignDoc,
+    AminoSignResponse,
+    serializeSignDoc
+} from "@cosmjs/amino";
 import {Bech32, fromBase64, fromHex, toBase64} from "@cosmjs/encoding";
 import {CryptoUtils} from "../native/CryptoUtils";
 
@@ -26,7 +33,7 @@ const DEFAULT_OPTIONS = {
     prefix: "desmos",
 };
 
-export default class LocalWallet implements OfflineDirectSigner {
+export default class LocalWallet implements OfflineDirectSigner, OfflineAminoSigner {
     private readonly prefix: string;
     private readonly privateKey: Uint8Array;
     readonly publicKey: Uint8Array;
@@ -130,6 +137,19 @@ export default class LocalWallet implements OfflineDirectSigner {
         return [data]
     }
 
+    async signAmino(signerAddress: string, signDoc: StdSignDoc): Promise<AminoSignResponse> {
+        if (signerAddress !== this.bech32Address) {
+            throw new Error("Signer address not valid");
+        }
+
+        const serializedSignDoc = serializeSignDoc(signDoc);
+        const signature = await this.sign(serializedSignDoc);
+
+        return {
+            signed: signDoc,
+            signature: encodeSecp256k1Signature(this.publicKey, signature),
+        };
+    }
 }
 
 export function randomMnemonic(wordCount: number = 24): string {
