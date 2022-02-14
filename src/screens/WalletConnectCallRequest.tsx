@@ -1,4 +1,4 @@
-import React, {useCallback, useEffect, useMemo} from "react";
+import React, {useCallback, useEffect, useMemo, useState} from "react";
 import {View} from "react-native";
 import {Button, StyledSafeAreaView, TopBar} from "../components";
 import {StackScreenProps} from "@react-navigation/stack";
@@ -18,6 +18,8 @@ import useShowModal from "../hooks/useShowModal";
 import {SingleButtonModal} from "../modals/SingleButtonModal";
 import {CosmosMethod} from "../types/jsonRpCosmosc";
 import {CosmosTx} from "../types/tx";
+import {LoadingModal} from "../modals/LodingModal";
+import {ChainAccountType} from "../types/chain";
 
 export type Props = StackScreenProps<AccountScreensStackParams, "WalletConnectCallRequest">;
 
@@ -25,6 +27,7 @@ export const WalletConnectCallRequest: React.FC<Props> = (props) => {
     const {navigation} = props;
     const {t} = useTranslation()
     const styles = useStyles();
+    const [signing, setSigning] = useState(false);
     const {controller, removeCallRequest} = useWalletConnectContext();
     const rejectRequest = useWalletConnectRejectRequest();
     const callRequests = useWalletCallRequests();
@@ -94,20 +97,34 @@ export const WalletConnectCallRequest: React.FC<Props> = (props) => {
         if (request !== null && (request.type === CallRequestType.SignAmino || request.type === CallRequestType.SignDirect)) {
             const signMethod = request.type === CallRequestType.SignAmino ? CosmosMethod.SignAmino : CosmosMethod.SignDirect;
             const account = await AccountSource.getAccount(request!.signerAddress);
+            let closeModal: undefined | (() => void);
 
             if (account !== null) {
                 try {
                     const wallet = await unlockWallet(account);
                     if (wallet !== null) {
+                        setSigning(true);
+                        if (account.type === ChainAccountType.Ledger) {
+                            closeModal = showModal(LoadingModal, {
+                                text: t("waiting ledger confirmation")
+                            })
+                        }
                         const signature = await signTx(wallet, {
                             method: signMethod,
                             tx: request!.signDoc,
                         } as CosmosTx);
+                        if (closeModal !== undefined) {
+                            closeModal();
+                        }
                         controller.approveSignRequest(request!.sessionId, request!.requestId, signature);
                         removeCallRequest(request!.requestId);
                     }
                 } catch (e) {
                     const error = e.toString()
+                    setSigning(false);
+                    if (closeModal) {
+                        closeModal();
+                    }
                     showModal(SingleButtonModal, {
                         image: "fail",
                         title: t("error"),
@@ -116,7 +133,7 @@ export const WalletConnectCallRequest: React.FC<Props> = (props) => {
                         action: () => {
                             rejectRequest(request!.sessionId, request!.requestId, error);
                         }
-                    })
+                    });
                 }
             }
         }
@@ -158,6 +175,7 @@ export const WalletConnectCallRequest: React.FC<Props> = (props) => {
                 mode="contained"
                 accent
                 onPress={onReject}
+                disabled={signing}
             >
                 {t("reject")}
             </Button>
@@ -165,6 +183,8 @@ export const WalletConnectCallRequest: React.FC<Props> = (props) => {
                 style={styles.button}
                 mode="contained"
                 onPress={onApprove}
+                disabled={signing}
+                loading={signing}
             >
                 {t("approve")}
             </Button>
