@@ -1,4 +1,4 @@
-package com.desmoslabs.dpm
+package network.desmos.dpm
 
 import org.bouncycastle.math.ec.ECPoint
 import org.web3j.crypto.Bip32ECKeyPair
