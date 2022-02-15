@@ -56,7 +56,7 @@ export const ConfirmTx: React.FC<Props> = (props) => {
         const wallet = await unlockWallet(currentAccount);
         if (wallet !== null) {
             try {
-                await broadcastMessages(wallet, messages, fee, undefined, feeGranter);
+                await broadcastMessages(wallet, messages, fee, memo, feeGranter);
                 if (successAction !== undefined) {
                     successAction();
                 }
@@ -66,7 +66,7 @@ export const ConfirmTx: React.FC<Props> = (props) => {
             }
         }
         setBroadcastingTx(false);
-    }, [broadcastMessages, currentAccount, fee, feeGranter, messages, showErrorModal,
+    }, [broadcastMessages, currentAccount, fee, memo, feeGranter, messages, showErrorModal,
         showSuccessModal, successAction, unlockWallet])
 
     return <StyledSafeAreaView

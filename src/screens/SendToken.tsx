@@ -65,6 +65,7 @@ export const SendToken: React.FC<Props> = (props) => {
                 fromAddress: currentAccount.address,
                 toAddress: address,
                 amount: [{amount: amountNumber.toString(), denom: chainInfo.coinDenom}],
+
             }
         }
         const gas = messagesGas([msgSend]);
@@ -74,10 +75,11 @@ export const SendToken: React.FC<Props> = (props) => {
             name: "ConfirmTx",
             params: {
                 messages: [msgSend],
-                fee: txFee
+                memo,
+                fee: txFee,
             }
         })
-    }, [address, amount, chainInfo.coinDenom, currentAccount.address, navigation])
+    }, [address, amount, chainInfo.coinDenom, currentAccount.address, navigation, memo])
 
     return <StyledSafeAreaView
         topBar={<TopBar stackProps={props} title={t("send")} />}
