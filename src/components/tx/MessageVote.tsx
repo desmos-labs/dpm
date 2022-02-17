@@ -41,8 +41,8 @@ export const MessageVote: React.FC<Props> = ({protobufMessage, encodeObject, ami
 
     const proposalId = useMemo(() => {
         return protobufMessage?.proposalId?.toString() ??
-            encodeObject?.proposalId?.toString() ?? "??"
-    }, [encodeObject?.proposalId, protobufMessage?.proposalId]);
+            encodeObject?.proposalId?.toString() ?? aminoMessage?.proposal_id ?? "??"
+    }, [encodeObject?.proposalId, protobufMessage?.proposalId, aminoMessage?.proposal_id]);
 
     return <SimpleMessageComponent
         icon={require("../../assets/tx-icons/vote.png")}

@@ -38,11 +38,11 @@ export const MessageSend: React.FC<Props> = ({protobufMessage, encodeObject, ami
         fields={[
             {
                 label: t("from"),
-                value: protobufMessage?.fromAddress ?? encodeObject?.fromAddress ?? ""
+                value: protobufMessage?.fromAddress ?? encodeObject?.fromAddress ?? aminoMessage?.from_address ?? ""
             },
             {
                 label: t("to"),
-                value: protobufMessage?.toAddress ?? encodeObject?.toAddress ?? ""
+                value: protobufMessage?.toAddress ?? encodeObject?.toAddress ?? aminoMessage?.to_address ?? ""
             },
             {
                 label: t("amount"),
