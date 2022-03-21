@@ -1,5 +1,3 @@
-import {TransactionsList} from "./TransactionsList";
+import { TransactionsList } from './TransactionsList';
 
-export {
-    TransactionsList
-}
+export { TransactionsList };
