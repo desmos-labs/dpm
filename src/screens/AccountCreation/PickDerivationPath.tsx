@@ -1,11 +1,15 @@
 import React, { useCallback, useState } from 'react';
-import { AccountCreationStackParams } from '../../types/navigation';
-import { StyledSafeAreaView, Button, Typography } from '../../components';
 import { StackScreenProps } from '@react-navigation/stack';
-import { makeStyle } from '../../theming';
 import { useTranslation } from 'react-i18next';
+import { AccountCreationStackParams } from '../../types/navigation';
+import {
+	StyledSafeAreaView,
+	Button,
+	Typography,
+	TopBar,
+} from '../../components';
+import { makeStyle } from '../../theming';
 import { DesmosHdPath } from '../../types/hdpath';
-import { TopBar } from '../../components';
 import { WalletPicker } from '../../components/WalletPicker';
 import { DesmosLedgerApp } from '../../types/ledger';
 import { Wallet } from '../../types/wallet';
@@ -16,7 +20,11 @@ export type Props = StackScreenProps<
 >;
 
 export const PickDerivationPath: React.FC<Props> = (props) => {
-	const { mnemonic, ledgerTransport } = props.route.params;
+	const {
+		navigation,
+		route: { params },
+	} = props;
+	const { mnemonic, ledgerTransport } = params;
 	const { t } = useTranslation();
 	const styles = useStyles();
 	const [selectedWallet, setSelectedWallet] = useState<Wallet | null>(null);
@@ -24,14 +32,14 @@ export const PickDerivationPath: React.FC<Props> = (props) => {
 
 	const onNextPressed = useCallback(async () => {
 		if (selectedWallet !== null) {
-			props.navigation.navigate({
+			navigation.navigate({
 				name: 'CreateWalletPassword',
 				params: {
 					wallet: selectedWallet,
 				},
 			});
 		}
-	}, [props.navigation, selectedWallet]);
+	}, [navigation, selectedWallet]);
 
 	return (
 		<StyledSafeAreaView
@@ -51,7 +59,7 @@ export const PickDerivationPath: React.FC<Props> = (props) => {
 				ledgerTransport={ledgerTransport}
 				ledgerApp={DesmosLedgerApp}
 				defaultHdPath={DesmosHdPath}
-				addressPrefix={'desmos'}
+				addressPrefix="desmos"
 			/>
 
 			<Button

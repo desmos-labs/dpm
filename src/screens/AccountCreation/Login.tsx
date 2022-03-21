@@ -1,16 +1,16 @@
 import React, { useCallback, useEffect, useRef } from 'react';
 import { StackScreenProps } from '@react-navigation/stack';
+import { useTranslation } from 'react-i18next';
+import { Animated, Image, ImageBackground, Text } from 'react-native';
+import { CompositeScreenProps } from '@react-navigation/native';
+import BluetoothTransport from '@ledgerhq/react-native-hw-transport-ble';
 import {
 	AccountCreationStackParams,
 	RootStackParams,
 } from '../../types/navigation';
-import { useTranslation } from 'react-i18next';
 import { Button, IconButton, StyledSafeAreaView } from '../../components';
 import { makeStyle } from '../../theming';
-import { Animated, Image, ImageBackground, Text } from 'react-native';
-import { CompositeScreenProps } from '@react-navigation/native';
 import { DesmosLedgerApp } from '../../types/ledger';
-import BluetoothTransport from '@ledgerhq/react-native-hw-transport-ble';
 
 declare type Props = CompositeScreenProps<
 	StackScreenProps<AccountCreationStackParams, 'Login'>,

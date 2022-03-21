@@ -1,11 +1,15 @@
 import { BottomTabScreenProps } from '@react-navigation/bottom-tabs';
-import {
-	AccountScreensStackParams,
-	HomeScreensBottomTabsParams,
-} from '../types/navigation';
 import { CompositeScreenProps } from '@react-navigation/native';
 import { StackScreenProps } from '@react-navigation/stack';
 import React, { useCallback, useState } from 'react';
+import { useTranslation } from 'react-i18next';
+import { Image, Text, View } from 'react-native';
+import { Snackbar, useTheme } from 'react-native-paper';
+import Clipboard from '@react-native-community/clipboard';
+import { useCurrentChainInfo } from '@desmoslabs/sdk-react';
+import { makeStyle } from '../theming';
+import useFetchProfile from '../hooks/useFetchProfile';
+import useSelectedAccount from '../hooks/useSelectedAccount';
 import {
 	AvatarImage,
 	StyledSafeAreaView,
@@ -15,14 +19,10 @@ import {
 	Typography,
 	AirdropBanner,
 } from '../components';
-import useSelectedAccount from '../hooks/useSelectedAccount';
-import { useTranslation } from 'react-i18next';
-import useFetchProfile from '../hooks/useFetchProfile';
-import { makeStyle } from '../theming';
-import { Image, Text, View } from 'react-native';
-import { Snackbar, useTheme } from 'react-native-paper';
-import Clipboard from '@react-native-community/clipboard';
-import { useCurrentChainInfo } from '@desmoslabs/sdk-react';
+import {
+	AccountScreensStackParams,
+	HomeScreensBottomTabsParams,
+} from '../types/navigation';
 import { BroadcastedTx } from '../types/tx';
 import { useDrawerContext } from '../contexts/AppDrawerContex';
 import useAirdropClaimable from '../hooks/useAirdropClaimable';
@@ -57,11 +57,11 @@ export const Home: React.FC<Props> = (props) => {
 	}, [t, account]);
 
 	const onSendPressed = useCallback(() => {
-		props.navigation.navigate({
+		navigation.navigate({
 			name: 'SendToken',
 			params: undefined,
 		});
-	}, [props.navigation]);
+	}, [navigation]);
 
 	const onTxPressed = useCallback(
 		(tx: BroadcastedTx) => {
@@ -97,7 +97,7 @@ export const Home: React.FC<Props> = (props) => {
 
 			<Image
 				source={require('../assets/home-background-light.png')}
-				resizeMode={'stretch'}
+				resizeMode="stretch"
 				style={styles.background}
 			/>
 			<TopBar
@@ -106,7 +106,7 @@ export const Home: React.FC<Props> = (props) => {
 				stackProps={{
 					...props,
 					navigation: {
-						...props.navigation,
+						...navigation,
 						openDrawer,
 					},
 				}}

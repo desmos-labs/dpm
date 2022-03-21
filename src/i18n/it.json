@@ -39,6 +39,7 @@
 	"confirm recovery passphrase": "Verifica frase segreta",
 	"select each word in order": "Seleziona le parole nell'ordine in cui ti sono state presentate precedentemente",
 	"invalid recovery passphrase": "Frase segreta invalida",
+	"empty recovery passphrase": "Frase segreta vuota",
 	"invalid words": "Parole invalide",
 	"import accounts": "Importa account",
 	"select account or enter derivation path": "Seleziona un account o digita il path di derivazione",

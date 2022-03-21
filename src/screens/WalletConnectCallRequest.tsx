@@ -1,10 +1,11 @@
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { View } from 'react-native';
-import { Button, StyledSafeAreaView, TopBar } from '../components';
 import { StackScreenProps } from '@react-navigation/stack';
+import { useTranslation } from 'react-i18next';
+import { StdFee } from '@cosmjs/amino';
+import { Button, StyledSafeAreaView, TopBar } from '../components';
 import { AccountScreensStackParams } from '../types/navigation';
 import { makeStyle } from '../theming';
-import { useTranslation } from 'react-i18next';
 import useWalletConnectRejectRequest from '../hooks/useWalletConnectRejectRequest';
 import useWalletCallRequests from '../hooks/useWalletCallRequests';
 import { CallRequestType, ParsedCallRequest } from '../types/walletconnect';
@@ -12,7 +13,6 @@ import { TxDetails } from '../components/tx/TxDetails';
 import useSignTx from '../hooks/useSignTx';
 import useUnlockWallet from '../hooks/useUnlockWallet';
 import { useWalletConnectContext } from '../contexts/WalletConnectContext';
-import { StdFee } from '@cosmjs/amino';
 import AccountSource from '../sources/AccountSource';
 import useShowModal from '../hooks/useShowModal';
 import { SingleButtonModal } from '../modals/SingleButtonModal';
@@ -41,9 +41,8 @@ export const WalletConnectCallRequest: React.FC<Props> = (props) => {
 	const request: ParsedCallRequest | null = useMemo(() => {
 		if (callRequests.length > 0) {
 			return callRequests[0];
-		} else {
-			return null;
 		}
+		return null;
 	}, [callRequests]);
 
 	const stdFee: StdFee | undefined = useMemo(() => {
@@ -57,48 +56,46 @@ export const WalletConnectCallRequest: React.FC<Props> = (props) => {
 					amount: amount.map((c) => ({ amount: c.amount, denom: c.denom })),
 					gas: gasLimit.toString(),
 				};
-			} else if (request.type === CallRequestType.SignAmino) {
-				return request.signDoc.fee;
-			} else {
-				return undefined;
 			}
-		} else {
+			if (request.type === CallRequestType.SignAmino) {
+				return request.signDoc.fee;
+			}
 			return undefined;
 		}
+		return undefined;
 	}, [request]);
 
 	const memo = useMemo(() => {
 		if (request !== null) {
 			if (request.type === CallRequestType.SignDirect) {
 				return request.signDoc.body.memo;
-			} else if (request.type === CallRequestType.SignAmino) {
-				return request.signDoc.memo;
-			} else {
-				return undefined;
 			}
-		} else {
+			if (request.type === CallRequestType.SignAmino) {
+				return request.signDoc.memo;
+			}
 			return undefined;
 		}
+		return undefined;
 	}, [request]);
 
 	const messages = useMemo(() => {
 		if (request !== null) {
 			if (request.type === CallRequestType.SignDirect) {
 				return request.signDoc.body.messages;
-			} else if (request.type === CallRequestType.SignAmino) {
-				return request.signDoc.msgs;
-			} else {
-				return [];
 			}
-		} else {
+			if (request.type === CallRequestType.SignAmino) {
+				return request.signDoc.msgs;
+			}
 			return [];
 		}
+		return [];
 	}, [request]);
 
 	const onReject = useCallback(() => {
 		rejectRequest(
-			request!.sessionId,
-			request!.requestId,
+			// FIXME i'm not sure about this cast (type assertion)
+			request?.sessionId as string,
+			request?.requestId as number,
 			'Rejected from the user'
 		);
 	}, [request, rejectRequest]);
@@ -113,7 +110,7 @@ export const WalletConnectCallRequest: React.FC<Props> = (props) => {
 				request.type === CallRequestType.SignAmino
 					? CosmosMethod.SignAmino
 					: CosmosMethod.SignDirect;
-			const account = await AccountSource.getAccount(request!.signerAddress);
+			const account = await AccountSource.getAccount(request?.signerAddress);
 			let closeModal: undefined | (() => void);
 
 			if (account !== null) {
@@ -128,17 +125,17 @@ export const WalletConnectCallRequest: React.FC<Props> = (props) => {
 						}
 						const signature = await signTx(wallet, {
 							method: signMethod,
-							tx: request!.signDoc,
+							tx: request?.signDoc,
 						} as CosmosTx);
 						if (closeModal !== undefined) {
 							closeModal();
 						}
 						controller.approveSignRequest(
-							request!.sessionId,
-							request!.requestId,
+							request?.sessionId,
+							request?.requestId,
 							signature
 						);
-						removeCallRequest(request!.requestId);
+						removeCallRequest(request?.requestId);
 					}
 				} catch (e) {
 					const error = e.toString();
@@ -152,7 +149,7 @@ export const WalletConnectCallRequest: React.FC<Props> = (props) => {
 						message: error,
 						actionLabel: t('cancel'),
 						action: () => {
-							rejectRequest(request!.sessionId, request!.requestId, error);
+							rejectRequest(request?.sessionId, request?.requestId, error);
 						},
 					});
 				}

@@ -1,5 +1,8 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { StackScreenProps } from '@react-navigation/stack';
+import { Trans, useTranslation } from 'react-i18next';
+import { View } from 'react-native';
+import { ActivityIndicator } from 'react-native-paper';
 import { AccountCreationStackParams } from '../../types/navigation';
 import { randomMnemonic } from '../../wallet/LocalWallet';
 import {
@@ -10,11 +13,8 @@ import {
 	TopBar,
 	Typography,
 } from '../../components';
-import { Trans, useTranslation } from 'react-i18next';
 import { makeStyle } from '../../theming';
-import { View } from 'react-native';
 import Colors from '../../constants/colors';
-import { ActivityIndicator } from 'react-native-paper';
 
 declare type Props = StackScreenProps<
 	AccountCreationStackParams,
@@ -39,9 +39,8 @@ export default function GenerateNewMnemonic(props: Props): JSX.Element {
 					}, generationDelay);
 					setGenerationDelay(0);
 				});
-			} else {
-				return randomMnemonic(length);
 			}
+			return randomMnemonic(length);
 		},
 		[generationDelay]
 	);
@@ -91,12 +90,12 @@ export default function GenerateNewMnemonic(props: Props): JSX.Element {
 							/>
 						),
 					}}
-				></Trans>
+				/>
 			</Typography.Subtitle>
 
 			{generatingMnemonic ? (
 				<View style={styles.loadingView}>
-					<ActivityIndicator size={'large'} />
+					<ActivityIndicator size="large" />
 				</View>
 			) : (
 				<>

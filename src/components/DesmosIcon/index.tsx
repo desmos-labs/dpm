@@ -1,7 +1,7 @@
 import { createIconSetFromIcoMoon } from 'react-native-vector-icons';
-import icoMoonConfig from './selection.json';
 import React from 'react';
 import MaterialCommunityIcon from 'react-native-paper/src/components/MaterialCommunityIcon';
+import icoMoonConfig from './selection.json';
 
 const desmosIcons = [
 	'authorization',
@@ -29,18 +29,26 @@ export type Props = {
 };
 
 export const DesmosIcon: React.FC<Props> = (props) => {
-	if (desmosIcons.indexOf(props.name) >= 0) {
+	const { name, color, size, direction, allowFontScaling } = props;
+	if (desmosIcons.indexOf(name) >= 0) {
 		return (
 			<CustomIcon
-				{...props}
-				// Our icons have less padding so make it a little bit smallet
+				name={name}
+				color={color}
+				// Our icons have less padding so make it a little bit smaller
 				// to keep a size similar to MaterialCommunityIcon
-				size={props.size - 4}
+				size={size - 4}
+				allowFontScaling={allowFontScaling}
 			/>
 		);
-	} else {
-		return (
-			<MaterialCommunityIcon {...props} direction={props.direction ?? 'ltr'} />
-		);
 	}
+	return (
+		<MaterialCommunityIcon
+			name={name}
+			color={color}
+			size={size}
+			direction={direction ?? 'ltr'}
+			allowFontScaling={allowFontScaling}
+		/>
+	);
 };

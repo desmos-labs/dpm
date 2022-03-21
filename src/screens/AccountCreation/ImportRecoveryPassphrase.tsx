@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { StackScreenProps } from '@react-navigation/stack';
 import { useTranslation } from 'react-i18next';
 import { EnglishMnemonic } from '@cosmjs/crypto';
@@ -43,36 +43,43 @@ export default function ImportRecoveryPassphrase(props: Props): JSX.Element {
 	};
 
 	const onNextPressed = () => {
-		const sanitizedMnemonic = sanitizeMnemonic(mnemonic, {
-			removeTrailingSpaces: true,
-		});
-
-		if (checkMnemonic(sanitizedMnemonic)) {
-			navigation.navigate({
-				name: 'PickDerivationPath',
-				params: {
-					mnemonic: sanitizedMnemonic,
-				},
-			});
+		if (mnemonic === '') {
+			setErrorMessage(t('empty recovery passphrase'));
 		} else {
-			const invalidWords = sanitizedMnemonic
-				.split(' ')
-				.filter((w) => {
-					return w.length > 0 && EnglishMnemonic.wordlist.indexOf(w) === -1;
-				})
-				.join(',');
+			const sanitizedMnemonic = sanitizeMnemonic(mnemonic, {
+				removeTrailingSpaces: true,
+			});
 
-			if (invalidWords.length > 0) {
-				setErrorMessage(`${t('invalid words')}:\n${invalidWords}`);
+			if (checkMnemonic(sanitizedMnemonic)) {
+				navigation.navigate({
+					name: 'PickDerivationPath',
+					params: {
+						mnemonic: sanitizedMnemonic,
+					},
+				});
 			} else {
-				setErrorMessage(t('invalid recovery passphrase'));
+				const invalidWords = sanitizedMnemonic
+					.split(' ')
+					.filter((w) => {
+						return w.length > 0 && EnglishMnemonic.wordlist.indexOf(w) === -1;
+					})
+					.join(',');
+
+				if (invalidWords.length > 0) {
+					setErrorMessage(`${t('invalid words')}:\n${invalidWords}`);
+				} else {
+					setErrorMessage(t('invalid recovery passphrase'));
+				}
 			}
 		}
 	};
 
 	const useDebugMnemonic = () => {
-		setMnemonic(
+		/*		setMnemonic(
 			'hour harbor fame unaware bunker junk garment decrease federal vicious island smile warrior fame right suit portion skate analyst multiply magnet medal fresh sweet'
+		); */
+		setMnemonic(
+			'verb pizza view holiday flip make silk marine buzz fiscal finger aunt document hood giant cheese embark visual first dirt camera fabric drill predict'
 		);
 		setErrorMessage(null);
 	};

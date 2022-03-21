@@ -41,6 +41,7 @@
 	"confirm recovery passphrase": "Confirm recovery passphrase",
 	"select each word in order": "Select each word in the same order it was presented to you",
 	"invalid recovery passphrase": "Invalid recovery passphrase",
+	"empty recovery passphrase": "Empty recovery passphrase",
 	"invalid words": "Invalid words",
 	"import accounts": "Import accounts",
 	"select account or enter derivation path": "Please select an account or enter a specific derivation path",

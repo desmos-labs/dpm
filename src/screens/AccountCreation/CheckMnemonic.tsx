@@ -18,9 +18,15 @@ declare type Props = StackScreenProps<
 	'CheckMnemonic'
 >;
 export default function CheckMnemonic(props: Props): JSX.Element {
+	const {
+		route: {
+			params: { mnemonic },
+		},
+		navigation,
+	} = props;
 	const styles = useStyles();
 	const { t } = useTranslation();
-	const receivedMnemonic = props.route.params.mnemonic;
+	const receivedMnemonic = mnemonic;
 	const [errorMessage, setErrorMessage] = useState<string | null>(null);
 	const words = useMemo(() => {
 		return shuffleArray(receivedMnemonic.split(' '), 100);
@@ -59,7 +65,7 @@ export default function CheckMnemonic(props: Props): JSX.Element {
 		} else {
 			const composedMnemonic = selectedWords.join(' ');
 			if (receivedMnemonic === composedMnemonic) {
-				props.navigation.navigate({
+				navigation.navigate({
 					name: 'PickDerivationPath',
 					params: {
 						mnemonic: composedMnemonic,
@@ -69,7 +75,7 @@ export default function CheckMnemonic(props: Props): JSX.Element {
 				setErrorMessage(t('invalid recovery passphrase'));
 			}
 		}
-	}, [props.navigation, receivedMnemonic, selectedWords, t, words.length]);
+	}, [navigation, receivedMnemonic, selectedWords, t, words.length]);
 
 	return (
 		<StyledSafeAreaView
@@ -85,7 +91,7 @@ export default function CheckMnemonic(props: Props): JSX.Element {
 				{selectedWords.map((w, i) => (
 					<MnemonicWordBadge
 						style={styles.wordBadge}
-						key={`${w}-${i}`}
+						key={`${w}-${i * 2}`}
 						value={w}
 						onPress={onWordDeselected}
 					/>
@@ -95,7 +101,7 @@ export default function CheckMnemonic(props: Props): JSX.Element {
 				{availableWords.map((w, i) => (
 					<MnemonicWordBadge
 						style={styles.wordBadge}
-						key={`${w}-${i}`}
+						key={`${w}-${i * 2}`}
 						value={w}
 						onPress={onWordSelected}
 					/>
@@ -112,7 +118,7 @@ export default function CheckMnemonic(props: Props): JSX.Element {
 				<Button
 					onPress={() => {
 						setAvailableWords([]);
-						setSelectedWords(props.route.params.mnemonic.split(' '));
+						setSelectedWords(mnemonic.split(' '));
 					}}
 					mode="contained"
 				>

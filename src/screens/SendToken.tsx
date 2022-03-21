@@ -1,6 +1,9 @@
 import { StackScreenProps } from '@react-navigation/stack';
-import { AccountScreensStackParams } from '../types/navigation';
 import React, { useCallback, useState } from 'react';
+import { useTranslation } from 'react-i18next';
+import { MsgSendEncodeObject } from '@desmoslabs/sdk-core';
+import { useCurrentChainInfo } from '@desmoslabs/sdk-react';
+import { AccountScreensStackParams } from '../types/navigation';
 import {
 	Button,
 	StyledSafeAreaView,
@@ -8,14 +11,11 @@ import {
 	TopBar,
 	Typography,
 } from '../components';
-import { useTranslation } from 'react-i18next';
 import { makeStyle } from '../theming';
 import useSelectedAccount from '../hooks/useSelectedAccount';
 import useFetchUserBalance from '../hooks/useFetchUserBalance';
 import { FlexPadding } from '../components/FlexPadding';
-import { MsgSendEncodeObject } from '@desmoslabs/sdk-core';
 import { computeTxFees, messagesGas } from '../types/fees';
-import { useCurrentChainInfo } from '@desmoslabs/sdk-react';
 import { checkDesmosAddress } from '../utilils/validators';
 import { MEMO_MAX_LENGTH } from '../constants/chain';
 import { decimalSeparator, localeParseFloat } from '../utilils/parsing';
@@ -46,24 +46,24 @@ export const SendToken: React.FC<Props> = (props) => {
 	}, []);
 
 	const onAmountChange = useCallback(
-		(amount: string) => {
+		(changedAmount: string) => {
 			const separator = decimalSeparator();
 			let isValid =
-				amount.length === 0 ||
-				new RegExp(`^[0-9]+(\\${separator})?[0-9]*$`).test(amount);
-			if (isValid && amount.length > 0) {
-				const value = localeParseFloat(amount);
+				changedAmount.length === 0 ||
+				new RegExp(`^[0-9]+(\\${separator})?[0-9]*$`).test(changedAmount);
+			if (isValid && changedAmount.length > 0) {
+				const value = localeParseFloat(changedAmount);
 				const balance = parseFloat(userBalance.amount);
 				isValid = balance >= value;
 			}
 			setAmountInvalid(!isValid);
-			setAmount(amount);
+			setAmount(changedAmount);
 		},
 		[userBalance]
 	);
 
-	const onMemoChange = useCallback((memo: string) => {
-		setMemo(memo);
+	const onMemoChange = useCallback((changedMemo: string) => {
+		setMemo(changedMemo);
 	}, []);
 
 	const onMaxPressed = useCallback(() => {
@@ -140,7 +140,7 @@ export const SendToken: React.FC<Props> = (props) => {
 				onChangeText={onMemoChange}
 				numberOfLines={4}
 				maxLength={MEMO_MAX_LENGTH}
-				multiline={true}
+				multiline
 			/>
 
 			<FlexPadding flex={1} />

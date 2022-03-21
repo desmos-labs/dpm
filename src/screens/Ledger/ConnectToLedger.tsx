@@ -1,5 +1,6 @@
 import React, { useCallback, useEffect } from 'react';
 import { StackScreenProps } from '@react-navigation/stack';
+import { useTranslation } from 'react-i18next';
 import { ConnectToLedgerScreensStackParams } from '../../types/navigation';
 import {
 	Button,
@@ -9,7 +10,6 @@ import {
 	TopBar,
 	Typography,
 } from '../../components';
-import { useTranslation } from 'react-i18next';
 import useConnectToLedger from '../../hooks/ledger/useConnectToLedger';
 import { makeStyle } from '../../theming';
 import { FlexPadding } from '../../components/FlexPadding';
@@ -37,7 +37,7 @@ export const ConnectToLedger: React.FC<Props> = ({ navigation, route }) => {
 	const onButtonPressed = useCallback(() => {
 		if (connected) {
 			navigation.goBack();
-			onConnectionEstablished(transport!!);
+			onConnectionEstablished(transport!);
 		} else {
 			retry();
 		}
@@ -55,20 +55,21 @@ export const ConnectToLedger: React.FC<Props> = ({ navigation, route }) => {
 		});
 	}, [navigation, connected, onCancel]);
 
+	// FIXME remove nested ternary expressions
 	return (
 		<StyledSafeAreaView topBar={<TopBar stackProps={{ navigation }} />}>
 			{connecting ? (
 				<ThemedLottieView
 					style={styles.animation}
-					source={'connect-to-ledger'}
-					autoPlay={true}
-					loop={true}
-					autoSize={true}
+					source="connect-to-ledger"
+					autoPlay
+					loop
+					autoSize
 				/>
 			) : connected ? (
-				<DpmImage style={styles.image} source={'success'} />
+				<DpmImage style={styles.image} source="success" />
 			) : (
-				<DpmImage style={styles.image} source={'fail'} />
+				<DpmImage style={styles.image} source="fail" />
 			)}
 
 			<Typography.Subtitle style={styles.status}>

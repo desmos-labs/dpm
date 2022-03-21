@@ -1,25 +1,25 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { StackScreenProps } from '@react-navigation/stack';
-import {
-	AccountScreensStackParams,
-	RootStackParams,
-} from '../types/navigation';
 import { useTranslation } from 'react-i18next';
-import { makeStyle } from '../theming';
+import { CompositeScreenProps } from '@react-navigation/native';
+import { ScrollView } from 'react-native';
+import { launchImageLibrary } from 'react-native-image-picker';
+import { ImagePickerResponse } from 'react-native-image-picker/src/types';
+import { DesmosProfile } from '@desmoslabs/sdk-core';
 import {
+	TopBar,
 	StyledSafeAreaView,
 	Button,
 	Divider,
 	InlineInput,
 	InlineLabeledValue,
 } from '../components';
-import { CompositeScreenProps } from '@react-navigation/native';
 import { ProfileHeader } from '../components/ProfileHeader';
-import { ScrollView } from 'react-native';
-import { launchImageLibrary } from 'react-native-image-picker';
-import { ImagePickerResponse } from 'react-native-image-picker/src/types';
-import { TopBar } from '../components';
-import { DesmosProfile } from '@desmoslabs/sdk-core';
+import { makeStyle } from '../theming';
+import {
+	AccountScreensStackParams,
+	RootStackParams,
+} from '../types/navigation';
 import useProfileValidators from '../hooks/useProfileValidators';
 
 type Props = CompositeScreenProps<
@@ -27,9 +27,13 @@ type Props = CompositeScreenProps<
 	StackScreenProps<RootStackParams>
 >;
 
-export const EditProfile: React.FC<Props> = (props) => {
-	const account = props.route.params.account!;
-	const profile = props.route.params.profile;
+const EditProfile: React.FC<Props> = (props) => {
+	const {
+		navigation,
+		route: {
+			params: { account, profile, bio, goBackTo, feeGranter },
+		},
+	} = props;
 	const styles = useStyles();
 	const { t } = useTranslation();
 	const [dtag, setDtag] = useState(profile?.dtag ?? '');
@@ -38,7 +42,7 @@ export const EditProfile: React.FC<Props> = (props) => {
 	const [nicknameError, setNicknameError] = useState<string | undefined>(
 		undefined
 	);
-	const [bio, setBio] = useState(profile?.bio);
+	const [biography, setBiography] = useState(profile?.bio);
 	const [selectedProfilePicture, setProfilePicture] = useState<
 		string | undefined
 	>(undefined);
@@ -48,33 +52,34 @@ export const EditProfile: React.FC<Props> = (props) => {
 	const { validateDtag, validateNickname } = useProfileValidators();
 
 	useEffect(() => {
-		const bio = props.route.params.bio;
 		if (bio === null || bio !== undefined) {
-			setBio(bio === null ? undefined : bio);
+			setBiography(bio === null ? undefined : bio);
 		}
-	}, [props.route.params.bio]);
+	}, [bio]);
 
 	const onSavePressed = () => {
-		props.navigation.navigate({
-			name: 'ConfirmProfileEdit',
-			params: {
-				account: account,
-				oldProfile: {
-					...profile,
+		if (account) {
+			navigation.navigate({
+				name: 'ConfirmProfileEdit',
+				params: {
+					account,
+					oldProfile: {
+						...profile,
+					},
+					profile: {
+						...profile,
+						address: account.address,
+						dtag,
+						nickname,
+						bio: biography,
+					} as DesmosProfile,
+					localCoverPictureUri: selectedCoverPicture,
+					localProfilePictureUri: selectedProfilePicture,
+					goBackTo,
+					feeGranter,
 				},
-				profile: {
-					...profile,
-					address: account.address,
-					dtag,
-					nickname,
-					bio,
-				} as DesmosProfile,
-				localCoverPictureUri: selectedCoverPicture,
-				localProfilePictureUri: selectedProfilePicture,
-				goBackTo: props.route.params.goBackTo,
-				feeGranter: props.route.params.feeGranter,
-			},
-		});
+			});
+		}
 	};
 
 	const pickPicture = useCallback(
@@ -106,30 +111,30 @@ export const EditProfile: React.FC<Props> = (props) => {
 	}, [pickPicture]);
 
 	const openBiographyEditor = useCallback(() => {
-		props.navigation.navigate({
+		navigation.navigate({
 			name: 'BiographyEditor',
 			params: {
-				bio,
+				bio: biography,
 			},
 		});
-	}, [bio, props.navigation]);
+	}, [biography, navigation]);
 
 	const dtagChanged = useCallback(
-		(dtag: string) => {
-			setDtagError(validateDtag(dtag));
-			setDtag(dtag);
+		(changedDtag: string) => {
+			setDtagError(validateDtag(changedDtag));
+			setDtag(changedDtag);
 		},
 		[validateDtag]
 	);
 
 	const nicknameChanged = useCallback(
-		(nickname: string) => {
-			if (nickname.length === 0) {
+		(changedNickname: string) => {
+			if (changedNickname.length === 0) {
 				setNicknameError(undefined);
 				setNickname(undefined);
 			} else {
-				setNicknameError(validateNickname(nickname));
-				setNickname(nickname);
+				setNicknameError(validateNickname(changedNickname));
+				setNickname(changedNickname);
 			}
 		},
 		[validateNickname]
@@ -170,7 +175,7 @@ export const EditProfile: React.FC<Props> = (props) => {
 				<Divider />
 				<InlineLabeledValue
 					label={t('bio')}
-					value={bio}
+					value={biography}
 					onPress={openBiographyEditor}
 				/>
 			</ScrollView>
@@ -201,3 +206,5 @@ const useStyles = makeStyle((theme) => ({
 		margin: theme.spacing.m,
 	},
 }));
+
+export default EditProfile;

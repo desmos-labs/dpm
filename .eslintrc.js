@@ -18,10 +18,11 @@ module.exports = {
 	rules: {
 		'prettier/prettier': ['error'],
 		'no-use-before-define': 0,
-		'@typescript-eslint/no-use-before-define': 0,
-		'react/function-component-definition': 0,
-		'@typescript-eslint/no-var-requires': 0,
-		'react/no-unstable-nested-components': 1,
 		'global-require': 0,
+		'@typescript-eslint/no-use-before-define': 0,
+		'@typescript-eslint/no-var-requires': 0,
+		'react/function-component-definition': 0,
+		'react/no-unstable-nested-components': 1,
+		'react/require-default-props': 0,
 	},
 };

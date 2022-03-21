@@ -2,7 +2,7 @@ import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { AccountScreensStack } from '../types/navigation';
 import AuthorizeSession from '../screens/AuthorizeSession';
-import { EditProfile } from '../screens/EditProfile';
+import EditProfile from '../screens/EditProfile';
 import { ConfirmProfileEdit } from '../screens/ConfirmProfileEdit';
 import { BiographyEditor } from '../screens/BiographyEditor';
 import { WalletConnectCallRequest } from '../screens/WalletConnectCallRequest';

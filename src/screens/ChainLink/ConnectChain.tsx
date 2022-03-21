@@ -1,5 +1,12 @@
 import React, { useCallback } from 'react';
 import { StackScreenProps } from '@react-navigation/stack';
+import { useTranslation } from 'react-i18next';
+import {
+	ImageSourcePropType,
+	StyleProp,
+	TouchableOpacity,
+	ViewStyle,
+} from 'react-native';
 import {
 	ChainLinkScreensStackParams,
 	ImportMode,
@@ -10,14 +17,7 @@ import {
 	TopBar,
 	Typography,
 } from '../../components';
-import { useTranslation } from 'react-i18next';
 import { makeStyle } from '../../theming';
-import {
-	ImageSourcePropType,
-	StyleProp,
-	TouchableOpacity,
-	ViewStyle,
-} from 'react-native';
 import { DpmImages } from '../../components/DpmImage';
 
 export type Props = StackScreenProps<

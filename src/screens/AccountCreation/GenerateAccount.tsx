@@ -1,5 +1,7 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { StackScreenProps } from '@react-navigation/stack';
+import { useTranslation } from 'react-i18next';
+import { CompositeScreenProps } from '@react-navigation/native';
 import {
 	AccountCreationStackParams,
 	RootStackParams,
@@ -13,9 +15,7 @@ import {
 	StyledSafeAreaView,
 	Typography,
 } from '../../components';
-import { useTranslation } from 'react-i18next';
 import { makeStyle } from '../../theming';
-import { CompositeScreenProps } from '@react-navigation/native';
 import useChangeAccount from '../../hooks/useChangeAccount';
 import useSaveSelectedAccount from '../../hooks/useSaveSelectedAccount';
 import useSetAccounts from '../../hooks/useSetAccounts';
@@ -28,8 +28,12 @@ declare type Props = CompositeScreenProps<
 >;
 
 export default function GenerateAccount(props: Props): JSX.Element {
-	const { navigation } = props;
-	const { wallet, password } = props.route.params;
+	const {
+		navigation,
+		route: {
+			params: { wallet, password },
+		},
+	} = props;
 	const { t } = useTranslation();
 	const styles = useStyles();
 	const [generating, setGenerating] = useState(true);
@@ -47,7 +51,7 @@ export default function GenerateAccount(props: Props): JSX.Element {
 			if (wallet.type === WalletType.Mnemonic) {
 				await saveWallet(wallet.localWallet, password);
 			}
-			const account: ChainAccount = {
+			const accountToSave: ChainAccount = {
 				type:
 					wallet.type === WalletType.Mnemonic
 						? ChainAccountType.Local
@@ -57,13 +61,13 @@ export default function GenerateAccount(props: Props): JSX.Element {
 				pubKey: wallet.pubKey,
 				signAlgorithm: wallet.signAlgorithm,
 			};
-			await saveAccount(account);
-			await saveSelectedAccount(account);
+			await saveAccount(accountToSave);
+			await saveSelectedAccount(accountToSave);
 			// Save a secret encrypted with user provided password to
 			// authenticate the user when performing sensitive operations.
 			await SecureStorage.setItem(
-				`${account.address}-auth-challenge`,
-				account.address,
+				`${accountToSave.address}-auth-challenge`,
+				accountToSave.address,
 				{
 					password,
 				}
@@ -73,11 +77,15 @@ export default function GenerateAccount(props: Props): JSX.Element {
 			setError(e.toString());
 		}
 		setGenerating(false);
-	}, [saveWallet, wallet, password, saveAccount, saveSelectedAccount]);
+	}, [saveWallet, wallet, account, password, saveAccount, saveSelectedAccount]);
 
 	const onContinuePressed = useCallback(() => {
-		setAccounts((old) => [...old, account!]);
-		changeAccount(account!);
+		if (account) {
+			setAccounts((old) => [...old, account]);
+			changeAccount(account);
+		} else {
+			// FIXME throw error message
+		}
 	}, [account, setAccounts, changeAccount]);
 
 	useEffect(() => {
@@ -89,7 +97,7 @@ export default function GenerateAccount(props: Props): JSX.Element {
 	}, [navigation]);
 
 	useEffect(() => {
-		generateAccount();
+		generateAccount().then(() => {});
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, []);
 
@@ -143,7 +151,7 @@ const useStyles = makeStyle((theme) => ({
 	},
 	continueButton: {
 		alignSelf: 'auto',
-		marginTop: theme.spacing.s,
+		marginVertical: theme.spacing.s,
 	},
 	errorText: {
 		color: theme.colors.error,

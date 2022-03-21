@@ -1,19 +1,19 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { BottomTabScreenProps } from '@react-navigation/bottom-tabs';
+import { CompositeScreenProps } from '@react-navigation/native';
+import { StackScreenProps } from '@react-navigation/stack';
+import QRCodeScanner from 'react-native-qrcode-scanner';
+import { BarCodeReadEvent } from 'react-native-camera';
+import { useTranslation } from 'react-i18next';
 import {
 	AccountScreensStackParams,
 	HomeScreensBottomTabsParams,
 } from '../types/navigation';
 import { StyledSafeAreaView, TextInput, IconButton } from '../components';
-import { CompositeScreenProps } from '@react-navigation/native';
-import { StackScreenProps } from '@react-navigation/stack';
-import QRCodeScanner from 'react-native-qrcode-scanner';
-import { BarCodeReadEvent } from 'react-native-camera';
 import { makeStyle } from '../theming';
 import useWalletConnectPair from '../hooks/useWalletConnectPair';
 import useShowModal from '../hooks/useShowModal';
 import { SingleButtonModal } from '../modals/SingleButtonModal';
-import { useTranslation } from 'react-i18next';
 
 export type Props = CompositeScreenProps<
 	BottomTabScreenProps<HomeScreensBottomTabsParams, 'ScanQr'>,
@@ -39,7 +39,7 @@ export const ScanQr: React.FC<Props> = ({ navigation }) => {
 		(message: string) => {
 			openModal(SingleButtonModal, {
 				title: t('error'),
-				message: message,
+				message,
 				actionLabel: t('ok'),
 			});
 		},
@@ -83,8 +83,8 @@ export const ScanQr: React.FC<Props> = ({ navigation }) => {
 			<QRCodeScanner
 				cameraStyle={styles.camera}
 				onRead={onQrCoreRead}
-				showMarker={true}
-				reactivate={true}
+				showMarker
+				reactivate
 				reactivateTimeout={5000}
 			/>
 			{__DEV__ && (
@@ -98,7 +98,7 @@ export const ScanQr: React.FC<Props> = ({ navigation }) => {
 	);
 };
 
-const useStyles = makeStyle((_) => ({
+const useStyles = makeStyle(() => ({
 	root: {
 		backgroundColor: 'rgba(0, 0, 0, 0.7)',
 	},

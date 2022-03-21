@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import { StackScreenProps } from '@react-navigation/stack';
+import { Trans, useTranslation } from 'react-i18next';
+import { EnglishMnemonic } from '@cosmjs/crypto';
 import { ChainLinkScreensStackParams } from '../../types/navigation';
 import {
 	Button,
@@ -8,13 +10,10 @@ import {
 	TopBar,
 	Typography,
 } from '../../components';
-import { useTranslation, Trans } from 'react-i18next';
 import { makeStyle } from '../../theming';
 import { checkMnemonic } from '../../wallet/LocalWallet';
-import { EnglishMnemonic } from '@cosmjs/crypto';
 import { FlexPadding } from '../../components/FlexPadding';
 import { sanitizeMnemonic } from '../../utilils/mnemonic';
-import Colors from '../../constants/colors';
 
 export type Props = StackScreenProps<
 	ChainLinkScreensStackParams,
@@ -28,8 +27,8 @@ export const LinkWithMnemonic: React.FC<Props> = ({ navigation, route }) => {
 	const [mnemonic, setMnemonic] = useState<string>('');
 	const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
-	const onMnemonicChange = (mnemonic: string) => {
-		const sanitizedMnemonic = sanitizeMnemonic(mnemonic, {
+	const onMnemonicChange = (changedMnemonic: string) => {
+		const sanitizedMnemonic = sanitizeMnemonic(changedMnemonic, {
 			removeStartingSpaces: true,
 			removeDoubleSpaces: true,
 		});
@@ -103,9 +102,9 @@ export const LinkWithMnemonic: React.FC<Props> = ({ navigation, route }) => {
 				style={styles.mnemonicInput}
 				placeholder={t('enter recovery passphrase placeholder')}
 				value={mnemonic}
-				multiline={true}
+				multiline
 				onChangeText={onMnemonicChange}
-				autoFocus={true}
+				autoFocus
 			/>
 
 			{errorMessage !== null && (

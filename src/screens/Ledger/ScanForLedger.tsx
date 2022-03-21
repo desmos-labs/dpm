@@ -1,5 +1,8 @@
 import React, { useCallback, useEffect } from 'react';
 import { StackScreenProps } from '@react-navigation/stack';
+import { useTranslation } from 'react-i18next';
+import { FlatList, ListRenderItemInfo, TouchableOpacity } from 'react-native';
+import { StackActions } from '@react-navigation/native';
 import {
 	Button,
 	DpmImage,
@@ -10,12 +13,9 @@ import {
 	Typography,
 } from '../../components';
 import { makeStyle } from '../../theming';
-import { useTranslation } from 'react-i18next';
 import useStartBleScan from '../../hooks/ledger/useStartBleScan';
-import { FlatList, ListRenderItemInfo, TouchableOpacity } from 'react-native';
 import { BleLedger } from '../../types/ledger';
 import { ConnectToLedgerScreensStackParams } from '../../types/navigation';
-import { StackActions } from '@react-navigation/native';
 
 export type Props = StackScreenProps<
 	ConnectToLedgerScreensStackParams,
@@ -30,7 +30,7 @@ export const ScanForLedger: React.FC<Props> = ({ navigation, route }) => {
 	const { scanning, scan, devices, scanError } = useStartBleScan();
 
 	useEffect(() => {
-		scan();
+		scan().then(() => {});
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, []);
 
@@ -75,7 +75,7 @@ export const ScanForLedger: React.FC<Props> = ({ navigation, route }) => {
 	);
 
 	const onRetryPressed = useCallback(() => {
-		scan();
+		scan().then(() => {});
 	}, [scan]);
 
 	return (
@@ -85,10 +85,10 @@ export const ScanForLedger: React.FC<Props> = ({ navigation, route }) => {
 		>
 			<ThemedLottieView
 				style={styles.lookingForDevices}
-				source={'looking-for-devices'}
-				loop={true}
-				autoSize={true}
-				autoPlay={true}
+				source="looking-for-devices"
+				loop
+				autoSize
+				autoPlay
 				speed={scanning ? 1 : 0}
 				progress={scanning ? undefined : 0}
 			/>

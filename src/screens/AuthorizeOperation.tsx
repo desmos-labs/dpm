@@ -51,6 +51,7 @@ const AuthorizeOperation: React.FC<Props> = (props) => {
 				});
 				if (value !== null) {
 					if (value !== address) {
+						// FIXME this throw is never caught
 						throw new Error(`Invalid auth challenge value "${value}"`);
 					}
 				} else {
@@ -65,15 +66,17 @@ const AuthorizeOperation: React.FC<Props> = (props) => {
 						// If the current chain account don't have the public key field or the
 						// signAlgorithm filed update if after unlocking the wallet.
 						if (
-							account!.pubKey === undefined ||
-							account!.signAlgorithm === undefined
+							(account && account.pubKey === undefined) ||
+							(account && account.signAlgorithm === undefined)
 						) {
 							const accountsData = await fallbackWallet.getAccounts();
-							account!.pubKey = toBase64(fallbackWallet.publicKey);
-							account!.signAlgorithm = accountsData[0].algo;
-							await AccountSource.putAccount(account!);
+							account.pubKey = toBase64(fallbackWallet.publicKey);
+							account.signAlgorithm = accountsData[0].algo;
+							await AccountSource.putAccount(account);
 							const accounts = await AccountSource.getAllAccounts();
 							setAccounts(accounts);
+						} else {
+							// FIXME throw some sort of exception?
 						}
 					}
 				}

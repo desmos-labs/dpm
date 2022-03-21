@@ -1,16 +1,20 @@
 import React, { useCallback } from 'react';
-import { StyledSafeAreaView, TopBar, Button } from '../components';
 import { StackScreenProps } from '@react-navigation/stack';
-import { AccountScreensStackParams } from '../types/navigation';
 import { useTranslation } from 'react-i18next';
-import { TxDetails as TxDetailsComponent } from '../components/tx/TxDetails';
 import { Linking } from 'react-native';
 import { useCurrentChainInfo } from '@desmoslabs/sdk-react';
+import { TxDetails as TxDetailsComponent } from '../components/tx/TxDetails';
+import { AccountScreensStackParams } from '../types/navigation';
+import { StyledSafeAreaView, TopBar, Button } from '../components';
 
 export type Props = StackScreenProps<AccountScreensStackParams, 'TxDetails'>;
 
 export const TxDetails: React.FC<Props> = (props) => {
-	const { messages, memo, fee, dateTime, success, hash } = props.route.params;
+	const {
+		route: {
+			params: { fee, memo, success, dateTime, messages, hash },
+		},
+	} = props;
 	const { t } = useTranslation();
 	const chainInfo = useCurrentChainInfo();
 
@@ -21,7 +25,7 @@ export const TxDetails: React.FC<Props> = (props) => {
 		} else {
 			txUrl = `https://morpheus.desmos.network/transactions/${hash}`;
 		}
-		Linking.openURL(txUrl);
+		Linking.openURL(txUrl).then(() => {});
 	}, [hash, chainInfo]);
 
 	return (

@@ -1,18 +1,18 @@
 import React, { useState } from 'react';
 import { View } from 'react-native';
 import { StackScreenProps } from '@react-navigation/stack';
+import { useTranslation } from 'react-i18next';
 import { AccountCreationStackParams } from '../../types/navigation';
 import {
 	StyledSafeAreaView,
 	Button,
 	Typography,
 	PasswordComplexity,
+	TopBar,
 } from '../../components';
-import { useTranslation } from 'react-i18next';
 import { makeStyle } from '../../theming';
 import { SecureTextInput } from '../../components/SecureTextInput';
 import { PasswordComplexityScore } from '../../components/PasswordComplexityScore';
-import { TopBar } from '../../components';
 
 function evaluatePasswordComplexity(password: string): PasswordComplexityScore {
 	const specialChars = '\\|!"£$%&/()=?^\'[]*+@#{}<>';
@@ -58,12 +58,13 @@ type CheckPasswordProps = StackScreenProps<
 type Props = CreatePasswordProps | CheckPasswordProps;
 
 export default function WalletPassword(props: Props): JSX.Element {
+	const { navigation, route } = props;
 	const { t } = useTranslation();
 	const styles = useStyles();
 	const [password, setPassword] = useState('');
 	const [errorMessage, setErrorMessage] = useState<string | null>(null);
 	// @ts-ignore
-	const isCreatePassword = props.route.params.password === undefined;
+	const isCreatePassword = route.params.password === undefined;
 
 	const onPasswordChange = (text: string) => {
 		setPassword(text);
@@ -76,23 +77,23 @@ export default function WalletPassword(props: Props): JSX.Element {
 				setErrorMessage(t('password too short'));
 				return;
 			}
-			props.navigation.navigate({
+			navigation.navigate({
 				name: 'CheckWalletPassword',
 				params: {
-					...props.route.params,
-					password: password,
+					...route.params,
+					password,
 				},
 			});
 		} else {
 			// @ts-ignore
-			if (password !== props.route.params?.password) {
+			if (password !== route.params?.password) {
 				setErrorMessage(t('wrong confirmation password'));
 			} else {
-				props.navigation.navigate({
+				navigation.navigate({
 					name: 'GenerateAccount',
 					params: {
-						wallet: props.route.params.wallet,
-						password: password,
+						wallet: route.params.wallet,
+						password,
 					},
 				});
 			}
@@ -124,7 +125,7 @@ export default function WalletPassword(props: Props): JSX.Element {
 				value={password}
 				onChangeText={onPasswordChange}
 				onSubmitEditing={onContinuePressed}
-				autoFocus={true}
+				autoFocus
 			/>
 			{isCreatePassword && (
 				<Typography.Body style={styles.passwordComplexityHint}>
