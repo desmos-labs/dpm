@@ -9,7 +9,7 @@
 		"ios": "react-native run-ios",
 		"start": "react-native start",
 		"test": "jest",
-		"lint": "eslint . --ext .js,.jsx,.ts,.tsx"
+		"lint": "eslint . --ext .js,.jsx,.ts,.tsx src"
 	},
 	"dependencies": {
 		"@apollo/client": "3.4.16",

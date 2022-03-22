@@ -16,7 +16,7 @@ module.exports = {
 		project: './tsconfig.json',
 	},
 	rules: {
-		'prettier/prettier': ['error'],
+		'prettier/prettier': 0,
 		'no-use-before-define': 0,
 		'global-require': 0,
 		'@typescript-eslint/no-use-before-define': 0,
