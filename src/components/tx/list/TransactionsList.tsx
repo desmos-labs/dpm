@@ -1,5 +1,6 @@
 import React, { useCallback } from 'react';
 import {
+	ScrollView,
 	SectionList,
 	SectionListRenderItemInfo,
 	StyleProp,
@@ -7,21 +8,21 @@ import {
 	View,
 	ViewStyle,
 } from 'react-native';
-import { ChainAccount } from '../../../types/chain';
 import { ActivityIndicator } from 'react-native-paper';
+import { formatDistance } from 'date-fns';
+import { useTranslation } from 'react-i18next';
+import { ChainAccount } from '../../../types/chain';
 import Colors from '../../../constants/colors';
 import { Divider } from '../../Divider';
 import {
 	useFetchTxsGrouppedByDate,
 	SectionedTx,
 } from '../../../graphql/hooks/useFetchTxsGrouppedByDate';
-import { formatDistance } from 'date-fns';
 import { TransactionListMessageItem } from './TransactionListMessageItem';
 import { makeStyle } from '../../../theming';
 import { BroadcastedTx } from '../../../types/tx';
-import { Typography } from '../../index';
-import { useTranslation } from 'react-i18next';
 import { DpmImage } from '../../DpmImage';
+import { Typography } from '../../typography';
 
 export type Props = {
 	chainAccount: ChainAccount;
@@ -42,7 +43,7 @@ export const TransactionsList: React.FC<Props> = ({
 		(info: SectionListRenderItemInfo<BroadcastedTx, SectionedTx>) => {
 			const begin = info.index === 0;
 			const end = info.index === info.section.data.length - 1;
-			const style: StyleProp<ViewStyle> = {
+			const viewStyle: StyleProp<ViewStyle> = {
 				borderTopLeftRadius: begin ? 8 : 0,
 				borderTopRightRadius: begin ? 8 : 0,
 				borderBottomLeftRadius: end ? 8 : 0,
@@ -50,12 +51,12 @@ export const TransactionsList: React.FC<Props> = ({
 			};
 			const txDate = new Date(info.item.timestamp);
 			return (
-				<View style={[styles.txMessage, style]}>
+				<View style={[styles.txMessage, viewStyle]}>
 					{info.item.msgs.map((encodeObject, index, list) => {
 						const showDivider = index < list.length - 1;
 						return (
 							<TouchableOpacity
-								key={`msg-${info.index}-${index}`}
+								key={`msg-${info.index}-${index * 2}`}
 								onPress={() => onTxPressed(info.item)}
 							>
 								<TransactionListMessageItem
@@ -99,12 +100,12 @@ export const TransactionsList: React.FC<Props> = ({
 			keyExtractor={(_, index) => index.toString()}
 			onEndReached={fetchMore}
 			onEndReachedThreshold={0.5}
-			showsVerticalScrollIndicator={true}
+			showsVerticalScrollIndicator
 			ListFooterComponent={
 				<ActivityIndicator
 					animating={loading}
 					color={Colors.DesmosOrange}
-					hidesWhenStopped={true}
+					hidesWhenStopped
 					size="small"
 				/>
 			}

@@ -1,10 +1,6 @@
 import React, { useCallback, useEffect, useState } from 'react';
-import { HdPath } from '../types/hdpath';
-import LocalWallet from '../wallet/LocalWallet';
 import { LedgerApp as CosmosLedgerApp } from '@cosmjs/ledger-amino/build/ledgerapp';
-import { TerraLedgerApp } from '../utilils/terra';
 import { LedgerSigner } from '@cosmjs/ledger-amino';
-import { toCosmjsHdPath } from '../utilils/hdpath';
 import {
 	ListRenderItemInfo,
 	StyleProp,
@@ -12,19 +8,23 @@ import {
 	View,
 	ViewStyle,
 } from 'react-native';
-import { AddressListItem } from './AddressListItem';
 import { debounce } from 'lodash';
+import BluetoothTransport from '@ledgerhq/react-native-hw-transport-ble';
+import { useTranslation } from 'react-i18next';
+import { toBase64 } from '@cosmjs/encoding';
+import { HdPath } from '../types/hdpath';
+import LocalWallet from '../wallet/LocalWallet';
+import TerraLedgerApp from '../utilils/terra';
+import toCosmjsHdPath from '../utilils/hdpath';
+import { AddressListItem } from './AddressListItem';
 import { Typography } from './typography';
 import { HdPathPicker } from './HdPathPicker';
 import { Divider } from './Divider';
 import { PaginatedFlatList } from './PaginatedFlatList';
 import { ListItemSeparator } from './List';
 import { makeStyle } from '../theming';
-import BluetoothTransport from '@ledgerhq/react-native-hw-transport-ble';
 import { LedgerApp } from '../types/ledger';
-import { useTranslation } from 'react-i18next';
 import { Wallet, WalletType } from '../types/wallet';
-import { toBase64 } from '@cosmjs/encoding';
 
 export type Props = {
 	/**
@@ -138,13 +138,11 @@ export const WalletPicker: React.FC<Props> = ({
 				// remove the wallet generated from the derivation path.
 				setSelectedWallet(null);
 				setSelectedHdPath(defaultHdPath);
-			} else {
-				if (selectedWallet === null) {
-					setSelectedHdPath(defaultHdPath);
-					generateWalletFromHdPath(defaultHdPath).then((wallet) => {
-						setSelectedWallet(wallet);
-					});
-				}
+			} else if (selectedWallet === null) {
+				setSelectedHdPath(defaultHdPath);
+				generateWalletFromHdPath(defaultHdPath).then((wallet) => {
+					setSelectedWallet(wallet);
+				});
 			}
 			return !visible;
 		});
@@ -164,7 +162,8 @@ export const WalletPicker: React.FC<Props> = ({
 					address={address}
 					highlight={selectedWallet?.address === address}
 					onPress={() => {
-						let wallet = selectedWallet?.address === address ? null : info.item;
+						const wallet =
+							selectedWallet?.address === address ? null : info.item;
 						setSelectedWallet(wallet);
 						return wallet;
 					}}
@@ -306,7 +305,7 @@ async function generateWalletsFromMnemonic(
 	hdPaths: HdPath[]
 ): Promise<Wallet[]> {
 	const wallets: Wallet[] = [];
-	for (let hdPath of hdPaths) {
+	for (const hdPath of hdPaths) {
 		const signer = await LocalWallet.fromMnemonic(mnemonic, {
 			hdPath,
 			prefix,

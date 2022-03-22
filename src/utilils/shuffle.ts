@@ -14,12 +14,12 @@ function getRandomIntPair(max: number): [number, number] {
  * @param array - The array to shuffle.
  * @param iteration - Number of shuffle iterations.
  */
-export function shuffleArray<T>(array: T[], iteration: number): T[] {
+export default function shuffleArray<T>(array: T[], iteration: number): T[] {
 	if (iteration === 0 || array.length === 0) {
 		return array;
 	}
 
-	for (let i = 0; i < iteration; i++) {
+	for (let i = 0; i < iteration; i + 1) {
 		const [first, second] = getRandomIntPair(array.length);
 		const firstItem = array[first];
 		array[first] = array[second];

@@ -3,7 +3,7 @@
  * @param mnemonic - The seed phrase to sanitize.
  * @param options - Object that contains the sanifications config.
  */
-export function sanitizeMnemonic(
+export default function sanitizeMnemonic(
 	mnemonic: string,
 	options: {
 		removeStartingSpaces?: boolean;

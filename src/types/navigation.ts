@@ -1,11 +1,8 @@
 import { createStackNavigator } from '@react-navigation/stack';
-import { ChainAccount, LinkableChain } from './chain';
-import LocalWallet from '../wallet/LocalWallet';
 import { EncodeObject } from '@cosmjs/proto-signing';
 import React, { MutableRefObject } from 'react';
 import { StackNavigationProp } from '@react-navigation/stack/lib/typescript/src/types';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { SessionRequestDetails } from './walletconnect';
 import { StdFee } from '@cosmjs/amino';
 import {
 	CommonActions,
@@ -13,10 +10,13 @@ import {
 	NavigatorScreenParams,
 } from '@react-navigation/native';
 import { DesmosProfile } from '@desmoslabs/sdk-core';
-import { ChainLink } from './link';
 import { StackNavigationState } from '@react-navigation/routers/lib/typescript/src/StackRouter';
-import { BleLedger, LedgerApp } from './ledger';
 import BluetoothTransport from '@ledgerhq/react-native-hw-transport-ble';
+import { ChainLink } from './link';
+import { BleLedger, LedgerApp } from './ledger';
+import { SessionRequestDetails } from './walletconnect';
+import LocalWallet from '../wallet/LocalWallet';
+import { ChainAccount, LinkableChain } from './chain';
 import { Wallet } from './wallet';
 
 export type AccountCreationStackParams = {
@@ -32,6 +32,7 @@ export type AccountCreationStackParams = {
 	};
 	CreateWalletPassword: {
 		wallet: Wallet;
+		password?: string;
 	};
 	CheckWalletPassword: {
 		password: string;
@@ -121,7 +122,7 @@ export type AccountScreensStackParams = {
 	AuthorizeOperation: {
 		/**
 		 * Address of the account that is requesting the operation.
-		 **/
+		 * */
 		address: string;
 		/**
 		 * True if should also returned the user wallet that is stored
@@ -296,10 +297,9 @@ export const resetTo =
 				routes,
 				index: routes.length - 1,
 			});
-		} else {
-			console.error("Can't find route with name: " + routeName);
-			return CommonActions.navigate({ name: routeName });
 		}
+		console.error(`Can't find route with name: ${routeName}`);
+		return CommonActions.navigate({ name: routeName });
 	};
 
 export const insertAfter =
@@ -319,8 +319,7 @@ export const insertAfter =
 				routes,
 				index: routes.length - 1,
 			});
-		} else {
-			console.error("Can't find route with name: " + insertAfter);
-			return CommonActions.navigate({ name: routeName, params });
 		}
+		console.error(`Can't find route with name: ${insertAfter}`);
+		return CommonActions.navigate({ name: routeName, params });
 	};

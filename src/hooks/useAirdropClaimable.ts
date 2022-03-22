@@ -7,7 +7,7 @@ export default function useAirdropClaimable(): boolean {
 	useEffect(() => {
 		(async () => {
 			const config = await AirdropApi.config();
-			setClaimable(config.airdropEnabled || __DEV__);
+			setClaimable(config.airdropEnabled /* || __DEV__ */);
 		})();
 	}, []);
 

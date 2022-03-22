@@ -1,6 +1,4 @@
 import { useCallback, useState } from 'react';
-import { GqlTransaction, useGetTransactionsByAddressQuery } from '../types';
-import { ChainAccount } from '../../types/chain';
 import { EncodeObject } from '@cosmjs/proto-signing';
 import {
 	MsgDelegateEncodeObject,
@@ -12,13 +10,15 @@ import {
 	MsgWithdrawDelegatorRewardEncodeObject,
 } from '@desmoslabs/sdk-core';
 import { Coin, StdFee } from '@cosmjs/amino';
-import { BroadcastedTx } from '../../types/tx';
-import { MsgTypes } from '../../types/msgtypes';
 import { VoteOption } from 'cosmjs-types/cosmos/gov/v1beta1/gov';
 import Long from 'long';
 import { Bech32Address } from '@desmoslabs/proto/desmos/profiles/v1beta1/models_chain_links';
 import { Any } from 'cosmjs-types/google/protobuf/any';
 import { PubKey } from 'cosmjs-types/cosmos/crypto/secp256k1/keys';
+import { MsgTypes } from '../../types/msgtypes';
+import { BroadcastedTx } from '../../types/tx';
+import { ChainAccount } from '../../types/chain';
+import { GqlTransaction, useGetTransactionsByAddressQuery } from '../types';
 import { MsgMultiSendEncodeObject } from '../../types/encodeobject';
 
 const LIMIT = 20;
@@ -30,7 +30,7 @@ export type SectionedTx = {
 
 function gqlPubKeyToAny(gqlPubKey: any): Any | undefined {
 	const type = gqlPubKey['@type'];
-	const key = gqlPubKey['key'];
+	const { key } = gqlPubKey;
 
 	if (type === '/cosmos.crypto.secp256k1.PubKey') {
 		return Any.fromPartial({
@@ -55,9 +55,9 @@ function gqlMessageToEncodeObject(msg: any): EncodeObject {
 			return {
 				typeUrl: type,
 				value: {
-					amount: msg['amount'],
-					toAddress: msg['to_address'],
-					fromAddress: msg['from_address'],
+					amount: msg.amount,
+					toAddress: msg.to_address,
+					fromAddress: msg.from_address,
 				},
 			} as MsgSendEncodeObject;
 
@@ -65,8 +65,8 @@ function gqlMessageToEncodeObject(msg: any): EncodeObject {
 			return {
 				typeUrl: type,
 				value: {
-					inputs: msg['inputs'],
-					outputs: msg['outputs'],
+					inputs: msg.inputs,
+					outputs: msg.outputs,
 				},
 			} as MsgMultiSendEncodeObject;
 
@@ -74,14 +74,14 @@ function gqlMessageToEncodeObject(msg: any): EncodeObject {
 			return {
 				typeUrl: type,
 				value: {
-					delegatorAddress: msg['delegator_address'],
-					validatorAddress: msg['validator_address'],
+					delegatorAddress: msg.delegator_address,
+					validatorAddress: msg.validator_address,
 				},
 			} as MsgWithdrawDelegatorRewardEncodeObject;
 
 		case MsgTypes.MsgVote:
 			let voteOption: VoteOption;
-			switch (msg['option']) {
+			switch (msg.option) {
 				case 'VOTE_OPTION_YES':
 					voteOption = VoteOption.VOTE_OPTION_YES;
 					break;
@@ -105,9 +105,9 @@ function gqlMessageToEncodeObject(msg: any): EncodeObject {
 			return {
 				typeUrl: type,
 				value: {
-					voter: msg['voter'],
+					voter: msg.voter,
 					option: voteOption,
-					proposalId: Long.fromString(msg['proposal_id']),
+					proposalId: Long.fromString(msg.proposal_id),
 				},
 			} as MsgVoteEncodeObject;
 
@@ -115,9 +115,9 @@ function gqlMessageToEncodeObject(msg: any): EncodeObject {
 			return {
 				typeUrl: type,
 				value: {
-					amount: msg['amount'],
-					delegatorAddress: msg['delegator_address'],
-					validatorAddress: msg['validator_address'],
+					amount: msg.amount,
+					delegatorAddress: msg.delegator_address,
+					validatorAddress: msg.validator_address,
 				},
 			} as MsgDelegateEncodeObject;
 
@@ -125,23 +125,23 @@ function gqlMessageToEncodeObject(msg: any): EncodeObject {
 			return {
 				typeUrl: '/desmos.profiles.v1beta1.MsgSaveProfile',
 				value: {
-					dtag: msg['dtag'],
-					nickname: msg['nickname'],
-					bio: msg['bio'],
-					coverPicture: msg['cover_picture'],
-					profilePicture: msg['profile_picture'],
-					creator: msg['creator'],
+					dtag: msg.dtag,
+					nickname: msg.nickname,
+					bio: msg.bio,
+					coverPicture: msg.cover_picture,
+					profilePicture: msg.profile_picture,
+					creator: msg.creator,
 				},
 			} as MsgSaveProfileEncodeObject;
 
 		case MsgTypes.MsgLinkChainAccount:
-			const chainAddress = msg['chain_address'];
-			const chainConfig = msg['chain_config'];
-			const proof = msg['proof'];
+			const chainAddress = msg.chain_address;
+			const chainConfig = msg.chain_config;
+			const { proof } = msg;
 
 			const chainAddressRaw = Bech32Address.encode({
-				value: chainAddress['value'],
-				prefix: chainAddress['prefix'],
+				value: chainAddress.value,
+				prefix: chainAddress.prefix,
 			}).finish();
 
 			return {
@@ -152,13 +152,13 @@ function gqlMessageToEncodeObject(msg: any): EncodeObject {
 						value: chainAddressRaw,
 					},
 					chainConfig: {
-						name: chainConfig['name'],
+						name: chainConfig.name,
 					},
-					signer: msg['signer'],
+					signer: msg.signer,
 					proof: {
-						plainText: proof['plain_text'],
-						signature: proof['signature'],
-						pubKey: gqlPubKeyToAny(proof['pub_key']),
+						plainText: proof.plain_text,
+						signature: proof.signature,
+						pubKey: gqlPubKeyToAny(proof.pub_key),
 					},
 				},
 			} as MsgLinkChainAccountEncodeObject;
@@ -167,9 +167,9 @@ function gqlMessageToEncodeObject(msg: any): EncodeObject {
 			return {
 				typeUrl: '/desmos.profiles.v1beta1.MsgUnlinkChainAccount',
 				value: {
-					target: msg['target'],
-					owner: msg['owner'],
-					chainName: msg['chain_name'],
+					target: msg.target,
+					owner: msg.owner,
+					chainName: msg.chain_name,
 				},
 			} as MsgUnlinkChainAccountEncodeObject;
 
@@ -194,11 +194,11 @@ function gqlMessageToEncodeObject(msg: any): EncodeObject {
  */
 function gqlFeeToStdFee(gqlFee: any): StdFee {
 	return {
-		gas: gqlFee['gas_limit'] ?? '0',
-		amount: gqlFee['amount']?.map((gqlCoin: any) => {
+		gas: gqlFee.gas_limit ?? '0',
+		amount: gqlFee.amount?.map((gqlCoin: any) => {
 			return {
-				amount: gqlCoin['amount'] ?? '0',
-				denom: gqlCoin['denom'] ?? '',
+				amount: gqlCoin.amount ?? '0',
+				denom: gqlCoin.denom ?? '',
 			} as Coin;
 		}),
 	};
@@ -215,7 +215,7 @@ function mapTransactions(tx: GqlTransaction): BroadcastedTx {
 		fee: gqlFeeToStdFee(tx.transaction.fee),
 		memo: tx.transaction.memo ?? '',
 		success: tx.transaction.success,
-		timestamp: tx.transaction.block.timestamp + 'Z',
+		timestamp: `${tx.transaction.block.timestamp}Z`,
 	};
 }
 

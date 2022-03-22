@@ -28,12 +28,8 @@ declare type Props = CompositeScreenProps<
 >;
 
 export default function GenerateAccount(props: Props): JSX.Element {
-	const {
-		navigation,
-		route: {
-			params: { wallet, password },
-		},
-	} = props;
+	const { navigation, route } = props;
+	const { wallet, password } = route.params;
 	const { t } = useTranslation();
 	const styles = useStyles();
 	const [generating, setGenerating] = useState(true);
@@ -51,7 +47,7 @@ export default function GenerateAccount(props: Props): JSX.Element {
 			if (wallet.type === WalletType.Mnemonic) {
 				await saveWallet(wallet.localWallet, password);
 			}
-			const accountToSave: ChainAccount = {
+			const accountToGenerate: ChainAccount = {
 				type:
 					wallet.type === WalletType.Mnemonic
 						? ChainAccountType.Local
@@ -61,30 +57,30 @@ export default function GenerateAccount(props: Props): JSX.Element {
 				pubKey: wallet.pubKey,
 				signAlgorithm: wallet.signAlgorithm,
 			};
-			await saveAccount(accountToSave);
-			await saveSelectedAccount(accountToSave);
+			await saveAccount(accountToGenerate);
+			await saveSelectedAccount(accountToGenerate);
 			// Save a secret encrypted with user provided password to
 			// authenticate the user when performing sensitive operations.
 			await SecureStorage.setItem(
-				`${accountToSave.address}-auth-challenge`,
-				accountToSave.address,
+				`${accountToGenerate.address}-auth-challenge`,
+				accountToGenerate.address,
 				{
 					password,
 				}
 			);
-			setAccount(account);
+			setAccount(accountToGenerate);
 		} catch (e) {
 			setError(e.toString());
 		}
 		setGenerating(false);
-	}, [saveWallet, wallet, account, password, saveAccount, saveSelectedAccount]);
+	}, [saveWallet, wallet, password, saveAccount, saveSelectedAccount]);
 
 	const onContinuePressed = useCallback(() => {
 		if (account) {
 			setAccounts((old) => [...old, account]);
 			changeAccount(account);
 		} else {
-			// FIXME throw error message
+			setError('error');
 		}
 	}, [account, setAccounts, changeAccount]);
 

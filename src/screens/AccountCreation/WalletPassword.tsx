@@ -12,40 +12,7 @@ import {
 } from '../../components';
 import { makeStyle } from '../../theming';
 import { SecureTextInput } from '../../components/SecureTextInput';
-import { PasswordComplexityScore } from '../../components/PasswordComplexityScore';
-
-function evaluatePasswordComplexity(password: string): PasswordComplexityScore {
-	const specialChars = '\\|!"£$%&/()=?^\'[]*+@#{}<>';
-	if (password.length < 6) {
-		return 0;
-	}
-	let uppercaseChars = 0;
-	let numberChars = 0;
-	let specialCharsCount = 0;
-
-	for (let i = 0; i < password.length; i++) {
-		if (!isNaN(Number(password[i]))) {
-			numberChars++;
-		} else if (specialChars.indexOf(password[i]) >= 0) {
-			specialCharsCount++;
-		} else if (password[i].toUpperCase() === password[i]) {
-			uppercaseChars++;
-		}
-	}
-
-	let score = 1;
-	if (uppercaseChars > 0) {
-		score++;
-	}
-	if (numberChars > 0) {
-		score++;
-	}
-	if (specialCharsCount > 0) {
-		score++;
-	}
-
-	return score as PasswordComplexityScore;
-}
+import evaluatePasswordComplexity from '../../utilils/passwordEvaluation';
 
 type CreatePasswordProps = StackScreenProps<
 	AccountCreationStackParams,
@@ -63,7 +30,6 @@ export default function WalletPassword(props: Props): JSX.Element {
 	const styles = useStyles();
 	const [password, setPassword] = useState('');
 	const [errorMessage, setErrorMessage] = useState<string | null>(null);
-	// @ts-ignore
 	const isCreatePassword = route.params.password === undefined;
 
 	const onPasswordChange = (text: string) => {
@@ -84,19 +50,16 @@ export default function WalletPassword(props: Props): JSX.Element {
 					password,
 				},
 			});
+		} else if (password !== route.params?.password) {
+			setErrorMessage(t('wrong confirmation password'));
 		} else {
-			// @ts-ignore
-			if (password !== route.params?.password) {
-				setErrorMessage(t('wrong confirmation password'));
-			} else {
-				navigation.navigate({
-					name: 'GenerateAccount',
-					params: {
-						wallet: route.params.wallet,
-						password,
-					},
-				});
-			}
+			navigation.navigate({
+				name: 'GenerateAccount',
+				params: {
+					wallet: route.params.wallet,
+					password,
+				},
+			});
 		}
 	};
 

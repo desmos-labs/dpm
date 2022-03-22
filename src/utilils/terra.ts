@@ -10,8 +10,9 @@ import {
 import BluetoothTransport from '@ledgerhq/react-native-hw-transport-ble';
 import TerraApp from '@terra-money/ledger-terra-js';
 
-export class TerraLedgerApp implements LedgerApp {
+export default class TerraLedgerApp implements LedgerApp {
 	private readonly app: TerraApp;
+
 	private initialized: boolean;
 
 	constructor(transport: BluetoothTransport) {

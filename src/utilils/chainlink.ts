@@ -1,4 +1,3 @@
-import { LinkableChain } from '../types/chain';
 import {
 	Bech32Address,
 	Proof,
@@ -6,11 +5,12 @@ import {
 import { fromBase64, toHex } from '@cosmjs/encoding';
 import { Any } from 'cosmjs-types/google/protobuf/any';
 import { PubKey } from 'cosmjs-types/cosmos/crypto/secp256k1/keys';
-import { ChainLinkProof } from '../types/link';
 import { isOfflineDirectSigner, OfflineSigner } from '@cosmjs/proto-signing';
 import Long from 'long';
 import { SignDoc, TxBody } from 'cosmjs-types/cosmos/tx/v1beta1/tx';
 import { serializeSignDoc, StdSignDoc } from '@cosmjs/amino';
+import { ChainLinkProof } from '../types/link';
+import { LinkableChain } from '../types/chain';
 
 export type GenerateProofConfig = {
 	signerAddress: string;
@@ -74,7 +74,7 @@ export async function generateProof(
 			).finish(),
 		}),
 	});
-	const chainConfig = chain.chainConfig;
+	const { chainConfig } = chain;
 	const chainAddress = Any.fromPartial({
 		typeUrl: '/desmos.profiles.v1beta1.Bech32Address',
 		value: Bech32Address.encode(

@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { Coin } from 'cosmjs-types/cosmos/base/v1beta1/coin';
 import { useCurrentChainInfo, useDesmosClient } from '@desmoslabs/sdk-react';
 import { convertCoin } from '@desmoslabs/sdk-core';
@@ -11,29 +11,32 @@ import { useNavigation } from '@react-navigation/native';
 export default function useFetchUserBalance(address: string) {
 	const chainInfo = useCurrentChainInfo();
 	const [userBalance, setUserBalance] = useState<Coin>({
-		amount: '0',
-		denom: chainInfo.coinDenom,
+		amount: '---',
+		denom: '',
 	});
 	const client = useDesmosClient();
 	const navigation = useNavigation();
+	const mountedRef = useRef<boolean>(false);
 
 	const fetchBalance = useCallback(
-		async (address: string) => {
+		async (chainAddress: string) => {
 			setUserBalance({
-				amount: '0',
-				denom: chainInfo.coinDenom,
+				amount: '---',
+				denom: '',
 			});
 			try {
 				await client.connect();
 				const chainBalance = await client.getBalance(
-					address,
+					chainAddress,
 					chainInfo.coinDenom
 				);
 				const balance = convertCoin(chainBalance, 6, chainInfo.denomUnits);
-				if (balance !== null) {
-					setUserBalance(balance);
-				} else {
-					setUserBalance(chainBalance);
+				if (mountedRef.current) {
+					if (balance !== null) {
+						setUserBalance(balance);
+					} else {
+						setUserBalance(chainBalance);
+					}
 				}
 			} catch (e) {
 				// Ignore network error and account not present
@@ -44,8 +47,15 @@ export default function useFetchUserBalance(address: string) {
 	);
 
 	useEffect(() => {
+		mountedRef.current = true;
+		return () => {
+			mountedRef.current = false;
+		};
+	}, []);
+
+	useEffect(() => {
 		const unsubscribe = navigation.addListener('focus', () => {
-			fetchBalance(address);
+			fetchBalance(address).then(() => {});
 		});
 		return () => {
 			unsubscribe();
@@ -53,7 +63,7 @@ export default function useFetchUserBalance(address: string) {
 	}, [fetchBalance, navigation, address]);
 
 	useEffect(() => {
-		fetchBalance(address);
+		fetchBalance(address).then(() => {});
 	}, [address, fetchBalance]);
 
 	return userBalance;

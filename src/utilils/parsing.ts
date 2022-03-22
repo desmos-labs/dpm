@@ -4,8 +4,8 @@
  */
 export function decimalSeparator(locale?: string): string {
 	// Get the thousands and decimal separator characters used in the locale.
-	let [, decimalSeparator] = (1.1).toLocaleString(locale);
-	return decimalSeparator;
+	const [, separator] = (1.1).toLocaleString(locale);
+	return separator;
 }
 
 /**
@@ -16,7 +16,7 @@ export function decimalSeparator(locale?: string): string {
 export function localeParseFloat(s: string, locale?: string): number {
 	const separator = decimalSeparator(locale);
 	// Remove thousand separators, and put a point where the decimal separator occurs
-	s = Array.from(s, (c) => (c === separator ? '.' : c)).join('');
+	const string = Array.from(s, (c) => (c === separator ? '.' : c)).join('');
 	// Now it can be parsed
-	return parseFloat(s);
+	return parseFloat(string);
 }

@@ -1,18 +1,18 @@
-import {
-	CosmosMethod,
-	CosmosSignAminoParams,
-	CosmosSignDirectParams,
-} from '../types/jsonRpCosmosc';
 import { Coin } from '@cosmjs/amino';
 import { AminoMsg } from '@cosmjs/amino/build/signdoc';
+import Long from 'long';
+import { fromHex } from '@cosmjs/encoding';
+import { AuthInfo, TxBody } from 'cosmjs-types/cosmos/tx/v1beta1/tx';
 import {
 	CallRequest,
 	CallRequestType,
 	ParsedCallRequest,
 } from '../types/walletconnect';
-import Long from 'long';
-import { fromHex } from '@cosmjs/encoding';
-import { AuthInfo, TxBody } from 'cosmjs-types/cosmos/tx/v1beta1/tx';
+import {
+	CosmosMethod,
+	CosmosSignAminoParams,
+	CosmosSignDirectParams,
+} from '../types/jsonRpCosmosc';
 
 export function parseSignAminoParams(
 	request: CallRequest
@@ -29,9 +29,8 @@ export function parseSignAminoParams(
 	const amount: (Coin | null)[] | undefined = fee?.amount?.map((coin: any) => {
 		if (typeof coin?.denom === 'string' && typeof coin?.amount === 'string') {
 			return coin as Coin;
-		} else {
-			return null;
 		}
+		return null;
 	});
 	const msgs: (AminoMsg | null)[] | undefined = signDoc?.msgs?.map((m: any) => {
 		if (typeof m.type === 'string' && typeof m.value === 'object') {
@@ -39,9 +38,8 @@ export function parseSignAminoParams(
 				type: m.type,
 				value: m.value,
 			};
-		} else {
-			return null;
 		}
+		return null;
 	});
 
 	// Check validity
@@ -63,16 +61,16 @@ export function parseSignAminoParams(
 	}
 
 	return {
-		signerAddress: signAddress!!,
+		signerAddress: signAddress!,
 		signDoc: {
 			chain_id: chainId,
 			account_number: accountNumber,
-			sequence: sequence,
+			sequence,
 			fee: {
 				amount: amount as Coin[],
-				gas: gas,
+				gas,
 			},
-			memo: memo,
+			memo,
 			msgs: msgs as AminoMsg[],
 		},
 	};
@@ -104,7 +102,7 @@ export function parseSignDirectParams(
 	return {
 		signerAddress: signAddress,
 		signDoc: {
-			chainId: chainId,
+			chainId,
 			accountNumber: Long.fromString(accountNumber, 16),
 			authInfo: AuthInfo.decode(fromHex(authInfo)),
 			body: TxBody.decode(fromHex(body)),
@@ -119,7 +117,7 @@ export default function parseCallRequest(
 		const params = parseSignDirectParams(request);
 		if (params === null) {
 			console.error(
-				'Error while parsing params of: ' + CosmosMethod.SignDirect
+				`Error while parsing params of: ${CosmosMethod.SignDirect}`
 			);
 			return null;
 		}
@@ -130,10 +128,11 @@ export default function parseCallRequest(
 			signerAddress: params.signerAddress,
 			signDoc: params.signDoc,
 		};
-	} else if (request.method === CallRequestType.SignAmino.toString()) {
+	}
+	if (request.method === CallRequestType.SignAmino.toString()) {
 		const params = parseSignAminoParams(request);
 		if (params === null) {
-			console.error('Error while parsing params of: ' + CosmosMethod.SignAmino);
+			console.error(`Error while parsing params of: ${CosmosMethod.SignAmino}`);
 			return null;
 		}
 		return {
@@ -143,14 +142,14 @@ export default function parseCallRequest(
 			signerAddress: params.signerAddress,
 			signDoc: params.signDoc,
 		};
-	} else if (request.method === CallRequestType.GetAccounts.toString()) {
+	}
+	if (request.method === CallRequestType.GetAccounts.toString()) {
 		return {
 			type: CallRequestType.GetAccounts,
 			sessionId: request.sessionId,
 			requestId: request.id,
 		};
-	} else {
-		console.error('Unknown request method: ' + request.method);
-		return null;
 	}
+	console.error(`Unknown request method: ${request.method}`);
+	return null;
 }

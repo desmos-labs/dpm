@@ -16,7 +16,7 @@ import useSelectedAccount from '../hooks/useSelectedAccount';
 import useFetchUserBalance from '../hooks/useFetchUserBalance';
 import { FlexPadding } from '../components/FlexPadding';
 import { computeTxFees, messagesGas } from '../types/fees';
-import { checkDesmosAddress } from '../utilils/validators';
+import checkDesmosAddress from '../utilils/validators';
 import { MEMO_MAX_LENGTH } from '../constants/chain';
 import { decimalSeparator, localeParseFloat } from '../utilils/parsing';
 

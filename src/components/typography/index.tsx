@@ -8,8 +8,9 @@ function createTextComponent(
 	styleProvider: (theme: ReactNativePaper.Theme) => StyleProp<TextStyle>
 ): React.FC<TypographyComponentProps> {
 	return (props) => {
+		const { style } = props;
 		const theme = useTheme();
-		const style = useMemo(() => {
+		const themeStyle = useMemo(() => {
 			return styleProvider(theme);
 		}, [theme]);
 
@@ -22,14 +23,14 @@ function createTextComponent(
 		return (
 			<Text
 				{...props}
-				style={StyleSheet.compose([commonStyle, style], props.style)}
+				style={StyleSheet.compose([commonStyle, themeStyle], style)}
 			/>
 		);
 	};
 }
 
 export const Typography = {
-	Body: createTextComponent((_) => ({
+	Body: createTextComponent(() => ({
 		fontFamily: 'Poppins-Regular',
 		fontSize: 14,
 		fontStyle: 'normal',
@@ -38,7 +39,7 @@ export const Typography = {
 		letterSpacing: 0.0025,
 		textAlign: 'left',
 	})),
-	Body1: createTextComponent((_) => ({
+	Body1: createTextComponent(() => ({
 		fontFamily: 'Poppins-Regular',
 		fontSize: 16,
 		fontStyle: 'normal',
@@ -47,7 +48,7 @@ export const Typography = {
 		letterSpacing: 0.005,
 		textAlign: 'left',
 	})),
-	Caption: createTextComponent((_) => ({
+	Caption: createTextComponent(() => ({
 		fontFamily: 'Poppins-Regular',
 		fontSize: 12,
 		fontStyle: 'normal',
@@ -56,7 +57,7 @@ export const Typography = {
 		letterSpacing: 0.004,
 		textAlign: 'left',
 	})),
-	Caption2: createTextComponent((_) => ({
+	Caption2: createTextComponent(() => ({
 		fontFamily: 'Poppins-Regular',
 		fontSize: 10,
 		fontStyle: 'normal',
@@ -65,12 +66,12 @@ export const Typography = {
 		letterSpacing: 0.004,
 		textAlign: 'left',
 	})),
-	Title: createTextComponent((_) => ({
+	Title: createTextComponent(() => ({
 		fontFamily: 'Poppins-Bold',
 		fontWeight: '700',
 		fontSize: 22,
 	})),
-	Subtitle: createTextComponent((_) => ({
+	Subtitle: createTextComponent(() => ({
 		fontFamily: 'Poppins-Medium',
 		fontSize: 16,
 		fontStyle: 'normal',
@@ -79,7 +80,7 @@ export const Typography = {
 		letterSpacing: 0.0015,
 		textAlign: 'left',
 	})),
-	Subtitle2: createTextComponent((_) => ({
+	Subtitle2: createTextComponent(() => ({
 		fontFamily: 'Poppins-Medium',
 		fontSize: 14,
 		fontStyle: 'normal',
@@ -88,7 +89,7 @@ export const Typography = {
 		letterSpacing: 0.001,
 		textAlign: 'left',
 	})),
-	H1: createTextComponent((_) => ({
+	H1: createTextComponent(() => ({
 		fontFamily: 'Poppins-SemiBold',
 		fontSize: 32,
 		fontStyle: 'normal',
@@ -97,7 +98,7 @@ export const Typography = {
 		letterSpacing: 0.0025,
 		textAlign: 'left',
 	})),
-	H2: createTextComponent((_) => ({
+	H2: createTextComponent(() => ({
 		fontFamily: 'Poppins-SemiBold',
 		fontSize: 24,
 		fontStyle: 'normal',
@@ -106,7 +107,7 @@ export const Typography = {
 		letterSpacing: 0.0015,
 		textAlign: 'left',
 	})),
-	H4: createTextComponent((_) => ({
+	H4: createTextComponent(() => ({
 		fontFamily: 'Poppins-Medium',
 		fontStyle: 'normal',
 		fontWeight: '500',

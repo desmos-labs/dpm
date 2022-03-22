@@ -16,8 +16,7 @@ export default function findLinkableChainInfoByName(
 				lowerCase.indexOf('crypto.org') >= 0 ||
 				lowerCase.indexOf('crypto.com') >= 0
 			);
-		} else {
-			return lowerCase.indexOf(name) >= 0;
 		}
+		return lowerCase.indexOf(name) >= 0;
 	});
 }

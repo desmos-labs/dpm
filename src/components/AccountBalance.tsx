@@ -1,10 +1,10 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { StyleProp, TouchableOpacity, View, ViewStyle } from 'react-native';
-import { IconButton } from './IconButton';
 import { useTranslation } from 'react-i18next';
+import { IconButton } from './IconButton';
 import { makeStyle } from '../theming';
 import useFetchUserBalance from '../hooks/useFetchUserBalance';
-import { Typography } from './index';
+import { Typography } from './typography';
 
 export type Props = {
 	/**
@@ -27,28 +27,29 @@ export type Props = {
 };
 
 export const AccountBalance: React.FC<Props> = (props) => {
+	const { address, nickname, onCopyPress, onSendPressed, style } = props;
 	const { t } = useTranslation();
 	const styles = useStyles();
-	const chainBalance = useFetchUserBalance(props.address);
+	const chainBalance = useFetchUserBalance(address);
 
 	return (
-		<View style={[styles.root, props.style]}>
-			{props?.nickname !== undefined ? (
-				<Typography.H4 style={styles.text}>{props?.nickname}</Typography.H4>
+		<View style={[styles.root, style]}>
+			{nickname !== undefined ? (
+				<Typography.H4 style={styles.text}>{nickname}</Typography.H4>
 			) : null}
 			<View style={styles.addressContainer}>
 				<Typography.Body
 					style={[styles.address, styles.text]}
-					ellipsizeMode={'middle'}
+					ellipsizeMode="middle"
 					numberOfLines={1}
 				>
-					{props.address}
+					{address}
 				</Typography.Body>
 				<IconButton
 					color="#ffffff"
 					icon="content-copy"
 					size={16}
-					onPress={props.onCopyPress}
+					onPress={onCopyPress}
 				/>
 			</View>
 			<View style={styles.balanceContainer}>
@@ -60,10 +61,7 @@ export const AccountBalance: React.FC<Props> = (props) => {
 						{chainBalance.amount} {chainBalance.denom.toUpperCase()}
 					</Typography.H4>
 				</View>
-				<TouchableOpacity
-					style={styles.sendButton}
-					onPress={props.onSendPressed}
-				>
+				<TouchableOpacity style={styles.sendButton} onPress={onSendPressed}>
 					<Typography.Body style={styles.sendButtonText}>
 						{t('send')}
 					</Typography.Body>

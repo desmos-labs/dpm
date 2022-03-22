@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { StackScreenProps } from '@react-navigation/stack';
 import { useTranslation } from 'react-i18next';
 import { EnglishMnemonic } from '@cosmjs/crypto';
@@ -13,7 +13,7 @@ import {
 } from '../../components';
 import { makeStyle } from '../../theming';
 import { FlexPadding } from '../../components/FlexPadding';
-import { sanitizeMnemonic } from '../../utilils/mnemonic';
+import sanitizeMnemonic from '../../utilils/mnemonic';
 
 declare type Props = StackScreenProps<
 	AccountCreationStackParams,
@@ -114,7 +114,7 @@ export default function ImportRecoveryPassphrase(props: Props): JSX.Element {
 
 			{__DEV__ && (
 				<Button
-					style={styles.bottomBtn}
+					style={styles.nextBtn}
 					mode="contained"
 					onPress={useDebugMnemonic}
 				>
@@ -144,10 +144,10 @@ const useStyles = makeStyle((theme) => ({
 		marginTop: theme.spacing.s,
 	},
 	errorParagraph: {
-		marginBottom: theme.spacing.s,
+		marginBottom: theme.spacing.xs,
 		color: theme.colors.font.red,
 	},
-	bottomBtn: {
-		marginVertical: theme.spacing.s,
+	nextBtn: {
+		marginVertical: theme.spacing.xs,
 	},
 }));

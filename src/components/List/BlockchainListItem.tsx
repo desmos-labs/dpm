@@ -1,6 +1,6 @@
 import { Image, ImageSourcePropType, TouchableOpacity } from 'react-native';
-import { Typography } from '../typography';
 import React from 'react';
+import { Typography } from '../typography';
 import { makeStyle } from '../../theming';
 
 export type Props = {
@@ -9,11 +9,7 @@ export type Props = {
 	onPress?: () => void;
 };
 
-export const BlockchainListItem: React.FC<Props> = ({
-	name,
-	icon,
-	onPress,
-}) => {
+const BlockchainListItem: React.FC<Props> = ({ name, icon, onPress }) => {
 	const styles = useStyles();
 
 	return (
@@ -41,3 +37,5 @@ const useStyles = makeStyle((theme) => ({
 		marginLeft: theme.spacing.s,
 	},
 }));
+
+export default BlockchainListItem;

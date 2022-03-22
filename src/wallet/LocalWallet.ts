@@ -1,6 +1,5 @@
 import * as bip39 from 'bip39';
 import { sha256, Secp256k1 } from '@cosmjs/crypto';
-import { DesmosHdPath, HdPath } from '../types/hdpath';
 import {
 	DirectSignResponse,
 	OfflineDirectSigner,
@@ -17,6 +16,7 @@ import {
 	serializeSignDoc,
 } from '@cosmjs/amino';
 import { Bech32, fromBase64, fromHex, toBase64 } from '@cosmjs/encoding';
+import { DesmosHdPath, HdPath } from '../types/hdpath';
 import { CryptoUtils } from '../native/CryptoUtils';
 
 export interface LocalWalletOptions {
@@ -39,8 +39,11 @@ export default class LocalWallet
 	implements OfflineDirectSigner, OfflineAminoSigner
 {
 	private readonly prefix: string;
+
 	private readonly privateKey: Uint8Array;
+
 	readonly publicKey: Uint8Array;
+
 	private readonly _address: string;
 
 	/**
@@ -113,12 +116,10 @@ export default class LocalWallet
 		if (json.version === 1) {
 			const { pubkey } = await Secp256k1.makeKeypair(privateKey);
 			publicKey = await Secp256k1.compressPubkey(pubkey);
+		} else if (json.publicKey === undefined) {
+			throw new Error('Invalid data');
 		} else {
-			if (json.publicKey === undefined) {
-				throw new Error('Invalid data');
-			} else {
-				publicKey = fromBase64(json.publicKey);
-			}
+			publicKey = fromBase64(json.publicKey);
 		}
 		// Handle case of old wallets.
 		const prefix = json.prefix ?? DEFAULT_OPTIONS.prefix;
@@ -173,7 +174,7 @@ export default class LocalWallet
 	}
 }
 
-export function randomMnemonic(wordCount: number = 24): string {
+export function randomMnemonic(wordCount = 24): string {
 	if (wordCount !== 12 && wordCount !== 24) {
 		throw new Error('Can be generated mnemonic only with length 24 or 12');
 	}

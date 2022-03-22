@@ -1,7 +1,7 @@
 import SInfo, { RNSensitiveInfoOptions } from 'react-native-sensitive-info';
 import { NativeModules } from 'react-native';
 
-const Aes = NativeModules.Aes;
+const { Aes } = NativeModules;
 const DPM_SHARED_PREFERENCES = 'dmpPreferences';
 const DPM_SERVICE = 'dmpKeychainService';
 

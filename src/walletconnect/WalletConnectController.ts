@@ -1,6 +1,8 @@
 import { ISessionParams, IWalletConnectSession } from '@walletconnect/types';
 import WalletConnect from '@walletconnect/client';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { toHex } from '@cosmjs/encoding';
+import { AuthInfo, TxBody } from 'cosmjs-types/cosmos/tx/v1beta1/tx';
 import {
 	CallRequestEvent,
 	ConnectedEvent,
@@ -14,8 +16,6 @@ import {
 } from '../types/walletconnect';
 import { SignedCosmosTx } from '../types/tx';
 import { CosmosMethod } from '../types/jsonRpCosmosc';
-import { AuthInfo, TxBody } from 'cosmjs-types/cosmos/tx/v1beta1/tx';
-import { toHex } from '@cosmjs/encoding';
 
 /**
  * Type that represents the payload returned from the
@@ -79,12 +79,13 @@ const STORAGE_KEYS = {
  * Class that manage multiple WalletConnect session and
  * storing them on the device storage.
  */
-export class WalletConnectController {
+export default class WalletConnectController {
 	/**
 	 * Map used to collect all the observer of each event.
 	 * @private
 	 */
 	private readonly eventsObservers: Map<Events, EventCallBack[]>;
+
 	/**
 	 * Map that contains all the session organized by the
 	 * WalletConnect `clientId` field.
@@ -388,7 +389,7 @@ export class WalletConnectController {
 				},
 			});
 			const session: WalletConnectSession = {
-				client: client,
+				client,
 				creationDate: new Date(serializedClient.creationDate),
 			};
 			this._sessions.set(serializedClient.id, session);
@@ -438,7 +439,7 @@ export class WalletConnectController {
 							: undefined,
 					};
 					const session: WalletConnectSession = {
-						client: client,
+						client,
 						creationDate: new Date(),
 					};
 					this._sessions.set(client.clientId, session);
@@ -508,7 +509,7 @@ export class WalletConnectController {
 					: undefined;
 				return {
 					id: client.clientId,
-					creationDate: creationDate,
+					creationDate,
 					accounts: client.accounts,
 					chainId: client.chainId,
 					peerMeta,

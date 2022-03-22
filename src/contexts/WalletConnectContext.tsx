@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
-import { WalletConnectController } from '../walletconnect/WalletConnectController';
+import WalletConnectController from '../walletconnect/WalletConnectController';
 import {
 	CallRequestEvent,
 	CallRequestType,
@@ -23,8 +23,13 @@ interface WalletConnectState {
 	removeCallRequest: (requestId: number) => void;
 }
 
-// @ts-ignore
-const WalletConnectContext = React.createContext<WalletConnectState>({});
+const WalletConnectContext = React.createContext<WalletConnectState>({
+	callRequests: [],
+	controller: {} as WalletConnectController,
+	initState: {} as WalletConnectInitState,
+	initWalletConnect(): void {},
+	removeCallRequest(): void {},
+});
 
 export const WalletContextProvider: React.FC = ({ children }) => {
 	const [initState, setInitState] = useState<WalletConnectInitState>({
@@ -54,6 +59,10 @@ export const WalletContextProvider: React.FC = ({ children }) => {
 		})();
 	}, [controller]);
 
+	const getChainAccount = async (sessionAccount: string) => {
+		return AccountSource.getAccount(sessionAccount);
+	};
+
 	const onCallRequest = useCallback(
 		async (event: CallRequestEvent) => {
 			if (event.request) {
@@ -65,19 +74,30 @@ export const WalletContextProvider: React.FC = ({ children }) => {
 						id,
 						`Invalid request method ${method}`
 					);
-				} else {
-					if (parsed.type === CallRequestType.GetAccounts) {
-						// Handle the get accounts request in the background
-						// to provide to the dApp the account public key and address.
-						const session = controller.sessions.find(
-							(session) => session.id === event.sessionId
-						);
-						const response = [];
-						if (session !== undefined) {
-							for (let sessionAccount of session.accounts) {
-								const chainAccount = await AccountSource.getAccount(
-									sessionAccount
-								);
+				} else if (parsed.type === CallRequestType.GetAccounts) {
+					// Handle the get accounts request in the background
+					// to provide to the dApp the account public key and address.
+					const sessionToHandle = controller.sessions.find(
+						(session) => session.id === event.sessionId
+					);
+					const response: {
+						algo: 'secp256k1' | 'ed25519' | 'sr25519';
+						address: string;
+						pubkey: string;
+					}[] = [];
+					if (sessionToHandle !== undefined) {
+						/* for (const sessionAccount of session.accounts) {
+							const chainAccount = await getChainAccount(sessionAccount);
+							if (chainAccount !== null) {
+								response.push({
+									algo: chainAccount.signAlgorithm,
+									address: chainAccount.address,
+									pubkey: chainAccount.pubKey,
+								});
+							}
+						} */
+						sessionToHandle.accounts.forEach((sessionAccount) => {
+							getChainAccount(sessionAccount).then((chainAccount) => {
 								if (chainAccount !== null) {
 									response.push({
 										algo: chainAccount.signAlgorithm,
@@ -85,16 +105,16 @@ export const WalletContextProvider: React.FC = ({ children }) => {
 										pubkey: chainAccount.pubKey,
 									});
 								}
-							}
-						}
-						controller.approveRequest(
-							parsed.sessionId,
-							parsed.requestId,
-							response
-						);
-					} else {
-						setCallRequests((old) => [...old, parsed]);
+							});
+						});
 					}
+					controller.approveRequest(
+						parsed.sessionId,
+						parsed.requestId,
+						response
+					);
+				} else {
+					setCallRequests((old) => [...old, parsed]);
 				}
 			}
 		},
@@ -107,6 +127,22 @@ export const WalletContextProvider: React.FC = ({ children }) => {
 		);
 	}, []);
 
+	const contextValue = useMemo(() => {
+		return {
+			initState,
+			initWalletConnect,
+			controller,
+			callRequests,
+			removeCallRequest,
+		};
+	}, [
+		callRequests,
+		controller,
+		initState,
+		initWalletConnect,
+		removeCallRequest,
+	]);
+
 	useEffect(() => {
 		controller.addListener(Events.OnCallRequest, onCallRequest);
 		return () => {
@@ -115,15 +151,7 @@ export const WalletContextProvider: React.FC = ({ children }) => {
 	}, [controller, onCallRequest]);
 
 	return (
-		<WalletConnectContext.Provider
-			value={{
-				initState,
-				initWalletConnect,
-				controller,
-				callRequests,
-				removeCallRequest,
-			}}
-		>
+		<WalletConnectContext.Provider value={contextValue}>
 			{children}
 		</WalletConnectContext.Provider>
 	);
