@@ -6,7 +6,7 @@ import { useAppContext } from '../../contexts/AppContext';
  * the current application settings.
  */
 export default function useSettings(): AppSettings {
-	const { settings } = useAppContext();
+  const { settings } = useAppContext();
 
-	return settings;
+  return settings;
 }

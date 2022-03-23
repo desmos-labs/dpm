@@ -7,28 +7,28 @@ import it from './it.json';
 
 export const defaultNS = 'translation';
 export const resources = {
-	en: {
-		translation: en,
-	},
-	it: {
-		translation: it,
-	},
+  en: {
+    translation: en,
+  },
+  it: {
+    translation: it,
+  },
 };
 
 export function useInitI18n(): () => Promise<void> {
-	return useCallback(async () => {
-		await i18n
-			.use(RNLanguageDetector)
-			.use(initReactI18next)
-			.init({
-				ns: [defaultNS],
-				fallbackLng: 'en',
-				defaultNS,
-				resources,
-				debug: false,
-				interpolation: {
-					escapeValue: false, // react already safes from xss
-				},
-			});
-	}, []);
+  return useCallback(async () => {
+    await i18n
+      .use(RNLanguageDetector)
+      .use(initReactI18next)
+      .init({
+        ns: [defaultNS],
+        fallbackLng: 'en',
+        defaultNS,
+        resources,
+        debug: false,
+        interpolation: {
+          escapeValue: false, // react already safes from xss
+        },
+      });
+  }, []);
 }

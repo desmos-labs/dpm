@@ -7,16 +7,16 @@ import { useAppContext } from '../contexts/AppContext';
  * a list of addresses.
  */
 export default function useLoadAllChainLinks(): (
-	addresses: string[]
+  addresses: string[]
 ) => Promise<Record<string, ChainLink[]>> {
-	const { setChainLinks } = useAppContext();
-	return useCallback(
-		async (_: string[]) => {
-			// TODO: Implement a cache logic
-			const result: Record<string, ChainLink[]> = {};
-			setChainLinks(result);
-			return result;
-		},
-		[setChainLinks]
-	);
+  const { setChainLinks } = useAppContext();
+  return useCallback(
+    async (_: string[]) => {
+      // TODO: Implement a cache logic
+      const result: Record<string, ChainLink[]> = {};
+      setChainLinks(result);
+      return result;
+    },
+    [setChainLinks]
+  );
 }

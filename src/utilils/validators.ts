@@ -5,10 +5,10 @@ import { Bech32 } from '@cosmjs/encoding';
  * @param address - The address to check.
  */
 export default function checkDesmosAddress(address: string): boolean {
-	try {
-		const decoded = Bech32.decode(address);
-		return decoded.prefix === 'desmos';
-	} catch (e) {
-		return false;
-	}
+  try {
+    const decoded = Bech32.decode(address);
+    return decoded.prefix === 'desmos';
+  } catch (e) {
+    return false;
+  }
 }

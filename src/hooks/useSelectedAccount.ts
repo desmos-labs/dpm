@@ -6,11 +6,11 @@ import { useAppContext } from '../contexts/AppContext';
  * Returns the current selected account.
  */
 export default function useSelectedAccount(): ChainAccount {
-	const { selectedAccount } = useAppContext();
+  const { selectedAccount } = useAppContext();
 
-	if (selectedAccount === null) {
-		throw new Error('No selected account');
-	}
+  if (selectedAccount === null) {
+    throw new Error('No selected account');
+  }
 
-	return selectedAccount;
+  return selectedAccount;
 }

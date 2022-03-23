@@ -12,11 +12,9 @@ import SInfo from 'react-native-sensitive-info';
 import 'react-native-gesture-handler';
 
 SInfo.hasEnrolledFingerprints().then((enrolled) => {
-	if (enrolled) {
-		SInfo.setInvalidatedByBiometricEnrollment(true);
-	}
+  if (enrolled) {
+    SInfo.setInvalidatedByBiometricEnrollment(true);
+  }
 });
-LogBox.ignoreLogs([
-	'Non-serializable values were found in the navigation state',
-]);
+LogBox.ignoreLogs(['Non-serializable values were found in the navigation state']);
 AppRegistry.registerComponent(appName, () => App);

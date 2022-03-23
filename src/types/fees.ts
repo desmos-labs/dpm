@@ -8,9 +8,9 @@ import { MsgTypes } from './msgtypes';
  * of the gas prices.
  */
 export interface GasPrices {
-	readonly low: string;
-	readonly average: string;
-	readonly high: string;
+  readonly low: string;
+  readonly average: string;
+  readonly high: string;
 }
 
 /**
@@ -18,9 +18,9 @@ export interface GasPrices {
  * The price are without denom since it depends on the chain selected from the user.
  */
 export const DefaultGasPrice: GasPrices = {
-	low: '0.005',
-	average: '0.01',
-	high: '0.03',
+  low: '0.005',
+  average: '0.01',
+  high: '0.03',
 };
 
 /**
@@ -33,9 +33,9 @@ export type TxPriceLevel = keyof TxFees;
  * of fees that can be paid for a transaction.
  */
 export interface TxFees {
-	readonly low: StdFee;
-	readonly average: StdFee;
-	readonly high: StdFee;
+  readonly low: StdFee;
+  readonly average: StdFee;
+  readonly high: StdFee;
 }
 
 /**
@@ -44,17 +44,13 @@ export interface TxFees {
  * @param denom - The chain coin denom.
  * @param prices - Optional gas price levels.
  */
-export function computeTxFees(
-	gas: number,
-	denom: string,
-	prices?: GasPrices
-): TxFees {
-	const gasPrices = prices ?? DefaultGasPrice;
-	return {
-		low: calculateFee(gas, `${gasPrices.low}${denom}`),
-		average: calculateFee(gas, `${gasPrices.average}${denom}`),
-		high: calculateFee(gas, `${gasPrices.high}${denom}`),
-	};
+export function computeTxFees(gas: number, denom: string, prices?: GasPrices): TxFees {
+  const gasPrices = prices ?? DefaultGasPrice;
+  return {
+    low: calculateFee(gas, `${gasPrices.low}${denom}`),
+    average: calculateFee(gas, `${gasPrices.average}${denom}`),
+    high: calculateFee(gas, `${gasPrices.high}${denom}`),
+  };
 }
 
 /**
@@ -62,25 +58,25 @@ export function computeTxFees(
  * @param msg - List of messages.
  */
 export function messagesGas(msg: EncodeObject[]): number {
-	let gas = 0;
+  let gas = 0;
 
-	msg.forEach((m) => {
-		switch (m.typeUrl) {
-			case MsgTypes.MsgLinkChainAccount:
-			case MsgTypes.MsgUnlinkChainAccount:
-			case MsgTypes.MsgSaveProfile:
-				gas += 200000;
-				break;
+  msg.forEach((m) => {
+    switch (m.typeUrl) {
+      case MsgTypes.MsgLinkChainAccount:
+      case MsgTypes.MsgUnlinkChainAccount:
+      case MsgTypes.MsgSaveProfile:
+        gas += 200000;
+        break;
 
-			case MsgTypes.MsgSend:
-				gas += 140000;
-				break;
+      case MsgTypes.MsgSend:
+        gas += 140000;
+        break;
 
-			default:
-				gas += 140000;
-				break;
-		}
-	});
+      default:
+        gas += 140000;
+        break;
+    }
+  });
 
-	return gas;
+  return gas;
 }

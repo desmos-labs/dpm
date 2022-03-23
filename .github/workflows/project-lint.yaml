@@ -3,19 +3,19 @@ name: Lint Project
 on: [push, pull_request]
 
 jobs:
-    eslint:
-      name: Lint code
-      runs-on: ubuntu-latest
+  eslint:
+    name: Lint code
+    runs-on: ubuntu-latest
 
-      steps:
-        - name: Checkout
-          uses: actions/checkout@v2
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
 
-        - uses: c-hive/gha-yarn-cache@v1
+      - uses: c-hive/gha-yarn-cache@v1
 
-        - name: Install node modules
-          run: |
-            yarn install
+      - name: Install node modules
+        run: |
+          yarn install
 
-        - name: Run ESlint
-          run: yarn run lint
+      - name: Run ESlint
+        run: yarn run lint

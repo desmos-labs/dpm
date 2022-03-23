@@ -6,6 +6,6 @@ import { useAppContext } from '../contexts/AppContext';
  * all the user's accounts.
  */
 export default function useAccounts(): ChainAccount[] {
-	const { accounts } = useAppContext();
-	return accounts;
+  const { accounts } = useAppContext();
+  return accounts;
 }

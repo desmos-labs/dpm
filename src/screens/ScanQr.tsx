@@ -5,10 +5,7 @@ import { StackScreenProps } from '@react-navigation/stack';
 import QRCodeScanner from 'react-native-qrcode-scanner';
 import { BarCodeReadEvent } from 'react-native-camera';
 import { useTranslation } from 'react-i18next';
-import {
-	AccountScreensStackParams,
-	HomeScreensBottomTabsParams,
-} from '../types/navigation';
+import { AccountScreensStackParams, HomeScreensBottomTabsParams } from '../types/navigation';
 import { StyledSafeAreaView, TextInput, IconButton } from '../components';
 import { makeStyle } from '../theming';
 import useWalletConnectPair from '../hooks/useWalletConnectPair';
@@ -16,107 +13,102 @@ import useShowModal from '../hooks/useShowModal';
 import { SingleButtonModal } from '../modals/SingleButtonModal';
 
 export type Props = CompositeScreenProps<
-	BottomTabScreenProps<HomeScreensBottomTabsParams, 'ScanQr'>,
-	StackScreenProps<AccountScreensStackParams>
+  BottomTabScreenProps<HomeScreensBottomTabsParams, 'ScanQr'>,
+  StackScreenProps<AccountScreensStackParams>
 >;
 
 export const ScanQr: React.FC<Props> = ({ navigation }) => {
-	const styles = useStyles();
-	const { t } = useTranslation();
-	const [devUri, setDevUri] = useState('');
-	const [pairingStatus, pair] = useWalletConnectPair();
-	const openModal = useShowModal();
+  const styles = useStyles();
+  const { t } = useTranslation();
+  const [devUri, setDevUri] = useState('');
+  const [pairingStatus, pair] = useWalletConnectPair();
+  const openModal = useShowModal();
 
-	const goBack = useCallback(() => {
-		navigation.goBack();
-	}, [navigation]);
+  const goBack = useCallback(() => {
+    navigation.goBack();
+  }, [navigation]);
 
-	const onDevUriSubmitted = useCallback(() => {
-		pair(devUri).catch(console.error);
-	}, [devUri, pair]);
+  const onDevUriSubmitted = useCallback(() => {
+    pair(devUri).catch(console.error);
+  }, [devUri, pair]);
 
-	const openErrorModal = useCallback(
-		(message: string) => {
-			openModal(SingleButtonModal, {
-				title: t('error'),
-				message,
-				actionLabel: t('ok'),
-			});
-		},
-		[openModal, t]
-	);
+  const openErrorModal = useCallback(
+    (message: string) => {
+      openModal(SingleButtonModal, {
+        title: t('error'),
+        message,
+        actionLabel: t('ok'),
+      });
+    },
+    [openModal, t]
+  );
 
-	const onQrCoreRead = useCallback(
-		async (event: BarCodeReadEvent) => {
-			try {
-				await pair(event.data);
-			} catch (e) {
-				openErrorModal(t('invalid qr code'));
-			}
-		},
-		[pair, openErrorModal, t]
-	);
+  const onQrCoreRead = useCallback(
+    async (event: BarCodeReadEvent) => {
+      try {
+        await pair(event.data);
+      } catch (e) {
+        openErrorModal(t('invalid qr code'));
+      }
+    },
+    [pair, openErrorModal, t]
+  );
 
-	useEffect(() => {
-		if (!pairingStatus.pairing) {
-			if (pairingStatus.requestDetails) {
-				navigation.navigate({
-					name: 'AuthorizeSession',
-					params: {
-						sessionRequestDetails: pairingStatus.requestDetails,
-					},
-				});
-			} else if (pairingStatus.error) {
-				openErrorModal(pairingStatus.error);
-			}
-		}
-	}, [navigation, pairingStatus, openErrorModal]);
+  useEffect(() => {
+    if (!pairingStatus.pairing) {
+      if (pairingStatus.requestDetails) {
+        navigation.navigate({
+          name: 'AuthorizeSession',
+          params: {
+            sessionRequestDetails: pairingStatus.requestDetails,
+          },
+        });
+      } else if (pairingStatus.error) {
+        openErrorModal(pairingStatus.error);
+      }
+    }
+  }, [navigation, pairingStatus, openErrorModal]);
 
-	return (
-		<StyledSafeAreaView style={styles.root} padding={0}>
-			<IconButton
-				style={styles.backButton}
-				icon="close"
-				size={18}
-				onPress={goBack}
-			/>
-			<QRCodeScanner
-				cameraStyle={styles.camera}
-				onRead={onQrCoreRead}
-				showMarker
-				reactivate
-				reactivateTimeout={5000}
-			/>
-			{__DEV__ && (
-				<TextInput
-					style={styles.debugUri}
-					onChangeText={setDevUri}
-					onSubmitEditing={onDevUriSubmitted}
-				/>
-			)}
-		</StyledSafeAreaView>
-	);
+  return (
+    <StyledSafeAreaView style={styles.root} padding={0}>
+      <IconButton style={styles.backButton} icon="close" size={18} onPress={goBack} />
+      <QRCodeScanner
+        cameraStyle={styles.camera}
+        onRead={onQrCoreRead}
+        showMarker
+        reactivate
+        reactivateTimeout={5000}
+      />
+      {__DEV__ && (
+        <TextInput
+          style={styles.debugUri}
+          onChangeText={setDevUri}
+          onSubmitEditing={onDevUriSubmitted}
+        />
+      )}
+    </StyledSafeAreaView>
+  );
 };
 
 const useStyles = makeStyle(() => ({
-	root: {
-		backgroundColor: 'rgba(0, 0, 0, 0.7)',
-	},
-	camera: {
-		alignSelf: 'center',
-		width: '100%',
-	},
-	backButton: {
-		backgroundColor: '#fff',
-		position: 'absolute',
-		top: 40,
-		left: 8,
-		elevation: 9,
-		zIndex: 99,
-	},
-	debugUri: {
-		position: 'absolute',
-		bottom: 0,
-		left: 0,
-	},
+  root: {
+    backgroundColor: 'rgba(0, 0, 0, 0.7)',
+  },
+  camera: {
+    alignSelf: 'center',
+    width: '100%',
+  },
+  backButton: {
+    backgroundColor: '#fff',
+    position: 'absolute',
+    top: 40,
+    left: 8,
+    elevation: 9,
+    zIndex: 99,
+  },
+  debugUri: {
+    position: 'absolute',
+    bottom: 0,
+    left: 0,
+  },
 }));

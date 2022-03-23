@@ -10,7 +10,7 @@ export type AppTheme = 'light' | 'dark' | 'auto';
  * Type that represents the application settings.
  */
 export type AppSettings = {
-	theme: AppTheme;
+  theme: AppTheme;
 };
 
 /**
@@ -23,5 +23,5 @@ export const AppSettingsStorageKey = 'dpm_app_settings';
  * Default application settings.
  */
 export const DefaultAppSettings: AppSettings = {
-	theme: 'auto',
+  theme: 'auto',
 };

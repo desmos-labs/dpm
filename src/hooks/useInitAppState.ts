@@ -11,39 +11,37 @@ import useLoadAllChainLinks from './useLoadChainLinks';
  * Returns a stateful variable that provides the initialization status.
  */
 export default function useInitAppState(): InitState {
-	const { initializing, setInitializing } = useAppContext();
+  const { initializing, setInitializing } = useAppContext();
 
-	const initLocalization = useInitI18n();
-	const loadAccounts = useLoadAccounts();
-	const loadProfiles = useLoadAllProfiles();
-	const loadSettings = useLoadSettings();
-	const loadChainLinks = useLoadAllChainLinks();
+  const initLocalization = useInitI18n();
+  const loadAccounts = useLoadAccounts();
+  const loadProfiles = useLoadAllProfiles();
+  const loadSettings = useLoadSettings();
+  const loadChainLinks = useLoadAllChainLinks();
 
-	useEffect(() => {
-		(async () => {
-			try {
-				await initLocalization();
-				// Load accounts and profiles from disk.
-				const accounts = await loadAccounts();
-				await loadProfiles();
-				await loadSettings();
-				await loadChainLinks(
-					accounts.accounts.map((account) => account.address)
-				);
+  useEffect(() => {
+    (async () => {
+      try {
+        await initLocalization();
+        // Load accounts and profiles from disk.
+        const accounts = await loadAccounts();
+        await loadProfiles();
+        await loadSettings();
+        await loadChainLinks(accounts.accounts.map((account) => account.address));
 
-				setInitializing({
-					initializing: false,
-				});
-			} catch (e) {
-				setInitializing({
-					initializing: false,
-					errorMessage: e.toString(),
-				});
-				console.error(e);
-			}
-		})();
-		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, []);
+        setInitializing({
+          initializing: false,
+        });
+      } catch (e) {
+        setInitializing({
+          initializing: false,
+          errorMessage: e.toString(),
+        });
+        console.error(e);
+      }
+    })();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
-	return initializing;
+  return initializing;
 }

@@ -6,7 +6,5 @@ import AccountSource from '../sources/AccountSource';
  * created from the user.
  */
 export default function useAccountExists() {
-	return useCallback(async (address: string) => {
-		return AccountSource.exist(address);
-	}, []);
+  return useCallback(async (address: string) => AccountSource.exist(address), []);
 }

@@ -1,17 +1,11 @@
 import { StackScreenProps } from '@react-navigation/stack';
-import { AirdropScreensStackParams } from '../../types/navigation';
 import React, { useCallback, useState } from 'react';
-import {
-	Button,
-	StyledSafeAreaView,
-	TextInput,
-	TopBar,
-	Typography,
-} from '../../components';
-import { makeStyle } from '../../theming';
 import { useTranslation } from 'react-i18next';
 import { Image, KeyboardAvoidingView, Platform } from 'react-native';
 import { Bech32 } from '@cosmjs/encoding';
+import { makeStyle } from '../../theming';
+import { Button, StyledSafeAreaView, TextInput, TopBar, Typography } from '../../components';
+import { AirdropScreensStackParams } from '../../types/navigation';
 import useShowModal from '../../hooks/useShowModal';
 import { SingleButtonModal } from '../../modals/SingleButtonModal';
 import useIsCurrentThemeDark from '../../hooks/useIsCurrentThemeDark';
@@ -19,106 +13,102 @@ import useIsCurrentThemeDark from '../../hooks/useIsCurrentThemeDark';
 export type Props = StackScreenProps<AirdropScreensStackParams, 'AirdropHome'>;
 
 export const AirdropHome: React.FC<Props> = ({ navigation }) => {
-	const styles = useStyles();
-	const { t } = useTranslation();
-	const showModal = useShowModal();
-	const [address, setAddress] = useState('');
-	const isDarkTheme = useIsCurrentThemeDark();
+  const styles = useStyles();
+  const { t } = useTranslation();
+  const showModal = useShowModal();
+  const [address, setAddress] = useState('');
+  const isDarkTheme = useIsCurrentThemeDark();
 
-	const calculate = useCallback(() => {
-		try {
-			Bech32.decode(address);
-			navigation.navigate({
-				name: 'AirdropAllocation',
-				params: {
-					address,
-				},
-			});
-		} catch (e) {
-			showModal(SingleButtonModal, {
-				title: t('invalid address'),
-				message: t('invalid address'),
-				image: 'fail',
-				actionLabel: t('ok'),
-			});
-		}
-	}, [showModal, address, t, navigation]);
+  const calculate = useCallback(() => {
+    try {
+      Bech32.decode(address);
+      navigation.navigate({
+        name: 'AirdropAllocation',
+        params: {
+          address,
+        },
+      });
+    } catch (e) {
+      showModal(SingleButtonModal, {
+        title: t('invalid address'),
+        message: t('invalid address'),
+        image: 'fail',
+        actionLabel: t('ok'),
+      });
+    }
+  }, [showModal, address, t, navigation]);
 
-	return (
-		<StyledSafeAreaView
-			topBar={<TopBar style={styles.topBar} stackProps={{ navigation }} />}
-			background={
-				isDarkTheme
-					? require('../../assets/airdrop-background-dark.png')
-					: require('../../assets/airdrop-background.png')
-			}
-		>
-			<KeyboardAvoidingView
-				behavior="padding"
-				style={styles.container}
-				keyboardVerticalOffset={Platform.OS === 'ios' ? 190 : 0}
-			>
-				<Image
-					style={styles.airdropText}
-					source={require('../../assets/dsm_airdrop_text.png')}
-					resizeMode="contain"
-				/>
-				<Typography.Body1 style={styles.eligibilityText}>
-					{t('check your eligibility now!')}
-				</Typography.Body1>
-				<Image
-					source={require('../../assets/airdrop_logo.png')}
-					style={styles.airdropLogo}
-					resizeMode="contain"
-				/>
-				<Typography.Body1 style={styles.addressInputLabel}>
-					{t('please insert your address')}
-				</Typography.Body1>
-				<TextInput
-					style={styles.addressInput}
-					numberOfLines={1}
-					placeholder={'cosmos / kava / regen / ... address'}
-					onChangeText={setAddress}
-					onSubmitEditing={calculate}
-				/>
-				<Button
-					mode="contained"
-					style={styles.calculateBtn}
-					onPress={calculate}
-				>
-					{t('calculate')}
-				</Button>
-			</KeyboardAvoidingView>
-		</StyledSafeAreaView>
-	);
+  return (
+    <StyledSafeAreaView
+      topBar={<TopBar style={styles.topBar} stackProps={{ navigation }} />}
+      background={
+        isDarkTheme
+          ? require('../../assets/airdrop-background-dark.png')
+          : require('../../assets/airdrop-background.png')
+      }
+    >
+      <KeyboardAvoidingView
+        behavior="padding"
+        style={styles.container}
+        keyboardVerticalOffset={Platform.OS === 'ios' ? 190 : 0}
+      >
+        <Image
+          style={styles.airdropText}
+          source={require('../../assets/dsm_airdrop_text.png')}
+          resizeMode="contain"
+        />
+        <Typography.Body1 style={styles.eligibilityText}>
+          {t('check your eligibility now!')}
+        </Typography.Body1>
+        <Image
+          source={require('../../assets/airdrop_logo.png')}
+          style={styles.airdropLogo}
+          resizeMode="contain"
+        />
+        <Typography.Body1 style={styles.addressInputLabel}>
+          {t('please insert your address')}
+        </Typography.Body1>
+        <TextInput
+          style={styles.addressInput}
+          numberOfLines={1}
+          placeholder="cosmos / kava / regen / ... address"
+          onChangeText={setAddress}
+          onSubmitEditing={calculate}
+        />
+        <Button mode="contained" style={styles.calculateBtn} onPress={calculate}>
+          {t('calculate')}
+        </Button>
+      </KeyboardAvoidingView>
+    </StyledSafeAreaView>
+  );
 };
 
 const useStyles = makeStyle((theme) => ({
-	container: {
-		flex: 1,
-	},
-	airdropText: {
-		width: '100%',
-	},
-	airdropLogo: {
-		width: '100%',
-		height: '40%',
-		marginTop: '4%',
-		marginBottom: '8.8%',
-	},
-	eligibilityText: {
-		alignSelf: 'center',
-	},
-	addressInputLabel: {
-		marginTop: theme.spacing.m,
-	},
-	addressInput: {
-		marginTop: theme.spacing.s,
-	},
-	calculateBtn: {
-		marginTop: theme.spacing.m,
-	},
-	topBar: {
-		backgroundColor: 'transparent',
-	},
+  container: {
+    flex: 1,
+  },
+  airdropText: {
+    width: '100%',
+  },
+  airdropLogo: {
+    width: '100%',
+    height: '40%',
+    marginTop: '4%',
+    marginBottom: '8.8%',
+  },
+  eligibilityText: {
+    alignSelf: 'center',
+  },
+  addressInputLabel: {
+    marginTop: theme.spacing.m,
+  },
+  addressInput: {
+    marginTop: theme.spacing.s,
+  },
+  calculateBtn: {
+    marginTop: theme.spacing.m,
+  },
+  topBar: {
+    backgroundColor: 'transparent',
+  },
 }));
