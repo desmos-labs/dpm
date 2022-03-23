@@ -12,7 +12,7 @@ export default function useChangeAccount(): (account: ChainAccount) => void {
   return useCallback(
     (account: ChainAccount) => {
       setSelectedAccount(account);
-      AccountSource.setSelectedAccount(account.address);
+      AccountSource.setSelectedAccount(account.address).then(() => {});
     },
     [setSelectedAccount]
   );

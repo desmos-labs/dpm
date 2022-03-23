@@ -37,6 +37,7 @@ export default function useStartBleScan() {
   // Clear the scan timeout
   useEffect(
     () => () => {
+      console.log('stopScanTimeout');
       if (stopScanTimeout !== undefined) {
         clearTimeout(stopScanTimeout);
       }
@@ -53,16 +54,16 @@ export default function useStartBleScan() {
     async (durationMs = 10000) => {
       if (scanError?.cause === ScanErrorCause.PoweredOff) {
         if (Platform.OS === 'ios') {
-          Linking.openURL('App-Prefs:Bluetooth');
+          await Linking.openURL('App-Prefs:Bluetooth');
         } else {
-          BluetoothStateManager.openSettings();
+          await BluetoothStateManager.openSettings();
         }
         setScanError(undefined);
       } else if (scanError?.cause === ScanErrorCause.Unauthorized) {
         if (Platform.OS === 'ios') {
-          Linking.openURL('app-settings:');
+          await Linking.openURL('app-settings:');
         } else {
-          Linking.openSettings();
+          await Linking.openSettings();
         }
         setScanError(undefined);
       } else {
@@ -122,6 +123,7 @@ export default function useStartBleScan() {
             })
           );
           setStopStopScanTimeout(
+            // FIXME
             setTimeout(() => {
               stopScan();
             }, durationMs)

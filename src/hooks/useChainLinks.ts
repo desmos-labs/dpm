@@ -12,7 +12,7 @@ export default function useChainLinks(address: string) {
       address,
     },
     onCompleted: ({ chain_link }) => {
-      const chainLinks = chain_link.map(
+      const cLinks = chain_link.map(
         (link) =>
           ({
             chainName: link.chain_config.name,
@@ -26,12 +26,12 @@ export default function useChainLinks(address: string) {
           const newState = {
             ...old,
           };
-          newState[address] = chainLinks;
+          newState[address] = cLinks;
           return newState;
         });
       }
     },
-    onError: (_) => {
+    onError: () => {
       if (userLinks === undefined) {
         setChainLinks((old) => {
           const newState = {

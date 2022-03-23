@@ -1,19 +1,23 @@
-import { createStackNavigator } from '@react-navigation/stack';
-import { EncodeObject } from '@cosmjs/proto-signing';
-import React, { MutableRefObject } from 'react';
-import { StackNavigationProp } from '@react-navigation/stack/lib/typescript/src/types';
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { StdFee } from '@cosmjs/amino';
-import { CommonActions, NavigationAction, NavigatorScreenParams } from '@react-navigation/native';
-import { DesmosProfile } from '@desmoslabs/sdk-core';
-import { StackNavigationState } from '@react-navigation/routers/lib/typescript/src/StackRouter';
-import BluetoothTransport from '@ledgerhq/react-native-hw-transport-ble';
-import { ChainLink } from './link';
-import { BleLedger, LedgerApp } from './ledger';
-import { SessionRequestDetails } from './walletconnect';
-import LocalWallet from '../wallet/LocalWallet';
-import { ChainAccount, LinkableChain } from './chain';
-import { Wallet } from './wallet';
+import { createStackNavigator } from "@react-navigation/stack";
+import { EncodeObject } from "@cosmjs/proto-signing";
+import React, { MutableRefObject } from "react";
+import { StackNavigationProp } from "@react-navigation/stack/lib/typescript/src/types";
+import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import { StdFee } from "@cosmjs/amino";
+import {
+  CommonActions,
+  NavigationAction,
+  NavigatorScreenParams,
+} from "@react-navigation/native";
+import { DesmosProfile } from "@desmoslabs/sdk-core";
+import { StackNavigationState } from "@react-navigation/routers/lib/typescript/src/StackRouter";
+import BluetoothTransport from "@ledgerhq/react-native-hw-transport-ble";
+import { ChainLink } from "./link";
+import { BleLedger, LedgerApp } from "./ledger";
+import { SessionRequestDetails } from "./walletconnect";
+import LocalWallet from "../wallet/LocalWallet";
+import { ChainAccount, LinkableChain } from "./chain";
+import { Wallet } from "./wallet";
 
 export type AccountCreationStackParams = {
   Login: undefined;
@@ -40,7 +44,8 @@ export type AccountCreationStackParams = {
   };
 };
 
-export const AccountCreationStack = createStackNavigator<AccountCreationStackParams>();
+export const AccountCreationStack =
+  createStackNavigator<AccountCreationStackParams>();
 
 export type HomeScreensBottomTabsParams = {
   Home: undefined;
@@ -48,7 +53,8 @@ export type HomeScreensBottomTabsParams = {
   ScanQr: undefined;
 };
 
-export const HomeScreensBottomTabs = createBottomTabNavigator<HomeScreensBottomTabsParams>();
+export const HomeScreensBottomTabs =
+  createBottomTabNavigator<HomeScreensBottomTabsParams>();
 
 export type AccountScreensStackParams = {
   HomeScreens: NavigatorScreenParams<HomeScreensBottomTabsParams>;
@@ -99,7 +105,9 @@ export type AccountScreensStackParams = {
     fee: StdFee;
     memo?: string;
     feeGranter?: string;
-    backAction?: ((state: StackNavigationState<any>) => NavigationAction) | NavigationAction;
+    backAction?:
+      | ((state: StackNavigationState<any>) => NavigationAction)
+      | NavigationAction;
     successAction?: () => void;
   };
   TxDetails: {
@@ -136,6 +144,12 @@ export type AccountScreensStackParams = {
     chainLink: ChainLink;
   };
   AirdropScreens: undefined;
+  BroadcastTx: {
+    signer: ChainAccount;
+    msgs: EncodeObject[];
+    onSuccess: (value?: void | PromiseLike<void> | undefined) => void;
+    onCancel: (reasons?: any) => void;
+  };
 };
 
 export type AuthorizeOperationResolveParams = {
@@ -143,7 +157,8 @@ export type AuthorizeOperationResolveParams = {
   wallet: LocalWallet | null;
 };
 
-export const AccountScreensStack = createStackNavigator<AccountScreensStackParams>();
+export const AccountScreensStack =
+  createStackNavigator<AccountScreensStackParams>();
 
 export enum ImportMode {
   Mnemonic,
@@ -153,30 +168,40 @@ export enum ImportMode {
 export type ChainLinkScreensStackParams = {
   ConnectChain: {
     feeGranter?: string;
-    backAction?: ((state: StackNavigationState<any>) => NavigationAction) | NavigationAction;
+    backAction?:
+      | ((state: StackNavigationState<any>) => NavigationAction)
+      | NavigationAction;
   };
   SelectChain: {
     importMode: ImportMode;
     feeGranter?: string;
-    backAction?: ((state: StackNavigationState<any>) => NavigationAction) | NavigationAction;
+    backAction?:
+      | ((state: StackNavigationState<any>) => NavigationAction)
+      | NavigationAction;
   };
   SelectLedgerApp: {
     chain: LinkableChain;
     ledgerApplications: LedgerApp[];
-    backAction?: ((state: StackNavigationState<any>) => NavigationAction) | NavigationAction;
+    backAction?:
+      | ((state: StackNavigationState<any>) => NavigationAction)
+      | NavigationAction;
   };
   LinkWithMnemonic: {
     importMode: ImportMode;
     chain: LinkableChain;
     feeGranter?: string;
-    backAction?: ((state: StackNavigationState<any>) => NavigationAction) | NavigationAction;
+    backAction?:
+      | ((state: StackNavigationState<any>) => NavigationAction)
+      | NavigationAction;
   };
   ConfirmAddress: {
     importMode: ImportMode;
     chain: LinkableChain;
     mnemonic?: string;
     feeGranter?: string;
-    backAction?: ((state: StackNavigationState<any>) => NavigationAction) | NavigationAction;
+    backAction?:
+      | ((state: StackNavigationState<any>) => NavigationAction)
+      | NavigationAction;
   };
   PickAddress: {
     importMode: ImportMode;
@@ -185,11 +210,14 @@ export type ChainLinkScreensStackParams = {
     ledgerApp?: LedgerApp;
     mnemonic?: string;
     feeGranter?: string;
-    backAction?: ((state: StackNavigationState<any>) => NavigationAction) | NavigationAction;
+    backAction?:
+      | ((state: StackNavigationState<any>) => NavigationAction)
+      | NavigationAction;
   };
 };
 
-export const ChainLinkScreensStack = createStackNavigator<ChainLinkScreensStackParams>();
+export const ChainLinkScreensStack =
+  createStackNavigator<ChainLinkScreensStackParams>();
 
 export type AirdropScreensStackParams = {
   AirdropHome: undefined;
@@ -208,7 +236,8 @@ export type AirdropScreensStackParams = {
   };
 };
 
-export const AirdropScreensStack = createStackNavigator<AirdropScreensStackParams>();
+export const AirdropScreensStack =
+  createStackNavigator<AirdropScreensStackParams>();
 
 export type ConnectToLedgerScreensStackParams = {
   ScanForLedger: {
@@ -252,34 +281,45 @@ export type RootStackParams = {
   };
   ModalScreen: {
     component: ModalComponent<any>;
-    navigationRef: MutableRefObject<StackNavigationProp<RootStackParams> | undefined>;
+    navigationRef: MutableRefObject<
+      StackNavigationProp<RootStackParams> | undefined
+    >;
     params?: any;
   };
 };
 
 export const RootStack = createStackNavigator<RootStackParams>();
 
-export const resetTo = (routeName: string) => (state: StackNavigationState<any>) => {
-  const routeIndex = state.routes.findIndex((item) => item.name === routeName);
-
-  if (routeIndex >= 0) {
-    const routes = state.routes.slice(0, routeIndex + 1);
-    return CommonActions.reset({
-      ...state,
-      routes,
-      index: routes.length - 1,
-    });
-  }
-  console.error(`Can't find route with name: ${routeName}`);
-  return CommonActions.navigate({ name: routeName });
-};
-
-export const insertAfter =
-  (insertAfter: string, routeName: string, params: any) => (state: StackNavigationState<any>) => {
-    const routeIndex = state.routes.findIndex((item) => item.name === insertAfter);
+export const resetTo =
+  (routeName: string) => (state: StackNavigationState<any>) => {
+    const routeIndex = state.routes.findIndex(
+      (item) => item.name === routeName
+    );
 
     if (routeIndex >= 0) {
-      const routes = [...state.routes.slice(0, routeIndex + 1), { name: routeName, params }];
+      const routes = state.routes.slice(0, routeIndex + 1);
+      return CommonActions.reset({
+        ...state,
+        routes,
+        index: routes.length - 1,
+      });
+    }
+    console.error(`Can't find route with name: ${routeName}`);
+    return CommonActions.navigate({ name: routeName });
+  };
+
+export const insertAfter =
+  (insertAfter: string, routeName: string, params: any) =>
+  (state: StackNavigationState<any>) => {
+    const routeIndex = state.routes.findIndex(
+      (item) => item.name === insertAfter
+    );
+
+    if (routeIndex >= 0) {
+      const routes = [
+        ...state.routes.slice(0, routeIndex + 1),
+        { name: routeName, params },
+      ];
       return CommonActions.reset({
         ...state,
         routes,

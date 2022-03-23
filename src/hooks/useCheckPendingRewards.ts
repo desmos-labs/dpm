@@ -1,6 +1,7 @@
 import { useCallback, useState } from 'react';
 import { AirdropApi } from '../api/AirdropApi';
 import useChainLinks from './useChainLinks';
+import { ChainLink } from '../types/link';
 
 export default function useCheckPendingRewards(desmosAddress: string) {
   const [loading, setLoading] = useState(true);
@@ -9,18 +10,20 @@ export default function useCheckPendingRewards(desmosAddress: string) {
   const [error, setError] = useState<string | null>(null);
   const chainLinks = useChainLinks(desmosAddress);
 
+  const awaitForFetching = async (link: ChainLink) =>
+    AirdropApi.fetchAllottedDsm(link.externalAddress);
+
   const updatePendingRewards = useCallback(async () => {
     setLoading(true);
     setError(null);
     setAvailable(false);
     let total = 0;
     for (const link of chainLinks) {
-      const allocations = await AirdropApi.fetchAllottedDsm(link.externalAddress);
       const linkChainName = link.chainName === 'cro' ? 'crypto.com' : link.chainName.toLowerCase();
-      const toBeClaimed = allocations.allocations.filter(
+      const allocationsToBeClaimed = allocations.allocations.filter(
         (allocation) => !allocation.claimed && allocation.chainName.toLowerCase() === linkChainName
       );
-      total = toBeClaimed.reduce(
+      total = allocationsToBeClaimed.reduce(
         (previousValue, currentValue) => previousValue + currentValue.amount,
         total
       );

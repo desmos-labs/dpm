@@ -1,6 +1,8 @@
 import { useCallback, useEffect, useState } from 'react';
 import { LaunchpadLedger } from '@cosmjs/ledger-amino';
+// eslint-disable-next-line import/no-duplicates
 import BluetoothTransport from '@ledgerhq/react-native-hw-transport-ble';
+// eslint-disable-next-line import/no-duplicates
 import TransportBLE from '@ledgerhq/react-native-hw-transport-ble';
 import { BleLedger, LedgerApp } from '../../types/ledger';
 
@@ -10,29 +12,32 @@ export default function useConnectToLedger(ledger: BleLedger, ledgerApp: LedgerA
   const [transport, setTransport] = useState<BluetoothTransport | undefined>();
   const [connectionError, setConnectionError] = useState<string | undefined>();
 
-  const connectToLedger = useCallback(async (ledger: BleLedger, ledgerApp: LedgerApp) => {
-    setConnecting(true);
-    setConnected(false);
-    setConnectionError(undefined);
-    setTransport(undefined);
+  const connectToLedger = useCallback(
+    async (ledgerToConnect: BleLedger, ledgerAppToUse: LedgerApp) => {
+      setConnecting(true);
+      setConnected(false);
+      setConnectionError(undefined);
+      setTransport(undefined);
 
-    try {
-      const transport: BluetoothTransport = await TransportBLE.open(ledger.id);
-      const launchpad = new LaunchpadLedger(transport, {
-        ledgerAppName: ledgerApp.name,
-      });
-      await launchpad.getCosmosAppVersion().catch(async (ex) => {
-        await transport.close();
-        throw ex;
-      });
-      setTransport(transport);
-      setConnected(true);
-    } catch (e) {
-      setConnectionError(e.toString());
-    }
+      try {
+        const transportToUse: BluetoothTransport = await TransportBLE.open(ledgerToConnect.id);
+        const launchpad = new LaunchpadLedger(transportToUse, {
+          ledgerAppName: ledgerAppToUse.name,
+        });
+        await launchpad.getCosmosAppVersion().catch(async (ex) => {
+          await transportToUse.close();
+          throw ex;
+        });
+        setTransport(transportToUse);
+        setConnected(true);
+      } catch (e) {
+        setConnectionError(e.toString());
+      }
 
-    setConnecting(false);
-  }, []);
+      setConnecting(false);
+    },
+    []
+  );
 
   const retry = useCallback(() => {
     connectToLedger(ledger, ledgerApp);
