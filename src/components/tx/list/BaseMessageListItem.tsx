@@ -1,6 +1,6 @@
+import { format } from 'date-fns';
 import React from 'react';
 import { Image, ImageProps, View } from 'react-native';
-import { format } from 'date-fns';
 import { makeStyle } from '../../../theming';
 import { Typography } from '../../typography';
 

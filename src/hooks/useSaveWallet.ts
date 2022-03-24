@@ -1,6 +1,6 @@
 import { useCallback } from 'react';
-import LocalWallet from '../wallet/LocalWallet';
 import LocalWalletsSource from '../sources/LocalWalletsSource';
+import LocalWallet from '../wallet/LocalWallet';
 
 /**
  * Hook to save a wallet into the device storage.

@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleProp, TextStyle, TextInput as NativeTextInput, View, ViewStyle } from 'react-native';
+import { StyleProp, TextInput as NativeTextInput, TextStyle, View, ViewStyle } from 'react-native';
 import { useTheme } from 'react-native-paper';
 import { makeStyleWithProps } from '../theming';
 

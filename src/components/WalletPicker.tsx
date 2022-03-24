@@ -1,24 +1,24 @@
-import React, { useCallback, useEffect, useState } from 'react';
-import { LedgerApp as CosmosLedgerApp } from '@cosmjs/ledger-amino/build/ledgerapp';
-import { LedgerSigner } from '@cosmjs/ledger-amino';
-import { ListRenderItemInfo, StyleProp, TouchableOpacity, View, ViewStyle } from 'react-native';
-import { debounce } from 'lodash';
-import BluetoothTransport from '@ledgerhq/react-native-hw-transport-ble';
-import { useTranslation } from 'react-i18next';
 import { toBase64 } from '@cosmjs/encoding';
-import { HdPath } from '../types/hdpath';
-import LocalWallet from '../wallet/LocalWallet';
-import TerraLedgerApp from '../utilils/terra';
-import toCosmjsHdPath from '../utilils/hdpath';
-import { AddressListItem } from './AddressListItem';
-import { Typography } from './typography';
-import { HdPathPicker } from './HdPathPicker';
-import { Divider } from './Divider';
-import { PaginatedFlatList } from './PaginatedFlatList';
-import { ListItemSeparator } from './List';
+import { LedgerSigner } from '@cosmjs/ledger-amino';
+import { LedgerApp as CosmosLedgerApp } from '@cosmjs/ledger-amino/build/ledgerapp';
+import BluetoothTransport from '@ledgerhq/react-native-hw-transport-ble';
+import { debounce } from 'lodash';
+import React, { useCallback, useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
+import { ListRenderItemInfo, StyleProp, TouchableOpacity, View, ViewStyle } from 'react-native';
 import { makeStyle } from '../theming';
+import { HdPath } from '../types/hdpath';
 import { LedgerApp } from '../types/ledger';
 import { Wallet, WalletType } from '../types/wallet';
+import toCosmjsHdPath from '../utilils/hdpath';
+import TerraLedgerApp from '../utilils/terra';
+import LocalWallet from '../wallet/LocalWallet';
+import { AddressListItem } from './AddressListItem';
+import { Divider } from './Divider';
+import { HdPathPicker } from './HdPathPicker';
+import { ListItemSeparator } from './List';
+import { PaginatedFlatList } from './PaginatedFlatList';
+import { Typography } from './typography';
 
 export type Props = {
   /**

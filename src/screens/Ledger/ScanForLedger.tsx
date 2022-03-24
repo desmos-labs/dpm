@@ -1,8 +1,8 @@
-import React, { useCallback, useEffect } from 'react';
+import { StackActions } from '@react-navigation/native';
 import { StackScreenProps } from '@react-navigation/stack';
+import React, { useCallback, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { FlatList, ListRenderItemInfo, TouchableOpacity } from 'react-native';
-import { StackActions } from '@react-navigation/native';
 import {
   Button,
   DpmImage,
@@ -12,8 +12,8 @@ import {
   TopBar,
   Typography,
 } from '../../components';
-import { makeStyle } from '../../theming';
 import useStartBleScan from '../../hooks/ledger/useStartBleScan';
+import { makeStyle } from '../../theming';
 import { BleLedger } from '../../types/ledger';
 import { ConnectToLedgerScreensStackParams } from '../../types/navigation';
 

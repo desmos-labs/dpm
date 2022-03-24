@@ -1,16 +1,16 @@
-import React, { useCallback, useEffect, useState } from 'react';
 import { BottomTabScreenProps } from '@react-navigation/bottom-tabs';
 import { CompositeScreenProps } from '@react-navigation/native';
 import { StackScreenProps } from '@react-navigation/stack';
-import QRCodeScanner from 'react-native-qrcode-scanner';
-import { BarCodeReadEvent } from 'react-native-camera';
+import React, { useCallback, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { AccountScreensStackParams, HomeScreensBottomTabsParams } from '../types/navigation';
-import { StyledSafeAreaView, TextInput, IconButton } from '../components';
-import { makeStyle } from '../theming';
-import useWalletConnectPair from '../hooks/useWalletConnectPair';
+import { BarCodeReadEvent } from 'react-native-camera';
+import QRCodeScanner from 'react-native-qrcode-scanner';
+import { IconButton, StyledSafeAreaView, TextInput } from '../components';
 import useShowModal from '../hooks/useShowModal';
+import useWalletConnectPair from '../hooks/useWalletConnectPair';
 import { SingleButtonModal } from '../modals/SingleButtonModal';
+import { makeStyle } from '../theming';
+import { AccountScreensStackParams, HomeScreensBottomTabsParams } from '../types/navigation';
 
 export type Props = CompositeScreenProps<
   BottomTabScreenProps<HomeScreensBottomTabsParams, 'ScanQr'>,

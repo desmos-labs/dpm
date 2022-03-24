@@ -1,17 +1,17 @@
-import React, { useCallback, useEffect, useMemo } from 'react';
+import { CommonActions, CompositeScreenProps } from '@react-navigation/native';
 import { StackScreenProps } from '@react-navigation/stack';
+import React, { useCallback, useEffect, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Image, View } from 'react-native';
-import { CommonActions, CompositeScreenProps } from '@react-navigation/native';
-import { AccountScreensStackParams, AirdropScreensStackParams } from '../../types/navigation';
 import { Button, Divider, StyledSafeAreaView, TopBar, Typography } from '../../components';
 import { FlexPadding } from '../../components/FlexPadding';
-import { makeStyle } from '../../theming';
+import useChainLinks from '../../hooks/useChainLinks';
+import useCheckPendingRewards from '../../hooks/useCheckPendingRewards';
+import useFeeGrantStatus, { FeeGrantStatus } from '../../hooks/useFeeGrantStatus';
 import useFetchProfile from '../../hooks/useFetchProfile';
 import useSelectedAccount from '../../hooks/useSelectedAccount';
-import useChainLinks from '../../hooks/useChainLinks';
-import useFeeGrantStatus, { FeeGrantStatus } from '../../hooks/useFeeGrantStatus';
-import useCheckPendingRewards from '../../hooks/useCheckPendingRewards';
+import { makeStyle } from '../../theming';
+import { AccountScreensStackParams, AirdropScreensStackParams } from '../../types/navigation';
 
 type Props = CompositeScreenProps<
   StackScreenProps<AirdropScreensStackParams, 'AirdropClaimStatus'>,

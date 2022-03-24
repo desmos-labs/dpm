@@ -1,11 +1,11 @@
-import React, { useCallback } from 'react';
 import { StackScreenProps } from '@react-navigation/stack';
+import React, { useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
 import { ImageSourcePropType, StyleProp, TouchableOpacity, ViewStyle } from 'react-native';
-import { ChainLinkScreensStackParams, ImportMode } from '../../types/navigation';
 import { DpmImage, StyledSafeAreaView, TopBar, Typography } from '../../components';
-import { makeStyle } from '../../theming';
 import { DpmImages } from '../../components/DpmImage';
+import { makeStyle } from '../../theming';
+import { ChainLinkScreensStackParams, ImportMode } from '../../types/navigation';
 
 export type Props = StackScreenProps<ChainLinkScreensStackParams, 'ConnectChain'>;
 

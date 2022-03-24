@@ -1,17 +1,17 @@
-import React, { useCallback, useEffect, useState } from 'react';
-import { StackScreenProps } from '@react-navigation/stack';
-import { useTranslation } from 'react-i18next';
 import { toBase64 } from '@cosmjs/encoding';
-import { AccountScreensStackParams } from '../types/navigation';
-import { SecureTextInput } from '../components/SecureTextInput';
+import { StackScreenProps } from '@react-navigation/stack';
+import React, { useCallback, useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { Button, StyledSafeAreaView, TopBar, Typography } from '../components';
+import { FlexPadding } from '../components/FlexPadding';
+import { SecureTextInput } from '../components/SecureTextInput';
+import { useAppContext } from '../contexts/AppContext';
+import AccountSource from '../sources/AccountSource';
 import WalletSource from '../sources/LocalWalletsSource';
 import { makeStyle } from '../theming';
-import { FlexPadding } from '../components/FlexPadding';
-import LocalWallet from '../wallet/LocalWallet';
+import { AccountScreensStackParams } from '../types/navigation';
 import * as SecureStorage from '../utilils/SecureStorage';
-import AccountSource from '../sources/AccountSource';
-import { useAppContext } from '../contexts/AppContext';
+import LocalWallet from '../wallet/LocalWallet';
 
 type Props = StackScreenProps<AccountScreensStackParams, 'AuthorizeOperation'>;
 

@@ -1,26 +1,26 @@
-import { Snackbar, useTheme } from 'react-native-paper';
+import Clipboard from '@react-native-community/clipboard';
 import { StackScreenProps } from '@react-navigation/stack';
 import React, { useCallback, useMemo, useState } from 'react';
-import { ScrollView, View } from 'react-native';
 import { useTranslation } from 'react-i18next';
-import Clipboard from '@react-native-community/clipboard';
-import useFetchProfile from '../hooks/useFetchProfile';
-import { ProfileHeader } from '../components/ProfileHeader';
-import { AccountScreensStackParams } from '../types/navigation';
-import { makeStyle } from '../theming';
+import { ScrollView, View } from 'react-native';
+import { Snackbar, useTheme } from 'react-native-paper';
 import {
   Button,
   ChainConnections,
   Divider,
+  DpmImage,
   IconButton,
   StyledSafeAreaView,
   TopBar,
   Typography,
-  DpmImage,
 } from '../components';
-import useSelectedAccount from '../hooks/useSelectedAccount';
-import { ChainLink } from '../types/link';
+import { ProfileHeader } from '../components/ProfileHeader';
 import useChainLinks from '../hooks/useChainLinks';
+import useFetchProfile from '../hooks/useFetchProfile';
+import useSelectedAccount from '../hooks/useSelectedAccount';
+import { makeStyle } from '../theming';
+import { ChainLink } from '../types/link';
+import { AccountScreensStackParams } from '../types/navigation';
 
 export type Props = StackScreenProps<AccountScreensStackParams, 'Profile'>;
 

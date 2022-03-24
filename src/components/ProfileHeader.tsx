@@ -1,10 +1,10 @@
 import React, { ReactNode, useMemo } from 'react';
 import { View } from 'react-native';
-import { useTheme } from 'react-native-paper';
 import FastImage from 'react-native-fast-image';
-import { IconButton } from './IconButton';
+import { useTheme } from 'react-native-paper';
 import { makeStyle } from '../theming';
 import { AvatarImage } from './AvatarImage';
+import { IconButton } from './IconButton';
 import { Typography } from './index';
 
 export type Props = {

@@ -1,11 +1,11 @@
-import React, { useCallback } from 'react';
+import { useCurrentChainInfo } from '@desmoslabs/sdk-react';
 import { StackScreenProps } from '@react-navigation/stack';
+import React, { useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Linking } from 'react-native';
-import { useCurrentChainInfo } from '@desmoslabs/sdk-react';
+import { Button, StyledSafeAreaView, TopBar } from '../components';
 import { TxDetails as TxDetailsComponent } from '../components/tx/TxDetails';
 import { AccountScreensStackParams } from '../types/navigation';
-import { StyledSafeAreaView, TopBar, Button } from '../components';
 
 export type Props = StackScreenProps<AccountScreensStackParams, 'TxDetails'>;
 

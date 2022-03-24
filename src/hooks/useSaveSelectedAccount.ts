@@ -1,6 +1,6 @@
 import { useCallback } from 'react';
-import { ChainAccount } from '../types/chain';
 import AccountSource from '../sources/AccountSource';
+import { ChainAccount } from '../types/chain';
 
 /**
  * Hook to save the current selected account into the device storage.

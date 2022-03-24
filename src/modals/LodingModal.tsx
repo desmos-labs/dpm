@@ -1,7 +1,7 @@
 import React from 'react';
 import { View } from 'react-native';
-import { makeStyle } from '../theming';
 import { ThemedLottieView, Typography } from '../components';
+import { makeStyle } from '../theming';
 import { ModalComponent } from '../types/navigation';
 
 export type SingleButtonModalParams = {

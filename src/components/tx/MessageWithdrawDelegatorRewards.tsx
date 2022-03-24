@@ -1,10 +1,10 @@
-import React from 'react';
-import { useTranslation } from 'react-i18next';
 import {
   AminoMsgWithdrawDelegatorReward,
   MsgWithdrawDelegatorRewardEncodeObject,
 } from '@desmoslabs/sdk-core';
 import { MsgWithdrawDelegatorReward } from 'cosmjs-types/cosmos/distribution/v1beta1/tx';
+import React from 'react';
+import { useTranslation } from 'react-i18next';
 import { SimpleMessageComponent } from './SimpleMessageComponent';
 
 export type Props = {

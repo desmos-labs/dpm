@@ -1,5 +1,5 @@
-import React, { useMemo } from 'react';
 import LottieView from 'lottie-react-native';
+import React, { useMemo } from 'react';
 import { useTheme } from 'react-native-paper';
 
 export type DesmosAnimations = 'broadcast-tx' | 'looking-for-devices' | 'connect-to-ledger';

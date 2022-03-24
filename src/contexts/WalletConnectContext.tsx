@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
-import WalletConnectController from '../walletconnect/WalletConnectController';
+import AccountSource from '../sources/AccountSource';
 import {
   CallRequestEvent,
   CallRequestType,
@@ -7,7 +7,7 @@ import {
   ParsedCallRequest,
 } from '../types/walletconnect';
 import parseCallRequest from '../utilils/jsonRpcParse';
-import AccountSource from '../sources/AccountSource';
+import WalletConnectController from '../walletconnect/WalletConnectController';
 
 type WalletConnectInitState = {
   initializing: boolean;

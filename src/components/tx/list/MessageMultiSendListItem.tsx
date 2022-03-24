@@ -1,11 +1,11 @@
-import React, { useMemo } from 'react';
 import { convertCoin } from '@desmoslabs/sdk-core';
-import { View } from 'react-native';
 import { useCurrentChainInfo } from '@desmoslabs/sdk-react';
+import React, { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
-import { BaseMessageListItem } from './BaseMessageListItem';
-import { Typography } from '../../typography';
+import { View } from 'react-native';
 import { MsgMultiSendEncodeObject } from '../../../types/encodeobject';
+import { Typography } from '../../typography';
+import { BaseMessageListItem } from './BaseMessageListItem';
 
 export type Props = {
   encodeObject: MsgMultiSendEncodeObject;

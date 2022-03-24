@@ -1,6 +1,6 @@
 import { useState } from 'react';
-import { useGetChainLinkByAddress } from '../types';
 import { ChainLink } from '../../types/link';
+import { useGetChainLinkByAddress } from '../types';
 
 export default function useFetchChainLink(address: string) {
   const [loading, setLoading] = useState(true);

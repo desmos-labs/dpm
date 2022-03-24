@@ -1,16 +1,16 @@
-import React, { useCallback, useEffect, useState } from 'react';
-import { StackScreenProps } from '@react-navigation/stack';
-import { useTranslation } from 'react-i18next';
 import { CommonActions, CompositeScreenProps } from '@react-navigation/native';
-import { AccountScreensStackParams, AirdropScreensStackParams } from '../../types/navigation';
+import { StackScreenProps } from '@react-navigation/stack';
+import React, { useCallback, useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
+import { AirdropApi } from '../../api/AirdropApi';
 import { Button, StyledSafeAreaView, TopBar, Typography } from '../../components';
 import { FlexPadding } from '../../components/FlexPadding';
-import { makeStyle } from '../../theming';
-import useSelectedAccount from '../../hooks/useSelectedAccount';
-import { AirdropApi } from '../../api/AirdropApi';
 import useCheckPendingRewards from '../../hooks/useCheckPendingRewards';
+import useSelectedAccount from '../../hooks/useSelectedAccount';
 import useShowModal from '../../hooks/useShowModal';
 import { SingleButtonModal } from '../../modals/SingleButtonModal';
+import { makeStyle } from '../../theming';
+import { AccountScreensStackParams, AirdropScreensStackParams } from '../../types/navigation';
 
 type Props = CompositeScreenProps<
   StackScreenProps<AirdropScreensStackParams, 'AirdropClaimRewards'>,

@@ -1,7 +1,7 @@
-import { useCallback } from 'react';
 import { DesmosProfile } from '@desmoslabs/sdk-core';
-import ProfileSource from '../sources/ProfileSource';
+import { useCallback } from 'react';
 import { useAppContext } from '../contexts/AppContext';
+import ProfileSource from '../sources/ProfileSource';
 
 /**
  * Hooks that provide a function to load all the profiles cached

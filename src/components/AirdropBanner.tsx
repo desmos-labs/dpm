@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleProp, ViewStyle, ImageBackground, TouchableOpacity, StyleSheet } from 'react-native';
+import { ImageBackground, StyleProp, StyleSheet, TouchableOpacity, ViewStyle } from 'react-native';
 
 export type Props = {
   onClaimPressed: () => void;

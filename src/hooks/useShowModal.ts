@@ -1,6 +1,6 @@
 import { useNavigation } from '@react-navigation/native';
-import { MutableRefObject, useCallback } from 'react';
 import { StackNavigationProp } from '@react-navigation/stack';
+import { MutableRefObject, useCallback } from 'react';
 import { ModalComponent, RootStackParams } from '../types/navigation';
 
 /**

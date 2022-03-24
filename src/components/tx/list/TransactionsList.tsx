@@ -1,6 +1,7 @@
+import { formatDistance } from 'date-fns';
 import React, { useCallback } from 'react';
+import { useTranslation } from 'react-i18next';
 import {
-  ScrollView,
   SectionList,
   SectionListRenderItemInfo,
   StyleProp,
@@ -9,20 +10,18 @@ import {
   ViewStyle,
 } from 'react-native';
 import { ActivityIndicator } from 'react-native-paper';
-import { formatDistance } from 'date-fns';
-import { useTranslation } from 'react-i18next';
-import { ChainAccount } from '../../../types/chain';
 import Colors from '../../../constants/colors';
-import { Divider } from '../../Divider';
 import {
-  useFetchTxsGrouppedByDate,
   SectionedTx,
+  useFetchTxsGrouppedByDate,
 } from '../../../graphql/hooks/useFetchTxsGrouppedByDate';
-import { TransactionListMessageItem } from './TransactionListMessageItem';
 import { makeStyle } from '../../../theming';
+import { ChainAccount } from '../../../types/chain';
 import { BroadcastedTx } from '../../../types/tx';
+import { Divider } from '../../Divider';
 import { DpmImage } from '../../DpmImage';
 import { Typography } from '../../typography';
+import { TransactionListMessageItem } from './TransactionListMessageItem';
 
 export type Props = {
   chainAccount: ChainAccount;

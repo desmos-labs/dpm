@@ -1,9 +1,9 @@
-import React from 'react';
 import { MsgUnlinkChainAccountEncodeObject } from '@desmoslabs/sdk-core';
-import { View } from 'react-native';
+import React from 'react';
 import { useTranslation } from 'react-i18next';
-import { BaseMessageListItem } from './BaseMessageListItem';
+import { View } from 'react-native';
 import { Typography } from '../../typography';
+import { BaseMessageListItem } from './BaseMessageListItem';
 
 export type Props = {
   encodeObject: MsgUnlinkChainAccountEncodeObject;

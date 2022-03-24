@@ -1,7 +1,7 @@
-import { useTheme } from 'react-native-paper';
-import { StyleSheet } from 'react-native';
-import NamedStyles = StyleSheet.NamedStyles;
 import { useMemo } from 'react';
+import { StyleSheet } from 'react-native';
+import { useTheme } from 'react-native-paper';
+import NamedStyles = StyleSheet.NamedStyles;
 
 export * from './theme';
 

@@ -1,9 +1,9 @@
+import { EncodeObject } from '@cosmjs/proto-signing';
 import { useNavigation } from '@react-navigation/native';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { useCallback } from 'react';
-import { EncodeObject } from '@cosmjs/proto-signing';
-import { AccountScreensStackParams } from '../types/navigation';
 import { ChainAccount } from '../types/chain';
+import { AccountScreensStackParams } from '../types/navigation';
 
 /**
  * Hooks that provides a function that sign and broadcast a transaction.

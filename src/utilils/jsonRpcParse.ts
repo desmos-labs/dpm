@@ -1,14 +1,14 @@
 import { Coin } from '@cosmjs/amino';
 import { AminoMsg } from '@cosmjs/amino/build/signdoc';
-import Long from 'long';
 import { fromHex } from '@cosmjs/encoding';
 import { AuthInfo, TxBody } from 'cosmjs-types/cosmos/tx/v1beta1/tx';
-import { CallRequest, CallRequestType, ParsedCallRequest } from '../types/walletconnect';
+import Long from 'long';
 import {
   CosmosMethod,
   CosmosSignAminoParams,
   CosmosSignDirectParams,
 } from '../types/jsonRpCosmosc';
+import { CallRequest, CallRequestType, ParsedCallRequest } from '../types/walletconnect';
 
 export function parseSignAminoParams(request: CallRequest): CosmosSignAminoParams | null {
   const param = request.params.length > 0 ? request.params[0] : undefined;

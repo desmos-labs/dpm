@@ -1,8 +1,8 @@
+import { AminoMsgDelegate, convertCoin, MsgDelegateEncodeObject } from '@desmoslabs/sdk-core';
+import { useCurrentChainInfo } from '@desmoslabs/sdk-react';
+import { MsgDelegate } from 'cosmjs-types/cosmos/staking/v1beta1/tx';
 import React, { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
-import { AminoMsgDelegate, convertCoin, MsgDelegateEncodeObject } from '@desmoslabs/sdk-core';
-import { MsgDelegate } from 'cosmjs-types/cosmos/staking/v1beta1/tx';
-import { useCurrentChainInfo } from '@desmoslabs/sdk-react';
 import { SimpleMessageComponent } from './SimpleMessageComponent';
 
 export type Props = {

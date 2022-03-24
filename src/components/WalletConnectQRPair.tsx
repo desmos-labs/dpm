@@ -1,6 +1,6 @@
 import React from 'react';
-import QRCodeScanner from 'react-native-qrcode-scanner';
 import { BarCodeReadEvent } from 'react-native-camera';
+import QRCodeScanner from 'react-native-qrcode-scanner';
 
 type Props = {
   onPairRequest?: (uri: string) => void;

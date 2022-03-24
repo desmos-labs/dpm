@@ -1,7 +1,7 @@
 import { DesmosProfile } from '@desmoslabs/sdk-core';
 import { useCallback } from 'react';
-import ProfileSource from '../sources/ProfileSource';
 import { useAppContext } from '../contexts/AppContext';
+import ProfileSource from '../sources/ProfileSource';
 
 /**
  * Hook that provides a function to save a profile on the device disk so that can be

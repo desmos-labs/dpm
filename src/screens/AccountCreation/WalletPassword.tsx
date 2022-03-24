@@ -1,17 +1,17 @@
-import React, { useState } from 'react';
-import { View } from 'react-native';
 import { StackScreenProps } from '@react-navigation/stack';
+import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { AccountCreationStackParams } from '../../types/navigation';
+import { View } from 'react-native';
 import {
-  StyledSafeAreaView,
   Button,
-  Typography,
   PasswordComplexity,
+  StyledSafeAreaView,
   TopBar,
+  Typography,
 } from '../../components';
-import { makeStyle } from '../../theming';
 import { SecureTextInput } from '../../components/SecureTextInput';
+import { makeStyle } from '../../theming';
+import { AccountCreationStackParams } from '../../types/navigation';
 import evaluatePasswordComplexity from '../../utilils/passwordEvaluation';
 
 type CreatePasswordProps = StackScreenProps<AccountCreationStackParams, 'CreateWalletPassword'>;

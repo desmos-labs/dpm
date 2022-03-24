@@ -1,9 +1,9 @@
-import React, { useEffect } from 'react';
-import { StyleProp, TouchableOpacity, View, ViewStyle } from 'react-native';
+import React from 'react';
 import { useTranslation } from 'react-i18next';
-import { IconButton } from './IconButton';
-import { makeStyle } from '../theming';
+import { StyleProp, TouchableOpacity, View, ViewStyle } from 'react-native';
 import useFetchUserBalance from '../hooks/useFetchUserBalance';
+import { makeStyle } from '../theming';
+import { IconButton } from './IconButton';
 import { Typography } from './typography';
 
 export type Props = {

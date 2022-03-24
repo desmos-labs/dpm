@@ -1,9 +1,9 @@
-import { useCallback, useEffect, useState } from 'react';
 import { LaunchpadLedger } from '@cosmjs/ledger-amino';
 // eslint-disable-next-line import/no-duplicates
-import BluetoothTransport from '@ledgerhq/react-native-hw-transport-ble';
 // eslint-disable-next-line import/no-duplicates
+import BluetoothTransport from '@ledgerhq/react-native-hw-transport-ble';
 import TransportBLE from '@ledgerhq/react-native-hw-transport-ble';
+import { useCallback, useEffect, useState } from 'react';
 import { BleLedger, LedgerApp } from '../../types/ledger';
 
 export default function useConnectToLedger(ledger: BleLedger, ledgerApp: LedgerApp) {

@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
+import { Dimensions, ScaledSize } from 'react-native';
 import { DrawerLayout } from 'react-native-gesture-handler';
 import { useTheme } from 'react-native-paper';
-import { Dimensions, ScaledSize } from 'react-native';
 import { DrawerStateProvider } from '../contexts/AppDrawerContex';
 
 export type Props = {

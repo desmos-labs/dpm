@@ -1,11 +1,11 @@
+import { Bech32Address } from '@desmoslabs/proto/desmos/profiles/v1beta1/models_chain_links';
+import { MsgLinkChainAccount } from '@desmoslabs/proto/desmos/profiles/v1beta1/msgs_chain_links';
+import { AminoMsgLinkChainAccount, MsgLinkChainAccountEncodeObject } from '@desmoslabs/sdk-core';
 import React, { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
-import { AminoMsgLinkChainAccount, MsgLinkChainAccountEncodeObject } from '@desmoslabs/sdk-core';
-import { MsgLinkChainAccount } from '@desmoslabs/proto/desmos/profiles/v1beta1/msgs_chain_links';
-import { Bech32Address } from '@desmoslabs/proto/desmos/profiles/v1beta1/models_chain_links';
 import { Image, StyleSheet, View } from 'react-native';
-import { SimpleMessageComponent } from './SimpleMessageComponent';
 import findLinkableChainInfoByName from '../../utilils/find';
+import { SimpleMessageComponent } from './SimpleMessageComponent';
 
 export type Props = {
   protobufMessage?: MsgLinkChainAccount;

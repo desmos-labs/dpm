@@ -1,4 +1,5 @@
 import React, { useCallback } from 'react';
+import { useTranslation } from 'react-i18next';
 import {
   FlatList,
   Image,
@@ -8,12 +9,11 @@ import {
   View,
   ViewStyle,
 } from 'react-native';
-import { useTranslation } from 'react-i18next';
 import { ActivityIndicator } from 'react-native-paper';
-import { Button, ListItemSeparator, Typography, DpmImage } from './index';
 import { makeStyle } from '../theming';
 import { ChainLink } from '../types/link';
 import findLinkableChainInfoByName from '../utilils/find';
+import { Button, DpmImage, ListItemSeparator, Typography } from './index';
 
 export type Props = {
   connections: ChainLink[];

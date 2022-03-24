@@ -1,8 +1,8 @@
 import {
   AddressAndPublicKeyResponse,
   AppInfoResponse,
-  LedgerApp,
   ErrorResponse,
+  LedgerApp,
   PublicKeyResponse,
   SignResponse,
   VersionResponse,

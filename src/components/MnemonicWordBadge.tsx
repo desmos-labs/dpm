@@ -1,5 +1,5 @@
 import React from 'react';
-import { Text, StyleProp, ViewStyle, StyleSheet, TouchableOpacity } from 'react-native';
+import { StyleProp, StyleSheet, Text, TouchableOpacity, ViewStyle } from 'react-native';
 import { makeStyle } from '../theming';
 import { Typography } from './index';
 

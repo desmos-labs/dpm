@@ -1,7 +1,7 @@
 import React, { useCallback, useMemo } from 'react';
 import { FlatList, ListRenderItemInfo, StyleProp, StyleSheet, View, ViewStyle } from 'react-native';
-import { MnemonicWordBadge } from './MnemonicWordBadge';
 import { makeStyle } from '../theming';
+import { MnemonicWordBadge } from './MnemonicWordBadge';
 
 export type Props = {
   /**

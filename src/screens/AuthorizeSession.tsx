@@ -1,19 +1,19 @@
-import React, { useCallback, useEffect, useMemo } from 'react';
-import { FlatList, Image, ListRenderItemInfo, StyleProp, View, ViewStyle } from 'react-native';
-import { StackScreenProps } from '@react-navigation/stack';
-import { useTranslation } from 'react-i18next';
 import { useCurrentChainInfo } from '@desmoslabs/sdk-react';
+import { StackScreenProps } from '@react-navigation/stack';
 import { format } from 'date-fns';
-import { AccountScreensStackParams } from '../types/navigation';
+import React, { useCallback, useEffect, useMemo } from 'react';
+import { useTranslation } from 'react-i18next';
+import { FlatList, Image, ListRenderItemInfo, StyleProp, View, ViewStyle } from 'react-native';
+import { Button, Divider, StyledSafeAreaView, TopBar, Typography } from '../components';
+import useAuthorizeOperation from '../hooks/useAuthorizeOperation';
+import useNavigateToHomeScreen from '../hooks/useNavigateToHomeScreen';
+import useSelectedAccount from '../hooks/useSelectedAccount';
+import useShowModal from '../hooks/useShowModal';
 import useWalletConnectRequestApproveTs from '../hooks/useWalletConnectSessionApprove';
 import useWalletConnectSessionReject from '../hooks/useWalletConnectSessionReject';
-import useSelectedAccount from '../hooks/useSelectedAccount';
-import useNavigateToHomeScreen from '../hooks/useNavigateToHomeScreen';
-import useAuthorizeOperation from '../hooks/useAuthorizeOperation';
-import useShowModal from '../hooks/useShowModal';
-import { Button, Divider, StyledSafeAreaView, TopBar, Typography } from '../components';
-import { makeStyle } from '../theming';
 import { SingleButtonModal } from '../modals/SingleButtonModal';
+import { makeStyle } from '../theming';
+import { AccountScreensStackParams } from '../types/navigation';
 
 type Authorization = {
   title: string;

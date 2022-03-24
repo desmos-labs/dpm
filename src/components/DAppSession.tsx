@@ -1,9 +1,9 @@
+import { format } from 'date-fns';
 import React, { useCallback, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Image, View } from 'react-native';
-import { format } from 'date-fns';
-import { DAppSession as DAppSessionType } from '../types/dapp';
 import { makeStyle } from '../theming';
+import { DAppSession as DAppSessionType } from '../types/dapp';
 import { Button, Typography } from './index';
 
 export type Props = {

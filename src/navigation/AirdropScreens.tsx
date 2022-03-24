@@ -1,11 +1,11 @@
-import React from 'react';
 import { StackScreenProps } from '@react-navigation/stack';
-import { AccountScreensStackParams, AirdropScreensStack } from '../types/navigation';
-import { AirdropHome } from '../screens/Airdrop/AirdropHome';
+import React from 'react';
 import { AirdropAllocation } from '../screens/Airdrop/AirdropAllocation';
-import { AirdropClaimStatus } from '../screens/Airdrop/AirdropClaimStatus';
 import { AirdropClaimRewards } from '../screens/Airdrop/AirdropClaimRewards';
+import { AirdropClaimStatus } from '../screens/Airdrop/AirdropClaimStatus';
+import { AirdropHome } from '../screens/Airdrop/AirdropHome';
 import { AirdropRequestFeeGrant } from '../screens/Airdrop/AirdropRequestFeeGrant';
+import { AccountScreensStackParams, AirdropScreensStack } from '../types/navigation';
 
 export type Props = StackScreenProps<AccountScreensStackParams, 'AirdropScreens'>;
 

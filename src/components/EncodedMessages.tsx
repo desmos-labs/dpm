@@ -1,5 +1,5 @@
-import React from 'react';
 import { EncodeObject } from '@cosmjs/proto-signing';
+import React from 'react';
 import { ScrollView, StyleProp, Text, ViewStyle } from 'react-native';
 
 export type Props = {

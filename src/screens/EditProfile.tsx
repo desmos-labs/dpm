@@ -1,23 +1,23 @@
-import React, { useCallback, useEffect, useState } from 'react';
-import { StackScreenProps } from '@react-navigation/stack';
-import { useTranslation } from 'react-i18next';
+import { DesmosProfile } from '@desmoslabs/sdk-core';
 import { CompositeScreenProps } from '@react-navigation/native';
+import { StackScreenProps } from '@react-navigation/stack';
+import React, { useCallback, useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { ScrollView } from 'react-native';
 import { launchImageLibrary } from 'react-native-image-picker';
 import { ImagePickerResponse } from 'react-native-image-picker/src/types';
-import { DesmosProfile } from '@desmoslabs/sdk-core';
 import {
-  TopBar,
-  StyledSafeAreaView,
   Button,
   Divider,
   InlineInput,
   InlineLabeledValue,
+  StyledSafeAreaView,
+  TopBar,
 } from '../components';
 import { ProfileHeader } from '../components/ProfileHeader';
+import useProfileValidators from '../hooks/useProfileValidators';
 import { makeStyle } from '../theming';
 import { AccountScreensStackParams, RootStackParams } from '../types/navigation';
-import useProfileValidators from '../hooks/useProfileValidators';
 
 type Props = CompositeScreenProps<
   StackScreenProps<AccountScreensStackParams, 'EditProfile'>,

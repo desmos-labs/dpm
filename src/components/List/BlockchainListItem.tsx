@@ -1,7 +1,7 @@
-import { Image, ImageSourcePropType, TouchableOpacity } from 'react-native';
 import React from 'react';
-import { Typography } from '../typography';
+import { Image, ImageSourcePropType, TouchableOpacity } from 'react-native';
 import { makeStyle } from '../../theming';
+import { Typography } from '../typography';
 
 export type Props = {
   name: string;

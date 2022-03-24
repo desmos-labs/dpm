@@ -1,18 +1,18 @@
+import { MsgSendEncodeObject } from '@desmoslabs/sdk-core';
+import { useCurrentChainInfo } from '@desmoslabs/sdk-react';
 import { StackScreenProps } from '@react-navigation/stack';
 import React, { useCallback, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { MsgSendEncodeObject } from '@desmoslabs/sdk-core';
-import { useCurrentChainInfo } from '@desmoslabs/sdk-react';
-import { AccountScreensStackParams } from '../types/navigation';
 import { Button, StyledSafeAreaView, TextInput, TopBar, Typography } from '../components';
-import { makeStyle } from '../theming';
-import useSelectedAccount from '../hooks/useSelectedAccount';
-import useFetchUserBalance from '../hooks/useFetchUserBalance';
 import { FlexPadding } from '../components/FlexPadding';
-import { computeTxFees, messagesGas } from '../types/fees';
-import checkDesmosAddress from '../utilils/validators';
 import { MEMO_MAX_LENGTH } from '../constants/chain';
+import useFetchUserBalance from '../hooks/useFetchUserBalance';
+import useSelectedAccount from '../hooks/useSelectedAccount';
+import { makeStyle } from '../theming';
+import { computeTxFees, messagesGas } from '../types/fees';
+import { AccountScreensStackParams } from '../types/navigation';
 import { decimalSeparator, localeParseFloat } from '../utilils/parsing';
+import checkDesmosAddress from '../utilils/validators';
 
 export type Props = StackScreenProps<AccountScreensStackParams, 'SendToken'>;
 

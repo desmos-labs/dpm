@@ -1,11 +1,11 @@
+import { MsgSaveProfile } from '@desmoslabs/proto/desmos/profiles/v1beta1/msgs_profile';
+import { AminoMsgSaveProfile, MsgSaveProfileEncodeObject } from '@desmoslabs/sdk-core';
 import React, { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { View } from 'react-native';
-import { MsgSaveProfile } from '@desmoslabs/proto/desmos/profiles/v1beta1/msgs_profile';
-import { MsgSaveProfileEncodeObject, AminoMsgSaveProfile } from '@desmoslabs/sdk-core';
-import { ProfileHeader } from '../ProfileHeader';
-import { LabeledValue } from '../LabeledValue';
 import { Divider } from '../Divider';
+import { LabeledValue } from '../LabeledValue';
+import { ProfileHeader } from '../ProfileHeader';
 
 export type SaveProfileMessageProps = {
   protobufObject?: MsgSaveProfile;

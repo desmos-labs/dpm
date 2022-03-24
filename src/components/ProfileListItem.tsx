@@ -1,14 +1,14 @@
 import React, { useMemo, useState } from 'react';
-import { TouchableOpacity, View } from 'react-native';
-import { Menu, useTheme } from 'react-native-paper';
 import { useTranslation } from 'react-i18next';
+import { TouchableOpacity, View } from 'react-native';
 import { Source } from 'react-native-fast-image';
-import { AvatarImage } from './AvatarImage';
+import { Menu, useTheme } from 'react-native-paper';
 import { makeStyle } from '../theming';
-import { MenuItem } from './MenuItem';
+import { AvatarImage } from './AvatarImage';
 import { Divider } from './Divider';
 import { IconButton } from './IconButton';
 import { Typography } from './index';
+import { MenuItem } from './MenuItem';
 
 export type Props = {
   /**

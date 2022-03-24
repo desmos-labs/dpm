@@ -1,8 +1,8 @@
+import { EncodeObject } from '@cosmjs/proto-signing';
 import React from 'react';
 import { View } from 'react-native';
-import { EncodeObject } from '@cosmjs/proto-signing';
-import { BaseMessageListItem } from './BaseMessageListItem';
 import { Typography } from '../../typography';
+import { BaseMessageListItem } from './BaseMessageListItem';
 
 export type Props = {
   encodeObject: EncodeObject;

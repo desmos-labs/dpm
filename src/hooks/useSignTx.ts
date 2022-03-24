@@ -1,7 +1,5 @@
-import { useCallback } from 'react';
 import { encodeSecp256k1Pubkey, OfflineAminoSigner, StdSignDoc } from '@cosmjs/amino';
-import { AuthInfo, SignDoc, TxBody } from 'cosmjs-types/cosmos/tx/v1beta1/tx';
-import { SignMode } from 'cosmjs-types/cosmos/tx/signing/v1beta1/signing';
+import { fromBase64, toHex } from '@cosmjs/encoding';
 import {
   encodePubkey,
   isOfflineDirectSigner,
@@ -9,7 +7,9 @@ import {
   OfflineDirectSigner,
   OfflineSigner,
 } from '@cosmjs/proto-signing';
-import { fromBase64, toHex } from '@cosmjs/encoding';
+import { SignMode } from 'cosmjs-types/cosmos/tx/signing/v1beta1/signing';
+import { AuthInfo, SignDoc, TxBody } from 'cosmjs-types/cosmos/tx/v1beta1/tx';
+import { useCallback } from 'react';
 import { CosmosMethod, CosmosSignDocDirect } from '../types/jsonRpCosmosc';
 import { CosmosTx, SignedCosmosTx } from '../types/tx';
 

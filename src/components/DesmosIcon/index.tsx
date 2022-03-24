@@ -1,6 +1,6 @@
-import { createIconSetFromIcoMoon } from 'react-native-vector-icons';
 import React from 'react';
 import MaterialCommunityIcon from 'react-native-paper/src/components/MaterialCommunityIcon';
+import { createIconSetFromIcoMoon } from 'react-native-vector-icons';
 import icoMoonConfig from './selection.json';
 
 const desmosIcons = [

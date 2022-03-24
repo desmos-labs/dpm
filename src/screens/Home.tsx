@@ -1,3 +1,5 @@
+import { useCurrentChainInfo } from '@desmoslabs/sdk-react';
+import Clipboard from '@react-native-community/clipboard';
 import { BottomTabScreenProps } from '@react-navigation/bottom-tabs';
 import { CompositeScreenProps } from '@react-navigation/native';
 import { StackScreenProps } from '@react-navigation/stack';
@@ -5,24 +7,22 @@ import React, { useCallback, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Image, Text, View } from 'react-native';
 import { Snackbar, useTheme } from 'react-native-paper';
-import Clipboard from '@react-native-community/clipboard';
-import { useCurrentChainInfo } from '@desmoslabs/sdk-react';
-import { makeStyle } from '../theming';
-import useFetchProfile from '../hooks/useFetchProfile';
-import useSelectedAccount from '../hooks/useSelectedAccount';
 import {
+  AccountBalance,
+  AirdropBanner,
   AvatarImage,
   StyledSafeAreaView,
   TopBar,
-  AccountBalance,
   TransactionsList,
   Typography,
-  AirdropBanner,
 } from '../components';
-import { AccountScreensStackParams, HomeScreensBottomTabsParams } from '../types/navigation';
-import { BroadcastedTx } from '../types/tx';
 import { useDrawerContext } from '../contexts/AppDrawerContex';
 import useAirdropClaimable from '../hooks/useAirdropClaimable';
+import useFetchProfile from '../hooks/useFetchProfile';
+import useSelectedAccount from '../hooks/useSelectedAccount';
+import { makeStyle } from '../theming';
+import { AccountScreensStackParams, HomeScreensBottomTabsParams } from '../types/navigation';
+import { BroadcastedTx } from '../types/tx';
 
 export type Props = CompositeScreenProps<
   BottomTabScreenProps<HomeScreensBottomTabsParams, 'Home'>,

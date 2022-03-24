@@ -1,21 +1,21 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-import { AccountScreensStack } from '../types/navigation';
-import AuthorizeSession from '../screens/AuthorizeSession';
-import EditProfile from '../screens/EditProfile';
-import { ConfirmProfileEdit } from '../screens/ConfirmProfileEdit';
-import { BiographyEditor } from '../screens/BiographyEditor';
-import { WalletConnectCallRequest } from '../screens/WalletConnectCallRequest';
 import useHandleCallRequests from '../hooks/useHandleCallRequests';
-import HomeScreens from './HomeScreens';
+import AuthorizeOperation from '../screens/AuthorizeOperation';
+import AuthorizeSession from '../screens/AuthorizeSession';
+import { BiographyEditor } from '../screens/BiographyEditor';
+import { ChainLinkDetails } from '../screens/ChainLinkDetails';
+import { ConfirmProfileEdit } from '../screens/ConfirmProfileEdit';
+import { ConfirmTx } from '../screens/ConfirmTx';
+import EditProfile from '../screens/EditProfile';
 import Profile from '../screens/Profile';
 import { SendToken } from '../screens/SendToken';
-import { ConfirmTx } from '../screens/ConfirmTx';
 import { TxDetails } from '../screens/TxDetails';
-import ChainLinkScreens from './ChainLinkScreens';
-import { ChainLinkDetails } from '../screens/ChainLinkDetails';
+import { WalletConnectCallRequest } from '../screens/WalletConnectCallRequest';
+import { AccountScreensStack } from '../types/navigation';
 import { AirdropScreens } from './AirdropScreens';
-import AuthorizeOperation from '../screens/AuthorizeOperation';
+import ChainLinkScreens from './ChainLinkScreens';
+import HomeScreens from './HomeScreens';
 
 export default function AccountScreens() {
   const { t } = useTranslation();

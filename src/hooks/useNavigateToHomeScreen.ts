@@ -1,6 +1,6 @@
-import { useCallback } from 'react';
 import { useNavigation } from '@react-navigation/native';
 import { StackNavigationProp } from '@react-navigation/stack/lib/typescript/src/types';
+import { useCallback } from 'react';
 import { HomeScreensBottomTabsParams, RootStackParams } from '../types/navigation';
 
 export type HomeNavigationParmas = {

@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useCallback } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { FlatList, FlatListProps } from 'react-native';
 import { ActivityIndicator, useTheme } from 'react-native-paper';
 

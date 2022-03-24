@@ -1,11 +1,11 @@
-import React, { useCallback, useMemo, useState } from 'react';
 import { StackScreenProps } from '@react-navigation/stack';
+import React, { useCallback, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { StyleProp, StyleSheet, TextInput, TextStyle } from 'react-native';
-import { AccountScreensStackParams } from '../types/navigation';
 import { Button, StyledSafeAreaView, TopBar, Typography } from '../components';
-import { makeStyle } from '../theming';
 import useProfileValidators from '../hooks/useProfileValidators';
+import { makeStyle } from '../theming';
+import { AccountScreensStackParams } from '../types/navigation';
 
 export type Props = StackScreenProps<AccountScreensStackParams, 'BiographyEditor'>;
 

@@ -1,13 +1,13 @@
-import { Bech32Address, Proof } from '@desmoslabs/proto/desmos/profiles/v1beta1/models_chain_links';
-import { fromBase64, toHex } from '@cosmjs/encoding';
-import { Any } from 'cosmjs-types/google/protobuf/any';
-import { PubKey } from 'cosmjs-types/cosmos/crypto/secp256k1/keys';
-import { isOfflineDirectSigner, OfflineSigner } from '@cosmjs/proto-signing';
-import Long from 'long';
-import { SignDoc, TxBody } from 'cosmjs-types/cosmos/tx/v1beta1/tx';
 import { serializeSignDoc, StdSignDoc } from '@cosmjs/amino';
-import { ChainLinkProof } from '../types/link';
+import { fromBase64, toHex } from '@cosmjs/encoding';
+import { isOfflineDirectSigner, OfflineSigner } from '@cosmjs/proto-signing';
+import { Bech32Address, Proof } from '@desmoslabs/proto/desmos/profiles/v1beta1/models_chain_links';
+import { PubKey } from 'cosmjs-types/cosmos/crypto/secp256k1/keys';
+import { SignDoc, TxBody } from 'cosmjs-types/cosmos/tx/v1beta1/tx';
+import { Any } from 'cosmjs-types/google/protobuf/any';
+import Long from 'long';
 import { LinkableChain } from '../types/chain';
+import { ChainLinkProof } from '../types/link';
 
 export type GenerateProofConfig = {
   signerAddress: string;

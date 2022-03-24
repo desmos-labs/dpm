@@ -1,19 +1,15 @@
-import React, { useCallback, useEffect, useMemo, useState } from 'react';
-import { StackScreenProps } from '@react-navigation/stack';
-import { useTranslation } from 'react-i18next';
-import { ListRenderItemInfo, TouchableOpacity, View } from 'react-native';
-import { MsgLinkChainAccountEncodeObject } from '@desmoslabs/sdk-core';
-import { MsgLinkChainAccount } from '@desmoslabs/proto/desmos/profiles/v1beta1/msgs_chain_links';
-import { CompositeScreenProps } from '@react-navigation/native';
-import { useCurrentChainInfo } from '@desmoslabs/sdk-react';
 import { LedgerApp as CosmosLedgerApp, LedgerSigner } from '@cosmjs/ledger-amino';
 import { OfflineSigner } from '@cosmjs/proto-signing';
+import { MsgLinkChainAccount } from '@desmoslabs/proto/desmos/profiles/v1beta1/msgs_chain_links';
+import { MsgLinkChainAccountEncodeObject } from '@desmoslabs/sdk-core';
+import { useCurrentChainInfo } from '@desmoslabs/sdk-react';
 import BluetoothTransport from '@ledgerhq/react-native-hw-transport-ble';
-import {
-  AccountScreensStackParams,
-  ChainLinkScreensStackParams,
-  ImportMode,
-} from '../../types/navigation';
+import { CompositeScreenProps } from '@react-navigation/native';
+import { StackScreenProps } from '@react-navigation/stack';
+import { debounce } from 'lodash';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import { useTranslation } from 'react-i18next';
+import { ListRenderItemInfo, TouchableOpacity, View } from 'react-native';
 import {
   AddressListItem,
   Button,
@@ -25,20 +21,24 @@ import {
   TopBar,
   Typography,
 } from '../../components';
-import { makeStyle } from '../../theming';
-import LocalWallet from '../../wallet/LocalWallet';
-import { CosmosHdPath, HdPath } from '../../types/hdpath';
 import { FlexPadding } from '../../components/FlexPadding';
-import { generateProof } from '../../utilils/chainlink';
-import useSelectedAccount from '../../hooks/useSelectedAccount';
-import { computeTxFees, messagesGas } from '../../types/fees';
 import useAddChinLink from '../../hooks/useAddChainLink';
-import { toCosmjsHdPath } from '../../utilils/hdpath';
-import { LedgerApp } from '../../types/ledger';
-import { debounce } from 'lodash';
+import useSelectedAccount from '../../hooks/useSelectedAccount';
 import useShowModal from '../../hooks/useShowModal';
 import { LoadingModal } from '../../modals/LodingModal';
+import { makeStyle } from '../../theming';
+import { computeTxFees, messagesGas } from '../../types/fees';
+import { CosmosHdPath, HdPath } from '../../types/hdpath';
+import { LedgerApp } from '../../types/ledger';
+import {
+  AccountScreensStackParams,
+  ChainLinkScreensStackParams,
+  ImportMode,
+} from '../../types/navigation';
+import { generateProof } from '../../utilils/chainlink';
+import { toCosmjsHdPath } from '../../utilils/hdpath';
 import { TerraLedgerApp } from '../../utilils/terra';
+import LocalWallet from '../../wallet/LocalWallet';
 
 type Wallet = {
   signer: OfflineSigner;

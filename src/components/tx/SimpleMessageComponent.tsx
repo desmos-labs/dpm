@@ -1,9 +1,9 @@
 import React from 'react';
-import { Image, View, ImageProps } from 'react-native';
-import { Divider } from '../Divider';
-import { LabeledValue } from '../LabeledValue';
+import { Image, ImageProps, View } from 'react-native';
 import { makeStyle } from '../../theming';
+import { Divider } from '../Divider';
 import { Typography } from '../index';
+import { LabeledValue } from '../LabeledValue';
 
 export type Props = {
   icon?: ImageProps['source'];

@@ -1,9 +1,9 @@
+import { OfflineSigner } from '@cosmjs/proto-signing';
+import { MsgUnlinkChainAccountEncodeObject } from '@desmoslabs/sdk-core';
 import { useCurrentChainInfo } from '@desmoslabs/sdk-react';
 import { useCallback } from 'react';
-import { MsgUnlinkChainAccountEncodeObject } from '@desmoslabs/sdk-core';
-import { OfflineSigner } from '@cosmjs/proto-signing';
-import { ChainLink } from '../types/link';
 import { computeTxFees, messagesGas } from '../types/fees';
+import { ChainLink } from '../types/link';
 import useBroadcastMessages from './useBroadcastMessages';
 
 export default function useDisconnectChainLink() {

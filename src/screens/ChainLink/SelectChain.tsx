@@ -1,8 +1,7 @@
-import React, { useCallback } from 'react';
 import { StackScreenProps } from '@react-navigation/stack';
+import React, { useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
 import { FlatList, ListRenderItemInfo } from 'react-native';
-import { ChainLinkScreensStackParams, ImportMode } from '../../types/navigation';
 import {
   BlockchainListItem,
   ListItemSeparator,
@@ -12,6 +11,7 @@ import {
 import { makeStyle } from '../../theming';
 import { LinkableChain, LinkableChains } from '../../types/chain';
 import { CosmosLedgerApp, CryptoOrgLedgerApp, LedgerApp, TerraLedgerApp } from '../../types/ledger';
+import { ChainLinkScreensStackParams, ImportMode } from '../../types/navigation';
 
 export type Props = StackScreenProps<ChainLinkScreensStackParams, 'SelectChain'>;
 

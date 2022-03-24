@@ -1,19 +1,19 @@
 import { StackScreenProps } from '@react-navigation/stack';
-import React, { useCallback, useEffect, useMemo, useState } from 'react';
-import { Image, View } from 'react-native';
-import { useTranslation } from 'react-i18next';
 import { format } from 'date-fns';
-import { makeStyle } from '../theming';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import { useTranslation } from 'react-i18next';
+import { Image, View } from 'react-native';
 import { Button, IconButton, StyledSafeAreaView, Typography } from '../components';
-import { AccountScreensStackParams } from '../types/navigation';
-import useShowModal from '../hooks/useShowModal';
-import { TwoButtonModal } from '../modals/TwoButtonModal';
 import useDisconnectChainLink from '../hooks/useDisconnectChainLink';
-import useUnlockWallet from '../hooks/useUnlockWallet';
-import { SingleButtonModal } from '../modals/SingleButtonModal';
 import useNavigateToHomeScreen from '../hooks/useNavigateToHomeScreen';
 import useRemoveChainLink from '../hooks/useRemoveChainLink';
 import useSelectedAccount from '../hooks/useSelectedAccount';
+import useShowModal from '../hooks/useShowModal';
+import useUnlockWallet from '../hooks/useUnlockWallet';
+import { SingleButtonModal } from '../modals/SingleButtonModal';
+import { TwoButtonModal } from '../modals/TwoButtonModal';
+import { makeStyle } from '../theming';
+import { AccountScreensStackParams } from '../types/navigation';
 import findLinkableChainInfoByName from '../utilils/find';
 
 export type Props = StackScreenProps<AccountScreensStackParams, 'ChainLinkDetails'>;

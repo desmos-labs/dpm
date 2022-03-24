@@ -1,27 +1,27 @@
-import React, { useMemo } from 'react';
-import { Any } from 'cosmjs-types/google/protobuf/any';
-import { MsgSaveProfile } from '@desmoslabs/proto/desmos/profiles/v1beta1/msgs_profile';
+import { AminoMsg } from '@cosmjs/amino/build/signdoc';
 import { toHex } from '@cosmjs/encoding';
 import { EncodeObject } from '@cosmjs/proto-signing';
-import { MsgMultiSend, MsgSend } from 'cosmjs-types/cosmos/bank/v1beta1/tx';
-import { MsgVote } from 'cosmjs-types/cosmos/gov/v1beta1/tx';
-import { MsgDelegate } from 'cosmjs-types/cosmos/staking/v1beta1/tx';
-import { MsgWithdrawDelegatorReward } from 'cosmjs-types/cosmos/distribution/v1beta1/tx';
 import {
   MsgLinkChainAccount,
   MsgUnlinkChainAccount,
 } from '@desmoslabs/proto/desmos/profiles/v1beta1/msgs_chain_links';
-import { AminoMsg } from '@cosmjs/amino/build/signdoc';
+import { MsgSaveProfile } from '@desmoslabs/proto/desmos/profiles/v1beta1/msgs_profile';
+import { MsgMultiSend, MsgSend } from 'cosmjs-types/cosmos/bank/v1beta1/tx';
+import { MsgWithdrawDelegatorReward } from 'cosmjs-types/cosmos/distribution/v1beta1/tx';
+import { MsgVote } from 'cosmjs-types/cosmos/gov/v1beta1/tx';
+import { MsgDelegate } from 'cosmjs-types/cosmos/staking/v1beta1/tx';
+import { Any } from 'cosmjs-types/google/protobuf/any';
+import React, { useMemo } from 'react';
+import { MsgTypes } from '../../types/msgtypes';
+import { MessageDelegate } from './MessageDelegate';
+import { MessageLinkChainAccount } from './MessageLinkChainAccount';
+import { MessageMultiSend } from './MessageMultiSend';
+import { MessageSend } from './MessageSend';
+import { MessageUnlinkChainAccount } from './MessageUnlinkChainAccount';
+import { MessageVote } from './MessageVote';
+import { MessageWithdrawDelegatorRewards } from './MessageWithdrawDelegatorRewards';
 import { SaveProfileMessage } from './SaveProfileMessage';
 import { UnknownTxMessage } from './UnknownTxMessage';
-import { MessageSend } from './MessageSend';
-import { MsgTypes } from '../../types/msgtypes';
-import { MessageVote } from './MessageVote';
-import { MessageDelegate } from './MessageDelegate';
-import { MessageWithdrawDelegatorRewards } from './MessageWithdrawDelegatorRewards';
-import { MessageLinkChainAccount } from './MessageLinkChainAccount';
-import { MessageUnlinkChainAccount } from './MessageUnlinkChainAccount';
-import { MessageMultiSend } from './MessageMultiSend';
 
 export type Props = {
   /**

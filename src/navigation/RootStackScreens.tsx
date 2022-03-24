@@ -1,14 +1,14 @@
-import React, { useEffect, useRef } from 'react';
 import { NavigationContainer, NavigationContainerRef } from '@react-navigation/native';
-import useInitAppState from '../hooks/useInitAppState';
+import React, { useEffect, useRef } from 'react';
 import { useAppContext } from '../contexts/AppContext';
 import { useWalletConnectContext } from '../contexts/WalletConnectContext';
-import { RootStack, RootStackParams } from '../types/navigation';
-import AccountScreens from './AccountScreens';
-import AccountCreationScreens from './AccountCreationScreens';
+import useInitAppState from '../hooks/useInitAppState';
 import { ModalScreen } from '../modals/ModalScreen';
-import { ConnectToLedgerScreens } from './ConnectToLedgerScreens';
 import SplashScreen from '../screens/SplashScreen';
+import { RootStack, RootStackParams } from '../types/navigation';
+import AccountCreationScreens from './AccountCreationScreens';
+import AccountScreens from './AccountScreens';
+import { ConnectToLedgerScreens } from './ConnectToLedgerScreens';
 
 const RootStackScreens: React.FC = () => {
   const appState = useInitAppState();

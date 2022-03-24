@@ -1,13 +1,13 @@
-import React, { useState } from 'react';
-import { StackScreenProps } from '@react-navigation/stack';
-import { Trans, useTranslation } from 'react-i18next';
 import { EnglishMnemonic } from '@cosmjs/crypto';
-import { ChainLinkScreensStackParams } from '../../types/navigation';
+import { StackScreenProps } from '@react-navigation/stack';
+import React, { useState } from 'react';
+import { Trans, useTranslation } from 'react-i18next';
 import { Button, StyledSafeAreaView, TextInput, TopBar, Typography } from '../../components';
-import { makeStyle } from '../../theming';
-import { checkMnemonic } from '../../wallet/LocalWallet';
 import { FlexPadding } from '../../components/FlexPadding';
+import { makeStyle } from '../../theming';
+import { ChainLinkScreensStackParams } from '../../types/navigation';
 import { sanitizeMnemonic } from '../../utilils/mnemonic';
+import { checkMnemonic } from '../../wallet/LocalWallet';
 
 export type Props = StackScreenProps<ChainLinkScreensStackParams, 'LinkWithMnemonic'>;
 

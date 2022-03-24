@@ -1,6 +1,6 @@
 import { StdFee } from '@cosmjs/amino';
-import { calculateFee } from '@desmoslabs/sdk-core';
 import { EncodeObject } from '@cosmjs/proto-signing';
+import { calculateFee } from '@desmoslabs/sdk-core';
 import { MsgTypes } from './msgtypes';
 
 /**

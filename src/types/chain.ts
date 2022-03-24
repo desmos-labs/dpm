@@ -1,5 +1,5 @@
-import { ImageSourcePropType } from 'react-native';
 import { ChainConfig } from '@desmoslabs/proto/desmos/profiles/v1beta1/models_chain_links';
+import { ImageSourcePropType } from 'react-native';
 import { BandHdPath, CosmosHdPath, CroHdPath, HdPath, KavaHdPath, LunaHdPath } from './hdpath';
 
 export enum ChainAccountType {

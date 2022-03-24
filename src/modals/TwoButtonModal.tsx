@@ -1,7 +1,7 @@
 import React, { useCallback } from 'react';
 import { View } from 'react-native';
-import { makeStyle } from '../theming';
 import { Button, Typography } from '../components';
+import { makeStyle } from '../theming';
 import { ModalComponent } from '../types/navigation';
 
 export type TwoButtonModalParams = {

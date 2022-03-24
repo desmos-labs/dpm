@@ -1,7 +1,7 @@
 import { useCallback, useState } from 'react';
 import { AirdropApi } from '../api/AirdropApi';
-import useChainLinks from './useChainLinks';
 import { ChainLink } from '../types/link';
+import useChainLinks from './useChainLinks';
 
 export default function useCheckPendingRewards(desmosAddress: string) {
   const [loading, setLoading] = useState(true);

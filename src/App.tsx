@@ -1,11 +1,11 @@
-import React from 'react';
-import { DesmosSdkProvider } from '@desmoslabs/sdk-react';
-import { StatusBar } from 'react-native';
 import { ApolloProvider } from '@apollo/client';
+import { DesmosSdkProvider } from '@desmoslabs/sdk-react';
+import React from 'react';
+import { StatusBar } from 'react-native';
 import { AppStateProvider } from './contexts/AppContext';
+import { ThemeProvider } from './contexts/ThemeContext';
 import { WalletContextProvider } from './contexts/WalletConnectContext';
 import useApolloClient from './graphql/hooks/useApolloClient';
-import { ThemeProvider } from './contexts/ThemeContext';
 import RootStackScreens from './navigation/RootStackScreens';
 
 export default function App(): JSX.Element {

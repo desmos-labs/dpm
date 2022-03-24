@@ -1,12 +1,12 @@
 import { StackScreenProps } from '@react-navigation/stack';
 import React, { useCallback, useEffect } from 'react';
-import { FlatList, Image, ListRenderItemInfo, View } from 'react-native';
 import { useTranslation } from 'react-i18next';
-import { AirdropScreensStackParams } from '../../types/navigation';
-import { Button, StyledSafeAreaView, TopBar, Typography } from '../../components';
-import { makeStyle } from '../../theming';
-import useFetchAllottedDsm from '../../hooks/useFetchAllottedDsm';
+import { FlatList, Image, ListRenderItemInfo, View } from 'react-native';
 import { Allocation, AllocationType } from '../../api/AirdropApi';
+import { Button, StyledSafeAreaView, TopBar, Typography } from '../../components';
+import useFetchAllottedDsm from '../../hooks/useFetchAllottedDsm';
+import { makeStyle } from '../../theming';
+import { AirdropScreensStackParams } from '../../types/navigation';
 
 export type Props = StackScreenProps<AirdropScreensStackParams, 'AirdropAllocation'>;
 

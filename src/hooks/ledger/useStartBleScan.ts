@@ -1,8 +1,8 @@
-import { useCallback, useEffect, useState } from 'react';
 import TransportBLE from '@ledgerhq/react-native-hw-transport-ble';
-import BluetoothStateManager from 'react-native-bluetooth-state-manager';
+import { useCallback, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Linking, Platform } from 'react-native';
+import BluetoothStateManager from 'react-native-bluetooth-state-manager';
 import { BleLedger, Subscription } from '../../types/ledger';
 
 export enum ScanErrorCause {

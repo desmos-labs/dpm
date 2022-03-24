@@ -1,11 +1,11 @@
+import { LedgerSigner } from '@cosmjs/ledger-amino';
+import { OfflineSigner } from '@cosmjs/proto-signing';
+import BluetoothTransport from '@ledgerhq/react-native-hw-transport-ble';
 import { CompositeNavigationProp, useNavigation } from '@react-navigation/native';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { useCallback } from 'react';
-import { OfflineSigner } from '@cosmjs/proto-signing';
-import BluetoothTransport from '@ledgerhq/react-native-hw-transport-ble';
-import { LedgerSigner } from '@cosmjs/ledger-amino';
-import { DesmosLedgerApp } from '../types/ledger';
 import { ChainAccount, ChainAccountType } from '../types/chain';
+import { DesmosLedgerApp } from '../types/ledger';
 import {
   AccountScreensStackParams,
   AuthorizeOperationResolveParams,

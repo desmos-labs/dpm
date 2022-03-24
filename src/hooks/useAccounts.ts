@@ -1,5 +1,5 @@
-import { ChainAccount } from '../types/chain';
 import { useAppContext } from '../contexts/AppContext';
+import { ChainAccount } from '../types/chain';
 
 /**
  * Hooks that provides a stateful variable that contains

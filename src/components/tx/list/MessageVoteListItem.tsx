@@ -1,10 +1,10 @@
-import React, { useMemo } from 'react';
 import { MsgVoteEncodeObject } from '@desmoslabs/sdk-core';
-import { View } from 'react-native';
-import { useTranslation } from 'react-i18next';
 import { VoteOption } from 'cosmjs-types/cosmos/gov/v1beta1/gov';
-import { BaseMessageListItem } from './BaseMessageListItem';
+import React, { useMemo } from 'react';
+import { useTranslation } from 'react-i18next';
+import { View } from 'react-native';
 import { Typography } from '../../typography';
+import { BaseMessageListItem } from './BaseMessageListItem';
 
 export type Props = {
   encodeObject: MsgVoteEncodeObject;

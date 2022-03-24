@@ -1,10 +1,9 @@
-import React, { useCallback } from 'react';
+import BluetoothTransport from '@ledgerhq/react-native-hw-transport-ble';
 import { CompositeScreenProps } from '@react-navigation/native';
 import { StackScreenProps } from '@react-navigation/stack';
+import React, { useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
 import { FlatList, ListRenderItemInfo } from 'react-native';
-import BluetoothTransport from '@ledgerhq/react-native-hw-transport-ble';
-import { ChainLinkScreensStackParams, ImportMode, RootStackParams } from '../../types/navigation';
 import {
   BlockchainListItem,
   ListItemSeparator,
@@ -12,8 +11,9 @@ import {
   TopBar,
   Typography,
 } from '../../components';
-import { LedgerApp } from '../../types/ledger';
 import { makeStyle } from '../../theming';
+import { LedgerApp } from '../../types/ledger';
+import { ChainLinkScreensStackParams, ImportMode, RootStackParams } from '../../types/navigation';
 
 export type Props = CompositeScreenProps<
   StackScreenProps<ChainLinkScreensStackParams, 'SelectLedgerApp'>,

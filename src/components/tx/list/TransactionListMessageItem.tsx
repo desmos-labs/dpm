@@ -1,4 +1,3 @@
-import React from 'react';
 import { EncodeObject } from '@cosmjs/proto-signing';
 import {
   MsgDelegateEncodeObject,
@@ -9,17 +8,18 @@ import {
   MsgVoteEncodeObject,
   MsgWithdrawDelegatorRewardEncodeObject,
 } from '@desmoslabs/sdk-core';
-import { MessageSendListItem } from './MessageSendListItem';
-import { UnknownMessageListItem } from './UnknownMessageListItem';
-import { MessageSaveProfileListItem } from './MessageSaveProfileListItem';
-import { MsgTypes } from '../../../types/msgtypes';
-import { MessageVoteListItem } from './MessageVoteListItem';
-import { MessageDelegateListItem } from './MessageDelegateListItem';
-import { MessageWithdrawDelegatorRewardListItem } from './MessageWithdrawDelegatorRewardListItem';
-import { MessageLinkChainAccountListItem } from './MessageLinkChainAccountListItem';
-import { MessageUnlinkChainAccountListItem } from './MessageUnlinkChainAccountListItem';
-import { MessageMultiSendListItem } from './MessageMultiSendListItem';
+import React from 'react';
 import { MsgMultiSendEncodeObject } from '../../../types/encodeobject';
+import { MsgTypes } from '../../../types/msgtypes';
+import { MessageDelegateListItem } from './MessageDelegateListItem';
+import { MessageLinkChainAccountListItem } from './MessageLinkChainAccountListItem';
+import { MessageMultiSendListItem } from './MessageMultiSendListItem';
+import { MessageSaveProfileListItem } from './MessageSaveProfileListItem';
+import { MessageSendListItem } from './MessageSendListItem';
+import { MessageUnlinkChainAccountListItem } from './MessageUnlinkChainAccountListItem';
+import { MessageVoteListItem } from './MessageVoteListItem';
+import { MessageWithdrawDelegatorRewardListItem } from './MessageWithdrawDelegatorRewardListItem';
+import { UnknownMessageListItem } from './UnknownMessageListItem';
 
 export type Props = {
   encodeObject: EncodeObject;

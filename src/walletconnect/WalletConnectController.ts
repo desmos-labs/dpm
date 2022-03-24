@@ -1,21 +1,11 @@
-import { ISessionParams, IWalletConnectSession } from '@walletconnect/types';
-import WalletConnect from '@walletconnect/client';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import { toHex } from '@cosmjs/encoding';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import WalletConnect from '@walletconnect/client';
+import { ISessionParams, IWalletConnectSession } from '@walletconnect/types';
 import { AuthInfo, TxBody } from 'cosmjs-types/cosmos/tx/v1beta1/tx';
-import {
-  CallRequestEvent,
-  ConnectedEvent,
-  DisconnectedEvent,
-  Events,
-  PeerMeta,
-  Session,
-  SessionRequestDetails,
-  SessionRequestEvent,
-  SessionUpdateEvent,
-} from '../types/walletconnect';
-import { SignedCosmosTx } from '../types/tx';
 import { CosmosMethod } from '../types/jsonRpCosmosc';
+import { SignedCosmosTx } from '../types/tx';
+import { CallRequestEvent, ConnectedEvent, DisconnectedEvent, Events, PeerMeta, Session, SessionRequestDetails, SessionRequestEvent, SessionUpdateEvent } from '../types/walletconnect';
 
 /**
  * Type that represents the payload returned from the

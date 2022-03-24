@@ -1,12 +1,12 @@
 import { CompositeNavigationProp, useNavigation } from '@react-navigation/native';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { useCallback } from 'react';
+import { ChainAccount } from '../types/chain';
 import {
   AccountScreensStackParams,
   AuthorizeOperationResolveParams,
   RootStackParams,
 } from '../types/navigation';
-import { ChainAccount } from '../types/chain';
 
 type NavigationProps = CompositeNavigationProp<
   StackNavigationProp<AccountScreensStackParams>,

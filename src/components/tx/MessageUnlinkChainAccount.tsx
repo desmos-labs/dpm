@@ -1,13 +1,13 @@
-import React, { useMemo } from 'react';
-import { useTranslation } from 'react-i18next';
+import { MsgUnlinkChainAccount } from '@desmoslabs/proto/desmos/profiles/v1beta1/msgs_chain_links';
 import {
   AminoMsgUnlinkChainAccount,
   MsgUnlinkChainAccountEncodeObject,
 } from '@desmoslabs/sdk-core';
-import { MsgUnlinkChainAccount } from '@desmoslabs/proto/desmos/profiles/v1beta1/msgs_chain_links';
+import React, { useMemo } from 'react';
+import { useTranslation } from 'react-i18next';
 import { Image, StyleSheet, View } from 'react-native';
-import { SimpleMessageComponent } from './SimpleMessageComponent';
 import findLinkableChainInfoByName from '../../utilils/find';
+import { SimpleMessageComponent } from './SimpleMessageComponent';
 
 export type Props = {
   protobufMessage?: MsgUnlinkChainAccount;

@@ -1,16 +1,16 @@
-import React, { useCallback, useEffect, useState } from 'react';
-import { StackScreenProps } from '@react-navigation/stack';
-import { useTranslation } from 'react-i18next';
 import { CompositeScreenProps } from '@react-navigation/native';
-import { AccountCreationStackParams, RootStackParams } from '../../types/navigation';
-import { ChainAccount, ChainAccountType } from '../../types/chain';
-import useSaveWallet from '../../hooks/useSaveWallet';
-import useSaveAccount from '../../hooks/useSaveAccount';
+import { StackScreenProps } from '@react-navigation/stack';
+import React, { useCallback, useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { Button, DpmImage, StyledSafeAreaView, Typography } from '../../components';
-import { makeStyle } from '../../theming';
 import useChangeAccount from '../../hooks/useChangeAccount';
+import useSaveAccount from '../../hooks/useSaveAccount';
 import useSaveSelectedAccount from '../../hooks/useSaveSelectedAccount';
+import useSaveWallet from '../../hooks/useSaveWallet';
 import useSetAccounts from '../../hooks/useSetAccounts';
+import { makeStyle } from '../../theming';
+import { ChainAccount, ChainAccountType } from '../../types/chain';
+import { AccountCreationStackParams, RootStackParams } from '../../types/navigation';
 import { WalletType } from '../../types/wallet';
 import * as SecureStorage from '../../utilils/SecureStorage';
 

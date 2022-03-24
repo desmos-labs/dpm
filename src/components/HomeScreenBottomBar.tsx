@@ -1,7 +1,7 @@
-import React from 'react';
-import { BottomTabBarProps, BottomTabNavigationOptions } from '@react-navigation/bottom-tabs';
-import { Platform, Text, TouchableOpacity, View } from 'react-native';
+import { BottomTabBarProps } from '@react-navigation/bottom-tabs';
 import { TabActions } from '@react-navigation/native';
+import React from 'react';
+import { Platform, Text, TouchableOpacity, View } from 'react-native';
 import { useTheme } from 'react-native-paper';
 import { makeStyle } from '../theming';
 

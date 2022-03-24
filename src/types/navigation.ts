@@ -1,23 +1,19 @@
-import { createStackNavigator } from "@react-navigation/stack";
-import { EncodeObject } from "@cosmjs/proto-signing";
-import React, { MutableRefObject } from "react";
-import { StackNavigationProp } from "@react-navigation/stack/lib/typescript/src/types";
-import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import { StdFee } from "@cosmjs/amino";
-import {
-  CommonActions,
-  NavigationAction,
-  NavigatorScreenParams,
-} from "@react-navigation/native";
-import { DesmosProfile } from "@desmoslabs/sdk-core";
-import { StackNavigationState } from "@react-navigation/routers/lib/typescript/src/StackRouter";
-import BluetoothTransport from "@ledgerhq/react-native-hw-transport-ble";
-import { ChainLink } from "./link";
-import { BleLedger, LedgerApp } from "./ledger";
-import { SessionRequestDetails } from "./walletconnect";
-import LocalWallet from "../wallet/LocalWallet";
-import { ChainAccount, LinkableChain } from "./chain";
-import { Wallet } from "./wallet";
+import { StdFee } from '@cosmjs/amino';
+import { EncodeObject } from '@cosmjs/proto-signing';
+import { DesmosProfile } from '@desmoslabs/sdk-core';
+import BluetoothTransport from '@ledgerhq/react-native-hw-transport-ble';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { CommonActions, NavigationAction, NavigatorScreenParams } from '@react-navigation/native';
+import { StackNavigationState } from '@react-navigation/routers/lib/typescript/src/StackRouter';
+import { createStackNavigator } from '@react-navigation/stack';
+import { StackNavigationProp } from '@react-navigation/stack/lib/typescript/src/types';
+import React, { MutableRefObject } from 'react';
+import LocalWallet from '../wallet/LocalWallet';
+import { ChainAccount, LinkableChain } from './chain';
+import { BleLedger, LedgerApp } from './ledger';
+import { ChainLink } from './link';
+import { Wallet } from './wallet';
+import { SessionRequestDetails } from './walletconnect';
 
 export type AccountCreationStackParams = {
   Login: undefined;

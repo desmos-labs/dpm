@@ -1,7 +1,7 @@
 import { useCallback } from 'react';
-import { ChainAccount } from '../types/chain';
-import AccountSource from '../sources/AccountSource';
 import { useAppContext } from '../contexts/AppContext';
+import AccountSource from '../sources/AccountSource';
+import { ChainAccount } from '../types/chain';
 
 /**
  * Hook that provides a function to change the current selected account.

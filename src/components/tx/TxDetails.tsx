@@ -1,16 +1,16 @@
-import React, { useMemo } from 'react';
-import { ScrollView, StyleProp, StyleSheet, View, ViewStyle } from 'react-native';
-import { useTranslation } from 'react-i18next';
-import Long from 'long';
-import { EncodeObject } from '@cosmjs/proto-signing';
-import { Any } from 'cosmjs-types/google/protobuf/any';
 import { StdFee } from '@cosmjs/amino';
+import { AminoMsg } from '@cosmjs/amino/build/signdoc';
+import { EncodeObject } from '@cosmjs/proto-signing';
 import { convertCoin } from '@desmoslabs/sdk-core';
 import { useCurrentChainInfo } from '@desmoslabs/sdk-react';
+import { Any } from 'cosmjs-types/google/protobuf/any';
 import { format } from 'date-fns';
-import { AminoMsg } from '@cosmjs/amino/build/signdoc';
-import { TxMessage } from './TxMessage';
+import Long from 'long';
+import React, { useMemo } from 'react';
+import { useTranslation } from 'react-i18next';
+import { ScrollView, StyleProp, StyleSheet, View, ViewStyle } from 'react-native';
 import { Divider, LabeledValue } from '../index';
+import { TxMessage } from './TxMessage';
 
 export type Props = {
   messages: readonly (EncodeObject | Any | AminoMsg)[];

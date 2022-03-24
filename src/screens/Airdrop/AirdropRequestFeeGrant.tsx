@@ -1,8 +1,7 @@
-import React, { useCallback, useEffect } from 'react';
 import { StackScreenProps } from '@react-navigation/stack';
+import React, { useCallback, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Dimensions, Platform } from 'react-native';
-import { AirdropScreensStackParams } from '../../types/navigation';
 import {
   Button,
   DpmImage,
@@ -10,9 +9,10 @@ import {
   ThemedLottieView,
   Typography,
 } from '../../components';
+import { FlexPadding } from '../../components/FlexPadding';
 import useReuestFeeGrant from '../../hooks/useRequestFeeGrant';
 import { makeStyle } from '../../theming';
-import { FlexPadding } from '../../components/FlexPadding';
+import { AirdropScreensStackParams } from '../../types/navigation';
 
 export type Props = StackScreenProps<AirdropScreensStackParams, 'AirdropRequestFeeGrant'>;
 

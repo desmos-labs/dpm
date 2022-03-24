@@ -7,9 +7,9 @@ import {
   View,
   ViewProps,
 } from 'react-native';
+import useCloseKeyboard from '../hooks/useCloseKeyboard';
 import { makeStyleWithProps } from '../theming';
 import { Divider } from './Divider';
-import useCloseKeyboard from '../hooks/useCloseKeyboard';
 
 export type Props = ViewProps & {
   /**

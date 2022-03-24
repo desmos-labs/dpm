@@ -1,9 +1,9 @@
 import { useEffect } from 'react';
-import useLoadAccounts from './useLoadAccounts';
-import { useInitI18n } from '../i18n/i18n';
-import useLoadAllProfiles from './useLoadAllProfiles';
 import { InitState, useAppContext } from '../contexts/AppContext';
+import { useInitI18n } from '../i18n/i18n';
 import useLoadSettings from './settings/useLoadSettings';
+import useLoadAccounts from './useLoadAccounts';
+import useLoadAllProfiles from './useLoadAllProfiles';
 import useLoadAllChainLinks from './useLoadChainLinks';
 
 /**

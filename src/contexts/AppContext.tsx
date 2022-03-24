@@ -1,8 +1,8 @@
-import React, { useState } from 'react';
 import { DesmosProfile } from '@desmoslabs/sdk-core';
+import React, { useState } from 'react';
 import { ChainAccount } from '../types/chain';
-import { AppSettings, DefaultAppSettings } from '../types/settings';
 import { ChainLink } from '../types/link';
+import { AppSettings, DefaultAppSettings } from '../types/settings';
 
 export type InitState = {
   initializing: boolean;

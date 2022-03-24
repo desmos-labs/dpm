@@ -1,5 +1,5 @@
-import { useCallback, useEffect, useState } from 'react';
 import { useSdkContext } from '@desmoslabs/sdk-react';
+import { useCallback, useEffect, useState } from 'react';
 import { useWalletConnectContext } from '../contexts/WalletConnectContext';
 import { ConnectedEvent, Events } from '../types/walletconnect';
 

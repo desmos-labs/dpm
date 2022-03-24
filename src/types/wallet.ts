@@ -1,6 +1,6 @@
 import { OfflineSigner } from '@cosmjs/proto-signing';
-import { HdPath } from './hdpath';
 import LocalWallet from '../wallet/LocalWallet';
+import { HdPath } from './hdpath';
 
 /**
  * Enum that represents the type of a Wallet instance.

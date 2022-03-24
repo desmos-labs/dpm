@@ -1,6 +1,6 @@
+import { StackScreenProps } from '@react-navigation/stack';
 import React, { useEffect } from 'react';
 import { View } from 'react-native';
-import { StackScreenProps } from '@react-navigation/stack';
 import { makeStyle } from '../theming';
 import { RootStackParams } from '../types/navigation';
 

@@ -1,23 +1,23 @@
-import React, { useCallback, useMemo } from 'react';
-import { useTranslation } from 'react-i18next';
-import { FlatList, Image, View, ListRenderItemInfo } from 'react-native';
+import { DesmosProfile } from '@desmoslabs/sdk-core';
 import { CompositeNavigationProp } from '@react-navigation/native';
 import { StackNavigationProp } from '@react-navigation/stack/lib/typescript/src/types';
-import { DesmosProfile } from '@desmoslabs/sdk-core';
-import { Button } from './Button';
-import { makeStyle } from '../theming';
-import { StyledSafeAreaView } from './StyledSafeAreaView';
-import { ChainAccount } from '../types/chain';
-import { ListItemSeparator, ProfileListItem, Typography } from './index';
-import useSelectedAccount from '../hooks/useSelectedAccount';
+import React, { useCallback, useMemo } from 'react';
+import { useTranslation } from 'react-i18next';
+import { FlatList, Image, ListRenderItemInfo, View } from 'react-native';
+import { useDrawerContext } from '../contexts/AppDrawerContex';
+import useAccounts from '../hooks/useAccounts';
+import useChangeAccount from '../hooks/useChangeAccount';
 import useDeleteAccount from '../hooks/useDeleteAccount';
+import useProfiles from '../hooks/useProfiles';
+import useSelectedAccount from '../hooks/useSelectedAccount';
 import useShowModal from '../hooks/useShowModal';
 import { TwoButtonModal } from '../modals/TwoButtonModal';
-import useChangeAccount from '../hooks/useChangeAccount';
-import useAccounts from '../hooks/useAccounts';
-import useProfiles from '../hooks/useProfiles';
+import { makeStyle } from '../theming';
+import { ChainAccount } from '../types/chain';
 import { AccountScreensStackParams, RootStackParams } from '../types/navigation';
-import { useDrawerContext } from '../contexts/AppDrawerContex';
+import { Button } from './Button';
+import { ListItemSeparator, ProfileListItem, Typography } from './index';
+import { StyledSafeAreaView } from './StyledSafeAreaView';
 
 type AccountProfilePair = [ChainAccount, DesmosProfile | null];
 

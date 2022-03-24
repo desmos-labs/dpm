@@ -1,14 +1,14 @@
+import { Bech32 } from '@cosmjs/encoding';
 import { StackScreenProps } from '@react-navigation/stack';
 import React, { useCallback, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Image, KeyboardAvoidingView, Platform } from 'react-native';
-import { Bech32 } from '@cosmjs/encoding';
-import { makeStyle } from '../../theming';
 import { Button, StyledSafeAreaView, TextInput, TopBar, Typography } from '../../components';
-import { AirdropScreensStackParams } from '../../types/navigation';
+import useIsCurrentThemeDark from '../../hooks/useIsCurrentThemeDark';
 import useShowModal from '../../hooks/useShowModal';
 import { SingleButtonModal } from '../../modals/SingleButtonModal';
-import useIsCurrentThemeDark from '../../hooks/useIsCurrentThemeDark';
+import { makeStyle } from '../../theming';
+import { AirdropScreensStackParams } from '../../types/navigation';
 
 export type Props = StackScreenProps<AirdropScreensStackParams, 'AirdropHome'>;
 

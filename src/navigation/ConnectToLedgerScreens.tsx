@@ -1,8 +1,8 @@
-import React from 'react';
 import { StackScreenProps } from '@react-navigation/stack';
-import { ConnectToLedgerScreensStack, RootStackParams } from '../types/navigation';
-import { ScanForLedger } from '../screens/Ledger/ScanForLedger';
+import React from 'react';
 import { ConnectToLedger } from '../screens/Ledger/ConnectToLedger';
+import { ScanForLedger } from '../screens/Ledger/ScanForLedger';
+import { ConnectToLedgerScreensStack, RootStackParams } from '../types/navigation';
 
 export type Props = StackScreenProps<RootStackParams, 'ConnectToLedgerScreens'>;
 

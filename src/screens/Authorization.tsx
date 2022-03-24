@@ -1,31 +1,31 @@
-import React, { useCallback, useEffect, useMemo } from 'react';
 import { BottomTabScreenProps } from '@react-navigation/bottom-tabs';
-import { FlatList, View } from 'react-native';
 import { CompositeScreenProps } from '@react-navigation/native';
 import { StackScreenProps } from '@react-navigation/stack';
+import React, { useCallback, useEffect, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
+import { FlatList, View } from 'react-native';
 import {
   AvatarImage,
   Button,
   DAppSession as DAppSessionComponent,
+  DpmImage,
   ListItemSeparator,
   StyledSafeAreaView,
   TopBar,
   Typography,
-  DpmImage,
 } from '../components';
-import { AccountScreensStackParams, HomeScreensBottomTabsParams } from '../types/navigation';
-import useWalletConnectSessions from '../hooks/useWalletConnectSessions';
-import useSelectedAccount from '../hooks/useSelectedAccount';
-import { DAppSession, DAppPermissions } from '../types/dapp';
-import { makeStyle } from '../theming';
-import useProfiles from '../hooks/useProfiles';
-import useWalletConnectTerminate from '../hooks/useWalletConnectTerminate';
-import useShowModal from '../hooks/useShowModal';
-import { TwoButtonModal } from '../modals/TwoButtonModal';
-import { SingleButtonModal } from '../modals/SingleButtonModal';
 import { useDrawerContext } from '../contexts/AppDrawerContex';
 import useAuthorizeOperation from '../hooks/useAuthorizeOperation';
+import useProfiles from '../hooks/useProfiles';
+import useSelectedAccount from '../hooks/useSelectedAccount';
+import useShowModal from '../hooks/useShowModal';
+import useWalletConnectSessions from '../hooks/useWalletConnectSessions';
+import useWalletConnectTerminate from '../hooks/useWalletConnectTerminate';
+import { SingleButtonModal } from '../modals/SingleButtonModal';
+import { TwoButtonModal } from '../modals/TwoButtonModal';
+import { makeStyle } from '../theming';
+import { DAppPermissions, DAppSession } from '../types/dapp';
+import { AccountScreensStackParams, HomeScreensBottomTabsParams } from '../types/navigation';
 
 export type Props = CompositeScreenProps<
   BottomTabScreenProps<HomeScreensBottomTabsParams, 'Authorization'>,

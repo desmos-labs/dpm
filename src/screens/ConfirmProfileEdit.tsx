@@ -1,22 +1,22 @@
-import React, { useCallback, useMemo, useState } from 'react';
+import { convertCoin, DesmosProfile, MsgSaveProfileEncodeObject } from '@desmoslabs/sdk-core';
+import { useCurrentChainInfo } from '@desmoslabs/sdk-react';
+import { CompositeScreenProps } from '@react-navigation/native';
 import { StackScreenProps } from '@react-navigation/stack';
+import React, { useCallback, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { ScrollView, View } from 'react-native';
-import { useCurrentChainInfo } from '@desmoslabs/sdk-react';
-import { convertCoin, DesmosProfile, MsgSaveProfileEncodeObject } from '@desmoslabs/sdk-core';
-import { CompositeScreenProps } from '@react-navigation/native';
-import { AccountScreensStackParams, resetTo, RootStackParams } from '../types/navigation';
 import { Button, Divider, LabeledValue, StyledSafeAreaView, TopBar } from '../components';
-import { makeStyle } from '../theming';
 import { ProfileHeader } from '../components/ProfileHeader';
-import useUnlockWallet from '../hooks/useUnlockWallet';
-import { computeTxFees, messagesGas } from '../types/fees';
-import { SingleButtonModal } from '../modals/SingleButtonModal';
-import useSaveProfile from '../hooks/useSaveProfile';
-import useNavigateToHomeScreen from '../hooks/useNavigateToHomeScreen';
-import useShowModal from '../hooks/useShowModal';
-import useUploadPicture from '../hooks/useUploadPicture';
 import useBroadcastMessages from '../hooks/useBroadcastMessages';
+import useNavigateToHomeScreen from '../hooks/useNavigateToHomeScreen';
+import useSaveProfile from '../hooks/useSaveProfile';
+import useShowModal from '../hooks/useShowModal';
+import useUnlockWallet from '../hooks/useUnlockWallet';
+import useUploadPicture from '../hooks/useUploadPicture';
+import { SingleButtonModal } from '../modals/SingleButtonModal';
+import { makeStyle } from '../theming';
+import { computeTxFees, messagesGas } from '../types/fees';
+import { AccountScreensStackParams, resetTo, RootStackParams } from '../types/navigation';
 
 export type Props = CompositeScreenProps<
   StackScreenProps<AccountScreensStackParams, 'ConfirmProfileEdit'>,

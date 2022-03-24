@@ -1,8 +1,7 @@
-import React, { useCallback, useMemo, useState } from 'react';
 import { StackScreenProps } from '@react-navigation/stack';
+import React, { useCallback, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { View } from 'react-native';
-import { AccountCreationStackParams } from '../../types/navigation';
 import {
   Button,
   MnemonicWordBadge,
@@ -11,6 +10,7 @@ import {
   Typography,
 } from '../../components';
 import { makeStyle } from '../../theming';
+import { AccountCreationStackParams } from '../../types/navigation';
 import { shuffleArray } from '../../utilils/shuffle';
 
 declare type Props = StackScreenProps<AccountCreationStackParams, 'CheckMnemonic'>;

@@ -1,10 +1,10 @@
-import React, { useMemo } from 'react';
 import { convertCoin, MsgDelegateEncodeObject } from '@desmoslabs/sdk-core';
-import { View } from 'react-native';
-import { useTranslation } from 'react-i18next';
 import { useCurrentChainInfo } from '@desmoslabs/sdk-react';
-import { BaseMessageListItem } from './BaseMessageListItem';
+import React, { useMemo } from 'react';
+import { useTranslation } from 'react-i18next';
+import { View } from 'react-native';
 import { Typography } from '../../typography';
+import { BaseMessageListItem } from './BaseMessageListItem';
 
 export type Props = {
   encodeObject: MsgDelegateEncodeObject;

@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from 'react';
+import { Appearance } from 'react-native';
 import { Provider as PaperProvider } from 'react-native-paper';
 import { Settings } from 'react-native-paper/lib/typescript/core/settings';
-import { Appearance } from 'react-native';
 import { DesmosIcon } from '../components';
+import useSetting from '../hooks/settings/useSetting';
 import { AppThemeDark, AppThemeLight } from '../theming';
 import AppearanceListener = Appearance.AppearanceListener;
-import useSetting from '../hooks/settings/useSetting';
 
 const PaperProviderSettings: Settings = {
   icon: (props) => <DesmosIcon {...props} />,

@@ -1,10 +1,8 @@
-import React, { useCallback, useEffect, useState } from 'react';
 import { StackScreenProps } from '@react-navigation/stack';
+import React, { useCallback, useEffect, useState } from 'react';
 import { Trans, useTranslation } from 'react-i18next';
 import { View } from 'react-native';
 import { ActivityIndicator } from 'react-native-paper';
-import { AccountCreationStackParams } from '../../types/navigation';
-import { randomMnemonic } from '../../wallet/LocalWallet';
 import {
   Button,
   InlineButtons,
@@ -13,8 +11,10 @@ import {
   TopBar,
   Typography,
 } from '../../components';
-import { makeStyle } from '../../theming';
 import Colors from '../../constants/colors';
+import { makeStyle } from '../../theming';
+import { AccountCreationStackParams } from '../../types/navigation';
+import { randomMnemonic } from '../../wallet/LocalWallet';
 
 declare type Props = StackScreenProps<AccountCreationStackParams, 'GenerateNewMnemonic'>;
 

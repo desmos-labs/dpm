@@ -1,6 +1,6 @@
 import React from 'react';
 import { StyleProp, TouchableWithoutFeedback } from 'react-native';
-import FastImage, { Source, ImageStyle } from 'react-native-fast-image';
+import FastImage, { ImageStyle, Source } from 'react-native-fast-image';
 import { makeStyleWithProps } from '../theming';
 
 export type Props = {

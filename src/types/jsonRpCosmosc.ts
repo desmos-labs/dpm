@@ -1,6 +1,6 @@
 import { StdSignDoc } from '@cosmjs/amino';
-import Long from 'long';
 import { AuthInfo, TxBody } from 'cosmjs-types/cosmos/tx/v1beta1/tx';
+import Long from 'long';
 
 export type CosmosPubKey = {
   type: string;

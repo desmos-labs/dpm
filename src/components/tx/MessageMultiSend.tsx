@@ -1,10 +1,10 @@
+import { AminoMsgMultiSend, convertCoin } from '@desmoslabs/sdk-core';
+import { useCurrentChainInfo } from '@desmoslabs/sdk-react';
+import { MsgMultiSend } from 'cosmjs-types/cosmos/bank/v1beta1/tx';
 import React, { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useCurrentChainInfo } from '@desmoslabs/sdk-react';
-import { AminoMsgMultiSend, convertCoin } from '@desmoslabs/sdk-core';
-import { MsgMultiSend } from 'cosmjs-types/cosmos/bank/v1beta1/tx';
-import { SimpleMessageComponent } from './SimpleMessageComponent';
 import { MsgMultiSendEncodeObject } from '../../types/encodeobject';
+import { SimpleMessageComponent } from './SimpleMessageComponent';
 
 export type Props = {
   protobufMessage?: MsgMultiSend;

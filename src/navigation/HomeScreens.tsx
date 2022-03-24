@@ -1,20 +1,20 @@
-import React from 'react';
-import { Image } from 'react-native';
-import { useTranslation } from 'react-i18next';
-import { StackScreenProps } from '@react-navigation/stack';
 import { CompositeScreenProps } from '@react-navigation/native';
+import { StackScreenProps } from '@react-navigation/stack';
+import React from 'react';
+import { useTranslation } from 'react-i18next';
+import { Image } from 'react-native';
+import { DesmosIcon } from '../components';
+import { AppDrawer } from '../components/AppDrawer';
+import { AppDrawerContent } from '../components/AppDrawerContent';
+import { HomeScreenBottomBar } from '../components/HomeScreenBottomBar';
+import { Authorization } from '../screens/Authorization';
+import { Home } from '../screens/Home';
+import { ScanQr } from '../screens/ScanQr';
 import {
   AccountScreensStackParams,
   HomeScreensBottomTabs,
   RootStackParams,
 } from '../types/navigation';
-import { Authorization } from '../screens/Authorization';
-import { ScanQr } from '../screens/ScanQr';
-import { HomeScreenBottomBar } from '../components/HomeScreenBottomBar';
-import { DesmosIcon } from '../components';
-import { AppDrawerContent } from '../components/AppDrawerContent';
-import { Home } from '../screens/Home';
-import { AppDrawer } from '../components/AppDrawer';
 
 type HomeScreensProps = CompositeScreenProps<
   StackScreenProps<AccountScreensStackParams, 'HomeScreens'>,

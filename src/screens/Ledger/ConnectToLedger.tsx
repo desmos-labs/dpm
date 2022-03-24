@@ -1,7 +1,6 @@
-import React, { useCallback, useEffect } from 'react';
 import { StackScreenProps } from '@react-navigation/stack';
+import React, { useCallback, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
-import { ConnectToLedgerScreensStackParams } from '../../types/navigation';
 import {
   Button,
   DpmImage,
@@ -10,9 +9,10 @@ import {
   TopBar,
   Typography,
 } from '../../components';
+import { FlexPadding } from '../../components/FlexPadding';
 import useConnectToLedger from '../../hooks/ledger/useConnectToLedger';
 import { makeStyle } from '../../theming';
-import { FlexPadding } from '../../components/FlexPadding';
+import { ConnectToLedgerScreensStackParams } from '../../types/navigation';
 
 export type Props = StackScreenProps<ConnectToLedgerScreensStackParams, 'ConnectToLedger'>;
 

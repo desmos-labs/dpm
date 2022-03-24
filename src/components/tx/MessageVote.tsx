@@ -1,8 +1,8 @@
+import { AminoMsgVote, MsgVoteEncodeObject } from '@desmoslabs/sdk-core';
+import { VoteOption } from 'cosmjs-types/cosmos/gov/v1beta1/gov';
+import { MsgVote } from 'cosmjs-types/cosmos/gov/v1beta1/tx';
 import React, { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
-import { AminoMsgVote, MsgVoteEncodeObject } from '@desmoslabs/sdk-core';
-import { MsgVote } from 'cosmjs-types/cosmos/gov/v1beta1/tx';
-import { VoteOption } from 'cosmjs-types/cosmos/gov/v1beta1/gov';
 import { SimpleMessageComponent } from './SimpleMessageComponent';
 
 export type Props = {

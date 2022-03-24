@@ -1,6 +1,6 @@
 import React from 'react';
-import { Button as MaterialButton, useTheme } from 'react-native-paper';
 import { StyleProp, TextStyle, ViewStyle } from 'react-native';
+import { Button as MaterialButton, useTheme } from 'react-native-paper';
 import { IconSource } from 'react-native-paper/lib/typescript/components/Icon';
 import { makeStyleWithProps } from '../theming';
 

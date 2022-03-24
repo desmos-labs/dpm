@@ -1,9 +1,9 @@
-import React from 'react';
-import { TouchableOpacity, View, Text } from 'react-native';
 import { StdFee } from '@cosmjs/amino';
+import React from 'react';
 import { useTranslation } from 'react-i18next';
+import { Text, TouchableOpacity, View } from 'react-native';
 import { makeStyle } from '../theming';
-import { TxPriceLevel, TxFees } from '../types/fees';
+import { TxFees, TxPriceLevel } from '../types/fees';
 
 function feeToString(fee: StdFee): string {
   let amount = parseInt(fee.amount[0].amount);

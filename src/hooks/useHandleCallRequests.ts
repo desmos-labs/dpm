@@ -1,7 +1,7 @@
 import { NavigationProp, useNavigation } from '@react-navigation/native';
 import { useEffect } from 'react';
-import { AccountScreensStackParams } from '../types/navigation';
 import { useWalletConnectContext } from '../contexts/WalletConnectContext';
+import { AccountScreensStackParams } from '../types/navigation';
 
 /**
  * Hook to observe the WalletConnect call request and present them

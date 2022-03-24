@@ -1,5 +1,5 @@
-import { useCallback, useEffect, useState } from 'react';
 import { useNavigation } from '@react-navigation/native';
+import { useCallback, useEffect, useState } from 'react';
 import { AirdropApi } from '../api/AirdropApi';
 
 export enum FeeGrantStatus {
