@@ -12,7 +12,6 @@ import {
   ListItemSeparator,
   StyledSafeAreaView,
   TopBar,
-  Typography,
 } from '../components';
 import { useDrawerContext } from '../contexts/AppDrawerContex';
 import useAuthorizeOperation from '../hooks/useAuthorizeOperation';
@@ -26,6 +25,7 @@ import { TwoButtonModal } from '../modals/TwoButtonModal';
 import { makeStyle } from '../theming';
 import { DAppPermissions, DAppSession } from '../types/dapp';
 import { AccountScreensStackParams, HomeScreensBottomTabsParams } from '../types/navigation';
+import { Typography } from '../components/typography';
 
 export type Props = CompositeScreenProps<
   BottomTabScreenProps<HomeScreensBottomTabsParams, 'Authorization'>,

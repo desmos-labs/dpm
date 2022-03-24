@@ -20,12 +20,12 @@ export const MessageSend: React.FC<Props> = ({ protobufMessage, encodeObject, am
 
     return amount
       ? amount
-          .map((amount) => {
-            const converted = convertCoin(amount, 6, chainInfo.denomUnits);
+          .map((coinAmount) => {
+            const converted = convertCoin(coinAmount, 6, chainInfo.denomUnits);
             if (converted !== null) {
               return `${converted.amount} ${converted.denom.toUpperCase()}`;
             }
-            return `${amount.amount} ${amount.denom}`;
+            return `${coinAmount.amount} ${coinAmount.denom}`;
           })
           .join('\n')
       : '';

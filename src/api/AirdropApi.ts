@@ -99,7 +99,10 @@ export const AirdropApi = {
         text !== 'You already have some DSM in your balance' &&
         text !== 'Grant already requested'
       ) {
-        throw text;
+        throw {
+          name: 'General error',
+          message: text,
+        } as Error;
       }
     }
   },

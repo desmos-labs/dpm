@@ -21,22 +21,28 @@ export const SaveProfileMessage: React.FC<SaveProfileMessageProps> = ({
   const { t } = useTranslation();
 
   const profilePicture = useMemo(() => {
-    const profilePicture =
+    const profilePictureObject =
       protobufObject?.profilePicture ??
       encodeObject?.profilePicture ??
       aminoMessage?.profile_picture;
-    if (profilePicture?.indexOf('http://') === 0 || profilePicture?.indexOf('https://') === 0) {
-      return profilePicture;
+    if (
+      profilePictureObject?.indexOf('http://') === 0 ||
+      profilePictureObject?.indexOf('https://') === 0
+    ) {
+      return profilePictureObject;
     }
     return undefined;
   }, [encodeObject?.profilePicture, protobufObject?.profilePicture, aminoMessage?.profile_picture]);
 
   const coverPicture = useMemo(() => {
-    const coverPicture =
+    const coverPictureObject =
       protobufObject?.coverPicture ?? encodeObject?.coverPicture ?? aminoMessage?.cover_picture;
 
-    if (coverPicture?.indexOf('http://') === 0 || coverPicture?.indexOf('https://') === 0) {
-      return coverPicture;
+    if (
+      coverPictureObject?.indexOf('http://') === 0 ||
+      coverPictureObject?.indexOf('https://') === 0
+    ) {
+      return coverPictureObject;
     }
     return undefined;
   }, [encodeObject?.coverPicture, protobufObject?.coverPicture, aminoMessage?.cover_picture]);

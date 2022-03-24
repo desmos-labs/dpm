@@ -23,6 +23,7 @@ module.exports = {
     '@typescript-eslint/no-unused-vars': 0,
     'react/function-component-definition': 0,
     'react/no-unstable-nested-components': 1,
+    'react/no-unused-prop-types': 0,
     'react/require-default-props': 0,
   },
 };

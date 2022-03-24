@@ -1,7 +1,7 @@
 import React, { Key } from 'react';
 import { TouchableOpacity, View } from 'react-native';
 import { makeStyle } from '../theming';
-import { Typography } from './index';
+import { Typography } from './typography';
 
 export type Props = {
   /**

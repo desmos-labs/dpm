@@ -12,7 +12,6 @@ import {
   IconButton,
   StyledSafeAreaView,
   TopBar,
-  Typography,
 } from '../components';
 import { ProfileHeader } from '../components/ProfileHeader';
 import useChainLinks from '../hooks/useChainLinks';
@@ -21,6 +20,7 @@ import useSelectedAccount from '../hooks/useSelectedAccount';
 import { makeStyle } from '../theming';
 import { ChainLink } from '../types/link';
 import { AccountScreensStackParams } from '../types/navigation';
+import { Typography } from '../components/typography';
 
 export type Props = StackScreenProps<AccountScreensStackParams, 'Profile'>;
 

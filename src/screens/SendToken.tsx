@@ -3,7 +3,7 @@ import { useCurrentChainInfo } from '@desmoslabs/sdk-react';
 import { StackScreenProps } from '@react-navigation/stack';
 import React, { useCallback, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Button, StyledSafeAreaView, TextInput, TopBar, Typography } from '../components';
+import { Button, StyledSafeAreaView, TextInput, TopBar } from '../components';
 import { FlexPadding } from '../components/FlexPadding';
 import { MEMO_MAX_LENGTH } from '../constants/chain';
 import useFetchUserBalance from '../hooks/useFetchUserBalance';
@@ -13,6 +13,7 @@ import { computeTxFees, messagesGas } from '../types/fees';
 import { AccountScreensStackParams } from '../types/navigation';
 import { decimalSeparator, localeParseFloat } from '../utilils/parsing';
 import checkDesmosAddress from '../utilils/validators';
+import { Typography } from '../components/typography';
 
 export type Props = StackScreenProps<AccountScreensStackParams, 'SendToken'>;
 

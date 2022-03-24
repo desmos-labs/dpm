@@ -7,7 +7,7 @@ export interface Props {
   onPress?: ((account: ChainAccount) => void) | undefined;
 }
 
-export default function AccountCard(props: Props): JSX.Element {
+export function AccountCard(props: Props): JSX.Element {
   const { onPress, account } = props;
   const handleOnPress = () => {
     if (onPress !== undefined) {
@@ -18,7 +18,7 @@ export default function AccountCard(props: Props): JSX.Element {
   return (
     <TouchableHighlight onPress={handleOnPress}>
       <View>
-        <Text>Name: {account.name}</Text>
+        {/* <Text>Name: {account.name}</Text> */}
         <Text>Address: {account.address}</Text>
       </View>
     </TouchableHighlight>

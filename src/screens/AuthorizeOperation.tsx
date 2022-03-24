@@ -2,7 +2,7 @@ import { toBase64 } from '@cosmjs/encoding';
 import { StackScreenProps } from '@react-navigation/stack';
 import React, { useCallback, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Button, StyledSafeAreaView, TopBar, Typography } from '../components';
+import { Button, StyledSafeAreaView, TopBar } from '../components';
 import { FlexPadding } from '../components/FlexPadding';
 import { SecureTextInput } from '../components/SecureTextInput';
 import { useAppContext } from '../contexts/AppContext';
@@ -12,6 +12,7 @@ import { makeStyle } from '../theming';
 import { AccountScreensStackParams } from '../types/navigation';
 import * as SecureStorage from '../utilils/SecureStorage';
 import LocalWallet from '../wallet/LocalWallet';
+import { Typography } from '../components/typography';
 
 type Props = StackScreenProps<AccountScreensStackParams, 'AuthorizeOperation'>;
 

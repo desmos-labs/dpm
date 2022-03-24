@@ -11,7 +11,7 @@ export type Props = {
 };
 
 export const BaseMessageListItem: React.FC<Props> = (props) => {
-  const { icon, date } = props;
+  const { icon, date, renderContent } = props;
   const styles = useStyles();
 
   return (
@@ -20,7 +20,7 @@ export const BaseMessageListItem: React.FC<Props> = (props) => {
         <Image style={styles.image} source={icon} resizeMode="contain" />
       </View>
       <View style={styles.content}>
-        {props.renderContent()}
+        {renderContent()}
         <Typography.Caption style={styles.date}>{format(date, 'dd MMM, HH:mm')}</Typography.Caption>
       </View>
     </View>

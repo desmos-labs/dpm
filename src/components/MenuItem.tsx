@@ -2,7 +2,7 @@ import React from 'react';
 import { TouchableOpacity } from 'react-native';
 import { makeStyle } from '../theming';
 import { IconButton } from './IconButton';
-import { Typography } from './index';
+import { Typography } from './typography';
 
 export type MenuItemProps = {
   /**

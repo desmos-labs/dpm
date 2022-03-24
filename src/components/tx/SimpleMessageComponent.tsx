@@ -13,20 +13,21 @@ export type Props = {
 };
 
 export const SimpleMessageComponent: React.FC<Props> = (props) => {
+  const { icon, customIconView, iconSubtitle, fields } = props;
   const styles = useStyles();
-
+  const customIcon = customIconView !== undefined ? customIconView : null;
   return (
     <View>
       <View style={styles.txHeader}>
-        {props.icon !== undefined ? (
-          <Image style={styles.txIcon} source={props.icon} resizeMode="contain" />
-        ) : props.customIconView !== undefined ? (
-          props.customIconView
-        ) : null}
-        <Typography.Subtitle style={styles.headerAmount}>{props.iconSubtitle}</Typography.Subtitle>
+        {icon !== undefined ? (
+          <Image style={styles.txIcon} source={icon} resizeMode="contain" />
+        ) : (
+          customIcon
+        )}
+        <Typography.Subtitle style={styles.headerAmount}>{iconSubtitle}</Typography.Subtitle>
       </View>
-      {props.fields?.map((field, index) => (
-        <View key={`field-${index}`}>
+      {fields?.map((field, index) => (
+        <View key={`field-${index * 2}`}>
           <Divider />
           <LabeledValue label={field.label} value={field.value} />
         </View>

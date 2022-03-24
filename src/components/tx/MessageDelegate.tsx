@@ -20,9 +20,9 @@ export const MessageDelegate: React.FC<Props> = ({
   const chainInfo = useCurrentChainInfo();
 
   const amount = useMemo(() => {
-    const amount = protobufMessage?.amount ?? encodeObject?.amount ?? aminoMessage?.amount;
-    if (amount !== undefined) {
-      const converted = convertCoin(amount, 6, chainInfo.denomUnits);
+    const totalAmount = protobufMessage?.amount ?? encodeObject?.amount ?? aminoMessage?.amount;
+    if (totalAmount !== undefined) {
+      const converted = convertCoin(totalAmount, 6, chainInfo.denomUnits);
       if (converted !== null) {
         return `${converted.amount} ${converted.denom.toUpperCase()}`;
       }

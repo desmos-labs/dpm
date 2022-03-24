@@ -14,7 +14,6 @@ import {
   StyledSafeAreaView,
   TopBar,
   TransactionsList,
-  Typography,
 } from '../components';
 import { useDrawerContext } from '../contexts/AppDrawerContex';
 import useAirdropClaimable from '../hooks/useAirdropClaimable';
@@ -23,6 +22,7 @@ import useSelectedAccount from '../hooks/useSelectedAccount';
 import { makeStyle } from '../theming';
 import { AccountScreensStackParams, HomeScreensBottomTabsParams } from '../types/navigation';
 import { BroadcastedTx } from '../types/tx';
+import { Typography } from '../components/typography';
 
 export type Props = CompositeScreenProps<
   BottomTabScreenProps<HomeScreensBottomTabsParams, 'Home'>,

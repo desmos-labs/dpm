@@ -36,10 +36,10 @@ export const MessageMultiSend: React.FC<Props> = ({
   }, [chainInfo.denomUnits, encodeObject?.inputs, protobufMessage?.inputs, aminoMessage?.inputs]);
 
   const outputs = useMemo(() => {
-    const outputs =
+    const multiOutputs =
       protobufMessage?.outputs ?? encodeObject?.outputs ?? aminoMessage?.outputs ?? [];
 
-    return outputs
+    return multiOutputs
       .map((output) => {
         const serializedCoins = output.coins
           .map((c) => convertCoin(c, 6, chainInfo.denomUnits))

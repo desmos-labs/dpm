@@ -31,28 +31,24 @@ export type Props = {
 };
 
 export const TxMessage: React.FC<Props> = ({ message }) => {
-  const msg: TypedMessage = useMemo(() => {
-    return resolveMessageType(message);
-  }, [message]);
+  const msg: TypedMessage = useMemo(() => resolveMessageType(message), [message]);
 
   const encodeObject = useMemo(() => {
-    if (msg.type === MessageType.EncodeObject) {
+    if (msg.type === MessageType.EncodeObject_MSG_TYP) {
       return msg.encodeObject;
-    } else {
-      return undefined;
     }
+    return undefined;
   }, [msg]);
 
   const aminoMessage = useMemo(() => {
-    if (msg.type === MessageType.AminoMsg) {
+    if (msg.type === MessageType.AminoMsg_MSG_TYP) {
       return msg.aminoMsg;
-    } else {
-      return undefined;
     }
+    return undefined;
   }, [msg]);
 
   if (msg.typeUrl === MsgTypes.MsgSaveProfile) {
-    if (msg.type === MessageType.DirectMsg) {
+    if (msg.type === MessageType.DirectMsg_MSY_TYP) {
       const msgSaveProfile = MsgSaveProfile.decode(msg.directMessage.value);
       return <SaveProfileMessage protobufObject={msgSaveProfile} />;
     }
@@ -61,14 +57,14 @@ export const TxMessage: React.FC<Props> = ({ message }) => {
     );
   }
   if (msg.typeUrl === MsgTypes.MsgSend) {
-    if (msg.type === MessageType.DirectMsg) {
+    if (msg.type === MessageType.DirectMsg_MSY_TYP) {
       const decodedMessage = MsgSend.decode(msg.directMessage.value);
       return <MessageSend protobufMessage={decodedMessage} />;
     }
     return <MessageSend encodeObject={encodeObject?.value} aminoMessage={aminoMessage?.value} />;
   }
   if (msg.typeUrl === MsgTypes.MsgMultiSend) {
-    if (msg.type === MessageType.DirectMsg) {
+    if (msg.type === MessageType.DirectMsg_MSY_TYP) {
       const decodedMessage = MsgMultiSend.decode(msg.directMessage.value);
       return <MessageMultiSend protobufMessage={decodedMessage} />;
     }
@@ -77,14 +73,14 @@ export const TxMessage: React.FC<Props> = ({ message }) => {
     );
   }
   if (msg.typeUrl === MsgTypes.MsgVote) {
-    if (msg.type === MessageType.DirectMsg) {
+    if (msg.type === MessageType.DirectMsg_MSY_TYP) {
       const decodedMessage = MsgVote.decode(msg.directMessage.value);
       return <MessageVote protobufMessage={decodedMessage} />;
     }
     return <MessageVote encodeObject={encodeObject?.value} aminoMessage={aminoMessage?.value} />;
   }
   if (msg.typeUrl === MsgTypes.MsgDelegate) {
-    if (msg.type === MessageType.DirectMsg) {
+    if (msg.type === MessageType.DirectMsg_MSY_TYP) {
       const decodedMessage = MsgDelegate.decode(msg.directMessage.value);
       return <MessageDelegate protobufMessage={decodedMessage} />;
     }
@@ -93,75 +89,73 @@ export const TxMessage: React.FC<Props> = ({ message }) => {
     );
   }
   if (msg.typeUrl === MsgTypes.MsgWithdrawDelegatorReward) {
-    if (msg.type === MessageType.DirectMsg) {
+    if (msg.type === MessageType.DirectMsg_MSY_TYP) {
       const decodedMessage = MsgWithdrawDelegatorReward.decode(msg.directMessage.value);
       return <MessageWithdrawDelegatorRewards protobufMessage={decodedMessage} />;
-    } else {
-      return (
-        <MessageWithdrawDelegatorRewards
-          encodeObject={encodeObject?.value}
-          aminoMessage={aminoMessage?.value}
-        />
-      );
     }
-  } else if (msg.typeUrl === MsgTypes.MsgLinkChainAccount) {
-    if (msg.type === MessageType.DirectMsg) {
-      const decodedMessage = MsgLinkChainAccount.decode(msg.directMessage.value);
-      return <MessageLinkChainAccount protobufMessage={decodedMessage} />;
-    } else {
-      return (
-        <MessageLinkChainAccount
-          encodeObject={encodeObject?.value}
-          aminoMessage={aminoMessage?.value}
-        />
-      );
-    }
-  } else if (msg.typeUrl === MsgTypes.MsgUnlinkChainAccount) {
-    if (msg.type === MessageType.DirectMsg) {
-      const decodedMessage = MsgUnlinkChainAccount.decode(msg.directMessage.value);
-      return <MessageUnlinkChainAccount protobufMessage={decodedMessage} />;
-    } else {
-      return (
-        <MessageUnlinkChainAccount
-          encodeObject={encodeObject?.value}
-          aminoMessage={aminoMessage?.value}
-        />
-      );
-    }
-  } else {
     return (
-      <UnknownTxMessage
-        typeUrl={msg.typeUrl}
-        value={
-          msg.type === MessageType.DirectMsg
-            ? toHex(msg.directMessage.value)
-            : JSON.stringify(aminoMessage?.value ?? encodeObject?.value)
-        }
+      <MessageWithdrawDelegatorRewards
+        encodeObject={encodeObject?.value}
+        aminoMessage={aminoMessage?.value}
       />
     );
   }
+  if (msg.typeUrl === MsgTypes.MsgLinkChainAccount) {
+    if (msg.type === MessageType.DirectMsg_MSY_TYP) {
+      const decodedMessage = MsgLinkChainAccount.decode(msg.directMessage.value);
+      return <MessageLinkChainAccount protobufMessage={decodedMessage} />;
+    }
+    return (
+      <MessageLinkChainAccount
+        encodeObject={encodeObject?.value}
+        aminoMessage={aminoMessage?.value}
+      />
+    );
+  }
+  if (msg.typeUrl === MsgTypes.MsgUnlinkChainAccount) {
+    if (msg.type === MessageType.DirectMsg_MSY_TYP) {
+      const decodedMessage = MsgUnlinkChainAccount.decode(msg.directMessage.value);
+      return <MessageUnlinkChainAccount protobufMessage={decodedMessage} />;
+    }
+    return (
+      <MessageUnlinkChainAccount
+        encodeObject={encodeObject?.value}
+        aminoMessage={aminoMessage?.value}
+      />
+    );
+  }
+  return (
+    <UnknownTxMessage
+      typeUrl={msg.typeUrl}
+      value={
+        msg.type === MessageType.DirectMsg_MSY_TYP
+          ? toHex(msg.directMessage.value)
+          : JSON.stringify(aminoMessage?.value ?? encodeObject?.value)
+      }
+    />
+  );
 };
 
 enum MessageType {
-  EncodeObject,
-  DirectMsg,
-  AminoMsg,
+  EncodeObject_MSG_TYP,
+  DirectMsg_MSY_TYP,
+  AminoMsg_MSG_TYP,
 }
 
 type EncodeObjectMessage = {
-  type: MessageType.EncodeObject;
+  type: MessageType.EncodeObject_MSG_TYP;
   typeUrl: string;
   encodeObject: EncodeObject;
 };
 
 type AminoMessage = {
-  type: MessageType.AminoMsg;
+  type: MessageType.AminoMsg_MSG_TYP;
   typeUrl: string;
   aminoMsg: AminoMsg;
 };
 
 type DirectMessage = {
-  type: MessageType.DirectMsg;
+  type: MessageType.DirectMsg_MSY_TYP;
   typeUrl: string;
   directMessage: Any;
 };
@@ -173,47 +167,55 @@ function resolveMessageType(msg: EncodeObject | Any | AminoMsg): TypedMessage {
   const typeUrl = getMessageTypeUrl(type, msg);
 
   switch (type) {
-    case MessageType.DirectMsg:
+    case MessageType.DirectMsg_MSY_TYP:
       return {
         type,
         typeUrl,
         directMessage: msg as Any,
       };
 
-    case MessageType.EncodeObject:
+    case MessageType.EncodeObject_MSG_TYP:
       return {
         type,
         typeUrl,
         encodeObject: msg as EncodeObject,
       };
 
-    case MessageType.AminoMsg:
+    case MessageType.AminoMsg_MSG_TYP:
       return {
         type,
         typeUrl,
         aminoMsg: msg as AminoMsg,
+      };
+    default:
+      return {
+        type,
+        typeUrl,
+        directMessage: msg as Any,
       };
   }
 }
 
 function getMessageType(msg: EncodeObject | Any | AminoMsg): MessageType {
   if (msg.value.constructor === Uint8Array) {
-    return MessageType.EncodeObject;
+    return MessageType.EncodeObject_MSG_TYP;
   }
   if ((msg as EncodeObject).typeUrl !== undefined) {
-    return MessageType.EncodeObject;
+    return MessageType.EncodeObject_MSG_TYP;
   }
-  return MessageType.AminoMsg;
+  return MessageType.AminoMsg_MSG_TYP;
 }
 
 function getMessageTypeUrl(msgType: MessageType, msg: EncodeObject | Any | AminoMsg): string {
   switch (msgType) {
-    case MessageType.DirectMsg:
+    case MessageType.DirectMsg_MSY_TYP:
       return (msg as Any).typeUrl;
-    case MessageType.EncodeObject:
+    case MessageType.EncodeObject_MSG_TYP:
       return (msg as EncodeObject).typeUrl;
-    case MessageType.AminoMsg:
+    case MessageType.AminoMsg_MSG_TYP:
       return aminoMsgTypeToTypeUrl((msg as AminoMsg).type);
+    default:
+      return '';
   }
 }
 

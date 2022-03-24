@@ -13,7 +13,10 @@ import { ActivityIndicator } from 'react-native-paper';
 import { makeStyle } from '../theming';
 import { ChainLink } from '../types/link';
 import findLinkableChainInfoByName from '../utilils/find';
-import { Button, DpmImage, ListItemSeparator, Typography } from './index';
+import { Button } from './Button';
+import { DpmImage } from './DpmImage';
+import { ListItemSeparator } from './List';
+import { Typography } from './typography';
 
 export type Props = {
   connections: ChainLink[];

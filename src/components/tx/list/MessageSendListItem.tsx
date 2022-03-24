@@ -18,13 +18,14 @@ export const MessageSendListItem: React.FC<Props> = (props) => {
 
   const tokenSent = useMemo(() => {
     const totals =
-      props.encodeObject.value.amount?.reduce((previousValue, currentValue) => {
+      encodeObject.value.amount?.reduce((previousValue, currentValue) => {
+        const prev = { ...previousValue };
         if (previousValue[currentValue.denom] === undefined) {
-          previousValue[currentValue.denom] = parseFloat(currentValue.amount);
+          prev[currentValue.denom] = parseFloat(currentValue.amount);
         } else {
-          previousValue[currentValue.denom] += parseFloat(currentValue.amount);
+          prev[currentValue.denom] += parseFloat(currentValue.amount);
         }
-        return previousValue;
+        return prev;
       }, {} as Record<string, number>) ?? {};
     return Object.keys(totals)
       .map((denom) => {
@@ -41,7 +42,7 @@ export const MessageSendListItem: React.FC<Props> = (props) => {
       .filter((coin) => coin !== null)
       .map((coin) => `${coin!.amount} ${coin!.denom.toUpperCase()}`)
       .join('\n');
-  }, [currentChainInfo.denomUnits, props.encodeObject.value.amount]);
+  }, [currentChainInfo.denomUnits, encodeObject.value.amount]);
 
   return (
     <BaseMessageListItem

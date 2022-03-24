@@ -4,7 +4,8 @@ import { useTranslation } from 'react-i18next';
 import { Image, View } from 'react-native';
 import { makeStyle } from '../theming';
 import { DAppSession as DAppSessionType } from '../types/dapp';
-import { Button, Typography } from './index';
+import { Button } from './Button';
+import { Typography } from './typography';
 
 export type Props = {
   session: DAppSessionType;

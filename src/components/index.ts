@@ -1,5 +1,5 @@
 import { AccountBalance } from './AccountBalance';
-import AccountCard from './AccountCard';
+import { AccountCard } from './AccountCard';
 import { AddressListItem } from './AddressListItem';
 import { AirdropBanner } from './AirdropBanner';
 import { AvatarImage } from './AvatarImage';
@@ -26,10 +26,8 @@ import { TextInput } from './TextInput';
 import { ThemedLottieView } from './ThemedLottieView';
 import { TopBar } from './TopBar';
 import { TransactionsList } from './tx/list';
-import { Typography } from './typography';
 
 export {
-  Typography,
   AccountCard,
   Button,
   StyledSafeAreaView,

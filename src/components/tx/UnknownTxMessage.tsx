@@ -10,13 +10,14 @@ export type UnknownTxMessageProps = {
 };
 
 export const UnknownTxMessage: React.FC<UnknownTxMessageProps> = (props) => {
+  const { typeUrl, value } = props;
   const { t } = useTranslation();
 
   return (
     <View>
-      <LabeledValue label={t('message type')} value={props.typeUrl} />
+      <LabeledValue label={t('message type')} value={typeUrl} />
       <Divider />
-      <LabeledValue label={t('message value')} value={props.value} />
+      <LabeledValue label={t('message value')} value={value} />
     </View>
   );
 };

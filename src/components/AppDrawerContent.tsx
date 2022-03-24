@@ -16,15 +16,16 @@ import { makeStyle } from '../theming';
 import { ChainAccount } from '../types/chain';
 import { AccountScreensStackParams, RootStackParams } from '../types/navigation';
 import { Button } from './Button';
-import { ListItemSeparator, ProfileListItem, Typography } from './index';
+import { ListItemSeparator, ProfileListItem } from './index';
 import { StyledSafeAreaView } from './StyledSafeAreaView';
+import { Typography } from './typography';
 
 type AccountProfilePair = [ChainAccount, DesmosProfile | null];
 
 export type Props = {
   navigation: CompositeNavigationProp<
-    StackNavigationProp<AccountScreensStackParams, 'HomeScreens'>,
-    StackNavigationProp<RootStackParams>
+    StackNavigationProp<RootStackParams>,
+    StackNavigationProp<AccountScreensStackParams, 'HomeScreens'>
   >;
 };
 
@@ -70,8 +71,8 @@ export const AppDrawerContent: React.FC<Props> = (props) => {
   const onDeleteAccount = useCallback(
     async (pair: AccountProfilePair) => {
       const [account] = pair;
-      const accounts = await deleteAccount(account);
-      if (accounts.length === 0) {
+      const remainingAccounts = await deleteAccount(account);
+      if (remainingAccounts.length === 0) {
         navigation.reset({
           index: 0,
           routes: [
@@ -82,7 +83,7 @@ export const AppDrawerContent: React.FC<Props> = (props) => {
           ],
         });
       } else if (selectedAccount.address === account.address) {
-        onChangeAccount(accounts[0]);
+        onChangeAccount(remainingAccounts[0]);
       }
     },
     [navigation, deleteAccount, onChangeAccount, selectedAccount]
