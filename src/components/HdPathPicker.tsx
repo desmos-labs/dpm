@@ -26,17 +26,18 @@ export type Props = {
 };
 
 const safeParseInt = (value: string) => {
-  const number = parseInt(value);
-  if (isNaN(number)) {
+  const number = parseInt(value, 10);
+  if (Number.isNaN(number)) {
     return 0;
   }
   return number;
 };
 
 export const HdPathPicker: React.FC<Props> = (props) => {
+  const { onChange, value, disabled, allowCoinTypeEdit, style, children } = props;
   const styles = useStyle(props);
   const [hdPath, setHdPath] = useState<HdPath>(
-    props.value ?? {
+    value ?? {
       coinType: DESMOS_COIN_TYPE,
       account: 0,
       change: 0,
@@ -45,63 +46,66 @@ export const HdPathPicker: React.FC<Props> = (props) => {
   );
 
   useEffect(() => {
-    if (props.value !== undefined) {
-      setHdPath(props.value);
+    if (value !== undefined) {
+      setHdPath(value);
     }
-  }, [props.value]);
+  }, [value]);
 
-  const onElementChange = (value: string, element: keyof HdPath) => {
+  const onElementChange = (changedValue: string, changedElement: keyof HdPath) => {
     let newHdPath = hdPath;
-    switch (element) {
+    // eslint-disable-next-line default-case
+    switch (changedElement) {
       case 'coinType': {
         newHdPath = {
           ...hdPath,
-          coinType: safeParseInt(value),
+          coinType: safeParseInt(changedValue),
         };
         break;
       }
       case 'account':
         newHdPath = {
           ...hdPath,
-          account: safeParseInt(value),
+          account: safeParseInt(changedValue),
         };
         break;
       case 'change':
         newHdPath = {
           ...hdPath,
-          change: safeParseInt(value),
+          change: safeParseInt(changedValue),
         };
         break;
       case 'addressIndex':
         newHdPath = {
           ...hdPath,
-          addressIndex: safeParseInt(value),
+          addressIndex: safeParseInt(changedValue),
         };
         break;
     }
     setHdPath(newHdPath);
-    if (props.onChange !== undefined) {
-      props.onChange(newHdPath);
+    if (onChange !== undefined) {
+      onChange(newHdPath);
     }
   };
 
   return (
-    <View style={StyleSheet.compose(styles.root as StyleProp<ViewStyle>, props.style)}>
-      {props.allowCoinTypeEdit === true ? (
+    <View style={StyleSheet.compose(styles.root as StyleProp<ViewStyle>, style)}>
+      {allowCoinTypeEdit === true ? (
         <>
-          <Typography.Body1 style={styles.hdPathText}>m/44'/</Typography.Body1>
+          <Typography.Body1 style={styles.hdPathText}>m/44&#39;/</Typography.Body1>
           <TextInput
             style={styles.elements}
             inputStyle={styles.input}
             keyboardType="numeric"
             onChangeText={(v) => onElementChange(v, 'coinType')}
             value={hdPath.coinType.toString()}
-            editable={props.disabled !== true}
+            editable={disabled !== true}
           />
           <Text style={styles.hdPathText}>/</Text>
         </>
       ) : (
-        <Typography.Body1 style={styles.hdPathText}>m/44'/{hdPath.coinType}'/</Typography.Body1>
+        <Typography.Body1 style={styles.hdPathText}>
+          m/44&#39;/{hdPath.coinType}&#39;/
+        </Typography.Body1>
       )}
 
       <TextInput
@@ -110,7 +114,7 @@ export const HdPathPicker: React.FC<Props> = (props) => {
         keyboardType="numeric"
         onChangeText={(v) => onElementChange(v, 'account')}
         value={hdPath.account.toString()}
-        editable={props.disabled !== true}
+        editable={disabled !== true}
       />
       <Text style={styles.hdPathText}>/</Text>
       <TextInput
@@ -119,7 +123,7 @@ export const HdPathPicker: React.FC<Props> = (props) => {
         keyboardType="numeric"
         onChangeText={(v) => onElementChange(v, 'change')}
         value={hdPath.change.toString()}
-        editable={props.disabled !== true}
+        editable={disabled !== true}
       />
       <Text style={styles.hdPathText}>/</Text>
       <TextInput
@@ -128,7 +132,7 @@ export const HdPathPicker: React.FC<Props> = (props) => {
         keyboardType="numeric"
         onChangeText={(v) => onElementChange(v, 'addressIndex')}
         value={hdPath.addressIndex.toString()}
-        editable={props.disabled !== true}
+        editable={disabled !== true}
       />
     </View>
   );

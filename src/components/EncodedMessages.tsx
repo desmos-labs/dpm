@@ -15,8 +15,11 @@ export type Props = {
   style?: StyleProp<ViewStyle>;
 };
 
-export const EncodedMessages: React.FC<Props> = (props) => (
-  <ScrollView style={props.style} nestedScrollEnabled={props.nestedScrollEnabled}>
-    <Text>{JSON.stringify(props.encodeMessages, null, 2)}</Text>
-  </ScrollView>
-);
+export const EncodedMessages: React.FC<Props> = (props) => {
+  const { encodeMessages, nestedScrollEnabled, style } = props;
+  return (
+    <ScrollView style={style} nestedScrollEnabled={nestedScrollEnabled}>
+      <Text>{JSON.stringify(encodeMessages, null, 2)}</Text>
+    </ScrollView>
+  );
+};

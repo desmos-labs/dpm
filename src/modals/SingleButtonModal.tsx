@@ -1,10 +1,11 @@
 import { StackNavigationProp } from '@react-navigation/stack/lib/typescript/src/types';
 import React, { useCallback } from 'react';
 import { ImageSourcePropType, View } from 'react-native';
-import { Button, Typography } from '../components';
+import { Button } from '../components';
 import { DpmImage, DpmImages } from '../components/DpmImage';
 import { makeStyle } from '../theming';
 import { ModalComponent, RootStackParams } from '../types/navigation';
+import { Typography } from '../components/typography';
 
 export type SingleButtonModalParams = {
   /**

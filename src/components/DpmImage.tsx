@@ -20,13 +20,14 @@ export type Props = Omit<ImageProps, 'source'> & {
 };
 
 export const DpmImage: React.FC<Props> = (props) => {
+  const { source } = props;
   const darkTheme = useIsCurrentThemeDark();
 
   const imageSource = useMemo(() => {
-    const typeOfSource = typeof props.source;
+    const typeOfSource = typeof source;
 
     if (typeOfSource === 'string') {
-      switch (props.source as DpmImages) {
+      switch (source as DpmImages) {
         case 'no-transaction':
           return darkTheme
             ? require('../assets/no-transaction-dark.png')
@@ -61,11 +62,13 @@ export const DpmImage: React.FC<Props> = (props) => {
             : require('../assets/connect_ledger_light.png');
         case 'ledger':
           return require('../assets/ledger.png');
+        default:
+          return require('../assets/desmos-icon.png');
       }
     } else {
-      return props.source;
+      return source;
     }
-  }, [props.source, darkTheme]);
+  }, [source, darkTheme]);
 
   return <Image {...props} source={imageSource} />;
 };

@@ -1,13 +1,14 @@
 import { StackScreenProps } from '@react-navigation/stack';
 import React, { useCallback, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Button, StyledSafeAreaView, TopBar, Typography } from '../../components';
+import { Button, StyledSafeAreaView, TopBar } from '../../components';
 import { WalletPicker } from '../../components/WalletPicker';
 import { makeStyle } from '../../theming';
 import { DesmosHdPath } from '../../types/hdpath';
 import { DesmosLedgerApp } from '../../types/ledger';
 import { AccountCreationStackParams } from '../../types/navigation';
 import { Wallet } from '../../types/wallet';
+import { Typography } from '../../components/typography';
 
 export type Props = StackScreenProps<AccountCreationStackParams, 'PickDerivationPath'>;
 

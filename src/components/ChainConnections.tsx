@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react';
+import React, { useCallback, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import {
   FlatList,
@@ -69,6 +69,20 @@ export const ChainConnections: React.FC<Props> = ({
     ]
   );
 
+  const ListEmptyComponent = useMemo(
+    () => (
+      <View style={styles.noConnections}>
+        <DpmImage style={styles.noConnectionImage} resizeMode="cover" source="no-connection" />
+        <Typography.Body>{t('connect your chain account')}</Typography.Body>
+
+        <Button style={[styles.marginTop]} onPress={onConnectChain} mode="outlined">
+          {t('connect chain')}
+        </Button>
+      </View>
+    ),
+    []
+  );
+
   return (
     <View style={[styles.root, !noConnections ? styles.flexStart : null, style]}>
       {loading === true ? (
@@ -79,20 +93,7 @@ export const ChainConnections: React.FC<Props> = ({
           renderItem={renderItem}
           keyExtractor={(item) => item.externalAddress}
           ItemSeparatorComponent={ListItemSeparator}
-          ListEmptyComponent={() => (
-            <View style={styles.noConnections}>
-              <DpmImage
-                style={styles.noConnectionImage}
-                resizeMode="cover"
-                source="no-connection"
-              />
-              <Typography.Body>{t('connect your chain account')}</Typography.Body>
-
-              <Button style={[styles.marginTop]} onPress={onConnectChain} mode="outlined">
-                {t('connect chain')}
-              </Button>
-            </View>
-          )}
+          ListEmptyComponent={ListEmptyComponent}
         />
       )}
       {!noConnections && (

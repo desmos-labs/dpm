@@ -3,18 +3,12 @@ import React, { useCallback, useEffect, useState } from 'react';
 import { Trans, useTranslation } from 'react-i18next';
 import { View } from 'react-native';
 import { ActivityIndicator } from 'react-native-paper';
-import {
-  Button,
-  InlineButtons,
-  MnemonicGrid,
-  StyledSafeAreaView,
-  TopBar,
-  Typography,
-} from '../../components';
+import { Button, InlineButtons, MnemonicGrid, StyledSafeAreaView, TopBar } from '../../components';
 import Colors from '../../constants/colors';
 import { makeStyle } from '../../theming';
 import { AccountCreationStackParams } from '../../types/navigation';
 import { randomMnemonic } from '../../wallet/LocalWallet';
+import { Typography } from '../../components/typography';
 
 declare type Props = StackScreenProps<AccountCreationStackParams, 'GenerateNewMnemonic'>;
 
@@ -55,7 +49,6 @@ export default function GenerateNewMnemonic(props: Props): JSX.Element {
   // Hook to launch the generation when the user enter on the screen
   useEffect(() => {
     generateMnemonic(mnemonicLength).then(setMnemonic);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const onOkPressed = () => {

@@ -13,29 +13,29 @@ export type Props = {
 };
 
 export function DAppSession(props: Props) {
-  const { session } = props;
+  const { session, onRevoke } = props;
   const { t } = useTranslation();
   const styles = useStyles();
 
   const onRevokePressed = useCallback(() => {
-    props.onRevoke(props.session);
+    onRevoke(session);
   }, [props]);
 
   const appIcon = useMemo(() => {
-    if (props.session.iconUri === undefined) {
+    if (session.iconUri === undefined) {
       return require('../assets/desmos-icon-orange.png');
     }
-    return { uri: props.session.iconUri };
-  }, [props.session.iconUri]);
+    return { uri: session.iconUri };
+  }, [session.iconUri]);
 
   const dateString = useMemo(
-    () => format(props.session.creationDate, 'MMM dd, yyyy'),
-    [props.session.creationDate]
+    () => format(session.creationDate, 'MMM dd, yyyy'),
+    [session.creationDate]
   );
 
   const permissionsString = useMemo(
-    () => props.session.permissions.map((permission) => `#${permission.toString()}`).join(' '),
-    [props.session.permissions]
+    () => session.permissions.map((permission) => `#${permission.toString()}`).join(' '),
+    [session.permissions]
   );
 
   return (

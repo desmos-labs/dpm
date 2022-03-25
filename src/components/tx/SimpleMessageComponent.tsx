@@ -2,7 +2,7 @@ import React from 'react';
 import { Image, ImageProps, View } from 'react-native';
 import { makeStyle } from '../../theming';
 import { Divider } from '../Divider';
-import { Typography } from '../index';
+import { Typography } from '../typography';
 import { LabeledValue } from '../LabeledValue';
 
 export type Props = {

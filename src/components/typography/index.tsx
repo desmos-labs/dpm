@@ -8,6 +8,7 @@ function createTextComponent(
   styleProvider: (theme: ReactNativePaper.Theme) => StyleProp<TextStyle>
 ): React.FC<TypographyComponentProps> {
   return (props) => {
+    // eslint-disable-next-line react/prop-types
     const { style } = props;
     const theme = useTheme();
     const themeStyle = useMemo(() => styleProvider(theme), [theme]);

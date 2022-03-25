@@ -20,11 +20,12 @@ export type Props = {
 };
 
 export const AvatarImage: React.FC<Props> = (props) => {
+  const { source, size, onPress, style } = props;
   const styles = useStyles(props);
 
   return (
-    <TouchableWithoutFeedback onPress={props.onPress}>
-      <FastImage style={[props.style, styles.image]} source={props.source} resizeMode="cover" />
+    <TouchableWithoutFeedback onPress={onPress}>
+      <FastImage style={[style, styles.image]} source={source} resizeMode="cover" />
     </TouchableWithoutFeedback>
   );
 };

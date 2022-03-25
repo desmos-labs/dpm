@@ -19,7 +19,6 @@ import {
   PaginatedFlatList,
   StyledSafeAreaView,
   TopBar,
-  Typography,
 } from '../../components';
 import { FlexPadding } from '../../components/FlexPadding';
 import useAddChinLink from '../../hooks/useAddChainLink';
@@ -36,9 +35,10 @@ import {
   ImportMode,
 } from '../../types/navigation';
 import { generateProof } from '../../utilils/chainlink';
-import { toCosmjsHdPath } from '../../utilils/hdpath';
-import { TerraLedgerApp } from '../../utilils/terra';
+import toCosmjsHdPath from '../../utilils/hdpath';
+import TerraLedgerApp from '../../utilils/terra';
 import LocalWallet from '../../wallet/LocalWallet';
+import { Typography } from '../../components/typography';
 
 type Wallet = {
   signer: OfflineSigner;
@@ -101,9 +101,9 @@ async function generateWalletsFromLedger(
 }
 
 export const PickAddress: React.FC<Props> = (props) => {
-  const { navigation } = props;
+  const { navigation, route } = props;
   const { mnemonic, importMode, chain, feeGranter, backAction, ledgerTransport, ledgerApp } =
-    props.route.params;
+    route.params;
   const { t } = useTranslation();
   const styles = useStyles();
   const defaultHdPath = useMemo(() => {
@@ -167,10 +167,15 @@ export const PickAddress: React.FC<Props> = (props) => {
       const wallet = await generateWalletFromHdPath(selectedHdPath);
       setSelectedWallet(wallet);
     })();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const toggleAddressPicker = useCallback(() => {
+    console.log('wallet', selectedWallet);
+    if (!selectedWallet?.hdPath.account) {
+      setGenerationError('esplodo');
+      return;
+    }
+
     setAddressPickerVisible((visible) => {
       if (!visible) {
         // The address picker is is being displayed,
@@ -205,7 +210,6 @@ export const PickAddress: React.FC<Props> = (props) => {
 
   const listKeyExtractor = useCallback((item: Wallet, _: number) => item.address, []);
 
-  // eslint-disable-next-line react-hooks/exhaustive-deps
   const debouncedGenerateWallet = useCallback(
     debounce(async (hdPath: HdPath) => {
       const wallet = await generateWalletFromHdPath(hdPath);
@@ -227,7 +231,7 @@ export const PickAddress: React.FC<Props> = (props) => {
     async (offset: number, limit: number) => {
       setGeneratingAddresses(true);
       const hdPaths: HdPath[] = [];
-      for (let walletIndex = offset; walletIndex < limit; walletIndex++) {
+      for (let walletIndex = offset; walletIndex < limit; walletIndex + 1) {
         const hdPath: HdPath = {
           coinType: selectedHdPath.coinType,
           account: walletIndex,

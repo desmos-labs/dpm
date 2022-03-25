@@ -25,5 +25,6 @@ module.exports = {
     'react/no-unstable-nested-components': 1,
     'react/no-unused-prop-types': 0,
     'react/require-default-props': 0,
+    'react/jsx-props-no-spreading': 0,
   },
 };

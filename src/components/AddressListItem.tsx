@@ -24,15 +24,16 @@ export type Props = {
 };
 
 export const AddressListItem: React.FC<Props> = (props) => {
-  const styles = useStyles(props.highlight);
+  const { number, address, highlight, onPress, key, children } = props;
+  const styles = useStyles(highlight);
 
   return (
-    <TouchableOpacity style={styles.container} onPress={props.onPress} key={props.key}>
+    <TouchableOpacity style={styles.container} onPress={onPress} key={key}>
       <View style={styles.row}>
-        <Typography.Body1 style={styles.number}>#{props.number}</Typography.Body1>
+        <Typography.Body1 style={styles.number}>#{number}</Typography.Body1>
 
         <Typography.Body1 style={styles.address} ellipsizeMode="middle" numberOfLines={1}>
-          {props.address}
+          {address}
         </Typography.Body1>
       </View>
     </TouchableOpacity>

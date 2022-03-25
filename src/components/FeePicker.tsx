@@ -6,7 +6,7 @@ import { makeStyle } from '../theming';
 import { TxFees, TxPriceLevel } from '../types/fees';
 
 function feeToString(fee: StdFee): string {
-  let amount = parseInt(fee.amount[0].amount);
+  let amount = parseInt(fee.amount[0].amount, 10);
   let { denom } = fee.amount[0];
 
   if (denom[0] === 'u') {
@@ -86,14 +86,15 @@ export type Props = {
 };
 
 export const FeePicker: React.FC<Props> = (props) => {
+  const { feeLevel, fees, disabled, onChange } = props;
   const { t } = useTranslation();
   const styles = useStyles();
-  const [value, setValue] = React.useState<TxPriceLevel>(props.feeLevel);
+  const [value, setValue] = React.useState<TxPriceLevel>(feeLevel);
 
-  const onValueChange = (value: TxPriceLevel) => {
-    setValue(value);
-    if (props.onChange !== undefined) {
-      props.onChange(props.fees[value]);
+  const onValueChange = (changedValue: TxPriceLevel) => {
+    setValue(changedValue);
+    if (onChange !== undefined) {
+      onChange(fees[changedValue]);
     }
   };
 
@@ -101,13 +102,13 @@ export const FeePicker: React.FC<Props> = (props) => {
     <View style={styles.root}>
       <TouchableOpacity
         style={[styles.option, styles.optionLeft, value === 'low' ? styles.selectedOption : {}]}
-        disabled={props.disabled}
+        disabled={disabled}
         onPress={() => onValueChange('low')}
       >
         <Text style={[styles.optionTitle, value === 'low' ? styles.selectedOptionTypography : {}]}>
           {t('low fee')}
         </Text>
-        <Text>{feeToString(props.fees.low)}</Text>
+        <Text>{feeToString(fees.low)}</Text>
       </TouchableOpacity>
 
       <TouchableOpacity
@@ -116,7 +117,7 @@ export const FeePicker: React.FC<Props> = (props) => {
           styles.optionCenter,
           value === 'average' ? styles.selectedOption : {},
         ]}
-        disabled={props.disabled}
+        disabled={disabled}
         onPress={() => onValueChange('average')}
       >
         <Text
@@ -124,18 +125,18 @@ export const FeePicker: React.FC<Props> = (props) => {
         >
           {t('average fee')}
         </Text>
-        <Text>{feeToString(props.fees.average)}</Text>
+        <Text>{feeToString(fees.average)}</Text>
       </TouchableOpacity>
 
       <TouchableOpacity
         style={[styles.option, styles.optionRight, value === 'high' ? styles.selectedOption : {}]}
-        disabled={props.disabled}
+        disabled={disabled}
         onPress={() => onValueChange('high')}
       >
         <Text style={[styles.optionTitle, value === 'high' ? styles.selectedOptionTypography : {}]}>
           {t('high fee')}
         </Text>
-        <Text>{feeToString(props.fees.high)}</Text>
+        <Text>{feeToString(fees.high)}</Text>
       </TouchableOpacity>
     </View>
   );

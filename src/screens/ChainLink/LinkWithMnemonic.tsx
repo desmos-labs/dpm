@@ -2,12 +2,13 @@ import { EnglishMnemonic } from '@cosmjs/crypto';
 import { StackScreenProps } from '@react-navigation/stack';
 import React, { useState } from 'react';
 import { Trans, useTranslation } from 'react-i18next';
-import { Button, StyledSafeAreaView, TextInput, TopBar, Typography } from '../../components';
+import { Button, StyledSafeAreaView, TextInput, TopBar } from '../../components';
 import { FlexPadding } from '../../components/FlexPadding';
 import { makeStyle } from '../../theming';
 import { ChainLinkScreensStackParams } from '../../types/navigation';
-import { sanitizeMnemonic } from '../../utilils/mnemonic';
+import sanitizeMnemonic from '../../utilils/mnemonic';
 import { checkMnemonic } from '../../wallet/LocalWallet';
+import { Typography } from '../../components/typography';
 
 export type Props = StackScreenProps<ChainLinkScreensStackParams, 'LinkWithMnemonic'>;
 
@@ -34,31 +35,34 @@ export const LinkWithMnemonic: React.FC<Props> = ({ navigation, route }) => {
   };
 
   const onNextPressed = () => {
-    const sanitizedMnemonic = sanitizeMnemonic(mnemonic, {
-      removeTrailingSpaces: true,
-    });
-
-    if (checkMnemonic(sanitizedMnemonic)) {
-      navigation.navigate({
-        name: 'PickAddress',
-        params: {
-          importMode,
-          chain,
-          mnemonic,
-          feeGranter,
-          backAction,
-        },
-      });
+    if (mnemonic === '') {
+      setErrorMessage(t('empty recovery passphrase'));
     } else {
-      const invalidWords = sanitizedMnemonic
-        .split(' ')
-        .filter((w) => w.length > 0 && EnglishMnemonic.wordlist.indexOf(w) === -1)
-        .join(',');
-
-      if (invalidWords.length > 0) {
-        setErrorMessage(`${t('invalid words')}:\n${invalidWords}`);
+      const sanitizedMnemonic = sanitizeMnemonic(mnemonic, {
+        removeTrailingSpaces: true,
+      });
+      if (checkMnemonic(sanitizedMnemonic)) {
+        navigation.navigate({
+          name: 'PickAddress',
+          params: {
+            importMode,
+            chain,
+            mnemonic,
+            feeGranter,
+            backAction,
+          },
+        });
       } else {
-        setErrorMessage(t('invalid recovery passphrase'));
+        const invalidWords = sanitizedMnemonic
+          .split(' ')
+          .filter((w) => w.length > 0 && EnglishMnemonic.wordlist.indexOf(w) === -1)
+          .join(',');
+
+        if (invalidWords.length > 0) {
+          setErrorMessage(`${t('invalid words')}:\n${invalidWords}`);
+        } else {
+          setErrorMessage(t('invalid recovery passphrase'));
+        }
       }
     }
   };

@@ -7,9 +7,11 @@ export type Props = {
 };
 
 export const Divider: (props: Props) => JSX.Element | null = (props) => {
+  // eslint-disable-next-line react/prop-types
+  const { style } = props;
   const styles = useStyles();
 
-  return <View style={StyleSheet.compose(styles.divider as StyleProp<ViewStyle>, props.style)} />;
+  return <View style={StyleSheet.compose(styles.divider as StyleProp<ViewStyle>, style)} />;
 };
 
 const useStyles = makeStyle((theme) => ({

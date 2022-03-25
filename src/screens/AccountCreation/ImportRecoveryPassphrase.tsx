@@ -2,12 +2,13 @@ import { EnglishMnemonic } from '@cosmjs/crypto';
 import { StackScreenProps } from '@react-navigation/stack';
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Button, StyledSafeAreaView, TextInput, TopBar, Typography } from '../../components';
+import { Button, StyledSafeAreaView, TextInput, TopBar } from '../../components';
 import { FlexPadding } from '../../components/FlexPadding';
 import { makeStyle } from '../../theming';
 import { AccountCreationStackParams } from '../../types/navigation';
 import sanitizeMnemonic from '../../utilils/mnemonic';
 import { checkMnemonic } from '../../wallet/LocalWallet';
+import { Typography } from '../../components/typography';
 
 declare type Props = StackScreenProps<AccountCreationStackParams, 'ImportRecoveryPassphrase'>;
 

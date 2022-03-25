@@ -47,33 +47,42 @@ export type Props = {
 };
 
 export const Button: React.FC<Props> = (props) => {
+  const {
+    mode,
+    color,
+    icon,
+    onPress,
+    labelStyle,
+    loading,
+    disabled,
+    accent,
+    contentStyle,
+    style,
+    children,
+  } = props;
   const theme = useTheme();
   const styles = useStyles(props);
-
+  const accentColor = accent ? theme.colors.accent : theme.colors.primary;
   return (
     <MaterialButton
-      icon={props.icon}
-      color={props.color ? props.color : props.accent ? theme.colors.accent : theme.colors.primary}
-      onPress={props.onPress}
-      mode={props.mode}
-      labelStyle={[styles.labelStyle, props.labelStyle]}
-      style={[styles.btnStyle, props.style]}
-      contentStyle={[styles.contentStyle, props.contentStyle]}
-      loading={props.loading}
-      disabled={props.disabled}
+      icon={icon}
+      color={color || accentColor}
+      onPress={onPress}
+      mode={mode}
+      labelStyle={[styles.labelStyle, labelStyle]}
+      style={[styles.btnStyle, style]}
+      contentStyle={[styles.contentStyle, contentStyle]}
+      loading={loading}
+      disabled={disabled}
     >
-      {props.children}
+      {children}
     </MaterialButton>
   );
 };
 
 const useStyles = makeStyleWithProps((props: Props, theme) => {
-  const color = props.color
-    ? props.color
-    : props.accent
-    ? theme.colors.accent
-    : theme.colors.primary;
-
+  const accent = props.accent ? theme.colors.accent : theme.colors.primary;
+  const color = props.color ? props.color : accent;
   return {
     labelStyle: {
       fontFamily: 'Poppins-Medium',

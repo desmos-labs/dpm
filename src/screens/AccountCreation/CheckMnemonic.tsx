@@ -2,16 +2,11 @@ import { StackScreenProps } from '@react-navigation/stack';
 import React, { useCallback, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { View } from 'react-native';
-import {
-  Button,
-  MnemonicWordBadge,
-  StyledSafeAreaView,
-  TopBar,
-  Typography,
-} from '../../components';
+import { Button, MnemonicWordBadge, StyledSafeAreaView, TopBar } from '../../components';
 import { makeStyle } from '../../theming';
 import { AccountCreationStackParams } from '../../types/navigation';
-import { shuffleArray } from '../../utilils/shuffle';
+import shuffleArray from '../../utilils/shuffle';
+import { Typography } from '../../components/typography';
 
 declare type Props = StackScreenProps<AccountCreationStackParams, 'CheckMnemonic'>;
 export default function CheckMnemonic(props: Props): JSX.Element {

@@ -9,11 +9,11 @@ import {
   ListItemSeparator,
   StyledSafeAreaView,
   TopBar,
-  Typography,
 } from '../../components';
 import { makeStyle } from '../../theming';
 import { LedgerApp } from '../../types/ledger';
 import { ChainLinkScreensStackParams, ImportMode, RootStackParams } from '../../types/navigation';
+import { Typography } from '../../components/typography';
 
 export type Props = CompositeScreenProps<
   StackScreenProps<ChainLinkScreensStackParams, 'SelectLedgerApp'>,

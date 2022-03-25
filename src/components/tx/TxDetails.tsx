@@ -22,7 +22,7 @@ export type Props = {
 };
 
 export const TxDetails: React.FC<Props> = (props) => {
-  const { memo, messages, fee, success, dateTime } = props;
+  const { memo, messages, fee, success, dateTime, style } = props;
   const { t } = useTranslation();
   const chainInfo = useCurrentChainInfo();
 
@@ -52,11 +52,11 @@ export const TxDetails: React.FC<Props> = (props) => {
 
   return (
     <View style={styles.root} onStartShouldSetResponder={() => true}>
-      <ScrollView style={props.style}>
+      <ScrollView style={style}>
         {messages.map((msg: EncodeObject | Any | AminoMsg, i: number) => (
-          <View key={`view_${i}`}>
-            <TxMessage key={`msg_${i}`} message={msg} />
-            <Divider key={`divider_${i}`} />
+          <View key={`view_${i * 2}`}>
+            <TxMessage key={`msg_${i * 2}`} message={msg} />
+            <Divider key={`divider_${i * 2}`} />
           </View>
         ))}
         <LabeledValue label={t('fee')} value={txFex} />
