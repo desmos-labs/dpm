@@ -21,9 +21,11 @@ export const MessageWithdrawDelegatorRewardListItem: React.FC<Props> = (props) =
       renderContent={() => (
         <View>
           <Typography.Body1>{t('withdraw rewards')}</Typography.Body1>
-          <Typography.Caption>
-            {t('from')} {encodeObject.value.validatorAddress}
-          </Typography.Caption>
+          <View style={{ flexDirection: 'row', flexShrink: 1 }}>
+            <Typography.Caption>
+              {t('from')} {encodeObject.value.validatorAddress}
+            </Typography.Caption>
+          </View>
         </View>
       )}
     />

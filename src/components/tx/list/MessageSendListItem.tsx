@@ -53,9 +53,11 @@ export const MessageSendListItem: React.FC<Props> = (props) => {
           <Typography.Body1>
             {t('send')} {tokenSent}
           </Typography.Body1>
-          <Typography.Caption>
-            {t('to')} {encodeObject.value.toAddress}
-          </Typography.Caption>
+          <View style={{ flexDirection: 'row', flexShrink: 1 }}>
+            <Typography.Caption>
+              {t('to')} {encodeObject.value.toAddress}
+            </Typography.Caption>
+          </View>
         </View>
       )}
     />

@@ -7,7 +7,7 @@ import { FlexPadding } from '../components/FlexPadding';
 import { SecureTextInput } from '../components/SecureTextInput';
 import { useAppContext } from '../contexts/AppContext';
 import AccountSource from '../sources/AccountSource';
-import WalletSource from '../sources/LocalWalletsSource';
+import { LocalWalletsSource } from '../sources/LocalWalletsSource';
 import { makeStyle } from '../theming';
 import { AccountScreensStackParams } from '../types/navigation';
 import * as SecureStorage from '../utilils/SecureStorage';
@@ -44,7 +44,7 @@ const AuthorizeOperation: React.FC<Props> = (props) => {
     try {
       let wallet: LocalWallet | null;
       if (provideWallet) {
-        wallet = await WalletSource.getWallet(address, password);
+        wallet = await LocalWalletsSource.getWallet(address, password);
       } else {
         wallet = null;
         // Get the auth challenge from the device memory
@@ -60,7 +60,7 @@ const AuthorizeOperation: React.FC<Props> = (props) => {
         } else {
           // On the old version this key may not exist
           // fallback to unlock wallet to check the password
-          const fallbackWallet = await WalletSource.getWallet(address, password);
+          const fallbackWallet = await LocalWalletsSource.getWallet(address, password);
           if (fallbackWallet !== null) {
             const account = await AccountSource.getAccount(address);
             // If the current chain account don't have the public key field or the

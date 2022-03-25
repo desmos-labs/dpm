@@ -16,7 +16,7 @@ export type Props<ItemT> = Omit<FlatListProps<ItemT>, 'data'> & {
 };
 
 export function PaginatedFlatList<ItemT = any>(props: Props<ItemT>): JSX.Element {
-  const { loadPage, itemsPerPage } = props;
+  const { loadPage, itemsPerPage, onEndReached } = props;
   const theme = useTheme();
   const [loading, setLoading] = useState(false);
   const [currentOffset, setCurrentOffset] = useState(0);
@@ -48,16 +48,15 @@ export function PaginatedFlatList<ItemT = any>(props: Props<ItemT>): JSX.Element
     if (currentOffset === 0) {
       fetchNextPage();
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const onEndReached = useCallback(
+  const onPageEndReached = useCallback(
     (info: { distanceFromEnd: number }) => {
       if (!loading) {
         fetchNextPage();
       }
-      if (props.onEndReached) {
-        props.onEndReached(info);
+      if (onEndReached) {
+        onEndReached(info);
       }
     },
     [loading, fetchNextPage, props]
@@ -67,7 +66,7 @@ export function PaginatedFlatList<ItemT = any>(props: Props<ItemT>): JSX.Element
     <FlatList
       {...props}
       data={data}
-      onEndReached={onEndReached}
+      onEndReached={onPageEndReached}
       ListFooterComponent={
         <ActivityIndicator
           animating={loading}

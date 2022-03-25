@@ -36,9 +36,11 @@ export const MessageDelegateListItem: React.FC<Props> = (props) => {
           <Typography.Body1>
             {t('delegate')} {delegateAmount}
           </Typography.Body1>
-          <Typography.Caption>
-            {t('to')} {encodeObject.value.validatorAddress}
-          </Typography.Caption>
+          <View style={{ flexDirection: 'row', flexShrink: 1 }}>
+            <Typography.Caption>
+              {t('to')} {encodeObject.value.validatorAddress}
+            </Typography.Caption>
+          </View>
         </View>
       )}
     />

@@ -22,7 +22,9 @@ export const MessageUnlinkChainAccountListItem: React.FC<Props> = (props) => {
       renderContent={() => (
         <View>
           <Typography.Body1>{t('tx type unlink chain account')}</Typography.Body1>
-          <Typography.Caption>{target}</Typography.Caption>
+          <View style={{ flexDirection: 'row', flexShrink: 1 }}>
+            <Typography.Caption>{target}</Typography.Caption>
+          </View>
         </View>
       )}
     />

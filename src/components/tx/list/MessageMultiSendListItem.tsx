@@ -47,7 +47,7 @@ export const MessageMultiSendListItem: React.FC<Props> = (props) => {
           </Typography.Body1>
           <Typography.Caption>{t('to')}</Typography.Caption>
           {outputAddresses.map((address, index) => (
-            <Typography.Caption key={index.toString()} numberOfLines={1} ellipsizeMode="middle">
+            <Typography.Caption key={`w${index * 2}`} numberOfLines={1} ellipsizeMode="middle">
               {address}
             </Typography.Caption>
           ))}

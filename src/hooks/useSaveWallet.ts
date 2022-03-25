@@ -1,5 +1,5 @@
 import { useCallback } from 'react';
-import LocalWalletsSource from '../sources/LocalWalletsSource';
+import { LocalWalletsSource } from '../sources/LocalWalletsSource';
 import LocalWallet from '../wallet/LocalWallet';
 
 /**

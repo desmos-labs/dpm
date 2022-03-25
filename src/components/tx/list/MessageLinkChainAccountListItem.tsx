@@ -24,7 +24,7 @@ export const MessageLinkChainAccountListItem: React.FC<Props> = (props) => {
       const bech32Address = Bech32Address.decode(chainAddress.value);
       return bech32Address.value;
     }
-    return '';
+    return 'unknown address';
   }, [chainAddress]);
 
   return (
@@ -34,9 +34,11 @@ export const MessageLinkChainAccountListItem: React.FC<Props> = (props) => {
       renderContent={() => (
         <View>
           <Typography.Body1>{t('tx type link chain account')}</Typography.Body1>
-          <Typography.Caption>
-            {t('to')} {chainAccount}
-          </Typography.Caption>
+          <View style={{ flexDirection: 'row', flexShrink: 1 }}>
+            <Typography.Caption>
+              {t('to')} {chainAccount}
+            </Typography.Caption>
+          </View>
         </View>
       )}
     />

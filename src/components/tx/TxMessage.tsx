@@ -12,7 +12,7 @@ import { MsgVote } from 'cosmjs-types/cosmos/gov/v1beta1/tx';
 import { MsgDelegate } from 'cosmjs-types/cosmos/staking/v1beta1/tx';
 import { Any } from 'cosmjs-types/google/protobuf/any';
 import React, { useMemo } from 'react';
-import { MsgTypes } from '../../types/msgtypes';
+import MsgTypes from '../../types/msgtypes';
 import { MessageDelegate } from './MessageDelegate';
 import { MessageLinkChainAccount } from './MessageLinkChainAccount';
 import { MessageMultiSend } from './MessageMultiSend';
