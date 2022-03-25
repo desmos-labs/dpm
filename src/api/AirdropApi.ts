@@ -1,3 +1,4 @@
+// Airdrop is finished, so we are cleaning up the whole application from the airdrop module
 const API_ENDPOINT = __DEV__
   ? 'https://test-api.airdrop.desmos.network'
   : 'https://api.airdrop.desmos.network';

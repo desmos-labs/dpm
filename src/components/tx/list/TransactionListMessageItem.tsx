@@ -10,7 +10,7 @@ import {
 } from '@desmoslabs/sdk-core';
 import React from 'react';
 import { MsgMultiSendEncodeObject } from '../../../types/encodeobject';
-import { MsgTypes } from '../../../types/msgtypes';
+import MsgTypes from '../../../types/msgtypes';
 import { MessageDelegateListItem } from './MessageDelegateListItem';
 import { MessageLinkChainAccountListItem } from './MessageLinkChainAccountListItem';
 import { MessageMultiSendListItem } from './MessageMultiSendListItem';

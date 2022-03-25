@@ -1,8 +1,5 @@
 import { LaunchpadLedger } from '@cosmjs/ledger-amino';
-// eslint-disable-next-line import/no-duplicates
-// eslint-disable-next-line import/no-duplicates
 import BluetoothTransport from '@ledgerhq/react-native-hw-transport-ble';
-import TransportBLE from '@ledgerhq/react-native-hw-transport-ble';
 import { useCallback, useEffect, useState } from 'react';
 import { BleLedger, LedgerApp } from '../../types/ledger';
 
@@ -20,7 +17,9 @@ export default function useConnectToLedger(ledger: BleLedger, ledgerApp: LedgerA
       setTransport(undefined);
 
       try {
-        const transportToUse: BluetoothTransport = await TransportBLE.open(ledgerToConnect.id);
+        const transportToUse: BluetoothTransport = await BluetoothTransport.open(
+          ledgerToConnect.id
+        );
         const launchpad = new LaunchpadLedger(transportToUse, {
           ledgerAppName: ledgerAppToUse.name,
         });

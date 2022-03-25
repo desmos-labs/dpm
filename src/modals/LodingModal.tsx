@@ -1,9 +1,9 @@
 import React from 'react';
 import { View } from 'react-native';
 import { ThemedLottieView } from '../components';
-import { makeStyle } from '../theming';
-import { ModalComponent } from '../types/navigation';
 import { Typography } from '../components/typography';
+import { makeStyle } from '../theming';
+import { ModalComponentProps } from '../types/navigation';
 
 export type SingleButtonModalParams = {
   /**
@@ -12,7 +12,7 @@ export type SingleButtonModalParams = {
   text: string;
 };
 
-export const LoadingModal: ModalComponent<SingleButtonModalParams> = (props) => {
+export const LoadingModal: React.FC<ModalComponentProps<SingleButtonModalParams>> = (props) => {
   const { params } = props;
   const styles = useStyles();
 

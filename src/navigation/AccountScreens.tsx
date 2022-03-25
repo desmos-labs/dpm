@@ -13,7 +13,6 @@ import { SendToken } from '../screens/SendToken';
 import { TxDetails } from '../screens/TxDetails';
 import { WalletConnectCallRequest } from '../screens/WalletConnectCallRequest';
 import { AccountScreensStack } from '../types/navigation';
-import { AirdropScreens } from './AirdropScreens';
 import ChainLinkScreens from './ChainLinkScreens';
 import HomeScreens from './HomeScreens';
 
@@ -63,7 +62,6 @@ export default function AccountScreens() {
           presentation: 'transparentModal',
         }}
       />
-      <AccountScreensStack.Screen name="AirdropScreens" component={AirdropScreens} />
     </AccountScreensStack.Navigator>
   );
 }

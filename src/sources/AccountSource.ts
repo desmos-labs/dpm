@@ -64,9 +64,9 @@ class AccountSource {
    * @param account - Account that will be inserted.
    */
   public async putAccount(account: ChainAccount): Promise<void> {
-    const cache = await this.useCache(async (cache) => {
-      cache.set(account.address, account);
-      return cache;
+    const cache = await this.useCache(async (sourceCache) => {
+      sourceCache.set(account.address, account);
+      return sourceCache;
     });
     const json = JSON.stringify(Array.from(cache.entries()));
     await SecureStorage.setItem(this.ACCOUNTS_KEY, json);
@@ -99,9 +99,9 @@ class AccountSource {
    * @param account - The account that will be removed.
    */
   public async removeAccount(account: ChainAccount): Promise<void> {
-    const cache = await this.useCache(async (cache) => {
-      cache.delete(account.address);
-      return cache;
+    const cache = await this.useCache(async (sourceCache) => {
+      sourceCache.delete(account.address);
+      return sourceCache;
     });
 
     await SecureStorage.setItem(this.ACCOUNTS_KEY, JSON.stringify(Array.from(cache.entries())));
@@ -109,5 +109,6 @@ class AccountSource {
 }
 
 // Singleton instance that will be exposed.
+// eslint-disable-next-line @typescript-eslint/naming-convention
 const _AccountSource = new AccountSource();
 export default _AccountSource;

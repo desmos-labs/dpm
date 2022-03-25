@@ -9,14 +9,12 @@ import { Image, Text, View } from 'react-native';
 import { Snackbar, useTheme } from 'react-native-paper';
 import {
   AccountBalance,
-  AirdropBanner,
   AvatarImage,
   StyledSafeAreaView,
   TopBar,
   TransactionsList,
 } from '../components';
 import { useDrawerContext } from '../contexts/AppDrawerContex';
-import useAirdropClaimable from '../hooks/useAirdropClaimable';
 import useFetchProfile from '../hooks/useFetchProfile';
 import useSelectedAccount from '../hooks/useSelectedAccount';
 import { makeStyle } from '../theming';
@@ -39,7 +37,6 @@ export const Home: React.FC<Props> = (props) => {
   const profile = useFetchProfile(account.address);
   const [snackBarMessage, setShowSnackbar] = useState<string | null>(null);
   const currentChain = useCurrentChainInfo();
-  const airDropClaimable = useAirdropClaimable();
 
   const openProfileDetails = useCallback(() => {
     navigation.navigate({
@@ -76,13 +73,6 @@ export const Home: React.FC<Props> = (props) => {
     },
     [navigation]
   );
-
-  const claimAirdrop = useCallback(() => {
-    navigation.navigate({
-      name: 'AirdropScreens',
-      params: undefined,
-    });
-  }, [navigation]);
 
   return (
     <StyledSafeAreaView padding={0} noIosPadding>
@@ -137,11 +127,6 @@ export const Home: React.FC<Props> = (props) => {
           chainAccount={account}
         />
       </View>
-      <AirdropBanner
-        style={styles.airdropBanner}
-        visible={airDropClaimable}
-        onClaimPressed={claimAirdrop}
-      />
       <Snackbar
         visible={snackBarMessage !== null}
         style={styles.snackbar}

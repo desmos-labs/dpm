@@ -46,6 +46,8 @@ export default class Deferred<T> {
           throw new Error('A failed deferred must have a valid error message and not value');
         }
         break;
+      default:
+        throw new Error('Wrong deferred state');
     }
   }
 

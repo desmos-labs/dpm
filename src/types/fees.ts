@@ -1,7 +1,7 @@
 import { StdFee } from '@cosmjs/amino';
 import { EncodeObject } from '@cosmjs/proto-signing';
 import { calculateFee } from '@desmoslabs/sdk-core';
-import { MsgTypes } from './msgtypes';
+import MsgTypes from './msgtypes';
 
 /**
  * Interface that represents the various level

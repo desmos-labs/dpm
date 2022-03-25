@@ -8,7 +8,7 @@ export class LocalWalletsSource {
   /**
    * Gets the bech32 addresses of al the user's wallets.
    */
-  public async getAllAddresses(): Promise<string[]> {
+  public static async getAllAddresses(): Promise<string[]> {
     try {
       const content = await SecureStorage.getItem('addresses');
       if (content !== null) {
@@ -27,12 +27,12 @@ export class LocalWalletsSource {
    * @param password - Password used to protect the user wallet.
    * @param accessWithBiometrics - True if the wallet can be unlocked with the biometrics instead of the password.
    */
-  public async putWallet(
+  public static async putWallet(
     wallet: LocalWallet,
     password: string,
     accessWithBiometrics?: boolean
   ): Promise<void> {
-    const addresses = await this.getAllAddresses();
+    const addresses = await LocalWalletsSource.getAllAddresses();
     // Saves the wallet address.
     if (addresses.indexOf(wallet.bech32Address) === -1) {
       addresses.push(wallet.bech32Address);
@@ -60,7 +60,7 @@ export class LocalWalletsSource {
    * @param useBiometrics - If true the password field will be ignored and the wallet will be unlocked using.
    * the user's biometrics.
    */
-  public async getWallet(
+  public static async getWallet(
     address: string,
     password?: string,
     useBiometrics?: boolean
@@ -95,9 +95,9 @@ export class LocalWalletsSource {
    * Deletes a wallet from the device storage
    * @param address - bech32 address of the wallet to delete.
    */
-  public async removeWallet(address: string): Promise<void> {
+  public static async removeWallet(address: string): Promise<void> {
     // Remove the address from the cache
-    const addresses = await this.getAllAddresses();
+    const addresses = await LocalWalletsSource.getAllAddresses();
     const addressIndex = addresses.indexOf(address);
     if (addressIndex !== -1) {
       addresses.splice(addressIndex, 1);

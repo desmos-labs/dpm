@@ -17,8 +17,8 @@ import Long from 'long';
 import { useCallback, useState } from 'react';
 import { ChainAccount } from '../../types/chain';
 import { MsgMultiSendEncodeObject } from '../../types/encodeobject';
-import { MsgTypes } from '../../types/msgtypes';
 import { BroadcastedTx } from '../../types/tx';
+import MsgTypes from '../../types/msgtypes';
 import { GqlTransaction, useGetTransactionsByAddressQuery } from '../types';
 
 const LIMIT = 20;

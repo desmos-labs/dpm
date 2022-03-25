@@ -10,7 +10,6 @@ import RootStackScreens from './navigation/RootStackScreens';
 
 export default function App(): JSX.Element {
   const chainId = __DEV__ ? 'morpheus-apollo-2' : 'desmos-mainnet';
-  // const chainId = 'morpheus-apollo-2';
   const client = useApolloClient(chainId);
 
   return (

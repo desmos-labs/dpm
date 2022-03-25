@@ -3,9 +3,9 @@ import React, { useCallback } from 'react';
 import { ImageSourcePropType, View } from 'react-native';
 import { Button } from '../components';
 import { DpmImage, DpmImages } from '../components/DpmImage';
-import { makeStyle } from '../theming';
-import { ModalComponent, RootStackParams } from '../types/navigation';
 import { Typography } from '../components/typography';
+import { makeStyle } from '../theming';
+import { ModalComponentProps, RootStackParams } from '../types/navigation';
 
 export type SingleButtonModalParams = {
   /**
@@ -31,7 +31,9 @@ export type SingleButtonModalParams = {
   action?: (navigation: StackNavigationProp<RootStackParams>) => void;
 };
 
-export const SingleButtonModal: ModalComponent<SingleButtonModalParams> = (props) => {
+export const SingleButtonModal: React.FC<ModalComponentProps<SingleButtonModalParams>> = (
+  props
+) => {
   const { params, navigation } = props;
   const styles = useStyles();
 

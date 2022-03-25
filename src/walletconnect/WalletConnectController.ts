@@ -190,7 +190,7 @@ export default class WalletConnectController {
    * Loads the saved WalletConnect sessions from the device disk.
    * @private
    */
-  private async loadSessionsFromDisk(): Promise<SerializedWalletConnectSession[]> {
+  private static async loadSessionsFromDisk(): Promise<SerializedWalletConnectSession[]> {
     try {
       const jsonSessions = await AsyncStorage.getItem(STORAGE_KEYS.sessions);
       if (jsonSessions === null) {
@@ -353,7 +353,7 @@ export default class WalletConnectController {
    * Initialize the WalletConnect controller.
    */
   async init(): Promise<void> {
-    const serializedClients = await this.loadSessionsFromDisk();
+    const serializedClients = await WalletConnectController.loadSessionsFromDisk();
     for (const serializedClient of serializedClients) {
       const client = new WalletConnect({
         session: serializedClient.session,

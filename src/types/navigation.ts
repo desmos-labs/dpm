@@ -135,7 +135,6 @@ export type AccountScreensStackParams = {
   ChainLinkDetails: {
     chainLink: ChainLink;
   };
-  AirdropScreens: undefined;
   BroadcastTx: {
     signer: ChainAccount;
     msgs: EncodeObject[];
@@ -196,25 +195,6 @@ export type ChainLinkScreensStackParams = {
 };
 
 export const ChainLinkScreensStack = createStackNavigator<ChainLinkScreensStackParams>();
-
-export type AirdropScreensStackParams = {
-  AirdropHome: undefined;
-  AirdropAllocation: {
-    address: string;
-  };
-  AirdropClaimStatus: {
-    address: string;
-  };
-  AirdropRequestFeeGrant: {
-    externalAddress: string;
-    desmosAddress: string;
-  };
-  AirdropClaimRewards: {
-    address: string;
-  };
-};
-
-export const AirdropScreensStack = createStackNavigator<AirdropScreensStackParams>();
 
 export type ConnectToLedgerScreensStackParams = {
   ScanForLedger: {
@@ -281,8 +261,8 @@ export const resetTo = (routeName: string) => (state: StackNavigationState<any>)
 };
 
 export const insertAfter =
-  (insertAfter: string, routeName: string, params: any) => (state: StackNavigationState<any>) => {
-    const routeIndex = state.routes.findIndex((item) => item.name === insertAfter);
+  (after: string, routeName: string, params: any) => (state: StackNavigationState<any>) => {
+    const routeIndex = state.routes.findIndex((item) => item.name === after);
 
     if (routeIndex >= 0) {
       const routes = [...state.routes.slice(0, routeIndex + 1), { name: routeName, params }];
@@ -292,6 +272,6 @@ export const insertAfter =
         index: routes.length - 1,
       });
     }
-    console.error(`Can't find route with name: ${insertAfter}`);
+    console.error(`Can't find route with name: ${after}`);
     return CommonActions.navigate({ name: routeName, params });
   };

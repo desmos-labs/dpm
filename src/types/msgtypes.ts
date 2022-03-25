@@ -1,4 +1,4 @@
-export enum MsgTypes {
+enum MsgTypes {
   MsgSend = '/cosmos.bank.v1beta1.MsgSend',
   MsgMultiSend = '/cosmos.bank.v1beta1.MsgMultiSend',
   MsgWithdrawDelegatorReward = '/cosmos.distribution.v1beta1.MsgWithdrawDelegatorReward',
@@ -8,3 +8,5 @@ export enum MsgTypes {
   MsgLinkChainAccount = '/desmos.profiles.v1beta1.MsgLinkChainAccount',
   MsgUnlinkChainAccount = '/desmos.profiles.v1beta1.MsgUnlinkChainAccount',
 }
+
+export default MsgTypes;

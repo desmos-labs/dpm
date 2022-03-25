@@ -1,6 +1,6 @@
 module.exports = {
+  extends: ['plugin:@typescript-eslint/recommended', 'airbnb', 'airbnb-typescript', 'prettier'],
   plugins: ['@typescript-eslint', 'prettier', 'react', 'react-native'],
-  extends: ['airbnb', 'airbnb-typescript', 'prettier'],
   env: {
     node: true,
     'react-native/react-native': true,

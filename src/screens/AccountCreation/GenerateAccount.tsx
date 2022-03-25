@@ -87,7 +87,6 @@ export default function GenerateAccount(props: Props): JSX.Element {
 
   useEffect(() => {
     generateAccount().then(() => {});
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (

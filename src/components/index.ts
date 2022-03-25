@@ -1,7 +1,6 @@
 import { AccountBalance } from './AccountBalance';
 import { AccountCard } from './AccountCard';
 import { AddressListItem } from './AddressListItem';
-import { AirdropBanner } from './AirdropBanner';
 import { AvatarImage } from './AvatarImage';
 import { Button } from './Button';
 import { ChainConnections } from './ChainConnections';
@@ -53,7 +52,6 @@ export {
   DesmosIcon,
   InlineButtons,
   ChainConnections,
-  AirdropBanner,
   DpmImage,
   ThemedLottieView,
   BlockchainListItem,

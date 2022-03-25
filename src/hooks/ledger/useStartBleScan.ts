@@ -123,7 +123,9 @@ export default function useStartBleScan() {
             })
           );
           setStopStopScanTimeout(
-            // FIXME
+            // FIXME IMPORTANT
+            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+            // @ts-ignore
             setTimeout(() => {
               stopScan();
             }, durationMs)

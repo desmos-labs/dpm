@@ -14,6 +14,7 @@ export const ModalScreen: React.FC<Props> = ({ navigation, route }) => {
   useEffect(() => {
     navigationRef.current = navigation;
     return () => {
+      // FIXME i dont understand this return
       navigationRef.current;
     };
   }, [navigationRef, navigation]);

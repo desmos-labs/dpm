@@ -1,9 +1,9 @@
 import React, { useCallback } from 'react';
 import { View } from 'react-native';
 import { Button } from '../components';
-import { makeStyle } from '../theming';
-import { ModalComponent } from '../types/navigation';
 import { Typography } from '../components/typography';
+import { makeStyle } from '../theming';
+import { ModalComponentProps } from '../types/navigation';
 
 export type TwoButtonModalParams = {
   /**
@@ -32,7 +32,7 @@ export type TwoButtonModalParams = {
   negativeAction?: () => void;
 };
 
-export const TwoButtonModal: ModalComponent<TwoButtonModalParams> = (props) => {
+export const TwoButtonModal: React.FC<ModalComponentProps<TwoButtonModalParams>> = (props) => {
   const { params, navigation } = props;
   const styles = useStyles();
 
