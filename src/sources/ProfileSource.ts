@@ -127,18 +127,24 @@ export class ProfileSource {
    */
   async getAllProfiles(): Promise<DesmosProfile[]> {
     const addresses = await this.getStoredProfilesAddress();
-    const result: DesmosProfile[] = [];
-
-    for (let i = 0; i < addresses.length; i++) {
-      const profile = await this.getProfile(addresses[i]);
+    /*    for (const address of addresses) {
+      const profile = await this.getProfile(address);
       if (profile === null) {
-        await this.removeSavedProfilesAddress(addresses[i]);
+        await this.removeSavedProfilesAddress(address);
       } else {
         result.push(profile);
       }
-    }
-
-    return result;
+    } */
+    return Promise.all(
+      addresses.map(async (address) => {
+        const profile = await this.getProfile(address);
+        if (profile === null) {
+          await this.removeSavedProfilesAddress(address);
+          return null;
+        }
+        return profile;
+      })
+    ).then((profiles) => profiles.filter((p) => p !== null) as DesmosProfile[]);
   }
 
   /**

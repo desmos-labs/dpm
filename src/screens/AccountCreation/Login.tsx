@@ -24,6 +24,7 @@ export default function Login({ navigation }: Props): JSX.Element {
   const buttonsOpacity = useRef(new Animated.Value(initialOpacity)).current;
 
   useEffect(() => {
+    console.log('login');
     if (animate) {
       Animated.sequence([
         Animated.timing(iconOpacity, {

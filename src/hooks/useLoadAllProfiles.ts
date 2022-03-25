@@ -1,7 +1,7 @@
 import { DesmosProfile } from '@desmoslabs/sdk-core';
 import { useCallback } from 'react';
 import { useAppContext } from '../contexts/AppContext';
-import ProfileSource from '../sources/ProfileSource';
+import ProfileSourceSingleton from '../sources/ProfileSource';
 
 /**
  * Hooks that provide a function to load all the profiles cached
@@ -11,7 +11,7 @@ export default function useLoadAllProfiles(): () => Promise<DesmosProfile[]> {
   const { setProfiles } = useAppContext();
 
   return useCallback(async () => {
-    const profiles = await ProfileSource.getAllProfiles();
+    const profiles = await ProfileSourceSingleton.getAllProfiles();
     const profilesRecord: Record<string, DesmosProfile> = {};
     profiles.forEach((p) => {
       profilesRecord[p.address] = p;

@@ -17,8 +17,8 @@ import {
 } from '../types/navigation';
 
 type HomeScreensProps = CompositeScreenProps<
-  StackScreenProps<AccountScreensStackParams, 'HomeScreens'>,
-  StackScreenProps<RootStackParams>
+  StackScreenProps<RootStackParams>,
+  StackScreenProps<AccountScreensStackParams, 'HomeScreens'>
 >;
 
 const HomeScreens: React.FC<HomeScreensProps> = (props) => {

@@ -10,12 +10,12 @@ import {
   StyledSafeAreaView,
   ThemedLottieView,
   TopBar,
-  Typography,
 } from '../../components';
 import useStartBleScan from '../../hooks/ledger/useStartBleScan';
 import { makeStyle } from '../../theming';
 import { BleLedger } from '../../types/ledger';
 import { ConnectToLedgerScreensStackParams } from '../../types/navigation';
+import { Typography } from '../../components/typography';
 
 export type Props = StackScreenProps<ConnectToLedgerScreensStackParams, 'ScanForLedger'>;
 
@@ -27,7 +27,6 @@ export const ScanForLedger: React.FC<Props> = ({ navigation, route }) => {
 
   useEffect(() => {
     scan().then(() => {});
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(

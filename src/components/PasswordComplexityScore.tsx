@@ -33,7 +33,7 @@ export const PasswordComplexity: React.FC<Props> = (props) => {
     }
 
     const boxStyles: StyleProp<ViewStyle>[] = [];
-    for (let i = 0; i < 4; i++) {
+    for (let i = 0; i < 4; i += 1) {
       let style: StyleProp<ViewStyle>;
       if (i < props.score) {
         style = StyleSheet.compose(styles.scoreField as StyleProp<ViewStyle>, {
