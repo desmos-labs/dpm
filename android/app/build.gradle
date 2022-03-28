@@ -130,6 +130,7 @@ static def getVersionName(String tag) {
 
 project.ext.react = [
     enableHermes: false,  // clean and rebuild if changing
+    extraPackagerArgs: ["--minify=false"],
 ]
 
 apply from: "../../node_modules/react-native/react.gradle"
