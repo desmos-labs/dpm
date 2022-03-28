@@ -4,18 +4,22 @@ apply plugin: 'kotlin-android'
 import com.android.build.OutputFile
 
 def getVersionTag(String variant) {
-    def stdout
-    try {
-        stdout = new ByteArrayOutputStream()
-        exec {
-            commandLine "git", "describe", "--tags", "--abbrev=0"
-            standardOutput = stdout
-        }
-        def longTag = stdout.toString().trim()
+    if(System.env['VERSION_OVERRIDE'] != null) {
+        return "v${System.env['VERSION_OVERRIDE']}"
+    } else {
+        def stdout
+        try {
+            stdout = new ByteArrayOutputStream()
+            exec {
+                commandLine "git", "describe", "--tags", "--abbrev=0"
+                standardOutput = stdout
+            }
+            def longTag = stdout.toString().trim()
 
-        return longTag
-    } catch (exception) {
-        return "v0.0.1"
+            return longTag
+        } catch (exception) {
+            return "v0.0.1"
+        }
     }
 }
 

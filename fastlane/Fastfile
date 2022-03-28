@@ -35,8 +35,17 @@ def ensure_temp_keychain(name, password)
 end
 
 def build_number_from_git(xcodeproj)
-    git_tag = last_git_tag
-    version_number = git_tag.sub('v', '')
+    version_number = ''
+    if ENV['VERSION_OVERRIDE'] != nil
+      version_number = ENV['VERSION_OVERRIDE']
+    else
+      git_tag = last_git_tag
+      version_number = git_tag.sub('v', '')
+    end
+
+    # Set marketing version to version_number
+    sh("sed -i '' -e 's/MARKETING_VERSION \= [^\;]*\;/MARKETING_VERSION = #{version_number};/' ../ios/#{PROJECT_NAME}.xcodeproj/project.pbxproj")
+
     increment_build_number(
         xcodeproj: xcodeproj,
         build_number: version_number
@@ -44,7 +53,7 @@ def build_number_from_git(xcodeproj)
 end
 
 platform :ios do
-  lane :closed_beta do
+  lane :build_ipa do
     keychain_name = TEMP_KEYCHAIN_USER
     keychain_password = TEMP_KEYCHAIN_PASSWORD
     ensure_temp_keychain(keychain_name, keychain_password)
@@ -52,13 +61,13 @@ platform :ios do
     api_key = app_store_connect_api_key(
       key_id: APPLE_KEY_ID,
       issuer_id: APPLE_ISSUER_ID,
-      key_content: APPLE_KEY_CONTENT,            
-      duration: 1200,            
+      key_content: APPLE_KEY_CONTENT,
+      duration: 1200,
       in_house: false
     )
-    
+
     build_number_from_git(XCODE_PROJECT)
-    
+
     cocoapods(
       clean_install: true,
       podfile: "./ios/Podfile"
@@ -82,12 +91,20 @@ platform :ios do
       output_name: "#{PROJECT_NAME}.ipa",
       export_method: "app-store",
       export_options: {
-        provisioningProfiles: { 
+        provisioningProfiles: {
             DEVELOPER_APP_ID => PROVISIONING_PROFILE_SPECIFIER
         }
       }
     )
 
+    delete_temp_keychain(keychain_name)
+  end
+
+  lane :closed_beta do
+    # Build signed ipa
+    build_ipa
+
+    # Deploy to test flight
     pilot(
       apple_id: "#{DEVELOPER_APP_ID}",
       app_identifier: "#{DEVELOPER_APP_IDENTIFIER}",
@@ -97,8 +114,6 @@ platform :ios do
       notify_external_testers: false,
       ipa: "#{OUTPUT_DIRECTORY}#{PROJECT_NAME}.ipa"
     )
-
-    delete_temp_keychain(keychain_name)
   end
 end
 

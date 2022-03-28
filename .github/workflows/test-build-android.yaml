@@ -1,0 +1,53 @@
+name: Test Android build
+
+on:
+  # push:
+  #   branches:
+  #     - ""
+
+jobs:
+  github-release:
+    name: Test Android build
+    runs-on: ubuntu-latest
+    container: reactnativecommunity/react-native-android
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - uses: c-hive/gha-yarn-cache@v1
+
+      - name: Install node modules
+        run: |
+          yarn install
+
+      - name: Cache Gradle Wrapper
+        uses: actions/cache@v2
+        with:
+          path: ~/.gradle/wrapper
+          key: ${{ runner.os }}-gradle-wrapper-${{ hashFiles('gradle/wrapper/gradle-wrapper.properties') }}
+
+      - name: Cache Gradle Dependencies
+        uses: actions/cache@v2
+        with:
+          path: ~/.gradle/caches
+          key: ${{ runner.os }}-gradle-caches-${{ hashFiles('gradle/wrapper/gradle-wrapper.properties') }}
+          restore-keys: |
+            ${{ runner.os }}-gradle-caches-
+
+      - name: "Build signed apk"
+        uses: maierj/fastlane-action@v2.0.1
+        with:
+          lane: 'android build_apk'
+        env:
+          ANDROID_KEYSTORE_BASE64: ${{ secrets.ANDROID_KEYSTORE_BASE64 }}
+          ANDROID_SIGNING_STORE_PASSWORD: ${{ secrets.ANDROID_SIGNING_STORE_PASSWORD }}
+          ANDROID_SIGNING_ALIAS: ${{ secrets.ANDROID_SIGNING_ALIAS }}
+          ANDROID_SIGNING_KEY_PASSWORD: ${{ secrets.ANDROID_SIGNING_KEY_PASSWORD }}
+          PLAYSTORE_JSON_KEY: ${{ secrets.PLAYSTORE_JSON_KEY }}
+
+      - name: Upload artifacts 📤
+        uses: actions/upload-artifact@v2
+        with:
+          name: Dpm Android
+          path: android/app/build/outputs/apk/release/app-release.apk
