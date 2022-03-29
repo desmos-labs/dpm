@@ -2,6 +2,7 @@ import { formatDistance } from 'date-fns';
 import React, { useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
 import {
+  RefreshControl,
   SectionList,
   SectionListRenderItemInfo,
   StyleProp,
@@ -9,7 +10,6 @@ import {
   View,
   ViewStyle,
 } from 'react-native';
-import { ActivityIndicator } from 'react-native-paper';
 import Colors from '../../../constants/colors';
 import {
   SectionedTx,
@@ -30,7 +30,7 @@ export type Props = {
 };
 
 export const TransactionsList: React.FC<Props> = ({ chainAccount, style, onTxPressed }) => {
-  const { txs, loading, fetchMore } = useFetchTxsGrouppedByDate(chainAccount);
+  const { txs, loading, fetchMore, refetchTxs } = useFetchTxsGrouppedByDate(chainAccount);
   const styles = useStyles();
   const { t } = useTranslation();
 
@@ -92,15 +92,24 @@ export const TransactionsList: React.FC<Props> = ({ chainAccount, style, onTxPre
       keyExtractor={(_, index) => index.toString()}
       onEndReached={fetchMore}
       onEndReachedThreshold={0.5}
+      refreshControl={
+        <RefreshControl
+          enabled
+          refreshing={loading}
+          onRefresh={refetchTxs}
+          colors={[Colors.DesmosOrange]}
+          tintColor={Colors.DesmosOrange}
+        />
+      }
       showsVerticalScrollIndicator
-      ListFooterComponent={
+      /*      ListFooterComponent={
         <ActivityIndicator
           animating={loading}
           color={Colors.DesmosOrange}
           hidesWhenStopped
           size="small"
         />
-      }
+      } */
       ItemSeparatorComponent={Divider}
     />
   ) : (

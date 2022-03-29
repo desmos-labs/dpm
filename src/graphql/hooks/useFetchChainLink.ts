@@ -13,7 +13,7 @@ export default function useFetchChainLink(address: string) {
       address,
     },
     onCompleted: ({ chain_link }) => {
-      const chainLinks = chain_link.map(
+      const cLinks = chain_link.map(
         (link) =>
           ({
             chainName: link.chain_config.name,
@@ -22,14 +22,14 @@ export default function useFetchChainLink(address: string) {
             creationTime: new Date(`${link.creation_time}Z`),
           } as ChainLink)
       );
-      setChainLinks(chainLinks);
+      setChainLinks(cLinks);
       setError(null);
       setLoading(false);
     },
-    onError: (error) => {
-      console.error(error);
+    onError: (apolloError) => {
+      console.error(apolloError);
       setChainLinks([]);
-      setError(error.toString());
+      setError(apolloError.toString());
       setLoading(false);
     },
   });

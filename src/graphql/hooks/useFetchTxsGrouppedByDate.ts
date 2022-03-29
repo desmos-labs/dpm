@@ -254,10 +254,10 @@ export function useFetchTxsGrouppedByDate(chainAccount: ChainAccount) {
       types: '{}',
     },
     onCompleted: (fetchedData) => {
-      const txs = fetchedData.transactionsByAddress
+      const transactions = fetchedData.transactionsByAddress
         .map(mapTransactions)
         .reduce(groupTransactionByDate, {});
-      const sorted = Object.entries(txs)
+      const sorted = Object.entries(transactions)
         .sort((obj1, obj2) => obj1[0].localeCompare(obj2[0]))
         .map(
           (obj) =>
@@ -273,6 +273,38 @@ export function useFetchTxsGrouppedByDate(chainAccount: ChainAccount) {
       setDataAvailable(fetchedData.transactionsByAddress.length > LIMIT);
     },
   });
+
+  const refetchTxs = useCallback(async () => {
+    setLoading(true);
+    try {
+      const queryResponse = await transactionQuery.refetch({
+        address: `{${chainAccount.address}}`,
+        limit: LIMIT + 1,
+        offset: 0,
+        types: '{}',
+      });
+      const fetchedTransactions = queryResponse.data.transactionsByAddress
+        .map(mapTransactions)
+        .reduce(groupTransactionByDate, {});
+      const sorted = Object.entries(fetchedTransactions)
+        .sort((obj1, obj2) => obj1[0].localeCompare(obj2[0]))
+        .map(
+          (obj) =>
+            ({
+              date: obj[0],
+              data: obj[1],
+            } as SectionedTx)
+        )
+        .reverse();
+      setTxs(sorted);
+      setLoading(false);
+      setCurrentOffset(LIMIT + 1);
+      setDataAvailable(queryResponse.data.transactionsByAddress.length > LIMIT);
+    } catch (e) {
+      setDataAvailable(false);
+    }
+    setLoading(false);
+  }, []);
 
   const fetchMore = useCallback(async () => {
     if (dataAvailable) {
@@ -318,5 +350,6 @@ export function useFetchTxsGrouppedByDate(chainAccount: ChainAccount) {
     txs,
     loading,
     fetchMore,
+    refetchTxs,
   };
 }
