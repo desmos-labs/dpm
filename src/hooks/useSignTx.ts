@@ -96,6 +96,8 @@ export default function useSignTx(): (
 
       case CosmosMethod.SignDirect:
         return signDirectTx(tx.tx, wallet);
+      default:
+        return {} as never;
     }
   }, []);
 }

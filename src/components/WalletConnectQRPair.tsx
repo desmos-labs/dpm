@@ -7,9 +7,11 @@ type Props = {
 };
 
 export default function WalletConnectQRPair(props: Props): JSX.Element {
+  const { onPairRequest } = props;
+
   const onQrCoreRead = (event: BarCodeReadEvent) => {
-    if (props.onPairRequest !== undefined) {
-      props.onPairRequest(event.data);
+    if (onPairRequest !== undefined) {
+      onPairRequest(event.data);
     }
   };
 

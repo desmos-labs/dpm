@@ -1,7 +1,7 @@
 import { DesmosProfile } from '@desmoslabs/sdk-core';
 import { useCallback } from 'react';
 import { useAppContext } from '../contexts/AppContext';
-import ProfileSource from '../sources/ProfileSource';
+import ProfileSourceSingleton from '../sources/ProfileSource';
 
 /**
  * Hook that provides a function to save a profile on the device disk so that can be
@@ -12,7 +12,7 @@ export default function useSaveProfile(): (profile: DesmosProfile) => Promise<vo
 
   return useCallback(
     async (profile: DesmosProfile) => {
-      const [cached, changed] = await ProfileSource.saveProfile(profile);
+      const [cached, changed] = await ProfileSourceSingleton.saveProfile(profile);
       if (changed) {
         setProfiles((profiles) => {
           const result = { ...profiles };

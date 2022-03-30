@@ -86,12 +86,9 @@ export const WalletConnectCallRequest: React.FC<Props> = (props) => {
   }, [request]);
 
   const onReject = useCallback(() => {
-    rejectRequest(
-      // FIXME i'm not sure about this cast (type assertion)
-      request?.sessionId as string,
-      request?.requestId as number,
-      'Rejected from the user'
-    );
+    if (request) {
+      rejectRequest(request.sessionId, request.requestId, 'Rejected from the user');
+    }
   }, [request, rejectRequest]);
 
   const onApprove = useCallback(async () => {

@@ -11,6 +11,7 @@ type InlineInputProps = Omit<ComponentProps<typeof TextInput>, 'style'> & {
 };
 
 export const InlineInput: React.FC<InlineInputProps> = (props) => {
+  const { label, style, inputStyle, error } = props;
   const styles = useStyles();
 
   return (
@@ -20,12 +21,12 @@ export const InlineInput: React.FC<InlineInputProps> = (props) => {
         flexDirection: 'column',
       }}
     >
-      <View style={[styles.container, props.style]}>
-        <Typography.Subtitle style={styles.label}>{props.label}</Typography.Subtitle>
-        <TextInput {...props} style={[styles.input, props.inputStyle]} textAlignVertical="top" />
+      <View style={[styles.container, style]}>
+        <Typography.Subtitle style={styles.label}>{label}</Typography.Subtitle>
+        <TextInput {...props} style={[styles.input, inputStyle]} textAlignVertical="top" />
       </View>
-      {props.error !== undefined && (
-        <Typography.Caption style={styles.errorLabel}>{props.error}</Typography.Caption>
+      {error !== undefined && (
+        <Typography.Caption style={styles.errorLabel}>{error}</Typography.Caption>
       )}
     </View>
   );

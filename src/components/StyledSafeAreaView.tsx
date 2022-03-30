@@ -41,19 +41,20 @@ export type Props = ViewProps & {
 };
 
 export const StyledSafeAreaView: React.FC<Props> = (props) => {
+  const { scrollable, padding, topBar, divider, background, noIosPadding, children, style } = props;
   const styles = useStyles(props);
   const closeKeyboard = useCloseKeyboard();
 
   return (
     <View style={styles.root}>
-      {props.background !== undefined && (
-        <ImageBackground style={styles.background} source={props.background} />
+      {background !== undefined && (
+        <ImageBackground style={styles.background} source={background} />
       )}
-      {props.topBar}
-      {props.divider && <Divider />}
+      {topBar}
+      {divider && <Divider />}
       <TouchableWithoutFeedback onPress={closeKeyboard}>
-        <View style={[styles.content, props.style]}>
-          {props?.scrollable ? <ScrollView>{props.children}</ScrollView> : props.children}
+        <View style={[styles.content, style]}>
+          {scrollable ? <ScrollView>{children}</ScrollView> : children}
         </View>
       </TouchableWithoutFeedback>
     </View>

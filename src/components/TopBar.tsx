@@ -39,32 +39,33 @@ export type Props = {
 };
 
 export const TopBar: React.FC<Props> = (props) => {
+  const { stackProps, title, capitalizeTitle, rightElement, leftIconColor, style } = props;
   const theme = useTheme();
   const styles = useStyles(props);
-  const { navigation } = props.stackProps;
+  const { navigation } = stackProps;
 
   return (
-    <View style={[styles.root, props.style]}>
+    <View style={[styles.root, style]}>
       <View style={[styles.container, styles.containerLeft]}>
         {navigation.openDrawer ? (
           <IconButton
-            color={props.leftIconColor ?? theme.colors.icon['1']}
+            color={leftIconColor ?? theme.colors.icon['1']}
             icon="menu"
             onPress={navigation.openDrawer}
             size={20}
           />
         ) : navigation.canGoBack() ? (
           <IconButton
-            color={props.leftIconColor ?? theme.colors.icon['1']}
+            color={leftIconColor ?? theme.colors.icon['1']}
             icon="back"
             onPress={navigation.goBack}
           />
         ) : null}
       </View>
       <View style={[styles.container, styles.containerCenter]}>
-        <Typography.Subtitle style={styles.title}>{props.title}</Typography.Subtitle>
+        <Typography.Subtitle style={styles.title}>{title}</Typography.Subtitle>
       </View>
-      <View style={[styles.container, styles.containerRight]}>{props.rightElement}</View>
+      <View style={[styles.container, styles.containerRight]}>{rightElement}</View>
     </View>
   );
 };

@@ -1,18 +1,12 @@
 import { StackScreenProps } from '@react-navigation/stack';
 import React, { useCallback, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
-import {
-  Button,
-  DpmImage,
-  StyledSafeAreaView,
-  ThemedLottieView,
-  TopBar,
-  Typography,
-} from '../../components';
+import { Button, DpmImage, StyledSafeAreaView, ThemedLottieView, TopBar } from '../../components';
 import { FlexPadding } from '../../components/FlexPadding';
 import useConnectToLedger from '../../hooks/ledger/useConnectToLedger';
 import { makeStyle } from '../../theming';
 import { ConnectToLedgerScreensStackParams } from '../../types/navigation';
+import { Typography } from '../../components/typography';
 
 export type Props = StackScreenProps<ConnectToLedgerScreensStackParams, 'ConnectToLedger'>;
 

@@ -24,12 +24,13 @@ export type MenuItemProps = {
 };
 
 export const MenuItem: React.FC<MenuItemProps> = (props) => {
+  const { text, icon, iconSize, onPress } = props;
   const styles = useStyles();
 
   return (
-    <TouchableOpacity style={styles.root} onPress={props.onPress}>
-      <IconButton icon={props.icon} size={props.iconSize ?? 16} color="#c4c4c4" />
-      <Typography.Body style={styles.text}>{props.text}</Typography.Body>
+    <TouchableOpacity style={styles.root} onPress={onPress}>
+      <IconButton icon={icon} size={iconSize ?? 16} color="#c4c4c4" />
+      <Typography.Body style={styles.text}>{text}</Typography.Body>
     </TouchableOpacity>
   );
 };

@@ -14,7 +14,7 @@ module.exports = {
   },
   rules: {
     'prettier/prettier': 0,
-    'no-console': 1,
+    'no-console': 0,
     'no-use-before-define': 0,
     'no-underscore-dangle': 0,
     'global-require': 0,

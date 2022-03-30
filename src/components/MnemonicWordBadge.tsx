@@ -20,21 +20,22 @@ export type Props = {
 };
 
 export const MnemonicWordBadge: React.FC<Props> = (props) => {
+  const { value, index, onPress, style } = props;
   const styles = useStyles();
 
   return (
     <TouchableOpacity
-      style={StyleSheet.compose(styles.root as StyleProp<ViewStyle>, props.style)}
+      style={StyleSheet.compose(styles.root as StyleProp<ViewStyle>, style)}
       onPress={
-        props?.onPress
+        onPress
           ? () => {
-              props.onPress!(props.value);
+              onPress!(value);
             }
           : undefined
       }
     >
-      <Typography.Subtitle>{props.value}</Typography.Subtitle>
-      <Text style={styles.index}>{props.index}</Text>
+      <Typography.Subtitle>{value}</Typography.Subtitle>
+      <Text style={styles.index}>{index}</Text>
     </TouchableOpacity>
   );
 };

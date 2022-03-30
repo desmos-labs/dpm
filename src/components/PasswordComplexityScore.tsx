@@ -10,12 +10,13 @@ export type Props = {
 };
 
 export const PasswordComplexity: React.FC<Props> = (props) => {
+  const { score } = props;
   const theme = useTheme();
   const styles = useStyle();
 
   const boxStyles = useMemo(() => {
     let scoreColor = theme.colors.surface;
-    switch (props.score) {
+    switch (score) {
       case 1:
         scoreColor = theme.colors.passwordComplexity.weak;
         break;
@@ -30,22 +31,23 @@ export const PasswordComplexity: React.FC<Props> = (props) => {
       case 4:
         scoreColor = theme.colors.passwordComplexity.veryStrong;
         break;
+      default:
     }
 
-    const boxStyles: StyleProp<ViewStyle>[] = [];
+    const boxViewStyles: StyleProp<ViewStyle>[] = [];
     for (let i = 0; i < 4; i += 1) {
       let style: StyleProp<ViewStyle>;
-      if (i < props.score) {
+      if (i < score) {
         style = StyleSheet.compose(styles.scoreField as StyleProp<ViewStyle>, {
           backgroundColor: scoreColor,
         });
       } else {
         style = styles.scoreField as StyleProp<ViewStyle>;
       }
-      boxStyles.push(style);
+      boxViewStyles.push(style);
     }
-    return boxStyles;
-  }, [theme.colors, styles.scoreField, props.score]);
+    return boxViewStyles;
+  }, [theme.colors, styles.scoreField, score]);
 
   return (
     <View style={styles.container}>

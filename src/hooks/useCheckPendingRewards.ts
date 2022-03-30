@@ -17,8 +17,10 @@ export default function useCheckPendingRewards(desmosAddress: string) {
     setLoading(true);
     setError(null);
     setAvailable(false);
-    let total = 0;
-    for (const link of chainLinks) {
+    const total = 0;
+    // FIXME
+
+    /*    chainLinks.forEach(link => {
       const linkChainName = link.chainName === 'cro' ? 'crypto.com' : link.chainName.toLowerCase();
       const allocationsToBeClaimed = allocations.allocations.filter(
         (allocation) => !allocation.claimed && allocation.chainName.toLowerCase() === linkChainName
@@ -27,7 +29,7 @@ export default function useCheckPendingRewards(desmosAddress: string) {
         (previousValue, currentValue) => previousValue + currentValue.amount,
         total
       );
-    }
+    }) */
     setAvailable(total > 0);
     setToBeClaimed(total);
     setLoading(false);

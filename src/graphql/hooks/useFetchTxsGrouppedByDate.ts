@@ -225,12 +225,13 @@ function groupTransactionByDate(
   groups: Record<string, BroadcastedTx[]>,
   tx: BroadcastedTx
 ): Record<string, BroadcastedTx[]> {
+  const groupsDeepCloned = JSON.parse(JSON.stringify(groups));
   const date: string = tx.timestamp.split('T')[0];
-  if (groups[date] === undefined) {
-    groups[date] = [];
+  if (groupsDeepCloned[date] === undefined) {
+    groupsDeepCloned[date] = [];
   }
-  groups[date].push(tx);
-  return groups;
+  groupsDeepCloned[date].push(tx);
+  return groupsDeepCloned;
 }
 
 /**

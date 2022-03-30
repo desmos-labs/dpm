@@ -21,17 +21,18 @@ export type Props = Omit<React.ComponentProps<typeof NativeTextInput>, 'style'> 
 };
 
 export const TextInput: React.FC<Props> = (props) => {
+  const { error, rightElement, style, inputStyle } = props;
   const styles = useStyles(props);
   const theme = useTheme();
 
   return (
-    <View style={[styles.container, props.style]}>
+    <View style={[styles.container, style]}>
       <NativeTextInput
         {...props}
-        style={[styles.input, props.inputStyle]}
+        style={[styles.input, inputStyle]}
         placeholderTextColor={theme.colors.font['3']}
       />
-      <View style={styles.right}>{props.rightElement}</View>
+      <View style={styles.right}>{rightElement}</View>
     </View>
   );
 };

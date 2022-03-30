@@ -19,7 +19,7 @@ export type ScanError = {
 export default function useStartBleScan() {
   const { t } = useTranslation();
   const [subscription, setScanSubscription] = useState<Subscription | undefined>(undefined);
-  const [stopScanTimeout, setStopStopScanTimeout] = useState<NodeJS.Timer | undefined>(undefined);
+  const [stopScanTimeout, setStopStopScanTimeout] = useState<NodeJS.Timeout | undefined>(undefined);
   const [scanning, setScanning] = useState(false);
   const [devices, setDevices] = useState<BleLedger[]>([]);
   const [scanError, setScanError] = useState<ScanError | undefined>(undefined);
@@ -123,7 +123,6 @@ export default function useStartBleScan() {
             })
           );
           setStopStopScanTimeout(
-            // FIXME IMPORTANT
             // eslint-disable-next-line @typescript-eslint/ban-ts-comment
             // @ts-ignore
             setTimeout(() => {

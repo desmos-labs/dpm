@@ -127,14 +127,6 @@ export class ProfileSource {
    */
   async getAllProfiles(): Promise<DesmosProfile[]> {
     const addresses = await this.getStoredProfilesAddress();
-    /*    for (const address of addresses) {
-      const profile = await this.getProfile(address);
-      if (profile === null) {
-        await this.removeSavedProfilesAddress(address);
-      } else {
-        result.push(profile);
-      }
-    } */
     return Promise.all(
       addresses.map(async (address) => {
         const profile = await this.getProfile(address);

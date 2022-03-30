@@ -2,7 +2,7 @@ import { DesmosProfile } from '@desmoslabs/sdk-core';
 import { useDesmosClient } from '@desmoslabs/sdk-react';
 import { useEffect, useState } from 'react';
 import { useAppContext } from '../contexts/AppContext';
-import ProfileSource from '../sources/ProfileSource';
+import ProfileSourceSingleton from '../sources/ProfileSource';
 
 /**
  * Hook that fetch a profile from the chain and cache it on the device storage.
@@ -19,9 +19,9 @@ export default function useFetchProfile(address: string): DesmosProfile | null {
     (async () => {
       try {
         await client.connect();
-        const profile = await client.getProfile(address);
-        if (profile !== null) {
-          const [cached, changed] = await ProfileSource.saveProfile(profile);
+        const fetchedProfile = await client.getProfile(address);
+        if (fetchedProfile !== null) {
+          const [cached, changed] = await ProfileSourceSingleton.saveProfile(fetchedProfile);
           if (changed) {
             setProfiles((old) => {
               const newValue = { ...old };
@@ -32,7 +32,7 @@ export default function useFetchProfile(address: string): DesmosProfile | null {
           }
         }
       } catch (e) {
-        console.error(e);
+        console.error('Fetch profile', e);
       }
     })();
   }, [client, address, setProfile, setProfiles]);

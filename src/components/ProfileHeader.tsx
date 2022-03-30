@@ -21,9 +21,20 @@ export type Props = {
 };
 
 export const ProfileHeader: React.FC<Props> = (props) => {
+  const {
+    address,
+    dtag,
+    nickname,
+    coverPictureUri,
+    profilePictureUri,
+    topRightElement,
+    topLeftElement,
+    onCopyPressed,
+    onEditProfilePicture,
+    onEditCoverPicture,
+  } = props;
   const theme = useTheme();
   const styles = useStyles();
-  const { address, dtag, nickname, coverPictureUri, profilePictureUri } = props;
 
   const coverPicture = useMemo(
     () =>
@@ -47,28 +58,28 @@ export const ProfileHeader: React.FC<Props> = (props) => {
 
   return (
     <View style={styles.root}>
-      <View style={styles.topRight}>{props.topRightElement}</View>
-      <View style={styles.topLeft}>{props.topLeftElement}</View>
+      <View style={styles.topRight}>{topRightElement}</View>
+      <View style={styles.topLeft}>{topLeftElement}</View>
       <View style={styles.coverPictureContainer}>
         <FastImage style={styles.coverPicture} resizeMode="cover" source={coverPicture} />
-        {props.onEditCoverPicture && (
+        {onEditCoverPicture && (
           <IconButton
             icon="camera"
             size={20}
             color={theme.colors.icon['5']}
-            onPress={props.onEditCoverPicture}
+            onPress={onEditCoverPicture}
             style={styles.editCoverPictureBtn}
           />
         )}
       </View>
       <View style={styles.profilePictureContainer}>
         <AvatarImage size={100} source={profilePicture} />
-        {props.onEditProfilePicture && (
+        {onEditProfilePicture && (
           <IconButton
             icon="camera"
             size={20}
             color={theme.colors.icon['5']}
-            onPress={props.onEditProfilePicture}
+            onPress={onEditProfilePicture}
             style={styles.editProfilePictureBtn}
           />
         )}
@@ -78,18 +89,13 @@ export const ProfileHeader: React.FC<Props> = (props) => {
 
       {dtag !== undefined && <Typography.Body style={styles.dtag}>@{dtag}</Typography.Body>}
 
-      {props.address && (
+      {address && (
         <View style={styles.addressContainer}>
           <Typography.Body ellipsizeMode="middle" numberOfLines={1}>
             {address}
           </Typography.Body>
           <View>
-            <IconButton
-              icon="content-copy"
-              size={20}
-              onPress={props.onCopyPressed}
-              color="#c4c4c4"
-            />
+            <IconButton icon="content-copy" size={20} onPress={onCopyPressed} color="#c4c4c4" />
           </View>
         </View>
       )}

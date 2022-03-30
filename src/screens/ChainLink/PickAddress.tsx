@@ -56,19 +56,19 @@ async function generateWalletsFromMnemonic(
   prefix: string,
   hdPaths: HdPath[]
 ): Promise<Wallet[]> {
-  const wallets: Wallet[] = [];
-  for (const hdPath of hdPaths) {
-    const signer = await LocalWallet.fromMnemonic(mnemonic, {
-      hdPath,
-      prefix,
-    });
-    wallets.push({
-      address: signer.bech32Address,
-      signer,
-      hdPath,
-    });
-  }
-  return wallets;
+  return Promise.all(
+    hdPaths.map(async (hdPath) => {
+      const signer = await LocalWallet.fromMnemonic(mnemonic, {
+        hdPath,
+        prefix,
+      });
+      return {
+        address: signer.bech32Address,
+        signer,
+        hdPath,
+      };
+    })
+  );
 }
 
 async function generateWalletsFromLedger(
@@ -154,7 +154,6 @@ export const PickAddress: React.FC<Props> = (props) => {
           address,
         } as Wallet;
       } catch (e) {
-        console.error(e);
         setGenerationError(e.toString());
         return null;
       }
@@ -170,12 +169,6 @@ export const PickAddress: React.FC<Props> = (props) => {
   }, []);
 
   const toggleAddressPicker = useCallback(() => {
-    console.log('wallet', selectedWallet);
-    if (!selectedWallet?.hdPath.account) {
-      setGenerationError('esplodo');
-      return;
-    }
-
     setAddressPickerVisible((visible) => {
       if (!visible) {
         // The address picker is is being displayed,
@@ -231,7 +224,7 @@ export const PickAddress: React.FC<Props> = (props) => {
     async (offset: number, limit: number) => {
       setGeneratingAddresses(true);
       const hdPaths: HdPath[] = [];
-      for (let walletIndex = offset; walletIndex < limit; walletIndex + 1) {
+      for (let walletIndex = offset; walletIndex < limit; walletIndex += 1) {
         const hdPath: HdPath = {
           coinType: selectedHdPath.coinType,
           account: walletIndex,
@@ -252,6 +245,7 @@ export const PickAddress: React.FC<Props> = (props) => {
         );
       }
       setGeneratingAddresses(false);
+      console.log(wallets);
       return wallets;
     },
     [chain.prefix, importMode, ledgerApp, ledgerTransport, mnemonic, selectedHdPath.coinType]
@@ -305,7 +299,6 @@ export const PickAddress: React.FC<Props> = (props) => {
           },
         });
       } catch (e) {
-        console.error(e);
         if (closeModal !== undefined) {
           closeModal();
         }

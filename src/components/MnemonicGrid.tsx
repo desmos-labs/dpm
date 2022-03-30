@@ -12,13 +12,14 @@ export type Props = {
 };
 
 export const MnemonicGrid: React.FC<Props> = (props) => {
+  const { mnemonic, style } = props;
   const styles = useStyles();
 
-  const words = useMemo(() => props.mnemonic.split(' '), [props.mnemonic]);
+  const words = useMemo(() => mnemonic.split(' '), [mnemonic]);
   const wordMatrix = useMemo(() => {
     const lines = words.length / 3;
     const matrix: string[][] = [];
-    for (let l = 0; l < lines; l++) {
+    for (let l = 0; l < lines; l += 1) {
       const start = 3 * l;
       const end = 3 * (l + 1);
       matrix.push(words.slice(start, end));
@@ -50,7 +51,7 @@ export const MnemonicGrid: React.FC<Props> = (props) => {
   );
 
   return (
-    <View style={StyleSheet.compose(props.style, styles.root)}>
+    <View style={StyleSheet.compose(style, styles.root)}>
       <FlatList
         data={wordMatrix}
         renderItem={renderRow}

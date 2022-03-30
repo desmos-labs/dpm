@@ -14,25 +14,25 @@ export type Props = {
 };
 
 export const InlineButtons: React.FC<Props> = (props) => {
-  const { buttons } = props;
+  const { buttons, selected } = props;
   const styles = useStyles();
-  const [selected, setSelected] = useState(props.selected ?? 0);
+  const [buttonSelected, setButtonSelected] = useState(selected ?? 0);
 
   const renderButtons = useCallback(
     (action: ButtonAction, index: number) => {
       const onPress =
-        index === selected
+        index === buttonSelected
           ? undefined
           : () => {
-              setSelected(index);
+              setButtonSelected(index);
               action.onPress();
             };
 
       return (
         <Button
           key={`btn-${index}`}
-          style={[styles.button, selected === index ? styles.selected : null]}
-          labelStyle={[styles.label, selected === index ? null : styles.selectedLabel]}
+          style={[styles.button, buttonSelected === index ? styles.selected : null]}
+          labelStyle={[styles.label, buttonSelected === index ? null : styles.selectedLabel]}
           contentStyle={styles.contentStyle}
           mode="contained"
           onPress={onPress}
@@ -42,7 +42,7 @@ export const InlineButtons: React.FC<Props> = (props) => {
       );
     },
     [
-      selected,
+      buttonSelected,
       styles.button,
       styles.selected,
       styles.label,

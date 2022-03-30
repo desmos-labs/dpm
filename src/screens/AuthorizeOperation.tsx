@@ -54,8 +54,8 @@ const AuthorizeOperation: React.FC<Props> = (props) => {
         });
         if (value !== null) {
           if (value !== address) {
-            // FIXME this throw is never caught
-            throw new Error(`Invalid auth challenge value "${value}"`);
+            setError(t('invalid password'));
+            return;
           }
         } else {
           // On the old version this key may not exist
@@ -75,8 +75,6 @@ const AuthorizeOperation: React.FC<Props> = (props) => {
               await AccountSource.putAccount(account);
               const accounts = await AccountSource.getAllAccounts();
               setAccounts(accounts);
-            } else {
-              // FIXME throw some sort of exception?
             }
           }
         }

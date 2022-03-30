@@ -1,7 +1,7 @@
 import { useCallback } from 'react';
 import { useAppContext } from '../contexts/AppContext';
 import AccountSource from '../sources/AccountSource';
-import ProfileSource from '../sources/ProfileSource';
+import ProfileSourceSingleton from '../sources/ProfileSource';
 import { ChainAccount } from '../types/chain';
 
 export default function useDeleteAccount(): (toDelete: ChainAccount) => Promise<ChainAccount[]> {
@@ -19,7 +19,7 @@ export default function useDeleteAccount(): (toDelete: ChainAccount) => Promise<
         return old;
       });
       setAccounts(newAccounts);
-      await ProfileSource.deleteProfile(toDelete.address);
+      await ProfileSourceSingleton.deleteProfile(toDelete.address);
       await AccountSource.removeAccount(toDelete);
       return newAccounts;
     },

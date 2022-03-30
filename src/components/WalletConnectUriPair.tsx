@@ -13,6 +13,7 @@ type Props = {
 };
 
 export default function WalletConnectUriPair(props: Props): JSX.Element {
+  const { onPairRequest } = props;
   const [uri, setUri] = useState('');
 
   const onTextChange = (text: string) => {
@@ -20,8 +21,8 @@ export default function WalletConnectUriPair(props: Props): JSX.Element {
   };
 
   const onConnectPressed = (_: NativeSyntheticEvent<NativeTouchEvent>) => {
-    if (props.onPairRequest !== undefined) {
-      props.onPairRequest(uri);
+    if (onPairRequest !== undefined) {
+      onPairRequest(uri);
     }
   };
 

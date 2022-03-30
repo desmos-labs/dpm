@@ -9,9 +9,10 @@ type Props = Omit<React.ComponentProps<typeof LottieView>, 'source'> & {
 };
 
 export const ThemedLottieView: React.FC<Props> = (props) => {
+  const { source } = props;
   const theme = useTheme();
   const animation = useMemo(() => {
-    switch (props.source) {
+    switch (source) {
       case 'broadcast-tx':
         return theme.dark
           ? require('../assets/animations/broadcast-tx-dark.json')
@@ -25,9 +26,9 @@ export const ThemedLottieView: React.FC<Props> = (props) => {
           ? require('../assets/animations/connect-to-ledger-dark.json')
           : require('../assets/animations/connect-to-ledger-light.json');
       default:
-        throw new Error(`Unknown animation ${props.source}`);
+        throw new Error(`Unknown animation ${source}`);
     }
-  }, [theme, props.source]);
+  }, [theme, source]);
 
   return <LottieView {...props} source={animation} />;
 };

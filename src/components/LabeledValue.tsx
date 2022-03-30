@@ -15,12 +15,13 @@ export type Props = {
 };
 
 export const LabeledValue: React.FC<Props> = (props) => {
+  const { label, value } = props;
   const styles = useStyles();
 
   return (
     <View style={styles.root}>
-      <Typography.Subtitle>{props.label}</Typography.Subtitle>
-      <Typography.Body>{props.value}</Typography.Body>
+      <Typography.Subtitle>{label}</Typography.Subtitle>
+      <Typography.Body>{value}</Typography.Body>
     </View>
   );
 };

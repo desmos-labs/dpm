@@ -42,14 +42,15 @@ export type Props = {
 };
 
 export const ProfileListItem: React.FC<Props> = (props) => {
+  const { address, image, nickname, dtag, onPress, onEdit, onDelete } = props;
   const theme = useTheme();
   const { t } = useTranslation();
   const styles = useStyles();
   const [menuVisible, setMenuVisible] = useState(false);
 
   const showMenu = useMemo(
-    () => props.onEdit !== undefined || props.onDelete !== undefined,
-    [props.onEdit, props.onDelete]
+    () => onEdit !== undefined || onDelete !== undefined,
+    [onEdit, onDelete]
   );
 
   const onMenuOpen = () => {
@@ -61,17 +62,14 @@ export const ProfileListItem: React.FC<Props> = (props) => {
   };
 
   return (
-    <TouchableOpacity style={styles.root} onPress={props.onPress}>
-      <AvatarImage
-        source={props.image ?? require('../assets/default-profile-picture.png')}
-        size={48}
-      />
+    <TouchableOpacity style={styles.root} onPress={onPress}>
+      <AvatarImage source={image ?? require('../assets/default-profile-picture.png')} size={48} />
       <View style={styles.textContainer}>
         <Typography.Subtitle style={styles.nickname} numberOfLines={1} ellipsizeMode="tail">
-          {props.nickname ?? '-'}
+          {nickname ?? '-'}
         </Typography.Subtitle>
         <Typography.Body style={styles.dtag} ellipsizeMode="middle" numberOfLines={1}>
-          {props.dtag !== undefined ? `@${props.dtag}` : props.address}
+          {dtag !== undefined ? `@${dtag}` : address}
         </Typography.Body>
       </View>
       {showMenu && (
@@ -82,24 +80,24 @@ export const ProfileListItem: React.FC<Props> = (props) => {
             <IconButton icon="more" onPress={onMenuOpen} size={22} color={theme.colors.icon['3']} />
           }
         >
-          {props.onEdit && (
+          {onEdit && (
             <MenuItem
               icon="edit"
               text={t('edit profile')}
               onPress={() => {
                 setMenuVisible(false);
-                props.onEdit!();
+                onEdit!();
               }}
             />
           )}
-          {props.onEdit && props.onDelete && <Divider style={styles.menuDivider} />}
-          {props.onDelete && (
+          {onEdit && onDelete && <Divider style={styles.menuDivider} />}
+          {onDelete && (
             <MenuItem
               icon="delete"
               text={t('delete account')}
               onPress={() => {
                 setMenuVisible(false);
-                props.onDelete!();
+                onDelete!();
               }}
             />
           )}

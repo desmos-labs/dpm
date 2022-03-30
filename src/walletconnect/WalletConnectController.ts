@@ -354,7 +354,7 @@ export default class WalletConnectController {
    */
   async init(): Promise<void> {
     const serializedClients = await WalletConnectController.loadSessionsFromDisk();
-    for (const serializedClient of serializedClients) {
+    serializedClients.forEach((serializedClient) => {
       const client = new WalletConnect({
         session: serializedClient.session,
         clientMeta: {
@@ -370,7 +370,7 @@ export default class WalletConnectController {
       };
       this._sessions.set(serializedClient.id, session);
       this.subscribeToEvents(session);
-    }
+    });
   }
 
   /**
