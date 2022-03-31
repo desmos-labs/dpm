@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { View } from 'react-native';
 import { Button, PasswordComplexity, StyledSafeAreaView, TopBar } from '../../components';
-import { SecureTextInput } from '../../components/SecureTextInput';
+import SecureTextInput from '../../components/SecureTextInput';
 import { makeStyle } from '../../theming';
 import { AccountCreationStackParams } from '../../types/navigation';
 import evaluatePasswordComplexity from '../../utilils/passwordEvaluation';

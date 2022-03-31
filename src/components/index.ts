@@ -11,8 +11,8 @@ import { DpmImage } from './DpmImage';
 import { HdPathPicker } from './HdPathPicker';
 import { IconButton } from './IconButton';
 import { InlineButtons } from './InlineButtons';
-import { InlineInput } from './InlineInput';
-import { InlineLabeledValue } from './InlineLabeledValue';
+import InlineInput from './InlineInput';
+import InlineLabeledValue from './InlineLabeledValue';
 import { LabeledValue } from './LabeledValue';
 import { BlockchainListItem, ListItemSeparator } from './List';
 import { MnemonicGrid } from './MnemonicGrid';
@@ -24,7 +24,7 @@ import { StyledSafeAreaView } from './StyledSafeAreaView';
 import { TextInput } from './TextInput';
 import { ThemedLottieView } from './ThemedLottieView';
 import { TopBar } from './TopBar';
-import { TransactionsList } from './tx/list';
+import { TransactionsList } from './tx/list/TransactionsList';
 
 export {
   AccountCard,

@@ -11,7 +11,7 @@ const PaperProviderSettings: Settings = {
   icon: (props) => <DesmosIcon {...props} />,
 };
 
-export const ThemeProvider: React.FC = ({ children }) => {
+const ThemeProvider: React.FC = ({ children }) => {
   const theme = useSetting('theme');
   const [appTheme, setAppTheme] = useState(AppThemeLight);
 
@@ -34,6 +34,7 @@ export const ThemeProvider: React.FC = ({ children }) => {
     } else {
       setAppTheme(AppThemeLight);
     }
+    return {} as never;
   }, [theme]);
 
   return (
@@ -42,3 +43,5 @@ export const ThemeProvider: React.FC = ({ children }) => {
     </PaperProvider>
   );
 };
+
+export default ThemeProvider;

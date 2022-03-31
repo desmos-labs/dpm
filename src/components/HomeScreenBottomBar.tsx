@@ -5,22 +5,23 @@ import { Platform, Text, TouchableOpacity, View } from 'react-native';
 import { useTheme } from 'react-native-paper';
 import { makeStyle } from '../theming';
 
-export const HomeScreenBottomBar: React.FC<BottomTabBarProps> = (props) => {
+const HomeScreenBottomBar: React.FC<BottomTabBarProps> = (props) => {
+  const { navigation, insets, descriptors, state, children } = props;
   const styles = useStyles();
   const theme = useTheme();
 
   return (
     <View style={styles.root}>
-      {props.state.routes.map((route, index) => {
-        const { options } = props.descriptors[route.key];
-        const focused = props.state.index === index;
+      {state.routes.map((route, index) => {
+        const { options } = descriptors[route.key];
+        const focused = state.index === index;
         const color = focused ? theme.colors.primary : theme.colors.font['3'];
         const size = options.title === undefined ? 36 : 32;
         const textStyle = focused ? [styles.btnText, styles.btnTextSelected] : styles.btnText;
 
         const onPress = () => {
           const action = TabActions.jumpTo(route.name);
-          props.navigation.dispatch(action);
+          navigation.dispatch(action);
         };
         return (
           <TouchableOpacity key={route.key} style={styles.btn} onPress={onPress}>
@@ -63,3 +64,5 @@ const useStyles = makeStyle((theme) => ({
     color: theme.colors.primary,
   },
 }));
+
+export default HomeScreenBottomBar;

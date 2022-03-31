@@ -29,9 +29,11 @@ export function PaginatedFlatList<ItemT = any>(props: Props<ItemT>): JSX.Element
     let offset = currentOffset;
     while (fetched.length < itemsPerPage && itemsAvailable) {
       const itemsToFetch = itemsPerPage - fetched.length;
-      const data = await loadPage(offset, offset + itemsToFetch);
-      if (data !== null) {
-        fetched.push(...data);
+      // Need to understand how to refactor this part. Actually we can't use Promise.all because it is a while loop.
+      // eslint-disable-next-line no-await-in-loop
+      const items = await loadPage(offset, offset + itemsToFetch);
+      if (items !== null) {
+        fetched.push(...items);
         offset += itemsToFetch;
       } else {
         itemsAvailable = false;

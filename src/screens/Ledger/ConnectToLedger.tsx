@@ -19,6 +19,14 @@ export const ConnectToLedger: React.FC<Props> = ({ navigation, route }) => {
     ledgerApp
   );
 
+  const status = connected ? t('connected') : t('error');
+  const statusButton = connected ? t('next') : t('retry');
+  const statusImage = connected ? (
+    <DpmImage style={styles.image} source="success" />
+  ) : (
+    <DpmImage style={styles.image} source="fail" />
+  );
+
   useEffect(() => {
     if (connected && autoClose === true) {
       navigation.goBack();
@@ -45,7 +53,6 @@ export const ConnectToLedger: React.FC<Props> = ({ navigation, route }) => {
     [navigation, connected, onCancel]
   );
 
-  // FIXME remove nested ternary expressions
   return (
     <StyledSafeAreaView topBar={<TopBar stackProps={{ navigation }} />}>
       {connecting ? (
@@ -56,21 +63,19 @@ export const ConnectToLedger: React.FC<Props> = ({ navigation, route }) => {
           loop
           autoSize
         />
-      ) : connected ? (
-        <DpmImage style={styles.image} source="success" />
       ) : (
-        <DpmImage style={styles.image} source="fail" />
+        statusImage
       )}
 
       <Typography.Subtitle style={styles.status}>
-        {connecting ? t('connecting') : connected ? t('connected') : t('error')}
+        {connecting ? t('connecting') : status}
       </Typography.Subtitle>
 
       <Typography.Body style={styles.errorMessage}>{connectionError}</Typography.Body>
 
       <FlexPadding flex={1} />
       <Button mode="contained" onPress={onButtonPressed} disabled={connecting} loading={connecting}>
-        {connecting ? t('connecting') : connected ? t('next') : t('retry')}
+        {connecting ? t('connecting') : statusButton}
       </Button>
     </StyledSafeAreaView>
   );

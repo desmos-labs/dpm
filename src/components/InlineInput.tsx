@@ -10,7 +10,7 @@ type InlineInputProps = Omit<ComponentProps<typeof TextInput>, 'style'> & {
   error?: string;
 };
 
-export const InlineInput: React.FC<InlineInputProps> = (props) => {
+const InlineInput: React.FC<InlineInputProps> = (props) => {
   const { label, style, inputStyle, error } = props;
   const styles = useStyles();
 
@@ -52,3 +52,5 @@ const useStyles = makeStyle((theme) => ({
     color: theme.colors.error,
   },
 }));
+
+export default InlineInput;

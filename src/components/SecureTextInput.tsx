@@ -3,7 +3,7 @@ import { useTheme } from 'react-native-paper';
 import { IconButton } from './IconButton';
 import { Props as TextInputProps, TextInput } from './TextInput';
 
-export const SecureTextInput: React.FC<TextInputProps> = (props) => {
+const SecureTextInput: React.FC<TextInputProps> = (props) => {
   const theme = useTheme();
   const [hideText, setHideText] = useState(true);
 
@@ -24,3 +24,5 @@ export const SecureTextInput: React.FC<TextInputProps> = (props) => {
     />
   );
 };
+
+export default SecureTextInput;

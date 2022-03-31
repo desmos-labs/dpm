@@ -43,6 +43,13 @@ export const TopBar: React.FC<Props> = (props) => {
   const theme = useTheme();
   const styles = useStyles(props);
   const { navigation } = stackProps;
+  const navigationGoBack = navigation.canGoBack() ? (
+    <IconButton
+      color={leftIconColor ?? theme.colors.icon['1']}
+      icon="back"
+      onPress={navigation.goBack}
+    />
+  ) : null;
 
   return (
     <View style={[styles.root, style]}>
@@ -54,13 +61,9 @@ export const TopBar: React.FC<Props> = (props) => {
             onPress={navigation.openDrawer}
             size={20}
           />
-        ) : navigation.canGoBack() ? (
-          <IconButton
-            color={leftIconColor ?? theme.colors.icon['1']}
-            icon="back"
-            onPress={navigation.goBack}
-          />
-        ) : null}
+        ) : (
+          navigationGoBack
+        )}
       </View>
       <View style={[styles.container, styles.containerCenter]}>
         <Typography.Subtitle style={styles.title}>{title}</Typography.Subtitle>

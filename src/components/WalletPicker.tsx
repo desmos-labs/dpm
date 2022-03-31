@@ -115,7 +115,6 @@ export const WalletPicker: React.FC<Props> = ({
       const wallet = await generateWalletFromHdPath(selectedHdPath);
       setSelectedWallet(wallet);
     })();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const toggleAddressPicker = useCallback(() => {
@@ -156,7 +155,6 @@ export const WalletPicker: React.FC<Props> = ({
 
   const listKeyExtractor = useCallback((item: Wallet, _: number) => item.address, []);
 
-  // eslint-disable-next-line react-hooks/exhaustive-deps
   const debouncedGenerateWallet = useCallback(
     debounce(async (hdPath: HdPath) => {
       const wallet = await generateWalletFromHdPath(hdPath);
@@ -178,7 +176,7 @@ export const WalletPicker: React.FC<Props> = ({
     async (offset: number, limit: number) => {
       setGeneratingAddresses(true);
       const hdPaths: HdPath[] = [];
-      for (let walletIndex = offset; walletIndex < limit; walletIndex++) {
+      for (let walletIndex = offset; walletIndex < limit; walletIndex += 1) {
         const hdPath: HdPath = {
           coinType: selectedHdPath.coinType,
           account: walletIndex,
@@ -269,23 +267,23 @@ async function generateWalletsFromMnemonic(
   prefix: string,
   hdPaths: HdPath[]
 ): Promise<Wallet[]> {
-  const wallets: Wallet[] = [];
-  for (const hdPath of hdPaths) {
-    const signer = await LocalWallet.fromMnemonic(mnemonic, {
-      hdPath,
-      prefix,
-    });
-    wallets.push({
-      type: WalletType.Mnemonic,
-      address: signer.bech32Address,
-      localWallet: signer,
-      signer,
-      hdPath,
-      pubKey: toBase64(signer.publicKey),
-      signAlgorithm: 'secp256k1',
-    });
-  }
-  return wallets;
+  return Promise.all(
+    hdPaths.map(async (hdPath) => {
+      const signer = await LocalWallet.fromMnemonic(mnemonic, {
+        hdPath,
+        prefix,
+      });
+      return {
+        type: WalletType.Mnemonic,
+        address: signer.bech32Address,
+        localWallet: signer,
+        signer,
+        hdPath,
+        pubKey: toBase64(signer.publicKey),
+        signAlgorithm: 'secp256k1',
+      } as Wallet;
+    })
+  );
 }
 
 async function generateWalletsFromLedger(

@@ -18,6 +18,7 @@ module.exports = {
     'no-use-before-define': 0,
     'no-underscore-dangle': 0,
     'global-require': 0,
+    "import/no-named-as-default": 0,
     '@typescript-eslint/no-use-before-define': 0,
     '@typescript-eslint/no-var-requires': 0,
     '@typescript-eslint/no-unused-vars': 0,

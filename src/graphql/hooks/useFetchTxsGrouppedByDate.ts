@@ -42,6 +42,7 @@ function gqlPubKeyToAny(gqlPubKey: any): Any | undefined {
       ).finish(),
     });
   }
+  return {} as never;
 }
 
 /**
@@ -79,7 +80,7 @@ function gqlMessageToEncodeObject(msg: any): EncodeObject {
         },
       } as MsgWithdrawDelegatorRewardEncodeObject;
 
-    case MsgTypes.MsgVote:
+    case MsgTypes.MsgVote: {
       let voteOption: VoteOption;
       switch (msg.option) {
         case 'VOTE_OPTION_YES':
@@ -110,7 +111,7 @@ function gqlMessageToEncodeObject(msg: any): EncodeObject {
           proposalId: Long.fromString(msg.proposal_id),
         },
       } as MsgVoteEncodeObject;
-
+    }
     case MsgTypes.MsgDelegate:
       return {
         typeUrl: type,
@@ -134,7 +135,7 @@ function gqlMessageToEncodeObject(msg: any): EncodeObject {
         },
       } as MsgSaveProfileEncodeObject;
 
-    case MsgTypes.MsgLinkChainAccount:
+    case MsgTypes.MsgLinkChainAccount: {
       const chainAddress = msg.chain_address;
       const chainConfig = msg.chain_config;
       const { proof } = msg;
@@ -162,7 +163,7 @@ function gqlMessageToEncodeObject(msg: any): EncodeObject {
           },
         },
       } as MsgLinkChainAccountEncodeObject;
-
+    }
     case MsgTypes.MsgUnlinkChainAccount:
       return {
         typeUrl: '/desmos.profiles.v1beta1.MsgUnlinkChainAccount',

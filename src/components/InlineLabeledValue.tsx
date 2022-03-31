@@ -20,7 +20,7 @@ type InlineInputProps = {
   style?: StyleProp<ViewStyle>;
 };
 
-export const InlineLabeledValue: React.FC<InlineInputProps> = (props) => {
+const InlineLabeledValue: React.FC<InlineInputProps> = (props) => {
   const { label, value, onPress, style } = props;
   return (
     <TouchableOpacity style={[styles.container, style]} onPress={onPress}>
@@ -47,3 +47,5 @@ const styles = StyleSheet.create({
     paddingBottom: 0,
   },
 });
+
+export default InlineLabeledValue;

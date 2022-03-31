@@ -9,10 +9,10 @@ import { ImagePickerResponse } from 'react-native-image-picker/src/types';
 import {
   Button,
   Divider,
-  InlineInput,
   InlineLabeledValue,
   StyledSafeAreaView,
   TopBar,
+  InlineInput,
 } from '../components';
 import { ProfileHeader } from '../components/ProfileHeader';
 import useProfileValidators from '../hooks/useProfileValidators';

@@ -1,5 +1,5 @@
 import { DesmosProfile } from '@desmoslabs/sdk-core';
-import React, { useState } from 'react';
+import React, { useMemo, useState } from 'react';
 import { ChainAccount } from '../types/chain';
 import { ChainLink } from '../types/link';
 import { AppSettings, DefaultAppSettings } from '../types/settings';
@@ -38,26 +38,25 @@ export const AppStateProvider: React.FC = ({ children }) => {
   const [selectedAccount, setSelectedAccount] = useState<ChainAccount | null>(null);
   const [settings, setSettings] = useState(DefaultAppSettings);
 
-  return (
-    <AppContext.Provider
-      value={{
-        initializing,
-        setInitializing,
-        accounts,
-        setAccounts,
-        profiles,
-        setProfiles,
-        chainLinks,
-        setChainLinks,
-        selectedAccount,
-        setSelectedAccount,
-        settings,
-        setSettings,
-      }}
-    >
-      {children}
-    </AppContext.Provider>
+  const contextProviderValue = useMemo(
+    () => ({
+      initializing,
+      setInitializing,
+      accounts,
+      setAccounts,
+      profiles,
+      setProfiles,
+      chainLinks,
+      setChainLinks,
+      selectedAccount,
+      setSelectedAccount,
+      settings,
+      setSettings,
+    }),
+    [initializing, accounts, profiles, chainLinks, selectedAccount, settings]
   );
+
+  return <AppContext.Provider value={contextProviderValue}>{children}</AppContext.Provider>;
 };
 
 export const useAppContext = (): AppState => React.useContext(AppContext);

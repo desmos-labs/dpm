@@ -381,9 +381,8 @@ export default class WalletConnectController {
    * 10 seconds.
    */
   async connectToDApp(uri: string, timeout?: number): Promise<SessionRequestDetails> {
-    return new Promise(async (resolve, reject) => {
-      const client = new WalletConnect({ uri });
-
+    const client = new WalletConnect({ uri });
+    const connection: Promise<SessionRequestDetails> = new Promise((resolve, reject) => {
       const rejectTimeout = setTimeout(() => {
         client.off('session_request');
         client.killSession();
@@ -420,9 +419,10 @@ export default class WalletConnectController {
         }
       };
 
-      await client.createSession();
       client.on('session_request', onSessionRequest);
     });
+    await client.createSession();
+    return Promise.resolve(connection);
   }
 
   /**

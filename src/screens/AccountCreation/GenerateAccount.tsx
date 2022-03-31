@@ -89,35 +89,38 @@ export default function GenerateAccount(props: Props): JSX.Element {
     generateAccount().then(() => {});
   }, []);
 
+  const generatedAccount =
+    account !== null ? (
+      <>
+        <DpmImage style={styles.icon} source="success" resizeMode="contain" />
+
+        <Typography.Title>{t('success')}</Typography.Title>
+        <Typography.Body1>{t('account created')}</Typography.Body1>
+
+        <Button style={styles.continueButton} mode="contained" onPress={onContinuePressed}>
+          {t('continue')}
+        </Button>
+        {__DEV__ && (
+          <Button mode="contained" onPress={() => generateAccount()}>
+            (DBG) Regenerate keys
+          </Button>
+        )}
+      </>
+    ) : (
+      <>
+        <Typography.Body style={styles.errorText}>{t('error generating account')}</Typography.Body>
+        <Typography.Body style={styles.errorText}>{error}</Typography.Body>
+      </>
+    );
+
   return (
     <StyledSafeAreaView style={styles.root}>
       {generating ? (
         <Typography.Title style={styles.generatingText}>
           {t('generating account')}...
         </Typography.Title>
-      ) : account !== null ? (
-        <>
-          <DpmImage style={styles.icon} source="success" resizeMode="contain" />
-
-          <Typography.Title>{t('success')}</Typography.Title>
-          <Typography.Body1>{t('account created')}</Typography.Body1>
-
-          <Button style={styles.continueButton} mode="contained" onPress={onContinuePressed}>
-            {t('continue')}
-          </Button>
-          {__DEV__ && (
-            <Button mode="contained" onPress={() => generateAccount()}>
-              (DBG) Regenerate keys
-            </Button>
-          )}
-        </>
       ) : (
-        <>
-          <Typography.Body style={styles.errorText}>
-            {t('error generating account')}
-          </Typography.Body>
-          <Typography.Body style={styles.errorText}>{error}</Typography.Body>
-        </>
+        generatedAccount
       )}
     </StyledSafeAreaView>
   );

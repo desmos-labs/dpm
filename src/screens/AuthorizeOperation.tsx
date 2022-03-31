@@ -4,7 +4,7 @@ import React, { useCallback, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Button, StyledSafeAreaView, TopBar } from '../components';
 import { FlexPadding } from '../components/FlexPadding';
-import { SecureTextInput } from '../components/SecureTextInput';
+import SecureTextInput from '../components/SecureTextInput';
 import { useAppContext } from '../contexts/AppContext';
 import AccountSource from '../sources/AccountSource';
 import { LocalWalletsSource } from '../sources/LocalWalletsSource';
