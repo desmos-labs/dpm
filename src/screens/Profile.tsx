@@ -64,7 +64,6 @@ export default function Profile(props: Props): JSX.Element {
 
   const onAddressCopy = useCallback(() => {
     Clipboard.setString(account.address);
-    console.log(account.address);
     setShowSnackbar(t('address copied'));
   }, [t, account]);
 

@@ -245,7 +245,6 @@ export const PickAddress: React.FC<Props> = (props) => {
         );
       }
       setGeneratingAddresses(false);
-      console.log(wallets);
       return wallets;
     },
     [chain.prefix, importMode, ledgerApp, ledgerTransport, mnemonic, selectedHdPath.coinType]

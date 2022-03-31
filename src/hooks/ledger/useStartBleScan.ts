@@ -37,7 +37,6 @@ export default function useStartBleScan() {
   // Clear the scan timeout
   useEffect(
     () => () => {
-      console.log('stopScanTimeout');
       if (stopScanTimeout !== undefined) {
         clearTimeout(stopScanTimeout);
       }
