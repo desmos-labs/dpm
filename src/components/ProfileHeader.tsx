@@ -4,7 +4,7 @@ import FastImage from 'react-native-fast-image';
 import { useTheme } from 'react-native-paper';
 import { makeStyle } from '../theming';
 import { AvatarImage } from './AvatarImage';
-import { IconButton } from './IconButton';
+import IconButton from './IconButton';
 import { Typography } from './typography';
 
 export type Props = {

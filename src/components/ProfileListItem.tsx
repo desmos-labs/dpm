@@ -6,7 +6,7 @@ import { Menu, useTheme } from 'react-native-paper';
 import { makeStyle } from '../theming';
 import { AvatarImage } from './AvatarImage';
 import { Divider } from './Divider';
-import { IconButton } from './IconButton';
+import IconButton from './IconButton';
 import { Typography } from './typography';
 import { MenuItem } from './MenuItem';
 

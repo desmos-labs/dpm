@@ -2,7 +2,7 @@ import React, { ReactElement } from 'react';
 import { Platform, StatusBar, StyleProp, View, ViewStyle } from 'react-native';
 import { useTheme } from 'react-native-paper';
 import { makeStyleWithProps } from '../theming';
-import { IconButton } from './IconButton';
+import IconButton from './IconButton';
 import { Typography } from './typography';
 
 type ScreenProps = {
@@ -39,7 +39,7 @@ export type Props = {
 };
 
 export const TopBar: React.FC<Props> = (props) => {
-  const { stackProps, title, capitalizeTitle, rightElement, leftIconColor, style } = props;
+  const { stackProps, title, rightElement, leftIconColor, style } = props;
   const theme = useTheme();
   const styles = useStyles(props);
   const { navigation } = stackProps;

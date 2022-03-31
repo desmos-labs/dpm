@@ -3,7 +3,7 @@ import { useTranslation } from 'react-i18next';
 import { StyleProp, TouchableOpacity, View, ViewStyle } from 'react-native';
 import useFetchUserBalance from '../hooks/useFetchUserBalance';
 import { makeStyle } from '../theming';
-import { IconButton } from './IconButton';
+import IconButton from './IconButton';
 import { Typography } from './typography';
 
 export type Props = {

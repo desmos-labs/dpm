@@ -9,7 +9,7 @@ import { DesmosIcon } from './DesmosIcon';
 import { Divider } from './Divider';
 import { DpmImage } from './DpmImage';
 import { HdPathPicker } from './HdPathPicker';
-import { IconButton } from './IconButton';
+import IconButton from './IconButton';
 import { InlineButtons } from './InlineButtons';
 import InlineInput from './InlineInput';
 import InlineLabeledValue from './InlineLabeledValue';
