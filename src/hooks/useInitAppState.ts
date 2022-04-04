@@ -40,6 +40,7 @@ export default function useInitAppState(): InitState {
         console.error(e);
       }
     })();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return initializing;

@@ -14,13 +14,13 @@ import {
   TopBar,
   TransactionsList,
 } from '../components';
+import { Typography } from '../components/typography';
 import { useDrawerContext } from '../contexts/AppDrawerContex';
 import useFetchProfile from '../hooks/useFetchProfile';
 import useSelectedAccount from '../hooks/useSelectedAccount';
 import { makeStyle } from '../theming';
 import { AccountScreensStackParams, HomeScreensBottomTabsParams } from '../types/navigation';
 import { BroadcastedTx } from '../types/tx';
-import { Typography } from '../components/typography';
 
 export type Props = CompositeScreenProps<
   BottomTabScreenProps<HomeScreensBottomTabsParams, 'Home'>,

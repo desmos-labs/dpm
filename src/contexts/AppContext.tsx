@@ -1,5 +1,6 @@
 import { DesmosProfile } from '@desmoslabs/sdk-core';
 import React, { useMemo, useState } from 'react';
+import { Coin } from 'cosmjs-types/cosmos/base/v1beta1/coin';
 import { ChainAccount } from '../types/chain';
 import { ChainLink } from '../types/link';
 import { AppSettings, DefaultAppSettings } from '../types/settings';
@@ -23,6 +24,8 @@ export interface AppState {
   setChainLinks: React.Dispatch<React.SetStateAction<Record<string, ChainLink[]>>>;
   selectedAccount: ChainAccount | null;
   setSelectedAccount: React.Dispatch<React.SetStateAction<ChainAccount | null>>;
+  selectedAccountBalance: Coin;
+  setSelectedAccountBalance: React.Dispatch<React.SetStateAction<Coin>>;
 }
 
 // @ts-ignore
@@ -36,6 +39,10 @@ export const AppStateProvider: React.FC = ({ children }) => {
   const [profiles, setProfiles] = useState<Record<string, DesmosProfile>>({});
   const [chainLinks, setChainLinks] = useState<Record<string, ChainLink[]>>({});
   const [selectedAccount, setSelectedAccount] = useState<ChainAccount | null>(null);
+  const [selectedAccountBalance, setSelectedAccountBalance] = useState<Coin>({
+    amount: '---',
+    denom: '',
+  });
   const [settings, setSettings] = useState(DefaultAppSettings);
 
   const contextProviderValue = useMemo(
@@ -50,10 +57,20 @@ export const AppStateProvider: React.FC = ({ children }) => {
       setChainLinks,
       selectedAccount,
       setSelectedAccount,
+      selectedAccountBalance,
+      setSelectedAccountBalance,
       settings,
       setSettings,
     }),
-    [initializing, accounts, profiles, chainLinks, selectedAccount, settings]
+    [
+      initializing,
+      accounts,
+      profiles,
+      chainLinks,
+      selectedAccount,
+      selectedAccountBalance,
+      settings,
+    ]
   );
 
   return <AppContext.Provider value={contextProviderValue}>{children}</AppContext.Provider>;

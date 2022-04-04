@@ -15,6 +15,7 @@ import {
   SectionedTx,
   useFetchTxsGrouppedByDate,
 } from '../../../graphql/hooks/useFetchTxsGrouppedByDate';
+import useFetchUserBalance from '../../../hooks/useFetchUserBalance';
 import { makeStyle } from '../../../theming';
 import { ChainAccount } from '../../../types/chain';
 import { BroadcastedTx } from '../../../types/tx';
@@ -31,8 +32,9 @@ export type Props = {
 
 export const TransactionsList: React.FC<Props> = ({ chainAccount, style, onTxPressed }) => {
   const { txs, loading, fetchMore, refetchTxs } = useFetchTxsGrouppedByDate(chainAccount);
-  const styles = useStyles();
   const { t } = useTranslation();
+  const styles = useStyles();
+  const fetchBalance = useFetchUserBalance(chainAccount.address);
 
   const renderItem = useCallback(
     (info: SectionListRenderItemInfo<BroadcastedTx, SectionedTx>) => {
@@ -65,6 +67,12 @@ export const TransactionsList: React.FC<Props> = ({ chainAccount, style, onTxPre
     [onTxPressed, styles.txMessage]
   );
 
+  const reloadFromChain = useCallback(() => {
+    refetchTxs().then(() => {
+      fetchBalance(chainAccount.address);
+    });
+  }, [chainAccount.address, fetchBalance, refetchTxs]);
+
   return txs.length > 0 || loading ? (
     <SectionList
       style={style}
@@ -96,20 +104,12 @@ export const TransactionsList: React.FC<Props> = ({ chainAccount, style, onTxPre
         <RefreshControl
           enabled
           refreshing={loading}
-          onRefresh={refetchTxs}
+          onRefresh={reloadFromChain}
           colors={[Colors.DesmosOrange]}
           tintColor={Colors.DesmosOrange}
         />
       }
       showsVerticalScrollIndicator
-      /*      ListFooterComponent={
-        <ActivityIndicator
-          animating={loading}
-          color={Colors.DesmosOrange}
-          hidesWhenStopped
-          size="small"
-        />
-      } */
       ItemSeparatorComponent={Divider}
     />
   ) : (
