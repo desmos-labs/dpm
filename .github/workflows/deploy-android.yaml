@@ -3,7 +3,7 @@ name: Android Release
 on:
   push:
     tags:
-      - "v[0-9]+.[0-9]+.[0-9]+"
+      - 'v[0-9]+.[0-9]+.[0-9]+'
 
 jobs:
   deploy:
@@ -35,7 +35,7 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-gradle-caches-
 
-      - name: "Build and deploy on Play Store"
+      - name: 'Build and deploy on Play Store'
         uses: maierj/fastlane-action@v2.0.1
         with:
           lane: 'android deploy_to_internal_testing'

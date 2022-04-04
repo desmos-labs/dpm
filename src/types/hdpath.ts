@@ -7,50 +7,50 @@ export const BAND_COIN_TYPE = 494;
 export const CRO_COIN_TYPE = 394;
 
 export type HdPath = {
-    coinType: number
-    account: number,
-    change: number,
-    addressIndex: number,
-}
+  coinType: number;
+  account: number;
+  change: number;
+  addressIndex: number;
+};
 
 export const DesmosHdPath: HdPath = {
-    coinType: DESMOS_COIN_TYPE,
-    account: 0,
-    change: 0,
-    addressIndex: 0,
-}
+  coinType: DESMOS_COIN_TYPE,
+  account: 0,
+  change: 0,
+  addressIndex: 0,
+};
 
 export const CosmosHdPath: HdPath = {
-    coinType: COSMOS_COIN_TYPE,
-    account: 0,
-    change: 0,
-    addressIndex: 0,
-}
+  coinType: COSMOS_COIN_TYPE,
+  account: 0,
+  change: 0,
+  addressIndex: 0,
+};
 
 export const LunaHdPath: HdPath = {
-    coinType: LUNA_COIN_TYPE,
-    account: 0,
-    change: 0,
-    addressIndex: 0,
-}
+  coinType: LUNA_COIN_TYPE,
+  account: 0,
+  change: 0,
+  addressIndex: 0,
+};
 
 export const KavaHdPath: HdPath = {
-    coinType: KAVA_COIN_TYPE,
-    account: 0,
-    change: 0,
-    addressIndex: 0,
-}
+  coinType: KAVA_COIN_TYPE,
+  account: 0,
+  change: 0,
+  addressIndex: 0,
+};
 
 export const BandHdPath: HdPath = {
-    coinType: BAND_COIN_TYPE,
-    account: 0,
-    change: 0,
-    addressIndex: 0,
-}
+  coinType: BAND_COIN_TYPE,
+  account: 0,
+  change: 0,
+  addressIndex: 0,
+};
 
 export const CroHdPath: HdPath = {
-    coinType: CRO_COIN_TYPE,
-    account: 0,
-    change: 0,
-    addressIndex: 0,
-}
+  coinType: CRO_COIN_TYPE,
+  account: 0,
+  change: 0,
+  addressIndex: 0,
+};

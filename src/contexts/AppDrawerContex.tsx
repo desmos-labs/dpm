@@ -1,42 +1,47 @@
-import React, {RefObject, useCallback} from "react";
-import {DrawerLayout} from "react-native-gesture-handler";
-
+import React, { RefObject, useCallback, useMemo } from 'react';
+import { DrawerLayout } from 'react-native-gesture-handler';
 
 export interface DrawerState {
-    /**
-     * Open the drawer.
-     */
-    openDrawer(): void,
+  /**
+   * Open the drawer.
+   */
+  openDrawer(): void;
 
-    /**
-     * Close the drawer
-     */
-    closeDrawer(): void,
+  /**
+   * Close the drawer
+   */
+  closeDrawer(): void;
 }
 
 type Props = {
-    drawerRef: RefObject<DrawerLayout | undefined>
-}
+  drawerRef: RefObject<DrawerLayout | undefined>;
+};
 
-// @ts-ignore
-const DrawerState = React.createContext<DrawerState>({});
+const DrawerStateContext = React.createContext<DrawerState>({
+  closeDrawer(): void {},
+  openDrawer(): void {},
+});
 
-export const DrawerStateProvider: React.FC<Props> = ({children, drawerRef}) => {
+export const DrawerStateProvider: React.FC<Props> = ({ children, drawerRef }) => {
+  const openDrawer = useCallback(() => {
+    drawerRef.current?.openDrawer();
+  }, [drawerRef]);
 
-    const openDrawer = useCallback(() => {
-        drawerRef.current?.openDrawer();
-    }, [drawerRef]);
+  const closeDrawer = useCallback(() => {
+    drawerRef.current?.closeDrawer();
+  }, [drawerRef]);
 
-    const closeDrawer = useCallback(() => {
-        drawerRef.current?.closeDrawer();
-    }, [drawerRef])
+  const drawerActions = useMemo(
+    () => ({
+      openDrawer,
+      closeDrawer,
+    }),
+    []
+  );
 
-    return <DrawerState.Provider value={{
-        openDrawer,
-        closeDrawer,
-    }}>
-        {children}
-    </DrawerState.Provider>
-}
+  return (
+    <DrawerStateContext.Provider value={drawerActions}>{children}</DrawerStateContext.Provider>
+  );
+};
 
-export const useDrawerContext = (): DrawerState => React.useContext(DrawerState);
+export const useDrawerContext = (): DrawerState => React.useContext(DrawerStateContext);

@@ -1,62 +1,53 @@
-import React from "react";
-import {Image, View, ImageProps} from "react-native";
-import {Divider} from "../Divider";
-import {LabeledValue} from "../LabeledValue";
-import {makeStyle} from "../../theming";
-import {Typography} from "../index";
-
+import React from 'react';
+import { Image, ImageProps, View } from 'react-native';
+import { makeStyle } from '../../theming';
+import { Divider } from '../Divider';
+import { Typography } from '../typography';
+import { LabeledValue } from '../LabeledValue';
 
 export type Props = {
-    icon?: ImageProps["source"],
-    customIconView?: React.ReactElement,
-    iconSubtitle?: string,
-    fields?: {label: string, value?: string}[],
-}
+  icon?: ImageProps['source'];
+  customIconView?: React.ReactElement;
+  iconSubtitle?: string;
+  fields?: { label: string; value?: string }[];
+};
 
 export const SimpleMessageComponent: React.FC<Props> = (props) => {
-    const styles = useStyles();
-
-    return <View>
-        <View style={styles.txHeader}>
-            {props.icon !== undefined ? (
-                <Image
-                    style={styles.txIcon}
-                    source={props.icon}
-                    resizeMode="contain"
-                />
-            ) : props.customIconView !== undefined ? (
-                props.customIconView
-            ): null}
-            <Typography.Subtitle
-                style={styles.headerAmount}
-            >
-                {props.iconSubtitle}
-            </Typography.Subtitle>
+  const { icon, customIconView, iconSubtitle, fields } = props;
+  const styles = useStyles();
+  const customIcon = customIconView !== undefined ? customIconView : null;
+  return (
+    <View>
+      <View style={styles.txHeader}>
+        {icon !== undefined ? (
+          <Image style={styles.txIcon} source={icon} resizeMode="contain" />
+        ) : (
+          customIcon
+        )}
+        <Typography.Subtitle style={styles.headerAmount}>{iconSubtitle}</Typography.Subtitle>
+      </View>
+      {fields?.map((field, index) => (
+        <View key={`field-${index * 2}`}>
+          <Divider />
+          <LabeledValue label={field.label} value={field.value} />
         </View>
-        {props.fields?.map((field, index) => {
-            return <View key={`field-${index}`}>
-                <Divider />
-                <LabeledValue
-                    label={field.label}
-                    value={field.value}
-                />
-            </View>
-        })}
+      ))}
     </View>
-}
+  );
+};
 
-const useStyles = makeStyle(_ => ({
-    txHeader: {
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "center",
-        paddingVertical: 24,
-    },
-    txIcon: {
-        width: 34,
-        height: 34,
-    },
-    headerAmount: {
-        marginTop: 10,
-    }
-}))
+const useStyles = makeStyle((_) => ({
+  txHeader: {
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    paddingVertical: 24,
+  },
+  txIcon: {
+    width: 34,
+    height: 34,
+  },
+  headerAmount: {
+    marginTop: 10,
+  },
+}));

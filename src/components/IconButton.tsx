@@ -1,16 +1,19 @@
-import React from "react";
-import {IconButton as BaseIconButton, useTheme} from "react-native-paper";
+import React from 'react';
+import { IconButton as BaseIconButton, useTheme } from 'react-native-paper';
 
+type IconButtonProps = {
+  icon: string;
+  size?: number;
+  color?: string;
+  onPress?: (() => void) | undefined;
+  style?: any;
+};
 
-type Props = React.ComponentProps<typeof BaseIconButton>
+const IconButton: React.FC<IconButtonProps> = (props) => {
+  const { icon, size } = props;
+  const theme = useTheme();
 
-export const IconButton: React.FC<Props> = (props) => {
-    const theme = useTheme();
+  return <BaseIconButton icon={icon} color={theme.colors.icon['1']} size={size ?? 28} {...props} />;
+};
 
-    return <BaseIconButton
-        color={theme.colors.icon["1"]}
-        {...props}
-        size={props.size ?? 28}
-    />
-
-}
+export default IconButton;

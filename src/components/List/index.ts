@@ -1,7 +1,4 @@
-import {BlockchainListItem} from "./BlockchainListItem";
-import {ListItemSeparator} from "./ListItemSeparator";
+import BlockchainListItem from './BlockchainListItem';
+import ListItemSeparator from './ListItemSeparator';
 
-export {
-    ListItemSeparator,
-    BlockchainListItem,
-}
+export { ListItemSeparator, BlockchainListItem };
