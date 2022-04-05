@@ -1,11 +1,13 @@
-import { Section } from './Section';
-import { ReadOnlyValue } from './ReadOnlyValue';
-import { Select } from './Select';
+import { SettingsSection } from './SettingsSection';
+import { SettingsSwitch } from './SettingsSwitch';
+import { SettingsText } from './SettingsText';
+import { SettingsButton } from './SettingsButton';
 
 const Settings = {
-  Section,
-  ReadOnlyValue,
-  Select,
+  SettingsSection,
+  SettingsText,
+  SettingsButton,
+  SettingsSwitch,
 };
 
 export default Settings;

@@ -9,7 +9,7 @@ export type Props = {
   style?: StyleProp<ViewStyle>;
 };
 
-export const Section: React.FC<Props> = (props) => {
+export const SettingsSection: React.FC<Props> = (props) => {
   const { title, style, children } = props;
   const styles = useStyle();
 
@@ -30,9 +30,7 @@ export const Section: React.FC<Props> = (props) => {
 
   return (
     <View style={[styles.root, style]}>
-      {title !== undefined && (
-        <Typography.Subtitle style={styles.title}>{title}</Typography.Subtitle>
-      )}
+      <Typography.Subtitle style={styles.title}>{title}</Typography.Subtitle>
       <View style={styles.fieldsContainer}>{wrapped}</View>
     </View>
   );
@@ -47,18 +45,17 @@ const useStyle = makeStyle((theme) => ({
   fieldsContainer: {
     backgroundColor: theme.colors.surface2,
     borderRadius: theme.roundness,
-    shadowColor: '#000',
+    /*    shadowColor: '#000',
     shadowOffset: {
       width: 0,
-      height: 2,
+      height: 1,
     },
-    shadowOpacity: 0.25,
-    shadowRadius: 3.84,
-
-    elevation: 5,
+    shadowOpacity: 0.22,
+    shadowRadius: 2.22,
+    elevation: 3, */
   },
   fieldWrapper: {
-    padding: 16,
+    padding: 0,
   },
   divider: {
     marginLeft: theme.spacing.m,

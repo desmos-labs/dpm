@@ -20,12 +20,12 @@ import { MnemonicWordBadge } from './MnemonicWordBadge';
 import { PaginatedFlatList } from './PaginatedFlatList';
 import { PasswordComplexity } from './PasswordComplexityScore';
 import { ProfileListItem } from './ProfileListItem';
+import Settings from './Settings/index';
 import { StyledSafeAreaView } from './StyledSafeAreaView';
 import { TextInput } from './TextInput';
 import { ThemedLottieView } from './ThemedLottieView';
 import { TopBar } from './TopBar';
 import { TransactionsList } from './tx/list/TransactionsList';
-import Settings from './Settings/index';
 
 export {
   AccountCard,

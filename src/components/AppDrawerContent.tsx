@@ -123,7 +123,8 @@ export const AppDrawerContent: React.FC<Props> = (props) => {
       name: 'Settings',
       params: undefined,
     });
-  }, [navigation]);
+    closeDrawer();
+  }, [closeDrawer, navigation]);
 
   const renderAccounts = useCallback(
     ({ item }: ListRenderItemInfo<AccountProfilePair>) => {

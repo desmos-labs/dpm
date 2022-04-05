@@ -83,7 +83,11 @@ export const Home: React.FC<Props> = (props) => {
       )}
 
       <Image
-        source={require('../assets/home-background-light.png')}
+        source={
+          theme.dark
+            ? require('../assets/home-background-dark.png')
+            : require('../assets/home-background-light.png')
+        }
         resizeMode="stretch"
         style={styles.background}
       />

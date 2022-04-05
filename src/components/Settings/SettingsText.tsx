@@ -1,21 +1,21 @@
 import React from 'react';
 import { View } from 'react-native';
 import { makeStyle } from '../../theming';
-import { Icon } from './Icon';
 import { Typography } from '../typography';
 
 export type Props = {
   label: string;
+  value: string;
 };
 
-export const Select: React.FC<Props> = (props) => {
-  const { label } = props;
+export const SettingsText: React.FC<Props> = (props) => {
+  const { label, value } = props;
   const styles = useStyles();
 
   return (
     <View style={styles.root}>
       <Typography.Body1 style={styles.label}>{label}</Typography.Body1>
-      <Icon name="arrow-right" />
+      <Typography.Body1 style={styles.value}>{value}</Typography.Body1>
     </View>
   );
 };
@@ -24,7 +24,7 @@ const useStyles = makeStyle((theme) => ({
   root: {
     display: 'flex',
     flexDirection: 'row',
-    alignItems: 'center',
+    padding: 16,
   },
   label: {
     flex: 1,
