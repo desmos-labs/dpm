@@ -7,6 +7,7 @@ import {
   View,
   ViewProps,
 } from 'react-native';
+import { useTheme } from 'react-native-paper';
 import useCloseKeyboard from '../hooks/useCloseKeyboard';
 import { makeStyleWithProps } from '../theming';
 import { Divider } from './Divider';
@@ -43,6 +44,7 @@ export type Props = ViewProps & {
 export const StyledSafeAreaView: React.FC<Props> = (props) => {
   const { scrollable, padding, topBar, divider, background, noIosPadding, children, style } = props;
   const styles = useStyles(props);
+  const theme = useTheme();
   const closeKeyboard = useCloseKeyboard();
 
   return (
@@ -54,7 +56,18 @@ export const StyledSafeAreaView: React.FC<Props> = (props) => {
       {divider && <Divider />}
       <TouchableWithoutFeedback onPress={closeKeyboard}>
         <View style={[styles.content, style]}>
-          {scrollable ? <ScrollView>{children}</ScrollView> : children}
+          {scrollable ? (
+            <View style={styles.scrollViewContainer} onStartShouldSetResponder={() => true}>
+              <ScrollView
+                style={{ margin: -theme.spacing.m }}
+                contentContainerStyle={{ padding: theme.spacing.m }}
+              >
+                {children}
+              </ScrollView>
+            </View>
+          ) : (
+            children
+          )}
         </View>
       </TouchableWithoutFeedback>
     </View>
@@ -80,5 +93,8 @@ const useStyles = makeStyleWithProps((props: Props, theme) => ({
     flexGrow: 1,
     padding: props?.padding ?? theme.spacing.m,
     backgroundColor: props.background === undefined ? theme.colors.background : 'transparent',
+  },
+  scrollViewContainer: {
+    flex: 1,
   },
 }));

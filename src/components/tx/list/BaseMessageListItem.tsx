@@ -31,7 +31,7 @@ const useStyles = makeStyle((theme) => ({
   root: {
     display: 'flex',
     flexDirection: 'row',
-    backgroundColor: theme.colors.background,
+    backgroundColor: theme.colors.surface2,
   },
   image: {
     marginTop: 6,

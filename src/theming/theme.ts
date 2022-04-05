@@ -33,6 +33,11 @@ declare global {
       red: string;
     }
 
+    interface ToggleColors {
+      active: string;
+      inactive: string;
+    }
+
     interface ThemeColors {
       background2: string;
       /**
@@ -48,6 +53,7 @@ declare global {
       line: string;
       icon: IconColors;
       font: FontColors;
+      toggle: ToggleColors;
       /**
        * Colors used to provide to the user a feedback about the
        * complexity of a password.
@@ -107,6 +113,10 @@ export const AppThemeLight: ReactNativePaper.Theme = {
       4: '#379afe',
       5: '#ffffff',
       red: '#fd565f',
+    },
+    toggle: {
+      active: '#ED6C53',
+      inactive: '#AFAFAF',
     },
     passwordComplexity: {
       weak: '#ecb140',

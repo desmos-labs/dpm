@@ -144,6 +144,7 @@ export type AccountScreensStackParams = {
     onSuccess: (value?: void | PromiseLike<void> | undefined) => void;
     onCancel: (reasons?: any) => void;
   };
+  Settings: undefined;
 };
 
 export type AuthorizeOperationResolveParams = {

@@ -130,7 +130,7 @@ const useStyles = makeStyle((theme) => ({
     paddingBottom: 16,
   },
   txMessage: {
-    backgroundColor: theme.colors.background,
+    backgroundColor: theme.colors.surface2,
     paddingVertical: 8,
     paddingHorizontal: 8,
   },

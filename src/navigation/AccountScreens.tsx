@@ -10,6 +10,7 @@ import { ConfirmTx } from '../screens/ConfirmTx';
 import EditProfile from '../screens/EditProfile';
 import Profile from '../screens/Profile';
 import { SendToken } from '../screens/SendToken';
+import Settings from '../screens/Settings';
 import { TxDetails } from '../screens/TxDetails';
 import { WalletConnectCallRequest } from '../screens/WalletConnectCallRequest';
 import { AccountScreensStack } from '../types/navigation';
@@ -62,6 +63,7 @@ export default function AccountScreens() {
           presentation: 'transparentModal',
         }}
       />
+      <AccountScreensStack.Screen name="Settings" component={Settings} />
     </AccountScreensStack.Navigator>
   );
 }

@@ -26,6 +26,7 @@ import { TextInput } from './TextInput';
 import { ThemedLottieView } from './ThemedLottieView';
 import { TopBar } from './TopBar';
 import { TransactionsList } from './tx/list/TransactionsList';
+import Settings from './Settings/index';
 
 export {
   AccountCard,
