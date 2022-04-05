@@ -53,6 +53,7 @@ const RootStackScreens: React.FC = () => {
         }
       }
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [appState.initializing, navigatorRef, selectedAccount]);
 
   return (

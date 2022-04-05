@@ -80,6 +80,7 @@ export const ChainConnections: React.FC<Props> = ({
         </Button>
       </View>
     ),
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     []
   );
 

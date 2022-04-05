@@ -49,6 +49,7 @@ export default function GenerateNewMnemonic(props: Props): JSX.Element {
   // Hook to launch the generation when the user enter on the screen
   useEffect(() => {
     generateMnemonic(mnemonicLength).then(setMnemonic);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const onOkPressed = () => {

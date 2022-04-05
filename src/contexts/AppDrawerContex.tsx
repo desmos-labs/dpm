@@ -36,6 +36,7 @@ export const DrawerStateProvider: React.FC<Props> = ({ children, drawerRef }) =>
       openDrawer,
       closeDrawer,
     }),
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     []
   );
 

@@ -306,6 +306,7 @@ export function useFetchTxsGrouppedByDate(chainAccount: ChainAccount) {
       setDataAvailable(false);
     }
     setLoading(false);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const fetchMore = useCallback(async () => {
