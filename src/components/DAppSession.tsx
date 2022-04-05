@@ -19,6 +19,7 @@ export function DAppSession(props: Props) {
 
   const onRevokePressed = useCallback(() => {
     onRevoke(session);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [props]);
 
   const appIcon = useMemo(() => {

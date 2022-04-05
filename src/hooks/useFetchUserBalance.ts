@@ -3,6 +3,7 @@ import { useCurrentChainInfo, useDesmosClient } from '@desmoslabs/sdk-react';
 import { useNavigation } from '@react-navigation/native';
 import { Coin } from 'cosmjs-types/cosmos/base/v1beta1/coin';
 import { useCallback, useEffect, useRef, useState } from 'react';
+import { useAppContext } from '../contexts/AppContext';
 
 /**
  * Hook to fetches an account balance.
@@ -10,17 +11,15 @@ import { useCallback, useEffect, useRef, useState } from 'react';
  */
 export default function useFetchUserBalance(address: string) {
   const chainInfo = useCurrentChainInfo();
-  const [userBalance, setUserBalance] = useState<Coin>({
-    amount: '---',
-    denom: '',
-  });
+  const { setSelectedAccountBalance } = useAppContext();
+
   const client = useDesmosClient();
   const navigation = useNavigation();
   const mountedRef = useRef<boolean>(false);
 
   const fetchBalance = useCallback(
     async (chainAddress: string) => {
-      setUserBalance({
+      setSelectedAccountBalance({
         amount: '---',
         denom: '',
       });
@@ -30,9 +29,9 @@ export default function useFetchUserBalance(address: string) {
         const balance = convertCoin(chainBalance, 6, chainInfo.denomUnits);
         if (mountedRef.current) {
           if (balance !== null) {
-            setUserBalance(balance);
+            setSelectedAccountBalance(balance);
           } else {
-            setUserBalance(chainBalance);
+            setSelectedAccountBalance(chainBalance);
           }
         }
       } catch (e) {
@@ -40,6 +39,7 @@ export default function useFetchUserBalance(address: string) {
         // on the chain
       }
     },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     [client, chainInfo]
   );
 
@@ -63,5 +63,5 @@ export default function useFetchUserBalance(address: string) {
     fetchBalance(address).then(() => {});
   }, [address, fetchBalance]);
 
-  return userBalance;
+  return fetchBalance;
 }

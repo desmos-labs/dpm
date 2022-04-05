@@ -27,6 +27,7 @@ export const ScanForLedger: React.FC<Props> = ({ navigation, route }) => {
 
   useEffect(() => {
     scan().then(() => {});
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(

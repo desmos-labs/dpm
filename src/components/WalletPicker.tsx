@@ -115,6 +115,7 @@ export const WalletPicker: React.FC<Props> = ({
       const wallet = await generateWalletFromHdPath(selectedHdPath);
       setSelectedWallet(wallet);
     })();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const toggleAddressPicker = useCallback(() => {
@@ -154,7 +155,7 @@ export const WalletPicker: React.FC<Props> = ({
   );
 
   const listKeyExtractor = useCallback((item: Wallet, _: number) => item.address, []);
-
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   const debouncedGenerateWallet = useCallback(
     debounce(async (hdPath: HdPath) => {
       const wallet = await generateWalletFromHdPath(hdPath);

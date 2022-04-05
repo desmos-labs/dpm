@@ -1,7 +1,7 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { StyleProp, TouchableOpacity, View, ViewStyle } from 'react-native';
-import useFetchUserBalance from '../hooks/useFetchUserBalance';
+import { useAppContext } from '../contexts/AppContext';
 import { makeStyle } from '../theming';
 import IconButton from './IconButton';
 import { Typography } from './typography';
@@ -30,7 +30,7 @@ export const AccountBalance: React.FC<Props> = (props) => {
   const { address, nickname, onCopyPress, onSendPressed, style } = props;
   const { t } = useTranslation();
   const styles = useStyles();
-  const chainBalance = useFetchUserBalance(address);
+  const { selectedAccountBalance } = useAppContext();
 
   return (
     <View style={[styles.root, style]}>
@@ -51,7 +51,7 @@ export const AccountBalance: React.FC<Props> = (props) => {
         <View style={styles.balanceTextContainer}>
           <Typography.Body style={styles.balanceText}>{t('available')}</Typography.Body>
           <Typography.H4 style={styles.balanceText}>
-            {chainBalance.amount} {chainBalance.denom.toUpperCase()}
+            {selectedAccountBalance.amount} {selectedAccountBalance.denom.toUpperCase()}
           </Typography.H4>
         </View>
         <TouchableOpacity style={styles.sendButton} onPress={onSendPressed}>

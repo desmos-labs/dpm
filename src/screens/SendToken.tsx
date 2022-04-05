@@ -1,11 +1,12 @@
 import { MsgSendEncodeObject } from '@desmoslabs/sdk-core';
 import { useCurrentChainInfo } from '@desmoslabs/sdk-react';
 import { StackScreenProps } from '@react-navigation/stack';
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useContext, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Button, StyledSafeAreaView, TextInput, TopBar } from '../components';
 import { FlexPadding } from '../components/FlexPadding';
 import { MEMO_MAX_LENGTH } from '../constants/chain';
+import { useAppContext } from '../contexts/AppContext';
 import useFetchUserBalance from '../hooks/useFetchUserBalance';
 import useSelectedAccount from '../hooks/useSelectedAccount';
 import { makeStyle } from '../theming';
@@ -27,7 +28,7 @@ export const SendToken: React.FC<Props> = (props) => {
   const [amount, setAmount] = useState('');
   const [amountInvalid, setAmountInvalid] = useState(false);
   const [memo, setMemo] = useState('');
-  const userBalance = useFetchUserBalance(currentAccount.address);
+  const { selectedAccountBalance } = useAppContext();
   const chainInfo = useCurrentChainInfo();
   const nextDisabled =
     addressInvalid || amountInvalid || address.length === 0 || amount.length === 0;
@@ -45,13 +46,13 @@ export const SendToken: React.FC<Props> = (props) => {
         new RegExp(`^[0-9]+(\\${separator})?[0-9]*$`).test(changedAmount);
       if (isValid && changedAmount.length > 0) {
         const value = localeParseFloat(changedAmount);
-        const balance = parseFloat(userBalance.amount);
+        const balance = parseFloat(selectedAccountBalance.amount);
         isValid = balance >= value;
       }
       setAmountInvalid(!isValid);
       setAmount(changedAmount);
     },
-    [userBalance]
+    [selectedAccountBalance]
   );
 
   const onMemoChange = useCallback((changedMemo: string) => {
@@ -59,8 +60,8 @@ export const SendToken: React.FC<Props> = (props) => {
   }, []);
 
   const onMaxPressed = useCallback(() => {
-    setAmount(userBalance.amount);
-  }, [userBalance]);
+    setAmount(selectedAccountBalance.amount);
+  }, [selectedAccountBalance]);
 
   const onNextPressed = useCallback(() => {
     const amountNumber = Math.floor(localeParseFloat(amount) * 1000000);
@@ -108,7 +109,7 @@ export const SendToken: React.FC<Props> = (props) => {
         rightElement={<Button onPress={onMaxPressed}>{t('max')}</Button>}
       />
       <Typography.Body style={styles.topMarginSmall}>
-        {t('available')} {userBalance.amount} {userBalance.denom}
+        {t('available')} {selectedAccountBalance.amount} {selectedAccountBalance.denom}
       </Typography.Body>
 
       <Typography.Subtitle style={styles.topMarginMedium}>{t('tx note')}</Typography.Subtitle>

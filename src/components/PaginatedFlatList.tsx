@@ -48,19 +48,21 @@ export function PaginatedFlatList<ItemT = any>(props: Props<ItemT>): JSX.Element
 
   useEffect(() => {
     if (currentOffset === 0) {
-      fetchNextPage();
+      fetchNextPage().then(() => {});
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const onPageEndReached = useCallback(
     (info: { distanceFromEnd: number }) => {
       if (!loading) {
-        fetchNextPage();
+        fetchNextPage().then(() => {});
       }
       if (onEndReached) {
         onEndReached(info);
       }
     },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     [loading, fetchNextPage, props]
   );
 
