@@ -16,6 +16,7 @@ import { WalletConnectCallRequest } from '../screens/WalletConnectCallRequest';
 import { AccountScreensStack } from '../types/navigation';
 import ChainLinkScreens from './ChainLinkScreens';
 import HomeScreens from './HomeScreens';
+import SettingsScreens from './SettingsScreens';
 
 export default function AccountScreens() {
   const { t } = useTranslation();
@@ -63,7 +64,7 @@ export default function AccountScreens() {
           presentation: 'transparentModal',
         }}
       />
-      <AccountScreensStack.Screen name="Settings" component={Settings} />
+      <AccountScreensStack.Screen name="SettingsScreens" component={SettingsScreens} />
     </AccountScreensStack.Navigator>
   );
 }

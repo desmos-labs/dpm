@@ -6,14 +6,15 @@ import { Typography } from '../typography';
 
 export type Props = {
   label: string;
+  onPress?: () => void;
 };
 
 export const SettingsButton: React.FC<Props> = (props) => {
-  const { label } = props;
+  const { label, onPress } = props;
   const styles = useStyles();
 
   return (
-    <TouchableOpacity style={styles.root}>
+    <TouchableOpacity style={styles.root} onPress={onPress ?? onPress}>
       <Typography.Body1 style={styles.label}>{label}</Typography.Body1>
       <Icon name="arrow-right" />
     </TouchableOpacity>

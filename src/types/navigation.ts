@@ -141,8 +141,15 @@ export type AccountScreensStackParams = {
     onSuccess: (value?: void | PromiseLike<void> | undefined) => void;
     onCancel: (reasons?: any) => void;
   };
-  Settings: undefined;
+  SettingsScreens: NavigatorScreenParams<SettingsScreensStackParams>;
 };
+
+export type SettingsScreensStackParams = {
+  Settings: undefined;
+  DisplayMode: undefined;
+};
+
+export const SettingsScreensStack = createStackNavigator<SettingsScreensStackParams>();
 
 export type AuthorizeOperationResolveParams = {
   authorized: boolean;

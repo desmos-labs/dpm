@@ -42,7 +42,7 @@ export type Props = ViewProps & {
 };
 
 export const StyledSafeAreaView: React.FC<Props> = (props) => {
-  const { scrollable, padding, topBar, divider, background, noIosPadding, children, style } = props;
+  const { scrollable, topBar, divider, background, children, style } = props;
   const styles = useStyles(props);
   const theme = useTheme();
   const closeKeyboard = useCloseKeyboard();

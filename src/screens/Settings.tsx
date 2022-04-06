@@ -1,18 +1,15 @@
-import { CompositeScreenProps } from '@react-navigation/native';
 import { StackScreenProps } from '@react-navigation/stack';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import DeviceInfo from 'react-native-device-info';
 import { Settings as SettingsComponents, StyledSafeAreaView, TopBar } from '../components';
 import { makeStyle } from '../theming';
-import { AccountScreensStackParams, RootStackParams } from '../types/navigation';
+import { SettingsScreensStackParams } from '../types/navigation';
 
-type Props = CompositeScreenProps<
-  StackScreenProps<AccountScreensStackParams, 'Settings'>,
-  StackScreenProps<RootStackParams>
->;
+type Props = StackScreenProps<SettingsScreensStackParams>;
 
 const Settings: React.FC<Props> = (props) => {
+  const { navigation } = props;
   const { t } = useTranslation();
   const styles = useStyles();
 
@@ -23,7 +20,15 @@ const Settings: React.FC<Props> = (props) => {
       topBar={<TopBar style={styles.background} stackProps={props} title={t('settings')} />}
     >
       <SettingsComponents.SettingsSection title={t('general')}>
-        <SettingsComponents.SettingsButton label={t('display mode')} />
+        <SettingsComponents.SettingsButton
+          label={t('display mode')}
+          onPress={() => {
+            navigation.navigate({
+              name: 'DisplayMode',
+              params: undefined,
+            });
+          }}
+        />
       </SettingsComponents.SettingsSection>
       <SettingsComponents.SettingsSection style={styles.sectionMargin} title={t('security')}>
         <SettingsComponents.SettingsButton label={t('change wallet password')} />
