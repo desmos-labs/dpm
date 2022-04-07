@@ -4,11 +4,12 @@ import { useTheme } from 'react-native-paper';
 
 type SwitchProps = {
   onPress?: () => void;
-  isActive?: boolean;
+  isActive: boolean;
+  isDisabled: boolean;
 };
 // eslint-disable-next-line import/prefer-default-export
 export const Switch: React.FC<SwitchProps> = (props) => {
-  const { onPress, isActive } = props;
+  const { onPress, isActive, isDisabled } = props;
   const [active, setActive] = React.useState(isActive);
   const theme = useTheme();
   const translation = useRef(new Animated.Value(active ? 7 : -7)).current;
@@ -23,7 +24,8 @@ export const Switch: React.FC<SwitchProps> = (props) => {
 
   return (
     <Pressable
-      style={{ paddingVertical: 6 }}
+      disabled={isDisabled}
+      style={[{ paddingVertical: 6 }, isDisabled ? { opacity: 0.3 } : null]}
       onPress={() => {
         animateToggle();
         if (onPress) {

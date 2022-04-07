@@ -19,14 +19,15 @@ export const SettingsSection: React.FC<Props> = (props) => {
       const last = count === index + 1;
       return (
         <>
-          <View style={styles.fieldWrapper} key={`w_${index.toString()}`}>
+          <View style={[!last && styles.interBorder]} key={`w_${index.toString()}`}>
             {c}
           </View>
-          {!last && <Divider style={styles.divider} />}
+
+          {/*          {!last && <Divider style={styles.divider} />} */}
         </>
       );
     });
-  }, [children, styles.fieldWrapper, styles.divider]);
+  }, [children, styles.divider, styles.interBorder]);
 
   return (
     <View style={[styles.root, style]}>
@@ -46,8 +47,10 @@ const useStyle = makeStyle((theme) => ({
     backgroundColor: theme.colors.surface2,
     borderRadius: theme.roundness,
   },
-  fieldWrapper: {
-    padding: 0,
+  interBorder: {
+    borderBottomWidth: 1,
+    borderRadius: 0,
+    borderColor: theme.colors.line,
   },
   divider: {
     marginLeft: theme.spacing.m,

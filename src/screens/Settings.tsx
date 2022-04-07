@@ -28,9 +28,26 @@ const Settings: React.FC<Props> = (props) => {
     });
   }, [navigation, t]);
 
+  const openAbout = useCallback(async () => {
+    navigation.navigate({
+      name: 'MarkdownText',
+      params: {
+        title: t('about dpm'),
+        asset: 'custom/about.md',
+      },
+    });
+  }, [navigation, t]);
+
   const navigateToDisplayMode = useCallback(async () => {
     navigation.navigate({
       name: 'DisplayMode',
+      params: undefined,
+    });
+  }, [navigation]);
+
+  const navigateToJoinCommunity = useCallback(async () => {
+    navigation.navigate({
+      name: 'JoinCommunity',
       params: undefined,
     });
   }, [navigation]);
@@ -55,15 +72,26 @@ const Settings: React.FC<Props> = (props) => {
       </SettingsComponents.SettingsSection>
       <SettingsComponents.SettingsSection style={styles.sectionMargin} title={t('security')}>
         <SettingsComponents.SettingsButton label={t('change wallet password')} />
-        <SettingsComponents.SettingsSwitch label={t('enable face id for signature')} isActive />
-        <SettingsComponents.SettingsSwitch label={t('enable face id for login')} isActive={false} />
+        <SettingsComponents.SettingsSwitch
+          label={t('enable face id for signature')}
+          isActive={false}
+          isDisabled
+        />
+        <SettingsComponents.SettingsSwitch
+          label={t('enable face id for login')}
+          isActive={false}
+          isDisabled
+        />
       </SettingsComponents.SettingsSection>
       <SettingsComponents.SettingsSection style={styles.sectionMargin} title={t('support')}>
         <SettingsComponents.SettingsButton label={t('feedback')} />
-        <SettingsComponents.SettingsButton label={t('join community')} />
+        <SettingsComponents.SettingsButton
+          label={t('join community')}
+          onPress={navigateToJoinCommunity}
+        />
       </SettingsComponents.SettingsSection>
       <SettingsComponents.SettingsSection style={styles.sectionMargin} title={t('about')}>
-        <SettingsComponents.SettingsButton label={t('about dpm')} />
+        <SettingsComponents.SettingsButton label={t('about dpm')} onPress={openAbout} />
         <SettingsComponents.SettingsButton
           label={t('privacy policy')}
           onPress={openPrivacyPolicy}

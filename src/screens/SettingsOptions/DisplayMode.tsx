@@ -24,16 +24,16 @@ const DisplayMode: React.FC<Props> = (props) => {
       onPress: () => setTheme('auto'),
     },
     {
-      label: t('dark'),
-      value: 'dark',
-      status: theme === 'dark' ? 'checked' : 'unchecked',
-      onPress: () => setTheme('dark'),
-    },
-    {
       label: t('light'),
       value: 'light',
       status: theme === 'light' ? 'checked' : 'unchecked',
       onPress: () => setTheme('light'),
+    },
+    {
+      label: t('dark'),
+      value: 'dark',
+      status: theme === 'dark' ? 'checked' : 'unchecked',
+      onPress: () => setTheme('dark'),
     },
   ];
 

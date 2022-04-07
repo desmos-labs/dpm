@@ -27,7 +27,7 @@ export const SettingsRadioGroup: React.FC<Props> = (props) => {
       const last = count === index + 1;
       return (
         <View key={`w_${index.toString()}`}>
-          <View style={styles.fieldWrapper}>
+          <View style={[styles.fieldWrapper, !last && styles.interBorder]}>
             <Typography.Subtitle style={styles.title}>{value.label}</Typography.Subtitle>
             <RadioButton
               value={value.value}
@@ -37,18 +37,10 @@ export const SettingsRadioGroup: React.FC<Props> = (props) => {
               onPress={value.onPress ?? value.onPress}
             />
           </View>
-          {!last && <Divider style={styles.divider} />}
         </View>
       );
     });
-  }, [
-    values,
-    styles.fieldWrapper,
-    styles.title,
-    styles.divider,
-    theme.colors.primary,
-    theme.colors.icon,
-  ]);
+  }, [values, styles.fieldWrapper, styles.title, theme.colors.primary, theme.colors.icon]);
 
   return (
     <View style={styles.root}>
@@ -75,7 +67,8 @@ const useStyles = makeStyle((theme) => ({
     paddingHorizontal: 16,
     paddingVertical: 8,
   },
-  divider: {
-    marginLeft: theme.spacing.m,
+  interBorder: {
+    borderBottomWidth: 1,
+    borderBottomColor: theme.colors.line,
   },
 }));

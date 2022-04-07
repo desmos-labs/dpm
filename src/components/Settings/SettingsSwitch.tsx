@@ -7,16 +7,19 @@ import { Typography } from '../typography';
 export type Props = {
   label: string;
   isActive: boolean;
+  isDisabled: boolean;
 };
 
 export const SettingsSwitch: React.FC<Props> = (props) => {
-  const { label, isActive } = props;
+  const { label, isActive, isDisabled } = props;
   const styles = useStyles();
 
   return (
     <View style={styles.root}>
-      <Typography.Body1 style={styles.label}>{label}</Typography.Body1>
-      <Switch isActive={isActive} />
+      <Typography.Body1 style={[styles.label, isDisabled ? styles.disabled : null]}>
+        {label}
+      </Typography.Body1>
+      <Switch isActive={isActive} isDisabled={isDisabled} />
     </View>
   );
 };
@@ -33,5 +36,8 @@ const useStyles = makeStyle((theme) => ({
   },
   value: {
     color: theme.colors.font['3'],
+  },
+  disabled: {
+    opacity: 0.3,
   },
 }));

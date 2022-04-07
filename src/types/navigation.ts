@@ -150,6 +150,7 @@ export type AccountScreensStackParams = {
 export type SettingsScreensStackParams = {
   Settings: undefined;
   DisplayMode: undefined;
+  JoinCommunity: undefined;
 };
 
 export const SettingsScreensStack = createStackNavigator<SettingsScreensStackParams>();

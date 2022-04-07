@@ -3,11 +3,13 @@ import {
   ImageBackground,
   Platform,
   ScrollView,
+  StatusBar,
   TouchableWithoutFeedback,
   View,
   ViewProps,
 } from 'react-native';
 import { useTheme } from 'react-native-paper';
+import useSetting from '../hooks/settings/useSetting';
 import useCloseKeyboard from '../hooks/useCloseKeyboard';
 import { makeStyleWithProps } from '../theming';
 import { Divider } from './Divider';
@@ -45,10 +47,13 @@ export const StyledSafeAreaView: React.FC<Props> = (props) => {
   const { scrollable, topBar, divider, background, children, style } = props;
   const styles = useStyles(props);
   const theme = useTheme();
+  const themeMode = useSetting('theme');
   const closeKeyboard = useCloseKeyboard();
+  const statusBarVariant = themeMode === 'light' ? 'dark-content' : 'light-content';
 
   return (
     <View style={styles.root}>
+      <StatusBar barStyle={themeMode === 'auto' ? 'dark-content' : statusBarVariant} />
       {background !== undefined && (
         <ImageBackground style={styles.background} source={background} />
       )}
