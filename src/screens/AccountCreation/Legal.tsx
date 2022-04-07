@@ -1,3 +1,4 @@
+import BluetoothTransport from '@ledgerhq/react-native-hw-transport-ble';
 import { CompositeScreenProps } from '@react-navigation/native';
 import { StackScreenProps } from '@react-navigation/stack';
 import React, { useCallback } from 'react';
@@ -9,6 +10,7 @@ import {
   Button,
 } from '../../components';
 import { makeStyle } from '../../theming';
+import { DesmosLedgerApp } from '../../types/ledger';
 import { AccountCreationStackParams, RootStackParams } from '../../types/navigation';
 import { Typography } from '../../components/typography';
 import { FlexPadding } from '../../components/FlexPadding';
@@ -43,7 +45,7 @@ const Legal: React.FC<Props> = (props) => {
       name: 'MarkdownText',
       params: {
         title: t('Privacy Policy'),
-        asset: '',
+        asset: 'custom/privacy.md',
       },
     });
   }, [navigation, t]);
@@ -54,10 +56,25 @@ const Legal: React.FC<Props> = (props) => {
         name: 'GenerateNewMnemonic',
         params: undefined,
       });
-    } else {
+    } else if (mode === 'import') {
       navigation.navigate({
         name: 'ImportRecoveryPassphrase',
         params: undefined,
+      });
+    } else {
+      navigation.navigate({
+        name: 'ConnectToLedgerScreens',
+        params: {
+          ledgerApp: DesmosLedgerApp,
+          onConnectionEstablished: (transport: BluetoothTransport) => {
+            navigation.navigate({
+              name: 'PickDerivationPath',
+              params: {
+                ledgerTransport: transport,
+              },
+            });
+          },
+        },
       });
     }
   }, [navigation, mode]);

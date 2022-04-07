@@ -76,6 +76,7 @@
     "react-native-image-picker": "^4.1.1",
     "react-native-level-fs": "3.0.1",
     "react-native-markdown-display": "^7.0.0-alpha.2",
+    "react-native-markdown-view": "^1.1.4",
     "react-native-os": "1.2.6",
     "react-native-paper": "^4.9.2",
     "react-native-permissions": "^3.1.0",
@@ -121,6 +122,7 @@
     "jest": "26.6.3",
     "metro-react-native-babel-preset": "0.64.0",
     "prettier": "^2.6.0",
+    "react-native-asset": "^2.0.1",
     "react-test-renderer": "17.0.1",
     "rn-nodeify": "10.3.0",
     "typescript": "3.8.3"

@@ -65,17 +65,9 @@ export default function Login({ navigation }: Props): JSX.Element {
 
   const onImportLedger = useCallback(() => {
     navigation.navigate({
-      name: 'ConnectToLedgerScreens',
+      name: 'Legal',
       params: {
-        ledgerApp: DesmosLedgerApp,
-        onConnectionEstablished: (transport: BluetoothTransport) => {
-          navigation.navigate({
-            name: 'PickDerivationPath',
-            params: {
-              ledgerTransport: transport,
-            },
-          });
-        },
+        mode: 'ledger',
       },
     });
   }, [navigation]);
