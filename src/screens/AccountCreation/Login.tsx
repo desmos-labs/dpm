@@ -1,4 +1,3 @@
-import BluetoothTransport from '@ledgerhq/react-native-hw-transport-ble';
 import { CompositeScreenProps } from '@react-navigation/native';
 import { StackScreenProps } from '@react-navigation/stack';
 import React, { useCallback, useEffect, useRef } from 'react';
@@ -6,7 +5,6 @@ import { useTranslation } from 'react-i18next';
 import { Animated, Image, ImageBackground, Text } from 'react-native';
 import { Button, IconButton, StyledSafeAreaView } from '../../components';
 import { makeStyle } from '../../theming';
-import { DesmosLedgerApp } from '../../types/ledger';
 import { AccountCreationStackParams, RootStackParams } from '../../types/navigation';
 
 declare type Props = CompositeScreenProps<
@@ -47,31 +45,27 @@ export default function Login({ navigation }: Props): JSX.Element {
 
   const onCreatePressed = useCallback(() => {
     navigation.navigate({
-      name: 'GenerateNewMnemonic',
-      params: undefined,
+      name: 'Legal',
+      params: {
+        mode: 'create',
+      },
     });
   }, [navigation]);
 
   const onImportMnemonic = useCallback(() => {
     navigation.navigate({
-      name: 'ImportRecoveryPassphrase',
-      params: undefined,
+      name: 'Legal',
+      params: {
+        mode: 'import',
+      },
     });
   }, [navigation]);
 
-  const onImportLedger = useCallback(() => {
+  const onImportWithLedger = useCallback(() => {
     navigation.navigate({
-      name: 'ConnectToLedgerScreens',
+      name: 'Legal',
       params: {
-        ledgerApp: DesmosLedgerApp,
-        onConnectionEstablished: (transport: BluetoothTransport) => {
-          navigation.navigate({
-            name: 'PickDerivationPath',
-            params: {
-              ledgerTransport: transport,
-            },
-          });
-        },
+        mode: 'ledger',
       },
     });
   }, [navigation]);
@@ -137,7 +131,7 @@ export default function Login({ navigation }: Props): JSX.Element {
             style={[styles.buttons, styles.buttonMargin]}
             mode="outlined"
             color="#ffffff"
-            onPress={onImportLedger}
+            onPress={onImportWithLedger}
           >
             {t('import with Ledger')}
           </Button>

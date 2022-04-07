@@ -17,6 +17,9 @@ import { SessionRequestDetails } from './walletconnect';
 
 export type AccountCreationStackParams = {
   Login: undefined;
+  Legal: {
+    mode: 'create' | 'import' | 'ledger';
+  };
   GenerateNewMnemonic: undefined;
   ImportRecoveryPassphrase: undefined;
   CheckMnemonic: {
@@ -226,6 +229,24 @@ export type RootStackParams = {
   SplashScreen: undefined;
   AccountCreationScreens: undefined;
   AccountScreens: NavigatorScreenParams<AccountScreensStackParams>;
+  MarkdownText: {
+    /**
+     * Title that will be displayed on top of the page
+     */
+    title: string;
+    /**
+     * The text that will be displayed.
+     * If both asset and text are defined will displayed
+     * the asset content.
+     */
+    text?: string;
+    /**
+     * Path to the asset to display.
+     * If both asset and text are defined will displayed
+     * the asset content.
+     */
+    asset?: string;
+  };
   ConnectToLedgerScreens: {
     ledgerApp: LedgerApp;
     onConnectionEstablished: (transport: BluetoothTransport) => void;
