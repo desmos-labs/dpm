@@ -47,15 +47,19 @@ export default function Login({ navigation }: Props): JSX.Element {
 
   const onCreatePressed = useCallback(() => {
     navigation.navigate({
-      name: 'GenerateNewMnemonic',
-      params: undefined,
+      name: 'Legal',
+      params: {
+        mode: 'create',
+      },
     });
   }, [navigation]);
 
   const onImportMnemonic = useCallback(() => {
     navigation.navigate({
-      name: 'ImportRecoveryPassphrase',
-      params: undefined,
+      name: 'Legal',
+      params: {
+        mode: 'import',
+      },
     });
   }, [navigation]);
 

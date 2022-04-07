@@ -30,7 +30,7 @@ export const SettingsSection: React.FC<Props> = (props) => {
 
   return (
     <View style={[styles.root, style]}>
-      <Typography.Subtitle style={styles.title}>{title}</Typography.Subtitle>
+      {title ? <Typography.Subtitle style={styles.title}>{title}</Typography.Subtitle> : null}
       <View style={styles.fieldsContainer}>{wrapped}</View>
     </View>
   );

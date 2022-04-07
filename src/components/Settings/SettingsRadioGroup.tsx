@@ -33,6 +33,7 @@ export const SettingsRadioGroup: React.FC<Props> = (props) => {
               value={value.value}
               status={value.status}
               color={theme.colors.primary}
+              uncheckedColor={theme.colors.icon['3']}
               onPress={value.onPress ?? value.onPress}
             />
           </View>
@@ -40,7 +41,14 @@ export const SettingsRadioGroup: React.FC<Props> = (props) => {
         </View>
       );
     });
-  }, [values, styles.fieldWrapper, styles.title, styles.divider, theme.colors.primary]);
+  }, [
+    values,
+    styles.fieldWrapper,
+    styles.title,
+    styles.divider,
+    theme.colors.primary,
+    theme.colors.icon,
+  ]);
 
   return (
     <View style={styles.root}>

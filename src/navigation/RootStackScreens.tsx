@@ -4,6 +4,7 @@ import { useAppContext } from '../contexts/AppContext';
 import { useWalletConnectContext } from '../contexts/WalletConnectContext';
 import useInitAppState from '../hooks/useInitAppState';
 import { ModalScreen } from '../modals/ModalScreen';
+import { MarkdownText } from '../screens/MarkdownText';
 import SplashScreen from '../screens/SplashScreen';
 import { RootStack, RootStackParams } from '../types/navigation';
 import AccountCreationScreens from './AccountCreationScreens';
@@ -75,6 +76,7 @@ const RootStackScreens: React.FC = () => {
             presentation: 'transparentModal',
           }}
         />
+        <RootStack.Screen name="MarkdownText" component={MarkdownText} />
       </RootStack.Navigator>
     </NavigationContainer>
   );
