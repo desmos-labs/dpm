@@ -27,7 +27,7 @@ export const SettingsSection: React.FC<Props> = (props) => {
         </>
       );
     });
-  }, [children, styles.divider, styles.interBorder]);
+  }, [children, styles.interBorder]);
 
   return (
     <View style={[styles.root, style]}>

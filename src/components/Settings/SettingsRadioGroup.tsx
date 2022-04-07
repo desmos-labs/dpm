@@ -40,7 +40,14 @@ export const SettingsRadioGroup: React.FC<Props> = (props) => {
         </View>
       );
     });
-  }, [values, styles.fieldWrapper, styles.title, theme.colors.primary, theme.colors.icon]);
+  }, [
+    values,
+    styles.fieldWrapper,
+    styles.interBorder,
+    styles.title,
+    theme.colors.primary,
+    theme.colors.icon,
+  ]);
 
   return (
     <View style={styles.root}>
