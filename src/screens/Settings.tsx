@@ -1,17 +1,45 @@
+import { CompositeScreenProps } from '@react-navigation/native';
 import { StackScreenProps } from '@react-navigation/stack';
-import React from 'react';
+import React, { useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
+import { Linking } from 'react-native';
 import DeviceInfo from 'react-native-device-info';
 import { Settings as SettingsComponents, StyledSafeAreaView, TopBar } from '../components';
 import { makeStyle } from '../theming';
-import { SettingsScreensStackParams } from '../types/navigation';
+import { RootStackParams, SettingsScreensStackParams } from '../types/navigation';
 
-type Props = StackScreenProps<SettingsScreensStackParams>;
+declare type Props = CompositeScreenProps<
+  StackScreenProps<SettingsScreensStackParams>,
+  StackScreenProps<RootStackParams>
+>;
 
 const Settings: React.FC<Props> = (props) => {
   const { navigation } = props;
   const { t } = useTranslation();
   const styles = useStyles();
+
+  const openPrivacyPolicy = useCallback(async () => {
+    navigation.navigate({
+      name: 'MarkdownText',
+      params: {
+        title: t('Privacy Policy'),
+        asset: 'custom/privacy.md',
+      },
+    });
+  }, [navigation, t]);
+
+  const navigateToDisplayMode = useCallback(async () => {
+    navigation.navigate({
+      name: 'DisplayMode',
+      params: undefined,
+    });
+  }, [navigation]);
+
+  const navigateToGithub = useCallback(() => {
+    Linking.openURL('https://github.com/desmos-labs/dpm').catch((err) =>
+      console.error("Couldn't load page", err)
+    );
+  }, []);
 
   return (
     <StyledSafeAreaView
@@ -22,12 +50,7 @@ const Settings: React.FC<Props> = (props) => {
       <SettingsComponents.SettingsSection title={t('general')}>
         <SettingsComponents.SettingsButton
           label={t('display mode')}
-          onPress={() => {
-            navigation.navigate({
-              name: 'DisplayMode',
-              params: undefined,
-            });
-          }}
+          onPress={navigateToDisplayMode}
         />
       </SettingsComponents.SettingsSection>
       <SettingsComponents.SettingsSection style={styles.sectionMargin} title={t('security')}>
@@ -41,8 +64,11 @@ const Settings: React.FC<Props> = (props) => {
       </SettingsComponents.SettingsSection>
       <SettingsComponents.SettingsSection style={styles.sectionMargin} title={t('about')}>
         <SettingsComponents.SettingsButton label={t('about dpm')} />
-        <SettingsComponents.SettingsButton label={t('privacy policy')} />
-        <SettingsComponents.SettingsButton label={t('open source')} />
+        <SettingsComponents.SettingsButton
+          label={t('privacy policy')}
+          onPress={openPrivacyPolicy}
+        />
+        <SettingsComponents.SettingsButton label={t('open source')} onPress={navigateToGithub} />
         <SettingsComponents.SettingsText label={t('version')} value={DeviceInfo.getVersion()} />
       </SettingsComponents.SettingsSection>
     </StyledSafeAreaView>

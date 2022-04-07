@@ -61,7 +61,7 @@ const Legal: React.FC<Props> = (props) => {
         name: 'ImportRecoveryPassphrase',
         params: undefined,
       });
-    } else {
+    } else if (mode === 'ledger') {
       navigation.navigate({
         name: 'ConnectToLedgerScreens',
         params: {
