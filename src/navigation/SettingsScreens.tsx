@@ -1,6 +1,7 @@
 import React from 'react';
 import Settings from '../screens/Settings';
 import DisplayMode from '../screens/SettingsOptions/DisplayMode';
+import Feedback from '../screens/SettingsOptions/Feedback';
 import JoinCommunity from '../screens/SettingsOptions/JoinCommunity';
 import { SettingsScreensStack } from '../types/navigation';
 

@@ -32,7 +32,7 @@ const JoinCommunity: React.FC<Props> = (props) => {
     <StyledSafeAreaView
       style={styles.background}
       scrollable
-      topBar={<TopBar style={styles.background} stackProps={props} title={t('settings')} />}
+      topBar={<TopBar style={styles.background} stackProps={props} title={t('community')} />}
     >
       <SettingsComponents.SettingsSection>
         <SettingsComponents.SettingsButton

@@ -52,6 +52,12 @@ const Settings: React.FC<Props> = (props) => {
     });
   }, [navigation]);
 
+  const sendFeedback = useCallback(async () => {
+    Linking.openURL('mailto:development@forbole.com').catch((err) =>
+      console.error("Couldn't open email application", err)
+    );
+  }, []);
+
   const navigateToGithub = useCallback(() => {
     Linking.openURL('https://github.com/desmos-labs/dpm').catch((err) =>
       console.error("Couldn't load page", err)
@@ -84,7 +90,7 @@ const Settings: React.FC<Props> = (props) => {
         />
       </SettingsComponents.SettingsSection>
       <SettingsComponents.SettingsSection style={styles.sectionMargin} title={t('support')}>
-        <SettingsComponents.SettingsButton label={t('feedback')} />
+        <SettingsComponents.SettingsButton label={t('feedback')} onPress={sendFeedback} />
         <SettingsComponents.SettingsButton
           label={t('join community')}
           onPress={navigateToJoinCommunity}
