@@ -14,7 +14,7 @@ const Feedback: React.FC<Props> = (props) => {
   const styles = useStyles();
 
   const submitButton = (
-    <TouchableOpacity onPress={() => console.log('pressed')}>
+    <TouchableOpacity>
       <Typography.Subtitle style={styles.submitButton}>{t('submit')}</Typography.Subtitle>
     </TouchableOpacity>
   );

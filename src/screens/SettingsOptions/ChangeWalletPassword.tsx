@@ -1,6 +1,5 @@
-import { CompositeScreenProps } from '@react-navigation/native';
 import { StackScreenProps } from '@react-navigation/stack';
-import React, { useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { View } from 'react-native';
 import { Button, PasswordComplexity, StyledSafeAreaView, TopBar } from '../../components';
@@ -13,9 +12,10 @@ import { SingleButtonModal } from '../../modals/SingleButtonModal';
 import { LocalWalletsSource } from '../../sources/LocalWalletsSource';
 import { makeStyle } from '../../theming';
 import { ChainAccountType } from '../../types/chain';
-import { resetTo, SettingsScreensStackParams } from '../../types/navigation';
+import { SettingsScreensStackParams } from '../../types/navigation';
 import evaluatePasswordComplexity from '../../utilils/passwordEvaluation';
 import * as SecureStorage from '../../utilils/SecureStorage';
+import LocalWallet from '../../wallet/LocalWallet';
 
 type Props = StackScreenProps<SettingsScreensStackParams>;
 
@@ -44,6 +44,16 @@ export default function ChangeWalletPassword(props: Props): JSX.Element {
     setErrorMessage(null);
   };
 
+  const navigateToCreateNewPassword = useCallback(
+    (wallet?: LocalWallet) => {
+      navigation.navigate({
+        name: 'CreateNewPassword',
+        params: wallet ? { wallet } : {},
+      });
+    },
+    [navigation]
+  );
+
   const onContinuePressed = async () => {
     if (createNewPassword && password !== confirmationPassword) {
       setErrorMessage(t('the password doesnt match'));
@@ -67,18 +77,10 @@ export default function ChangeWalletPassword(props: Props): JSX.Element {
         if (passwordMatch) {
           if (account.type === ChainAccountType.Local) {
             LocalWalletsSource.getWallet(account.address, password).then((wallet) => {
-              navigation.navigate({
-                name: 'CreateNewPassword',
-                params: {
-                  wallet,
-                },
-              });
+              navigateToCreateNewPassword(wallet);
             });
           } else {
-            navigation.navigate({
-              name: 'CreateNewPassword',
-              params: {},
-            });
+            navigateToCreateNewPassword();
           }
         }
       } catch (error) {
