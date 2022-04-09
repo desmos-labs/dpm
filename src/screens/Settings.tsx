@@ -52,6 +52,13 @@ const Settings: React.FC<Props> = (props) => {
     });
   }, [navigation]);
 
+  const navigateToChangePassword = useCallback(async () => {
+    navigation.navigate({
+      name: 'CheckOldPassword',
+      params: undefined,
+    });
+  }, [navigation]);
+
   const sendFeedback = useCallback(async () => {
     Linking.openURL('mailto:development@forbole.com').catch((err) =>
       console.error("Couldn't open email application", err)
@@ -77,7 +84,10 @@ const Settings: React.FC<Props> = (props) => {
         />
       </SettingsComponents.SettingsSection>
       <SettingsComponents.SettingsSection style={styles.sectionMargin} title={t('security')}>
-        <SettingsComponents.SettingsButton label={t('change wallet password')} />
+        <SettingsComponents.SettingsButton
+          label={t('change wallet password')}
+          onPress={navigateToChangePassword}
+        />
         <SettingsComponents.SettingsSwitch
           label={t('enable face id for signature')}
           isActive={false}

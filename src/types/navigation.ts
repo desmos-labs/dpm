@@ -37,6 +37,10 @@ export type AccountCreationStackParams = {
     password: string;
     wallet: Wallet;
   };
+  ChangeWalletPassword: {
+    password: string;
+    wallet: Wallet;
+  };
   GenerateAccount: {
     password: string;
     wallet: Wallet;
@@ -151,6 +155,10 @@ export type SettingsScreensStackParams = {
   Settings: undefined;
   DisplayMode: undefined;
   JoinCommunity: undefined;
+  CheckOldPassword: undefined;
+  CreateNewPassword: {
+    wallet?: LocalWallet;
+  };
 };
 
 export const SettingsScreensStack = createStackNavigator<SettingsScreensStackParams>();
