@@ -19,7 +19,7 @@ export const MarkdownText: React.FC<Props> = (props) => {
   useEffect(() => {
     if (asset !== undefined) {
       (async () => {
-        const textToRender = await RNFS.readFileAssets(asset).catch((_) => console.log(_));
+        const textToRender = await RNFS.readFileAssets(asset).catch((e) => console.error(e));
         if (textToRender) {
           setContent(textToRender);
         }
