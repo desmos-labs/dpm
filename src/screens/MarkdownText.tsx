@@ -28,21 +28,23 @@ export const MarkdownText: React.FC<Props> = (props) => {
   }, [asset]);
 
   return (
-    <StyledSafeAreaView topBar={<TopBar stackProps={props} title={title} />}>
+    <StyledSafeAreaView
+      topBar={<TopBar stackProps={props} capitalizeTitle={false} title={title} />}
+    >
       <View onStartShouldSetResponder={() => true} style={styles.content}>
         <ScrollView>
           <Markdown
             style={{
               body: {
                 fontFamily: 'Poppins-Regular',
-                fontSize: 14,
+                fontSize: 16,
                 fontStyle: 'normal',
                 fontWeight: '400',
               },
               heading1: { fontFamily: 'Poppins-Bold', fontSize: 22 },
               heading2: {
                 fontFamily: 'Poppins-Bold',
-                fontSize: 16,
+                fontSize: 18,
                 fontStyle: 'normal',
                 fontWeight: '500',
               },

@@ -8,7 +8,7 @@ export type Props = {
   value: string;
 };
 
-export const SettingsText: React.FC<Props> = (props) => {
+export const SectionText: React.FC<Props> = (props) => {
   const { label, value } = props;
   const styles = useStyles();
 
@@ -24,7 +24,7 @@ const useStyles = makeStyle((theme) => ({
   root: {
     display: 'flex',
     flexDirection: 'row',
-    padding: 16,
+    padding: theme.spacing.m,
   },
   label: {
     flex: 1,

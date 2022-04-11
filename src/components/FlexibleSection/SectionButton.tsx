@@ -10,7 +10,7 @@ export type Props = {
   icon?: ImageProps['source'];
 };
 
-export const SettingsButton: React.FC<Props> = (props) => {
+export const SectionButton: React.FC<Props> = (props) => {
   const { label, onPress, icon } = props;
   const styles = useStyles();
 
@@ -28,7 +28,7 @@ const useStyles = makeStyle((theme) => ({
     display: 'flex',
     flexDirection: 'row',
     alignItems: 'center',
-    padding: 16,
+    padding: theme.spacing.m,
   },
   label: {
     flex: 1,
@@ -39,6 +39,6 @@ const useStyles = makeStyle((theme) => ({
   communityIcon: {
     height: 24,
     width: 24,
-    marginRight: 8,
+    marginRight: theme.spacing.s,
   },
 }));

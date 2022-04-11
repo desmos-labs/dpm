@@ -35,7 +35,6 @@ export const AppDrawerContent: React.FC<Props> = (props) => {
   const { closeDrawer } = useDrawerContext();
   const { t } = useTranslation();
   const styles = useStyle();
-  const theme = useTheme();
   const accounts = useAccounts();
   const profiles = useProfiles();
   const selectedAccount = useSelectedAccount();
@@ -120,8 +119,11 @@ export const AppDrawerContent: React.FC<Props> = (props) => {
 
   const openSettings = useCallback(() => {
     navigation.navigate({
-      name: 'Settings',
-      params: undefined,
+      name: 'SettingsScreens',
+      params: {
+        screen: 'Settings',
+        params: undefined,
+      },
     });
     closeDrawer();
   }, [closeDrawer, navigation]);

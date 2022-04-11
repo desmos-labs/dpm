@@ -20,42 +20,43 @@ import { MnemonicWordBadge } from './MnemonicWordBadge';
 import { PaginatedFlatList } from './PaginatedFlatList';
 import { PasswordComplexity } from './PasswordComplexityScore';
 import { ProfileListItem } from './ProfileListItem';
-import Settings from './Settings';
+import { RadioGroup } from './RadioGroup';
 import { StyledSafeAreaView } from './StyledSafeAreaView';
 import { TextInput } from './TextInput';
 import { ThemedLottieView } from './ThemedLottieView';
 import { TopBar } from './TopBar';
 import { TransactionsList } from './tx/list/TransactionsList';
-import Settings from './Settings/index';
+import VerticalInput from './VerticalInput';
 
 export {
-  AccountCard,
-  Button,
-  StyledSafeAreaView,
-  HdPathPicker,
-  MnemonicWordBadge,
-  MnemonicGrid,
-  TextInput,
-  Divider,
-  PaginatedFlatList,
-  AddressListItem,
-  ListItemSeparator,
-  PasswordComplexity,
-  AvatarImage,
-  ProfileListItem,
-  InlineInput,
-  LabeledValue,
-  TopBar,
-  InlineLabeledValue,
-  DAppSession,
   AccountBalance,
-  IconButton,
-  TransactionsList,
-  DesmosIcon,
-  InlineButtons,
-  ChainConnections,
-  DpmImage,
-  ThemedLottieView,
+  AccountCard,
+  AddressListItem,
+  AvatarImage,
   BlockchainListItem,
-  Settings,
+  Button,
+  ChainConnections,
+  DAppSession,
+  DesmosIcon,
+  Divider,
+  DpmImage,
+  HdPathPicker,
+  IconButton,
+  InlineButtons,
+  InlineInput,
+  InlineLabeledValue,
+  LabeledValue,
+  ListItemSeparator,
+  MnemonicGrid,
+  MnemonicWordBadge,
+  PaginatedFlatList,
+  PasswordComplexity,
+  ProfileListItem,
+  RadioGroup,
+  StyledSafeAreaView,
+  TextInput,
+  ThemedLottieView,
+  TopBar,
+  TransactionsList,
+  VerticalInput,
 };

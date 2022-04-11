@@ -1,9 +1,8 @@
 import React, { useMemo } from 'react';
 import { View } from 'react-native';
 import { RadioButton, useTheme } from 'react-native-paper';
-import { makeStyle } from '../../theming';
-import { Divider } from '../Divider';
-import { Typography } from '../typography';
+import { makeStyle } from '../theming';
+import { Typography } from './typography';
 
 export interface RadioValue {
   label: string;
@@ -13,10 +12,13 @@ export interface RadioValue {
 }
 
 export type Props = {
+  /**
+   * Values to display, with a label, a value, a status and an onPress callback
+   */
   values: RadioValue[];
 };
 
-export const SettingsRadioGroup: React.FC<Props> = (props) => {
+export const RadioGroup: React.FC<Props> = (props) => {
   const { values } = props;
   const styles = useStyles();
   const theme = useTheme();
@@ -27,7 +29,7 @@ export const SettingsRadioGroup: React.FC<Props> = (props) => {
       const last = count === index + 1;
       return (
         <View key={`w_${index.toString()}`}>
-          <View style={styles.fieldWrapper}>
+          <View style={[styles.fieldWrapper, !last && styles.interBorder]}>
             <Typography.Subtitle style={styles.title}>{value.label}</Typography.Subtitle>
             <RadioButton
               value={value.value}
@@ -37,15 +39,14 @@ export const SettingsRadioGroup: React.FC<Props> = (props) => {
               onPress={value.onPress ?? value.onPress}
             />
           </View>
-          {!last && <Divider style={styles.divider} />}
         </View>
       );
     });
   }, [
     values,
     styles.fieldWrapper,
+    styles.interBorder,
     styles.title,
-    styles.divider,
     theme.colors.primary,
     theme.colors.icon,
   ]);
@@ -72,10 +73,11 @@ const useStyles = makeStyle((theme) => ({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
-    paddingHorizontal: 16,
-    paddingVertical: 8,
+    paddingHorizontal: theme.spacing.m,
+    paddingVertical: theme.spacing.s,
   },
-  divider: {
-    marginLeft: theme.spacing.m,
+  interBorder: {
+    borderBottomWidth: 1,
+    borderBottomColor: theme.colors.line,
   },
 }));

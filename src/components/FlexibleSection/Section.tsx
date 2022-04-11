@@ -1,7 +1,6 @@
 import React, { useMemo } from 'react';
 import { StyleProp, View, ViewStyle } from 'react-native';
 import { makeStyle } from '../../theming';
-import { Divider } from '../Divider';
 import { Typography } from '../typography';
 
 export type Props = {
@@ -9,7 +8,7 @@ export type Props = {
   style?: StyleProp<ViewStyle>;
 };
 
-export const SettingsSection: React.FC<Props> = (props) => {
+export const Section: React.FC<Props> = (props) => {
   const { title, style, children } = props;
   const styles = useStyle();
 
@@ -18,19 +17,16 @@ export const SettingsSection: React.FC<Props> = (props) => {
     return React.Children.map(children, (c, index) => {
       const last = count === index + 1;
       return (
-        <>
-          <View style={styles.fieldWrapper} key={`w_${index.toString()}`}>
-            {c}
-          </View>
-          {!last && <Divider style={styles.divider} />}
-        </>
+        <View style={[!last && styles.interBorder]} key={`w_${index.toString()}`}>
+          {c}
+        </View>
       );
     });
-  }, [children, styles.fieldWrapper, styles.divider]);
+  }, [children, styles.interBorder]);
 
   return (
     <View style={[styles.root, style]}>
-      <Typography.Subtitle style={styles.title}>{title}</Typography.Subtitle>
+      {title ? <Typography.Subtitle style={styles.title}>{title}</Typography.Subtitle> : null}
       <View style={styles.fieldsContainer}>{wrapped}</View>
     </View>
   );
@@ -45,19 +41,10 @@ const useStyle = makeStyle((theme) => ({
   fieldsContainer: {
     backgroundColor: theme.colors.surface2,
     borderRadius: theme.roundness,
-    /*    shadowColor: '#000',
-    shadowOffset: {
-      width: 0,
-      height: 1,
-    },
-    shadowOpacity: 0.22,
-    shadowRadius: 2.22,
-    elevation: 3, */
   },
-  fieldWrapper: {
-    padding: 0,
-  },
-  divider: {
-    marginLeft: theme.spacing.m,
+  interBorder: {
+    borderBottomWidth: 1,
+    borderRadius: 0,
+    borderColor: theme.colors.line,
   },
 }));
