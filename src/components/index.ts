@@ -20,6 +20,7 @@ import { MnemonicWordBadge } from './MnemonicWordBadge';
 import { PaginatedFlatList } from './PaginatedFlatList';
 import { PasswordComplexity } from './PasswordComplexityScore';
 import { ProfileListItem } from './ProfileListItem';
+import Settings from './Settings';
 import { StyledSafeAreaView } from './StyledSafeAreaView';
 import { TextInput } from './TextInput';
 import { ThemedLottieView } from './ThemedLottieView';
@@ -55,4 +56,5 @@ export {
   DpmImage,
   ThemedLottieView,
   BlockchainListItem,
+  Settings,
 };

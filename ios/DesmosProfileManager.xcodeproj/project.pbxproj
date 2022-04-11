@@ -37,6 +37,7 @@
 		D94C7B441B8B40A795BF011B /* Poppins-LightItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 3F3F50407EBD4E28867C49E7 /* Poppins-LightItalic.ttf */; };
 		E3575F8BBEE045F59114EFB8 /* Poppins-Thin.ttf in Resources */ = {isa = PBXBuildFile; fileRef = B78C87878C2145B1995F55B7 /* Poppins-Thin.ttf */; };
 		F2FA814145E7ADFE9267351E /* libPods-DesmosProfileManager.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 306AEECA0B58C9F8022AB368 /* libPods-DesmosProfileManager.a */; };
+		2F4EE406C29844C896287D92 /* privacy.md in Resources */ = {isa = PBXBuildFile; fileRef = 698B63C61127441696B70C1C /* privacy.md */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -119,6 +120,7 @@
 		F4CCEB3A72DFECF367E2CC5D /* Pods-RCTCryptoUtilsTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RCTCryptoUtilsTests.debug.xcconfig"; path = "Target Support Files/Pods-RCTCryptoUtilsTests/Pods-RCTCryptoUtilsTests.debug.xcconfig"; sourceTree = "<group>"; };
 		FBC25241171DC577552836CC /* Pods-DesmosProfileManager-RCTCryptoUtilsTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DesmosProfileManager-RCTCryptoUtilsTests.debug.xcconfig"; path = "Target Support Files/Pods-DesmosProfileManager-RCTCryptoUtilsTests/Pods-DesmosProfileManager-RCTCryptoUtilsTests.debug.xcconfig"; sourceTree = "<group>"; };
 		FF94A306EFE1444E81553804 /* Poppins-BlackItalic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Poppins-BlackItalic.ttf"; path = "../assets/fonts/Poppins-BlackItalic.ttf"; sourceTree = "<group>"; };
+		698B63C61127441696B70C1C /* privacy.md */ = {isa = PBXFileReference; name = "privacy.md"; path = "../assets/md/privacy.md"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -288,6 +290,7 @@
 				21CF693A34F54D63AEC13483 /* Poppins-SemiBoldItalic.ttf */,
 				B78C87878C2145B1995F55B7 /* Poppins-Thin.ttf */,
 				E69974F401C44E90B1C6B282 /* Poppins-ThinItalic.ttf */,
+				698B63C61127441696B70C1C /* privacy.md */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
@@ -434,6 +437,7 @@
 				6FA7EE685E124F52A451502C /* Poppins-SemiBoldItalic.ttf in Resources */,
 				E3575F8BBEE045F59114EFB8 /* Poppins-Thin.ttf in Resources */,
 				405DCBF81F0847B5AE9836A7 /* Poppins-ThinItalic.ttf in Resources */,
+				2F4EE406C29844C896287D92 /* privacy.md in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

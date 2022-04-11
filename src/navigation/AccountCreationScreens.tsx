@@ -3,6 +3,7 @@ import CheckMnemonic from '../screens/AccountCreation/CheckMnemonic';
 import GenerateAccount from '../screens/AccountCreation/GenerateAccount';
 import GenerateNewMnemonic from '../screens/AccountCreation/GenerateNewMnemonic';
 import ImportRecoveryPassphrase from '../screens/AccountCreation/ImportRecoveryPassphrase';
+import Legal from '../screens/AccountCreation/Legal';
 import Login from '../screens/AccountCreation/Login';
 import { PickDerivationPath } from '../screens/AccountCreation/PickDerivationPath';
 import WalletPassword from '../screens/AccountCreation/WalletPassword';
@@ -17,6 +18,7 @@ export default function AccountCreationScreens() {
       }}
     >
       <AccountCreationStack.Screen name="Login" component={Login} />
+      <AccountCreationStack.Screen name="Legal" component={Legal} />
       <AccountCreationStack.Screen name="GenerateNewMnemonic" component={GenerateNewMnemonic} />
       <AccountCreationStack.Screen name="CheckMnemonic" component={CheckMnemonic} />
       <AccountCreationStack.Screen name="PickDerivationPath" component={PickDerivationPath} />

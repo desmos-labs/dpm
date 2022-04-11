@@ -35,16 +35,16 @@
 			</dict>
 		</dict>
 	</dict>
-  <key>NSBluetoothAlwaysUsageDescription</key>
-  <string>This app uses BLE to communicate with ledger nano</string>
-  <key>NSBluetoothPeripheralUsageDescription</key>
-  <string>We need access to your bluetooth to communicate with a Ledger device</string>
+	<key>NSBluetoothAlwaysUsageDescription</key>
+	<string>This app uses BLE to communicate with ledger nano</string>
+	<key>NSBluetoothPeripheralUsageDescription</key>
+	<string>We need access to your bluetooth to communicate with a Ledger device</string>
 	<key>NSCameraUsageDescription</key>
 	<string>DPM would like to access your camera to scan QRs</string>
 	<key>NSFaceIDUsageDescription</key>
 	<string>Protect user keys</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string></string>
+	<string/>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>DPM would like to access your camera roll to fetch profile pictures</string>
 	<key>UIAppFonts</key>
