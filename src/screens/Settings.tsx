@@ -23,7 +23,7 @@ const Settings: React.FC<Props> = (props) => {
     navigation.navigate({
       name: 'MarkdownText',
       params: {
-        title: t('Privacy Policy'),
+        title: t('privacy policy'),
         asset: 'custom/privacy.md',
       },
     });
