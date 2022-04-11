@@ -9,15 +9,19 @@ import { RootStackParams } from '../types/navigation';
 export type Props = StackScreenProps<RootStackParams, 'MarkdownText'>;
 
 export const MarkdownText: React.FC<Props> = (props) => {
-  const { title, text, asset } = props.route.params;
+  const {
+    route: {
+      params: { text, title, asset },
+    },
+  } = props;
   const [content, setContent] = useState(text ?? '');
 
   useEffect(() => {
     if (asset !== undefined) {
       (async () => {
-        const t = await RNFS.readFileAssets('privacy.md').catch((_) => console.log(_));
-        if (t) {
-          setContent(t);
+        const textToRender = await RNFS.readFileAssets(asset).catch((_) => console.log(_));
+        if (textToRender) {
+          setContent(textToRender);
         }
       })();
     }
@@ -27,7 +31,25 @@ export const MarkdownText: React.FC<Props> = (props) => {
     <StyledSafeAreaView topBar={<TopBar stackProps={props} title={title} />}>
       <View onStartShouldSetResponder={() => true} style={styles.content}>
         <ScrollView>
-          <Markdown>{content}</Markdown>
+          <Markdown
+            style={{
+              body: {
+                fontFamily: 'Poppins-Regular',
+                fontSize: 14,
+                fontStyle: 'normal',
+                fontWeight: '400',
+              },
+              heading1: { fontFamily: 'Poppins-Bold', fontSize: 22 },
+              heading2: {
+                fontFamily: 'Poppins-Bold',
+                fontSize: 16,
+                fontStyle: 'normal',
+                fontWeight: '500',
+              },
+            }}
+          >
+            {content}
+          </Markdown>
         </ScrollView>
       </View>
     </StyledSafeAreaView>

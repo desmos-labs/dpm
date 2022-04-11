@@ -45,7 +45,7 @@ const Legal: React.FC<Props> = (props) => {
       name: 'MarkdownText',
       params: {
         title: t('Privacy Policy'),
-        asset: '',
+        asset: 'custom/privacy.md',
       },
     });
   }, [navigation, t]);

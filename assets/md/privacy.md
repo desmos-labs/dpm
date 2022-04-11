@@ -58,4 +58,4 @@ This policy is effective as of 2021-10-28
 
 ## Contact Us
 
-If you have any questions or suggestions about our Privacy Policy, do not hesitate to contact us at <a href="mailto:report@forbole.com">report@forbole.com</a>.
+If you have any questions or suggestions about our Privacy Policy, do not hesitate to contact us at [report@forbole.com](mailto:report@forbole.com).
