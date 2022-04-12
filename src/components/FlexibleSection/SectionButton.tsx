@@ -40,6 +40,5 @@ const useStyles = makeStyle((theme) => ({
     height: 24,
     width: 24,
     marginRight: theme.spacing.s,
-    color: 'white',
   },
 }));
