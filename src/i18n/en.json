@@ -99,6 +99,7 @@
   "error": "Error",
   "expires on": "Expires on",
   "fail": "Fail",
+  "failed to save password": "Failed to save password ",
   "fee grant allocated": "A small amount of DSM has been sent to you to cover for the next transaction fees",
   "fee grant error": "An error occurred when requesting the fee grant: {{error}}",
   "fee": "Fee",

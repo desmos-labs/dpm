@@ -20,19 +20,17 @@ import LocalWallet from '../../wallet/LocalWallet';
 type Props = StackScreenProps<SettingsScreensStackParams>;
 
 export default function ChangeWalletPassword(props: Props): JSX.Element {
-  const {
-    navigation,
-    route: { params },
-  } = props;
+  const { navigation, route } = props;
+  const { params } = route;
   const { t } = useTranslation();
   const styles = useStyles();
   const account = useSelectedAccount();
   const [password, setPassword] = useState('');
   const [confirmationPassword, setConfirmationPassword] = useState('');
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
-  const createNewPassword = params?.wallet !== undefined;
   const showModal = useShowModal();
   const navigateToHomeScreen = useNavigateToHomeScreen();
+  const createNewPassword = route.name === 'CreateNewPassword';
 
   const onPasswordChange = (text: string) => {
     setPassword(text);
@@ -54,6 +52,37 @@ export default function ChangeWalletPassword(props: Props): JSX.Element {
     [navigation]
   );
 
+  const saveUserPassword = useCallback(async () => {
+    await SecureStorage.setItem(`${account.address}-auth-challenge`, account.address, {
+      password,
+    });
+    if (account.type === ChainAccountType.Local && params?.wallet) {
+      await LocalWalletsSource.putWallet(params.wallet, password, false);
+    }
+    showModal(SingleButtonModal, {
+      image: 'success',
+      title: t('success'),
+      message: t('password changed'),
+      actionLabel: t('go to profile'),
+      action: () => navigateToHomeScreen({ reset: true }),
+    });
+  }, [account.address, account.type, navigateToHomeScreen, params?.wallet, password, showModal, t]);
+
+  const checkUserPassword = useCallback(async () => {
+    const passwordMatch =
+      account.address ===
+      (await SecureStorage.getItem(`${account.address}-auth-challenge`, {
+        password,
+      }));
+    // ChainAccountType.Local
+    if (passwordMatch && account.type === ChainAccountType.Local) {
+      const decryptedWallet = await LocalWalletsSource.getWallet(account.address, password);
+      navigateToCreateNewPassword(decryptedWallet);
+    }
+    // ChainAccountType.Ledger
+    navigateToCreateNewPassword();
+  }, [account.address, account.type, navigateToCreateNewPassword, password]);
+
   const onContinuePressed = async () => {
     if (createNewPassword && password !== confirmationPassword) {
       setErrorMessage(t('wrong confirmation password'));
@@ -68,38 +97,9 @@ export default function ChangeWalletPassword(props: Props): JSX.Element {
       return;
     }
     if (!createNewPassword) {
-      try {
-        const passwordMatch =
-          account.address ===
-          (await SecureStorage.getItem(`${account.address}-auth-challenge`, {
-            password,
-          }));
-        if (passwordMatch) {
-          if (account.type === ChainAccountType.Local) {
-            LocalWalletsSource.getWallet(account.address, password).then((wallet) => {
-              navigateToCreateNewPassword(wallet);
-            });
-          } else {
-            navigateToCreateNewPassword();
-          }
-        }
-      } catch (error) {
-        if (error) {
-          setErrorMessage(t('wrong password'));
-        }
-      }
-    } else if (createNewPassword && params?.wallet && password === confirmationPassword) {
-      await SecureStorage.setItem(`${account.address}-auth-challenge`, account.address, {
-        password,
-      });
-      await LocalWalletsSource.putWallet(params.wallet, password, false);
-      showModal(SingleButtonModal, {
-        image: 'success',
-        title: t('success'),
-        message: t('password changed'),
-        actionLabel: t('go to profile'),
-        action: () => navigateToHomeScreen({ reset: true }),
-      });
+      checkUserPassword().catch(() => setErrorMessage(t('wrong password')));
+    } else if (createNewPassword && password === confirmationPassword) {
+      saveUserPassword().catch((e) => setErrorMessage(t(`failed to save password`) + e));
     }
   };
 
