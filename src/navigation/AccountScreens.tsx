@@ -10,11 +10,13 @@ import { ConfirmTx } from '../screens/ConfirmTx';
 import EditProfile from '../screens/EditProfile';
 import Profile from '../screens/Profile';
 import { SendToken } from '../screens/SendToken';
+import Settings from '../screens/Settings';
 import { TxDetails } from '../screens/TxDetails';
 import { WalletConnectCallRequest } from '../screens/WalletConnectCallRequest';
 import { AccountScreensStack } from '../types/navigation';
 import ChainLinkScreens from './ChainLinkScreens';
 import HomeScreens from './HomeScreens';
+import SettingsScreens from './SettingsScreens';
 
 export default function AccountScreens() {
   const { t } = useTranslation();
@@ -62,6 +64,7 @@ export default function AccountScreens() {
           presentation: 'transparentModal',
         }}
       />
+      <AccountScreensStack.Screen name="SettingsScreens" component={SettingsScreens} />
     </AccountScreensStack.Navigator>
   );
 }

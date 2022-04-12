@@ -21,6 +21,8 @@ target 'DesmosProfileManager' do
   
   pod 'TrezorCrypto', :modular_headers => true
 
+  pod 'RNDeviceInfo', :path => '../node_modules/react-native-device-info'
+
   target 'DesmosProfileManagerTests' do
     inherit! :complete
     # Pods for testing

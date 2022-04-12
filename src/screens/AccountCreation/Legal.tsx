@@ -3,12 +3,8 @@ import { CompositeScreenProps } from '@react-navigation/native';
 import { StackScreenProps } from '@react-navigation/stack';
 import React, { useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
-import {
-  Button,
-  Settings as SettingsComponents,
-  StyledSafeAreaView,
-  TopBar,
-} from '../../components';
+import { Button, StyledSafeAreaView, TopBar } from '../../components';
+import FlexibleSection from '../../components/FlexibleSection';
 import { FlexPadding } from '../../components/FlexPadding';
 import { Typography } from '../../components/typography';
 import { makeStyle } from '../../theming';
@@ -34,7 +30,7 @@ const Legal: React.FC<Props> = (props) => {
     navigation.navigate({
       name: 'MarkdownText',
       params: {
-        title: t('Terms of Service'),
+        title: t('terms of service'),
         asset: 'terms-of-service.md',
       },
     });
@@ -44,7 +40,7 @@ const Legal: React.FC<Props> = (props) => {
     navigation.navigate({
       name: 'MarkdownText',
       params: {
-        title: t('Privacy Policy'),
+        title: t('privacy policy'),
         asset: 'custom/privacy.md',
       },
     });
@@ -89,16 +85,10 @@ const Legal: React.FC<Props> = (props) => {
       <Typography.Body>
         {t('please review the desmos profile manager terms of service and privacy policy')}.
       </Typography.Body>
-      <SettingsComponents.SettingsSection style={styles.section}>
-        <SettingsComponents.SettingsButton
-          label={t('terms of service')}
-          onPress={openTermsOfService}
-        />
-        <SettingsComponents.SettingsButton
-          label={t('privacy policy')}
-          onPress={openPrivacyPolicy}
-        />
-      </SettingsComponents.SettingsSection>
+      <FlexibleSection.Section style={styles.section}>
+        <FlexibleSection.SectionButton label={t('terms of service')} onPress={openTermsOfService} />
+        <FlexibleSection.SectionButton label={t('privacy policy')} onPress={openPrivacyPolicy} />
+      </FlexibleSection.Section>
       <FlexPadding flex={1} />
       <Button onPress={onAccepted} mode="contained">
         {t('accept')}

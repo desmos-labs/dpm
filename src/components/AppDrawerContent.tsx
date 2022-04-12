@@ -4,6 +4,7 @@ import { StackNavigationProp } from '@react-navigation/stack/lib/typescript/src/
 import React, { useCallback, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { FlatList, Image, ListRenderItemInfo, View } from 'react-native';
+import { useTheme } from 'react-native-paper';
 import { useDrawerContext } from '../contexts/AppDrawerContex';
 import useAccounts from '../hooks/useAccounts';
 import useChangeAccount from '../hooks/useChangeAccount';
@@ -16,7 +17,7 @@ import { makeStyle } from '../theming';
 import { ChainAccount } from '../types/chain';
 import { AccountScreensStackParams, RootStackParams } from '../types/navigation';
 import { Button } from './Button';
-import { ListItemSeparator, ProfileListItem } from './index';
+import { IconButton, ListItemSeparator, ProfileListItem } from './index';
 import { StyledSafeAreaView } from './StyledSafeAreaView';
 import { Typography } from './typography';
 
@@ -116,6 +117,17 @@ export const AppDrawerContent: React.FC<Props> = (props) => {
     [closeDrawer, navigation]
   );
 
+  const openSettings = useCallback(() => {
+    navigation.navigate({
+      name: 'SettingsScreens',
+      params: {
+        screen: 'Settings',
+        params: undefined,
+      },
+    });
+    closeDrawer();
+  }, [closeDrawer, navigation]);
+
   const renderAccounts = useCallback(
     ({ item }: ListRenderItemInfo<AccountProfilePair>) => {
       const [account, profile] = item;
@@ -142,6 +154,7 @@ export const AppDrawerContent: React.FC<Props> = (props) => {
 
   return (
     <StyledSafeAreaView>
+      <IconButton style={styles.settingsBtn} icon="settings" onPress={openSettings} size={24} />
       <Image
         style={styles.desmosIcon}
         source={require('../assets/desmos-vertical-orange.png')}
@@ -175,8 +188,9 @@ const useStyle = makeStyle((theme) => ({
   },
   settingsBtn: {
     position: 'absolute',
-    top: 20,
+    top: 32,
     right: 0,
+    zIndex: 1,
   },
   accountsContainer: {
     marginTop: 64,
