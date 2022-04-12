@@ -1,7 +1,7 @@
 import { StackScreenProps } from '@react-navigation/stack';
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { View } from 'react-native';
+import { TextInput, View } from 'react-native';
 import { Button, PasswordComplexity, StyledSafeAreaView, TopBar } from '../../components';
 import SecureTextInput from '../../components/SecureTextInput';
 import { Typography } from '../../components/typography';
@@ -31,6 +31,7 @@ export default function ChangeWalletPassword(props: Props): JSX.Element {
   const showModal = useShowModal();
   const navigateToHomeScreen = useNavigateToHomeScreen();
   const createNewPassword = route.name === 'CreateNewPassword';
+  const inputRef = useRef<TextInput>(null);
 
   const onPasswordChange = (text: string) => {
     setPassword(text);
@@ -74,13 +75,16 @@ export default function ChangeWalletPassword(props: Props): JSX.Element {
       (await SecureStorage.getItem(`${account.address}-auth-challenge`, {
         password,
       }));
-    // ChainAccountType.Local
-    if (passwordMatch && account.type === ChainAccountType.Local) {
-      const decryptedWallet = await LocalWalletsSource.getWallet(account.address, password);
-      navigateToCreateNewPassword(decryptedWallet);
+    if (passwordMatch) {
+      // ChainAccountType.Local
+      if (account.type === ChainAccountType.Local) {
+        const decryptedWallet = await LocalWalletsSource.getWallet(account.address, password);
+        navigateToCreateNewPassword(decryptedWallet);
+      } else {
+        // ChainAccountType.Ledger
+        navigateToCreateNewPassword();
+      }
     }
-    // ChainAccountType.Ledger
-    navigateToCreateNewPassword();
   }, [account.address, account.type, navigateToCreateNewPassword, password]);
 
   const onContinuePressed = async () => {
@@ -103,6 +107,16 @@ export default function ChangeWalletPassword(props: Props): JSX.Element {
     }
   };
 
+  const handleSubmit = () => {
+    if (createNewPassword) {
+      if (!inputRef.current?.isFocused()) {
+        inputRef.current?.focus();
+        return;
+      }
+    }
+    onContinuePressed();
+  };
+
   return (
     <StyledSafeAreaView style={styles.root} topBar={<TopBar stackProps={props} />}>
       <Typography.Title>
@@ -121,6 +135,7 @@ export default function ChangeWalletPassword(props: Props): JSX.Element {
         style={styles.password}
         value={password}
         onChangeText={onPasswordChange}
+        onSubmitEditing={handleSubmit}
         autoFocus
       />
       {createNewPassword && (
@@ -132,6 +147,7 @@ export default function ChangeWalletPassword(props: Props): JSX.Element {
             <Typography.Body>{t('confirm wallet password')}</Typography.Body>
           </View>
           <SecureTextInput
+            inputRef={inputRef}
             placeholder={t('password')}
             style={styles.password}
             value={confirmationPassword}

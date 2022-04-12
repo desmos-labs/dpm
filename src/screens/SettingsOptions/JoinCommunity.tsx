@@ -3,6 +3,7 @@ import { StackScreenProps } from '@react-navigation/stack';
 import React, { useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Linking } from 'react-native';
+import { useTheme } from 'react-native-paper';
 import { StyledSafeAreaView, TopBar } from '../../components';
 import FlexibleSection from '../../components/FlexibleSection';
 import { makeStyle } from '../../theming';
@@ -16,6 +17,7 @@ declare type Props = CompositeScreenProps<
 const JoinCommunity: React.FC<Props> = (props) => {
   const { t } = useTranslation();
   const styles = useStyles();
+  const theme = useTheme();
 
   const navigateToExternalSite = useCallback((url: string) => {
     Linking.openURL(url).catch((err) => console.error("Couldn't load page", err));
@@ -38,27 +40,47 @@ const JoinCommunity: React.FC<Props> = (props) => {
       <FlexibleSection.Section>
         <FlexibleSection.SectionButton
           label={t('website')}
-          icon={require('../../assets/community-icons/desmos-website.png')}
+          icon={
+            theme.dark
+              ? require('../../assets/community-icons/desmos-dark.png')
+              : require('../../assets/community-icons/desmos.png')
+          }
           onPress={() => navigateToExternalSite('https://www.desmos.network/')}
         />
         <FlexibleSection.SectionButton
           label={t('discord')}
-          icon={require('../../assets/community-icons/discord.png')}
+          icon={
+            theme.dark
+              ? require('../../assets/community-icons/discord-dark.png')
+              : require('../../assets/community-icons/discord.png')
+          }
           onPress={() => navigateToExternalSite('https://discord.com/invite/yxPRGdq')}
         />
         <FlexibleSection.SectionButton
           label={t('twitter')}
-          icon={require('../../assets/community-icons/twitter.png')}
+          icon={
+            theme.dark
+              ? require('../../assets/community-icons/twitter-dark.png')
+              : require('../../assets/community-icons/twitter.png')
+          }
           onPress={navigateToTwitterApp}
         />
         <FlexibleSection.SectionButton
           label={t('medium')}
-          icon={require('../../assets/community-icons/medium.png')}
+          icon={
+            theme.dark
+              ? require('../../assets/community-icons/medium-dark.png')
+              : require('../../assets/community-icons/medium.png')
+          }
           onPress={() => navigateToExternalSite('https://medium.com/desmosnetwork')}
         />
         <FlexibleSection.SectionButton
           label={t('block explorer')}
-          icon={require('../../assets/community-icons/bigdipper.png')}
+          icon={
+            theme.dark
+              ? require('../../assets/community-icons/bigdipper-dark.png')
+              : require('../../assets/community-icons/bigdipper.png')
+          }
           onPress={() => navigateToExternalSite('https://explorer.desmos.network/')}
         />
       </FlexibleSection.Section>

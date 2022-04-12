@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react';
 import { ScrollView, StyleSheet, View } from 'react-native';
 import RNFS from 'react-native-fs';
 import Markdown from 'react-native-markdown-display';
+import { useTheme } from 'react-native-paper';
 import { StyledSafeAreaView, TopBar } from '../components';
 import { RootStackParams } from '../types/navigation';
 
@@ -15,6 +16,7 @@ export const MarkdownText: React.FC<Props> = (props) => {
     },
   } = props;
   const [content, setContent] = useState(text ?? '');
+  const theme = useTheme();
 
   useEffect(() => {
     if (asset !== undefined) {
@@ -40,6 +42,7 @@ export const MarkdownText: React.FC<Props> = (props) => {
                 fontSize: 16,
                 fontStyle: 'normal',
                 fontWeight: '400',
+                color: theme.colors.font['1'],
               },
               heading1: { fontFamily: 'Poppins-Bold', fontSize: 22 },
               heading2: {
@@ -47,6 +50,7 @@ export const MarkdownText: React.FC<Props> = (props) => {
                 fontSize: 18,
                 fontStyle: 'normal',
                 fontWeight: '500',
+                color: theme.colors.font['1'],
               },
             }}
           >

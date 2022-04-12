@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { MutableRefObject } from 'react';
 import { StyleProp, TextInput as NativeTextInput, TextStyle, View, ViewStyle } from 'react-native';
 import { useTheme } from 'react-native-paper';
 import { makeStyleWithProps } from '../theming';
@@ -15,19 +15,20 @@ export type Props = Omit<React.ComponentProps<typeof NativeTextInput>, 'style'> 
    * input area.
    */
   rightElement?: React.ReactNode | null;
-
+  inputRef?: MutableRefObject<NativeTextInput | null>;
   style?: StyleProp<ViewStyle>;
   inputStyle?: StyleProp<TextStyle>;
 };
 
 export const TextInput: React.FC<Props> = (props) => {
-  const { error, rightElement, style, inputStyle } = props;
+  const { error, rightElement, style, inputRef, inputStyle } = props;
   const styles = useStyles(props);
   const theme = useTheme();
 
   return (
     <View style={[styles.container, style]}>
       <NativeTextInput
+        ref={inputRef}
         {...props}
         style={[styles.input, inputStyle]}
         placeholderTextColor={theme.colors.font['3']}
