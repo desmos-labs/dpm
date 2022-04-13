@@ -46,6 +46,13 @@ const Settings: React.FC<Props> = (props) => {
     });
   }, [navigation]);
 
+  const navigateToSwitchChain = useCallback(async () => {
+    navigation.navigate({
+      name: 'SwitchChain',
+      params: undefined,
+    });
+  }, [navigation]);
+
   const navigateToJoinCommunity = useCallback(async () => {
     navigation.navigate({
       name: 'JoinCommunity',
@@ -80,6 +87,7 @@ const Settings: React.FC<Props> = (props) => {
     >
       <FlexibleSection.Section title={t('general')}>
         <FlexibleSection.SectionButton label={t('display mode')} onPress={navigateToDisplayMode} />
+        <FlexibleSection.SectionButton label={t('switch chain')} onPress={navigateToSwitchChain} />
       </FlexibleSection.Section>
       <FlexibleSection.Section style={styles.sectionMargin} title={t('security')}>
         <FlexibleSection.SectionButton

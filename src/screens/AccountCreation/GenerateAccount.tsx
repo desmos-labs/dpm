@@ -3,6 +3,8 @@ import { StackScreenProps } from '@react-navigation/stack';
 import React, { useCallback, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Button, DpmImage, StyledSafeAreaView } from '../../components';
+import { Typography } from '../../components/typography';
+import useSetting from '../../hooks/settings/useSetting';
 import useChangeAccount from '../../hooks/useChangeAccount';
 import useSaveAccount from '../../hooks/useSaveAccount';
 import useSaveSelectedAccount from '../../hooks/useSaveSelectedAccount';
@@ -13,7 +15,6 @@ import { ChainAccount, ChainAccountType } from '../../types/chain';
 import { AccountCreationStackParams, RootStackParams } from '../../types/navigation';
 import { WalletType } from '../../types/wallet';
 import * as SecureStorage from '../../utilils/SecureStorage';
-import { Typography } from '../../components/typography';
 
 declare type Props = CompositeScreenProps<
   StackScreenProps<AccountCreationStackParams, 'GenerateAccount'>,
@@ -33,7 +34,8 @@ export default function GenerateAccount(props: Props): JSX.Element {
   const saveAccount = useSaveAccount();
   const saveSelectedAccount = useSaveSelectedAccount();
   const changeAccount = useChangeAccount();
-
+  const chainId = useSetting('chainId');
+  
   const generateAccount = useCallback(async () => {
     setGenerating(true);
     try {
@@ -47,6 +49,7 @@ export default function GenerateAccount(props: Props): JSX.Element {
         hdPath: wallet.hdPath,
         pubKey: wallet.pubKey,
         signAlgorithm: wallet.signAlgorithm,
+        chainId
       };
       await saveAccount(accountToGenerate);
       await saveSelectedAccount(accountToGenerate);

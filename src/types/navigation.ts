@@ -154,6 +154,7 @@ export type AccountScreensStackParams = {
 export type SettingsScreensStackParams = {
   Settings: undefined;
   DisplayMode: undefined;
+  SwitchChain: undefined;
   JoinCommunity: undefined;
   CheckOldPassword: undefined;
   CreateNewPassword: {

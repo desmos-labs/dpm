@@ -7,8 +7,8 @@ import { makeStyle } from '../theming';
 import { AvatarImage } from './AvatarImage';
 import { Divider } from './Divider';
 import IconButton from './IconButton';
-import { Typography } from './typography';
 import { MenuItem } from './MenuItem';
+import { Typography } from './typography';
 
 export type Props = {
   /**
@@ -28,6 +28,10 @@ export type Props = {
    */
   dtag?: string;
   /**
+   * True if the item is the selected one.
+   */
+  isItemSelected: boolean;
+  /**
    * Function called when the user press the item.
    */
   onPress?: () => void;
@@ -42,7 +46,7 @@ export type Props = {
 };
 
 export const ProfileListItem: React.FC<Props> = (props) => {
-  const { address, image, nickname, dtag, onPress, onEdit, onDelete } = props;
+  const { address, image, nickname, dtag, isItemSelected, onPress, onEdit, onDelete } = props;
   const theme = useTheme();
   const { t } = useTranslation();
   const styles = useStyles();
@@ -62,7 +66,7 @@ export const ProfileListItem: React.FC<Props> = (props) => {
   };
 
   return (
-    <TouchableOpacity style={styles.root} onPress={onPress}>
+    <TouchableOpacity style={[styles.root, isItemSelected ? styles.itemSelected : null]} onPress={onPress}>
       <AvatarImage source={image ?? require('../assets/default-profile-picture.png')} size={48} />
       <View style={styles.textContainer}>
         <Typography.Subtitle style={styles.nickname} numberOfLines={1} ellipsizeMode="tail">
@@ -111,7 +115,7 @@ const useStyles = makeStyle((theme) => ({
   root: {
     display: 'flex',
     flexDirection: 'row',
-    alignItems: 'center',
+    alignItems: 'center'
   },
   textContainer: {
     marginLeft: theme.spacing.s,
@@ -125,4 +129,8 @@ const useStyles = makeStyle((theme) => ({
   menuDivider: {
     marginHorizontal: 16,
   },
+  itemSelected: {
+    backgroundColor: theme.colors.surface,
+    borderRadius: theme.roundness
+  }
 }));

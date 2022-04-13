@@ -1,7 +1,9 @@
+import { useSdkContext } from '@desmoslabs/sdk-react';
 import { NavigationContainer, NavigationContainerRef } from '@react-navigation/native';
 import React, { useEffect, useRef } from 'react';
 import { useAppContext } from '../contexts/AppContext';
 import { useWalletConnectContext } from '../contexts/WalletConnectContext';
+import useSetting from '../hooks/settings/useSetting';
 import useInitAppState from '../hooks/useInitAppState';
 import { ModalScreen } from '../modals/ModalScreen';
 import { MarkdownText } from '../screens/MarkdownText';
@@ -14,6 +16,8 @@ import { ConnectToLedgerScreens } from './ConnectToLedgerScreens';
 const RootStackScreens: React.FC = () => {
   const appState = useInitAppState();
   const { accounts, selectedAccount } = useAppContext();
+  const sdkContext = useSdkContext();
+  const chainId = useSetting('chainId');
   const { initWalletConnect, initState } = useWalletConnectContext();
   const navigatorRef = useRef<NavigationContainerRef<RootStackParams>>(null);
 
@@ -29,6 +33,7 @@ const RootStackScreens: React.FC = () => {
 
   // Navigate to the correct screen after loading all the data.
   useEffect(() => {
+    sdkContext.setCurrentChainId(chainId);
     if (!appState.initializing && navigatorRef.current !== null) {
       if (accounts.length === 0 || selectedAccount === null) {
         // No account, go to the create account screens

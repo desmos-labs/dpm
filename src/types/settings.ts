@@ -1,3 +1,5 @@
+import { ChainId } from './chain';
+
 /**
  * Supported application themes.
  * - light: Light color schema.
@@ -11,6 +13,7 @@ export type AppTheme = 'light' | 'dark' | 'auto';
  */
 export type AppSettings = {
   theme: AppTheme;
+  chainId: ChainId,
 };
 
 /**
@@ -24,4 +27,5 @@ export const AppSettingsStorageKey = 'dpm_app_settings';
  */
 export const DefaultAppSettings: AppSettings = {
   theme: 'auto',
+  chainId: 'desmos-mainnet'
 };

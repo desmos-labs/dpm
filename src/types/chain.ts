@@ -7,11 +7,13 @@ export enum ChainAccountType {
   Ledger,
 }
 
+export type ChainId = 'desmos-mainnet' | 'morpheus-apollo-2';
+
 export interface ChainAccount {
   /**
    * Account type.
    * Can be a local account or an
-   * account imported from an external device like Leder.
+   * account imported from an external device like Ledger.
    */
   type: ChainAccountType;
   /**

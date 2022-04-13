@@ -1,20 +1,19 @@
 import { MsgSendEncodeObject } from '@desmoslabs/sdk-core';
 import { useCurrentChainInfo } from '@desmoslabs/sdk-react';
 import { StackScreenProps } from '@react-navigation/stack';
-import React, { useCallback, useContext, useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Button, StyledSafeAreaView, TextInput, TopBar } from '../components';
 import { FlexPadding } from '../components/FlexPadding';
+import { Typography } from '../components/typography';
 import { MEMO_MAX_LENGTH } from '../constants/chain';
 import { useAppContext } from '../contexts/AppContext';
-import useFetchUserBalance from '../hooks/useFetchUserBalance';
 import useSelectedAccount from '../hooks/useSelectedAccount';
 import { makeStyle } from '../theming';
 import { computeTxFees, messagesGas } from '../types/fees';
 import { AccountScreensStackParams } from '../types/navigation';
 import { decimalSeparator, localeParseFloat } from '../utilils/parsing';
 import checkDesmosAddress from '../utilils/validators';
-import { Typography } from '../components/typography';
 
 export type Props = StackScreenProps<AccountScreensStackParams, 'SendToken'>;
 
