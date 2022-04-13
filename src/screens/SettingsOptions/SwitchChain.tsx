@@ -22,7 +22,7 @@ const SwitchChain: React.FC<Props> = (props) => {
   const styles = useStyles();
   
   const changeChain = (newChainId: ChainId) => {
-    setChainId(newChainId)
+    setChainId(newChainId);
     sdkContext.setCurrentChainId(newChainId);
     return Promise.all(
       controller.sessions.map(async (session) => controller.terminateSession(session.id))

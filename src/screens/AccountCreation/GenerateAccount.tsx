@@ -4,7 +4,6 @@ import React, { useCallback, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Button, DpmImage, StyledSafeAreaView } from '../../components';
 import { Typography } from '../../components/typography';
-import useSetting from '../../hooks/settings/useSetting';
 import useChangeAccount from '../../hooks/useChangeAccount';
 import useSaveAccount from '../../hooks/useSaveAccount';
 import useSaveSelectedAccount from '../../hooks/useSaveSelectedAccount';
@@ -34,7 +33,6 @@ export default function GenerateAccount(props: Props): JSX.Element {
   const saveAccount = useSaveAccount();
   const saveSelectedAccount = useSaveSelectedAccount();
   const changeAccount = useChangeAccount();
-  const chainId = useSetting('chainId');
   
   const generateAccount = useCallback(async () => {
     setGenerating(true);
@@ -49,7 +47,6 @@ export default function GenerateAccount(props: Props): JSX.Element {
         hdPath: wallet.hdPath,
         pubKey: wallet.pubKey,
         signAlgorithm: wallet.signAlgorithm,
-        chainId
       };
       await saveAccount(accountToGenerate);
       await saveSelectedAccount(accountToGenerate);
