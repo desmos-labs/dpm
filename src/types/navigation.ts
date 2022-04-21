@@ -30,11 +30,13 @@ export type AccountCreationStackParams = {
     ledgerTransport?: BluetoothTransport;
   };
   CreateWalletPassword: {
+    addingNewAccount?: boolean;
     wallet: Wallet;
     password?: string;
   };
   CheckWalletPassword: {
-    password: string;
+    addingNewAccount: boolean;
+    password?: string;
     wallet: Wallet;
   };
   ChangeWalletPassword: {

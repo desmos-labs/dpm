@@ -2,13 +2,14 @@ import { StackScreenProps } from '@react-navigation/stack';
 import React, { useCallback, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Button, StyledSafeAreaView, TopBar } from '../../components';
+import { Typography } from '../../components/typography';
 import { WalletPicker } from '../../components/WalletPicker';
+import { useAppContext } from '../../contexts/AppContext';
 import { makeStyle } from '../../theming';
 import { DesmosHdPath } from '../../types/hdpath';
 import { DesmosLedgerApp } from '../../types/ledger';
 import { AccountCreationStackParams } from '../../types/navigation';
 import { Wallet } from '../../types/wallet';
-import { Typography } from '../../components/typography';
 
 export type Props = StackScreenProps<AccountCreationStackParams, 'PickDerivationPath'>;
 
@@ -22,17 +23,28 @@ export const PickDerivationPath: React.FC<Props> = (props) => {
   const styles = useStyles();
   const [selectedWallet, setSelectedWallet] = useState<Wallet | null>(null);
   const [generatingAddresses, setGeneratingAddresses] = useState(false);
+  const { accounts } = useAppContext();
 
   const onNextPressed = useCallback(async () => {
     if (selectedWallet !== null) {
-      navigation.navigate({
-        name: 'CreateWalletPassword',
-        params: {
-          wallet: selectedWallet,
-        },
-      });
+      if (accounts.length === 0) {
+        navigation.navigate({
+          name: 'CreateWalletPassword',
+          params: {
+            wallet: selectedWallet,
+          },
+        });
+      } else {
+        navigation.navigate({
+          name: 'CheckWalletPassword',
+          params: {
+            addingNewAccount: true,
+            wallet: selectedWallet,
+          },
+        });
+      }
     }
-  }, [navigation, selectedWallet]);
+  }, [accounts.length, navigation, selectedWallet]);
 
   return (
     <StyledSafeAreaView style={styles.root} topBar={<TopBar stackProps={props} />}>
