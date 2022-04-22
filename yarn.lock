@@ -1077,6 +1077,11 @@
   resolved "https://registry.yarnpkg.com/@graphql-typed-document-node/core/-/core-3.1.1.tgz#076d78ce99822258cf813ecc1e7fa460fa74d052"
   integrity sha512-NQ17ii0rK1b34VZonlmT2QMJFI70m0TRwbknO/ihlbatXyaktDhN/98vBiUU6kNBPljqGqyIrl2T4nY2RpFANg==
 
+"@habx/apollo-multi-endpoint-link@^2.7.0":
+  version "2.7.0"
+  resolved "https://registry.yarnpkg.com/@habx/apollo-multi-endpoint-link/-/apollo-multi-endpoint-link-2.7.0.tgz#23f1dbdc8e4db7102d4d2f65d870b7ff396c6cbe"
+  integrity sha512-s7T63NsP/FfLEZk5SVY0Jmwu9IE9bf5fq9TeAiDwklkjT9F5mW6jXKtOGdEOH+UDFt+hAPhPmPznxHd2S8KTFA==
+
 "@hapi/hoek@^9.0.0":
   version "9.2.1"
   resolved "https://registry.yarnpkg.com/@hapi/hoek/-/hoek-9.2.1.tgz#9551142a1980503752536b5050fd99f4a7f13b17"

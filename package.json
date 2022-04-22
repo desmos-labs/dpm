@@ -21,6 +21,7 @@
     "@desmoslabs/proto": "^1.0.0",
     "@desmoslabs/sdk-core": "1.0.3",
     "@desmoslabs/sdk-react": "1.0.3",
+    "@habx/apollo-multi-endpoint-link": "^2.7.0",
     "@json-rpc-tools/types": "^1.7.6",
     "@json-rpc-tools/utils": "2.0.0-beta.12",
     "@ledgerhq/react-native-hw-transport-ble": "^6.15.0",

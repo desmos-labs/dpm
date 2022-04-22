@@ -256,6 +256,8 @@ export function useFetchTxsGrouppedByDate(chainAccount: ChainAccount) {
       types: '{}',
     },
     onCompleted: (fetchedData) => {
+      console.log(chainAccount.address);
+      console.log(fetchedData.transactionsByAddress.length);
       const transactions = fetchedData.transactionsByAddress
         .map(mapTransactions)
         .reduce(groupTransactionByDate, {});

@@ -91,7 +91,7 @@ export const GetTransactionsByAddressDocument = gql`
     $limit: bigint = 50
     $offset: bigint = 0
     $types: _text = "{}"
-  ) {
+  ) @api(name: forbole) {
     transactionsByAddress: messages_by_address(
       args: { addresses: $address, types: $types, limit: $limit, offset: $offset }
     ) {
