@@ -4,7 +4,6 @@ import { StackNavigationProp } from '@react-navigation/stack/lib/typescript/src/
 import React, { useCallback, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { FlatList, Image, ListRenderItemInfo, View } from 'react-native';
-import { useTheme } from 'react-native-paper';
 import { useDrawerContext } from '../contexts/AppDrawerContex';
 import useAccounts from '../hooks/useAccounts';
 import useChangeAccount from '../hooks/useChangeAccount';
@@ -131,6 +130,7 @@ export const AppDrawerContent: React.FC<Props> = (props) => {
   const renderAccounts = useCallback(
     ({ item }: ListRenderItemInfo<AccountProfilePair>) => {
       const [account, profile] = item;
+      const isItemSelected = account.address === selectedAccount.address;
       return (
         <ProfileListItem
           address={account.address}
@@ -143,6 +143,7 @@ export const AppDrawerContent: React.FC<Props> = (props) => {
                 }
               : undefined
           }
+          isItemSelected={isItemSelected}
           onPress={() => onChangeAccount(item[0])}
           onEdit={() => editProfile(item)}
           onDelete={() => showDeleteModal(item)}

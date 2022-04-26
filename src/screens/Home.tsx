@@ -7,13 +7,7 @@ import React, { useCallback, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Image, Text, View } from 'react-native';
 import { Snackbar, useTheme } from 'react-native-paper';
-import {
-  AccountBalance,
-  AvatarImage,
-  StyledSafeAreaView,
-  TopBar,
-  TransactionsList,
-} from '../components';
+import { AccountBalance, AvatarImage, StyledSafeAreaView, TopBar, TransactionsList } from '../components';
 import { Typography } from '../components/typography';
 import { useDrawerContext } from '../contexts/AppDrawerContex';
 import useFetchProfile from '../hooks/useFetchProfile';
@@ -47,6 +41,7 @@ export const Home: React.FC<Props> = (props) => {
 
   const onAddressCopy = useCallback(() => {
     Clipboard.setString(account.address);
+    console.log(account.address)
     setShowSnackbar(t('address copied'));
   }, [t, account]);
 

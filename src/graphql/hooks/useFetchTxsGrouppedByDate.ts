@@ -17,8 +17,8 @@ import Long from 'long';
 import { useCallback, useState } from 'react';
 import { ChainAccount } from '../../types/chain';
 import { MsgMultiSendEncodeObject } from '../../types/encodeobject';
-import { BroadcastedTx } from '../../types/tx';
 import MsgTypes from '../../types/msgtypes';
+import { BroadcastedTx } from '../../types/tx';
 import { GqlTransaction, useGetTransactionsByAddressQuery } from '../types';
 
 const LIMIT = 20;
@@ -245,7 +245,7 @@ export function useFetchTxsGrouppedByDate(chainAccount: ChainAccount) {
   const [txs, setTxs] = useState<SectionedTx[]>([]);
   const [currentOffset, setCurrentOffset] = useState(0);
   const [dataAvailable, setDataAvailable] = useState(true);
-
+  
   const transactionQuery = useGetTransactionsByAddressQuery({
     pollInterval: 1000,
     fetchPolicy: 'no-cache',
@@ -306,8 +306,7 @@ export function useFetchTxsGrouppedByDate(chainAccount: ChainAccount) {
       setDataAvailable(false);
     }
     setLoading(false);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [chainAccount.address, transactionQuery]);
 
   const fetchMore = useCallback(async () => {
     if (dataAvailable) {
