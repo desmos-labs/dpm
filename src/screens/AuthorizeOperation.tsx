@@ -5,6 +5,7 @@ import { useTranslation } from 'react-i18next';
 import { Button, StyledSafeAreaView, TopBar } from '../components';
 import { FlexPadding } from '../components/FlexPadding';
 import SecureTextInput from '../components/SecureTextInput';
+import { Typography } from '../components/typography';
 import { useAppContext } from '../contexts/AppContext';
 import AccountSource from '../sources/AccountSource';
 import { LocalWalletsSource } from '../sources/LocalWalletsSource';
@@ -12,7 +13,6 @@ import { makeStyle } from '../theming';
 import { AccountScreensStackParams } from '../types/navigation';
 import * as SecureStorage from '../utilils/SecureStorage';
 import LocalWallet from '../wallet/LocalWallet';
-import { Typography } from '../components/typography';
 
 type Props = StackScreenProps<AccountScreensStackParams, 'AuthorizeOperation'>;
 
@@ -49,7 +49,7 @@ const AuthorizeOperation: React.FC<Props> = (props) => {
         wallet = null;
         // Get the auth challenge from the device memory
         // if is correct the value should be the user addres.
-        const value = await SecureStorage.getItem(`${address}-auth-challenge`, {
+        const value = await SecureStorage.getItem('DPM_GLOBAL_PASSWORD', {
           password,
         });
         if (value !== null) {

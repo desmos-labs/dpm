@@ -4,10 +4,11 @@ import { useTranslation } from 'react-i18next';
 import { View } from 'react-native';
 import { Button, PasswordComplexity, StyledSafeAreaView, TopBar } from '../../components';
 import SecureTextInput from '../../components/SecureTextInput';
+import { Typography } from '../../components/typography';
 import { makeStyle } from '../../theming';
 import { AccountCreationStackParams } from '../../types/navigation';
 import evaluatePasswordComplexity from '../../utilils/passwordEvaluation';
-import { Typography } from '../../components/typography';
+import * as SecureStorage from '../../utilils/SecureStorage';
 
 type CreatePasswordProps = StackScreenProps<AccountCreationStackParams, 'CreateWalletPassword'>;
 type CheckPasswordProps = StackScreenProps<AccountCreationStackParams, 'CheckWalletPassword'>;
@@ -19,14 +20,15 @@ export default function WalletPassword(props: Props): JSX.Element {
   const styles = useStyles();
   const [password, setPassword] = useState('');
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
-  const isCreatePassword = route.params.password === undefined;
+  const isCreatePassword = route.name === 'CreateWalletPassword';
+  const addingNewAccount = route.params?.addingNewAccount;
 
   const onPasswordChange = (text: string) => {
     setPassword(text);
     setErrorMessage(null);
   };
 
-  const onContinuePressed = () => {
+  const onContinuePressed = async () => {
     if (isCreatePassword) {
       if (evaluatePasswordComplexity(password) === 0) {
         setErrorMessage(t('password too short'));
@@ -37,10 +39,27 @@ export default function WalletPassword(props: Props): JSX.Element {
         params: {
           ...route.params,
           password,
+          addingNewAccount: false,
         },
       });
-    } else if (password !== route.params?.password) {
+    } else if (password !== route.params?.password && !addingNewAccount) {
       setErrorMessage(t('wrong confirmation password'));
+    } else if (addingNewAccount) {
+      SecureStorage.getItem('DPM_GLOBAL_PASSWORD', {
+        password,
+      })
+        .then((result) => {
+          if (result === 'DPM_GLOBAL_PASSWORD') {
+            navigation.navigate({
+              name: 'GenerateAccount',
+              params: {
+                wallet: route.params.wallet,
+                password,
+              },
+            });
+          }
+        })
+        .catch(() => setErrorMessage(t('wrong confirmation password')));
     } else {
       navigation.navigate({
         name: 'GenerateAccount',
@@ -54,14 +73,13 @@ export default function WalletPassword(props: Props): JSX.Element {
 
   return (
     <StyledSafeAreaView style={styles.root} topBar={<TopBar stackProps={props} />}>
-      <Typography.Title>{t('protect your wallet')}</Typography.Title>
-      <Typography.Body>{t('add an extra security')}</Typography.Body>
+      <Typography.Title>
+        {isCreatePassword ? t('create password') : t('confirm password')}
+      </Typography.Title>
+      {isCreatePassword && <Typography.Body>{t('add an extra security')}</Typography.Body>}
 
       <View style={styles.passwordLabel}>
-        <Typography.Body>
-          {isCreatePassword ? t('enter security password') : t('confirm security password')}
-        </Typography.Body>
-
+        <Typography.Body>{t('enter security password')}</Typography.Body>
         {isCreatePassword && <PasswordComplexity score={evaluatePasswordComplexity(password)} />}
       </View>
       <SecureTextInput

@@ -4,6 +4,7 @@ import React, { useCallback, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Button, DpmImage, StyledSafeAreaView } from '../../components';
 import { Typography } from '../../components/typography';
+import { useAppContext } from '../../contexts/AppContext';
 import useChangeAccount from '../../hooks/useChangeAccount';
 import useSaveAccount from '../../hooks/useSaveAccount';
 import useSaveSelectedAccount from '../../hooks/useSaveSelectedAccount';
@@ -28,12 +29,13 @@ export default function GenerateAccount(props: Props): JSX.Element {
   const [generating, setGenerating] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [account, setAccount] = useState<ChainAccount | null>(null);
+  const { accounts } = useAppContext();
   const setAccounts = useSetAccounts();
   const saveWallet = useSaveWallet();
   const saveAccount = useSaveAccount();
   const saveSelectedAccount = useSaveSelectedAccount();
   const changeAccount = useChangeAccount();
-  
+
   const generateAccount = useCallback(async () => {
     setGenerating(true);
     try {
@@ -50,21 +52,31 @@ export default function GenerateAccount(props: Props): JSX.Element {
       };
       await saveAccount(accountToGenerate);
       await saveSelectedAccount(accountToGenerate);
-      // Save a secret encrypted with user provided password to
+      // Save a string encrypted with user provided password to
       // authenticate the user when performing sensitive operations.
-      await SecureStorage.setItem(
-        `${accountToGenerate.address}-auth-challenge`,
-        accountToGenerate.address,
-        {
+      if (accounts.length === 0) {
+        await SecureStorage.setItem('DPM_GLOBAL_PASSWORD', 'DPM_GLOBAL_PASSWORD', {
           password,
-        }
-      );
+        });
+      }
       setAccount(accountToGenerate);
     } catch (e) {
       setError(e.toString());
     }
     setGenerating(false);
-  }, [saveWallet, wallet, password, saveAccount, saveSelectedAccount]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [
+    wallet.type,
+    wallet.address,
+    wallet.hdPath,
+    wallet.pubKey,
+    wallet.signAlgorithm,
+    saveAccount,
+    saveSelectedAccount,
+    accounts.length,
+    saveWallet,
+    password,
+  ]);
 
   const onContinuePressed = useCallback(() => {
     if (account) {

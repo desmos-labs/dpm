@@ -91,7 +91,7 @@ const Settings: React.FC<Props> = (props) => {
       </FlexibleSection.Section>
       <FlexibleSection.Section style={styles.sectionMargin} title={t('security')}>
         <FlexibleSection.SectionButton
-          label={t('change wallet password')}
+          label={t('change application password')}
           onPress={navigateToChangePassword}
         />
         <FlexibleSection.SectionSwitch

@@ -54,7 +54,7 @@ export default function ChangeWalletPassword(props: Props): JSX.Element {
   );
 
   const saveUserPassword = useCallback(async () => {
-    await SecureStorage.setItem(`${account.address}-auth-challenge`, account.address, {
+    await SecureStorage.setItem('DPM_GLOBAL_PASSWORD', 'DPM_GLOBAL_PASSWORD', {
       password,
     });
     if (account.type === ChainAccountType.Local && params?.wallet) {
@@ -67,14 +67,13 @@ export default function ChangeWalletPassword(props: Props): JSX.Element {
       actionLabel: t('go to profile'),
       action: () => navigateToHomeScreen({ reset: true }),
     });
-  }, [account.address, account.type, navigateToHomeScreen, params?.wallet, password, showModal, t]);
+  }, [account.type, navigateToHomeScreen, params?.wallet, password, showModal, t]);
 
   const checkUserPassword = useCallback(async () => {
     const passwordMatch =
-      account.address ===
-      (await SecureStorage.getItem(`${account.address}-auth-challenge`, {
+      (await SecureStorage.getItem('DPM_GLOBAL_PASSWORD', {
         password,
-      }));
+      })) === 'DPM_GLOBAL_PASSWORD';
     if (passwordMatch) {
       // ChainAccountType.Local
       if (account.type === ChainAccountType.Local) {
@@ -120,13 +119,11 @@ export default function ChangeWalletPassword(props: Props): JSX.Element {
   return (
     <StyledSafeAreaView style={styles.root} topBar={<TopBar stackProps={props} />}>
       <Typography.Title>
-        {createNewPassword ? t('create a new password') : t('change your wallet password')}
+        {createNewPassword ? t('create a new password') : t('change your password')}
       </Typography.Title>
       <View style={styles.passwordLabel}>
         <Typography.Body>
-          {createNewPassword
-            ? t('enter your new wallet password')
-            : t('enter your old wallet password')}
+          {createNewPassword ? t('enter your new password') : t('enter your old password')}
         </Typography.Body>
         {createNewPassword && <PasswordComplexity score={evaluatePasswordComplexity(password)} />}
       </View>
@@ -144,7 +141,7 @@ export default function ChangeWalletPassword(props: Props): JSX.Element {
             {t('password complexity hint')}.
           </Typography.Body>
           <View style={styles.passwordLabel}>
-            <Typography.Body>{t('confirm wallet password')}</Typography.Body>
+            <Typography.Body>{t('confirm password')}</Typography.Body>
           </View>
           <SecureTextInput
             inputRef={inputRef}
