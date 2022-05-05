@@ -1,12 +1,12 @@
 queue_rules:
   - name: default
     conditions:
-      - base=master
+      - base=main
 
 pull_request_rules:
-  - name: automerge to master with label automerge and branch protection passing
+  - name: automerge to main with label automerge and branch protection passing
     conditions:
-      - "#approved-reviews-by>1"
+      - "#approved-reviews-by>0"
       - label=automerge
     actions:
       queue:
