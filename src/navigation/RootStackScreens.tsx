@@ -37,6 +37,7 @@ const RootStackScreens: React.FC = () => {
    */
   useEffect(() => {
     SecureStorage.getItem('using_global_password').then((result) => {
+      console.log(result);
       if (!result) {
         console.log(result);
         // Delete every account into the storage
@@ -58,7 +59,6 @@ const RootStackScreens: React.FC = () => {
         });
       }
     });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   // Navigate to the correct screen after loading all the data.
