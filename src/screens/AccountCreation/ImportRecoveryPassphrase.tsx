@@ -4,11 +4,11 @@ import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Button, StyledSafeAreaView, TextInput, TopBar } from '../../components';
 import { FlexPadding } from '../../components/FlexPadding';
+import { Typography } from '../../components/typography';
 import { makeStyle } from '../../theming';
 import { AccountCreationStackParams } from '../../types/navigation';
 import sanitizeMnemonic from '../../utilils/mnemonic';
 import { checkMnemonic } from '../../wallet/LocalWallet';
-import { Typography } from '../../components/typography';
 
 declare type Props = StackScreenProps<AccountCreationStackParams, 'ImportRecoveryPassphrase'>;
 
@@ -64,12 +64,19 @@ export default function ImportRecoveryPassphrase(props: Props): JSX.Element {
     }
   };
 
-  const useDebugMnemonic = () => {
-    /*		setMnemonic(
-			'hour harbor fame unaware bunker junk garment decrease federal vicious island smile warrior fame right suit portion skate analyst multiply magnet medal fresh sweet'
-		); */
+  const useDebugTestnetMnemonic = () => {
+    /* setMnemonic(
+      'hour harbor fame unaware bunker junk garment decrease federal vicious island smile warrior fame right suit portion skate analyst multiply magnet medal fresh sweet'
+    ); */
     setMnemonic(
       'verb pizza view holiday flip make silk marine buzz fiscal finger aunt document hood giant cheese embark visual first dirt camera fabric drill predict'
+    );
+    setErrorMessage(null);
+  };
+
+  const useDebugMainnetMnemonic = () => {
+    setMnemonic(
+      'victory hunt dentist property slow keep allow own monkey merit chalk laptop leopard problem illness cotton spoil gain brain ostrich lawsuit toilet tomato latin'
     );
     setErrorMessage(null);
   };
@@ -98,8 +105,13 @@ export default function ImportRecoveryPassphrase(props: Props): JSX.Element {
       <FlexPadding flex={1} />
 
       {__DEV__ && (
-        <Button style={styles.nextBtn} mode="contained" onPress={useDebugMnemonic}>
-          Use debug mnemonic
+        <Button style={styles.nextBtn} mode="contained" onPress={useDebugTestnetMnemonic}>
+          Use testnet debug mnemonic
+        </Button>
+      )}
+      {__DEV__ && (
+        <Button style={styles.nextBtn} mode="contained" onPress={useDebugMainnetMnemonic}>
+          Use mainnet debug mnemonic
         </Button>
       )}
       <Button mode="contained" onPress={onNextPressed}>
