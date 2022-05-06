@@ -7,9 +7,17 @@ import React, { useCallback, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Image, Text, View } from 'react-native';
 import { Snackbar, useTheme } from 'react-native-paper';
-import { AccountBalance, AvatarImage, StyledSafeAreaView, TopBar, TransactionsList } from '../components';
+import {
+  AccountBalance,
+  AvatarImage,
+  StyledSafeAreaView,
+  TopBar,
+  TransactionsList,
+} from '../components';
 import { Typography } from '../components/typography';
+import { useAppContext } from '../contexts/AppContext';
 import { useDrawerContext } from '../contexts/AppDrawerContex';
+import useSetSetting from '../hooks/settings/useSetSetting';
 import useFetchProfile from '../hooks/useFetchProfile';
 import useSelectedAccount from '../hooks/useSelectedAccount';
 import { makeStyle } from '../theming';
@@ -25,12 +33,14 @@ export const Home: React.FC<Props> = (props) => {
   const { navigation } = props;
   const { openDrawer } = useDrawerContext();
   const account = useSelectedAccount();
+  const { settings } = useAppContext();
   const { t } = useTranslation();
   const theme = useTheme();
   const styles = useStyles();
   const profile = useFetchProfile(account.address);
   const [snackBarMessage, setShowSnackbar] = useState<string | null>(null);
   const currentChain = useCurrentChainInfo();
+  const hideBalance = useSetSetting('balanceHidden');
 
   const openProfileDetails = useCallback(() => {
     navigation.navigate({
@@ -41,9 +51,13 @@ export const Home: React.FC<Props> = (props) => {
 
   const onAddressCopy = useCallback(() => {
     Clipboard.setString(account.address);
-    console.log(account.address)
+    console.log(account.address);
     setShowSnackbar(t('address copied'));
   }, [t, account]);
+
+  const onHideBalance = useCallback(() => {
+    hideBalance(!settings.balanceHidden);
+  }, [hideBalance, settings.balanceHidden]);
 
   const onSendPressed = useCallback(() => {
     navigation.navigate({
@@ -117,6 +131,7 @@ export const Home: React.FC<Props> = (props) => {
         nickname={profile?.nickname}
         onCopyPress={onAddressCopy}
         onSendPressed={onSendPressed}
+        onHidePressed={onHideBalance}
       />
       <View style={styles.transactionsContainer}>
         <Typography.Subtitle>{t('transactions')}</Typography.Subtitle>
