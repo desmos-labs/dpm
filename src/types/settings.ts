@@ -13,7 +13,8 @@ export type AppTheme = 'light' | 'dark' | 'auto';
  */
 export type AppSettings = {
   theme: AppTheme;
-  chainId: ChainId,
+  chainId: ChainId;
+  balanceHidden: boolean;
 };
 
 /**
@@ -27,5 +28,6 @@ export const AppSettingsStorageKey = 'dpm_app_settings';
  */
 export const DefaultAppSettings: AppSettings = {
   theme: 'auto',
-  chainId: 'desmos-mainnet'
+  chainId: 'desmos-mainnet',
+  balanceHidden: false,
 };

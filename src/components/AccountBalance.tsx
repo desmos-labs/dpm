@@ -23,14 +23,26 @@ export type Props = {
    * Callback called when the user click the send button.
    */
   onSendPressed?: () => void;
+  /**
+   * Callback called when the user click the hide button.
+   */
+  onHidePressed?: () => void;
   style?: StyleProp<ViewStyle>;
 };
 
 export const AccountBalance: React.FC<Props> = (props) => {
-  const { address, nickname, onCopyPress, onSendPressed, style } = props;
+  const { address, nickname, onCopyPress, onSendPressed, onHidePressed, style } = props;
   const { t } = useTranslation();
   const styles = useStyles();
-  const { selectedAccountBalance } = useAppContext();
+  const { selectedAccountBalance, settings } = useAppContext();
+
+  const hideAmount = (balance: string): string => {
+    let toReturn = '';
+    for (let index = 0; index < balance.length; index += 1) {
+      toReturn += '*';
+    }
+    return toReturn;
+  };
 
   return (
     <View style={[styles.root, style]}>
@@ -46,12 +58,21 @@ export const AccountBalance: React.FC<Props> = (props) => {
           {address}
         </Typography.Body>
         <IconButton color="#ffffff" icon="content-copy" size={16} onPress={onCopyPress} />
+        <IconButton
+          color="#ffffff"
+          icon={settings.balanceHidden ? 'eye' : 'eye-off'}
+          size={16}
+          onPress={onHidePressed}
+        />
       </View>
       <View style={styles.balanceContainer}>
         <View style={styles.balanceTextContainer}>
           <Typography.Body style={styles.balanceText}>{t('available')}</Typography.Body>
           <Typography.H4 style={styles.balanceText}>
-            {selectedAccountBalance.amount} {selectedAccountBalance.denom.toUpperCase()}
+            {settings.balanceHidden
+              ? hideAmount(selectedAccountBalance.amount)
+              : selectedAccountBalance.amount}{' '}
+            {selectedAccountBalance.denom.toUpperCase()}
           </Typography.H4>
         </View>
         <TouchableOpacity style={styles.sendButton} onPress={onSendPressed}>
