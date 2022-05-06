@@ -91,7 +91,7 @@ export const GetTransactionsByAddressDocument = gql`
     $limit: bigint = 50
     $offset: bigint = 0
     $types: _text = "{}"
-  ) {
+  ) @api(name: forbole) {
     transactionsByAddress: messages_by_address(
       args: { addresses: $address, types: $types, limit: $limit, offset: $offset }
     ) {
@@ -159,7 +159,7 @@ export type GetChainLinkByAddressQueryVariable = Exact<{
 }>;
 
 export const GetChainLinkByAddressDocument = gql`
-  query GetChainLinkByAddress($address: String) {
+  query GetChainLinkByAddress($address: String) @api(name: desmos) {
     chain_link(where: { user_address: { _eq: $address } }) {
       user_address
       external_address
@@ -206,7 +206,7 @@ export type GetProfileModuleParams = {
 };
 
 export const GetProfileModuleParamsDocument = gql`
-  query Params {
+  query Params @api(name: desmos) {
     profiles_params {
       params
     }
