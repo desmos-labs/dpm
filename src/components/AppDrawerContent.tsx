@@ -150,7 +150,7 @@ export const AppDrawerContent: React.FC<Props> = (props) => {
         />
       );
     },
-    [onChangeAccount, editProfile, showDeleteModal]
+    [selectedAccount.address, onChangeAccount, editProfile, showDeleteModal]
   );
 
   return (
