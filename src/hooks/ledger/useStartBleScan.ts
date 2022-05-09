@@ -1,10 +1,10 @@
 import TransportBLE from '@ledgerhq/react-native-hw-transport-ble';
-import {useCallback, useEffect, useState} from 'react';
-import {useTranslation} from 'react-i18next';
-import {Linking, Platform} from 'react-native';
+import { useCallback, useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
+import { Linking, Platform } from 'react-native';
+import { BleError, BleErrorCode } from 'react-native-ble-plx';
 import BluetoothStateManager from 'react-native-bluetooth-state-manager';
-import {BleLedger, Subscription} from '../../types/ledger';
-import {BleError, BleErrorCode} from "react-native-ble-plx";
+import { BleLedger, Subscription } from '../../types/ledger';
 
 export enum ScanErrorCause {
   PoweredOff,
@@ -101,9 +101,11 @@ export default function useStartBleScan() {
               error: (error: BleError) => {
                 console.error('BLE scan error', error, error.errorCode, error.reason, error.name);
                 const errorMessage = error.toString();
-                if (errorMessage.indexOf('not authorized') > 0 ||
-                    error.errorCode === BleErrorCode.BluetoothUnauthorized ||
-                    error.errorCode === BleErrorCode.ScanStartFailed) {
+                if (
+                  errorMessage.indexOf('not authorized') > 0 ||
+                  error.errorCode === BleErrorCode.BluetoothUnauthorized ||
+                  error.errorCode === BleErrorCode.ScanStartFailed
+                ) {
                   let message: string;
                   if (Platform.OS === 'android') {
                     if (error.errorCode === BleErrorCode.ScanStartFailed) {
