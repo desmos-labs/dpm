@@ -8,19 +8,14 @@ export type Props = {
   label: string;
   onPress?: () => void;
   icon?: ImageProps['source'];
-  isDisabled?: boolean;
 };
 
 export const SectionButton: React.FC<Props> = (props) => {
-  const { label, onPress, icon, isDisabled } = props;
+  const { label, onPress, icon } = props;
   const styles = useStyles();
 
   return (
-    <TouchableOpacity
-      style={[styles.root, isDisabled ? styles.disabled : null]}
-      onPress={onPress ?? onPress}
-      disabled={isDisabled}
-    >
+    <TouchableOpacity style={styles.root} onPress={onPress ?? onPress}>
       {icon && <Image style={styles.communityIcon} source={icon} resizeMode="contain" />}
       <Typography.Body1 style={styles.label}>{label}</Typography.Body1>
       <Icon name="arrow-right" />
