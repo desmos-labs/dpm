@@ -87,7 +87,11 @@ const Settings: React.FC<Props> = (props) => {
     >
       <FlexibleSection.Section title={t('general')}>
         <FlexibleSection.SectionButton label={t('display mode')} onPress={navigateToDisplayMode} />
-        <FlexibleSection.SectionButton label={t('switch chain')} onPress={navigateToSwitchChain} />
+        <FlexibleSection.SectionButton
+          label={t('switch chain')}
+          onPress={navigateToSwitchChain}
+          isDisabled
+        />
       </FlexibleSection.Section>
       <FlexibleSection.Section style={styles.sectionMargin} title={t('security')}>
         <FlexibleSection.SectionButton
