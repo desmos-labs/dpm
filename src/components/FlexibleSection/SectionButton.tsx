@@ -41,7 +41,4 @@ const useStyles = makeStyle((theme) => ({
     width: 24,
     marginRight: theme.spacing.s,
   },
-  disabled: {
-    opacity: 0.3,
-  },
 }));
