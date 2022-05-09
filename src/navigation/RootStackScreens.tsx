@@ -37,9 +37,7 @@ const RootStackScreens: React.FC = () => {
    */
   useEffect(() => {
     SecureStorage.getItem('using_global_password').then((result) => {
-      console.log(result);
       if (!result) {
-        console.log(result);
         // Delete every account into the storage
         Promise.all(
           accounts.map(async (account) => {
