@@ -2,7 +2,7 @@ import { CompositeScreenProps } from '@react-navigation/native';
 import { StackScreenProps } from '@react-navigation/stack';
 import React, { useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Linking } from 'react-native';
+import { Linking, Platform } from 'react-native';
 import DeviceInfo from 'react-native-device-info';
 import { StyledSafeAreaView, TopBar } from '../components';
 import FlexibleSection from '../components/FlexibleSection';
@@ -24,7 +24,7 @@ const Settings: React.FC<Props> = (props) => {
       name: 'MarkdownText',
       params: {
         title: t('privacy policy'),
-        asset: 'custom/privacy.md',
+        asset: Platform.OS === 'android' ? 'custom/privacy.md' : '/privacy.md',
       },
     });
   }, [navigation, t]);
@@ -34,7 +34,7 @@ const Settings: React.FC<Props> = (props) => {
       name: 'MarkdownText',
       params: {
         title: t('about dpm'),
-        asset: 'custom/about.md',
+        asset: Platform.OS === 'android' ? 'custom/about.md' : '/about.md',
       },
     });
   }, [navigation, t]);

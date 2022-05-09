@@ -13,8 +13,10 @@
 		13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
 		28BB3B5DE0514D84A628CC14 /* Poppins-BoldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 9D9D0461843A47EEB71EC40C /* Poppins-BoldItalic.ttf */; };
+		2F4EE406C29844C896287D92 /* privacy.md in Resources */ = {isa = PBXBuildFile; fileRef = 698B63C61127441696B70C1C /* privacy.md */; };
 		405DCBF81F0847B5AE9836A7 /* Poppins-ThinItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = E69974F401C44E90B1C6B282 /* Poppins-ThinItalic.ttf */; };
 		4C3F9D5B8C224B46A3FC6D6B /* Poppins-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = CFF5CCE419D8475C9536182A /* Poppins-Light.ttf */; };
+		6289B7184262462D97FA3380 /* about.md in Resources */ = {isa = PBXBuildFile; fileRef = 09141F4066354AE893392293 /* about.md */; };
 		68985BE6EB6E4E08B7BF876C /* Poppins-MediumItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 320F2F417D29497F8F5B0F47 /* Poppins-MediumItalic.ttf */; };
 		6FA7EE685E124F52A451502C /* Poppins-SemiBoldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 21CF693A34F54D63AEC13483 /* Poppins-SemiBoldItalic.ttf */; };
 		70B78DACAD0A41A7BD3FA46E /* Poppins-Black.ttf in Resources */ = {isa = PBXBuildFile; fileRef = E3457559EF2E4BB1AF51DEC3 /* Poppins-Black.ttf */; };
@@ -37,8 +39,6 @@
 		D94C7B441B8B40A795BF011B /* Poppins-LightItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 3F3F50407EBD4E28867C49E7 /* Poppins-LightItalic.ttf */; };
 		E3575F8BBEE045F59114EFB8 /* Poppins-Thin.ttf in Resources */ = {isa = PBXBuildFile; fileRef = B78C87878C2145B1995F55B7 /* Poppins-Thin.ttf */; };
 		F2FA814145E7ADFE9267351E /* libPods-DesmosProfileManager.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 306AEECA0B58C9F8022AB368 /* libPods-DesmosProfileManager.a */; };
-		2F4EE406C29844C896287D92 /* privacy.md in Resources */ = {isa = PBXBuildFile; fileRef = 698B63C61127441696B70C1C /* privacy.md */; };
-		6289B7184262462D97FA3380 /* about.md in Resources */ = {isa = PBXBuildFile; fileRef = 09141F4066354AE893392293 /* about.md */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -64,6 +64,7 @@
 		00E356F21AD99517003FC87E /* DesmosProfileManagerTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DesmosProfileManagerTests.m; sourceTree = "<group>"; };
 		03F2F4E3CB714913B7B5D4BC /* Feather.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Feather.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Feather.ttf"; sourceTree = "<group>"; };
 		074621ED936F4F43A6D0BA1D /* FontAwesome5_Brands.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = FontAwesome5_Brands.ttf; path = "../node_modules/react-native-vector-icons/Fonts/FontAwesome5_Brands.ttf"; sourceTree = "<group>"; };
+		09141F4066354AE893392293 /* about.md */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = about.md; path = ../assets/md/about.md; sourceTree = "<group>"; };
 		13B07F961A680F5B00A75B9A /* DesmosProfileManager.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DesmosProfileManager.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		13B07FAF1A68108700A75B9A /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppDelegate.h; path = DesmosProfileManager/AppDelegate.h; sourceTree = "<group>"; };
 		13B07FB01A68108700A75B9A /* AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AppDelegate.m; path = DesmosProfileManager/AppDelegate.m; sourceTree = "<group>"; };
@@ -86,6 +87,7 @@
 		5F686463C7C642C98DB6BF70 /* Entypo.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Entypo.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Entypo.ttf"; sourceTree = "<group>"; };
 		62098569FC5B44D494CCCF64 /* Poppins-Regular.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Poppins-Regular.ttf"; path = "../assets/fonts/Poppins-Regular.ttf"; sourceTree = "<group>"; };
 		639E5BF81311469F86C9DAEE /* Poppins-Italic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Poppins-Italic.ttf"; path = "../assets/fonts/Poppins-Italic.ttf"; sourceTree = "<group>"; };
+		698B63C61127441696B70C1C /* privacy.md */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = privacy.md; path = ../assets/md/privacy.md; sourceTree = "<group>"; };
 		7097FC34307D4347A9EDD53F /* MaterialIcons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = MaterialIcons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/MaterialIcons.ttf"; sourceTree = "<group>"; };
 		8056E480C5BC26D54EC213A9 /* Pods-DesmosProfileManager-RCTCryptoUtilsTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DesmosProfileManager-RCTCryptoUtilsTests.release.xcconfig"; path = "Target Support Files/Pods-DesmosProfileManager-RCTCryptoUtilsTests/Pods-DesmosProfileManager-RCTCryptoUtilsTests.release.xcconfig"; sourceTree = "<group>"; };
 		818B79F14BB14583BBB4E3AB /* Fontisto.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Fontisto.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Fontisto.ttf"; sourceTree = "<group>"; };
@@ -121,8 +123,6 @@
 		F4CCEB3A72DFECF367E2CC5D /* Pods-RCTCryptoUtilsTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RCTCryptoUtilsTests.debug.xcconfig"; path = "Target Support Files/Pods-RCTCryptoUtilsTests/Pods-RCTCryptoUtilsTests.debug.xcconfig"; sourceTree = "<group>"; };
 		FBC25241171DC577552836CC /* Pods-DesmosProfileManager-RCTCryptoUtilsTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DesmosProfileManager-RCTCryptoUtilsTests.debug.xcconfig"; path = "Target Support Files/Pods-DesmosProfileManager-RCTCryptoUtilsTests/Pods-DesmosProfileManager-RCTCryptoUtilsTests.debug.xcconfig"; sourceTree = "<group>"; };
 		FF94A306EFE1444E81553804 /* Poppins-BlackItalic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Poppins-BlackItalic.ttf"; path = "../assets/fonts/Poppins-BlackItalic.ttf"; sourceTree = "<group>"; };
-		698B63C61127441696B70C1C /* privacy.md */ = {isa = PBXFileReference; name = "privacy.md"; path = "../assets/md/privacy.md"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
-		09141F4066354AE893392293 /* about.md */ = {isa = PBXFileReference; name = "about.md"; path = "../assets/md/about.md"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */

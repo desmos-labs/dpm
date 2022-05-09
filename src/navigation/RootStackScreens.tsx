@@ -57,7 +57,6 @@ const RootStackScreens: React.FC = () => {
         });
       }
     });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   // Navigate to the correct screen after loading all the data.

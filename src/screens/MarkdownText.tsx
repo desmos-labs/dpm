@@ -1,6 +1,6 @@
 import { StackScreenProps } from '@react-navigation/stack';
 import React, { useEffect, useState } from 'react';
-import { ScrollView, StyleSheet, View } from 'react-native';
+import { Platform, ScrollView, StyleSheet, View } from 'react-native';
 import RNFS from 'react-native-fs';
 import Markdown from 'react-native-markdown-display';
 import { useTheme } from 'react-native-paper';
@@ -21,7 +21,10 @@ export const MarkdownText: React.FC<Props> = (props) => {
   useEffect(() => {
     if (asset !== undefined) {
       (async () => {
-        const textToRender = await RNFS.readFileAssets(asset).catch((e) => console.error(e));
+        const textToRender =
+          Platform.OS === 'android'
+            ? await RNFS.readFileAssets(asset).catch((e) => console.error(e))
+            : await RNFS.readFile(`${RNFS.MainBundlePath}${asset}`).catch((e) => console.error(e));
         if (textToRender) {
           setContent(textToRender);
         }
@@ -32,6 +35,7 @@ export const MarkdownText: React.FC<Props> = (props) => {
   return (
     <StyledSafeAreaView
       topBar={<TopBar stackProps={props} capitalizeTitle={false} title={title} />}
+      scrollable
     >
       <View onStartShouldSetResponder={() => true} style={styles.content}>
         <ScrollView>
