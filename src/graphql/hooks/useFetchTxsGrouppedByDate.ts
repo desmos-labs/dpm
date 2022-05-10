@@ -144,7 +144,6 @@ function gqlMessageToEncodeObject(msg: any): EncodeObject {
         value: chainAddress.value,
         prefix: chainAddress.prefix,
       }).finish();
-      console.log(chainAddressRaw)
 
       return {
         typeUrl: '/desmos.profiles.v1beta1.MsgLinkChainAccount',
@@ -246,7 +245,7 @@ export function useFetchTxsGrouppedByDate(chainAccount: ChainAccount) {
   const [txs, setTxs] = useState<SectionedTx[]>([]);
   const [currentOffset, setCurrentOffset] = useState(0);
   const [dataAvailable, setDataAvailable] = useState(true);
-  
+
   const transactionQuery = useGetTransactionsByAddressQuery({
     pollInterval: 1000,
     fetchPolicy: 'no-cache',
