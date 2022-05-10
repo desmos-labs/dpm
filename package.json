@@ -18,7 +18,7 @@
     "@cosmjs/encoding": "0.26.5",
     "@cosmjs/ledger-amino": "0.26.5",
     "@cosmjs/proto-signing": "0.26.5",
-    "@desmoslabs/proto": "^1.0.0",
+    "@desmoslabs/proto": "2.0.0",
     "@desmoslabs/sdk-core": "1.0.3",
     "@desmoslabs/sdk-react": "1.0.3",
     "@habx/apollo-multi-endpoint-link": "^2.7.0",
