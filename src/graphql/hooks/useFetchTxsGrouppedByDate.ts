@@ -144,6 +144,7 @@ function gqlMessageToEncodeObject(msg: any): EncodeObject {
         value: chainAddress.value,
         prefix: chainAddress.prefix,
       }).finish();
+      console.log(chainAddressRaw)
 
       return {
         typeUrl: '/desmos.profiles.v1beta1.MsgLinkChainAccount',
@@ -226,7 +227,7 @@ function groupTransactionByDate(
   groups: Record<string, BroadcastedTx[]>,
   tx: BroadcastedTx
 ): Record<string, BroadcastedTx[]> {
-  const groupsDeepCloned = JSON.parse(JSON.stringify(groups));
+  const groupsDeepCloned = groups;
   const date: string = tx.timestamp.split('T')[0];
   if (groupsDeepCloned[date] === undefined) {
     groupsDeepCloned[date] = [];
