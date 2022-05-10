@@ -8,18 +8,12 @@ def getVersionTag(String variant) {
         return "v${System.env['VERSION_OVERRIDE']}"
     } else {
         def stdout
-        try {
-            stdout = new ByteArrayOutputStream()
-            exec {
-                commandLine "git", "describe", "--tags", "--abbrev=0"
-                standardOutput = stdout
-            }
-            def longTag = stdout.toString().trim()
-
-            return longTag
-        } catch (exception) {
-            return "v0.0.1"
+        stdout = new ByteArrayOutputStream()
+        exec {
+            commandLine "git", "describe", "--tags", "--abbrev=0"
+            standardOutput = stdout
         }
+        return stdout.toString().trim()
     }
 }
 
