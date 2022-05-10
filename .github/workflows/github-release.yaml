@@ -15,6 +15,9 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
 
+      - name: Fix git permissions
+        run: git config --global --add safe.directory /__w/dpm/dpm
+
       - uses: c-hive/gha-yarn-cache@v1
 
       - name: Install node modules
