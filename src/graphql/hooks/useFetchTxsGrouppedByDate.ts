@@ -226,7 +226,7 @@ function groupTransactionByDate(
   groups: Record<string, BroadcastedTx[]>,
   tx: BroadcastedTx
 ): Record<string, BroadcastedTx[]> {
-  const groupsDeepCloned = JSON.parse(JSON.stringify(groups));
+  const groupsDeepCloned = groups;
   const date: string = tx.timestamp.split('T')[0];
   if (groupsDeepCloned[date] === undefined) {
     groupsDeepCloned[date] = [];
@@ -245,7 +245,7 @@ export function useFetchTxsGrouppedByDate(chainAccount: ChainAccount) {
   const [txs, setTxs] = useState<SectionedTx[]>([]);
   const [currentOffset, setCurrentOffset] = useState(0);
   const [dataAvailable, setDataAvailable] = useState(true);
-  
+
   const transactionQuery = useGetTransactionsByAddressQuery({
     pollInterval: 1000,
     fetchPolicy: 'no-cache',

@@ -986,10 +986,18 @@
   resolved "https://registry.yarnpkg.com/@cosmjs/utils/-/utils-0.25.6.tgz#934d9a967180baa66163847616a74358732227ca"
   integrity sha512-ofOYiuxVKNo238vCPPlaDzqPXy2AQ/5/nashBo5rvPZJkxt9LciGfUEQWPCOb1BIJDNx2Dzu0z4XCf/dwzl0Dg==
 
-"@desmoslabs/proto@1.0.0", "@desmoslabs/proto@^1.0.0":
+"@desmoslabs/proto@1.0.0":
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/@desmoslabs/proto/-/proto-1.0.0.tgz#e38a4d8097db9271ae201e0336d72fc4ade73eb0"
   integrity sha512-7PtIZxmIdwE85xAbUKg79b7CwlryvWqv7euGx6jrKyhk/Wpj/bgaWGehdvhHFlm58dF5nahbF5+PWXNYTpXRrg==
+  dependencies:
+    long "4.0.0"
+    protobufjs "~6.11.2"
+
+"@desmoslabs/proto@2.0.0":
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/@desmoslabs/proto/-/proto-2.0.0.tgz#b3a4c8810315ac2a44e133f4326575ada2491db5"
+  integrity sha512-16kzjmhK/fpH1iVk4UFXqcCHP5Ves/f7bK7xuKuKDj8MEhdzs4Hl/+5UEUZXI8l/6If9U+P5hdz5qbsJ4n8Pdg==
   dependencies:
     long "4.0.0"
     protobufjs "~6.11.2"
