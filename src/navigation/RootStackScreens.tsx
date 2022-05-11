@@ -2,13 +2,11 @@ import { NavigationContainer, NavigationContainerRef } from '@react-navigation/n
 import React, { useEffect, useRef } from 'react';
 import { useAppContext } from '../contexts/AppContext';
 import { useWalletConnectContext } from '../contexts/WalletConnectContext';
-import useDeleteAccount from '../hooks/useDeleteAccount';
 import useInitAppState from '../hooks/useInitAppState';
 import { ModalScreen } from '../modals/ModalScreen';
 import { MarkdownText } from '../screens/MarkdownText';
 import SplashScreen from '../screens/SplashScreen';
 import { RootStack, RootStackParams } from '../types/navigation';
-import * as SecureStorage from '../utilils/SecureStorage';
 import AccountCreationScreens from './AccountCreationScreens';
 import AccountScreens from './AccountScreens';
 import { ConnectToLedgerScreens } from './ConnectToLedgerScreens';
@@ -18,7 +16,6 @@ const RootStackScreens: React.FC = () => {
   const { accounts, selectedAccount } = useAppContext();
   const { initWalletConnect, initState } = useWalletConnectContext();
   const navigatorRef = useRef<NavigationContainerRef<RootStackParams>>(null);
-  const deleteAccount = useDeleteAccount();
 
   useEffect(() => {
     if (!initState.initializing && initState.error) {
@@ -30,36 +27,6 @@ const RootStackScreens: React.FC = () => {
     initWalletConnect();
   }, [initWalletConnect]);
 
-  /* Check if the app is using the new global password flow
-   If it is not using the new global password flow,
-   i need to remove every account and push into the storage a new flag
-   that tells me if the user is using the new global password flow
-   */
-  useEffect(() => {
-    SecureStorage.getItem('using_global_password').then((result) => {
-      if (!result) {
-        // Delete every account into the storage
-        Promise.all(
-          accounts.map(async (account) => {
-            await deleteAccount(account);
-          })
-        ).then(() => {
-          // Set up the new global password flag
-          SecureStorage.setItem('using_global_password', 'using_global_password').then(() => {
-            if (!appState.initializing && navigatorRef.current !== null) {
-              // No account, go to the create account screens
-              navigatorRef.current.reset({
-                index: 0,
-                routes: [{ name: 'AccountCreationScreens' }],
-              });
-            }
-          });
-        });
-      }
-    });
-  }, []);
-
-  // Navigate to the correct screen after loading all the data.
   useEffect(() => {
     if (!appState.initializing && navigatorRef.current !== null) {
       if (accounts.length === 0 || selectedAccount === null) {

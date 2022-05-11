@@ -1,6 +1,10 @@
 import { useEffect } from 'react';
 import { InitState, useAppContext } from '../contexts/AppContext';
 import { useInitI18n } from '../i18n/i18n';
+import AccountSource from '../sources/AccountSource';
+import { LocalWalletsSource } from '../sources/LocalWalletsSource';
+import ProfileSource from '../sources/ProfileSource';
+import * as SecureStorage from '../utilils/SecureStorage';
 import useLoadSettings from './settings/useLoadSettings';
 import useLoadAccounts from './useLoadAccounts';
 import useLoadAllProfiles from './useLoadAllProfiles';
@@ -23,12 +27,21 @@ export default function useInitAppState(): InitState {
     (async () => {
       try {
         await initLocalization();
+        // Check if using global password
+        const usingGlobalPassword = await SecureStorage.getItem('using_global_password');
+        if (!usingGlobalPassword) {
+          // Wipe the application storage
+          await AccountSource.reset();
+          await LocalWalletsSource.reset();
+          await ProfileSource.reset();
+          // Set new global password flow
+          await SecureStorage.setItem('using_global_password', 'using_global_password');
+        }
         // Load accounts and profiles from disk.
         const accounts = await loadAccounts();
         await loadProfiles();
         await loadSettings();
         await loadChainLinks(accounts.accounts.map((account) => account.address));
-
         setInitializing({
           initializing: false,
         });

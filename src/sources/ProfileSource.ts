@@ -216,6 +216,18 @@ export class ProfileSource {
       await this.removeSavedProfilesAddress(profile.address);
     }
   }
+
+  /**
+   * Removes every profile from the source.
+   */
+  public async reset() {
+    const addresses = await this.getStoredProfilesAddress();
+    Promise.all(
+      addresses.map((address) => {
+        this.deleteProfile(address);
+      })
+    ).catch((e) => console.error(e));
+  }
 }
 
 // Singleton instance that can be accessed from the application.
