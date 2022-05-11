@@ -103,8 +103,16 @@ class AccountSource {
       sourceCache.delete(account.address);
       return sourceCache;
     });
-
     await SecureStorage.setItem(this.ACCOUNTS_KEY, JSON.stringify(Array.from(cache.entries())));
+  }
+
+  /**
+   * Removes every account from the device storage.
+   */
+  public async reset(): Promise<void> {
+    await SecureStorage.deleteItem(this.ACCOUNTS_KEY);
+    await SecureStorage.deleteItem(this.SELECTED_ACCOUNT_KEY);
+    this._cache = new Map<string, ChainAccount>();
   }
 }
 

@@ -109,6 +109,16 @@ export class LocalWalletsSource {
     // Remove the key
     await SecureStorage.deleteItem(`${address}_key`);
   }
+
+  /**
+   * Deletes every wallet from the device storage
+   */
+  public static async reset(): Promise<void> {
+    const addresses = await LocalWalletsSource.getAllAddresses();
+    Promise.all(addresses.map((address) => LocalWalletsSource.removeWallet(address))).catch((e) =>
+      console.error(e)
+    );
+  }
 }
 
 const WalletSource = new LocalWalletsSource();
