@@ -115,11 +115,9 @@ export class LocalWalletsSource {
    */
   public static async reset(): Promise<void> {
     const addresses = await LocalWalletsSource.getAllAddresses();
-    Promise.all(
-      addresses.map((address) => {
-        LocalWalletsSource.removeWallet(address);
-      })
-    ).catch((e) => console.error(e));
+    Promise.all(addresses.map((address) => LocalWalletsSource.removeWallet(address))).catch((e) =>
+      console.error(e)
+    );
   }
 }
 

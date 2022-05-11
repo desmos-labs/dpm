@@ -222,11 +222,9 @@ export class ProfileSource {
    */
   public async reset() {
     const addresses = await this.getStoredProfilesAddress();
-    Promise.all(
-      addresses.map((address) => {
-        this.deleteProfile(address);
-      })
-    ).catch((e) => console.error(e));
+    Promise.all(addresses.map((address) => this.deleteProfile(address))).catch((e) =>
+      console.error(e)
+    );
   }
 }
 
