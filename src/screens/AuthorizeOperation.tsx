@@ -2,11 +2,13 @@ import { toBase64 } from '@cosmjs/encoding';
 import { StackScreenProps } from '@react-navigation/stack';
 import React, { useCallback, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { Platform } from 'react-native';
 import { Button, StyledSafeAreaView, TopBar } from '../components';
 import { FlexPadding } from '../components/FlexPadding';
 import SecureTextInput from '../components/SecureTextInput';
 import { Typography } from '../components/typography';
 import { useAppContext } from '../contexts/AppContext';
+import useKeyboardHeight from '../hooks/useKeyboardHeight';
 import AccountSource from '../sources/AccountSource';
 import { LocalWalletsSource } from '../sources/LocalWalletsSource';
 import { makeStyle } from '../theming';
@@ -25,6 +27,7 @@ const AuthorizeOperation: React.FC<Props> = (props) => {
   const [error, setError] = useState<string | null>(null);
   const [password, setPassword] = useState<string>('');
   const { setAccounts } = useAppContext();
+  const keyboardHeight = useKeyboardHeight();
 
   useEffect(
     () =>
@@ -104,15 +107,15 @@ const AuthorizeOperation: React.FC<Props> = (props) => {
       />
       <Typography.Body style={styles.errorMsg}>{error}</Typography.Body>
       <FlexPadding flex={1} />
-      <Button mode="contained" onPress={unlockWallet} loading={loading} disabled={loading}>
+      <Button
+        mode="contained"
+        style={{ marginBottom: Platform.OS === 'ios' ? keyboardHeight : 0 }}
+        onPress={unlockWallet}
+        loading={loading}
+        disabled={loading}
+      >
         {loading ? t('unlocking') : t('confirm')}
       </Button>
-      {/* <TouchableOpacity */}
-      {/*    onPress={resetPassword} */}
-      {/*    style={styles.forgotPasswordBtn} */}
-      {/* > */}
-      {/*    <Typography.Body>{t("forgot password")}</Typography.Body> */}
-      {/* </TouchableOpacity> */}
     </StyledSafeAreaView>
   );
 };
