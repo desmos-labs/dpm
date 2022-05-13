@@ -2,9 +2,11 @@ import { EnglishMnemonic } from '@cosmjs/crypto';
 import { StackScreenProps } from '@react-navigation/stack';
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { Platform } from 'react-native';
 import { Button, StyledSafeAreaView, TextInput, TopBar } from '../../components';
 import { FlexPadding } from '../../components/FlexPadding';
 import { Typography } from '../../components/typography';
+import useKeyboardHeight from '../../hooks/useKeyboardHeight';
 import { makeStyle } from '../../theming';
 import { AccountCreationStackParams } from '../../types/navigation';
 import sanitizeMnemonic from '../../utilils/mnemonic';
@@ -18,6 +20,7 @@ export default function ImportRecoveryPassphrase(props: Props): JSX.Element {
   const [mnemonic, setMnemonic] = useState<string>('');
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const { navigation } = props;
+  const keyboardHeight = useKeyboardHeight();
 
   const onMnemonicChange = (changedMnemonic: string) => {
     const sanitizedMnemonic = sanitizeMnemonic(changedMnemonic, {
@@ -70,7 +73,9 @@ export default function ImportRecoveryPassphrase(props: Props): JSX.Element {
   };
 
   const useDebugMainnetMnemonic = () => {
-    setMnemonic('');
+    setMnemonic(
+      'victory hunt dentist property slow keep allow own monkey merit chalk laptop leopard problem illness cotton spoil gain brain ostrich lawsuit toilet tomato latin'
+    );
     setErrorMessage(null);
   };
 
@@ -107,7 +112,11 @@ export default function ImportRecoveryPassphrase(props: Props): JSX.Element {
           Use mainnet debug mnemonic
         </Button>
       )}
-      <Button mode="contained" onPress={onNextPressed}>
+      <Button
+        mode="contained"
+        style={{ marginBottom: Platform.OS === 'ios' ? keyboardHeight : 0 }}
+        onPress={onNextPressed}
+      >
         {t('next')}
       </Button>
     </StyledSafeAreaView>
@@ -124,7 +133,7 @@ const useStyles = makeStyle((theme) => ({
   },
   mnemonicInput: {
     marginTop: theme.spacing.s,
-    minHeight: 150,
+    minHeight: 110,
   },
   advanceSettingsBtn: {
     marginTop: theme.spacing.s,

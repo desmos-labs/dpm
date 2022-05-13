@@ -1,10 +1,11 @@
 import { StackScreenProps } from '@react-navigation/stack';
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { View } from 'react-native';
+import { Platform, View } from 'react-native';
 import { Button, PasswordComplexity, StyledSafeAreaView, TopBar } from '../../components';
 import SecureTextInput from '../../components/SecureTextInput';
 import { Typography } from '../../components/typography';
+import useKeyboardHeight from '../../hooks/useKeyboardHeight';
 import { makeStyle } from '../../theming';
 import { AccountCreationStackParams } from '../../types/navigation';
 import evaluatePasswordComplexity from '../../utilils/passwordEvaluation';
@@ -22,6 +23,7 @@ export default function WalletPassword(props: Props): JSX.Element {
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const isCreatePassword = route.name === 'CreateWalletPassword';
   const addingNewAccount = route.params?.addingNewAccount;
+  const keyboardHeight = useKeyboardHeight();
 
   const onPasswordChange = (text: string) => {
     setPassword(text);
@@ -96,7 +98,14 @@ export default function WalletPassword(props: Props): JSX.Element {
         </Typography.Body>
       )}
       <Typography.Body style={styles.errorParagraph}>{errorMessage}</Typography.Body>
-      <Button style={styles.continueButton} mode="contained" onPress={onContinuePressed}>
+      <Button
+        style={[
+          styles.continueButton,
+          { marginBottom: Platform.OS === 'ios' ? keyboardHeight : 0 },
+        ]}
+        mode="contained"
+        onPress={onContinuePressed}
+      >
         {isCreatePassword ? t('next') : t('confirm')}
       </Button>
     </StyledSafeAreaView>
