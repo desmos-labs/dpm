@@ -8,7 +8,6 @@ import { FlexPadding } from '../components/FlexPadding';
 import SecureTextInput from '../components/SecureTextInput';
 import { Typography } from '../components/typography';
 import { useAppContext } from '../contexts/AppContext';
-import useKeyboardHeight from '../hooks/useKeyboardHeight';
 import AccountSource from '../sources/AccountSource';
 import { LocalWalletsSource } from '../sources/LocalWalletsSource';
 import { makeStyle } from '../theming';
@@ -27,7 +26,6 @@ const AuthorizeOperation: React.FC<Props> = (props) => {
   const [error, setError] = useState<string | null>(null);
   const [password, setPassword] = useState<string>('');
   const { setAccounts } = useAppContext();
-  const keyboardHeight = useKeyboardHeight();
 
   useEffect(
     () =>

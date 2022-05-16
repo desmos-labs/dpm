@@ -6,7 +6,6 @@ import { KeyboardAvoidingView, Platform } from 'react-native';
 import { Button, StyledSafeAreaView, TextInput, TopBar } from '../../components';
 import { FlexPadding } from '../../components/FlexPadding';
 import { Typography } from '../../components/typography';
-import useKeyboardHeight from '../../hooks/useKeyboardHeight';
 import { makeStyle } from '../../theming';
 import { AccountCreationStackParams } from '../../types/navigation';
 import sanitizeMnemonic from '../../utilils/mnemonic';
@@ -20,7 +19,6 @@ export default function ImportRecoveryPassphrase(props: Props): JSX.Element {
   const [mnemonic, setMnemonic] = useState<string>('');
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const { navigation } = props;
-  const keyboardHeight = useKeyboardHeight();
 
   const onMnemonicChange = (changedMnemonic: string) => {
     const sanitizedMnemonic = sanitizeMnemonic(changedMnemonic, {

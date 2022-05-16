@@ -5,7 +5,6 @@ import { KeyboardAvoidingView, Platform, View } from 'react-native';
 import { Button, PasswordComplexity, StyledSafeAreaView, TopBar } from '../../components';
 import SecureTextInput from '../../components/SecureTextInput';
 import { Typography } from '../../components/typography';
-import useKeyboardHeight from '../../hooks/useKeyboardHeight';
 import { makeStyle } from '../../theming';
 import { AccountCreationStackParams } from '../../types/navigation';
 import evaluatePasswordComplexity from '../../utilils/passwordEvaluation';
@@ -23,7 +22,6 @@ export default function WalletPassword(props: Props): JSX.Element {
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const isCreatePassword = route.name === 'CreateWalletPassword';
   const addingNewAccount = route.params?.addingNewAccount;
-  const keyboardHeight = useKeyboardHeight();
 
   const onPasswordChange = (text: string) => {
     setPassword(text);
