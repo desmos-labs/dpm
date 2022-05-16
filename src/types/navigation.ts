@@ -3,7 +3,12 @@ import { EncodeObject } from '@cosmjs/proto-signing';
 import { DesmosProfile } from '@desmoslabs/sdk-core';
 import BluetoothTransport from '@ledgerhq/react-native-hw-transport-ble';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { CommonActions, NavigationAction, NavigatorScreenParams } from '@react-navigation/native';
+import {
+  CommonActions,
+  NavigationAction,
+  NavigatorScreenParams,
+  Route,
+} from '@react-navigation/native';
 import { StackNavigationState } from '@react-navigation/routers/lib/typescript/src/StackRouter';
 import { createStackNavigator } from '@react-navigation/stack';
 import { StackNavigationProp } from '@react-navigation/stack/lib/typescript/src/types';
@@ -248,6 +253,10 @@ export type ModalComponent<T> = React.FC<ModalComponentProps<T>>;
 export type RootStackParams = {
   SplashScreen: undefined;
   AccountCreationScreens: undefined;
+  UnlockApplication: {
+    oldRoute: Route<string> | undefined;
+    oldState: any;
+  };
   AccountScreens: NavigatorScreenParams<AccountScreensStackParams>;
   MarkdownText: {
     /**

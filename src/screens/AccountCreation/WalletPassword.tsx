@@ -77,7 +77,6 @@ export default function WalletPassword(props: Props): JSX.Element {
         {isCreatePassword ? t('create password') : t('confirm password')}
       </Typography.Title>
       {isCreatePassword && <Typography.Body>{t('add an extra security')}</Typography.Body>}
-
       <View style={styles.passwordLabel}>
         <Typography.Body>{t('enter security password')}</Typography.Body>
         {isCreatePassword && <PasswordComplexity score={evaluatePasswordComplexity(password)} />}
