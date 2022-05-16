@@ -68,12 +68,7 @@ export const LinkWithMnemonic: React.FC<Props> = ({ navigation, route }) => {
   };
 
   const useDebugMnemonic = () => {
-    /*		setMnemonic(
-     'hour harbor fame unaware bunker junk garment decrease federal vicious island smile warrior fame right suit portion skate analyst multiply magnet medal fresh sweet'
-     ); */
-    setMnemonic(
-      'verb pizza view holiday flip make silk marine buzz fiscal finger aunt document hood giant cheese embark visual first dirt camera fabric drill predict'
-    );
+    setMnemonic('');
     setErrorMessage(null);
   };
 

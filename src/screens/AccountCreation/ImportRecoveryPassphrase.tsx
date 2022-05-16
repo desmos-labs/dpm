@@ -71,9 +71,7 @@ export default function ImportRecoveryPassphrase(props: Props): JSX.Element {
   };
 
   const useDebugMainnetMnemonic = () => {
-    setMnemonic(
-      'victory hunt dentist property slow keep allow own monkey merit chalk laptop leopard problem illness cotton spoil gain brain ostrich lawsuit toilet tomato latin'
-    );
+    setMnemonic('');
     setErrorMessage(null);
   };
 
