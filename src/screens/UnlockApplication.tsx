@@ -7,7 +7,6 @@ import { Button, StyledSafeAreaView, TopBar } from '../components';
 import { FlexPadding } from '../components/FlexPadding';
 import SecureTextInput from '../components/SecureTextInput';
 import { Typography } from '../components/typography';
-import useKeyboardHeight from '../hooks/useKeyboardHeight';
 import useNavigateToHomeScreen from '../hooks/useNavigateToHomeScreen';
 import { makeStyle } from '../theming';
 import { AccountScreensStackParams, RootStackParams } from '../types/navigation';
@@ -27,7 +26,6 @@ const UnlockApplication: React.FC<Props> = (props) => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [password, setPassword] = useState<string>('');
-  const keyboardHeight = useKeyboardHeight();
   const navigateToHomeScreen = useNavigateToHomeScreen();
 
   const navigateToCorrectScreen = useCallback(() => {

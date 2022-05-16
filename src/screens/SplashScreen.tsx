@@ -3,17 +3,23 @@ import { Animated, Image, ImageBackground, StyleSheet, Text, View } from 'react-
 import { StyledSafeAreaView } from '../components';
 
 const SplashScreen: React.FC = () => {
+  const profileManagerTextOpacity = useRef(new Animated.Value(0)).current;
   const iconOpacity = useRef(new Animated.Value(0)).current;
 
   useEffect(() => {
     Animated.sequence([
       Animated.timing(iconOpacity, {
-        duration: 1000,
+        duration: 500,
+        toValue: 1,
+        useNativeDriver: true,
+      }),
+      Animated.timing(profileManagerTextOpacity, {
+        duration: 500,
         toValue: 1,
         useNativeDriver: true,
       }),
     ]).start();
-  }, [iconOpacity]);
+  }, [iconOpacity, profileManagerTextOpacity]);
 
   return (
     <StyledSafeAreaView style={styles.root} noIosPadding>
@@ -33,6 +39,13 @@ const SplashScreen: React.FC = () => {
             source={require('../assets/desmos-vertical-white.png')}
             resizeMode="contain"
           />
+        </Animated.View>
+        <Animated.View
+          style={{
+            opacity: profileManagerTextOpacity,
+          }}
+        >
+          <Text style={styles.profileManagerText}>Profile Manager</Text>
         </Animated.View>
       </ImageBackground>
     </StyledSafeAreaView>

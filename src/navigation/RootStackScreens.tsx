@@ -109,7 +109,7 @@ const RootStackScreens: React.FC = () => {
                 ],
               });
             }
-          }, 500);
+          }, 1000);
         } else {
           const homeRoutes = ['Home', 'Authorization'];
           if (route?.name === undefined || homeRoutes.indexOf(route?.name) === -1) {
