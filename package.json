@@ -6,8 +6,7 @@
     "postinstall": "patch-package && rn-nodeify --install stream,crypto,fs,path --hack",
     "link": "react-native link",
     "android": "react-native run-android --appIdSuffix debug",
-    "ios": "react-native run-ios --simulator=\"iPhone 13 Pro\"",
-    "iphone": "react-native run-ios --device=\"iPhone di Alessandro\"",
+    "ios": "react-native run-ios",
     "start": "react-native start",
     "test": "jest",
     "lint": "eslint --ext .js,.jsx,.ts,.tsx src"
