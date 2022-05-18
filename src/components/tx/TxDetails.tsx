@@ -8,7 +8,7 @@ import { format } from 'date-fns';
 import Long from 'long';
 import React, { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
-import { ScrollView, StyleProp, StyleSheet, View, ViewStyle } from 'react-native';
+import { Pressable, ScrollView, StyleProp, StyleSheet, Text, View, ViewStyle } from 'react-native';
 import { Divider, LabeledValue } from '../index';
 import { TxMessage } from './TxMessage';
 
@@ -51,30 +51,32 @@ export const TxDetails: React.FC<Props> = (props) => {
   }, [chainInfo.coinDenom, chainInfo.denomUnits, fee]);
 
   return (
-    <View style={styles.root} onStartShouldSetResponder={() => true}>
+    <View style={styles.root}>
       <ScrollView style={style}>
-        {messages.map((msg: EncodeObject | Any | AminoMsg, i: number) => (
-          <View key={`view_${i * 2}`}>
-            <TxMessage key={`msg_${i * 2}`} message={msg} />
-            <Divider key={`divider_${i * 2}`} />
-          </View>
-        ))}
-        <LabeledValue label={t('fee')} value={txFex} />
-        <Divider />
-        {dateTime && (
-          <>
-            <LabeledValue label={t('time')} value={format(dateTime, 'dd MMM yyyy, HH:mm:ss')} />
-            <Divider />
-          </>
-        )}
-        {success !== undefined && (
-          <>
-            <LabeledValue label={t('status')} value={success ? t('success') : t('fail')} />
-            <Divider />
-          </>
-        )}
-        <LabeledValue label={t('memo')} value={(memo?.length ?? 0) > 0 ? memo : 'N/A'} />
-        <Divider />
+        <Pressable>
+          {messages.map((msg: EncodeObject | Any | AminoMsg, i: number) => (
+            <View key={`view_${i * 2}`}>
+              <TxMessage key={`msg_${i * 2}`} message={msg} />
+              <Divider key={`divider_${i * 2}`} />
+            </View>
+          ))}
+          <LabeledValue label={t('fee')} value={txFex} />
+          <Divider />
+          {dateTime && (
+            <>
+              <LabeledValue label={t('time')} value={format(dateTime, 'dd MMM yyyy, HH:mm:ss')} />
+              <Divider />
+            </>
+          )}
+          {success !== undefined && (
+            <>
+              <LabeledValue label={t('status')} value={success ? t('success') : t('fail')} />
+              <Divider />
+            </>
+          )}
+          <LabeledValue label={t('memo')} value={(memo?.length ?? 0) > 0 ? memo : 'N/A'} />
+          <Divider />
+        </Pressable>
       </ScrollView>
     </View>
   );

@@ -1,7 +1,7 @@
 import { StackScreenProps } from '@react-navigation/stack';
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { View } from 'react-native';
+import { KeyboardAvoidingView, Platform, View } from 'react-native';
 import { Button, PasswordComplexity, StyledSafeAreaView, TopBar } from '../../components';
 import SecureTextInput from '../../components/SecureTextInput';
 import { Typography } from '../../components/typography';
@@ -77,7 +77,6 @@ export default function WalletPassword(props: Props): JSX.Element {
         {isCreatePassword ? t('create password') : t('confirm password')}
       </Typography.Title>
       {isCreatePassword && <Typography.Body>{t('add an extra security')}</Typography.Body>}
-
       <View style={styles.passwordLabel}>
         <Typography.Body>{t('enter security password')}</Typography.Body>
         {isCreatePassword && <PasswordComplexity score={evaluatePasswordComplexity(password)} />}
@@ -96,9 +95,14 @@ export default function WalletPassword(props: Props): JSX.Element {
         </Typography.Body>
       )}
       <Typography.Body style={styles.errorParagraph}>{errorMessage}</Typography.Body>
-      <Button style={styles.continueButton} mode="contained" onPress={onContinuePressed}>
-        {isCreatePassword ? t('next') : t('confirm')}
-      </Button>
+      <KeyboardAvoidingView
+        keyboardVerticalOffset={Platform.OS === 'ios' ? 110 : 0}
+        {...(Platform.OS === 'ios' ? { behavior: 'padding' } : {})}
+      >
+        <Button style={styles.continueButton} mode="contained" onPress={onContinuePressed}>
+          {isCreatePassword ? t('next') : t('confirm')}
+        </Button>
+      </KeyboardAvoidingView>
     </StyledSafeAreaView>
   );
 }

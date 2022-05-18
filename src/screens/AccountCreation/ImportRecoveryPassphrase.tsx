@@ -2,6 +2,7 @@ import { EnglishMnemonic } from '@cosmjs/crypto';
 import { StackScreenProps } from '@react-navigation/stack';
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { KeyboardAvoidingView, Platform } from 'react-native';
 import { Button, StyledSafeAreaView, TextInput, TopBar } from '../../components';
 import { FlexPadding } from '../../components/FlexPadding';
 import { Typography } from '../../components/typography';
@@ -96,20 +97,24 @@ export default function ImportRecoveryPassphrase(props: Props): JSX.Element {
       )}
 
       <FlexPadding flex={1} />
-
-      {__DEV__ && (
-        <Button style={styles.nextBtn} mode="contained" onPress={useDebugTestnetMnemonic}>
-          Use testnet debug mnemonic
+      <KeyboardAvoidingView
+        keyboardVerticalOffset={Platform.OS === 'ios' ? 110 : 0}
+        {...(Platform.OS === 'ios' ? { behavior: 'padding' } : {})}
+      >
+        {__DEV__ && (
+          <Button style={styles.nextBtn} mode="contained" onPress={useDebugTestnetMnemonic}>
+            Use testnet debug mnemonic
+          </Button>
+        )}
+        {__DEV__ && (
+          <Button style={styles.nextBtn} mode="contained" onPress={useDebugMainnetMnemonic}>
+            Use mainnet debug mnemonic
+          </Button>
+        )}
+        <Button mode="contained" onPress={onNextPressed}>
+          {t('next')}
         </Button>
-      )}
-      {__DEV__ && (
-        <Button style={styles.nextBtn} mode="contained" onPress={useDebugMainnetMnemonic}>
-          Use mainnet debug mnemonic
-        </Button>
-      )}
-      <Button mode="contained" onPress={onNextPressed}>
-        {t('next')}
-      </Button>
+      </KeyboardAvoidingView>
     </StyledSafeAreaView>
   );
 }
@@ -124,7 +129,7 @@ const useStyles = makeStyle((theme) => ({
   },
   mnemonicInput: {
     marginTop: theme.spacing.s,
-    minHeight: 150,
+    minHeight: 110,
   },
   advanceSettingsBtn: {
     marginTop: theme.spacing.s,

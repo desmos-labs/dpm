@@ -2,6 +2,7 @@ import { toBase64 } from '@cosmjs/encoding';
 import { StackScreenProps } from '@react-navigation/stack';
 import React, { useCallback, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { KeyboardAvoidingView, Platform } from 'react-native';
 import { Button, StyledSafeAreaView, TopBar } from '../components';
 import { FlexPadding } from '../components/FlexPadding';
 import SecureTextInput from '../components/SecureTextInput';
@@ -104,15 +105,14 @@ const AuthorizeOperation: React.FC<Props> = (props) => {
       />
       <Typography.Body style={styles.errorMsg}>{error}</Typography.Body>
       <FlexPadding flex={1} />
-      <Button mode="contained" onPress={unlockWallet} loading={loading} disabled={loading}>
-        {loading ? t('unlocking') : t('confirm')}
-      </Button>
-      {/* <TouchableOpacity */}
-      {/*    onPress={resetPassword} */}
-      {/*    style={styles.forgotPasswordBtn} */}
-      {/* > */}
-      {/*    <Typography.Body>{t("forgot password")}</Typography.Body> */}
-      {/* </TouchableOpacity> */}
+      <KeyboardAvoidingView
+        keyboardVerticalOffset={Platform.OS === 'ios' ? 110 : 0}
+        {...(Platform.OS === 'ios' ? { behavior: 'padding' } : {})}
+      >
+        <Button mode="contained" onPress={unlockWallet} loading={loading} disabled={loading}>
+          {loading ? t('unlocking') : t('confirm')}
+        </Button>
+      </KeyboardAvoidingView>
     </StyledSafeAreaView>
   );
 };

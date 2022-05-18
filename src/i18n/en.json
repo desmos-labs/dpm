@@ -92,7 +92,7 @@
   "empty recovery passphrase": "Empty recovery passphrase",
   "enable face id for login": "Enable biometric authentication for login",
   "enable face id for signature": "Enable biometric authentication for signature",
-  "enter  wallet password": "Please enter you wallet password",
+  "enter wallet password": "Please enter you wallet password",
   "enter chain recovery passphrase": "Please enter your <bold>{{chain}}</bold> recovery passphrase (12 or 24 words) in order and make sure each word it's written correctly",
   "enter derivation path": "Enter derivation path",
   "enter recovery passphrase placeholder": "Please enter your recovery passphrase separating each word (12 or 24) using a space",

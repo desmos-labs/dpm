@@ -1,11 +1,13 @@
-import { NavigationContainer, NavigationContainerRef } from '@react-navigation/native';
-import React, { useEffect, useRef } from 'react';
+import { NavigationContainer, NavigationContainerRef, Route } from '@react-navigation/native';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
+import { AppState } from 'react-native';
 import { useAppContext } from '../contexts/AppContext';
 import { useWalletConnectContext } from '../contexts/WalletConnectContext';
 import useInitAppState from '../hooks/useInitAppState';
 import { ModalScreen } from '../modals/ModalScreen';
 import { MarkdownText } from '../screens/MarkdownText';
 import SplashScreen from '../screens/SplashScreen';
+import UnlockApplication from '../screens/UnlockApplication';
 import { RootStack, RootStackParams } from '../types/navigation';
 import AccountCreationScreens from './AccountCreationScreens';
 import AccountScreens from './AccountScreens';
@@ -16,6 +18,9 @@ const RootStackScreens: React.FC = () => {
   const { accounts, selectedAccount } = useAppContext();
   const { initWalletConnect, initState } = useWalletConnectContext();
   const navigatorRef = useRef<NavigationContainerRef<RootStackParams>>(null);
+  const appVisibilityState = useRef(AppState.currentState);
+  const [oldRoute, setOldRoute] = useState<Route<string> | undefined>(undefined);
+  const [oldState, setOldState] = useState(navigatorRef.current?.getState());
 
   useEffect(() => {
     if (!initState.initializing && initState.error) {
@@ -26,6 +31,60 @@ const RootStackScreens: React.FC = () => {
   useEffect(() => {
     initWalletConnect();
   }, [initWalletConnect]);
+
+  const handleAppStateChange = useCallback(
+    (nextAppState: any) => {
+      // Application is resumed from background or multitask
+      if (appVisibilityState.current.match(/inactive|background/) && nextAppState === 'active') {
+        if (!appState.initializing && navigatorRef.current !== null) {
+          // There are some accounts, I need to unlock the application
+          if (accounts.length) {
+            navigatorRef.current.reset({
+              index: 0,
+              routes: [
+                {
+                  name: 'UnlockApplication',
+                  params: {
+                    oldRoute,
+                    oldState,
+                  },
+                },
+              ],
+            });
+            // No account, reset where the user was
+          } else if (oldState && oldRoute) {
+            navigatorRef.current.reset({
+              index: 0,
+              routes: oldState.routes,
+              key: oldRoute.key,
+            });
+          }
+        }
+      } else if (!appState.initializing && navigatorRef.current !== null) {
+        if (
+          navigatorRef.current.getCurrentRoute()?.name !== 'UnlockApplication' &&
+          navigatorRef.current.getCurrentRoute()?.name !== 'SplashScreen'
+        ) {
+          // Exclude these two routes and setup old state and route
+          setOldRoute(navigatorRef.current.getCurrentRoute());
+          setOldState(navigatorRef.current.getState());
+        }
+        navigatorRef.current.reset({
+          index: 0,
+          routes: [{ name: 'SplashScreen' }],
+        });
+      }
+      appVisibilityState.current = nextAppState;
+    },
+    [accounts.length, appState.initializing, oldRoute, oldState]
+  );
+
+  useEffect(() => {
+    AppState.addEventListener('change', handleAppStateChange);
+    return () => {
+      AppState.removeEventListener('change', handleAppStateChange);
+    };
+  }, [handleAppStateChange]);
 
   useEffect(() => {
     if (!appState.initializing && navigatorRef.current !== null) {
@@ -38,23 +97,44 @@ const RootStackScreens: React.FC = () => {
       } else {
         const route = navigatorRef.current.getCurrentRoute();
         const state = navigatorRef.current.getState();
-        const homeRoutes = ['Home', 'Authorization'];
-        if (route?.name === undefined || homeRoutes.indexOf(route?.name) === -1) {
-          const key = state?.routes.find((r) => r.name === 'AccountScreens')?.key;
-          navigatorRef.current.reset({
-            index: 0,
-            routes: [
-              {
-                name: 'AccountScreens',
-                key,
-              },
-            ],
-          });
+        if (!state) {
+          setTimeout(() => {
+            if (navigatorRef.current) {
+              navigatorRef.current.reset({
+                index: 0,
+                routes: [
+                  {
+                    name: 'UnlockApplication',
+                  },
+                ],
+              });
+            }
+          }, 1000);
+        } else {
+          const homeRoutes = ['Home', 'Authorization'];
+          if (route?.name === undefined || homeRoutes.indexOf(route?.name) === -1) {
+            const key = state?.routes.find((r) => r.name === 'AccountScreens')?.key;
+            navigatorRef.current.reset({
+              index: 0,
+              routes: [
+                {
+                  name: 'AccountScreens',
+                  key,
+                },
+              ],
+            });
+          }
         }
       }
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [appState.initializing, navigatorRef, selectedAccount]);
+
+  const fadeNavigation = ({ current }: any) => ({
+    cardStyle: {
+      opacity: current.progress,
+    },
+  });
 
   return (
     <NavigationContainer ref={navigatorRef}>
@@ -64,7 +144,13 @@ const RootStackScreens: React.FC = () => {
           headerShown: false,
         }}
       >
-        <RootStack.Screen name="SplashScreen" component={SplashScreen} />
+        <RootStack.Screen
+          name="SplashScreen"
+          component={SplashScreen}
+          options={{
+            cardStyleInterpolator: fadeNavigation,
+          }}
+        />
         <RootStack.Screen name="AccountScreens" component={AccountScreens} />
         <RootStack.Screen name="AccountCreationScreens" component={AccountCreationScreens} />
         <RootStack.Screen name="ConnectToLedgerScreens" component={ConnectToLedgerScreens} />
@@ -76,6 +162,13 @@ const RootStackScreens: React.FC = () => {
           }}
         />
         <RootStack.Screen name="MarkdownText" component={MarkdownText} />
+        <RootStack.Screen
+          name="UnlockApplication"
+          component={UnlockApplication}
+          options={{
+            cardStyleInterpolator: fadeNavigation,
+          }}
+        />
       </RootStack.Navigator>
     </NavigationContainer>
   );
