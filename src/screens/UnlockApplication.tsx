@@ -1,16 +1,25 @@
 import { CompositeScreenProps } from '@react-navigation/native';
 import { StackScreenProps } from '@react-navigation/stack';
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { KeyboardAvoidingView, Platform } from 'react-native';
+import { KeyboardAvoidingView, Platform, TouchableOpacity, Text } from 'react-native';
 import { Button, StyledSafeAreaView, TopBar } from '../components';
 import { FlexPadding } from '../components/FlexPadding';
 import SecureTextInput from '../components/SecureTextInput';
 import { Typography } from '../components/typography';
+import useLoadSettings from '../hooks/settings/useLoadSettings';
+import useLoadAccounts from '../hooks/useLoadAccounts';
+import useLoadAllProfiles from '../hooks/useLoadAllProfiles';
+import useLoadAllChainLinks from '../hooks/useLoadChainLinks';
 import useNavigateToHomeScreen from '../hooks/useNavigateToHomeScreen';
+import useShowModal from '../hooks/useShowModal';
+import { TwoButtonModal } from '../modals/TwoButtonModal';
+import AccountSource from '../sources/AccountSource';
+import { LocalWalletsSource } from '../sources/LocalWalletsSource';
 import { makeStyle } from '../theming';
 import { AccountScreensStackParams, RootStackParams } from '../types/navigation';
 import * as SecureStorage from '../utilils/SecureStorage';
+import ProfileSource from '../sources/ProfileSource';
 
 export type Props = CompositeScreenProps<
   StackScreenProps<RootStackParams, 'UnlockApplication'>,
@@ -27,6 +36,41 @@ const UnlockApplication: React.FC<Props> = (props) => {
   const [error, setError] = useState<string | null>(null);
   const [password, setPassword] = useState<string>('');
   const navigateToHomeScreen = useNavigateToHomeScreen();
+  const openModal = useShowModal();
+  const loadAccounts = useLoadAccounts();
+  const loadProfiles = useLoadAllProfiles();
+  const loadSettings = useLoadSettings();
+  const loadChainLinks = useLoadAllChainLinks();
+
+  const resetApplication = useCallback(async () => {
+    // Wipe the application storage and the cache
+    await AccountSource.reset();
+    await LocalWalletsSource.reset();
+    await ProfileSource.reset();
+    const accounts = await loadAccounts();
+    await loadProfiles();
+    await loadSettings();
+    await loadChainLinks(accounts.accounts.map((account) => account.address));
+    navigation.reset({
+      index: 0,
+      routes: [
+        {
+          name: 'AccountCreationScreens',
+        },
+      ],
+    });
+  }, [loadAccounts, loadChainLinks, loadProfiles, loadSettings, navigation]);
+
+  const openResetModal = useCallback(() => {
+    openModal(TwoButtonModal, {
+      title: t('forgot password'),
+      message: t('reset password informations'),
+      positiveActionLabel: t('confirm'),
+      negativeActionLabel: t('cancel'),
+      positiveAction: () => resetApplication(),
+      negativeAction: () => navigation.goBack(),
+    });
+  }, [navigation, openModal, resetApplication, t]);
 
   const navigateToCorrectScreen = useCallback(() => {
     if (oldRoute) {
@@ -80,6 +124,9 @@ const UnlockApplication: React.FC<Props> = (props) => {
         <Button mode="contained" onPress={unlockWallet}>
           {t('confirm')}
         </Button>
+        <TouchableOpacity style={styles.forgotPasswordBtn} onPress={() => openResetModal()}>
+          <Text style={styles.labelStyle}>{t('forgot password')}?</Text>
+        </TouchableOpacity>
       </KeyboardAvoidingView>
     </StyledSafeAreaView>
   );
@@ -99,7 +146,15 @@ const useStyles = makeStyle((theme) => ({
     width: '100%',
     justifyContent: 'center',
     padding: theme.spacing.s,
-    marginTop: theme.spacing.s,
+  },
+  labelStyle: {
+    fontFamily: 'Poppins-Medium',
+    fontStyle: 'normal',
+    fontWeight: '400',
+    fontSize: 16,
+    lineHeight: 22,
+    letterSpacing: 0.0125,
+    color: theme.colors.font['1'],
   },
 }));
 
