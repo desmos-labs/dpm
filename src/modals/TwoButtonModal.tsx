@@ -73,10 +73,11 @@ export const TwoButtonModal: React.FC<ModalComponentProps<TwoButtonModalParams>>
 const useStyles = makeStyle((theme) => ({
   root: {
     minWidth: '60%',
-    maxWidth: '60%',
+    maxWidth: '70%',
   },
   title: {
-    marginTop: theme.spacing.s,
+    marginTop: theme.spacing.xs,
+    textAlign: 'center',
   },
   message: {
     textAlign: 'center',

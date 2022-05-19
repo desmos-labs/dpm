@@ -1,7 +1,7 @@
 import { StackScreenProps } from '@react-navigation/stack';
 import React, { useCallback, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { TextInput, View } from 'react-native';
+import { KeyboardAvoidingView, Platform, TextInput, View } from 'react-native';
 import { Button, PasswordComplexity, StyledSafeAreaView, TopBar } from '../../components';
 import SecureTextInput from '../../components/SecureTextInput';
 import { Typography } from '../../components/typography';
@@ -155,14 +155,18 @@ export default function ChangeWalletPassword(props: Props): JSX.Element {
       )}
 
       <Typography.Body style={styles.errorParagraph}>{errorMessage}</Typography.Body>
-      <Button
-        style={styles.continueButton}
-        mode="contained"
-        onPress={onContinuePressed}
-        disabled={createNewPassword ? !(password && confirmationPassword) : !password}
+      <KeyboardAvoidingView
+        keyboardVerticalOffset={Platform.OS === 'ios' ? 110 : 0}
+        {...(Platform.OS === 'ios' ? { behavior: 'padding' } : {})}
       >
-        {createNewPassword ? t('confirm') : t('next')}
-      </Button>
+        <Button
+          mode="contained"
+          onPress={onContinuePressed}
+          disabled={createNewPassword ? !(password && confirmationPassword) : !password}
+        >
+          {createNewPassword ? t('confirm') : t('next')}
+        </Button>
+      </KeyboardAvoidingView>
     </StyledSafeAreaView>
   );
 }
@@ -182,9 +186,6 @@ const useStyles = makeStyle((theme) => ({
     marginTop: theme.spacing.s,
   },
   passwordComplexityHint: {
-    marginTop: theme.spacing.s,
-  },
-  continueButton: {
     marginTop: theme.spacing.s,
   },
   errorParagraph: {
