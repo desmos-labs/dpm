@@ -7,6 +7,7 @@ import { Button, StyledSafeAreaView, TopBar } from '../components';
 import { FlexPadding } from '../components/FlexPadding';
 import SecureTextInput from '../components/SecureTextInput';
 import { Typography } from '../components/typography';
+import { useAppContext } from '../contexts/AppContext';
 import useLoadSettings from '../hooks/settings/useLoadSettings';
 import useLoadAccounts from '../hooks/useLoadAccounts';
 import useLoadAllProfiles from '../hooks/useLoadAllProfiles';
@@ -37,20 +38,25 @@ const UnlockApplication: React.FC<Props> = (props) => {
   const [password, setPassword] = useState<string>('');
   const navigateToHomeScreen = useNavigateToHomeScreen();
   const openModal = useShowModal();
-  const loadAccounts = useLoadAccounts();
-  const loadProfiles = useLoadAllProfiles();
   const loadSettings = useLoadSettings();
-  const loadChainLinks = useLoadAllChainLinks();
+  const { setProfiles, setAccounts, setSelectedAccount, setChainLinks } = useAppContext();
+
+  const unloadContext = useCallback(() => {
+    // Wipe the app context
+    setAccounts([]);
+    setProfiles({});
+    setSelectedAccount(null);
+    setChainLinks({});
+  }, [setAccounts, setChainLinks, setProfiles, setSelectedAccount]);
 
   const resetApplication = useCallback(async () => {
     // Wipe the application storage and the cache
     await AccountSource.reset();
     await LocalWalletsSource.reset();
     await ProfileSource.reset();
-    const accounts = await loadAccounts();
-    await loadProfiles();
     await loadSettings();
-    await loadChainLinks(accounts.accounts.map((account) => account.address));
+    unloadContext();
+
     navigation.reset({
       index: 0,
       routes: [
@@ -59,7 +65,7 @@ const UnlockApplication: React.FC<Props> = (props) => {
         },
       ],
     });
-  }, [loadAccounts, loadChainLinks, loadProfiles, loadSettings, navigation]);
+  }, [loadSettings, navigation, unloadContext]);
 
   const openResetModal = useCallback(() => {
     openModal(TwoButtonModal, {

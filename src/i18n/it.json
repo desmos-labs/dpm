@@ -97,7 +97,7 @@
   "fee grant error": "Si è verificato un errore durante la richiesta del fee grant: {{error}}",
   "feedback": "Suggerimenti",
   "field regex": "{{field}} deve rispettare questa espression regolare: {{regex}}",
-  "forgot password": "Password dimenticata?",
+  "forgot password": "Password dimenticata",
   "from": "Da",
   "general": "Generale",
   "generating account": "Generazione account",
