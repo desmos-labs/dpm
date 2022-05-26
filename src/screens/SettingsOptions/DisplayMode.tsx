@@ -40,7 +40,6 @@ const DisplayMode: React.FC<Props> = (props) => {
   return (
     <StyledSafeAreaView
       style={styles.background}
-      scrollable
       topBar={<TopBar style={styles.background} stackProps={props} title={t('display')} />}
     >
       <RadioGroup values={values} />

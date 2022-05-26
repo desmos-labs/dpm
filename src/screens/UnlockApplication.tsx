@@ -1,26 +1,27 @@
-import { CompositeScreenProps } from '@react-navigation/native';
+import { VibrancyView } from '@react-native-community/blur';
+import { CompositeScreenProps, useFocusEffect } from '@react-navigation/native';
 import { StackScreenProps } from '@react-navigation/stack';
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { KeyboardAvoidingView, Platform, TouchableOpacity, Text } from 'react-native';
+import { KeyboardAvoidingView, Platform, Text, TouchableOpacity } from 'react-native';
 import { Button, StyledSafeAreaView, TopBar } from '../components';
 import { FlexPadding } from '../components/FlexPadding';
 import SecureTextInput from '../components/SecureTextInput';
 import { Typography } from '../components/typography';
 import { useAppContext } from '../contexts/AppContext';
-import useLoadSettings from '../hooks/settings/useLoadSettings';
-import useLoadAccounts from '../hooks/useLoadAccounts';
-import useLoadAllProfiles from '../hooks/useLoadAllProfiles';
-import useLoadAllChainLinks from '../hooks/useLoadChainLinks';
+import useSetSettings from '../hooks/settings/useSetSettings';
+import useSettings from '../hooks/settings/useSettings';
+import useCloseKeyboard from '../hooks/useCloseKeyboard';
 import useNavigateToHomeScreen from '../hooks/useNavigateToHomeScreen';
 import useShowModal from '../hooks/useShowModal';
 import { TwoButtonModal } from '../modals/TwoButtonModal';
 import AccountSource from '../sources/AccountSource';
 import { LocalWalletsSource } from '../sources/LocalWalletsSource';
+import ProfileSource from '../sources/ProfileSource';
 import { makeStyle } from '../theming';
 import { AccountScreensStackParams, RootStackParams } from '../types/navigation';
+import { DefaultAppSettings } from '../types/settings';
 import * as SecureStorage from '../utilils/SecureStorage';
-import ProfileSource from '../sources/ProfileSource';
 
 export type Props = CompositeScreenProps<
   StackScreenProps<RootStackParams, 'UnlockApplication'>,
@@ -38,8 +39,9 @@ const UnlockApplication: React.FC<Props> = (props) => {
   const [password, setPassword] = useState<string>('');
   const navigateToHomeScreen = useNavigateToHomeScreen();
   const openModal = useShowModal();
-  const loadSettings = useLoadSettings();
   const { setProfiles, setAccounts, setSelectedAccount, setChainLinks } = useAppContext();
+  const settings = useSettings();
+  const setSettings = useSetSettings();
 
   const unloadContext = useCallback(() => {
     // Wipe the app context
@@ -54,7 +56,8 @@ const UnlockApplication: React.FC<Props> = (props) => {
     await AccountSource.reset();
     await LocalWalletsSource.reset();
     await ProfileSource.reset();
-    await loadSettings();
+    await SecureStorage.resetSecureStorage();
+    setSettings(DefaultAppSettings);
     unloadContext();
 
     navigation.reset({
@@ -65,7 +68,7 @@ const UnlockApplication: React.FC<Props> = (props) => {
         },
       ],
     });
-  }, [loadSettings, navigation, unloadContext]);
+  }, [navigation, setSettings, unloadContext]);
 
   const openResetModal = useCallback(() => {
     openModal(TwoButtonModal, {
@@ -95,10 +98,10 @@ const UnlockApplication: React.FC<Props> = (props) => {
     try {
       // Get the auth challenge from the device memory
       // if is correct the value should be the user address.
-      const value = await SecureStorage.getItem('DPM_GLOBAL_PASSWORD', {
+      const value = await SecureStorage.getItem('dpm_global_password', {
         password,
       });
-      if (value === 'DPM_GLOBAL_PASSWORD') {
+      if (value === 'dpm_global_password') {
         navigateToCorrectScreen();
         setLoading(false);
       }
@@ -108,6 +111,33 @@ const UnlockApplication: React.FC<Props> = (props) => {
     }
     setLoading(false);
   }, [navigateToCorrectScreen, password, t]);
+
+  const unlockWithBiometrics = useCallback(async () => {
+    try {
+      const savedPassword = await SecureStorage.getItem('biometricsLogin', {
+        biometrics: true,
+      });
+      if (savedPassword) {
+        const stringToCheck = await SecureStorage.getItem('dpm_global_password', {
+          password: savedPassword,
+        });
+        if (stringToCheck === 'dpm_global_password') {
+          navigateToCorrectScreen();
+          setLoading(false);
+        }
+      }
+    } catch (e) {
+      setError(t('authorization failed'));
+    }
+  }, [navigateToCorrectScreen, t]);
+
+  useFocusEffect(
+    React.useCallback(() => {
+      if (settings.biometricLogin) {
+        unlockWithBiometrics();
+      }
+    }, [settings.biometricLogin, unlockWithBiometrics])
+  );
 
   return (
     <StyledSafeAreaView topBar={<TopBar stackProps={props} />}>
@@ -119,7 +149,7 @@ const UnlockApplication: React.FC<Props> = (props) => {
         onSubmitEditing={unlockWallet}
         onTextInput={() => setError(t(''))}
         placeholder={t('password')}
-        autoFocus
+        autoFocus={!settings.biometricLogin}
       />
       <Typography.Body style={styles.errorMsg}>{error}</Typography.Body>
       <FlexPadding flex={1} />

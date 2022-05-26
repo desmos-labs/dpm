@@ -45,11 +45,11 @@ export default function WalletPassword(props: Props): JSX.Element {
     } else if (password !== route.params?.password && !addingNewAccount) {
       setErrorMessage(t('wrong confirmation password'));
     } else if (addingNewAccount) {
-      SecureStorage.getItem('DPM_GLOBAL_PASSWORD', {
+      SecureStorage.getItem('dpm_global_password', {
         password,
       })
         .then((result) => {
-          if (result === 'DPM_GLOBAL_PASSWORD') {
+          if (result === 'dpm_global_password') {
             navigation.navigate({
               name: 'GenerateAccount',
               params: {

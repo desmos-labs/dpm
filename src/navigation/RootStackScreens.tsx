@@ -19,7 +19,9 @@ const RootStackScreens: React.FC = () => {
   const { initWalletConnect, initState } = useWalletConnectContext();
   const navigatorRef = useRef<NavigationContainerRef<RootStackParams>>(null);
   const appVisibilityState = useRef(AppState.currentState);
-  const [oldRoute, setOldRoute] = useState<Route<string> | undefined>(undefined);
+  const [oldRoute, setOldRoute] = useState<Route<string> | undefined>(
+    navigatorRef.current?.getCurrentRoute()
+  );
   const [oldState, setOldState] = useState(navigatorRef.current?.getState());
 
   useEffect(() => {
@@ -35,7 +37,7 @@ const RootStackScreens: React.FC = () => {
   const handleAppStateChange = useCallback(
     (nextAppState: any) => {
       // Application is resumed from background or multitask
-      if (appVisibilityState.current.match(/inactive|background/) && nextAppState === 'active') {
+      if (appVisibilityState.current === 'background' && nextAppState === 'active') {
         if (!appState.initializing && navigatorRef.current !== null) {
           // There are some accounts, I need to unlock the application
           if (accounts.length) {
@@ -60,19 +62,18 @@ const RootStackScreens: React.FC = () => {
             });
           }
         }
-      } else if (!appState.initializing && navigatorRef.current !== null) {
+      } else if (
+        !appState.initializing &&
+        navigatorRef.current !== null &&
+        appVisibilityState.current !== 'inactive'
+      ) {
         if (
           navigatorRef.current.getCurrentRoute()?.name !== 'UnlockApplication' &&
           navigatorRef.current.getCurrentRoute()?.name !== 'SplashScreen'
         ) {
-          // Exclude these two routes and setup old state and route
           setOldRoute(navigatorRef.current.getCurrentRoute());
           setOldState(navigatorRef.current.getState());
         }
-        navigatorRef.current.reset({
-          index: 0,
-          routes: [{ name: 'SplashScreen' }],
-        });
       }
       appVisibilityState.current = nextAppState;
     },

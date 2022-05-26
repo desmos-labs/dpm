@@ -34,6 +34,7 @@ export default function useInitAppState(): InitState {
           await AccountSource.reset();
           await LocalWalletsSource.reset();
           await ProfileSource.reset();
+          await SecureStorage.resetSecureStorage();
           // Set new global password flow
           await SecureStorage.setItem('using_global_password', 'using_global_password');
         }

@@ -6,12 +6,13 @@ import { Typography } from '../typography';
 
 export type Props = {
   label: string;
-  isActive: boolean;
+  value: boolean;
   isDisabled: boolean;
+  onPress: () => void;
 };
 
 export const SectionSwitch: React.FC<Props> = (props) => {
-  const { label, isActive, isDisabled } = props;
+  const { label, value, isDisabled, onPress } = props;
   const styles = useStyles();
 
   return (
@@ -19,7 +20,7 @@ export const SectionSwitch: React.FC<Props> = (props) => {
       <Typography.Body1 style={[styles.label, isDisabled ? styles.disabled : null]}>
         {label}
       </Typography.Body1>
-      <Switch isActive={isActive} isDisabled={isDisabled} />
+      <Switch value={value} isDisabled={isDisabled} onPress={onPress} />
     </View>
   );
 };

@@ -164,6 +164,9 @@ export type SettingsScreensStackParams = {
   SwitchChain: undefined;
   JoinCommunity: undefined;
   CheckOldPassword: undefined;
+  HandleBiometrics: {
+    biometricsType: 'biometricsLogin' | 'biometricsSignature';
+  };
   CreateNewPassword: {
     wallet?: LocalWallet;
   };
