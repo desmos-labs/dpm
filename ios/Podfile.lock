@@ -287,8 +287,6 @@ PODS:
     - React-Core
   - react-native-safe-area-context (3.3.0):
     - React-Core
-  - react-native-sensitive-info (5.5.8):
-    - React
   - React-perflogger (0.64.2)
   - React-RCTActionSheet (0.64.2):
     - React-Core/RCTActionSheetHeaders (= 0.64.2)
@@ -371,11 +369,13 @@ PODS:
     - React-Core
   - RNGestureHandler (1.10.3):
     - React-Core
+  - RNKeychain (8.0.0):
+    - React-Core
   - RNOS (1.2.6):
     - React
   - RNPermissions (3.3.1):
     - React-Core
-  - RNReanimated (2.7.0):
+  - RNReanimated (2.8.0):
     - DoubleConversion
     - FBLazyVector
     - FBReactNativeSpec
@@ -405,7 +405,7 @@ PODS:
   - RNScreens (3.5.0):
     - React-Core
     - React-RCTImage
-  - RNVectorIcons (8.1.0):
+  - RNVectorIcons (9.1.0):
     - React-Core
   - SDWebImage (5.11.1):
     - SDWebImage/Core (= 5.11.1)
@@ -464,7 +464,6 @@ DEPENDENCIES:
   - react-native-image-picker (from `../node_modules/react-native-image-picker`)
   - react-native-randombytes (from `../node_modules/react-native-randombytes`)
   - react-native-safe-area-context (from `../node_modules/react-native-safe-area-context`)
-  - react-native-sensitive-info (from `../node_modules/react-native-sensitive-info`)
   - React-perflogger (from `../node_modules/react-native/ReactCommon/reactperflogger`)
   - React-RCTActionSheet (from `../node_modules/react-native/Libraries/ActionSheetIOS`)
   - React-RCTAnimation (from `../node_modules/react-native/Libraries/NativeAnimation`)
@@ -485,6 +484,7 @@ DEPENDENCIES:
   - RNFastImage (from `../node_modules/react-native-fast-image`)
   - RNFS (from `../node_modules/react-native-fs`)
   - RNGestureHandler (from `../node_modules/react-native-gesture-handler`)
+  - RNKeychain (from `../node_modules/react-native-keychain`)
   - RNOS (from `../node_modules/react-native-os`)
   - RNPermissions (from `../node_modules/react-native-permissions`)
   - RNReanimated (from `../node_modules/react-native-reanimated`)
@@ -562,8 +562,6 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native-randombytes"
   react-native-safe-area-context:
     :path: "../node_modules/react-native-safe-area-context"
-  react-native-sensitive-info:
-    :path: "../node_modules/react-native-sensitive-info"
   React-perflogger:
     :path: "../node_modules/react-native/ReactCommon/reactperflogger"
   React-RCTActionSheet:
@@ -604,6 +602,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native-fs"
   RNGestureHandler:
     :path: "../node_modules/react-native-gesture-handler"
+  RNKeychain:
+    :path: "../node_modules/react-native-keychain"
   RNOS:
     :path: "../node_modules/react-native-os"
   RNPermissions:
@@ -655,7 +655,6 @@ SPEC CHECKSUMS:
   react-native-image-picker: 4e6008ad8c2321622affa2c85432a5ebd02d480c
   react-native-randombytes: 421f1c7d48c0af8dbcd471b0324393ebf8fe7846
   react-native-safe-area-context: 61c8c484a3a9e7d1fda19f7b1794b35bbfd2262a
-  react-native-sensitive-info: 400c6e3d27945e15c8cddb5b4b92233c85ee06f8
   React-perflogger: 25373e382fed75ce768a443822f07098a15ab737
   React-RCTActionSheet: af7796ba49ffe4ca92e7277a5d992d37203f7da5
   React-RCTAnimation: 6a2e76ab50c6f25b428d81b76a5a45351c4d77aa
@@ -676,11 +675,12 @@ SPEC CHECKSUMS:
   RNFastImage: 1f2cab428712a4baaf78d6169eaec7f622556dd7
   RNFS: fc610f78fdf8bfc89a9e5cc2f898519f4dba1002
   RNGestureHandler: a479ebd5ed4221a810967000735517df0d2db211
+  RNKeychain: 4f63aada75ebafd26f4bc2c670199461eab85d94
   RNOS: 6f2f9a70895bbbfbdad7196abd952e7b01d45027
   RNPermissions: 34d678157c800b25b22a488e4d8babb57456e796
-  RNReanimated: 93fe36bf01e6bd4346e0ffc9e469ce37a6b2bea9
+  RNReanimated: 7f3eef39b48facdb0b053873abdaafaa6a953b0d
   RNScreens: 01ab149b5dd5c27f5ff26741b1d2bdf2cee1af35
-  RNVectorIcons: 31cebfcf94e8cf8686eb5303ae0357da64d7a5a4
+  RNVectorIcons: 7923e585eaeb139b9f4531d25a125a1500162a0b
   SDWebImage: a7f831e1a65eb5e285e3fb046a23fcfbf08e696d
   SDWebImageWebPCoder: f93010f3f6c031e2f8fb3081ca4ee6966c539815
   TrezorCrypto: bfeea47a052dca2c77d4a39e1e183865e52de14d
