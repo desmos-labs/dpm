@@ -1,7 +1,6 @@
-import { VibrancyView } from '@react-native-community/blur';
 import { CompositeScreenProps, useFocusEffect } from '@react-navigation/native';
 import { StackScreenProps } from '@react-navigation/stack';
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { KeyboardAvoidingView, Platform, Text, TouchableOpacity } from 'react-native';
 import { Button, StyledSafeAreaView, TopBar } from '../components';
@@ -11,7 +10,6 @@ import { Typography } from '../components/typography';
 import { useAppContext } from '../contexts/AppContext';
 import useSetSettings from '../hooks/settings/useSetSettings';
 import useSettings from '../hooks/settings/useSettings';
-import useCloseKeyboard from '../hooks/useCloseKeyboard';
 import useNavigateToHomeScreen from '../hooks/useNavigateToHomeScreen';
 import useShowModal from '../hooks/useShowModal';
 import { TwoButtonModal } from '../modals/TwoButtonModal';
