@@ -81,9 +81,11 @@ const RootStackScreens: React.FC = () => {
   );
 
   useEffect(() => {
-    AppState.addEventListener('change', handleAppStateChange);
+    const subscription = AppState.addEventListener('change', (nextAppState) =>
+      handleAppStateChange(nextAppState)
+    );
     return () => {
-      AppState.removeEventListener('change', handleAppStateChange);
+      subscription.remove();
     };
   }, [handleAppStateChange]);
 

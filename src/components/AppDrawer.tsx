@@ -50,8 +50,8 @@ export const AppDrawer: React.FC<Props> = (props) => {
   });
 
   useEffect(() => {
-    Dimensions.addEventListener('change', setDimensions);
-    return () => Dimensions.removeEventListener('change', setDimensions);
+    const subscription = Dimensions.addEventListener('change', setDimensions);
+    return () => subscription.remove();
   }, []);
 
   return (
