@@ -37,7 +37,9 @@ const ThemeProvider: React.FC = ({ children }) => {
     } else {
       setAppTheme(AppThemeLight);
     }
-    return {} as never;
+    return () => {
+      appearanceSubscription?.remove();
+    };
   }, [theme]);
 
   return (
