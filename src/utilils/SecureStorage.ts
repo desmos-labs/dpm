@@ -47,7 +47,7 @@ async function deriveSecurePassword(password: string): Promise<string> {
 async function encryptData(text: string, password: string): Promise<EncryptedData> {
   const securePassword: string = await deriveSecurePassword(password);
   const iv: string = await Aes.randomKey(16);
-  return Aes.encrypt(text, securePassword, iv).then((cipher: string) => ({
+  return Aes.encrypt(text, securePassword, iv, 'aes-256-cbc').then((cipher: string) => ({
     cipher,
     iv,
   }));
@@ -60,7 +60,7 @@ async function encryptData(text: string, password: string): Promise<EncryptedDat
  */
 async function decryptData(data: EncryptedData, password: string): Promise<string> {
   const securePassword: string = await deriveSecurePassword(password);
-  return Aes.decrypt(data.cipher, securePassword, data.iv);
+  return Aes.decrypt(data.cipher, securePassword, data.iv, 'aes-256-cbc');
 }
 
 /**
