@@ -27,12 +27,14 @@ import { ThemedLottieView } from './ThemedLottieView';
 import { TopBar } from './TopBar';
 import { TransactionsList } from './tx/list/TransactionsList';
 import VerticalInput from './VerticalInput';
+import BiometricsLoadingIndicator from './BiometricsLoadingIndicator';
 
 export {
   AccountBalance,
   AccountCard,
   AddressListItem,
   AvatarImage,
+  BiometricsLoadingIndicator,
   BlockchainListItem,
   Button,
   ChainConnections,

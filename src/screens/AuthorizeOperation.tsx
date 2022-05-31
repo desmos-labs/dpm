@@ -3,8 +3,9 @@ import { useFocusEffect } from '@react-navigation/native';
 import { StackScreenProps } from '@react-navigation/stack';
 import React, { useCallback, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { KeyboardAvoidingView, Platform } from 'react-native';
+import { KeyboardAvoidingView, Platform, View } from 'react-native';
 import { Button, StyledSafeAreaView, TopBar } from '../components';
+import BiometricsLoadingIndicator from '../components/BiometricsLoadingIndicator';
 import { FlexPadding } from '../components/FlexPadding';
 import SecureTextInput from '../components/SecureTextInput';
 import { Typography } from '../components/typography';
@@ -25,6 +26,7 @@ const AuthorizeOperation: React.FC<Props> = (props) => {
   const styles = useStyles();
   const { t } = useTranslation();
   const [loading, setLoading] = useState(false);
+  const [loadingBiometrics, setLoadingBiometrics] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [password, setPassword] = useState<string>('');
   const { setAccounts } = useAppContext();
@@ -96,12 +98,12 @@ const AuthorizeOperation: React.FC<Props> = (props) => {
   }, [address, password, navigation, provideWallet, resolve, setAccounts, t]);
 
   const unlockWithBiometrics = useCallback(async () => {
+    setLoadingBiometrics(true);
     try {
       const savedPassword = await SecureStorage.getItem('biometricsSignature', {
         biometrics: true,
       });
       if (savedPassword) {
-        setLoading(true);
         try {
           let wallet: LocalWallet | null;
           if (provideWallet) {
@@ -115,6 +117,7 @@ const AuthorizeOperation: React.FC<Props> = (props) => {
             });
             if (value !== null) {
               if (value !== address) {
+                setLoadingBiometrics(false);
                 setError(t('invalid password'));
                 return;
               }
@@ -140,20 +143,23 @@ const AuthorizeOperation: React.FC<Props> = (props) => {
               }
             }
           }
-          setLoading(false);
+          setLoadingBiometrics(false);
           resolve({
             authorized: true,
             wallet,
           });
           navigation.goBack();
         } catch (e) {
-          setError(t('invalid password'));
+          setLoadingBiometrics(false);
+          setError(t('authorization with biometrics failed'));
         }
-        setLoading(false);
+        setLoadingBiometrics(false);
       } else {
-        setError(t('invalid authorization'));
+        setLoadingBiometrics(false);
+        setError(t('authorization with biometrics failed'));
       }
     } catch (e) {
+      setLoadingBiometrics(false);
       console.error(e);
     }
   }, [address, navigation, provideWallet, resolve, setAccounts, t]);
@@ -167,27 +173,30 @@ const AuthorizeOperation: React.FC<Props> = (props) => {
   );
 
   return (
-    <StyledSafeAreaView topBar={<TopBar stackProps={props} title={t('wallet password')} />}>
-      <Typography.Subtitle>{t('enter wallet password')}</Typography.Subtitle>
-      <SecureTextInput
-        style={styles.password}
-        value={password}
-        onChangeText={setPassword}
-        onSubmitEditing={unlockWallet}
-        placeholder={t('password')}
-        autoFocus
-      />
-      <Typography.Body style={styles.errorMsg}>{error}</Typography.Body>
-      <FlexPadding flex={1} />
-      <KeyboardAvoidingView
-        keyboardVerticalOffset={Platform.OS === 'ios' ? 110 : 0}
-        {...(Platform.OS === 'ios' ? { behavior: 'padding' } : {})}
-      >
-        <Button mode="contained" onPress={unlockWallet} loading={loading} disabled={loading}>
-          {loading ? t('unlocking') : t('confirm')}
-        </Button>
-      </KeyboardAvoidingView>
-    </StyledSafeAreaView>
+    <View>
+      {loadingBiometrics && <BiometricsLoadingIndicator />}
+      <StyledSafeAreaView topBar={<TopBar stackProps={props} title={t('wallet password')} />}>
+        <Typography.Subtitle>{t('enter wallet password')}</Typography.Subtitle>
+        <SecureTextInput
+          style={styles.password}
+          value={password}
+          onChangeText={setPassword}
+          onSubmitEditing={unlockWallet}
+          placeholder={t('password')}
+          autoFocus
+        />
+        <Typography.Body style={styles.errorMsg}>{error}</Typography.Body>
+        <FlexPadding flex={1} />
+        <KeyboardAvoidingView
+          keyboardVerticalOffset={Platform.OS === 'ios' ? 110 : 0}
+          {...(Platform.OS === 'ios' ? { behavior: 'padding' } : {})}
+        >
+          <Button mode="contained" onPress={unlockWallet} loading={loading} disabled={loading}>
+            {loading ? t('unlocking') : t('confirm')}
+          </Button>
+        </KeyboardAvoidingView>
+      </StyledSafeAreaView>
+    </View>
   );
 };
 

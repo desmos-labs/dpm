@@ -1,9 +1,18 @@
 import { CompositeScreenProps, useFocusEffect } from '@react-navigation/native';
 import { StackScreenProps } from '@react-navigation/stack';
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { KeyboardAvoidingView, Platform, Text, TouchableOpacity } from 'react-native';
+import {
+  Keyboard,
+  KeyboardAvoidingView,
+  Platform,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  View,
+} from 'react-native';
 import { Button, StyledSafeAreaView, TopBar } from '../components';
+import BiometricsLoadingIndicator from '../components/BiometricsLoadingIndicator';
 import { FlexPadding } from '../components/FlexPadding';
 import SecureTextInput from '../components/SecureTextInput';
 import { Typography } from '../components/typography';
@@ -33,6 +42,7 @@ const UnlockApplication: React.FC<Props> = (props) => {
   const styles = useStyles();
   const { t } = useTranslation();
   const [loading, setLoading] = useState(false);
+  const [loadingBiometrics, setLoadingBiometrics] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [password, setPassword] = useState<string>('');
   const navigateToHomeScreen = useNavigateToHomeScreen();
@@ -87,11 +97,13 @@ const UnlockApplication: React.FC<Props> = (props) => {
         key: route.key,
       });
     } else {
+      Keyboard.dismiss();
       navigateToHomeScreen({});
     }
   }, [navigateToHomeScreen, navigation, oldRoute, oldState, route.key]);
 
   const unlockWallet = useCallback(async () => {
+    Keyboard.dismiss();
     setLoading(true);
     try {
       // Get the auth challenge from the device memory
@@ -107,26 +119,31 @@ const UnlockApplication: React.FC<Props> = (props) => {
       setLoading(false);
       setError(t('invalid password'));
     }
-    setLoading(false);
   }, [navigateToCorrectScreen, password, t]);
 
   const unlockWithBiometrics = useCallback(async () => {
-    try {
-      const savedPassword = await SecureStorage.getItem('biometricsLogin', {
-        biometrics: true,
-      });
-      if (savedPassword) {
-        const stringToCheck = await SecureStorage.getItem('dpm_global_password', {
-          password: savedPassword,
+    setLoadingBiometrics(true);
+    setTimeout(async () => {
+      try {
+        const savedPassword = await SecureStorage.getItem('biometricsLogin', {
+          biometrics: true,
         });
-        if (stringToCheck === 'dpm_global_password') {
-          navigateToCorrectScreen();
-          setLoading(false);
+        if (savedPassword) {
+          const stringToCheck = await SecureStorage.getItem('dpm_global_password', {
+            password: savedPassword,
+          });
+          if (stringToCheck === 'dpm_global_password') {
+            setTimeout(() => {
+              navigateToCorrectScreen();
+              setLoadingBiometrics(false);
+            }, 500);
+          }
         }
+      } catch (e) {
+        setLoadingBiometrics(false);
+        setError(t('authorization with biometrics failed'));
       }
-    } catch (e) {
-      setError(t('authorization failed'));
-    }
+    }, 500);
   }, [navigateToCorrectScreen, t]);
 
   useFocusEffect(
@@ -137,32 +154,39 @@ const UnlockApplication: React.FC<Props> = (props) => {
     }, [settings.biometricLogin, unlockWithBiometrics])
   );
 
+  const inputRef = useRef<TextInput>(null);
+
   return (
-    <StyledSafeAreaView topBar={<TopBar stackProps={props} />}>
-      <Typography.Subtitle>{t('enter security password')}</Typography.Subtitle>
-      <SecureTextInput
-        style={styles.password}
-        value={password}
-        onChangeText={setPassword}
-        onSubmitEditing={unlockWallet}
-        onTextInput={() => setError(t(''))}
-        placeholder={t('password')}
-        autoFocus={!settings.biometricLogin}
-      />
-      <Typography.Body style={styles.errorMsg}>{error}</Typography.Body>
-      <FlexPadding flex={1} />
-      <KeyboardAvoidingView
-        keyboardVerticalOffset={Platform.OS === 'ios' ? 70 : 0}
-        {...(Platform.OS === 'ios' ? { behavior: 'padding' } : {})}
-      >
-        <Button mode="contained" onPress={unlockWallet}>
-          {t('confirm')}
-        </Button>
-        <TouchableOpacity style={styles.forgotPasswordBtn} onPress={() => openResetModal()}>
-          <Text style={styles.labelStyle}>{t('forgot password')}?</Text>
-        </TouchableOpacity>
-      </KeyboardAvoidingView>
-    </StyledSafeAreaView>
+    <View style={{ flex: 1 }}>
+      {loadingBiometrics && <BiometricsLoadingIndicator />}
+      <StyledSafeAreaView topBar={<TopBar stackProps={props} />}>
+        <Typography.Subtitle>{t('enter security password')}</Typography.Subtitle>
+        <SecureTextInput
+          style={styles.password}
+          value={password}
+          onChangeText={setPassword}
+          onSubmitEditing={unlockWallet}
+          onTextInput={() => setError(t(''))}
+          onResponderStart={() => setError(t(''))}
+          placeholder={t('password')}
+          inputRef={inputRef}
+          clearTextOnFocus
+        />
+        <Typography.Body style={styles.errorMsg}>{error}</Typography.Body>
+        <FlexPadding flex={1} />
+        <KeyboardAvoidingView
+          keyboardVerticalOffset={Platform.OS === 'ios' ? 70 : 0}
+          {...(Platform.OS === 'ios' ? { behavior: 'padding' } : {})}
+        >
+          <Button mode="contained" onPress={unlockWallet}>
+            {loading ? t('loading') : t('confirm')}
+          </Button>
+          <TouchableOpacity style={styles.forgotPasswordBtn} onPress={() => openResetModal()}>
+            <Text style={styles.labelStyle}>{t('forgot password')}?</Text>
+          </TouchableOpacity>
+        </KeyboardAvoidingView>
+      </StyledSafeAreaView>
+    </View>
   );
 };
 

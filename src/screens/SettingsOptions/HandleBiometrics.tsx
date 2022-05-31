@@ -22,6 +22,7 @@ const HandleBiometrics: React.FC<Props> = (props) => {
   } = route;
   const [password, setPassword] = React.useState<string>('');
   const [error, setError] = React.useState<string | null>(null);
+  const [loading, setLoading] = React.useState<boolean>(false);
   const { t } = useTranslation();
   const styles = useStyles();
   const setSettings = useSetSettings();
@@ -29,9 +30,11 @@ const HandleBiometrics: React.FC<Props> = (props) => {
 
   const btnAction = useCallback(
     async (inputPassword: string) => {
+      setLoading(true);
       try {
         const isSupported = await Keychain.getSupportedBiometryType();
         if (!isSupported) {
+          setLoading(false);
           return;
         }
         if (inputPassword) {
@@ -45,10 +48,12 @@ const HandleBiometrics: React.FC<Props> = (props) => {
             } else {
               setSettings({ biometricSignature: !settings.biometricSignature });
             }
+            setLoading(false);
             navigation.goBack();
           }
         }
       } catch (e) {
+        setLoading(false);
         setError(t('invalid password'));
       }
     },
@@ -86,7 +91,7 @@ const HandleBiometrics: React.FC<Props> = (props) => {
         {...(Platform.OS === 'ios' ? { behavior: 'padding' } : {})}
       >
         <Button style={styles.button} mode="contained" onPress={() => btnAction(password)}>
-          {t('enable')}
+          {loading ? t('loading') : t('enable')}
         </Button>
       </KeyboardAvoidingView>
     </StyledSafeAreaView>
