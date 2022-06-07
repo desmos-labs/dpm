@@ -55,7 +55,7 @@ export default function GenerateAccount(props: Props): JSX.Element {
       // Save a string encrypted with user provided password to
       // authenticate the user when performing sensitive operations.
       if (accounts.length === 0) {
-        await SecureStorage.setItem('DPM_GLOBAL_PASSWORD', 'DPM_GLOBAL_PASSWORD', {
+        await SecureStorage.setItem('dpm_global_password', 'dpm_global_password', {
           password,
         });
       }

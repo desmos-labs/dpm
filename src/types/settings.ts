@@ -15,6 +15,8 @@ export type AppSettings = {
   theme: AppTheme;
   chainId: ChainId;
   balanceHidden: boolean;
+  biometricSignature: boolean;
+  biometricLogin: boolean;
 };
 
 /**
@@ -30,4 +32,6 @@ export const DefaultAppSettings: AppSettings = {
   theme: 'auto',
   chainId: 'desmos-mainnet',
   balanceHidden: false,
+  biometricSignature: false,
+  biometricLogin: false,
 };

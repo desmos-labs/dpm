@@ -59,7 +59,9 @@ export const RadioGroup: React.FC<Props> = (props) => {
 };
 
 const useStyles = makeStyle((theme) => ({
-  root: {},
+  root: {
+    flex: 1,
+  },
   title: {
     color: theme.colors.font['2'],
   },
@@ -68,8 +70,6 @@ const useStyles = makeStyle((theme) => ({
     borderRadius: theme.roundness,
   },
   fieldWrapper: {
-    display: 'flex',
-    flex: 1,
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',

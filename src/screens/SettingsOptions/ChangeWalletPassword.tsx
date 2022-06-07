@@ -17,7 +17,7 @@ import evaluatePasswordComplexity from '../../utilils/passwordEvaluation';
 import * as SecureStorage from '../../utilils/SecureStorage';
 import LocalWallet from '../../wallet/LocalWallet';
 
-type Props = StackScreenProps<SettingsScreensStackParams>;
+type Props = StackScreenProps<SettingsScreensStackParams, 'CreateNewPassword'>;
 
 export default function ChangeWalletPassword(props: Props): JSX.Element {
   const { navigation, route } = props;
@@ -54,7 +54,7 @@ export default function ChangeWalletPassword(props: Props): JSX.Element {
   );
 
   const saveUserPassword = useCallback(async () => {
-    await SecureStorage.setItem('DPM_GLOBAL_PASSWORD', 'DPM_GLOBAL_PASSWORD', {
+    await SecureStorage.setItem('dpm_global_password', 'dpm_global_password', {
       password,
     });
     if (account.type === ChainAccountType.Local && params?.wallet) {
@@ -71,9 +71,9 @@ export default function ChangeWalletPassword(props: Props): JSX.Element {
 
   const checkUserPassword = useCallback(async () => {
     const passwordMatch =
-      (await SecureStorage.getItem('DPM_GLOBAL_PASSWORD', {
+      (await SecureStorage.getItem('dpm_global_password', {
         password,
-      })) === 'DPM_GLOBAL_PASSWORD';
+      })) === 'dpm_global_password';
     if (passwordMatch) {
       // ChainAccountType.Local
       if (account.type === ChainAccountType.Local) {

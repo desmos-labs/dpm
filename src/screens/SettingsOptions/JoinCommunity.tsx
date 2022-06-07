@@ -9,8 +9,8 @@ import FlexibleSection from '../../components/FlexibleSection';
 import { makeStyle } from '../../theming';
 import { RootStackParams, SettingsScreensStackParams } from '../../types/navigation';
 
-declare type Props = CompositeScreenProps<
-  StackScreenProps<SettingsScreensStackParams>,
+type Props = CompositeScreenProps<
+  StackScreenProps<SettingsScreensStackParams, 'JoinCommunity'>,
   StackScreenProps<RootStackParams>
 >;
 
@@ -34,7 +34,6 @@ const JoinCommunity: React.FC<Props> = (props) => {
   return (
     <StyledSafeAreaView
       style={styles.background}
-      scrollable
       topBar={<TopBar style={styles.background} stackProps={props} title={t('community')} />}
     >
       <FlexibleSection.Section>

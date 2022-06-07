@@ -1,21 +1,15 @@
 import { NativeModules } from 'react-native';
-import SInfo, { RNSensitiveInfoOptions } from 'react-native-sensitive-info';
+import { getAllGenericPasswordServices, resetGenericPassword, Result } from 'react-native-keychain';
+import * as Keychain from 'react-native-keychain';
 
 const { Aes } = NativeModules;
-const DPM_SHARED_PREFERENCES = 'dmpPreferences';
-const DPM_SERVICE = 'dmpKeychainService';
 
-const SInfoOptions: RNSensitiveInfoOptions = {
-  sharedPreferencesName: DPM_SHARED_PREFERENCES,
-  keychainService: DPM_SERVICE,
-};
-
-const SInfoBiometricOptions: RNSensitiveInfoOptions = {
-  ...SInfoOptions,
-  touchID: true,
-  showModal: true,
-  kSecUseOperationPrompt: 'We need your permission to retrieve encrypted data',
-  kSecAccessControl: 'kSecAccessControlBiometryAny', // Add support for FaceID
+const defaultOptions: Keychain.Options = {
+  authenticationPrompt: {
+    title: 'Biometric Authentication',
+  },
+  accessible: Keychain.ACCESSIBLE.WHEN_UNLOCKED_THIS_DEVICE_ONLY,
+  accessControl: Keychain.ACCESS_CONTROL.BIOMETRY_CURRENT_SET,
 };
 
 interface EncryptedData {
@@ -78,23 +72,31 @@ export async function getItem(
   key: string,
   options: StoreOptions | undefined = undefined
 ): Promise<string | null> {
-  const sIfoOptions = options?.biometrics === true ? SInfoBiometricOptions : SInfoOptions;
-  const value = await SInfo.getItem(key, sIfoOptions);
-
-  if (value === null) {
+  const moreOptions = options?.biometrics === true ? { ...defaultOptions } : null;
+  const insertedWithoutPassword = await Keychain.getGenericPassword({
+    service: key,
+    ...moreOptions,
+  });
+  if (!insertedWithoutPassword) {
     return null;
   }
 
   if (options?.password !== undefined) {
-    const jsonValue = JSON.parse(value);
-    if (typeof jsonValue.iv !== 'string' && typeof jsonValue.cipher !== 'string') {
-      throw new Error('Invalid encrypted data');
-    } else {
-      return decryptData(jsonValue as EncryptedData, options.password);
+    const insertedWithPassword = await Keychain.getGenericPassword({
+      service: key,
+      ...moreOptions,
+    });
+    if (insertedWithPassword) {
+      const jsonValueNew = JSON.parse(insertedWithPassword.password);
+      if (typeof jsonValueNew.iv !== 'string' && typeof jsonValueNew.cipher !== 'string') {
+        throw new Error('Invalid encrypted data');
+      } else {
+        return decryptData(jsonValueNew as EncryptedData, options.password);
+      }
     }
   }
 
-  return value;
+  return insertedWithoutPassword.password;
 }
 
 /**
@@ -107,17 +109,37 @@ export async function setItem(
   key: string,
   value: string,
   options: StoreOptions | undefined = undefined
-): Promise<null> {
-  const sIfoOptions = options?.biometrics === true ? SInfoBiometricOptions : SInfoOptions;
-
+): Promise<false | Result> {
+  const moreOptions = options?.biometrics === true ? { ...defaultOptions } : null;
   if (options?.password !== undefined) {
     const encryptedData = await encryptData(value, options.password);
-    return SInfo.setItem(key, JSON.stringify(encryptedData), sIfoOptions);
+    return Keychain.setGenericPassword('dpm', JSON.stringify(encryptedData), {
+      service: key,
+      ...moreOptions,
+    });
   }
-
-  return SInfo.setItem(key, value, sIfoOptions);
+  return Keychain.setGenericPassword('dpm', value, {
+    service: key,
+    ...moreOptions,
+  });
 }
 
-export async function deleteItem(key: string): Promise<void> {
-  await SInfo.deleteItem(key, SInfoOptions);
+export async function turnOnBiometrics(
+  key: string,
+  password: string
+): Promise<false | Result | null> {
+  const passwordKey = await getItem('dpm_global_password');
+  if (passwordKey === 'dpm_global_password') {
+    return setItem(key, password, { password, biometrics: true });
+  }
+  return null;
+}
+
+export async function deleteItem(key: string): Promise<boolean> {
+  return resetGenericPassword({ service: key });
+}
+
+export async function resetSecureStorage(): Promise<void> {
+  const keys = await getAllGenericPasswordServices();
+  await Promise.all(keys.map(async (key) => resetGenericPassword({ service: key })));
 }
