@@ -37,6 +37,7 @@ export const RadioGroup: React.FC<Props> = (props) => {
               color={theme.colors.primary}
               uncheckedColor={theme.colors.icon['3']}
               onPress={value.onPress ?? value.onPress}
+              theme={theme}
             />
           </View>
         </View>
