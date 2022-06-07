@@ -1,7 +1,7 @@
 import { StackScreenProps } from '@react-navigation/stack';
 import React, { useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
-import { KeyboardAvoidingView, Platform } from 'react-native';
+import { Keyboard, KeyboardAvoidingView, Platform } from 'react-native';
 import * as Keychain from 'react-native-keychain';
 import useSetSettings from '../../hooks/settings/useSetSettings';
 import useSettings from '../../hooks/settings/useSettings';
@@ -31,6 +31,7 @@ const HandleBiometrics: React.FC<Props> = (props) => {
   const btnAction = useCallback(
     async (inputPassword: string) => {
       setLoading(true);
+      Keyboard.dismiss();
       try {
         const isSupported = await Keychain.getSupportedBiometryType();
         if (!isSupported) {

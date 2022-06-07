@@ -25,7 +25,7 @@ const BiometricsLoadingIndicator: React.FC = () => {
         resizeMode="center"
       />
       <View style={styles.textContainer}>
-        <Typography.Subtitle>{t('authenticating using biometric data')}</Typography.Subtitle>
+        <Typography.Subtitle>{t('authenticating')}...</Typography.Subtitle>
       </View>
     </Animated.View>
   );

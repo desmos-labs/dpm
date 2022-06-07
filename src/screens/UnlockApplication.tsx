@@ -1,6 +1,6 @@
 import { CompositeScreenProps, useFocusEffect } from '@react-navigation/native';
 import { StackScreenProps } from '@react-navigation/stack';
-import React, { useCallback, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import {
   Keyboard,
@@ -50,6 +50,7 @@ const UnlockApplication: React.FC<Props> = (props) => {
   const { setProfiles, setAccounts, setSelectedAccount, setChainLinks } = useAppContext();
   const settings = useSettings();
   const setSettings = useSetSettings();
+  const inputRef = useRef<TextInput>(null);
 
   const unloadContext = useCallback(() => {
     // Wipe the app context
@@ -98,7 +99,7 @@ const UnlockApplication: React.FC<Props> = (props) => {
       });
     } else {
       Keyboard.dismiss();
-      navigateToHomeScreen({});
+      navigateToHomeScreen({ reset: true });
     }
   }, [navigateToHomeScreen, navigation, oldRoute, oldState, route.key]);
 
@@ -153,8 +154,6 @@ const UnlockApplication: React.FC<Props> = (props) => {
       }
     }, [settings.biometricLogin, unlockWithBiometrics])
   );
-
-  const inputRef = useRef<TextInput>(null);
 
   return (
     <View style={{ flex: 1 }}>

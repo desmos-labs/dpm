@@ -22,7 +22,7 @@
   "app requires authorizations": "{{app}} requires the following authorizations to be granted in order to work properly",
   "application password": "Application password",
   "approve": "Approve",
-  "authenticating using biometric data": "Authenticating using biometric data",
+  "authenticating": "Authenticating",
   "authorization failed": "Authorization failed",
   "authorization": "Authorization",
   "authorize": "Authorize",

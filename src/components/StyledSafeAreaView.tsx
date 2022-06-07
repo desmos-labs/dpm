@@ -51,7 +51,7 @@ export const StyledSafeAreaView: React.FC<Props> = (props) => {
 
   return (
     <View style={styles.root}>
-      <StatusBar barStyle={statusBarVariant} />
+      <StatusBar barStyle={statusBarVariant} backgroundColor="transparent" />
       {background !== undefined && (
         <ImageBackground style={styles.background} source={background} />
       )}
