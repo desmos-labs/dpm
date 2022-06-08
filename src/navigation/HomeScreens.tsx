@@ -34,8 +34,8 @@ const HomeScreens: React.FC<HomeScreensProps> = (props) => {
     return <HomeScreenBottomBar {...tabBarProps} />;
   };
 
-  const profileIcon = (size: number, color: string) => (
-    <DesmosIcon name="profile" size={size} color={color} />
+  const walletIcon = (size: number, color: string) => (
+    <DesmosIcon name="wallet" size={size} color={color} />
   );
 
   const authIcon = (size: number, color: string) => (
@@ -65,8 +65,8 @@ const HomeScreens: React.FC<HomeScreensProps> = (props) => {
           name="Home"
           component={Home}
           options={{
-            title: t('profile'),
-            tabBarIcon: ({ color, size }) => profileIcon(size, color),
+            title: t('wallet'),
+            tabBarIcon: ({ color, size }) => walletIcon(size, color),
           }}
         />
         <HomeScreensBottomTabs.Screen
