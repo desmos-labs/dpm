@@ -23,7 +23,7 @@ const RootStackScreens: React.FC = () => {
     navigatorRef.current?.getCurrentRoute()
   );
   const [oldState, setOldState] = useState(navigatorRef.current?.getState());
-
+  const [appStateVisible, setAppStateVisible] = useState(appVisibilityState.current);
   useEffect(() => {
     if (!initState.initializing && initState.error) {
       console.error('Error initializing WalletConnect', initState.error);
@@ -56,6 +56,10 @@ const RootStackScreens: React.FC = () => {
             // No account, reset where the user was
           } else if (oldState && oldRoute) {
             navigatorRef.current.reset({
+              history: [],
+              routeNames: [],
+              type: '',
+              stale: false,
               index: 0,
               routes: oldState.routes,
               key: oldRoute.key,
@@ -81,9 +85,11 @@ const RootStackScreens: React.FC = () => {
   );
 
   useEffect(() => {
-    AppState.addEventListener('change', handleAppStateChange);
+    const subscription = AppState.addEventListener('change', (nextAppState) =>
+      handleAppStateChange(nextAppState)
+    );
     return () => {
-      AppState.removeEventListener('change', handleAppStateChange);
+      subscription.remove();
     };
   }, [handleAppStateChange]);
 

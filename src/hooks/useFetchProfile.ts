@@ -29,7 +29,6 @@ export default function useFetchProfile(address: string): DesmosProfile | null {
               return newValue;
             });
             setProfile(cached);
-            await client.disconnect();
           }
         }
       } catch (e) {

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Appearance } from 'react-native';
+import { Appearance, NativeEventSubscription } from 'react-native';
 import { Provider as PaperProvider } from 'react-native-paper';
 import { Settings } from 'react-native-paper/lib/typescript/core/settings';
 import { DesmosIcon } from '../components';
@@ -16,17 +16,20 @@ const ThemeProvider: React.FC = ({ children }) => {
   const [appTheme, setAppTheme] = useState(AppThemeLight);
 
   useEffect(() => {
+    let appearanceSubscription: NativeEventSubscription | undefined;
     if (theme === 'auto') {
-      const listener: AppearanceListener = (preferences) => {
+      const handleAppearanceChange = (preferences: Appearance.AppearancePreferences) => {
         const colorScheme = preferences.colorScheme ?? 'light';
         setAppTheme(colorScheme === 'light' ? AppThemeLight : AppThemeDark);
       };
-      listener({
+      handleAppearanceChange({
         colorScheme: Appearance.getColorScheme(),
       });
-      Appearance.addChangeListener(listener);
+      appearanceSubscription = Appearance?.addChangeListener(handleAppearanceChange) as
+        | NativeEventSubscription
+        | undefined;
       return () => {
-        Appearance.removeChangeListener(listener);
+        appearanceSubscription?.remove();
       };
     }
     if (theme === 'dark') {
@@ -34,7 +37,9 @@ const ThemeProvider: React.FC = ({ children }) => {
     } else {
       setAppTheme(AppThemeLight);
     }
-    return {} as never;
+    return () => {
+      appearanceSubscription?.remove();
+    };
   }, [theme]);
 
   return (

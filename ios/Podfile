@@ -14,20 +14,16 @@ target 'DesmosProfileManager' do
 
   permissions_path = '../node_modules/react-native-permissions/ios'
   pod 'Permission-Camera', :path => "#{permissions_path}/Camera"
-
   pod 'react-native-randombytes', :path => '../node_modules/react-native-randombytes'
-
   pod 'RNVectorIcons', :path => '../node_modules/react-native-vector-icons'
-  
   pod 'TrezorCrypto', :modular_headers => true
-
   pod 'RNDeviceInfo', :path => '../node_modules/react-native-device-info'
 
   target 'DesmosProfileManagerTests' do
     inherit! :complete
     # Pods for testing
   end
-  
+
   target 'RCTCryptoUtilsTests' do
     inherit! :complete
   end
@@ -40,5 +36,6 @@ target 'DesmosProfileManager' do
 
   post_install do |installer|
     react_native_post_install(installer)
+        __apply_Xcode_12_5_M1_post_install_workaround(installer)
   end
 end
