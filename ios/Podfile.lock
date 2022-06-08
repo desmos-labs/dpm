@@ -301,7 +301,7 @@ PODS:
     - React-Core
   - react-native-camera/RN (4.0.1):
     - React-Core
-  - react-native-image-picker (4.8.3):
+  - react-native-image-picker (4.8.4):
     - React-Core
   - react-native-randombytes (3.6.1):
     - React-Core
@@ -688,7 +688,7 @@ SPEC CHECKSUMS:
   react-native-aes: c75c46aa744bef7c2415fdf7f5b2dcb75ca4364d
   react-native-ble-plx: f10240444452dfb2d2a13a0e4f58d7783e92d76e
   react-native-camera: 11166fe7e3a673493c152f52966e8ab1c5cdcacc
-  react-native-image-picker: e95b4785b685cfc06609bc50ed6fb55b59990c99
+  react-native-image-picker: cffb727cf2f59bd5c0408e30b3dbe0b935f88835
   react-native-randombytes: 421f1c7d48c0af8dbcd471b0324393ebf8fe7846
   react-native-safe-area-context: 9e40fb181dac02619414ba1294d6c2a807056ab9
   React-perflogger: 0afaf2f01a47fd0fc368a93bfbb5bd3b26db6e7f
