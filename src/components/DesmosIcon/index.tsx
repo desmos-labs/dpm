@@ -16,7 +16,7 @@ const desmosIcons = [
   'hide',
   'arrow-right',
   'menu',
-  'wallet',
+  'home',
 ];
 
 const CustomIcon = createIconSetFromIcoMoon(icoMoonConfig);
