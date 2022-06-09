@@ -42,7 +42,7 @@
 	<key>NSCameraUsageDescription</key>
 	<string>DPM would like to access your camera to scan QRs</string>
 	<key>NSFaceIDUsageDescription</key>
-	<string>Protect user keys</string>
+	<string>DPM authentication with TouchId or FaceID</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string/>
 	<key>NSPhotoLibraryUsageDescription</key>

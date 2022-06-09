@@ -22,7 +22,7 @@
   "app requires authorizations": "{{app}} ha bisogno dei seguenti permessi per poter funzionare correttamente",
   "approve": "Approva",
   "authenticating": "Autenticazione",
-  "authorization failed": "Autorizzazione fallita",
+  "authorization with biometrics failed": "Autorizzazione tramite biometria fallita",
   "authorization": "Autorizzazione",
   "authorization failed": "Autorizzazione fallita",
   "authorize": "Autorizza",
