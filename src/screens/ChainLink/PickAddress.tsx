@@ -1,8 +1,7 @@
 import { LedgerApp as CosmosLedgerApp, LedgerSigner } from '@cosmjs/ledger-amino';
 import { OfflineSigner } from '@cosmjs/proto-signing';
-import { MsgLinkChainAccount } from '@desmoslabs/proto/desmos/profiles/v1beta1/msgs_chain_links';
-import { MsgLinkChainAccountEncodeObject } from '@desmoslabs/sdk-core';
-import { useCurrentChainInfo } from '@desmoslabs/sdk-react';
+import { MsgLinkChainAccountEncodeObject } from '@desmoslabs/desmjs';
+import { MsgLinkChainAccount } from '@desmoslabs/desmjs-types/desmos/profiles/v2/msgs_chain_links';
 import BluetoothTransport from '@ledgerhq/react-native-hw-transport-ble';
 import { CompositeScreenProps } from '@react-navigation/native';
 import { StackScreenProps } from '@react-navigation/stack';
@@ -21,6 +20,7 @@ import {
   TopBar,
 } from '../../components';
 import { FlexPadding } from '../../components/FlexPadding';
+import useCurrentChainInfo from '../../hooks/desmosclient/useCurrentChainInfo';
 import useAddChinLink from '../../hooks/useAddChainLink';
 import useSelectedAccount from '../../hooks/useSelectedAccount';
 import useShowModal from '../../hooks/useShowModal';
@@ -270,7 +270,7 @@ export const PickAddress: React.FC<Props> = (props) => {
         }
 
         const msg: MsgLinkChainAccountEncodeObject = {
-          typeUrl: '/desmos.profiles.v1beta1.MsgLinkChainAccount',
+          typeUrl: '/desmos.profiles.v2.MsgLinkChainAccount',
           value: MsgLinkChainAccount.fromPartial({
             signer: selectedAccount.address,
             proof: proof.proof,
@@ -280,7 +280,7 @@ export const PickAddress: React.FC<Props> = (props) => {
         };
         const messages = [msg];
         const gas = messagesGas(messages);
-        const fee = computeTxFees(gas, chainInfo.coinDenom).average;
+        const fee = computeTxFees(gas, chainInfo.stakingDenom).average;
         navigation.navigate({
           name: 'ConfirmTx',
           params: {
@@ -309,7 +309,7 @@ export const PickAddress: React.FC<Props> = (props) => {
     importMode,
     chain,
     selectedAccount.address,
-    chainInfo.coinDenom,
+    chainInfo.stakingDenom,
     navigation,
     feeGranter,
     backAction,

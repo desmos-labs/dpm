@@ -1,7 +1,7 @@
 import {
   AminoMsgWithdrawDelegatorReward,
   MsgWithdrawDelegatorRewardEncodeObject,
-} from '@desmoslabs/sdk-core';
+} from '@cosmjs/stargate';
 import { MsgWithdrawDelegatorReward } from 'cosmjs-types/cosmos/distribution/v1beta1/tx';
 import React from 'react';
 import { useTranslation } from 'react-i18next';

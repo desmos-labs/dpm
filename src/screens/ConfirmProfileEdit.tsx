@@ -1,5 +1,4 @@
-import { convertCoin, DesmosProfile, MsgSaveProfileEncodeObject } from '@desmoslabs/sdk-core';
-import { useCurrentChainInfo } from '@desmoslabs/sdk-react';
+import { convertCoin, MsgSaveProfileEncodeObject } from '@desmoslabs/desmjs';
 import { CompositeScreenProps } from '@react-navigation/native';
 import { StackScreenProps } from '@react-navigation/stack';
 import React, { useCallback, useMemo, useState } from 'react';
@@ -7,6 +6,7 @@ import { useTranslation } from 'react-i18next';
 import { ScrollView, View } from 'react-native';
 import { Button, Divider, LabeledValue, StyledSafeAreaView, TopBar } from '../components';
 import { ProfileHeader } from '../components/ProfileHeader';
+import useCurrentChainInfo from '../hooks/desmosclient/useCurrentChainInfo';
 import useBroadcastMessages from '../hooks/useBroadcastMessages';
 import useNavigateToHomeScreen from '../hooks/useNavigateToHomeScreen';
 import useSaveProfile from '../hooks/useSaveProfile';
@@ -15,6 +15,7 @@ import useUnlockWallet from '../hooks/useUnlockWallet';
 import useUploadPicture from '../hooks/useUploadPicture';
 import { SingleButtonModal } from '../modals/SingleButtonModal';
 import { makeStyle } from '../theming';
+import { DesmosProfile } from '../types/desmos';
 import { computeTxFees, messagesGas } from '../types/fees';
 import { AccountScreensStackParams, resetTo, RootStackParams } from '../types/navigation';
 
@@ -47,7 +48,7 @@ export const ConfirmProfileEdit: React.FC<Props> = (props) => {
 
   const txFee = useMemo(() => {
     const saveProfileMessage: MsgSaveProfileEncodeObject = {
-      typeUrl: '/desmos.profiles.v1beta1.MsgSaveProfile',
+      typeUrl: '/desmos.profiles.v2.MsgSaveProfile',
       value: {
         creator: account.address,
         dtag: profile.dtag,
@@ -112,7 +113,7 @@ export const ConfirmProfileEdit: React.FC<Props> = (props) => {
         }
 
         const saveProfileMessage: MsgSaveProfileEncodeObject = {
-          typeUrl: '/desmos.profiles.v1beta1.MsgSaveProfile',
+          typeUrl: '/desmos.profiles.v2.MsgSaveProfile',
           value: {
             creator: account.address,
             ...newProfile,

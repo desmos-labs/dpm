@@ -1,8 +1,7 @@
 import { convertCoin } from '@desmoslabs/sdk-core';
 import { useCurrentChainInfo, useDesmosClient } from '@desmoslabs/sdk-react';
 import { useNavigation } from '@react-navigation/native';
-import { Coin } from 'cosmjs-types/cosmos/base/v1beta1/coin';
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef } from 'react';
 import { useAppContext } from '../contexts/AppContext';
 
 /**

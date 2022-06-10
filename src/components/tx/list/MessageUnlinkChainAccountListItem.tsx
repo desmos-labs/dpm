@@ -1,4 +1,4 @@
-import { MsgUnlinkChainAccountEncodeObject } from '@desmoslabs/sdk-core';
+import { MsgUnlinkChainAccountEncodeObject } from '@desmoslabs/desmjs';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { View } from 'react-native';

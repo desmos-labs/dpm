@@ -21,7 +21,7 @@ const BiometricsLoadingIndicator: React.FC = () => {
         source="loading"
         autoPlay
         loop
-        autoSize
+        // autoSize
         resizeMode="center"
       />
       <View style={styles.textContainer}>
@@ -44,8 +44,8 @@ const useStyles = makeStyle((theme) => ({
     alignItems: 'center',
   },
   image: {
-    width: 200,
-    height: 200,
+    width: 300,
+    height: 300,
   },
   textContainer: {
     padding: theme.spacing.s,

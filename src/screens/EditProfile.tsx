@@ -1,4 +1,3 @@
-import { DesmosProfile } from '@desmoslabs/sdk-core';
 import { CompositeScreenProps } from '@react-navigation/native';
 import { StackScreenProps } from '@react-navigation/stack';
 import React, { useCallback, useEffect, useState } from 'react';
@@ -17,6 +16,7 @@ import {
 import { ProfileHeader } from '../components/ProfileHeader';
 import useProfileValidators from '../hooks/useProfileValidators';
 import { makeStyle } from '../theming';
+import { DesmosProfile } from '../types/desmos';
 import { AccountScreensStackParams, RootStackParams } from '../types/navigation';
 
 type Props = CompositeScreenProps<

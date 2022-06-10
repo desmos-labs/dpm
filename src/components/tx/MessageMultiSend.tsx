@@ -3,6 +3,7 @@ import { useCurrentChainInfo } from '@desmoslabs/sdk-react';
 import { MsgMultiSend } from 'cosmjs-types/cosmos/bank/v1beta1/tx';
 import React, { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
+import useCurrentChainInfo from '../../hooks/desmosclient/useCurrentChainInfo';
 import { MsgMultiSendEncodeObject } from '../../types/encodeobject';
 import { SimpleMessageComponent } from './SimpleMessageComponent';
 

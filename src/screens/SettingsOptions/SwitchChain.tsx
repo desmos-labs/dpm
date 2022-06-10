@@ -1,9 +1,9 @@
-import { useSdkContext } from '@desmoslabs/sdk-react';
 import { StackScreenProps } from '@react-navigation/stack';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { StyledSafeAreaView, TopBar } from '../../components';
 import { RadioGroup, RadioValue } from '../../components/RadioGroup';
+import { useDesmosClientContext } from '../../contexts/DesmosClientContext';
 import { useWalletConnectContext } from '../../contexts/WalletConnectContext';
 import useSetSetting from '../../hooks/settings/useSetSetting';
 import useSetting from '../../hooks/settings/useSetting';
@@ -17,17 +17,17 @@ const SwitchChain: React.FC<Props> = (props) => {
   const { t } = useTranslation();
   const chainId = useSetting('chainId');
   const setChainId = useSetSetting('chainId');
-  const sdkContext = useSdkContext();
+  const clientContext = useDesmosClientContext();
   const { controller } = useWalletConnectContext();
   const styles = useStyles();
-  
+
   const changeChain = (newChainId: ChainId) => {
     setChainId(newChainId);
-    sdkContext.setCurrentChainId(newChainId);
+    clientContext.setCurrentChainId(newChainId);
     return Promise.all(
       controller.sessions.map(async (session) => controller.terminateSession(session.id))
     );
-  }
+  };
 
   const values: RadioValue[] = [
     {

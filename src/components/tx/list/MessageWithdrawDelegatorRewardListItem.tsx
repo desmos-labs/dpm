@@ -1,4 +1,4 @@
-import { MsgWithdrawDelegatorRewardEncodeObject } from '@desmoslabs/sdk-core';
+import { MsgWithdrawDelegatorRewardEncodeObject } from '@cosmjs/stargate';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { View } from 'react-native';

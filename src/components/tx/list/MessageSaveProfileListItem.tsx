@@ -1,4 +1,4 @@
-import { MsgSaveProfileEncodeObject } from '@desmoslabs/sdk-core';
+import { MsgSaveProfileEncodeObject } from '@desmoslabs/desmjs';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { View } from 'react-native';

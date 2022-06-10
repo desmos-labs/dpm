@@ -1,14 +1,14 @@
 import { StdFee } from '@cosmjs/amino';
 import { AminoMsg } from '@cosmjs/amino/build/signdoc';
 import { EncodeObject } from '@cosmjs/proto-signing';
-import { convertCoin } from '@desmoslabs/sdk-core';
-import { useCurrentChainInfo } from '@desmoslabs/sdk-react';
+import { convertCoin } from '@desmoslabs/desmjs';
 import { Any } from 'cosmjs-types/google/protobuf/any';
 import { format } from 'date-fns';
 import Long from 'long';
 import React, { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Pressable, ScrollView, StyleProp, StyleSheet, Text, View, ViewStyle } from 'react-native';
+import useCurrentChainInfo from '../../hooks/desmosclient/useCurrentChainInfo';
 import { Divider, LabeledValue } from '../index';
 import { TxMessage } from './TxMessage';
 
