@@ -91,6 +91,7 @@
     "react-native-reanimated": "^2.8.0",
     "react-native-safe-area-context": "^3.2.0",
     "react-native-screens": "^3.9.0",
+    "react-native-v8": "^1.4.1",
     "react-native-vector-icons": "^8.1.0",
     "readable-stream": "3.6.0",
     "stream-browserify": "3.0.0",
@@ -100,6 +101,7 @@
     "tty-browserify": "0.0.1",
     "url": "0.11.0",
     "util": "0.12.4",
+    "v8-android-jit": "^10.100.0",
     "vm-browserify": "1.1.2"
   },
   "devDependencies": {
