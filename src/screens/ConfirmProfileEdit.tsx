@@ -26,15 +26,8 @@ export type Props = CompositeScreenProps<
 
 export const ConfirmProfileEdit: React.FC<Props> = (props) => {
   const { route } = props;
-  const {
-    account,
-    oldProfile,
-    profile,
-    localCoverPictureUri,
-    localProfilePictureUri,
-    feeGranter,
-    goBackTo,
-  } = route.params;
+  const { account, oldProfile, profile, localCoverPictureUri, localProfilePictureUri, goBackTo } =
+    route.params;
   const { t } = useTranslation();
   const styles = useStyles();
   const chainInfo = useCurrentChainInfo();
@@ -60,8 +53,8 @@ export const ConfirmProfileEdit: React.FC<Props> = (props) => {
     };
     const messages = [saveProfileMessage];
     const gas = messagesGas(messages);
-    return computeTxFees(gas, chainInfo.coinDenom).average;
-  }, [account.address, profile, chainInfo.coinDenom]);
+    return computeTxFees(gas, chainInfo.stakingDenom).average;
+  }, [account.address, profile, chainInfo.stakingDenom]);
 
   const convertedTxFee = useMemo(() => {
     const converted = convertCoin(txFee.amount[0], 6, chainInfo.denomUnits);
@@ -120,7 +113,7 @@ export const ConfirmProfileEdit: React.FC<Props> = (props) => {
           },
         };
         const messages = [saveProfileMessage];
-        await broadcastMessages(wallet, messages, txFee, undefined, feeGranter);
+        await broadcastMessages(wallet, messages, txFee, undefined);
         await saveProfile(profile);
 
         showModal(SingleButtonModal, {
@@ -135,6 +128,7 @@ export const ConfirmProfileEdit: React.FC<Props> = (props) => {
         });
       }
     } catch (e) {
+      console.error(e);
       showModal(SingleButtonModal, {
         image: 'fail',
         title: t('ops'),
@@ -155,7 +149,6 @@ export const ConfirmProfileEdit: React.FC<Props> = (props) => {
     localProfilePictureUri,
     broadcastMessages,
     txFee,
-    feeGranter,
     saveProfile,
     showModal,
     t,

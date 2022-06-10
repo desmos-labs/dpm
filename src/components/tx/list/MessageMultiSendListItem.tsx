@@ -1,8 +1,8 @@
-import { convertCoin } from '@desmoslabs/sdk-core';
-import { useCurrentChainInfo } from '@desmoslabs/sdk-react';
+import { convertCoin } from '@desmoslabs/desmjs';
 import React, { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { View } from 'react-native';
+import useCurrentChainInfo from '../../../hooks/desmosclient/useCurrentChainInfo';
 import { MsgMultiSendEncodeObject } from '../../../types/encodeobject';
 import { Typography } from '../../typography';
 import { BaseMessageListItem } from './BaseMessageListItem';

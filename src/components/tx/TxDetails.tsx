@@ -29,13 +29,13 @@ export const TxDetails: React.FC<Props> = (props) => {
   const txFex = useMemo(() => {
     if (fee !== undefined && fee.amount.length > 0) {
       const feeAmount = fee.amount
-        .filter((coin) => coin.denom === chainInfo.coinDenom)
+        .filter((coin) => coin.denom === chainInfo.stakingDenom)
         .map((coin) => Long.fromString(coin.amount))
         .reduce((previousValue, currentValue) => previousValue.add(currentValue), Long.ZERO);
 
       const convertedFee = convertCoin(
         {
-          denom: chainInfo.coinDenom,
+          denom: chainInfo.stakingDenom,
           amount: feeAmount.toString(),
         },
         6,
@@ -43,12 +43,12 @@ export const TxDetails: React.FC<Props> = (props) => {
       );
 
       if (convertedFee === null) {
-        return `${feeAmount.toString(10)} ${chainInfo.coinDenom}`;
+        return `${feeAmount.toString(10)} ${chainInfo.stakingDenom}`;
       }
       return `${convertedFee.amount} ${convertedFee.denom.toUpperCase()}`;
     }
     return '0';
-  }, [chainInfo.coinDenom, chainInfo.denomUnits, fee]);
+  }, [chainInfo.stakingDenom, chainInfo.denomUnits, fee]);
 
   return (
     <View style={styles.root}>

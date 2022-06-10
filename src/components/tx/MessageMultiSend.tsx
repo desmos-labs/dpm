@@ -1,5 +1,5 @@
-import { AminoMsgMultiSend, convertCoin } from '@desmoslabs/sdk-core';
-import { useCurrentChainInfo } from '@desmoslabs/sdk-react';
+import { AminoMsgMultiSend } from '@cosmjs/stargate';
+import { convertCoin } from '@desmoslabs/desmjs';
 import { MsgMultiSend } from 'cosmjs-types/cosmos/bank/v1beta1/tx';
 import React, { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';

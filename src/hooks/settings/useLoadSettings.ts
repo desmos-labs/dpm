@@ -26,6 +26,16 @@ export default function useLoadSettings() {
     } catch (e) {
       settings = DefaultAppSettings;
     }
+    // Logic to migrate the setting chainId from:
+    // * desmos-mainnet -> mainnet
+    // * morpheus-apollo-2 -> testnet
+    // This is required since an application that has been updated can contain the old
+    // chain id keys.
+    if (settings.chainId.indexOf('mainnet') > 0) {
+      settings.chainId = 'mainnet';
+    } else {
+      settings.chainId = 'testnet';
+    }
     setSettings(settings);
   }, [setSettings]);
 }

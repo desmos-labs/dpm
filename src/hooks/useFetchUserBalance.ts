@@ -1,8 +1,9 @@
-import { convertCoin } from '@desmoslabs/sdk-core';
-import { useCurrentChainInfo, useDesmosClient } from '@desmoslabs/sdk-react';
+import { convertCoin } from '@desmoslabs/desmjs';
 import { useNavigation } from '@react-navigation/native';
 import { useCallback, useEffect, useRef } from 'react';
 import { useAppContext } from '../contexts/AppContext';
+import useDesmosClient from './desmosclient/useDesmosClient';
+import useCurrentChainInfo from './desmosclient/useCurrentChainInfo';
 
 /**
  * Hook to fetches an account balance.
@@ -23,14 +24,15 @@ export default function useFetchUserBalance(address: string) {
         denom: '',
       });
       try {
-        await client.connect();
-        const chainBalance = await client.getBalance(chainAddress, chainInfo.coinDenom);
-        const balance = convertCoin(chainBalance, 6, chainInfo.denomUnits);
-        if (mountedRef.current) {
-          if (balance !== null) {
-            setSelectedAccountBalance(balance);
-          } else {
-            setSelectedAccountBalance(chainBalance);
+        if (client !== undefined) {
+          const chainBalance = await client.getBalance(chainAddress, chainInfo.stakingDenom);
+          const balance = convertCoin(chainBalance, 6, chainInfo.denomUnits);
+          if (mountedRef.current) {
+            if (balance !== null) {
+              setSelectedAccountBalance(balance);
+            } else {
+              setSelectedAccountBalance(chainBalance);
+            }
           }
         }
       } catch (e) {
