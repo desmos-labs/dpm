@@ -1,11 +1,11 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { Appearance, NativeEventSubscription } from 'react-native';
 import { Provider as PaperProvider } from 'react-native-paper';
 import { Settings } from 'react-native-paper/lib/typescript/core/settings';
 import { DesmosIcon } from '../components';
 import useSetting from '../hooks/settings/useSetting';
+import useDebouncingColorScheme from '../hooks/useDebouncingColorScheme';
 import { AppThemeDark, AppThemeLight } from '../theming';
-import AppearanceListener = Appearance.AppearanceListener;
 
 const PaperProviderSettings: Settings = {
   icon: (props) => <DesmosIcon {...props} />,
@@ -14,20 +14,17 @@ const PaperProviderSettings: Settings = {
 const ThemeProvider: React.FC = ({ children }) => {
   const theme = useSetting('theme');
   const [appTheme, setAppTheme] = useState(AppThemeLight);
+  const colorScheme = useDebouncingColorScheme();
+
+  const handleAppearanceChange = useCallback(() => {
+    setAppTheme(colorScheme === 'light' ? AppThemeLight : AppThemeDark);
+  }, [colorScheme]);
 
   useEffect(() => {
     let appearanceSubscription: NativeEventSubscription | undefined;
     if (theme === 'auto') {
-      const handleAppearanceChange = (preferences: Appearance.AppearancePreferences) => {
-        const colorScheme = preferences.colorScheme ?? 'light';
-        setAppTheme(colorScheme === 'light' ? AppThemeLight : AppThemeDark);
-      };
-      handleAppearanceChange({
-        colorScheme: Appearance.getColorScheme(),
-      });
-      appearanceSubscription = Appearance?.addChangeListener(handleAppearanceChange) as
-        | NativeEventSubscription
-        | undefined;
+      handleAppearanceChange();
+      appearanceSubscription = Appearance.addChangeListener(handleAppearanceChange);
       return () => {
         appearanceSubscription?.remove();
       };
@@ -40,7 +37,7 @@ const ThemeProvider: React.FC = ({ children }) => {
     return () => {
       appearanceSubscription?.remove();
     };
-  }, [theme]);
+  }, [handleAppearanceChange, theme]);
 
   return (
     <PaperProvider theme={appTheme} settings={PaperProviderSettings}>
