@@ -13,6 +13,10 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.List;
 import com.facebook.react.bridge.JSIModulePackage;
 import com.swmansion.reanimated.ReanimatedJSIModulePackage;
+import com.facebook.react.bridge.JavaScriptExecutorFactory;
+import com.facebook.react.modules.systeminfo.AndroidInfoHelpers;
+import io.csie.kudo.reactnative.v8.executor.V8ExecutorFactory;
+
 
 public class MainApplication extends Application implements ReactApplication {
 
@@ -39,6 +43,15 @@ public class MainApplication extends Application implements ReactApplication {
         @Override
         protected JSIModulePackage getJSIModulePackage() {
             return new ReanimatedJSIModulePackage();
+        }
+
+        @Override
+        protected JavaScriptExecutorFactory getJavaScriptExecutorFactory() {
+            return new V8ExecutorFactory(
+                getApplicationContext(),
+                getPackageName(),
+                AndroidInfoHelpers.getFriendlyDeviceName(),
+                getUseDeveloperSupport());
         }
       };
 
