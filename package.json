@@ -43,6 +43,7 @@
     "@walletconnect/types": "1.7.8",
     "assert": "1.5.0",
     "asyncstorage-down": "^4.2.0",
+    "big-integer": "^1.6.51",
     "bip39": "3.0.4",
     "browserify-zlib": "0.1.4",
     "buffer": "4.9.2",
