@@ -110,7 +110,7 @@ export default function Profile(props: Props): JSX.Element {
         onCopyPressed={onAddressCopy}
       />
       <Divider style={styles.profileHeaderDivider} />
-      <View style={styles.content} onStartShouldSetResponder={() => true}>
+      <View style={styles.content}>
         {profile ? (
           <>
             <ScrollView style={styles.bioContainer}>
