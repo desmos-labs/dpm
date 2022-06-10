@@ -7,9 +7,7 @@ import {
   MsgSaveProfileEncodeObject,
   MsgSendEncodeObject,
   MsgUnlinkChainAccountEncodeObject,
-  MsgVoteEncodeObject,
-  MsgWithdrawDelegatorRewardEncodeObject,
-} from '@desmoslabs/sdk-core';
+} from '@desmoslabs/desmjs';
 import { PubKey } from 'cosmjs-types/cosmos/crypto/secp256k1/keys';
 import { VoteOption } from 'cosmjs-types/cosmos/gov/v1beta1/gov';
 import { Any } from 'cosmjs-types/google/protobuf/any';

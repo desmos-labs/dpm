@@ -1,4 +1,3 @@
-import { DesmosProfile } from '@desmoslabs/sdk-core';
 import { CompositeNavigationProp } from '@react-navigation/native';
 import { StackNavigationProp } from '@react-navigation/stack/lib/typescript/src/types';
 import React, { useCallback, useMemo } from 'react';
@@ -14,6 +13,7 @@ import useShowModal from '../hooks/useShowModal';
 import { TwoButtonModal } from '../modals/TwoButtonModal';
 import { makeStyle } from '../theming';
 import { ChainAccount } from '../types/chain';
+import { DesmosProfile } from '../types/desmos';
 import { AccountScreensStackParams, RootStackParams } from '../types/navigation';
 import { Button } from './Button';
 import { IconButton, ListItemSeparator, ProfileListItem } from './index';

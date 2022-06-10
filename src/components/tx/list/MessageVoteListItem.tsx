@@ -1,4 +1,4 @@
-import { MsgVoteEncodeObject } from '@desmoslabs/sdk-core';
+import { MsgVoteEncodeObject } from '@cosmjs/stargate';
 import { VoteOption } from 'cosmjs-types/cosmos/gov/v1beta1/gov';
 import React, { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';

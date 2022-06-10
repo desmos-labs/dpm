@@ -1,4 +1,3 @@
-import { useCurrentChainInfo } from '@desmoslabs/sdk-react';
 import Clipboard from '@react-native-community/clipboard';
 import { BottomTabScreenProps } from '@react-navigation/bottom-tabs';
 import { CompositeScreenProps } from '@react-navigation/native';
@@ -17,6 +16,7 @@ import {
 import { Typography } from '../components/typography';
 import { useAppContext } from '../contexts/AppContext';
 import { useDrawerContext } from '../contexts/AppDrawerContex';
+import useCurrentChainInfo from '../hooks/desmosclient/useCurrentChainInfo';
 import useSetSetting from '../hooks/settings/useSetSetting';
 import useFetchProfile from '../hooks/useFetchProfile';
 import useSelectedAccount from '../hooks/useSelectedAccount';

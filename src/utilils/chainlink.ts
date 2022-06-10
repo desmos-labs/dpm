@@ -1,7 +1,12 @@
 import { serializeSignDoc, StdSignDoc } from '@cosmjs/amino';
 import { fromBase64, toHex } from '@cosmjs/encoding';
 import { isOfflineDirectSigner, OfflineSigner } from '@cosmjs/proto-signing';
-import { Bech32Address, Proof } from '@desmoslabs/proto/desmos/profiles/v1beta1/models_chain_links';
+import { SignMode } from '@desmoslabs/desmjs-types/cosmos/tx/signing/v1beta1/signing';
+import {
+  Bech32Address,
+  Proof,
+  SingleSignatureData,
+} from '@desmoslabs/desmjs-types/desmos/profiles/v2/models_chain_links';
 import { PubKey } from 'cosmjs-types/cosmos/crypto/secp256k1/keys';
 import { SignDoc, TxBody } from 'cosmjs-types/cosmos/tx/v1beta1/tx';
 import { Any } from 'cosmjs-types/google/protobuf/any';
@@ -58,7 +63,17 @@ export async function generateProof(config: GenerateProofConfig): Promise<ChainL
   }
 
   const proof = Proof.fromPartial({
-    signature: toHex(signature),
+    signature: Any.fromPartial({
+      typeUrl: '/desmos.profiles.v2.SingleSignatureData',
+      value: SingleSignatureData.encode(
+        SingleSignatureData.fromPartial({
+          mode: isOfflineDirectSigner(externalChainWallet)
+            ? SignMode.SIGN_MODE_DIRECT
+            : SignMode.SIGN_MODE_LEGACY_AMINO_JSON,
+          signature,
+        })
+      ).finish(),
+    }),
     plainText: toHex(plainTextBytes),
     pubKey: Any.fromPartial({
       typeUrl: '/cosmos.crypto.secp256k1.PubKey',

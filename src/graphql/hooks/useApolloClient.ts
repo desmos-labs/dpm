@@ -5,7 +5,7 @@ import { useMemo } from 'react';
 
 const gqlEndpoints = new Map<string, DefaultEndpoints>([
   [
-    'morpheus-apollo-2',
+    'testnet',
     {
       forbole: 'https://gql-morpheus.desmos.forbole.com',
       desmos: 'https://gql.morpheus.desmos.network',

@@ -1,8 +1,8 @@
-import { DesmosProfile } from '@desmoslabs/sdk-core';
-import { useDesmosClient } from '@desmoslabs/sdk-react';
 import { useEffect, useState } from 'react';
+import useDesmosClient from './desmosclient/useDesmosClient';
 import { useAppContext } from '../contexts/AppContext';
 import ProfileSourceSingleton from '../sources/ProfileSource';
+import { DesmosProfile } from '../types/desmos';
 
 /**
  * Hook that fetch a profile from the chain and cache it on the device storage.

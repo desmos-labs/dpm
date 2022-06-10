@@ -4,8 +4,8 @@ import { EncodeObject } from '@cosmjs/proto-signing';
 import {
   MsgLinkChainAccount,
   MsgUnlinkChainAccount,
-} from '@desmoslabs/proto/desmos/profiles/v1beta1/msgs_chain_links';
-import { MsgSaveProfile } from '@desmoslabs/proto/desmos/profiles/v1beta1/msgs_profile';
+} from '@desmoslabs/desmjs-types/desmos/profiles/v2/msgs_chain_links';
+import { MsgSaveProfile } from '@desmoslabs/desmjs-types/desmos/profiles/v2/msgs_profile';
 import { MsgMultiSend, MsgSend } from 'cosmjs-types/cosmos/bank/v1beta1/tx';
 import { MsgWithdrawDelegatorReward } from 'cosmjs-types/cosmos/distribution/v1beta1/tx';
 import { MsgVote } from 'cosmjs-types/cosmos/gov/v1beta1/tx';
