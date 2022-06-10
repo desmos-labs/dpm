@@ -57,22 +57,20 @@ export const StyledSafeAreaView: React.FC<Props> = (props) => {
       )}
       {topBar}
       {divider && <Divider />}
-      <TouchableWithoutFeedback onPress={closeKeyboard} accessible={false} disabled={scrollable}>
-        <View style={[styles.content, style]}>
-          {scrollable ? (
-            <View style={styles.scrollViewContainer}>
-              <ScrollView
-                style={{ margin: -theme.spacing.m }}
-                contentContainerStyle={{ padding: theme.spacing.m }}
-              >
-                {children}
-              </ScrollView>
-            </View>
-          ) : (
-            children
-          )}
-        </View>
-      </TouchableWithoutFeedback>
+      <View style={[styles.content, style]}>
+        {scrollable ? (
+          <View style={styles.scrollViewContainer}>
+            <ScrollView
+              style={{ margin: -theme.spacing.m }}
+              contentContainerStyle={{ padding: theme.spacing.m }}
+            >
+              {children}
+            </ScrollView>
+          </View>
+        ) : (
+          children
+        )}
+      </View>
     </View>
   );
 };
