@@ -3001,7 +3001,7 @@ bech32@^2.0.0:
   resolved "https://registry.yarnpkg.com/bech32/-/bech32-2.0.0.tgz#078d3686535075c8c79709f054b1b226a133b355"
   integrity sha512-LcknSilhIGatDAsY1ak2I8VtGaHNhgMSYVxFrGLXv+xLHytaKZKcaUJJUE7qmBr7h33o5YQwP55pMI0xmkpJwg==
 
-big-integer@1.6.x:
+big-integer@1.6.x, big-integer@^1.6.51:
   version "1.6.51"
   resolved "https://registry.yarnpkg.com/big-integer/-/big-integer-1.6.51.tgz#0df92a5d9880560d3ff2d5fd20245c889d130686"
   integrity sha512-GPEid2Y9QU1Exl1rpO9B2IPJGHPSupF5GnVIP0blYvNOMer2bTvSWs1jGOUg04hTmu67nmLsQ9TBo1puaotBHg==
@@ -8326,6 +8326,11 @@ react-native-screens@^3.9.0:
     react-freeze "^1.0.0"
     warn-once "^0.1.0"
 
+react-native-v8@^1.4.1:
+  version "1.4.1"
+  resolved "https://registry.yarnpkg.com/react-native-v8/-/react-native-v8-1.4.1.tgz#52129a0f6c52d3fa3d392474b5d7ac6b2e6500e4"
+  integrity sha512-5HTfa8H4kK2xv1VunT5zZOJxiuPh12VdBoZEBO4i4TTWBNCtuB6VKmHFkAidKXEc8otH6JLYtgVdLe97qnS0mQ==
+
 react-native-vector-icons@^8.1.0:
   version "8.1.0"
   resolved "https://registry.yarnpkg.com/react-native-vector-icons/-/react-native-vector-icons-8.1.0.tgz#e8ee2b17bc4d9f636da1c6f67feee8e2a850c3d8"
@@ -9861,6 +9866,11 @@ uuid@^8.3.0:
   version "8.3.2"
   resolved "https://registry.yarnpkg.com/uuid/-/uuid-8.3.2.tgz#80d5b5ced271bb9af6c445f21a1a04c606cefbe2"
   integrity sha512-+NYs2QeMWy+GWFOEm9xnn6HCDp0l7QBD7ml8zLUmJ+93Q5NF0NocErnwkTkXVFNiX3/fpC6afS8Dhb/gz7R7eg==
+
+v8-android-jit@^10.100.0:
+  version "10.100.0"
+  resolved "https://registry.yarnpkg.com/v8-android-jit/-/v8-android-jit-10.100.0.tgz#7d939ce615b1e8457e5ff52056d01cb5a5bdcefa"
+  integrity sha512-jakoPAKXK6a/q7LFx2ZjrdcVfR0V4jXaoDAyrWOt3SiPQGL6uq+3tdyQxX6OdPqYrK8xz8HGjW4EhD9xY1fC1Q==
 
 v8-compile-cache@^2.0.3:
   version "2.3.0"
