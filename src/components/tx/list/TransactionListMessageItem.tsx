@@ -1,13 +1,15 @@
 import { EncodeObject } from '@cosmjs/proto-signing';
 import {
-  MsgDelegateEncodeObject,
   MsgLinkChainAccountEncodeObject,
   MsgSaveProfileEncodeObject,
-  MsgSendEncodeObject,
   MsgUnlinkChainAccountEncodeObject,
+} from '@desmoslabs/desmjs';
+import {
+  MsgDelegateEncodeObject,
+  MsgSendEncodeObject,
   MsgVoteEncodeObject,
   MsgWithdrawDelegatorRewardEncodeObject,
-} from '@desmoslabs/sdk-core';
+} from '@cosmjs/stargate';
 import React from 'react';
 import { MsgMultiSendEncodeObject } from '../../../types/encodeobject';
 import MsgTypes from '../../../types/msgtypes';
@@ -42,6 +44,7 @@ export const TransactionListMessageItem: React.FC<Props> = (props) => {
       );
 
     case MsgTypes.MsgSaveProfile:
+    case MsgTypes.MsgSaveProfileV2:
       return (
         <MessageSaveProfileListItem
           encodeObject={encodeObject as MsgSaveProfileEncodeObject}
@@ -69,6 +72,7 @@ export const TransactionListMessageItem: React.FC<Props> = (props) => {
       );
 
     case MsgTypes.MsgLinkChainAccount:
+    case MsgTypes.MsgLinkChainAccountV2:
       return (
         <MessageLinkChainAccountListItem
           encodeObject={encodeObject as MsgLinkChainAccountEncodeObject}
@@ -77,6 +81,7 @@ export const TransactionListMessageItem: React.FC<Props> = (props) => {
       );
 
     case MsgTypes.MsgUnlinkChainAccount:
+    case MsgTypes.MsgUnlinkChainAccountV2:
       return (
         <MessageUnlinkChainAccountListItem
           encodeObject={encodeObject as MsgUnlinkChainAccountEncodeObject}

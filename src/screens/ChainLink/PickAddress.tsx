@@ -261,10 +261,14 @@ export const PickAddress: React.FC<Props> = (props) => {
       }
       try {
         const proof = await generateProof({
+          desmosAddress: selectedAccount.address,
+          externalAddress: selectedWallet.address,
           externalChainWallet: selectedWallet.signer,
-          signerAddress: selectedWallet.address,
           chain,
         });
+
+        console.log('proof', proof);
+
         if (closeModal !== undefined) {
           closeModal();
         }

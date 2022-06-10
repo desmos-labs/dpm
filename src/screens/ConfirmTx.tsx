@@ -60,7 +60,7 @@ export const ConfirmTx: React.FC<Props> = (props) => {
     const wallet = await unlockWallet(currentAccount);
     if (wallet !== null) {
       try {
-        await broadcastMessages(wallet, messages, fee, memo, feeGranter);
+        await broadcastMessages(wallet, messages, fee, memo);
         if (successAction !== undefined) {
           successAction();
         }

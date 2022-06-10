@@ -2,8 +2,9 @@ import { ApolloClient, ApolloLink, createHttpLink, InMemoryCache } from '@apollo
 import { MultiAPILink } from '@habx/apollo-multi-endpoint-link';
 import { DefaultEndpoints } from '@habx/apollo-multi-endpoint-link/dist/typings/interface';
 import { useMemo } from 'react';
+import { ChainId } from '../../types/chain';
 
-const gqlEndpoints = new Map<string, DefaultEndpoints>([
+const gqlEndpoints = new Map<ChainId, DefaultEndpoints>([
   [
     'testnet',
     {
@@ -12,7 +13,7 @@ const gqlEndpoints = new Map<string, DefaultEndpoints>([
     },
   ],
   [
-    'desmos-mainnet',
+    'mainnet',
     {
       forbole: 'https://gql.desmos.forbole.com',
       desmos: 'https://gql.mainnet.desmos.network',
@@ -20,7 +21,7 @@ const gqlEndpoints = new Map<string, DefaultEndpoints>([
   ],
 ]);
 
-export default function useApolloClient(chainId: string) {
+export default function useApolloClient(chainId: ChainId) {
   const endpoints = gqlEndpoints.get(chainId);
   if (!endpoints) {
     throw Error(`Undefined endpoints for chain id ${chainId}`);

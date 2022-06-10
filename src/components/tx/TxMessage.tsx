@@ -47,7 +47,7 @@ export const TxMessage: React.FC<Props> = ({ message }) => {
     return undefined;
   }, [msg]);
 
-  if (msg.typeUrl === MsgTypes.MsgSaveProfile) {
+  if (msg.typeUrl === MsgTypes.MsgSaveProfile || msg.typeUrl === MsgTypes.MsgSaveProfileV2) {
     if (msg.type === MessageType.DirectMsg_MSY_TYP) {
       const msgSaveProfile = MsgSaveProfile.decode(msg.directMessage.value);
       return <SaveProfileMessage protobufObject={msgSaveProfile} />;
@@ -100,7 +100,10 @@ export const TxMessage: React.FC<Props> = ({ message }) => {
       />
     );
   }
-  if (msg.typeUrl === MsgTypes.MsgLinkChainAccount) {
+  if (
+    msg.typeUrl === MsgTypes.MsgLinkChainAccount ||
+    msg.typeUrl === MsgTypes.MsgLinkChainAccountV2
+  ) {
     if (msg.type === MessageType.DirectMsg_MSY_TYP) {
       const decodedMessage = MsgLinkChainAccount.decode(msg.directMessage.value);
       return <MessageLinkChainAccount protobufMessage={decodedMessage} />;
@@ -112,7 +115,10 @@ export const TxMessage: React.FC<Props> = ({ message }) => {
       />
     );
   }
-  if (msg.typeUrl === MsgTypes.MsgUnlinkChainAccount) {
+  if (
+    msg.typeUrl === MsgTypes.MsgUnlinkChainAccount ||
+    msg.typeUrl === MsgTypes.MsgUnlinkChainAccountV2
+  ) {
     if (msg.type === MessageType.DirectMsg_MSY_TYP) {
       const decodedMessage = MsgUnlinkChainAccount.decode(msg.directMessage.value);
       return <MessageUnlinkChainAccount protobufMessage={decodedMessage} />;
@@ -237,13 +243,13 @@ function aminoMsgTypeToTypeUrl(aminoType: string): string {
       return '/cosmos.staking.v1beta1.MsgDelegate';
 
     case 'desmos/MsgSaveProfile':
-      return '/desmos.profiles.v1beta1.MsgSaveProfile';
+      return '/desmos.profiles.v2.MsgSaveProfile';
 
     case 'desmos/MsgLinkChainAccount':
-      return '/desmos.profiles.v1beta1.MsgLinkChainAccount';
+      return '/desmos.profiles.v2.MsgLinkChainAccount';
 
     case 'desmos/MsgUnlinkChainAccount':
-      return '/desmos.profiles.v1beta1.MsgUnlinkChainAccount';
+      return '/desmos.profiles.v2.MsgUnlinkChainAccount';
 
     default:
       return aminoType;

@@ -15,7 +15,8 @@ import { LinkableChain } from '../types/chain';
 import { ChainLinkProof } from '../types/link';
 
 export type GenerateProofConfig = {
-  signerAddress: string;
+  desmosAddress: string;
+  externalAddress: string;
   externalChainWallet: OfflineSigner;
   chain: LinkableChain;
 };
@@ -24,7 +25,7 @@ export type GenerateProofConfig = {
  * Generates the proof used to signal that an user own an external chain address.
  */
 export async function generateProof(config: GenerateProofConfig): Promise<ChainLinkProof> {
-  const { signerAddress, externalChainWallet, chain } = config;
+  const { desmosAddress, externalAddress, externalChainWallet, chain } = config;
   let signature: Uint8Array;
   let plainTextBytes: Uint8Array;
   let pubKey: Uint8Array;
@@ -35,13 +36,13 @@ export async function generateProof(config: GenerateProofConfig): Promise<ChainL
       authInfoBytes: new Uint8Array(),
       bodyBytes: TxBody.encode(
         TxBody.fromPartial({
-          memo: signerAddress,
+          memo: desmosAddress,
         })
       ).finish(),
       chainId: '',
     });
     plainTextBytes = SignDoc.encode(signDoc).finish();
-    const result = await externalChainWallet.signDirect(signerAddress, signDoc);
+    const result = await externalChainWallet.signDirect(externalAddress, signDoc);
     signature = fromBase64(result.signature.signature);
     pubKey = fromBase64(result.signature.pub_key.value);
   } else {
@@ -51,13 +52,13 @@ export async function generateProof(config: GenerateProofConfig): Promise<ChainL
         gas: '0',
         amount: [],
       },
-      memo: signerAddress,
+      memo: desmosAddress,
       msgs: [],
       sequence: '0',
       account_number: '0',
     };
     plainTextBytes = serializeSignDoc(signDoc);
-    const result = await externalChainWallet.signAmino(signerAddress, signDoc);
+    const result = await externalChainWallet.signAmino(externalAddress, signDoc);
     signature = fromBase64(result.signature.signature);
     pubKey = fromBase64(result.signature.pub_key.value);
   }
@@ -86,10 +87,10 @@ export async function generateProof(config: GenerateProofConfig): Promise<ChainL
   });
   const { chainConfig } = chain;
   const chainAddress = Any.fromPartial({
-    typeUrl: '/desmos.profiles.v1beta1.Bech32Address',
+    typeUrl: '/desmos.profiles.v2.Bech32Address',
     value: Bech32Address.encode(
       Bech32Address.fromPartial({
-        value: signerAddress,
+        value: externalAddress,
         prefix: chain.prefix,
       })
     ).finish(),

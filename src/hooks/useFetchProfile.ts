@@ -18,10 +18,17 @@ export default function useFetchProfile(address: string): DesmosProfile | null {
   useEffect(() => {
     (async () => {
       try {
-        await client.connect();
-        const fetchedProfile = await client.getProfile(address);
-        if (fetchedProfile !== null) {
-          const [cached, changed] = await ProfileSourceSingleton.saveProfile(fetchedProfile);
+        const fetchedProfile = await client?.getProfile(address);
+        if (fetchedProfile) {
+          const desmosProfile: DesmosProfile = {
+            address,
+            dtag: fetchedProfile.dtag,
+            nickname: fetchedProfile.nickname,
+            bio: fetchedProfile.bio,
+            profilePicture: fetchedProfile.pictures?.profile,
+            coverPicture: fetchedProfile.pictures?.cover,
+          };
+          const [cached, changed] = await ProfileSourceSingleton.saveProfile(desmosProfile);
           if (changed) {
             setProfiles((old) => {
               const newValue = { ...old };

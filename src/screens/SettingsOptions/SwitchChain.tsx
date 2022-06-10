@@ -33,14 +33,14 @@ const SwitchChain: React.FC<Props> = (props) => {
     {
       label: t('mainnet'),
       value: 'mainnet',
-      status: chainId === 'desmos-mainnet' ? 'checked' : 'unchecked',
-      onPress: () => changeChain('desmos-mainnet'),
+      status: chainId === 'mainnet' ? 'checked' : 'unchecked',
+      onPress: () => changeChain('mainnet'),
     },
     {
       label: t('testnet'),
       value: 'testnet',
-      status: chainId === 'morpheus-apollo-2' ? 'checked' : 'unchecked',
-      onPress: () => changeChain('morpheus-apollo-2'),
+      status: chainId === 'testnet' ? 'checked' : 'unchecked',
+      onPress: () => changeChain('testnet'),
     },
   ];
 
