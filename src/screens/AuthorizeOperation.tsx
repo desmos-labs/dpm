@@ -116,7 +116,7 @@ const AuthorizeOperation: React.FC<Props> = (props) => {
               password: savedPassword,
             });
             if (value !== null) {
-              if (value !== address) {
+              if (value !== 'dpm_global_password') {
                 setLoadingBiometrics(false);
                 setError(t('invalid password'));
                 return;
