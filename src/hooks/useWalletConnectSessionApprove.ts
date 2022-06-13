@@ -47,7 +47,7 @@ export default function useWalletConnectSessionApprove(): [
 
   const approve = useCallback(
     (id: string, accounts: string[], chaiId: string) => {
-      const chainsIndex = Object.keys(desmosChains).sort().indexOf(chaiId);
+      const chainsIndex = Object.keys(desmosChains).map(key => desmosChains[key].chainId).sort().indexOf(chaiId);
       setStatus({
         approving: true,
       });
