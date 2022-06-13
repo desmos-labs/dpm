@@ -59,7 +59,7 @@ const AuthorizeOperation: React.FC<Props> = (props) => {
           password,
         });
         if (value !== null) {
-          if (value !== address) {
+          if (value !== 'dpm_global_password') {
             setError(t('invalid password'));
             return;
           }
