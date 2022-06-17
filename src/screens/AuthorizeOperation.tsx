@@ -59,7 +59,7 @@ const AuthorizeOperation: React.FC<Props> = (props) => {
           password,
         });
         if (value !== null) {
-          if (value !== address) {
+          if (value !== 'dpm_global_password') {
             setError(t('invalid password'));
             return;
           }
@@ -116,7 +116,7 @@ const AuthorizeOperation: React.FC<Props> = (props) => {
               password: savedPassword,
             });
             if (value !== null) {
-              if (value !== address) {
+              if (value !== 'dpm_global_password') {
                 setLoadingBiometrics(false);
                 setError(t('invalid password'));
                 return;
@@ -173,7 +173,7 @@ const AuthorizeOperation: React.FC<Props> = (props) => {
   );
 
   return (
-    <View>
+    <View style={{ flex: 1 }}>
       {loadingBiometrics && <BiometricsLoadingIndicator />}
       <StyledSafeAreaView topBar={<TopBar stackProps={props} title={t('wallet password')} />}>
         <Typography.Subtitle>{t('enter wallet password')}</Typography.Subtitle>

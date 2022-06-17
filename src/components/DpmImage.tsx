@@ -13,6 +13,7 @@ export type DpmImages =
   | 'connect-chain'
   | 'connect-mnemonic'
   | 'connect-ledger'
+  | 'password-success'
   | 'ledger';
 
 export type Props = Omit<ImageProps, 'source'> & {
@@ -40,6 +41,10 @@ export const DpmImage: React.FC<Props> = (props) => {
           return darkTheme
             ? require('../assets/result-sucess-dark.png')
             : require('../assets/result-sucess-light.png');
+        case 'password-success':
+          return darkTheme
+            ? require('../assets/result-password-success.png')
+            : require('../assets/result-password-success.png');
         case 'fail':
           return darkTheme
             ? require('../assets/result-fail-dark.png')

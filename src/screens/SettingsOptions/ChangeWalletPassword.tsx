@@ -61,7 +61,7 @@ export default function ChangeWalletPassword(props: Props): JSX.Element {
       await LocalWalletsSource.putWallet(params.wallet, password, false);
     }
     showModal(SingleButtonModal, {
-      image: 'success',
+      image: 'password-success',
       title: t('success'),
       message: t('password changed'),
       actionLabel: t('go to profile'),
