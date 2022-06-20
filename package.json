@@ -1,6 +1,6 @@
 {
   "name": "desmos-profile-manager",
-  "version": "1.1.2",
+  "version": "1.1.3",
   "private": true,
   "scripts": {
     "postinstall": "patch-package && rn-nodeify --install stream,crypto,fs,path --hack",
