@@ -57,7 +57,7 @@ export const SaveProfileMessage: React.FC<SaveProfileMessageProps> = ({
       <Divider />
       <LabeledValue
         label={t('nickname')}
-        value={protobufObject?.nickname ?? encodeObject?.nickname ?? aminoMessage?.dtag}
+        value={protobufObject?.nickname ?? encodeObject?.nickname ?? aminoMessage?.nickname}
       />
       <Divider />
       <LabeledValue

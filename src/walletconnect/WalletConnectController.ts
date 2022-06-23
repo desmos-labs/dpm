@@ -521,6 +521,7 @@ export default class WalletConnectController {
     } else if (signedTx.method === CosmosMethod.SignAmino) {
       const serializedTx = {
         signature: signedTx.signature,
+        pub_key: signedTx.pubKey,
         signDoc: signedTx.tx,
       };
 

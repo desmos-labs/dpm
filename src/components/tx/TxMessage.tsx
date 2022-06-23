@@ -204,7 +204,7 @@ function resolveMessageType(msg: EncodeObject | Any | AminoMsg): TypedMessage {
 
 function getMessageType(msg: EncodeObject | Any | AminoMsg): MessageType {
   if (msg.value.constructor === Uint8Array) {
-    return MessageType.EncodeObject_MSG_TYP;
+    return MessageType.DirectMsg_MSY_TYP;
   }
   if ((msg as EncodeObject).typeUrl !== undefined) {
     return MessageType.EncodeObject_MSG_TYP;
