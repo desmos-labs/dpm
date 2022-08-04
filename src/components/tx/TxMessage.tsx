@@ -4,8 +4,8 @@ import { EncodeObject } from '@cosmjs/proto-signing';
 import {
   MsgLinkChainAccount,
   MsgUnlinkChainAccount,
-} from '@desmoslabs/desmjs-types/desmos/profiles/v2/msgs_chain_links';
-import { MsgSaveProfile } from '@desmoslabs/desmjs-types/desmos/profiles/v2/msgs_profile';
+} from '@desmoslabs/desmjs-types/desmos/profiles/v3/msgs_chain_links';
+import { MsgSaveProfile } from '@desmoslabs/desmjs-types/desmos/profiles/v3/msgs_profile';
 import { MsgMultiSend, MsgSend } from 'cosmjs-types/cosmos/bank/v1beta1/tx';
 import { MsgWithdrawDelegatorReward } from 'cosmjs-types/cosmos/distribution/v1beta1/tx';
 import { MsgVote } from 'cosmjs-types/cosmos/gov/v1beta1/tx';
@@ -47,7 +47,7 @@ export const TxMessage: React.FC<Props> = ({ message }) => {
     return undefined;
   }, [msg]);
 
-  if (msg.typeUrl === MsgTypes.MsgSaveProfile || msg.typeUrl === MsgTypes.MsgSaveProfileV2) {
+  if (msg.typeUrl === MsgTypes.MsgSaveProfile || msg.typeUrl === MsgTypes.MsgSaveProfileV3) {
     if (msg.type === MessageType.DirectMsg_MSY_TYP) {
       const msgSaveProfile = MsgSaveProfile.decode(msg.directMessage.value);
       return <SaveProfileMessage protobufObject={msgSaveProfile} />;
@@ -102,7 +102,7 @@ export const TxMessage: React.FC<Props> = ({ message }) => {
   }
   if (
     msg.typeUrl === MsgTypes.MsgLinkChainAccount ||
-    msg.typeUrl === MsgTypes.MsgLinkChainAccountV2
+    msg.typeUrl === MsgTypes.MsgLinkChainAccountV3
   ) {
     if (msg.type === MessageType.DirectMsg_MSY_TYP) {
       const decodedMessage = MsgLinkChainAccount.decode(msg.directMessage.value);
@@ -117,7 +117,7 @@ export const TxMessage: React.FC<Props> = ({ message }) => {
   }
   if (
     msg.typeUrl === MsgTypes.MsgUnlinkChainAccount ||
-    msg.typeUrl === MsgTypes.MsgUnlinkChainAccountV2
+    msg.typeUrl === MsgTypes.MsgUnlinkChainAccountV3
   ) {
     if (msg.type === MessageType.DirectMsg_MSY_TYP) {
       const decodedMessage = MsgUnlinkChainAccount.decode(msg.directMessage.value);
@@ -246,7 +246,7 @@ function aminoMsgTypeToTypeUrl(aminoType: string): string {
       return '/desmos.profiles.v2.MsgSaveProfile';
 
     case 'desmos/MsgLinkChainAccount':
-      return '/desmos.profiles.v2.MsgLinkChainAccount';
+      return '/desmos.profiles.v3.MsgLinkChainAccount';
 
     case 'desmos/MsgUnlinkChainAccount':
       return '/desmos.profiles.v2.MsgUnlinkChainAccount';

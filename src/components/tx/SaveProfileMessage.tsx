@@ -1,5 +1,5 @@
 import { AminoMsgSaveProfile, MsgSaveProfileEncodeObject } from '@desmoslabs/desmjs';
-import { MsgSaveProfile } from '@desmoslabs/desmjs-types/desmos/profiles/v2/msgs_profile';
+import { MsgSaveProfile } from '@desmoslabs/desmjs-types/desmos/profiles/v3/msgs_profile';
 import React, { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { View } from 'react-native';

@@ -6,7 +6,7 @@ import {
   Bech32Address,
   Proof,
   SingleSignatureData,
-} from '@desmoslabs/desmjs-types/desmos/profiles/v2/models_chain_links';
+} from '@desmoslabs/desmjs-types/desmos/profiles/v3/models_chain_links';
 import { PubKey } from 'cosmjs-types/cosmos/crypto/secp256k1/keys';
 import { SignDoc, TxBody } from 'cosmjs-types/cosmos/tx/v1beta1/tx';
 import { Any } from 'cosmjs-types/google/protobuf/any';

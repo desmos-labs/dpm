@@ -1,7 +1,7 @@
 import { LedgerApp as CosmosLedgerApp, LedgerSigner } from '@cosmjs/ledger-amino';
 import { OfflineSigner } from '@cosmjs/proto-signing';
 import { MsgLinkChainAccountEncodeObject } from '@desmoslabs/desmjs';
-import { MsgLinkChainAccount } from '@desmoslabs/desmjs-types/desmos/profiles/v2/msgs_chain_links';
+import { MsgLinkChainAccount } from '@desmoslabs/desmjs-types/desmos/profiles/v3/msgs_chain_links';
 import BluetoothTransport from '@ledgerhq/react-native-hw-transport-ble';
 import { CompositeScreenProps } from '@react-navigation/native';
 import { StackScreenProps } from '@react-navigation/stack';
@@ -274,7 +274,7 @@ export const PickAddress: React.FC<Props> = (props) => {
         }
 
         const msg: MsgLinkChainAccountEncodeObject = {
-          typeUrl: '/desmos.profiles.v2.MsgLinkChainAccount',
+          typeUrl: '/desmos.profiles.v3.MsgLinkChainAccount',
           value: MsgLinkChainAccount.fromPartial({
             signer: selectedAccount.address,
             proof: proof.proof,

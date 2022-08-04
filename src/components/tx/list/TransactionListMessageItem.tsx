@@ -44,7 +44,7 @@ export const TransactionListMessageItem: React.FC<Props> = (props) => {
       );
 
     case MsgTypes.MsgSaveProfile:
-    case MsgTypes.MsgSaveProfileV2:
+    case MsgTypes.MsgSaveProfileV3:
       return (
         <MessageSaveProfileListItem
           encodeObject={encodeObject as MsgSaveProfileEncodeObject}
@@ -72,7 +72,7 @@ export const TransactionListMessageItem: React.FC<Props> = (props) => {
       );
 
     case MsgTypes.MsgLinkChainAccount:
-    case MsgTypes.MsgLinkChainAccountV2:
+    case MsgTypes.MsgLinkChainAccountV3:
       return (
         <MessageLinkChainAccountListItem
           encodeObject={encodeObject as MsgLinkChainAccountEncodeObject}
@@ -81,7 +81,7 @@ export const TransactionListMessageItem: React.FC<Props> = (props) => {
       );
 
     case MsgTypes.MsgUnlinkChainAccount:
-    case MsgTypes.MsgUnlinkChainAccountV2:
+    case MsgTypes.MsgUnlinkChainAccountV3:
       return (
         <MessageUnlinkChainAccountListItem
           encodeObject={encodeObject as MsgUnlinkChainAccountEncodeObject}

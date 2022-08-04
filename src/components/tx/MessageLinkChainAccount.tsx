@@ -1,5 +1,5 @@
-import { Bech32Address } from '@desmoslabs/desmjs-types/desmos/profiles/v2/models_chain_links';
-import { MsgLinkChainAccount } from '@desmoslabs/desmjs-types/desmos/profiles/v2/msgs_chain_links';
+import { Bech32Address } from '@desmoslabs/desmjs-types/desmos/profiles/v3/models_chain_links';
+import { MsgLinkChainAccount } from '@desmoslabs/desmjs-types/desmos/profiles/v3/msgs_chain_links';
 import { AminoMsgLinkChainAccount, MsgLinkChainAccountEncodeObject } from '@desmoslabs/desmjs';
 import React, { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';

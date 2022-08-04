@@ -1,5 +1,5 @@
 import { AminoMsgUnlinkChainAccount, MsgUnlinkChainAccountEncodeObject } from '@desmoslabs/desmjs';
-import { MsgUnlinkChainAccount } from '@desmoslabs/desmjs-types/desmos/profiles/v2/msgs_chain_links';
+import { MsgUnlinkChainAccount } from '@desmoslabs/desmjs-types/desmos/profiles/v3/msgs_chain_links';
 import React, { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Image, StyleSheet, View } from 'react-native';
