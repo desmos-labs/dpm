@@ -243,7 +243,7 @@ function aminoMsgTypeToTypeUrl(aminoType: string): string {
       return '/cosmos.staking.v1beta1.MsgDelegate';
 
     case 'desmos/MsgSaveProfile':
-      return '/desmos.profiles.v2.MsgSaveProfile';
+      return '/desmos.profiles.v3.MsgSaveProfile';
 
     case 'desmos/MsgLinkChainAccount':
       return '/desmos.profiles.v3.MsgLinkChainAccount';

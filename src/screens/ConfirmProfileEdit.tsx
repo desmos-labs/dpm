@@ -41,14 +41,14 @@ export const ConfirmProfileEdit: React.FC<Props> = (props) => {
 
   const txFee = useMemo(() => {
     const saveProfileMessage: MsgSaveProfileEncodeObject = {
-      typeUrl: '/desmos.profiles.v2.MsgSaveProfile',
+      typeUrl: '/desmos.profiles.v3.MsgSaveProfile',
       value: {
         creator: account.address,
         dtag: profile.dtag,
-        nickname: profile.nickname,
-        bio: profile.bio,
-        profilePicture: profile.profilePicture,
-        coverPicture: profile.coverPicture,
+        nickname: profile.nickname || "",
+        bio: profile.bio || "",
+        profilePicture: profile.profilePicture || "",
+        coverPicture: profile.coverPicture || "",
       },
     };
     const messages = [saveProfileMessage];
@@ -106,10 +106,14 @@ export const ConfirmProfileEdit: React.FC<Props> = (props) => {
         }
 
         const saveProfileMessage: MsgSaveProfileEncodeObject = {
-          typeUrl: '/desmos.profiles.v2.MsgSaveProfile',
+          typeUrl: '/desmos.profiles.v3.MsgSaveProfile',
           value: {
             creator: account.address,
-            ...newProfile,
+            dtag: newProfile.dtag,
+            nickname: newProfile.nickname || "",
+            bio: newProfile.bio || "",
+            profilePicture: newProfile.profilePicture || "",
+            coverPicture: newProfile.coverPicture || "",
           },
         };
         const messages = [saveProfileMessage];
