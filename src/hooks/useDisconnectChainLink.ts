@@ -15,7 +15,7 @@ export default function useDisconnectChainLink() {
       const accounts = await wallet.getAccounts();
       const msgs = [
         {
-          typeUrl: '/desmos.profiles.v2.MsgUnlinkChainAccount',
+          typeUrl: '/desmos.profiles.v3.MsgUnlinkChainAccount',
           value: {
             chainName: chainLink.chainName,
             owner: accounts[0].address,

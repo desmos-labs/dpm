@@ -1,18 +1,18 @@
-import { serializeSignDoc, StdSignDoc } from '@cosmjs/amino';
-import { fromBase64, toHex } from '@cosmjs/encoding';
-import { isOfflineDirectSigner, OfflineSigner } from '@cosmjs/proto-signing';
-import { SignMode } from '@desmoslabs/desmjs-types/cosmos/tx/signing/v1beta1/signing';
+import {serializeSignDoc, StdSignDoc} from '@cosmjs/amino';
+import {fromBase64, toHex} from '@cosmjs/encoding';
+import {isOfflineDirectSigner, OfflineSigner} from '@cosmjs/proto-signing';
 import {
   Bech32Address,
   Proof,
-  SingleSignatureData,
+  SignatureValueType,
+  SingleSignature,
 } from '@desmoslabs/desmjs-types/desmos/profiles/v3/models_chain_links';
-import { PubKey } from 'cosmjs-types/cosmos/crypto/secp256k1/keys';
-import { SignDoc, TxBody } from 'cosmjs-types/cosmos/tx/v1beta1/tx';
-import { Any } from 'cosmjs-types/google/protobuf/any';
+import {PubKey} from 'cosmjs-types/cosmos/crypto/secp256k1/keys';
+import {SignDoc, TxBody} from 'cosmjs-types/cosmos/tx/v1beta1/tx';
+import {Any} from 'cosmjs-types/google/protobuf/any';
 import Long from 'long';
-import { LinkableChain } from '../types/chain';
-import { ChainLinkProof } from '../types/link';
+import {LinkableChain} from '../types/chain';
+import {ChainLinkProof} from '../types/link';
 
 export type GenerateProofConfig = {
   desmosAddress: string;
@@ -65,12 +65,12 @@ export async function generateProof(config: GenerateProofConfig): Promise<ChainL
 
   const proof = Proof.fromPartial({
     signature: Any.fromPartial({
-      typeUrl: '/desmos.profiles.v2.SingleSignatureData',
-      value: SingleSignatureData.encode(
-        SingleSignatureData.fromPartial({
-          mode: isOfflineDirectSigner(externalChainWallet)
-            ? SignMode.SIGN_MODE_DIRECT
-            : SignMode.SIGN_MODE_LEGACY_AMINO_JSON,
+      typeUrl: '/desmos.profiles.v3.SingleSignature',
+      value: SingleSignature.encode(
+        SingleSignature.fromPartial({
+          valueType: isOfflineDirectSigner(externalChainWallet) ?
+            SignatureValueType.SIGNATURE_VALUE_TYPE_COSMOS_DIRECT :
+            SignatureValueType.SIGNATURE_VALUE_TYPE_COSMOS_AMINO,
           signature,
         })
       ).finish(),
@@ -87,7 +87,7 @@ export async function generateProof(config: GenerateProofConfig): Promise<ChainL
   });
   const { chainConfig } = chain;
   const chainAddress = Any.fromPartial({
-    typeUrl: '/desmos.profiles.v2.Bech32Address',
+    typeUrl: '/desmos.profiles.v3.Bech32Address',
     value: Bech32Address.encode(
       Bech32Address.fromPartial({
         value: externalAddress,

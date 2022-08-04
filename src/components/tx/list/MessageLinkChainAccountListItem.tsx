@@ -20,7 +20,7 @@ export const MessageLinkChainAccountListItem: React.FC<Props> = (props) => {
     if (
       chainAddress !== undefined &&
       (chainAddress.typeUrl === '/desmos.profiles.v1beta1.Bech32Address' ||
-        chainAddress.typeUrl === '/desmos.profiles.v2.Bech32Address')
+        chainAddress.typeUrl === '/desmos.profiles.v3.Bech32Address')
     ) {
       const bech32Address = Bech32Address.decode(chainAddress.value);
       return bech32Address.value;

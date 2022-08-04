@@ -33,7 +33,7 @@ export const MessageLinkChainAccount: React.FC<Props> = ({
     if (
       chainAddress !== undefined &&
       (chainAddress.typeUrl === '/desmos.profiles.v1beta1.Bech32Address' ||
-        chainAddress.typeUrl === '/desmos.profiles.v2.Bech32Address')
+        chainAddress.typeUrl === '/desmos.profiles.v3.Bech32Address')
     ) {
       return Bech32Address.decode(chainAddress.value);
     }

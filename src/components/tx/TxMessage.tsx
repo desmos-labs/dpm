@@ -249,7 +249,7 @@ function aminoMsgTypeToTypeUrl(aminoType: string): string {
       return '/desmos.profiles.v3.MsgLinkChainAccount';
 
     case 'desmos/MsgUnlinkChainAccount':
-      return '/desmos.profiles.v2.MsgUnlinkChainAccount';
+      return '/desmos.profiles.v3.MsgUnlinkChainAccount';
 
     default:
       return aminoType;
