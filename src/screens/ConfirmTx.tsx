@@ -2,7 +2,7 @@ import { StackScreenProps } from '@react-navigation/stack';
 import React, { useCallback, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Button, StyledSafeAreaView, TopBar } from '../components';
-import { TxDetails } from '../components/tx/TxDetails';
+import { TransactionDetails } from '../components/transaction/details/TransactionDetails';
 import useBroadcastMessages from '../hooks/useBroadcastMessages';
 import useNavigateToHomeScreen from '../hooks/useNavigateToHomeScreen';
 import useSelectedAccount from '../hooks/useSelectedAccount';
@@ -75,7 +75,6 @@ export const ConfirmTx: React.FC<Props> = (props) => {
     currentAccount,
     fee,
     memo,
-    feeGranter,
     messages,
     showErrorModal,
     showSuccessModal,
@@ -85,7 +84,7 @@ export const ConfirmTx: React.FC<Props> = (props) => {
 
   return (
     <StyledSafeAreaView topBar={<TopBar stackProps={props} title={t('tx details')} />}>
-      <TxDetails messages={messages} memo={memo} fee={fee} />
+      <TransactionDetails messages={messages} memo={memo} fee={fee} />
       <Button
         style={styles.nextBtn}
         mode="contained"

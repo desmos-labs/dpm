@@ -1,19 +1,18 @@
-import { StdFee } from '@cosmjs/amino';
-import { AminoMsg } from '@cosmjs/amino/build/signdoc';
 import { EncodeObject } from '@cosmjs/proto-signing';
 import { convertCoin } from '@desmoslabs/desmjs';
-import { Any } from 'cosmjs-types/google/protobuf/any';
 import { format } from 'date-fns';
 import Long from 'long';
 import React, { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Pressable, ScrollView, StyleProp, StyleSheet, Text, View, ViewStyle } from 'react-native';
-import useCurrentChainInfo from '../../hooks/desmosclient/useCurrentChainInfo';
-import { Divider, LabeledValue } from '../index';
-import { TxMessage } from './TxMessage';
+import { Fee } from "cosmjs-types/cosmos/tx/v1beta1/tx";
+import {StdFee} from "@cosmjs/amino";
+import useCurrentChainInfo from '../../../hooks/desmosclient/useCurrentChainInfo';
+import { Divider, LabeledValue } from '../../index';
+import { MessageDetails } from './MessageDetails';
 
 export type Props = {
-  messages: readonly (EncodeObject | Any | AminoMsg)[];
+  messages: readonly EncodeObject[];
   fee?: StdFee;
   memo?: string;
   success?: boolean;
@@ -21,7 +20,7 @@ export type Props = {
   style?: StyleProp<ViewStyle>;
 };
 
-export const TxDetails: React.FC<Props> = (props) => {
+export const TransactionDetails: React.FC<Props> = (props) => {
   const { memo, messages, fee, success, dateTime, style } = props;
   const { t } = useTranslation();
   const chainInfo = useCurrentChainInfo();
@@ -54,9 +53,9 @@ export const TxDetails: React.FC<Props> = (props) => {
     <View style={styles.root}>
       <ScrollView style={style}>
         <Pressable>
-          {messages.map((msg: EncodeObject | Any | AminoMsg, i: number) => (
+          {messages.map((msg: EncodeObject, i: number) => (
             <View key={`view_${i * 2}`}>
-              <TxMessage key={`msg_${i * 2}`} message={msg} />
+              <MessageDetails key={`msg_${i * 2}`} message={msg} />
               <Divider key={`divider_${i * 2}`} />
             </View>
           ))}

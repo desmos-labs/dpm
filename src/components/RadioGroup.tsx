@@ -45,11 +45,8 @@ export const RadioGroup: React.FC<Props> = (props) => {
     });
   }, [
     values,
-    styles.fieldWrapper,
-    styles.interBorder,
-    styles.title,
-    theme.colors.primary,
-    theme.colors.icon,
+    styles,
+    theme,
   ]);
 
   return (

@@ -22,7 +22,7 @@ import { BroadcastedTx } from '../../../types/tx';
 import { Divider } from '../../Divider';
 import { DpmImage } from '../../DpmImage';
 import { Typography } from '../../typography';
-import { TransactionListMessageItem } from './TransactionListMessageItem';
+import { MessageListItem } from './MessageListItem';
 
 export type Props = {
   chainAccount: ChainAccount;
@@ -56,7 +56,7 @@ export const TransactionsList: React.FC<Props> = ({ chainAccount, style, onTxPre
                 key={`msg-${info.index}-${index * 2}`}
                 onPress={() => onTxPressed(info.item)}
               >
-                <TransactionListMessageItem encodeObject={encodeObject} date={txDate} />
+                <MessageListItem encodeObject={encodeObject} date={txDate} />
                 {showDivider ? <Divider /> : null}
               </TouchableOpacity>
             );

@@ -2,24 +2,27 @@ import { convertCoin } from '@desmoslabs/desmjs';
 import React, { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { View } from 'react-native';
-import useCurrentChainInfo from '../../../hooks/desmosclient/useCurrentChainInfo';
-import { MsgMultiSendEncodeObject } from '../../../types/encodeobject';
-import { Typography } from '../../typography';
-import { BaseMessageListItem } from './BaseMessageListItem';
+import useCurrentChainInfo from '../../../../hooks/desmosclient/useCurrentChainInfo';
+import { MsgMultiSendEncodeObject } from '../../../../types/encodeobject';
+import { Typography } from '../../../typography';
+import { BaseMessageListItem } from '../BaseMessageListItem';
 
 export type Props = {
-  encodeObject: MsgMultiSendEncodeObject;
+  message: MsgMultiSendEncodeObject["value"];
   date: Date;
 };
 
-export const MessageMultiSendListItem: React.FC<Props> = (props) => {
-  const { encodeObject, date } = props;
+/**
+ * Displays the short details of a MsgMultiSend within a list.
+ * @constructor
+ */
+export const MessageMultiSendListItem: React.FC<Props> = ({ message, date }) => {
   const { t } = useTranslation();
   const currentChainInfo = useCurrentChainInfo();
 
   const tokenSent = useMemo(
     () =>
-      encodeObject.value.inputs
+      message.inputs
         ?.map((input) =>
           input.coins
             .map((c) => convertCoin(c, 6, currentChainInfo.denomUnits))
@@ -28,17 +31,17 @@ export const MessageMultiSendListItem: React.FC<Props> = (props) => {
             .join(', ')
         )
         .join(', '),
-    [currentChainInfo.denomUnits, encodeObject.value.inputs]
+    [currentChainInfo.denomUnits, message.inputs]
   );
 
   const outputAddresses = useMemo(
-    () => encodeObject.value.outputs.map((output) => output.address),
-    [encodeObject.value.outputs]
+    () => message.outputs.map((output) => output.address),
+    [message.outputs]
   );
 
   return (
     <BaseMessageListItem
-      icon={require('../../../assets/tx-icons/send.png')}
+      icon={require('../../../../assets/tx-icons/send.png')}
       date={date}
       renderContent={() => (
         <View>

@@ -1,29 +1,24 @@
-import { AminoMsgMultiSend } from '@cosmjs/stargate';
 import { convertCoin } from '@desmoslabs/desmjs';
-import { MsgMultiSend } from 'cosmjs-types/cosmos/bank/v1beta1/tx';
 import React, { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
-import useCurrentChainInfo from '../../hooks/desmosclient/useCurrentChainInfo';
-import { MsgMultiSendEncodeObject } from '../../types/encodeobject';
-import { SimpleMessageComponent } from './SimpleMessageComponent';
+import useCurrentChainInfo from '../../../../hooks/desmosclient/useCurrentChainInfo';
+import { MsgMultiSendEncodeObject } from '../../../../types/encodeobject';
+import { BaseMessageDetails } from '../BaseMessageDetails';
 
 export type Props = {
-  protobufMessage?: MsgMultiSend;
-  encodeObject?: MsgMultiSendEncodeObject['value'];
-  aminoMessage?: AminoMsgMultiSend['value'];
+  message: MsgMultiSendEncodeObject["value"];
 };
 
-export const MessageMultiSend: React.FC<Props> = ({
-  protobufMessage,
-  encodeObject,
-  aminoMessage,
-}) => {
+/**
+ * Displays the full details of a MsgMultiSend
+ * @constructor
+ */
+export const MessageMultiSendDetails: React.FC<Props> = ({ message}) => {
   const { t } = useTranslation();
   const chainInfo = useCurrentChainInfo();
 
   const amounts = useMemo(() => {
-    const inputs = protobufMessage?.inputs ?? encodeObject?.inputs ?? aminoMessage?.inputs ?? [];
-
+    const inputs = message?.inputs ?? [];
     return inputs
       .map((input) => {
         const serializedCoins = input.coins
@@ -34,11 +29,10 @@ export const MessageMultiSend: React.FC<Props> = ({
         return `${serializedCoins}`;
       })
       .join(', ');
-  }, [chainInfo.denomUnits, encodeObject?.inputs, protobufMessage?.inputs, aminoMessage?.inputs]);
+  }, [chainInfo.denomUnits, message?.inputs]);
 
   const outputs = useMemo(() => {
-    const multiOutputs =
-      protobufMessage?.outputs ?? encodeObject?.outputs ?? aminoMessage?.outputs ?? [];
+    const multiOutputs = message?.outputs ?? [];
 
     return multiOutputs
       .map((output) => {
@@ -62,18 +56,16 @@ export const MessageMultiSend: React.FC<Props> = ({
           value: serializedOutput.amount,
         },
       ])
-      .reduce((oldValue, value) => [...oldValue, ...value], []);
+      .reduce((oldValue, sum) => [...oldValue, ...sum], []);
   }, [
     chainInfo.denomUnits,
-    encodeObject?.outputs,
-    protobufMessage?.outputs,
-    aminoMessage?.outputs,
+    message?.outputs,
     t,
   ]);
 
   return (
-    <SimpleMessageComponent
-      icon={require('../../assets/tx-icons/send.png')}
+    <BaseMessageDetails
+      icon={require('../../../../assets/tx-icons/send.png')}
       iconSubtitle={amounts}
       fields={[...outputs]}
     />

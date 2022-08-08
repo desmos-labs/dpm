@@ -1,9 +1,9 @@
 import React from 'react';
 import { Image, ImageProps, View } from 'react-native';
-import { makeStyle } from '../../theming';
-import { Divider } from '../Divider';
-import { Typography } from '../typography';
-import { LabeledValue } from '../LabeledValue';
+import { makeStyle } from '../../../theming';
+import { Divider } from '../../Divider';
+import { Typography } from '../../typography';
+import { LabeledValue } from '../../LabeledValue';
 
 export type Props = {
   icon?: ImageProps['source'];
@@ -12,7 +12,7 @@ export type Props = {
   fields?: { label: string; value?: string }[];
 };
 
-export const SimpleMessageComponent: React.FC<Props> = (props) => {
+export const BaseMessageDetails: React.FC<Props> = (props) => {
   const { icon, customIconView, iconSubtitle, fields } = props;
   const styles = useStyles();
   const customIcon = customIconView !== undefined ? customIconView : null;

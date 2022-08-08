@@ -3,23 +3,26 @@ import { convertCoin } from '@desmoslabs/desmjs';
 import React, { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { View } from 'react-native';
-import useCurrentChainInfo from '../../../hooks/desmosclient/useCurrentChainInfo';
-import { Typography } from '../../typography';
-import { BaseMessageListItem } from './BaseMessageListItem';
+import useCurrentChainInfo from '../../../../hooks/desmosclient/useCurrentChainInfo';
+import { Typography } from '../../../typography';
+import { BaseMessageListItem } from '../BaseMessageListItem';
 
 export type Props = {
-  encodeObject: MsgSendEncodeObject;
+  message: MsgSendEncodeObject["value"];
   date: Date;
 };
 
-export const MessageSendListItem: React.FC<Props> = (props) => {
-  const { encodeObject, date } = props;
+/**
+ * Displays the short details of a MsgSend within a list.
+ * @constructor
+ */
+export const MessageSendListItem: React.FC<Props> = ({ message, date }) => {
   const { t } = useTranslation();
   const currentChainInfo = useCurrentChainInfo();
 
   const tokenSent = useMemo(() => {
     const totals =
-      encodeObject.value.amount?.reduce((previousValue, currentValue) => {
+      message.amount?.reduce((previousValue, currentValue) => {
         const prev = { ...previousValue };
         if (previousValue[currentValue.denom] === undefined) {
           prev[currentValue.denom] = parseFloat(currentValue.amount);
@@ -43,11 +46,11 @@ export const MessageSendListItem: React.FC<Props> = (props) => {
       .filter((coin) => coin !== null)
       .map((coin) => `${coin!.amount} ${coin!.denom.toUpperCase()}`)
       .join('\n');
-  }, [currentChainInfo.denomUnits, encodeObject.value.amount]);
+  }, [currentChainInfo.denomUnits, message.amount]);
 
   return (
     <BaseMessageListItem
-      icon={require('../../../assets/tx-icons/send.png')}
+      icon={require('../../../../assets/tx-icons/send.png')}
       date={date}
       renderContent={() => (
         <View>
@@ -56,7 +59,7 @@ export const MessageSendListItem: React.FC<Props> = (props) => {
           </Typography.Body1>
           <View style={{ flexDirection: 'row', flexShrink: 1 }}>
             <Typography.Caption>
-              {t('to')} {encodeObject.value.toAddress}
+              {t('to')} {message.toAddress}
             </Typography.Caption>
           </View>
         </View>

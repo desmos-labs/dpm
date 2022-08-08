@@ -3,25 +3,24 @@ import { Bech32Address } from '@desmoslabs/desmjs-types/desmos/profiles/v3/model
 import React, { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { View } from 'react-native';
-import { Typography } from '../../typography';
-import { BaseMessageListItem } from './BaseMessageListItem';
+import { Typography } from '../../../typography';
+import { BaseMessageListItem } from '../BaseMessageListItem';
 
 export type Props = {
-  encodeObject: MsgLinkChainAccountEncodeObject;
+  message: MsgLinkChainAccountEncodeObject["value"];
   date: Date;
 };
 
-export const MessageLinkChainAccountListItem: React.FC<Props> = (props) => {
-  const { date, encodeObject } = props;
-  const { chainAddress } = encodeObject.value;
+/**
+ * Displays the short details of a MsgLinkChainAccount within a list.
+ * @constructor
+ */
+export const MessageLinkChainAccountListItem: React.FC<Props> = ({ message, date }) => {
   const { t } = useTranslation();
 
+  const { chainAddress } = message;
   const chainAccount = useMemo(() => {
-    if (
-      chainAddress !== undefined &&
-      (chainAddress.typeUrl === '/desmos.profiles.v1beta1.Bech32Address' ||
-        chainAddress.typeUrl === '/desmos.profiles.v3.Bech32Address')
-    ) {
+    if (chainAddress !== undefined) {
       const bech32Address = Bech32Address.decode(chainAddress.value);
       return bech32Address.value;
     }
@@ -30,7 +29,7 @@ export const MessageLinkChainAccountListItem: React.FC<Props> = (props) => {
 
   return (
     <BaseMessageListItem
-      icon={require('../../../assets/tx-icons/general.png')}
+      icon={require('../../../../assets/tx-icons/general.png')}
       date={date}
       renderContent={() => (
         <View>

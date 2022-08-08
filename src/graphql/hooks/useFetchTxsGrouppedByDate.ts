@@ -125,7 +125,6 @@ function gqlMessageToEncodeObject(msg: any): EncodeObject {
       } as MsgDelegateEncodeObject;
 
     case MsgTypes.MsgSaveProfile:
-    case MsgTypes.MsgSaveProfileV3:
       return {
         typeUrl: '/desmos.profiles.v3.MsgSaveProfile',
         value: {
@@ -138,8 +137,7 @@ function gqlMessageToEncodeObject(msg: any): EncodeObject {
         },
       } as MsgSaveProfileEncodeObject;
 
-    case MsgTypes.MsgLinkChainAccount:
-    case MsgTypes.MsgLinkChainAccountV3: {
+    case MsgTypes.MsgLinkChainAccount: {
       const chainAddress = msg.chain_address;
       const chainConfig = msg.chain_config;
       const { proof } = msg;
@@ -168,8 +166,8 @@ function gqlMessageToEncodeObject(msg: any): EncodeObject {
         },
       } as MsgLinkChainAccountEncodeObject;
     }
+
     case MsgTypes.MsgUnlinkChainAccount:
-    case MsgTypes.MsgUnlinkChainAccountV3:
       return {
         typeUrl: '/desmos.profiles.v3.MsgUnlinkChainAccount',
         value: {
