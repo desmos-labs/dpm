@@ -7,7 +7,7 @@ import {createDesmosTypes} from "@desmoslabs/desmjs";
 import {AminoTypes} from "@cosmjs/stargate";
 import {EncodeObject} from "@cosmjs/proto-signing";
 import { Button, StyledSafeAreaView, TopBar } from '../components';
-import { TransactionDetails } from '../components/transaction/details/TransactionDetails';
+import { TransactionDetails } from '../components/Transaction/TransactionDetails';
 import { useWalletConnectContext } from '../contexts/WalletConnectContext';
 import useShowModal from '../hooks/useShowModal';
 import useSignTx from '../hooks/useSignTx';

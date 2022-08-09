@@ -2,7 +2,7 @@ import { StackScreenProps } from '@react-navigation/stack';
 import React, { useCallback, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Button, StyledSafeAreaView, TopBar } from '../components';
-import { TransactionDetails } from '../components/transaction/details/TransactionDetails';
+import { TransactionDetails } from '../components/Transaction/TransactionDetails';
 import useBroadcastMessages from '../hooks/useBroadcastMessages';
 import useNavigateToHomeScreen from '../hooks/useNavigateToHomeScreen';
 import useSelectedAccount from '../hooks/useSelectedAccount';

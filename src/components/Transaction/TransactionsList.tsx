@@ -10,19 +10,19 @@ import {
   View,
   ViewStyle,
 } from 'react-native';
-import Colors from '../../../constants/colors';
+import Colors from '../../constants/colors';
 import {
   SectionedTx,
   useFetchTxsGrouppedByDate,
-} from '../../../graphql/hooks/useFetchTxsGrouppedByDate';
-import useFetchUserBalance from '../../../hooks/useFetchUserBalance';
-import { makeStyle } from '../../../theming';
-import { ChainAccount } from '../../../types/chain';
-import { BroadcastedTx } from '../../../types/tx';
-import { Divider } from '../../Divider';
-import { DpmImage } from '../../DpmImage';
-import { Typography } from '../../typography';
-import { MessageListItem } from './MessageListItem';
+} from '../../graphql/hooks/useFetchTxsGrouppedByDate';
+import useFetchUserBalance from '../../hooks/useFetchUserBalance';
+import { makeStyle } from '../../theming';
+import { ChainAccount } from '../../types/chain';
+import { BroadcastedTx } from '../../types/tx';
+import { Divider } from '../Divider';
+import { DpmImage } from '../DpmImage';
+import { Typography } from '../typography';
+import { MessageListItem } from './messages/MessageListItem';
 
 export type Props = {
   chainAccount: ChainAccount;

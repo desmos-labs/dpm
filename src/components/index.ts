@@ -25,7 +25,7 @@ import { StyledSafeAreaView } from './StyledSafeAreaView';
 import { TextInput } from './TextInput';
 import { ThemedLottieView } from './ThemedLottieView';
 import { TopBar } from './TopBar';
-import { TransactionsList } from './transaction/list/TransactionsList';
+import { TransactionsList } from './Transaction/TransactionsList';
 import VerticalInput from './VerticalInput';
 import BiometricsLoadingIndicator from './BiometricsLoadingIndicator';
 

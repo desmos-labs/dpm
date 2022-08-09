@@ -3,7 +3,7 @@ import React, { useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Linking } from 'react-native';
 import { Button, StyledSafeAreaView, TopBar } from '../components';
-import { TransactionDetails as TxDetailsComponent } from '../components/transaction/details/TransactionDetails';
+import { TransactionDetails as TxDetailsComponent } from '../components/Transaction/TransactionDetails';
 import useCurrentChainInfo from '../hooks/desmosclient/useCurrentChainInfo';
 import { AccountScreensStackParams } from '../types/navigation';
 

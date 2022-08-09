@@ -29,14 +29,13 @@ export type Props = {
   allowFontScaling?: boolean;
 };
 
-export const DesmosIcon: React.FC<Props> = (props) => {
-  const { name, color, size, direction, allowFontScaling } = props;
+export const DesmosIcon: React.FC<Props> = ({ name, color, size, direction, allowFontScaling }) => {
   if (desmosIcons.indexOf(name) >= 0) {
     return (
       <CustomIcon
         name={name}
         color={color}
-        // Our icons have less padding so make it a little bit smaller
+        // Our icons have less padding so make it a bit smaller
         // to keep a size similar to MaterialCommunityIcon
         size={size - 4}
         allowFontScaling={allowFontScaling}

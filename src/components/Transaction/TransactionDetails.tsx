@@ -5,11 +5,10 @@ import Long from 'long';
 import React, { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Pressable, ScrollView, StyleProp, StyleSheet, Text, View, ViewStyle } from 'react-native';
-import { Fee } from "cosmjs-types/cosmos/tx/v1beta1/tx";
 import {StdFee} from "@cosmjs/amino";
-import useCurrentChainInfo from '../../../hooks/desmosclient/useCurrentChainInfo';
-import { Divider, LabeledValue } from '../../index';
-import { MessageDetails } from './MessageDetails';
+import useCurrentChainInfo from '../../hooks/desmosclient/useCurrentChainInfo';
+import { Divider, LabeledValue } from '../index';
+import { MessageDetails } from './messages/MessageDetails';
 
 export type Props = {
   messages: readonly EncodeObject[];

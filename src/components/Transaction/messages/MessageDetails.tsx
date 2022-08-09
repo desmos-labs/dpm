@@ -4,15 +4,15 @@ import { EncodeObject } from '@cosmjs/proto-signing';
 import { Any } from 'cosmjs-types/google/protobuf/any';
 import React, { useMemo } from 'react';
 import MsgTypes from '../../../types/msgtypes';
-import { MessageDelegateDetails } from '../messages/staking/MessageDelegateDetails';
-import { MessageLinkChainAccountDetails } from '../messages/profiles/MessageLinkChainAccountDetails';
-import { MessageMultiSendDetails } from '../messages/bank/MessageMultiSendDetails';
-import { MessageSendDetails } from '../messages/bank/MessageSendDetails';
-import { MessageUnlinkChainAccountDetails } from '../messages/profiles/MessageUnlinkChainAccountDetails';
-import { MessageVoteDetails } from '../messages/gov/MessageVoteDetails';
-import { MessageWithdrawDelegatorRewardsDetails } from '../messages/staking/MessageWithdrawDelegatorRewardsDetails';
-import { MessageSaveProfileDetails } from '../messages/profiles/MessageSaveProfileDetails';
-import { MessageUnknownDetails } from '../messages/unknown/MessageUnknownDetails';
+import { MessageDelegate } from './staking/MessageDelegate';
+import { MessageLinkChainAccount } from './profiles/MessageLinkChainAccount';
+import { MessageMultiSend } from './bank/MessageMultiSend';
+import { MessageSend } from './bank/MessageSend';
+import { MessageUnlinkChainAccount } from './profiles/MessageUnlinkChainAccount';
+import { MessageVote } from './gov/MessageVote';
+import { MessageWithdrawDelegatorRewards } from './staking/MessageWithdrawDelegatorRewards';
+import { MessageSaveProfile } from './profiles/MessageSaveProfile';
+import { MessageUnknown } from './unknown/MessageUnknown';
 
 export type Props = {
   /**
@@ -39,31 +39,31 @@ export const MessageDetails: React.FC<Props> = ({ message }) => {
   }, [msg]);
 
   if (msg.typeUrl === MsgTypes.MsgSaveProfile) {
-    return <MessageSaveProfileDetails message={encodeObject?.value} />;
+    return <MessageSaveProfile.Details message={encodeObject?.value} />;
   }
   if (msg.typeUrl === MsgTypes.MsgSend) {
-    return <MessageSendDetails message={encodeObject?.value} />;
+    return <MessageSend.Details message={encodeObject?.value} />;
   }
   if (msg.typeUrl === MsgTypes.MsgMultiSend) {
-    return <MessageMultiSendDetails message={encodeObject?.value} />;
+    return <MessageMultiSend.Details message={encodeObject?.value} />;
   }
   if (msg.typeUrl === MsgTypes.MsgVote) {
-    return <MessageVoteDetails message={encodeObject?.value} />;
+    return <MessageVote.Details message={encodeObject?.value} />;
   }
   if (msg.typeUrl === MsgTypes.MsgDelegate) {
-    return <MessageDelegateDetails message={encodeObject?.value} />;
+    return <MessageDelegate.Details message={encodeObject?.value} />;
   }
   if (msg.typeUrl === MsgTypes.MsgWithdrawDelegatorReward) {
-    return <MessageWithdrawDelegatorRewardsDetails message={encodeObject?.value} />;
+    return <MessageWithdrawDelegatorRewards.Details message={encodeObject?.value} />;
   }
   if (msg.typeUrl === MsgTypes.MsgLinkChainAccount) {
-    return <MessageLinkChainAccountDetails message={encodeObject?.value} />;
+    return <MessageLinkChainAccount.Details message={encodeObject?.value} />;
   }
   if (msg.typeUrl === MsgTypes.MsgUnlinkChainAccount) {
-    return <MessageUnlinkChainAccountDetails message={encodeObject?.value} />;
+    return <MessageUnlinkChainAccount.Details message={encodeObject?.value} />;
   }
   return (
-    <MessageUnknownDetails
+    <MessageUnknown.Details
       typeUrl={msg.typeUrl}
       value={
         msg.type === MessageType.DirectMsg_MSY_TYP
