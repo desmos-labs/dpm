@@ -8,12 +8,12 @@ export type ButtonAction = {
   onPress: () => void;
 };
 
-export type Props = {
+export type InlineButtonsProps = {
   buttons: ButtonAction[];
   selected?: number;
 };
 
-export const InlineButtons: React.FC<Props> = (props) => {
+export const InlineButtons: React.FC<InlineButtonsProps> = (props) => {
   const { buttons, selected } = props;
   const styles = useStyles();
   const [buttonSelected, setButtonSelected] = useState(selected ?? 0);

@@ -14,11 +14,11 @@ import { makeStyle } from '../theming';
 import { ChainLink } from '../types/link';
 import findLinkableChainInfoByName from '../utilils/find';
 import { Button } from './Button';
-import { DpmImage } from './DpmImage';
+import { DpmImage } from './DPMImage';
 import { ListItemSeparator } from './List';
 import { Typography } from './Typography';
 
-export type Props = {
+export type ChainConnectionsProps = {
   connections: ChainLink[];
   onConnectChain?: () => void;
   onShowChainInfo?: (chain: ChainLink) => void;
@@ -26,7 +26,7 @@ export type Props = {
   style?: StyleProp<ViewStyle>;
 };
 
-export const ChainConnections: React.FC<Props> = ({
+export const ChainConnections: React.FC<ChainConnectionsProps> = ({
   connections,
   style,
   onConnectChain,

@@ -3,7 +3,7 @@ import { TouchableOpacity, View } from 'react-native';
 import { makeStyle } from '../theming';
 import { Typography } from './Typography';
 
-export type Props = {
+export type AddressListProps = {
   /**
    * Number that is displayed on the left of the address.
    */
@@ -23,7 +23,7 @@ export type Props = {
   key?: Key | null | undefined;
 };
 
-export const AddressListItem: React.FC<Props> = (props) => {
+export const AddressListItem: React.FC<AddressListProps> = (props) => {
   const { number, address, highlight, onPress, key, children } = props;
   const styles = useStyles(highlight);
 

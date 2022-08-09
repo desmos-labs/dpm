@@ -2,7 +2,7 @@ import { EncodeObject } from '@cosmjs/proto-signing';
 import React from 'react';
 import { ScrollView, StyleProp, Text, ViewStyle } from 'react-native';
 
-export type Props = {
+export type EncodedMessagesProps = {
   /**
    * The messages to display.
    */
@@ -15,7 +15,7 @@ export type Props = {
   style?: StyleProp<ViewStyle>;
 };
 
-export const EncodedMessages: React.FC<Props> = (props) => {
+export const EncodedMessages: React.FC<EncodedMessagesProps> = (props) => {
   const { encodeMessages, nestedScrollEnabled, style } = props;
   return (
     <ScrollView style={style} nestedScrollEnabled={nestedScrollEnabled}>

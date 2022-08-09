@@ -3,7 +3,7 @@ import { FlatList, ListRenderItemInfo, StyleProp, StyleSheet, View, ViewStyle } 
 import { makeStyle } from '../theming';
 import { MnemonicWordBadge } from './MnemonicWordBadge';
 
-export type Props = {
+export type MnemonicGridProps = {
   /**
    * The mnemonic that will be displayed.
    */
@@ -11,7 +11,7 @@ export type Props = {
   style?: StyleProp<ViewStyle>;
 };
 
-export const MnemonicGrid: React.FC<Props> = (props) => {
+export const MnemonicGrid: React.FC<MnemonicGridProps> = (props) => {
   const { mnemonic, style } = props;
   const styles = useStyles();
 

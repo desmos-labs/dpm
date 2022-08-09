@@ -5,11 +5,11 @@ import { makeStyle } from '../theming';
 
 export type PasswordComplexityScore = 0 | 1 | 2 | 3 | 4;
 
-export type Props = {
+export type PasswordComplexityProps = {
   score: PasswordComplexityScore;
 };
 
-export const PasswordComplexity: React.FC<Props> = (props) => {
+export const PasswordComplexity: React.FC<PasswordComplexityProps> = (props) => {
   const { score } = props;
   const theme = useTheme();
   const styles = useStyle();

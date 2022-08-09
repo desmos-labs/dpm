@@ -7,12 +7,12 @@ import { DAppSession as DAppSessionType } from '../types/dapp';
 import { Button } from './Button';
 import { Typography } from './Typography';
 
-export type Props = {
+export type DAppSessionProps = {
   session: DAppSessionType;
   onRevoke: (session: DAppSessionType) => void;
 };
 
-export function DAppSession(props: Props) {
+export function DAppSession(props: DAppSessionProps) {
   const { session, onRevoke } = props;
   const { t } = useTranslation();
   const styles = useStyles();

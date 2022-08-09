@@ -20,7 +20,7 @@ import { ListItemSeparator } from './List';
 import { PaginatedFlatList } from './PaginatedFlatList';
 import { Typography } from './Typography';
 
-export type Props = {
+export type WalletPickerProps = {
   /**
    * Base derivation path
    */
@@ -60,7 +60,7 @@ export type Props = {
   style?: StyleProp<ViewStyle>;
 };
 
-export const WalletPicker: React.FC<Props> = ({
+export const WalletPicker: React.FC<WalletPickerProps> = ({
   defaultHdPath,
   addressPrefix,
   onGeneratingAddressesStateChange,

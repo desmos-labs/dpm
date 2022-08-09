@@ -11,14 +11,14 @@ export interface RadioValue {
   onPress: () => void;
 }
 
-export type Props = {
+export type RadioGroupProps = {
   /**
    * Values to display, with a label, a value, a status and an onPress callback
    */
   values: RadioValue[];
 };
 
-export const RadioGroup: React.FC<Props> = (props) => {
+export const RadioGroup: React.FC<RadioGroupProps> = (props) => {
   const { values } = props;
   const styles = useStyles();
   const theme = useTheme();

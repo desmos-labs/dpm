@@ -3,7 +3,7 @@ import { View } from 'react-native';
 import { makeStyle } from '../theming';
 import { Typography } from './Typography';
 
-export type Props = {
+export type LabeledValueProps = {
   /**
    * Label that describe the value.
    */
@@ -14,7 +14,7 @@ export type Props = {
   value?: string;
 };
 
-export const LabeledValue: React.FC<Props> = (props) => {
+export const LabeledValue: React.FC<LabeledValueProps> = (props) => {
   const { label, value } = props;
   const styles = useStyles();
 

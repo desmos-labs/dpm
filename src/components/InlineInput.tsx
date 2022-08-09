@@ -3,14 +3,14 @@ import { StyleProp, TextInput, TextStyle, View, ViewStyle } from 'react-native';
 import { makeStyle } from '../theming';
 import { Typography } from './Typography';
 
-type InlineInputProps = Omit<ComponentProps<typeof TextInput>, 'style'> & {
+export type InlineInputProps = Omit<ComponentProps<typeof TextInput>, 'style'> & {
   label: string;
   style?: StyleProp<ViewStyle>;
   inputStyle?: StyleProp<TextStyle>;
   error?: string;
 };
 
-const InlineInput: React.FC<InlineInputProps> = (props) => {
+export const InlineInput: React.FC<InlineInputProps> = (props) => {
   const { label, style, inputStyle, error } = props;
   const styles = useStyles();
 

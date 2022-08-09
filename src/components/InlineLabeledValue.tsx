@@ -2,7 +2,7 @@ import React from 'react';
 import { StyleProp, StyleSheet, TouchableOpacity, ViewStyle } from 'react-native';
 import { Typography } from './Typography';
 
-type InlineInputProps = {
+export type InlineLabeledValueProps = {
   /**
    * Label displayed on the left of the input
    */
@@ -20,7 +20,7 @@ type InlineInputProps = {
   style?: StyleProp<ViewStyle>;
 };
 
-const InlineLabeledValue: React.FC<InlineInputProps> = (props) => {
+export const InlineLabeledValue: React.FC<InlineLabeledValueProps> = (props) => {
   const { label, value, onPress, style } = props;
   return (
     <TouchableOpacity style={[styles.container, style]} onPress={onPress}>

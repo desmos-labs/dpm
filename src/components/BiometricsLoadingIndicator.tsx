@@ -6,7 +6,7 @@ import { makeStyle } from '../theming';
 import { ThemedLottieView } from './ThemedLottieView';
 import { Typography } from './Typography';
 
-const BiometricsLoadingIndicator: React.FC = () => {
+export const BiometricsLoadingIndicator: React.FC = () => {
   const styles = useStyles();
   const { t } = useTranslation();
 

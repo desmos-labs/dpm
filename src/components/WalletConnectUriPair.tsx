@@ -8,11 +8,11 @@ import {
   View,
 } from 'react-native';
 
-type Props = {
+type WalletConnectUriPairProps = {
   onPairRequest?: (uri: string) => void;
 };
 
-export default function WalletConnectUriPair(props: Props): JSX.Element {
+export default function WalletConnectUriPair(props: WalletConnectUriPairProps): JSX.Element {
   const { onPairRequest } = props;
   const [uri, setUri] = useState('');
 

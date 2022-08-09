@@ -3,7 +3,7 @@ import { StyleProp, TextInput as NativeTextInput, TextStyle, View, ViewStyle } f
 import { useTheme } from 'react-native-paper';
 import { makeStyleWithProps } from '../theming';
 
-export type Props = Omit<React.ComponentProps<typeof NativeTextInput>, 'style'> & {
+export type TextInputProps = Omit<React.ComponentProps<typeof NativeTextInput>, 'style'> & {
   /**
    * If true highlight the input field to
    * signal to the user that the current value
@@ -20,7 +20,7 @@ export type Props = Omit<React.ComponentProps<typeof NativeTextInput>, 'style'> 
   inputStyle?: StyleProp<TextStyle>;
 };
 
-export const TextInput: React.FC<Props> = (props) => {
+export const TextInput: React.FC<TextInputProps> = (props) => {
   const { error, rightElement, style, inputRef, inputStyle } = props;
   const styles = useStyles(props);
   const theme = useTheme();
@@ -38,7 +38,7 @@ export const TextInput: React.FC<Props> = (props) => {
   );
 };
 
-const useStyles = makeStyleWithProps((props: Props, theme) => ({
+const useStyles = makeStyleWithProps((props: TextInputProps, theme) => ({
   container: {
     display: 'flex',
     flexDirection: 'row',

@@ -3,7 +3,7 @@ import { StyleProp, StyleSheet, Text, TouchableOpacity, ViewStyle } from 'react-
 import { makeStyle } from '../theming';
 import { Typography } from './Typography';
 
-export type Props = {
+export type MnemonicWordBadgeProps = {
   /**
    * The word to display.
    */
@@ -19,7 +19,7 @@ export type Props = {
   style?: StyleProp<ViewStyle>;
 };
 
-export const MnemonicWordBadge: React.FC<Props> = (props) => {
+export const MnemonicWordBadge: React.FC<MnemonicWordBadgeProps> = (props) => {
   const { value, index, onPress, style } = props;
   const styles = useStyles();
 

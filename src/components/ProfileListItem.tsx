@@ -10,7 +10,7 @@ import IconButton from './IconButton';
 import { MenuItem } from './MenuItem';
 import { Typography } from './Typography';
 
-export type Props = {
+export type ProfileListItemProps = {
   /**
    * The account bech32 address.
    */
@@ -45,7 +45,7 @@ export type Props = {
   onDelete?: () => void;
 };
 
-export const ProfileListItem: React.FC<Props> = (props) => {
+export const ProfileListItem: React.FC<ProfileListItemProps> = (props) => {
   const { address, image, nickname, dtag, isItemSelected, onPress, onEdit, onDelete } = props;
   const theme = useTheme();
   const { t } = useTranslation();

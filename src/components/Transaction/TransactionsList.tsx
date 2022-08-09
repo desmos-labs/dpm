@@ -20,17 +20,17 @@ import { makeStyle } from '../../theming';
 import { ChainAccount } from '../../types/chain';
 import { BroadcastedTx } from '../../types/tx';
 import { Divider } from '../Divider';
-import { DpmImage } from '../DpmImage';
+import { DpmImage } from '../DPMImage';
 import { Typography } from '../Typography';
 import { MessageListItem } from './messages/MessageListItem';
 
-export type Props = {
+export type TransactionsListProps = {
   chainAccount: ChainAccount;
   onTxPressed: (tx: BroadcastedTx) => void;
   style?: StyleProp<ViewStyle>;
 };
 
-export const TransactionsList: React.FC<Props> = ({ chainAccount, style, onTxPressed }) => {
+export const TransactionsList: React.FC<TransactionsListProps> = ({ chainAccount, style, onTxPressed }) => {
   const { txs, loading, fetchMore, refetchTxs } = useFetchTxsGrouppedByDate(chainAccount);
   const { t } = useTranslation();
   const styles = useStyles();

@@ -65,7 +65,7 @@ const useStyles = makeStyle((theme) => ({
   },
 }));
 
-export type Props = {
+export type FeePickerProps = {
   /**
    * Selected fee level
    */
@@ -85,7 +85,7 @@ export type Props = {
   onChange?: (fee: StdFee) => void;
 };
 
-export const FeePicker: React.FC<Props> = (props) => {
+export const FeePicker: React.FC<FeePickerProps> = (props) => {
   const { feeLevel, fees, disabled, onChange } = props;
   const { t } = useTranslation();
   const styles = useStyles();

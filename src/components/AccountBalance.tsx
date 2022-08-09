@@ -6,7 +6,7 @@ import { makeStyle } from '../theming';
 import IconButton from './IconButton';
 import { Typography } from './Typography';
 
-export type Props = {
+export type AccountBalanceProps = {
   /**
    * Address of the account of interest.
    */
@@ -30,7 +30,7 @@ export type Props = {
   style?: StyleProp<ViewStyle>;
 };
 
-export const AccountBalance: React.FC<Props> = (props) => {
+export const AccountBalance: React.FC<AccountBalanceProps> = (props) => {
   const { address, nickname, onCopyPress, onSendPressed, onHidePressed, style } = props;
   const { t } = useTranslation();
   const styles = useStyles();

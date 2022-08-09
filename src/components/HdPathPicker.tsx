@@ -5,7 +5,7 @@ import { DESMOS_COIN_TYPE, HdPath } from '../types/hdpath';
 import { Typography } from './Typography';
 import { TextInput } from './TextInput';
 
-export type Props = {
+export type HdPathPickerProps = {
   /**
    * Function called when the HDPath changes.
    */
@@ -33,7 +33,7 @@ const safeParseInt = (value: string) => {
   return number;
 };
 
-export const HdPathPicker: React.FC<Props> = (props) => {
+export const HdPathPicker: React.FC<HdPathPickerProps> = (props) => {
   const { onChange, value, disabled, allowCoinTypeEdit, style, children } = props;
   const styles = useStyle(props);
   const [hdPath, setHdPath] = useState<HdPath>(
@@ -138,7 +138,7 @@ export const HdPathPicker: React.FC<Props> = (props) => {
   );
 };
 
-const useStyle = makeStyleWithProps((props: Props, theme) => ({
+const useStyle = makeStyleWithProps((props: HdPathPickerProps, theme) => ({
   root: {
     display: 'flex',
     flexDirection: 'row',

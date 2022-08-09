@@ -4,17 +4,18 @@ import { useTheme } from 'react-native-paper';
 import { makeStyle } from '../theming';
 import { Typography } from './Typography';
 
-type InlineInputProps = Omit<ComponentProps<typeof TextInput>, 'style'> & {
+export type VerticalInputProps = Omit<ComponentProps<typeof TextInput>, 'style'> & {
   label: string;
   style?: StyleProp<ViewStyle>;
   inputStyle?: StyleProp<TextStyle>;
   multiline?: boolean;
   error?: string;
 };
+
 /**
  This component is unfinished and not used
  */
-const VerticalInput: React.FC<InlineInputProps> = (props) => {
+export const VerticalInput: React.FC<VerticalInputProps> = (props) => {
   const { label, style, inputStyle, error } = props;
   const styles = useStyles();
   const theme = useTheme();

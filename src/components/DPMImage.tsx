@@ -15,11 +15,11 @@ export type DpmImages =
   | 'connect-ledger'
   | 'ledger';
 
-export type Props = Omit<ImageProps, 'source'> & {
+export type DPMImageProps = Omit<ImageProps, 'source'> & {
   source: DpmImages | ImageProps['source'];
 };
 
-export const DpmImage: React.FC<Props> = (props) => {
+export const DpmImage: React.FC<DPMImageProps> = (props) => {
   const { source } = props;
   const darkTheme = useIsCurrentThemeDark();
 

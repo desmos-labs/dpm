@@ -1,8 +1,7 @@
 import { StackNavigationProp } from '@react-navigation/stack/lib/typescript/src/types';
 import React, { useCallback } from 'react';
 import { ImageSourcePropType, View } from 'react-native';
-import { Button } from '../components';
-import { DpmImage, DpmImages } from '../components/DpmImage';
+import { Button , DpmImage, DpmImages } from '../components';
 import { Typography } from '../components/Typography';
 import { makeStyle } from '../theming';
 import { ModalComponentProps, RootStackParams } from '../types/navigation';
