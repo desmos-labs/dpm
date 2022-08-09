@@ -13,7 +13,7 @@ import {
   TopBar,
   TransactionsList,
 } from '../components';
-import { Typography } from '../components/typography';
+import { Typography } from '../components/Typography';
 import { useAppContext } from '../contexts/AppContext';
 import { useDrawerContext } from '../contexts/AppDrawerContex';
 import useCurrentChainInfo from '../hooks/desmosclient/useCurrentChainInfo';

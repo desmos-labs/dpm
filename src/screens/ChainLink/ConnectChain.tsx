@@ -6,7 +6,7 @@ import { DpmImage, StyledSafeAreaView, TopBar } from '../../components';
 import { DpmImages } from '../../components/DpmImage';
 import { makeStyle } from '../../theming';
 import { ChainLinkScreensStackParams, ImportMode } from '../../types/navigation';
-import { Typography } from '../../components/typography';
+import { Typography } from '../../components/Typography';
 
 export type Props = StackScreenProps<ChainLinkScreensStackParams, 'ConnectChain'>;
 

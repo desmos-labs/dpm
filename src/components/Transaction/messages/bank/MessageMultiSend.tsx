@@ -6,7 +6,7 @@ import {Input} from "cosmjs-types/cosmos/bank/v1beta1/bank";
 import useCurrentChainInfo from '../../../../hooks/desmosclient/useCurrentChainInfo';
 import {MsgMultiSendEncodeObject} from '../../../../types/encodeobject';
 import {BaseMessage} from '../base/BaseMessage';
-import {Typography} from "../../../typography";
+import {Typography} from "../../../Typography";
 
 export type DetailsProps = {
   message: MsgMultiSendEncodeObject["value"];

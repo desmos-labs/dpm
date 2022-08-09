@@ -7,7 +7,7 @@ import { Divider } from '../../../Divider';
 import { LabeledValue } from '../../../LabeledValue';
 import { ProfileHeader } from '../../../ProfileHeader';
 import {BaseMessage} from '../base/BaseMessage';
-import {Typography} from "../../../typography";
+import {Typography} from "../../../Typography";
 
 export type DetailsProps = {
   message: MsgSaveProfileEncodeObject['value'];

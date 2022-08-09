@@ -13,7 +13,7 @@ import {
 import { makeStyle } from '../../theming';
 import { LedgerApp } from '../../types/ledger';
 import { ChainLinkScreensStackParams, ImportMode, RootStackParams } from '../../types/navigation';
-import { Typography } from '../../components/typography';
+import { Typography } from '../../components/Typography';
 
 export type Props = CompositeScreenProps<
   StackScreenProps<ChainLinkScreensStackParams, 'SelectLedgerApp'>,

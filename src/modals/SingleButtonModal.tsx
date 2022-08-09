@@ -3,7 +3,7 @@ import React, { useCallback } from 'react';
 import { ImageSourcePropType, View } from 'react-native';
 import { Button } from '../components';
 import { DpmImage, DpmImages } from '../components/DpmImage';
-import { Typography } from '../components/typography';
+import { Typography } from '../components/Typography';
 import { makeStyle } from '../theming';
 import { ModalComponentProps, RootStackParams } from '../types/navigation';
 

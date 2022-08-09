@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { StyleProp, StyleSheet, Text, View, ViewStyle } from 'react-native';
 import { makeStyleWithProps } from '../theming';
 import { DESMOS_COIN_TYPE, HdPath } from '../types/hdpath';
-import { Typography } from './typography';
+import { Typography } from './Typography';
 import { TextInput } from './TextInput';
 
 export type Props = {

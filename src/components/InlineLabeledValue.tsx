@@ -1,6 +1,6 @@
 import React from 'react';
 import { StyleProp, StyleSheet, TouchableOpacity, ViewStyle } from 'react-native';
-import { Typography } from './typography';
+import { Typography } from './Typography';
 
 type InlineInputProps = {
   /**

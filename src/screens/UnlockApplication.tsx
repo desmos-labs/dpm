@@ -15,7 +15,7 @@ import { Button, StyledSafeAreaView, TopBar } from '../components';
 import BiometricsLoadingIndicator from '../components/BiometricsLoadingIndicator';
 import { FlexPadding } from '../components/FlexPadding';
 import SecureTextInput from '../components/SecureTextInput';
-import { Typography } from '../components/typography';
+import { Typography } from '../components/Typography';
 import { useAppContext } from '../contexts/AppContext';
 import useSetSettings from '../hooks/settings/useSetSettings';
 import useSettings from '../hooks/settings/useSettings';

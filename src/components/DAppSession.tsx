@@ -5,7 +5,7 @@ import { Image, View } from 'react-native';
 import { makeStyle } from '../theming';
 import { DAppSession as DAppSessionType } from '../types/dapp';
 import { Button } from './Button';
-import { Typography } from './typography';
+import { Typography } from './Typography';
 
 export type Props = {
   session: DAppSessionType;

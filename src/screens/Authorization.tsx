@@ -25,7 +25,7 @@ import { TwoButtonModal } from '../modals/TwoButtonModal';
 import { makeStyle } from '../theming';
 import { DAppPermissions, DAppSession } from '../types/dapp';
 import { AccountScreensStackParams, HomeScreensBottomTabsParams } from '../types/navigation';
-import { Typography } from '../components/typography';
+import { Typography } from '../components/Typography';
 
 export type Props = CompositeScreenProps<
   BottomTabScreenProps<HomeScreensBottomTabsParams, 'Authorization'>,

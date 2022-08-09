@@ -2,7 +2,7 @@ import { StackScreenProps } from '@react-navigation/stack';
 import React, { useCallback, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Button, StyledSafeAreaView, TopBar } from '../../components';
-import { Typography } from '../../components/typography';
+import { Typography } from '../../components/Typography';
 import { WalletPicker } from '../../components/WalletPicker';
 import { useAppContext } from '../../contexts/AppContext';
 import { makeStyle } from '../../theming';

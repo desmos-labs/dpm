@@ -2,7 +2,7 @@ import React, { useMemo } from 'react';
 import { View } from 'react-native';
 import { RadioButton, useTheme } from 'react-native-paper';
 import { makeStyle } from '../theming';
-import { Typography } from './typography';
+import { Typography } from './Typography';
 
 export interface RadioValue {
   label: string;

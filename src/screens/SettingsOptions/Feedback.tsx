@@ -3,7 +3,7 @@ import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { TouchableOpacity } from 'react-native';
 import { StyledSafeAreaView, TopBar, VerticalInput } from '../../components';
-import { Typography } from '../../components/typography';
+import { Typography } from '../../components/Typography';
 import { makeStyle } from '../../theming';
 import { AccountScreensStackParams } from '../../types/navigation';
 

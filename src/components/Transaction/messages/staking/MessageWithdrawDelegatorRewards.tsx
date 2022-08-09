@@ -2,7 +2,7 @@ import { MsgWithdrawDelegatorRewardEncodeObject } from '@cosmjs/stargate';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { View } from 'react-native';
-import { Typography } from '../../../typography';
+import { Typography } from '../../../Typography';
 import {BaseMessage} from '../base/BaseMessage';
 
 export type DetailsProps = {

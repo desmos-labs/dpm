@@ -8,7 +8,7 @@ import { Button, StyledSafeAreaView, TopBar } from '../components';
 import BiometricsLoadingIndicator from '../components/BiometricsLoadingIndicator';
 import { FlexPadding } from '../components/FlexPadding';
 import SecureTextInput from '../components/SecureTextInput';
-import { Typography } from '../components/typography';
+import { Typography } from '../components/Typography';
 import { useAppContext } from '../contexts/AppContext';
 import useSettings from '../hooks/settings/useSettings';
 import AccountSource from '../sources/AccountSource';

@@ -3,7 +3,7 @@ import { Platform, StatusBar, StyleProp, View, ViewStyle } from 'react-native';
 import { useTheme } from 'react-native-paper';
 import { makeStyleWithProps } from '../theming';
 import IconButton from './IconButton';
-import { Typography } from './typography';
+import { Typography } from './Typography';
 
 type ScreenProps = {
   navigation: {

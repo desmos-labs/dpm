@@ -5,7 +5,7 @@ import { useTranslation } from 'react-i18next';
 import { Image, StyleSheet, View } from 'react-native';
 import findLinkableChainInfoByName from '../../../../utilils/find';
 import {BaseMessage} from '../base/BaseMessage';
-import {Typography} from "../../../typography";
+import {Typography} from "../../../Typography";
 
 export type DetailsProps = {
   message: MsgLinkChainAccountEncodeObject['value'];

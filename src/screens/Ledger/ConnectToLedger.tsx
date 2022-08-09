@@ -6,7 +6,7 @@ import { FlexPadding } from '../../components/FlexPadding';
 import useConnectToLedger from '../../hooks/ledger/useConnectToLedger';
 import { makeStyle } from '../../theming';
 import { ConnectToLedgerScreensStackParams } from '../../types/navigation';
-import { Typography } from '../../components/typography';
+import { Typography } from '../../components/Typography';
 
 export type Props = StackScreenProps<ConnectToLedgerScreensStackParams, 'ConnectToLedger'>;
 

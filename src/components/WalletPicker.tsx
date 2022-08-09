@@ -18,7 +18,7 @@ import { Divider } from './Divider';
 import { HdPathPicker } from './HdPathPicker';
 import { ListItemSeparator } from './List';
 import { PaginatedFlatList } from './PaginatedFlatList';
-import { Typography } from './typography';
+import { Typography } from './Typography';
 
 export type Props = {
   /**

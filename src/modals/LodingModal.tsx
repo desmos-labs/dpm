@@ -1,7 +1,7 @@
 import React from 'react';
 import { View } from 'react-native';
 import { ThemedLottieView } from '../components';
-import { Typography } from '../components/typography';
+import { Typography } from '../components/Typography';
 import { makeStyle } from '../theming';
 import { ModalComponentProps } from '../types/navigation';
 

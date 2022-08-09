@@ -9,7 +9,7 @@ import * as SecureStorage from '../../utilils/SecureStorage';
 import { Button, StyledSafeAreaView, TopBar } from '../../components';
 import { FlexPadding } from '../../components/FlexPadding';
 import SecureTextInput from '../../components/SecureTextInput';
-import { Typography } from '../../components/typography';
+import { Typography } from '../../components/Typography';
 import { makeStyle } from '../../theming';
 import { SettingsScreensStackParams } from '../../types/navigation';
 

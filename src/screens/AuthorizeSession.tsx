@@ -14,7 +14,7 @@ import useWalletConnectSessionReject from '../hooks/useWalletConnectSessionRejec
 import { SingleButtonModal } from '../modals/SingleButtonModal';
 import { makeStyle } from '../theming';
 import { AccountScreensStackParams } from '../types/navigation';
-import { Typography } from '../components/typography';
+import { Typography } from '../components/Typography';
 
 type Authorization = {
   title: string;

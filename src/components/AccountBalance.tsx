@@ -4,7 +4,7 @@ import { StyleProp, TouchableOpacity, View, ViewStyle } from 'react-native';
 import { useAppContext } from '../contexts/AppContext';
 import { makeStyle } from '../theming';
 import IconButton from './IconButton';
-import { Typography } from './typography';
+import { Typography } from './Typography';
 
 export type Props = {
   /**

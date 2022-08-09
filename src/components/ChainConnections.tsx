@@ -16,7 +16,7 @@ import findLinkableChainInfoByName from '../utilils/find';
 import { Button } from './Button';
 import { DpmImage } from './DpmImage';
 import { ListItemSeparator } from './List';
-import { Typography } from './typography';
+import { Typography } from './Typography';
 
 export type Props = {
   connections: ChainLink[];

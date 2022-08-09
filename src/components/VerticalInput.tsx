@@ -2,7 +2,7 @@ import React, { ComponentProps } from 'react';
 import { StyleProp, TextInput, TextStyle, View, ViewStyle } from 'react-native';
 import { useTheme } from 'react-native-paper';
 import { makeStyle } from '../theming';
-import { Typography } from './typography';
+import { Typography } from './Typography';
 
 type InlineInputProps = Omit<ComponentProps<typeof TextInput>, 'style'> & {
   label: string;

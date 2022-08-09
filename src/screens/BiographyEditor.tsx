@@ -6,7 +6,7 @@ import { Button, StyledSafeAreaView, TopBar } from '../components';
 import useProfileValidators from '../hooks/useProfileValidators';
 import { makeStyle } from '../theming';
 import { AccountScreensStackParams } from '../types/navigation';
-import { Typography } from '../components/typography';
+import { Typography } from '../components/Typography';
 
 export type Props = StackScreenProps<AccountScreensStackParams, 'BiographyEditor'>;
 

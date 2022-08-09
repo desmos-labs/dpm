@@ -5,7 +5,7 @@ import { useTheme } from 'react-native-paper';
 import { makeStyle } from '../theming';
 import { AvatarImage } from './AvatarImage';
 import IconButton from './IconButton';
-import { Typography } from './typography';
+import { Typography } from './Typography';
 
 export type Props = {
   address?: string;

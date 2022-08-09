@@ -6,7 +6,7 @@ import { Button, MnemonicWordBadge, StyledSafeAreaView, TopBar } from '../../com
 import { makeStyle } from '../../theming';
 import { AccountCreationStackParams } from '../../types/navigation';
 import shuffleArray from '../../utilils/shuffle';
-import { Typography } from '../../components/typography';
+import { Typography } from '../../components/Typography';
 
 declare type Props = StackScreenProps<AccountCreationStackParams, 'CheckMnemonic'>;
 export default function CheckMnemonic(props: Props): JSX.Element {

@@ -8,7 +8,7 @@ import Colors from '../../constants/colors';
 import { makeStyle } from '../../theming';
 import { AccountCreationStackParams } from '../../types/navigation';
 import { randomMnemonic } from '../../wallet/LocalWallet';
-import { Typography } from '../../components/typography';
+import { Typography } from '../../components/Typography';
 
 declare type Props = StackScreenProps<AccountCreationStackParams, 'GenerateNewMnemonic'>;
 

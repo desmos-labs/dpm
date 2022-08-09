@@ -21,7 +21,7 @@ import { ChainAccount } from '../../types/chain';
 import { BroadcastedTx } from '../../types/tx';
 import { Divider } from '../Divider';
 import { DpmImage } from '../DpmImage';
-import { Typography } from '../typography';
+import { Typography } from '../Typography';
 import { MessageListItem } from './messages/MessageListItem';
 
 export type Props = {

@@ -4,7 +4,7 @@ import { useTranslation } from 'react-i18next';
 import { KeyboardAvoidingView, Platform, TextInput, View } from 'react-native';
 import { Button, PasswordComplexity, StyledSafeAreaView, TopBar } from '../../components';
 import SecureTextInput from '../../components/SecureTextInput';
-import { Typography } from '../../components/typography';
+import { Typography } from '../../components/Typography';
 import useNavigateToHomeScreen from '../../hooks/useNavigateToHomeScreen';
 import useSelectedAccount from '../../hooks/useSelectedAccount';
 import useShowModal from '../../hooks/useShowModal';

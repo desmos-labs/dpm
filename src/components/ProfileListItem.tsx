@@ -8,7 +8,7 @@ import { AvatarImage } from './AvatarImage';
 import { Divider } from './Divider';
 import IconButton from './IconButton';
 import { MenuItem } from './MenuItem';
-import { Typography } from './typography';
+import { Typography } from './Typography';
 
 export type Props = {
   /**

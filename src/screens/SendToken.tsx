@@ -5,7 +5,7 @@ import { useTranslation } from 'react-i18next';
 import useCurrentChainInfo from '../hooks/desmosclient/useCurrentChainInfo';
 import { Button, StyledSafeAreaView, TextInput, TopBar } from '../components';
 import { FlexPadding } from '../components/FlexPadding';
-import { Typography } from '../components/typography';
+import { Typography } from '../components/Typography';
 import { MEMO_MAX_LENGTH } from '../constants/chain';
 import { useAppContext } from '../contexts/AppContext';
 import useSelectedAccount from '../hooks/useSelectedAccount';

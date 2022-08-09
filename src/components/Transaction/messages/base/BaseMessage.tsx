@@ -3,7 +3,7 @@ import { Image, ImageProps, View } from 'react-native';
 import {format} from "date-fns";
 import { makeStyle } from '../../../../theming';
 import { Divider } from '../../../Divider';
-import { Typography } from '../../../typography';
+import { Typography } from '../../../Typography';
 import { LabeledValue } from '../../../LabeledValue';
 
 export type DetailsProps = {

@@ -4,7 +4,7 @@ import { View } from 'react-native';
 import Animated, { FadeIn, FadeOut } from 'react-native-reanimated';
 import { makeStyle } from '../theming';
 import { ThemedLottieView } from './ThemedLottieView';
-import { Typography } from './typography';
+import { Typography } from './Typography';
 
 const BiometricsLoadingIndicator: React.FC = () => {
   const styles = useStyles();

@@ -38,7 +38,7 @@ import { generateProof } from '../../utilils/chainlink';
 import toCosmjsHdPath from '../../utilils/hdpath';
 import TerraLedgerApp from '../../utilils/terra';
 import LocalWallet from '../../wallet/LocalWallet';
-import { Typography } from '../../components/typography';
+import { Typography } from '../../components/Typography';
 
 type Wallet = {
   signer: OfflineSigner;

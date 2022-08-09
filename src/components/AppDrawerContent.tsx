@@ -18,7 +18,7 @@ import { AccountScreensStackParams, RootStackParams } from '../types/navigation'
 import { Button } from './Button';
 import { IconButton, ListItemSeparator, ProfileListItem } from './index';
 import { StyledSafeAreaView } from './StyledSafeAreaView';
-import { Typography } from './typography';
+import { Typography } from './Typography';
 
 type AccountProfilePair = [ChainAccount, DesmosProfile | null];
 

@@ -20,7 +20,7 @@ import useSelectedAccount from '../hooks/useSelectedAccount';
 import { makeStyle } from '../theming';
 import { ChainLink } from '../types/link';
 import { AccountScreensStackParams } from '../types/navigation';
-import { Typography } from '../components/typography';
+import { Typography } from '../components/Typography';
 
 export type Props = StackScreenProps<AccountScreensStackParams, 'Profile'>;
 
