@@ -21,7 +21,7 @@ const desmosIcons = [
 
 const CustomIcon = createIconSetFromIcoMoon(icoMoonConfig);
 
-export type Props = {
+export type DesmosIconProps = {
   name: string;
   color: string;
   size: number;
@@ -29,7 +29,7 @@ export type Props = {
   allowFontScaling?: boolean;
 };
 
-export const DesmosIcon: React.FC<Props> = ({ name, color, size, direction, allowFontScaling }) => {
+export const DesmosIcon: React.FC<DesmosIconProps> = ({ name, color, size, direction, allowFontScaling }) => {
   if (desmosIcons.indexOf(name) >= 0) {
     return (
       <CustomIcon

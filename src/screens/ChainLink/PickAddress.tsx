@@ -14,12 +14,10 @@ import {
   Button,
   Divider,
   HdPathPicker,
-  ListItemSeparator,
   PaginatedFlatList,
   StyledSafeAreaView,
   TopBar,
-} from '../../components';
-import { FlexPadding } from '../../components/FlexPadding';
+ FlexPadding ,ListItemSeparator} from '../../components';
 import useCurrentChainInfo from '../../hooks/desmosclient/useCurrentChainInfo';
 import useAddChinLink from '../../hooks/useAddChainLink';
 import useSelectedAccount from '../../hooks/useSelectedAccount';

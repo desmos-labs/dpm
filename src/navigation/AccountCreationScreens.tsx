@@ -1,11 +1,11 @@
 import React from 'react';
 import CheckMnemonic from '../screens/AccountCreation/CheckMnemonic';
 import GenerateAccount from '../screens/AccountCreation/GenerateAccount';
-import GenerateNewMnemonic from '../screens/AccountCreation/GenerateNewMnemonic';
+import GenerateNewMnemonic from '../screens/AccountCreation/GenerateNewMnemonic/GenerateNewMnemonic';
 import ImportRecoveryPassphrase from '../screens/AccountCreation/ImportRecoveryPassphrase';
 import Legal from '../screens/AccountCreation/Legal';
 import Login from '../screens/AccountCreation/Login';
-import { PickDerivationPath } from '../screens/AccountCreation/PickDerivationPath';
+import { PickDerivationPath } from '../screens/AccountCreation/PickDerivationPath/PickDerivationPath';
 import WalletPassword from '../screens/AccountCreation/WalletPassword';
 import { AccountCreationStack } from '../types/navigation';
 

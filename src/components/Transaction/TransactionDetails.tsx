@@ -4,13 +4,13 @@ import { format } from 'date-fns';
 import Long from 'long';
 import React, { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Pressable, ScrollView, StyleProp, StyleSheet, Text, View, ViewStyle } from 'react-native';
+import { Pressable, ScrollView, StyleProp, StyleSheet, View, ViewStyle } from 'react-native';
 import {StdFee} from "@cosmjs/amino";
 import useCurrentChainInfo from '../../hooks/desmosclient/useCurrentChainInfo';
 import { Divider, LabeledValue } from '../index';
 import { MessageDetails } from './messages/MessageDetails';
 
-export type Props = {
+export type TransactionDetailsProps = {
   messages: readonly EncodeObject[];
   fee?: StdFee;
   memo?: string;
@@ -19,7 +19,7 @@ export type Props = {
   style?: StyleProp<ViewStyle>;
 };
 
-export const TransactionDetails: React.FC<Props> = (props) => {
+export const TransactionDetails: React.FC<TransactionDetailsProps> = (props) => {
   const { memo, messages, fee, success, dateTime, style } = props;
   const { t } = useTranslation();
   const chainInfo = useCurrentChainInfo();
