@@ -1,11 +1,15 @@
 module.exports = {
-  extends: ['plugin:react-hooks/recommended', 'airbnb', 'airbnb-typescript', 'prettier'],
-  plugins: ['@typescript-eslint', 'prettier', 'react', 'react-native'],
   env: {
     es6: true,
-    'react-native/react-native': true,
+    jest: true,
   },
+  extends: ['airbnb', '@react-native-community'],
   parser: '@typescript-eslint/parser',
+  plugins: ['@typescript-eslint', 'react-native'],
+  globals: {
+    window: true,
+    fetch: false,
+  },
   parserOptions: {
     project: './tsconfig.eslint.json',
     ecmaFeatures: {
