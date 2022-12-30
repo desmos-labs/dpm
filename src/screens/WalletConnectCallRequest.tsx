@@ -3,8 +3,11 @@ import { StackScreenProps } from '@react-navigation/stack';
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { View } from 'react-native';
+import {createDesmosTypes} from "@desmoslabs/desmjs";
+import {AminoTypes} from "@cosmjs/stargate";
+import {EncodeObject} from "@cosmjs/proto-signing";
 import { Button, StyledSafeAreaView, TopBar } from '../components';
-import { TxDetails } from '../components/tx/TxDetails';
+import { TransactionDetails } from '../components/Transaction/TransactionDetails';
 import { useWalletConnectContext } from '../contexts/WalletConnectContext';
 import useShowModal from '../hooks/useShowModal';
 import useSignTx from '../hooks/useSignTx';
@@ -72,18 +75,16 @@ export const WalletConnectCallRequest: React.FC<Props> = (props) => {
     return undefined;
   }, [request]);
 
-  const messages = useMemo(() => {
-    if (request !== null) {
-      if (request.type === CallRequestType.SignDirect) {
+  const aminoTypes = useMemo(() => new AminoTypes(createDesmosTypes("desmos")), []);
+  const messages: EncodeObject[] = useMemo(() => {
+      if (request?.type === CallRequestType.SignDirect) {
         return request.signDoc.body.messages;
       }
-      if (request.type === CallRequestType.SignAmino) {
-        return request.signDoc.msgs;
+      if (request?.type === CallRequestType.SignAmino) {
+        return request.signDoc.msgs.map((msg) => aminoTypes.fromAmino(msg));
       }
       return [];
-    }
-    return [];
-  }, [request]);
+    }, [aminoTypes, request]);
 
   const onReject = useCallback(() => {
     if (request) {
@@ -165,7 +166,7 @@ export const WalletConnectCallRequest: React.FC<Props> = (props) => {
       divider
       padding={0}
     >
-      <TxDetails style={styles.txDetails} messages={messages} fee={stdFee} memo={memo} />
+      <TransactionDetails style={styles.txDetails} messages={messages} fee={stdFee} memo={memo} />
       <View style={styles.buttonsContainer}>
         <Button style={styles.button} mode="contained" accent onPress={onReject} disabled={signing}>
           {t('reject')}

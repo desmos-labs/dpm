@@ -2,11 +2,11 @@ import React from 'react';
 import { StyleProp, StyleSheet, View, ViewStyle } from 'react-native';
 import { makeStyle } from '../theming';
 
-export type Props = {
+export type DividerProps = {
   style?: StyleProp<ViewStyle>;
 };
 
-export const Divider: (props: Props) => JSX.Element | null = (props) => {
+export const Divider: (props: DividerProps) => JSX.Element | null = (props) => {
   // eslint-disable-next-line react/prop-types
   const { style } = props;
   const styles = useStyles();

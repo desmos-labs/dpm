@@ -1,10 +1,11 @@
-import { StdFee, StdSignDoc } from '@cosmjs/amino';
+import { Pubkey, StdFee, StdSignDoc } from '@cosmjs/amino';
 import { EncodeObject } from '@cosmjs/proto-signing';
 import { CosmosMethod, CosmosSignDocDirect } from './jsonRpCosmosc';
 
 export type CosmosAminoTx = {
   method: CosmosMethod.SignAmino;
   tx: StdSignDoc;
+  pubKey: Pubkey;
 };
 
 export type CosmosDirectTx = {

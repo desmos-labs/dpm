@@ -30,7 +30,7 @@ export const AppSettingsStorageKey = 'dpm_app_settings';
  */
 export const DefaultAppSettings: AppSettings = {
   theme: 'auto',
-  chainId: 'desmos-mainnet',
+  chainId: 'testnet',
   balanceHidden: false,
   biometricSignature: false,
   biometricLogin: false,

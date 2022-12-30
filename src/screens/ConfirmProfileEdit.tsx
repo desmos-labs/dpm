@@ -1,5 +1,4 @@
-import { convertCoin, DesmosProfile, MsgSaveProfileEncodeObject } from '@desmoslabs/sdk-core';
-import { useCurrentChainInfo } from '@desmoslabs/sdk-react';
+import { convertCoin, MsgSaveProfileEncodeObject } from '@desmoslabs/desmjs';
 import { CompositeScreenProps } from '@react-navigation/native';
 import { StackScreenProps } from '@react-navigation/stack';
 import React, { useCallback, useMemo, useState } from 'react';
@@ -7,6 +6,7 @@ import { useTranslation } from 'react-i18next';
 import { ScrollView, View } from 'react-native';
 import { Button, Divider, LabeledValue, StyledSafeAreaView, TopBar } from '../components';
 import { ProfileHeader } from '../components/ProfileHeader';
+import useCurrentChainInfo from '../hooks/desmosclient/useCurrentChainInfo';
 import useBroadcastMessages from '../hooks/useBroadcastMessages';
 import useNavigateToHomeScreen from '../hooks/useNavigateToHomeScreen';
 import useSaveProfile from '../hooks/useSaveProfile';
@@ -15,6 +15,7 @@ import useUnlockWallet from '../hooks/useUnlockWallet';
 import useUploadPicture from '../hooks/useUploadPicture';
 import { SingleButtonModal } from '../modals/SingleButtonModal';
 import { makeStyle } from '../theming';
+import { DesmosProfile } from '../types/desmos';
 import { computeTxFees, messagesGas } from '../types/fees';
 import { AccountScreensStackParams, resetTo, RootStackParams } from '../types/navigation';
 
@@ -25,15 +26,8 @@ export type Props = CompositeScreenProps<
 
 export const ConfirmProfileEdit: React.FC<Props> = (props) => {
   const { route } = props;
-  const {
-    account,
-    oldProfile,
-    profile,
-    localCoverPictureUri,
-    localProfilePictureUri,
-    feeGranter,
-    goBackTo,
-  } = route.params;
+  const { account, oldProfile, profile, localCoverPictureUri, localProfilePictureUri, goBackTo } =
+    route.params;
   const { t } = useTranslation();
   const styles = useStyles();
   const chainInfo = useCurrentChainInfo();
@@ -47,20 +41,20 @@ export const ConfirmProfileEdit: React.FC<Props> = (props) => {
 
   const txFee = useMemo(() => {
     const saveProfileMessage: MsgSaveProfileEncodeObject = {
-      typeUrl: '/desmos.profiles.v1beta1.MsgSaveProfile',
+      typeUrl: '/desmos.profiles.v3.MsgSaveProfile',
       value: {
         creator: account.address,
         dtag: profile.dtag,
-        nickname: profile.nickname,
-        bio: profile.bio,
-        profilePicture: profile.profilePicture,
-        coverPicture: profile.coverPicture,
+        nickname: profile.nickname || "",
+        bio: profile.bio || "",
+        profilePicture: profile.profilePicture || "",
+        coverPicture: profile.coverPicture || "",
       },
     };
     const messages = [saveProfileMessage];
     const gas = messagesGas(messages);
-    return computeTxFees(gas, chainInfo.coinDenom).average;
-  }, [account.address, profile, chainInfo.coinDenom]);
+    return computeTxFees(gas, chainInfo.stakingDenom).average;
+  }, [account.address, profile, chainInfo.stakingDenom]);
 
   const convertedTxFee = useMemo(() => {
     const converted = convertCoin(txFee.amount[0], 6, chainInfo.denomUnits);
@@ -112,14 +106,18 @@ export const ConfirmProfileEdit: React.FC<Props> = (props) => {
         }
 
         const saveProfileMessage: MsgSaveProfileEncodeObject = {
-          typeUrl: '/desmos.profiles.v1beta1.MsgSaveProfile',
+          typeUrl: '/desmos.profiles.v3.MsgSaveProfile',
           value: {
             creator: account.address,
-            ...newProfile,
+            dtag: newProfile.dtag,
+            nickname: newProfile.nickname || "",
+            bio: newProfile.bio || "",
+            profilePicture: newProfile.profilePicture || "",
+            coverPicture: newProfile.coverPicture || "",
           },
         };
         const messages = [saveProfileMessage];
-        await broadcastMessages(wallet, messages, txFee, undefined, feeGranter);
+        await broadcastMessages(wallet, messages, txFee, undefined);
         await saveProfile(profile);
 
         showModal(SingleButtonModal, {
@@ -134,6 +132,7 @@ export const ConfirmProfileEdit: React.FC<Props> = (props) => {
         });
       }
     } catch (e) {
+      console.error(e);
       showModal(SingleButtonModal, {
         image: 'fail',
         title: t('ops'),
@@ -154,7 +153,6 @@ export const ConfirmProfileEdit: React.FC<Props> = (props) => {
     localProfilePictureUri,
     broadcastMessages,
     txFee,
-    feeGranter,
     saveProfile,
     showModal,
     t,

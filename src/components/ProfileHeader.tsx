@@ -5,9 +5,9 @@ import { useTheme } from 'react-native-paper';
 import { makeStyle } from '../theming';
 import { AvatarImage } from './AvatarImage';
 import IconButton from './IconButton';
-import { Typography } from './typography';
+import { Typography } from './Typography';
 
-export type Props = {
+export type ProfileHeaderProps = {
   address?: string;
   dtag?: string;
   nickname?: string;
@@ -20,7 +20,7 @@ export type Props = {
   onEditCoverPicture?: () => void;
 };
 
-export const ProfileHeader: React.FC<Props> = (props) => {
+export const ProfileHeader: React.FC<ProfileHeaderProps> = (props) => {
   const {
     address,
     dtag,

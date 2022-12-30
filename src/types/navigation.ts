@@ -1,6 +1,5 @@
 import { StdFee } from '@cosmjs/amino';
 import { EncodeObject } from '@cosmjs/proto-signing';
-import { DesmosProfile } from '@desmoslabs/sdk-core';
 import BluetoothTransport from '@ledgerhq/react-native-hw-transport-ble';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import {
@@ -15,6 +14,7 @@ import { StackNavigationProp } from '@react-navigation/stack/lib/typescript/src/
 import React, { MutableRefObject } from 'react';
 import LocalWallet from '../wallet/LocalWallet';
 import { ChainAccount, LinkableChain } from './chain';
+import { DesmosProfile } from './desmos';
 import { BleLedger, LedgerApp } from './ledger';
 import { ChainLink } from './link';
 import { Wallet } from './wallet';

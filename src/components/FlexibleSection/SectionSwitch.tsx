@@ -2,7 +2,7 @@ import React from 'react';
 import { View } from 'react-native';
 import { makeStyle } from '../../theming';
 import { Switch } from '../Switch';
-import { Typography } from '../typography';
+import { Typography } from '../Typography';
 
 export type Props = {
   label: string;

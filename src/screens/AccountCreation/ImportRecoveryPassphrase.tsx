@@ -5,7 +5,7 @@ import { useTranslation } from 'react-i18next';
 import { KeyboardAvoidingView, Platform } from 'react-native';
 import { Button, StyledSafeAreaView, TextInput, TopBar } from '../../components';
 import { FlexPadding } from '../../components/FlexPadding';
-import { Typography } from '../../components/typography';
+import { Typography } from '../../components/Typography';
 import { makeStyle } from '../../theming';
 import { AccountCreationStackParams } from '../../types/navigation';
 import sanitizeMnemonic from '../../utilils/mnemonic';

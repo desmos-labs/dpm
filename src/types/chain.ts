@@ -1,4 +1,4 @@
-import { ChainConfig } from '@desmoslabs/proto/desmos/profiles/v1beta1/models_chain_links';
+import { ChainConfig } from '@desmoslabs/desmjs-types/desmos/profiles/v3/models_chain_links';
 import { ImageSourcePropType } from 'react-native';
 import { BandHdPath, CosmosHdPath, CroHdPath, HdPath, KavaHdPath, LunaHdPath } from './hdpath';
 
@@ -7,7 +7,7 @@ export enum ChainAccountType {
   Ledger,
 }
 
-export type ChainId = 'desmos-mainnet' | 'morpheus-apollo-2';
+export type ChainId = 'mainnet' | 'testnet';
 
 export interface ChainAccount {
   /**

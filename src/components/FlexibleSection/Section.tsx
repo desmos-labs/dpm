@@ -1,7 +1,7 @@
 import React, { useMemo } from 'react';
 import { StyleProp, View, ViewStyle } from 'react-native';
 import { makeStyle } from '../../theming';
-import { Typography } from '../typography';
+import { Typography } from '../Typography';
 
 export type Props = {
   title?: string;

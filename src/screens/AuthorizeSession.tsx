@@ -1,10 +1,10 @@
-import { useCurrentChainInfo } from '@desmoslabs/sdk-react';
 import { StackScreenProps } from '@react-navigation/stack';
 import { format } from 'date-fns';
 import React, { useCallback, useEffect, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { FlatList, Image, ListRenderItemInfo, StyleProp, View, ViewStyle } from 'react-native';
 import { Button, Divider, StyledSafeAreaView, TopBar } from '../components';
+import useCurrentChainInfo from '../hooks/desmosclient/useCurrentChainInfo';
 import useAuthorizeOperation from '../hooks/useAuthorizeOperation';
 import useNavigateToHomeScreen from '../hooks/useNavigateToHomeScreen';
 import useSelectedAccount from '../hooks/useSelectedAccount';
@@ -14,7 +14,7 @@ import useWalletConnectSessionReject from '../hooks/useWalletConnectSessionRejec
 import { SingleButtonModal } from '../modals/SingleButtonModal';
 import { makeStyle } from '../theming';
 import { AccountScreensStackParams } from '../types/navigation';
-import { Typography } from '../components/typography';
+import { Typography } from '../components/Typography';
 
 type Authorization = {
   title: string;

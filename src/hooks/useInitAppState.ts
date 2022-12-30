@@ -5,6 +5,7 @@ import AccountSource from '../sources/AccountSource';
 import { LocalWalletsSource } from '../sources/LocalWalletsSource';
 import ProfileSource from '../sources/ProfileSource';
 import * as SecureStorage from '../utilils/SecureStorage';
+import useConnectDesmosClient from './desmosclient/useConnectDesmosClient';
 import useLoadSettings from './settings/useLoadSettings';
 import useLoadAccounts from './useLoadAccounts';
 import useLoadAllProfiles from './useLoadAllProfiles';
@@ -22,6 +23,7 @@ export default function useInitAppState(): InitState {
   const loadProfiles = useLoadAllProfiles();
   const loadSettings = useLoadSettings();
   const loadChainLinks = useLoadAllChainLinks();
+  const connectDesmosClient = useConnectDesmosClient();
 
   useEffect(() => {
     (async () => {
@@ -42,6 +44,7 @@ export default function useInitAppState(): InitState {
         const accounts = await loadAccounts();
         await loadProfiles();
         await loadSettings();
+        await connectDesmosClient();
         await loadChainLinks(accounts.accounts.map((account) => account.address));
         setInitializing({
           initializing: false,

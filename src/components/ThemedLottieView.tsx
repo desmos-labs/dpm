@@ -8,11 +8,11 @@ export type DesmosAnimations =
   | 'connect-to-ledger'
   | 'loading';
 
-type Props = Omit<React.ComponentProps<typeof LottieView>, 'source'> & {
+type ThemedLottieViewProps = Omit<React.ComponentProps<typeof LottieView>, 'source'> & {
   source: DesmosAnimations;
 };
 
-export const ThemedLottieView: React.FC<Props> = (props) => {
+export const ThemedLottieView: React.FC<ThemedLottieViewProps> = (props) => {
   const { source } = props;
   const theme = useTheme();
   const animation = useMemo(() => {

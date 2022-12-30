@@ -1,8 +1,7 @@
 import { LedgerApp as CosmosLedgerApp, LedgerSigner } from '@cosmjs/ledger-amino';
 import { OfflineSigner } from '@cosmjs/proto-signing';
-import { MsgLinkChainAccount } from '@desmoslabs/proto/desmos/profiles/v1beta1/msgs_chain_links';
-import { MsgLinkChainAccountEncodeObject } from '@desmoslabs/sdk-core';
-import { useCurrentChainInfo } from '@desmoslabs/sdk-react';
+import { MsgLinkChainAccountEncodeObject } from '@desmoslabs/desmjs';
+import { MsgLinkChainAccount } from '@desmoslabs/desmjs-types/desmos/profiles/v3/msgs_chain_links';
 import BluetoothTransport from '@ledgerhq/react-native-hw-transport-ble';
 import { CompositeScreenProps } from '@react-navigation/native';
 import { StackScreenProps } from '@react-navigation/stack';
@@ -15,12 +14,11 @@ import {
   Button,
   Divider,
   HdPathPicker,
-  ListItemSeparator,
   PaginatedFlatList,
   StyledSafeAreaView,
   TopBar,
-} from '../../components';
-import { FlexPadding } from '../../components/FlexPadding';
+ FlexPadding ,ListItemSeparator} from '../../components';
+import useCurrentChainInfo from '../../hooks/desmosclient/useCurrentChainInfo';
 import useAddChinLink from '../../hooks/useAddChainLink';
 import useSelectedAccount from '../../hooks/useSelectedAccount';
 import useShowModal from '../../hooks/useShowModal';
@@ -38,7 +36,7 @@ import { generateProof } from '../../utilils/chainlink';
 import toCosmjsHdPath from '../../utilils/hdpath';
 import TerraLedgerApp from '../../utilils/terra';
 import LocalWallet from '../../wallet/LocalWallet';
-import { Typography } from '../../components/typography';
+import { Typography } from '../../components/Typography';
 
 type Wallet = {
   signer: OfflineSigner;
@@ -261,16 +259,20 @@ export const PickAddress: React.FC<Props> = (props) => {
       }
       try {
         const proof = await generateProof({
+          desmosAddress: selectedAccount.address,
+          externalAddress: selectedWallet.address,
           externalChainWallet: selectedWallet.signer,
-          signerAddress: selectedWallet.address,
           chain,
         });
+
+        console.log('proof', proof);
+
         if (closeModal !== undefined) {
           closeModal();
         }
 
         const msg: MsgLinkChainAccountEncodeObject = {
-          typeUrl: '/desmos.profiles.v1beta1.MsgLinkChainAccount',
+          typeUrl: '/desmos.profiles.v3.MsgLinkChainAccount',
           value: MsgLinkChainAccount.fromPartial({
             signer: selectedAccount.address,
             proof: proof.proof,
@@ -280,7 +282,7 @@ export const PickAddress: React.FC<Props> = (props) => {
         };
         const messages = [msg];
         const gas = messagesGas(messages);
-        const fee = computeTxFees(gas, chainInfo.coinDenom).average;
+        const fee = computeTxFees(gas, chainInfo.stakingDenom).average;
         navigation.navigate({
           name: 'ConfirmTx',
           params: {
@@ -309,7 +311,7 @@ export const PickAddress: React.FC<Props> = (props) => {
     importMode,
     chain,
     selectedAccount.address,
-    chainInfo.coinDenom,
+    chainInfo.stakingDenom,
     navigation,
     feeGranter,
     backAction,

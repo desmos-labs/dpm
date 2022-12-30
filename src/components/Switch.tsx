@@ -12,6 +12,7 @@ type SwitchProps = {
   /** If you want to animate the switch when executing the callback */
   animateOnPress?: boolean;
 };
+
 // eslint-disable-next-line import/prefer-default-export
 export const Switch: React.FC<SwitchProps> = (props) => {
   const { onPress, value, isDisabled, animateOnPress } = props;

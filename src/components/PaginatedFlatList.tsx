@@ -2,7 +2,7 @@ import React, { useCallback, useEffect, useState } from 'react';
 import { FlatList, FlatListProps } from 'react-native';
 import { ActivityIndicator, useTheme } from 'react-native-paper';
 
-export type Props<ItemT> = Omit<FlatListProps<ItemT>, 'data'> & {
+export type PaginatedFlatListProps<ItemT> = Omit<FlatListProps<ItemT>, 'data'> & {
   /**
    * Function that loads the items from the provided offset to the limit (excluded).
    * If the function returns null means that there aren't any other elements to load.
@@ -15,7 +15,7 @@ export type Props<ItemT> = Omit<FlatListProps<ItemT>, 'data'> & {
   itemsPerPage: number;
 };
 
-export function PaginatedFlatList<ItemT = any>(props: Props<ItemT>): JSX.Element {
+export function PaginatedFlatList<ItemT = any>(props: PaginatedFlatListProps<ItemT>): JSX.Element {
   const { loadPage, itemsPerPage, onEndReached } = props;
   const theme = useTheme();
   const [loading, setLoading] = useState(false);

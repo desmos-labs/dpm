@@ -4,7 +4,7 @@ import { useTranslation } from 'react-i18next';
 import { KeyboardAvoidingView, Platform, View } from 'react-native';
 import { Button, PasswordComplexity, StyledSafeAreaView, TopBar } from '../../components';
 import SecureTextInput from '../../components/SecureTextInput';
-import { Typography } from '../../components/typography';
+import { Typography } from '../../components/Typography';
 import { makeStyle } from '../../theming';
 import { AccountCreationStackParams } from '../../types/navigation';
 import evaluatePasswordComplexity from '../../utilils/passwordEvaluation';

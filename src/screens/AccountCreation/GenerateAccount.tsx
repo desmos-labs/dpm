@@ -3,7 +3,7 @@ import { StackScreenProps } from '@react-navigation/stack';
 import React, { useCallback, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Button, DpmImage, StyledSafeAreaView } from '../../components';
-import { Typography } from '../../components/typography';
+import { Typography } from '../../components/Typography';
 import { useAppContext } from '../../contexts/AppContext';
 import useChangeAccount from '../../hooks/useChangeAccount';
 import useSaveAccount from '../../hooks/useSaveAccount';

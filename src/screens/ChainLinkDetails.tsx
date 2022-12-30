@@ -15,7 +15,7 @@ import { TwoButtonModal } from '../modals/TwoButtonModal';
 import { makeStyle } from '../theming';
 import { AccountScreensStackParams } from '../types/navigation';
 import findLinkableChainInfoByName from '../utilils/find';
-import { Typography } from '../components/typography';
+import { Typography } from '../components/Typography';
 
 export type Props = StackScreenProps<AccountScreensStackParams, 'ChainLinkDetails'>;
 

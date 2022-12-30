@@ -1,15 +1,17 @@
 import { Coin, StdFee } from '@cosmjs/amino';
 import { EncodeObject } from '@cosmjs/proto-signing';
-import { Bech32Address } from '@desmoslabs/proto/desmos/profiles/v1beta1/models_chain_links';
+import { Bech32Address } from '@desmoslabs/desmjs-types/desmos/profiles/v3/models_chain_links';
 import {
   MsgDelegateEncodeObject,
-  MsgLinkChainAccountEncodeObject,
-  MsgSaveProfileEncodeObject,
   MsgSendEncodeObject,
-  MsgUnlinkChainAccountEncodeObject,
   MsgVoteEncodeObject,
   MsgWithdrawDelegatorRewardEncodeObject,
-} from '@desmoslabs/sdk-core';
+} from '@cosmjs/stargate';
+import {
+  MsgLinkChainAccountEncodeObject,
+  MsgSaveProfileEncodeObject,
+  MsgUnlinkChainAccountEncodeObject,
+} from '@desmoslabs/desmjs';
 import { PubKey } from 'cosmjs-types/cosmos/crypto/secp256k1/keys';
 import { VoteOption } from 'cosmjs-types/cosmos/gov/v1beta1/gov';
 import { Any } from 'cosmjs-types/google/protobuf/any';
@@ -124,7 +126,7 @@ function gqlMessageToEncodeObject(msg: any): EncodeObject {
 
     case MsgTypes.MsgSaveProfile:
       return {
-        typeUrl: '/desmos.profiles.v1beta1.MsgSaveProfile',
+        typeUrl: '/desmos.profiles.v3.MsgSaveProfile',
         value: {
           dtag: msg.dtag,
           nickname: msg.nickname,
@@ -146,7 +148,7 @@ function gqlMessageToEncodeObject(msg: any): EncodeObject {
       }).finish();
 
       return {
-        typeUrl: '/desmos.profiles.v1beta1.MsgLinkChainAccount',
+        typeUrl: '/desmos.profiles.v3.MsgLinkChainAccount',
         value: {
           chainAddress: {
             typeUrl: chainAddress['@type'],
@@ -164,9 +166,10 @@ function gqlMessageToEncodeObject(msg: any): EncodeObject {
         },
       } as MsgLinkChainAccountEncodeObject;
     }
+
     case MsgTypes.MsgUnlinkChainAccount:
       return {
-        typeUrl: '/desmos.profiles.v1beta1.MsgUnlinkChainAccount',
+        typeUrl: '/desmos.profiles.v3.MsgUnlinkChainAccount',
         value: {
           target: msg.target,
           owner: msg.owner,

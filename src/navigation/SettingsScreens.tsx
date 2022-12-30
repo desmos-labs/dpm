@@ -1,10 +1,10 @@
 import React from 'react';
-import Settings from '../screens/Settings';
-import ChangeWalletPassword from '../screens/SettingsOptions/ChangeWalletPassword';
-import DisplayMode from '../screens/SettingsOptions/DisplayMode';
-import HandleBiometrics from '../screens/SettingsOptions/HandleBiometrics';
-import JoinCommunity from '../screens/SettingsOptions/JoinCommunity';
-import SwitchChain from '../screens/SettingsOptions/SwitchChain';
+import Settings from '../screens/Settings/Settings';
+import ChangeWalletPassword from '../screens/Settings/components/ChangeWalletPassword';
+import DisplayMode from '../screens/Settings/components/DisplayMode';
+import HandleBiometrics from '../screens/Settings/components/HandleBiometrics';
+import JoinCommunity from '../screens/Settings/components/JoinCommunity';
+import SwitchChain from '../screens/Settings/components/SwitchChain';
 import { SettingsScreensStack } from '../types/navigation';
 
 const SettingsScreens: React.FC = () => (

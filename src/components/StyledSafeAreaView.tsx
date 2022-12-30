@@ -13,7 +13,7 @@ import useCloseKeyboard from '../hooks/useCloseKeyboard';
 import { makeStyleWithProps } from '../theming';
 import { Divider } from './Divider';
 
-export type Props = ViewProps & {
+export type StyledSafeAreaViewProps = ViewProps & {
   /**
    * True if the content should be wrapped inside a ScrollView.
    */
@@ -42,7 +42,7 @@ export type Props = ViewProps & {
   noIosPadding?: boolean;
 };
 
-export const StyledSafeAreaView: React.FC<Props> = (props) => {
+export const StyledSafeAreaView: React.FC<StyledSafeAreaViewProps> = (props) => {
   const { scrollable, topBar, divider, background, children, style } = props;
   const styles = useStyles(props);
   const theme = useTheme();
@@ -57,27 +57,25 @@ export const StyledSafeAreaView: React.FC<Props> = (props) => {
       )}
       {topBar}
       {divider && <Divider />}
-      <TouchableWithoutFeedback onPress={closeKeyboard} accessible={false} disabled={scrollable}>
-        <View style={[styles.content, style]}>
-          {scrollable ? (
-            <View style={styles.scrollViewContainer}>
-              <ScrollView
-                style={{ margin: -theme.spacing.m }}
-                contentContainerStyle={{ padding: theme.spacing.m }}
-              >
-                {children}
-              </ScrollView>
-            </View>
-          ) : (
-            children
-          )}
-        </View>
-      </TouchableWithoutFeedback>
+      <View style={[styles.content, style]}>
+        {scrollable ? (
+          <View style={styles.scrollViewContainer}>
+            <ScrollView
+              style={{ margin: -theme.spacing.m }}
+              contentContainerStyle={{ padding: theme.spacing.m }}
+            >
+              {children}
+            </ScrollView>
+          </View>
+        ) : (
+          children
+        )}
+      </View>
     </View>
   );
 };
 
-const useStyles = makeStyleWithProps((props: Props, theme) => ({
+const useStyles = makeStyleWithProps((props: StyledSafeAreaViewProps, theme) => ({
   root: {
     display: 'flex',
     flexDirection: 'column',

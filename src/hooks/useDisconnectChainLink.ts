@@ -1,9 +1,9 @@
 import { OfflineSigner } from '@cosmjs/proto-signing';
-import { MsgUnlinkChainAccountEncodeObject } from '@desmoslabs/sdk-core';
-import { useCurrentChainInfo } from '@desmoslabs/sdk-react';
+import { MsgUnlinkChainAccountEncodeObject } from '@desmoslabs/desmjs';
 import { useCallback } from 'react';
 import { computeTxFees, messagesGas } from '../types/fees';
 import { ChainLink } from '../types/link';
+import useCurrentChainInfo from './desmosclient/useCurrentChainInfo';
 import useBroadcastMessages from './useBroadcastMessages';
 
 export default function useDisconnectChainLink() {
@@ -15,7 +15,7 @@ export default function useDisconnectChainLink() {
       const accounts = await wallet.getAccounts();
       const msgs = [
         {
-          typeUrl: '/desmos.profiles.v1beta1.MsgUnlinkChainAccount',
+          typeUrl: '/desmos.profiles.v3.MsgUnlinkChainAccount',
           value: {
             chainName: chainLink.chainName,
             owner: accounts[0].address,
@@ -25,7 +25,7 @@ export default function useDisconnectChainLink() {
       ];
 
       const gas = messagesGas(msgs);
-      const fee = computeTxFees(gas, chainInfo.coinDenom).average;
+      const fee = computeTxFees(gas, chainInfo.stakeCurrency.coinDenom).average;
       await broadcastMessages(wallet, msgs, fee);
     },
     [broadcastMessages, chainInfo]

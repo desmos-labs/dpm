@@ -1,13 +1,14 @@
 import { StdFee } from '@cosmjs/amino';
 import { EncodeObject, OfflineSigner } from '@cosmjs/proto-signing';
-import { isBroadcastTxFailure } from '@desmoslabs/sdk-core';
-import { useDesmosClient } from '@desmoslabs/sdk-react';
+import { isDeliverTxFailure } from '@cosmjs/stargate/build/stargateclient';
 import { Coin } from 'cosmjs-types/cosmos/base/v1beta1/coin';
 import { SignMode } from 'cosmjs-types/cosmos/tx/signing/v1beta1/signing';
 import { AuthInfo, SignerInfo, TxRaw } from 'cosmjs-types/cosmos/tx/v1beta1/tx';
 import { Any } from 'cosmjs-types/google/protobuf/any';
 import Long from 'long';
 import { useCallback } from 'react';
+import SignerWrapper from '../utilils/offlinesignerwrapper';
+import useDesmosClient from './desmosclient/useDesmosClient';
 
 function makeSignerInfo(
   signer: { readonly pubkey: Any; readonly sequence: number },
@@ -52,26 +53,19 @@ export default function useBroadcastMessages() {
   const client = useDesmosClient();
 
   return useCallback(
-    async (
-      signer: OfflineSigner,
-      messages: EncodeObject[],
-      fee: StdFee,
-      memo?: string,
-      granter?: string
-    ) => {
-      client.setSigner(signer);
-      await client.connect();
+    async (signer: OfflineSigner, messages: EncodeObject[], fee: StdFee, memo?: string) => {
+      const wrapper = new SignerWrapper(signer);
+      client!.setSigner(wrapper);
       const signerAddress = await signer.getAccounts();
-      const signed = await client.sign(
+      const signed = await client!.sign(
         signerAddress[0].address,
         messages,
         fee,
         memo ?? '',
-        undefined,
-        granter
+        undefined
       );
-      const broadcastResult = await client.broadcastTx(TxRaw.encode(signed).finish());
-      if (isBroadcastTxFailure(broadcastResult)) {
+      const broadcastResult = await client!.broadcastTx(TxRaw.encode(signed).finish());
+      if (isDeliverTxFailure(broadcastResult)) {
         throw new Error(broadcastResult.rawLog ?? 'Unknown error');
       }
     },

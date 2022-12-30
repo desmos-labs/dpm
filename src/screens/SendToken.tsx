@@ -1,11 +1,11 @@
-import { MsgSendEncodeObject } from '@desmoslabs/sdk-core';
-import { useCurrentChainInfo } from '@desmoslabs/sdk-react';
+import { MsgSendEncodeObject } from '@cosmjs/stargate';
 import { StackScreenProps } from '@react-navigation/stack';
 import React, { useCallback, useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import useCurrentChainInfo from '../hooks/desmosclient/useCurrentChainInfo';
 import { Button, StyledSafeAreaView, TextInput, TopBar } from '../components';
 import { FlexPadding } from '../components/FlexPadding';
-import { Typography } from '../components/typography';
+import { Typography } from '../components/Typography';
 import { MEMO_MAX_LENGTH } from '../constants/chain';
 import { useAppContext } from '../contexts/AppContext';
 import useSelectedAccount from '../hooks/useSelectedAccount';
@@ -70,11 +70,11 @@ export const SendToken: React.FC<Props> = (props) => {
       value: {
         fromAddress: currentAccount.address,
         toAddress: address,
-        amount: [{ amount: amountNumber.toString(), denom: chainInfo.coinDenom }],
+        amount: [{ amount: amountNumber.toString(), denom: chainInfo.stakingDenom }],
       },
     };
     const gas = messagesGas([msgSend]);
-    const txFee = computeTxFees(gas, chainInfo.coinDenom).average;
+    const txFee = computeTxFees(gas, chainInfo.stakingDenom).average;
 
     navigation.navigate({
       name: 'ConfirmTx',
@@ -84,7 +84,7 @@ export const SendToken: React.FC<Props> = (props) => {
         fee: txFee,
       },
     });
-  }, [address, amount, chainInfo.coinDenom, currentAccount.address, navigation, memo]);
+  }, [address, amount, chainInfo.stakingDenom, currentAccount.address, navigation, memo]);
 
   return (
     <StyledSafeAreaView topBar={<TopBar stackProps={props} title={t('send')} />}>

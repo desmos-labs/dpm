@@ -8,7 +8,7 @@ import { makeStyle } from '../../theming';
 import { ChainLinkScreensStackParams } from '../../types/navigation';
 import sanitizeMnemonic from '../../utilils/mnemonic';
 import { checkMnemonic } from '../../wallet/LocalWallet';
-import { Typography } from '../../components/typography';
+import { Typography } from '../../components/Typography';
 
 export type Props = StackScreenProps<ChainLinkScreensStackParams, 'LinkWithMnemonic'>;
 
