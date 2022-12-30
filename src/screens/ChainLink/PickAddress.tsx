@@ -1,7 +1,7 @@
 import { LedgerApp as CosmosLedgerApp, LedgerSigner } from '@cosmjs/ledger-amino';
 import { OfflineSigner } from '@cosmjs/proto-signing';
 import { MsgLinkChainAccountEncodeObject } from '@desmoslabs/desmjs';
-import { MsgLinkChainAccount } from '@desmoslabs/desmjs-types/desmos/profiles/v2/msgs_chain_links';
+import { MsgLinkChainAccount } from '@desmoslabs/desmjs-types/desmos/profiles/v3/msgs_chain_links';
 import BluetoothTransport from '@ledgerhq/react-native-hw-transport-ble';
 import { CompositeScreenProps } from '@react-navigation/native';
 import { StackScreenProps } from '@react-navigation/stack';
@@ -14,12 +14,10 @@ import {
   Button,
   Divider,
   HdPathPicker,
-  ListItemSeparator,
   PaginatedFlatList,
   StyledSafeAreaView,
   TopBar,
-} from '../../components';
-import { FlexPadding } from '../../components/FlexPadding';
+ FlexPadding ,ListItemSeparator} from '../../components';
 import useCurrentChainInfo from '../../hooks/desmosclient/useCurrentChainInfo';
 import useAddChinLink from '../../hooks/useAddChainLink';
 import useSelectedAccount from '../../hooks/useSelectedAccount';
@@ -38,7 +36,7 @@ import { generateProof } from '../../utilils/chainlink';
 import toCosmjsHdPath from '../../utilils/hdpath';
 import TerraLedgerApp from '../../utilils/terra';
 import LocalWallet from '../../wallet/LocalWallet';
-import { Typography } from '../../components/typography';
+import { Typography } from '../../components/Typography';
 
 type Wallet = {
   signer: OfflineSigner;
@@ -274,7 +272,7 @@ export const PickAddress: React.FC<Props> = (props) => {
         }
 
         const msg: MsgLinkChainAccountEncodeObject = {
-          typeUrl: '/desmos.profiles.v2.MsgLinkChainAccount',
+          typeUrl: '/desmos.profiles.v3.MsgLinkChainAccount',
           value: MsgLinkChainAccount.fromPartial({
             signer: selectedAccount.address,
             proof: proof.proof,

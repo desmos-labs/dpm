@@ -3,7 +3,7 @@ import { Platform, StatusBar, StyleProp, View, ViewStyle } from 'react-native';
 import { useTheme } from 'react-native-paper';
 import { makeStyleWithProps } from '../theming';
 import IconButton from './IconButton';
-import { Typography } from './typography';
+import { Typography } from './Typography';
 
 type ScreenProps = {
   navigation: {
@@ -13,7 +13,7 @@ type ScreenProps = {
   };
 };
 
-export type Props = {
+export type TopBarProps = {
   /**
    * Props regarding of the stack screen to manage.
    */
@@ -38,7 +38,7 @@ export type Props = {
   style?: StyleProp<ViewStyle>;
 };
 
-export const TopBar: React.FC<Props> = (props) => {
+export const TopBar: React.FC<TopBarProps> = (props) => {
   const { stackProps, title, rightElement, leftIconColor, style } = props;
   const theme = useTheme();
   const styles = useStyles(props);
@@ -73,7 +73,7 @@ export const TopBar: React.FC<Props> = (props) => {
   );
 };
 
-const useStyles = makeStyleWithProps((props: Props, theme) => ({
+const useStyles = makeStyleWithProps((props: TopBarProps, theme) => ({
   root: {
     display: 'flex',
     flexDirection: 'row',

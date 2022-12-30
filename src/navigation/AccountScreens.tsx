@@ -7,14 +7,14 @@ import { BiographyEditor } from '../screens/BiographyEditor';
 import { ChainLinkDetails } from '../screens/ChainLinkDetails';
 import { ConfirmProfileEdit } from '../screens/ConfirmProfileEdit';
 import { ConfirmTx } from '../screens/ConfirmTx';
-import EditProfile from '../screens/EditProfile';
-import Profile from '../screens/Profile';
+import EditProfile from '../screens/EditProfile/EditProfile';
+import Profile from '../screens/Profile/Profile';
 import { SendToken } from '../screens/SendToken';
 import { TxDetails } from '../screens/TxDetails';
 import { WalletConnectCallRequest } from '../screens/WalletConnectCallRequest';
 import { AccountScreensStack } from '../types/navigation';
 import ChainLinkScreens from './ChainLinkScreens';
-import HomeScreens from './HomeScreens';
+import HomeScreens from './HomeScreens/HomeScreens';
 import SettingsScreens from './SettingsScreens';
 
 export default function AccountScreens() {

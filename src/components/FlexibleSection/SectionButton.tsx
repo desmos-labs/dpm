@@ -1,7 +1,7 @@
 import React from 'react';
 import { Image, ImageProps, TouchableOpacity } from 'react-native';
 import { makeStyle } from '../../theming';
-import { Typography } from '../typography';
+import { Typography } from '../Typography';
 import { Icon } from './Icon';
 
 export type Props = {

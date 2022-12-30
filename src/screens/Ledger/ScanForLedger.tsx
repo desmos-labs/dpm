@@ -15,7 +15,7 @@ import useStartBleScan from '../../hooks/ledger/useStartBleScan';
 import { makeStyle } from '../../theming';
 import { BleLedger } from '../../types/ledger';
 import { ConnectToLedgerScreensStackParams } from '../../types/navigation';
-import { Typography } from '../../components/typography';
+import { Typography } from '../../components/Typography';
 
 export type Props = StackScreenProps<ConnectToLedgerScreensStackParams, 'ScanForLedger'>;
 

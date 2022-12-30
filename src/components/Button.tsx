@@ -4,7 +4,7 @@ import { Button as MaterialButton, useTheme } from 'react-native-paper';
 import { IconSource } from 'react-native-paper/lib/typescript/components/Icon';
 import { makeStyleWithProps } from '../theming';
 
-export type Props = {
+export type ButtonProps = {
   /**
    * Mode of the button. You can change the mode to adjust the styling to give it desired emphasis.
    * - `text` - flat button without background or outline (low emphasis)
@@ -46,7 +46,7 @@ export type Props = {
   style?: StyleProp<ViewStyle>;
 };
 
-export const Button: React.FC<Props> = (props) => {
+export const Button: React.FC<ButtonProps> = (props) => {
   const {
     mode,
     color,
@@ -80,7 +80,7 @@ export const Button: React.FC<Props> = (props) => {
   );
 };
 
-const useStyles = makeStyleWithProps((props: Props, theme) => {
+const useStyles = makeStyleWithProps((props: ButtonProps, theme) => {
   const accent = props.accent ? theme.colors.accent : theme.colors.primary;
   const color = props.color ? props.color : accent;
   return {

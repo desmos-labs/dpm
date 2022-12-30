@@ -4,7 +4,7 @@ import { SectionButton } from './SectionButton';
 import { SectionSwitch } from './SectionSwitch';
 import { SectionText } from './SectionText';
 
-const FlexibleSection = {
+export const FlexibleSection = {
   Section,
   SectionText,
   SectionButton,

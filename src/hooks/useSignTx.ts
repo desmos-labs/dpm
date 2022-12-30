@@ -36,7 +36,7 @@ async function signDirectTx(
       },
     ],
     authInfo.fee?.amount!,
-    authInfo.fee?.gasLimit!.toNumber(),
+    authInfo.fee?.gasLimit?.toNumber() || 200_000,
     SignMode.SIGN_MODE_DIRECT
   );
 
@@ -78,6 +78,7 @@ async function signAminoTx(signDoc: StdSignDoc, signer: OfflineSigner): Promise<
     method: CosmosMethod.SignAmino,
     tx: signDoc,
     signature: signResult.signature.signature,
+    pubKey: signResult.signature.pub_key,
   };
 }
 

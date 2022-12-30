@@ -2,7 +2,7 @@ import React, { useMemo } from 'react';
 import { View } from 'react-native';
 import { RadioButton, useTheme } from 'react-native-paper';
 import { makeStyle } from '../theming';
-import { Typography } from './typography';
+import { Typography } from './Typography';
 
 export interface RadioValue {
   label: string;
@@ -11,14 +11,14 @@ export interface RadioValue {
   onPress: () => void;
 }
 
-export type Props = {
+export type RadioGroupProps = {
   /**
    * Values to display, with a label, a value, a status and an onPress callback
    */
   values: RadioValue[];
 };
 
-export const RadioGroup: React.FC<Props> = (props) => {
+export const RadioGroup: React.FC<RadioGroupProps> = (props) => {
   const { values } = props;
   const styles = useStyles();
   const theme = useTheme();
@@ -45,11 +45,8 @@ export const RadioGroup: React.FC<Props> = (props) => {
     });
   }, [
     values,
-    styles.fieldWrapper,
-    styles.interBorder,
-    styles.title,
-    theme.colors.primary,
-    theme.colors.icon,
+    styles,
+    theme,
   ]);
 
   return (

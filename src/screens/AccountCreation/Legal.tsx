@@ -6,7 +6,7 @@ import { useTranslation } from 'react-i18next';
 import { Button, StyledSafeAreaView, TopBar } from '../../components';
 import FlexibleSection from '../../components/FlexibleSection';
 import { FlexPadding } from '../../components/FlexPadding';
-import { Typography } from '../../components/typography';
+import { Typography } from '../../components/Typography';
 import { makeStyle } from '../../theming';
 import { DesmosLedgerApp } from '../../types/ledger';
 import { AccountCreationStackParams, RootStackParams } from '../../types/navigation';

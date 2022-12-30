@@ -13,7 +13,7 @@ export default function useDebouncingColorScheme(delay = 500): NonNullable<Color
       resetCurrentTimeout();
       subscription.remove();
     };
-  }, []);
+  });
 
   function onColorSchemeChange(preferences: Appearance.AppearancePreferences) {
     resetCurrentTimeout();

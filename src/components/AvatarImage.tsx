@@ -3,7 +3,7 @@ import { StyleProp, TouchableWithoutFeedback } from 'react-native';
 import FastImage, { ImageStyle, Source } from 'react-native-fast-image';
 import { makeStyleWithProps } from '../theming';
 
-export type Props = {
+export type AvatarImageProps = {
   /**
    * Image to display for the `Avatar`.
    */
@@ -19,7 +19,7 @@ export type Props = {
   style?: StyleProp<ImageStyle>;
 };
 
-export const AvatarImage: React.FC<Props> = (props) => {
+export const AvatarImage: React.FC<AvatarImageProps> = (props) => {
   const { source, size, onPress, style } = props;
   const styles = useStyles(props);
 
@@ -30,7 +30,7 @@ export const AvatarImage: React.FC<Props> = (props) => {
   );
 };
 
-const useStyles = makeStyleWithProps((props: Props, theme) => ({
+const useStyles = makeStyleWithProps((props: AvatarImageProps, theme) => ({
   image: {
     backgroundColor: theme.colors.surface,
     overflow: 'hidden',

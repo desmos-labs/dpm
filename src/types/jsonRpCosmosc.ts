@@ -8,7 +8,7 @@ export type CosmosPubKey = {
 };
 
 export type CosmosSignature = {
-  pub_key?: CosmosPubKey;
+  pub_key: CosmosPubKey;
   signature: string;
 };
 

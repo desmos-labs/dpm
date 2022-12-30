@@ -1,4 +1,4 @@
-import { ChainConfig } from '@desmoslabs/desmjs-types/desmos/profiles/v2/models_chain_links';
+import { ChainConfig } from '@desmoslabs/desmjs-types/desmos/profiles/v3/models_chain_links';
 import { ImageSourcePropType } from 'react-native';
 import { BandHdPath, CosmosHdPath, CroHdPath, HdPath, KavaHdPath, LunaHdPath } from './hdpath';
 

@@ -75,35 +75,27 @@ export const WalletContextProvider: React.FC = ({ children }) => {
           const sessionToHandle = controller.sessions.find(
             (session) => session.id === event.sessionId
           );
-          const response: {
-            algo: 'secp256k1' | 'ed25519' | 'sr25519';
-            address: string;
-            pubkey: string;
-          }[] = [];
           if (sessionToHandle !== undefined) {
-            /* for (const sessionAccount of session.accounts) {
-							const chainAccount = await getChainAccount(sessionAccount);
-							if (chainAccount !== null) {
-								response.push({
-									algo: chainAccount.signAlgorithm,
-									address: chainAccount.address,
-									pubkey: chainAccount.pubKey,
-								});
-							}
-						} */
-            sessionToHandle.accounts.forEach((sessionAccount) => {
-              getChainAccount(sessionAccount).then((chainAccount) => {
-                if (chainAccount !== null) {
-                  response.push({
-                    algo: chainAccount.signAlgorithm,
-                    address: chainAccount.address,
-                    pubkey: chainAccount.pubKey,
-                  });
-                }
-              });
+            Promise.all(
+              sessionToHandle.accounts.map(getChainAccount).map((chainAccountPromise) =>
+                chainAccountPromise.then((chainAccount) => {
+                  if (chainAccount !== null) {
+                    return {
+                      algo: chainAccount.signAlgorithm,
+                      address: chainAccount.address,
+                      pubkey: chainAccount.pubKey,
+                    };
+                  }
+                  return null;
+                })
+              )
+            ).then((accountData) => {
+              const filtered = accountData.filter((acc) => acc !== null);
+              controller.approveRequest(parsed.sessionId, parsed.requestId, filtered);
             });
+          } else {
+            controller.approveRequest(parsed.sessionId, parsed.requestId, []);
           }
-          controller.approveRequest(parsed.sessionId, parsed.requestId, response);
         } else {
           setCallRequests((old) => [...old, parsed]);
         }
