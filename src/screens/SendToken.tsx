@@ -2,18 +2,17 @@ import { MsgSendEncodeObject } from '@cosmjs/stargate';
 import { StackScreenProps } from '@react-navigation/stack';
 import React, { useCallback, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import useCurrentChainInfo from '../hooks/desmosclient/useCurrentChainInfo';
-import { Button, StyledSafeAreaView, TextInput, TopBar } from '../components';
-import { FlexPadding } from '../components/FlexPadding';
-import { Typography } from '../components/Typography';
-import { MEMO_MAX_LENGTH } from '../constants/chain';
-import { useAppContext } from '../contexts/AppContext';
+import { Padding } from 'components/Flexible/Padding';
+import useCurrentChainInfo from 'hooks/desmosclient/useCurrentChainInfo';
+import { Button, StyledSafeAreaView, TextInput, TopBar } from 'components';
+import Typography from 'components/Typography';
+import { useAppContext } from 'contexts/AppContext';
+import { makeStyle } from 'theming';
+import { computeTxFees, messagesGas } from 'types/fees';
+import { AccountScreensStackParams } from 'types/navigation';
+import { decimalSeparator, localeParseFloat } from 'utilils/parsing';
+import checkDesmosAddress from 'utilils/validators';
 import useSelectedAccount from '../hooks/useSelectedAccount';
-import { makeStyle } from '../theming';
-import { computeTxFees, messagesGas } from '../types/fees';
-import { AccountScreensStackParams } from '../types/navigation';
-import { decimalSeparator, localeParseFloat } from '../utilils/parsing';
-import checkDesmosAddress from '../utilils/validators';
 
 export type Props = StackScreenProps<AccountScreensStackParams, 'SendToken'>;
 
@@ -51,7 +50,7 @@ export const SendToken: React.FC<Props> = (props) => {
       setAmountInvalid(!isValid);
       setAmount(changedAmount);
     },
-    [selectedAccountBalance]
+    [selectedAccountBalance],
   );
 
   const onMemoChange = useCallback((changedMemo: string) => {
@@ -118,11 +117,11 @@ export const SendToken: React.FC<Props> = (props) => {
         value={memo}
         onChangeText={onMemoChange}
         numberOfLines={4}
-        maxLength={MEMO_MAX_LENGTH}
+        maxLength={5000}
         multiline
       />
 
-      <FlexPadding flex={1} />
+      <Padding flex={1} />
 
       <Button mode="contained" disabled={nextDisabled} onPress={onNextPressed}>
         {t('next')}

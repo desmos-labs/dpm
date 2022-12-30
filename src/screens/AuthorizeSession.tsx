@@ -3,7 +3,7 @@ import { format } from 'date-fns';
 import React, { useCallback, useEffect, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { FlatList, Image, ListRenderItemInfo, StyleProp, View, ViewStyle } from 'react-native';
-import { Button, Divider, StyledSafeAreaView, TopBar } from '../components';
+import { Button, Divider, StyledSafeAreaView, TopBar } from 'components';
 import useCurrentChainInfo from '../hooks/desmosclient/useCurrentChainInfo';
 import useAuthorizeOperation from '../hooks/useAuthorizeOperation';
 import useNavigateToHomeScreen from '../hooks/useNavigateToHomeScreen';
@@ -39,7 +39,7 @@ export default function AuthorizeSession(props: Props) {
 
   const appName = useMemo(
     () => sessionRequestDetails.peerMeta?.name ?? 'Unknown app',
-    [sessionRequestDetails]
+    [sessionRequestDetails],
   );
 
   const dAppIcon = useMemo(() => {
@@ -85,7 +85,7 @@ export default function AuthorizeSession(props: Props) {
           title: t('broadcast signed transactions'),
         },
       ],
-    [t]
+    [t],
   );
 
   const showSuccessModal = useCallback(() => {
@@ -110,7 +110,7 @@ export default function AuthorizeSession(props: Props) {
         actionLabel: t('ok'),
       });
     },
-    [openModal, t]
+    [openModal, t],
   );
 
   const renderListItem = useCallback(
@@ -125,7 +125,7 @@ export default function AuthorizeSession(props: Props) {
       }
       return <AuthorizationListElement authorization={item} style={style} />;
     },
-    [authorizations.length, styles.borderBot, styles.borderTop, styles.permissionItem]
+    [authorizations.length, styles.borderBot, styles.borderTop, styles.permissionItem],
   );
 
   useEffect(() => {

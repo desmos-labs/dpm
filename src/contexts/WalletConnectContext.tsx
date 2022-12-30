@@ -1,13 +1,13 @@
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
-import AccountSource from '../sources/AccountSource';
+import AccountSource from 'sources/AccountSource';
 import {
   CallRequestEvent,
   CallRequestType,
   Events,
   ParsedCallRequest,
-} from '../types/walletconnect';
-import parseCallRequest from '../utilils/jsonRpcParse';
-import WalletConnectController from '../walletconnect/WalletConnectController';
+} from 'types/walletconnect';
+import parseCallRequest from 'utilils/jsonRpcParse';
+import WalletConnectController from 'walletconnect/WalletConnectController';
 
 type WalletConnectInitState = {
   initializing: boolean;
@@ -73,7 +73,7 @@ export const WalletContextProvider: React.FC = ({ children }) => {
           // Handle the get accounts request in the background
           // to provide to the dApp the account public key and address.
           const sessionToHandle = controller.sessions.find(
-            (session) => session.id === event.sessionId
+            (session) => session.id === event.sessionId,
           );
           if (sessionToHandle !== undefined) {
             Promise.all(
@@ -87,8 +87,8 @@ export const WalletContextProvider: React.FC = ({ children }) => {
                     };
                   }
                   return null;
-                })
-              )
+                }),
+              ),
             ).then((accountData) => {
               const filtered = accountData.filter((acc) => acc !== null);
               controller.approveRequest(parsed.sessionId, parsed.requestId, filtered);
@@ -101,7 +101,7 @@ export const WalletContextProvider: React.FC = ({ children }) => {
         }
       }
     },
-    [controller]
+    [controller],
   );
 
   const removeCallRequest = useCallback((requestId: number) => {
@@ -116,7 +116,7 @@ export const WalletContextProvider: React.FC = ({ children }) => {
       callRequests,
       removeCallRequest,
     }),
-    [callRequests, controller, initState, initWalletConnect, removeCallRequest]
+    [callRequests, controller, initState, initWalletConnect, removeCallRequest],
   );
 
   useEffect(() => {
@@ -131,5 +131,8 @@ export const WalletContextProvider: React.FC = ({ children }) => {
   );
 };
 
-export const useWalletConnectContext = (): WalletConnectState =>
-  React.useContext(WalletConnectContext);
+function useWalletConnectContext(): WalletConnectState {
+  return React.useContext(WalletConnectContext);
+}
+
+export default useWalletConnectContext;

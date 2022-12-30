@@ -36,8 +36,7 @@ export const DrawerStateProvider: React.FC<Props> = ({ children, drawerRef }) =>
       openDrawer,
       closeDrawer,
     }),
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    []
+    [],
   );
 
   return (
@@ -45,4 +44,8 @@ export const DrawerStateProvider: React.FC<Props> = ({ children, drawerRef }) =>
   );
 };
 
-export const useDrawerContext = (): DrawerState => React.useContext(DrawerStateContext);
+function useDrawerContext(): DrawerState {
+  return React.useContext(DrawerStateContext);
+}
+
+export default useDrawerContext;

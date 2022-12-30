@@ -7,14 +7,14 @@ import { Divider } from '../../../Divider';
 import { LabeledValue } from '../../../LabeledValue';
 import { ProfileHeader } from '../../../ProfileHeader';
 import {BaseMessage} from '../base/BaseMessage';
-import {Typography} from "../../../Typography";
+import {Typography} from '../../../Typography';
 
 export type DetailsProps = {
   message: MsgSaveProfileEncodeObject['value'];
 };
 
 export type ListItemProps = {
-  message: MsgSaveProfileEncodeObject["value"];
+  message: MsgSaveProfileEncodeObject['value'];
   date: Date;
 };
 

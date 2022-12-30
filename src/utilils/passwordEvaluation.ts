@@ -1,4 +1,4 @@
-import { PasswordComplexityScore } from '../components/PasswordComplexityScore';
+import { PasswordComplexityScore } from 'components/PasswordComplexityScore';
 
 export default function evaluatePasswordComplexity(password: string): PasswordComplexityScore {
   const specialChars = '\\|!"£$%&/()=?^\'[]*+@#{}<>';

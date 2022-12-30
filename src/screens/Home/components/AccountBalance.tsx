@@ -1,9 +1,9 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { StyleProp, TouchableOpacity, View, ViewStyle } from 'react-native';
+import IconButton from 'components/IconButton';
 import { useAppContext } from '../../../contexts/AppContext';
 import { makeStyle } from '../../../theming';
-import IconButton from '../../../components/IconButton';
 import { Typography } from '../../../components/Typography';
 
 export type AccountBalanceProps = {

@@ -3,11 +3,11 @@ import React, { useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Keyboard, KeyboardAvoidingView, Platform } from 'react-native';
 import * as Keychain from 'react-native-keychain';
+import SecureTextInput from 'components/SecureTextInput';
 import useSetSettings from '../../../hooks/settings/useSetSettings';
 import useSettings from '../../../hooks/settings/useSettings';
 import * as SecureStorage from '../../../utilils/SecureStorage';
 import { Button, StyledSafeAreaView, TopBar , FlexPadding } from '../../../components';
-import SecureTextInput from '../../../components/SecureTextInput';
 import { Typography } from '../../../components/Typography';
 import { makeStyle } from '../../../theming';
 import { SettingsScreensStackParams } from '../../../types/navigation';
@@ -64,7 +64,7 @@ const HandleBiometrics: React.FC<Props> = (props) => {
       settings.biometricLogin,
       settings.biometricSignature,
       t,
-    ]
+    ],
   );
 
   return (

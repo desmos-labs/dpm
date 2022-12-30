@@ -3,9 +3,9 @@ import { CompositeScreenProps } from '@react-navigation/native';
 import { StackScreenProps } from '@react-navigation/stack';
 import React, { useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
+import { Padding } from 'components/Flexible/Padding';
 import { Button, StyledSafeAreaView, TopBar } from '../../components';
-import FlexibleSection from '../../components/FlexibleSection';
-import { FlexPadding } from '../../components/FlexPadding';
+import Flexible from '../../components/Flexible';
 import { Typography } from '../../components/Typography';
 import { makeStyle } from '../../theming';
 import { DesmosLedgerApp } from '../../types/ledger';
@@ -85,11 +85,11 @@ const Legal: React.FC<Props> = (props) => {
       <Typography.Body>
         {t('please review the desmos profile manager terms of service and privacy policy')}.
       </Typography.Body>
-      <FlexibleSection.Section style={styles.section}>
-        <FlexibleSection.SectionButton label={t('terms of service')} onPress={openTermsOfService} />
-        <FlexibleSection.SectionButton label={t('privacy policy')} onPress={openPrivacyPolicy} />
-      </FlexibleSection.Section>
-      <FlexPadding flex={1} />
+      <Flexible.Section style={styles.section}>
+        <Flexible.SectionButton label={t('terms of service')} onPress={openTermsOfService} />
+        <Flexible.SectionButton label={t('privacy policy')} onPress={openPrivacyPolicy} />
+      </Flexible.Section>
+      <Padding flex={1} />
       <Button onPress={onAccepted} mode="contained">
         {t('accept')}
       </Button>

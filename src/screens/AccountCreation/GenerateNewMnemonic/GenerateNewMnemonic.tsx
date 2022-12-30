@@ -3,14 +3,13 @@ import React, { useCallback, useEffect, useState } from 'react';
 import { Trans, useTranslation } from 'react-i18next';
 import { View } from 'react-native';
 import { ActivityIndicator } from 'react-native-paper';
-import { Button, StyledSafeAreaView, TopBar } from '../../../components';
-import Colors from '../../../constants/colors';
-import { makeStyle } from '../../../theming';
-import { AccountCreationStackParams } from '../../../types/navigation';
-import { randomMnemonic } from '../../../wallet/LocalWallet';
-import { Typography } from '../../../components/Typography';
-import {MnemonicGrid} from "../../../components/Mnemonic";
-import {InlineButton} from "./components/InlineButton";
+import Colors from 'constants/colors';
+import { makeStyle } from 'theming';
+import { AccountCreationStackParams } from 'types/navigation';
+import { randomMnemonic } from 'wallet/LocalWallet';
+import { Typography } from 'components/Typography';
+import {MnemonicGrid} from 'components/Mnemonic';
+import {InlineButton} from './components/InlineButton';
 
 declare type Props = StackScreenProps<AccountCreationStackParams, 'GenerateNewMnemonic'>;
 
@@ -35,7 +34,7 @@ export default function GenerateNewMnemonic(props: Props): JSX.Element {
       }
       return randomMnemonic(length);
     },
-    [generationDelay]
+    [generationDelay],
   );
 
   const changeMnemonicLength = useCallback(
@@ -45,7 +44,7 @@ export default function GenerateNewMnemonic(props: Props): JSX.Element {
       const newMnemonic = await generateMnemonic(newLength);
       setMnemonic(newMnemonic);
     },
-    [generateMnemonic]
+    [generateMnemonic],
   );
 
   // Hook to launch the generation when the user enter on the screen

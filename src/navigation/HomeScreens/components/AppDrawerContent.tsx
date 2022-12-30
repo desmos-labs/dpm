@@ -3,6 +3,10 @@ import { StackNavigationProp } from '@react-navigation/stack/lib/typescript/src/
 import React, { useCallback, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { FlatList, Image, ListRenderItemInfo, View } from 'react-native';
+import { Button } from 'components/Button';
+import IconButton from 'components/IconButton';
+import ListItemSeparator from 'components/ListItemSeparator';
+import { StyledSafeAreaView } from 'components/StyledSafeAreaView';
 import { useDrawerContext } from '../../../contexts/AppDrawerContex';
 import useAccounts from '../../../hooks/useAccounts';
 import useChangeAccount from '../../../hooks/useChangeAccount';
@@ -15,12 +19,8 @@ import { makeStyle } from '../../../theming';
 import { ChainAccount } from '../../../types/chain';
 import { DesmosProfile } from '../../../types/desmos';
 import { AccountScreensStackParams, RootStackParams } from '../../../types/navigation';
-import { Button } from '../../../components/Button';
-import { StyledSafeAreaView } from '../../../components/StyledSafeAreaView';
 import { Typography } from '../../../components/Typography';
-import {ProfileListItem} from "./ProfileListItem";
-import IconButton from "../../../components/IconButton";
-import ListItemSeparator from "../../../components/ListItemSeparator";
+import {ProfileListItem} from './ProfileListItem';
 
 type AccountProfilePair = [ChainAccount, DesmosProfile | null];
 
@@ -49,7 +49,7 @@ export const AppDrawerContent: React.FC<AppDrawerContentProps> = (props) => {
         const profile = profiles[a.address] ?? null;
         return [a, profile];
       }),
-    [accounts, profiles]
+    [accounts, profiles],
   );
 
   const addAccount = useCallback(() => {
@@ -67,7 +67,7 @@ export const AppDrawerContent: React.FC<AppDrawerContentProps> = (props) => {
       }
       closeDrawer();
     },
-    [closeDrawer, changeAccount, selectedAccount]
+    [closeDrawer, changeAccount, selectedAccount],
   );
 
   const onDeleteAccount = useCallback(
@@ -88,7 +88,7 @@ export const AppDrawerContent: React.FC<AppDrawerContentProps> = (props) => {
         onChangeAccount(remainingAccounts[0]);
       }
     },
-    [navigation, deleteAccount, onChangeAccount, selectedAccount]
+    [navigation, deleteAccount, onChangeAccount, selectedAccount],
   );
 
   const showDeleteModal = useCallback(
@@ -101,7 +101,7 @@ export const AppDrawerContent: React.FC<AppDrawerContentProps> = (props) => {
         negativeActionLabel: t('cancel'),
       });
     },
-    [t, showModal, onDeleteAccount]
+    [t, showModal, onDeleteAccount],
   );
 
   const editProfile = useCallback(
@@ -115,7 +115,7 @@ export const AppDrawerContent: React.FC<AppDrawerContentProps> = (props) => {
       });
       closeDrawer();
     },
-    [closeDrawer, navigation]
+    [closeDrawer, navigation],
   );
 
   const openSettings = useCallback(() => {
@@ -152,7 +152,7 @@ export const AppDrawerContent: React.FC<AppDrawerContentProps> = (props) => {
         />
       );
     },
-    [selectedAccount.address, onChangeAccount, editProfile, showDeleteModal]
+    [selectedAccount.address, onChangeAccount, editProfile, showDeleteModal],
   );
 
   return (

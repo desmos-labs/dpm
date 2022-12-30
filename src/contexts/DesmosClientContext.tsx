@@ -66,7 +66,7 @@ export const DesmosClientProvider: React.FC<Props> = (props) => {
       ...DesmosChains,
       ...extraChains,
     }),
-    [extraChains]
+    [extraChains],
   );
 
   const [desmosClient, setDesmosClient] = useState<DesmosClient | undefined>();
@@ -104,7 +104,7 @@ export const DesmosClientProvider: React.FC<Props> = (props) => {
       }
       setSigner(newSigner);
     },
-    [desmosClient]
+    [desmosClient],
   );
 
   const setNewChainId = useCallback(
@@ -124,7 +124,7 @@ export const DesmosClientProvider: React.FC<Props> = (props) => {
         });
       }
     },
-    [desmosChains, signer]
+    [desmosChains, signer],
   );
 
   const providerValue = useMemo(
@@ -149,7 +149,7 @@ export const DesmosClientProvider: React.FC<Props> = (props) => {
       desmosClient,
       connectClient,
       setNewSigner,
-    ]
+    ],
   );
 
   return (
@@ -157,6 +157,8 @@ export const DesmosClientProvider: React.FC<Props> = (props) => {
   );
 };
 
-export function useDesmosClientContext(): DesmosClientState {
+function useDesmosClientContext(): DesmosClientState {
   return useContext(DesmosClientContext);
 }
+
+export default useDesmosClientContext;

@@ -3,8 +3,9 @@ import { StackScreenProps } from '@react-navigation/stack';
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { KeyboardAvoidingView, Platform } from 'react-native';
+import { Padding } from 'components/Flexible/Padding';
+import Flexible from 'components/Flexible';
 import { Button, StyledSafeAreaView, TextInput, TopBar } from '../../components';
-import { FlexPadding } from '../../components/FlexPadding';
 import { Typography } from '../../components/Typography';
 import { makeStyle } from '../../theming';
 import { AccountCreationStackParams } from '../../types/navigation';
@@ -96,7 +97,7 @@ export default function ImportRecoveryPassphrase(props: Props): JSX.Element {
         <Typography.Body style={styles.errorParagraph}>{errorMessage}</Typography.Body>
       )}
 
-      <FlexPadding flex={1} />
+      <Flexible.Padding flex={1} />
       <KeyboardAvoidingView
         keyboardVerticalOffset={Platform.OS === 'ios' ? 110 : 0}
         {...(Platform.OS === 'ios' ? { behavior: 'padding' } : {})}

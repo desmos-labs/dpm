@@ -6,7 +6,7 @@ import { Linking, Platform } from 'react-native';
 import DeviceInfo from 'react-native-device-info';
 import Keychain from 'react-native-keychain';
 import { StyledSafeAreaView, TopBar } from '../../components';
-import FlexibleSection from '../../components/FlexibleSection';
+import Flexible from '../../components/Flexible';
 import useSetSettings from '../../hooks/settings/useSetSettings';
 import useSettings from '../../hooks/settings/useSettings';
 import { makeStyle } from '../../theming';
@@ -76,13 +76,13 @@ const Settings: React.FC<Props> = (props) => {
 
   const sendFeedback = useCallback(async () => {
     Linking.openURL('mailto:development@forbole.com').catch((err) =>
-      console.error("Couldn't open email application", err)
+      console.error("Couldn't open email application", err),
     );
   }, []);
 
   const navigateToGithub = useCallback(() => {
     Linking.openURL('https://github.com/desmos-labs/dpm').catch((err) =>
-      console.error("Couldn't load page", err)
+      console.error("Couldn't load page", err),
     );
   }, []);
 
@@ -93,7 +93,7 @@ const Settings: React.FC<Props> = (props) => {
         params: { biometricsType },
       });
     },
-    [navigation]
+    [navigation],
   );
 
   const turnOffBiometrics = useCallback(
@@ -115,7 +115,7 @@ const Settings: React.FC<Props> = (props) => {
         }
       }
     },
-    [setSettings, settings.biometricLogin, settings.biometricSignature]
+    [setSettings, settings.biometricLogin, settings.biometricSignature],
   );
 
   const areBiometricsSupported = useCallback(async () => {
@@ -139,16 +139,16 @@ const Settings: React.FC<Props> = (props) => {
       scrollable
       topBar={<TopBar style={styles.background} stackProps={props} title={t('settings')} />}
     >
-      <FlexibleSection.Section title={t('general')}>
-        <FlexibleSection.SectionButton label={t('display mode')} onPress={navigateToDisplayMode} />
-        <FlexibleSection.SectionButton label={t('switch chain')} onPress={navigateToSwitchChain} />
-      </FlexibleSection.Section>
-      <FlexibleSection.Section style={styles.sectionMargin} title={t('security')}>
-        <FlexibleSection.SectionButton
+      <Flexible.Section title={t('general')}>
+        <Flexible.SectionButton label={t('display mode')} onPress={navigateToDisplayMode} />
+        <Flexible.SectionButton label={t('switch chain')} onPress={navigateToSwitchChain} />
+      </Flexible.Section>
+      <Flexible.Section style={styles.sectionMargin} title={t('security')}>
+        <Flexible.SectionButton
           label={t('change application password')}
           onPress={navigateToChangePassword}
         />
-        <FlexibleSection.SectionSwitch
+        <Flexible.SectionSwitch
           label={t('enable face id for signature')}
           value={settings.biometricSignature}
           isDisabled={!biometricsSupported}
@@ -158,7 +158,7 @@ const Settings: React.FC<Props> = (props) => {
               : () => navigateHandleBiometrics('biometricsSignature')
           }
         />
-        <FlexibleSection.SectionSwitch
+        <Flexible.SectionSwitch
           label={t('enable face id for login')}
           value={settings.biometricLogin}
           isDisabled={!biometricsSupported}
@@ -168,20 +168,20 @@ const Settings: React.FC<Props> = (props) => {
               : () => navigateHandleBiometrics('biometricsLogin')
           }
         />
-      </FlexibleSection.Section>
-      <FlexibleSection.Section style={styles.sectionMargin} title={t('support')}>
-        <FlexibleSection.SectionButton label={t('feedback')} onPress={sendFeedback} />
-        <FlexibleSection.SectionButton
+      </Flexible.Section>
+      <Flexible.Section style={styles.sectionMargin} title={t('support')}>
+        <Flexible.SectionButton label={t('feedback')} onPress={sendFeedback} />
+        <Flexible.SectionButton
           label={t('join community')}
           onPress={navigateToJoinCommunity}
         />
-      </FlexibleSection.Section>
-      <FlexibleSection.Section style={styles.sectionMargin} title={t('about')}>
-        <FlexibleSection.SectionButton label={t('about dpm')} onPress={openAbout} />
-        <FlexibleSection.SectionButton label={t('privacy policy')} onPress={openPrivacyPolicy} />
-        <FlexibleSection.SectionButton label={t('open source')} onPress={navigateToGithub} />
-        <FlexibleSection.SectionText label={t('version')} value={DeviceInfo.getVersion()} />
-      </FlexibleSection.Section>
+      </Flexible.Section>
+      <Flexible.Section style={styles.sectionMargin} title={t('about')}>
+        <Flexible.SectionButton label={t('about dpm')} onPress={openAbout} />
+        <Flexible.SectionButton label={t('privacy policy')} onPress={openPrivacyPolicy} />
+        <Flexible.SectionButton label={t('open source')} onPress={navigateToGithub} />
+        <Flexible.SectionText label={t('version')} value={DeviceInfo.getVersion()} />
+      </Flexible.Section>
     </StyledSafeAreaView>
   );
 };

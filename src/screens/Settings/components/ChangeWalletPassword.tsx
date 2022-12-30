@@ -2,8 +2,8 @@ import { StackScreenProps } from '@react-navigation/stack';
 import React, { useCallback, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { KeyboardAvoidingView, Platform, TextInput, View } from 'react-native';
+import SecureTextInput from 'components/SecureTextInput';
 import { Button, PasswordComplexity, StyledSafeAreaView, TopBar } from '../../../components';
-import SecureTextInput from '../../../components/SecureTextInput';
 import { Typography } from '../../../components/Typography';
 import useNavigateToHomeScreen from '../../../hooks/useNavigateToHomeScreen';
 import useSelectedAccount from '../../../hooks/useSelectedAccount';
@@ -50,7 +50,7 @@ export default function ChangeWalletPassword(props: Props): JSX.Element {
         params: wallet ? { wallet } : {},
       });
     },
-    [navigation]
+    [navigation],
   );
 
   const saveUserPassword = useCallback(async () => {
@@ -102,7 +102,7 @@ export default function ChangeWalletPassword(props: Props): JSX.Element {
     if (!createNewPassword) {
       checkUserPassword().catch(() => setErrorMessage(t('wrong password')));
     } else if (createNewPassword && password === confirmationPassword) {
-      saveUserPassword().catch((e) => setErrorMessage(t(`failed to save password`) + e));
+      saveUserPassword().catch((e) => setErrorMessage(t('failed to save password') + e));
     }
   };
 

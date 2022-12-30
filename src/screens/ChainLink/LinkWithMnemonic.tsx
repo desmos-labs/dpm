@@ -2,8 +2,8 @@ import { EnglishMnemonic } from '@cosmjs/crypto';
 import { StackScreenProps } from '@react-navigation/stack';
 import React, { useState } from 'react';
 import { Trans, useTranslation } from 'react-i18next';
+import { Padding } from 'components/Flexible/Padding';
 import { Button, StyledSafeAreaView, TextInput, TopBar } from '../../components';
-import { FlexPadding } from '../../components/FlexPadding';
 import { makeStyle } from '../../theming';
 import { ChainLinkScreensStackParams } from '../../types/navigation';
 import sanitizeMnemonic from '../../utilils/mnemonic';
@@ -102,7 +102,7 @@ export const LinkWithMnemonic: React.FC<Props> = ({ navigation, route }) => {
         <Typography.Body style={styles.errorParagraph}>{errorMessage}</Typography.Body>
       )}
 
-      <FlexPadding flex={1} />
+      <Padding flex={1} />
 
       {__DEV__ && (
         <Button mode="contained" onPress={useDebugMnemonic}>

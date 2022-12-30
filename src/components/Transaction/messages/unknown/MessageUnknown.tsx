@@ -1,11 +1,11 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { View } from 'react-native';
-import {EncodeObject} from "@cosmjs/proto-signing";
+import {EncodeObject} from '@cosmjs/proto-signing';
 import { Divider } from '../../../Divider';
 import { LabeledValue } from '../../../LabeledValue';
 import {BaseMessage} from '../base/BaseMessage';
-import {Typography} from "../../../Typography";
+import {Typography} from '../../../Typography';
 
 export type DetailsProps = {
   typeUrl: string;

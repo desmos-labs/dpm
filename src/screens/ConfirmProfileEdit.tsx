@@ -4,8 +4,8 @@ import { StackScreenProps } from '@react-navigation/stack';
 import React, { useCallback, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { ScrollView, View } from 'react-native';
+import { ProfileHeader } from 'components/ProfileHeader';
 import { Button, Divider, LabeledValue, StyledSafeAreaView, TopBar } from '../components';
-import { ProfileHeader } from '../components/ProfileHeader';
 import useCurrentChainInfo from '../hooks/desmosclient/useCurrentChainInfo';
 import useBroadcastMessages from '../hooks/useBroadcastMessages';
 import useNavigateToHomeScreen from '../hooks/useNavigateToHomeScreen';
@@ -45,10 +45,10 @@ export const ConfirmProfileEdit: React.FC<Props> = (props) => {
       value: {
         creator: account.address,
         dtag: profile.dtag,
-        nickname: profile.nickname || "",
-        bio: profile.bio || "",
-        profilePicture: profile.profilePicture || "",
-        coverPicture: profile.coverPicture || "",
+        nickname: profile.nickname || '',
+        bio: profile.bio || '',
+        profilePicture: profile.profilePicture || '',
+        coverPicture: profile.coverPicture || '',
       },
     };
     const messages = [saveProfileMessage];
@@ -110,10 +110,10 @@ export const ConfirmProfileEdit: React.FC<Props> = (props) => {
           value: {
             creator: account.address,
             dtag: newProfile.dtag,
-            nickname: newProfile.nickname || "",
-            bio: newProfile.bio || "",
-            profilePicture: newProfile.profilePicture || "",
-            coverPicture: newProfile.coverPicture || "",
+            nickname: newProfile.nickname || '',
+            bio: newProfile.bio || '',
+            profilePicture: newProfile.profilePicture || '',
+            coverPicture: newProfile.coverPicture || '',
           },
         };
         const messages = [saveProfileMessage];

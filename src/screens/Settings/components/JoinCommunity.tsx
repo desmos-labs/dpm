@@ -5,7 +5,7 @@ import { useTranslation } from 'react-i18next';
 import { Linking } from 'react-native';
 import { useTheme } from 'react-native-paper';
 import { StyledSafeAreaView, TopBar } from '../../../components';
-import FlexibleSection from '../../../components/FlexibleSection';
+import Flexible from '../../../components/Flexible';
 import { makeStyle } from '../../../theming';
 import { RootStackParams, SettingsScreensStackParams } from '../../../types/navigation';
 
@@ -26,7 +26,7 @@ const JoinCommunity: React.FC<Props> = (props) => {
   const navigateToTwitterApp = useCallback(() => {
     Linking.openURL('twitter://user?screen_name=DesmosNetwork').catch(() => {
       Linking.openURL('https://www.twitter.com/DesmosNetwork').catch((err) =>
-        console.error("Couldn't load page", err)
+        console.error("Couldn't load page", err),
       );
     });
   }, []);
@@ -36,8 +36,8 @@ const JoinCommunity: React.FC<Props> = (props) => {
       style={styles.background}
       topBar={<TopBar style={styles.background} stackProps={props} title={t('community')} />}
     >
-      <FlexibleSection.Section>
-        <FlexibleSection.SectionButton
+      <Flexible.Section>
+        <Flexible.SectionButton
           label={t('website')}
           icon={
             theme.dark
@@ -46,7 +46,7 @@ const JoinCommunity: React.FC<Props> = (props) => {
           }
           onPress={() => navigateToExternalSite('https://www.desmos.network/')}
         />
-        <FlexibleSection.SectionButton
+        <Flexible.SectionButton
           label={t('discord')}
           icon={
             theme.dark
@@ -55,7 +55,7 @@ const JoinCommunity: React.FC<Props> = (props) => {
           }
           onPress={() => navigateToExternalSite('https://discord.com/invite/yxPRGdq')}
         />
-        <FlexibleSection.SectionButton
+        <Flexible.SectionButton
           label={t('twitter')}
           icon={
             theme.dark
@@ -64,7 +64,7 @@ const JoinCommunity: React.FC<Props> = (props) => {
           }
           onPress={navigateToTwitterApp}
         />
-        <FlexibleSection.SectionButton
+        <Flexible.SectionButton
           label={t('medium')}
           icon={
             theme.dark
@@ -73,7 +73,7 @@ const JoinCommunity: React.FC<Props> = (props) => {
           }
           onPress={() => navigateToExternalSite('https://medium.com/desmosnetwork')}
         />
-        <FlexibleSection.SectionButton
+        <Flexible.SectionButton
           label={t('block explorer')}
           icon={
             theme.dark
@@ -82,7 +82,7 @@ const JoinCommunity: React.FC<Props> = (props) => {
           }
           onPress={() => navigateToExternalSite('https://explorer.desmos.network/')}
         />
-      </FlexibleSection.Section>
+      </Flexible.Section>
     </StyledSafeAreaView>
   );
 };

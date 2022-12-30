@@ -3,10 +3,10 @@ import { useTranslation } from 'react-i18next';
 import { TouchableOpacity, View } from 'react-native';
 import { Source } from 'react-native-fast-image';
 import { Menu, useTheme } from 'react-native-paper';
+import { AvatarImage } from 'components/AvatarImage';
+import { Divider } from 'components/Divider';
+import IconButton from 'components/IconButton';
 import { makeStyle } from '../../../theming';
-import { AvatarImage } from '../../../components/AvatarImage';
-import { Divider } from '../../../components/Divider';
-import IconButton from '../../../components/IconButton';
 import { MenuItem } from './MenuItem';
 import { Typography } from '../../../components/Typography';
 
@@ -54,7 +54,7 @@ export const ProfileListItem: React.FC<ProfileListItemProps> = (props) => {
 
   const showMenu = useMemo(
     () => onEdit !== undefined || onDelete !== undefined,
-    [onEdit, onDelete]
+    [onEdit, onDelete],
   );
 
   const onMenuOpen = () => {
@@ -115,7 +115,7 @@ const useStyles = makeStyle((theme) => ({
   root: {
     display: 'flex',
     flexDirection: 'row',
-    alignItems: 'center'
+    alignItems: 'center',
   },
   textContainer: {
     marginLeft: theme.spacing.s,
@@ -131,6 +131,6 @@ const useStyles = makeStyle((theme) => ({
   },
   itemSelected: {
     backgroundColor: theme.colors.surface,
-    borderRadius: theme.roundness
-  }
+    borderRadius: theme.roundness,
+  },
 }));

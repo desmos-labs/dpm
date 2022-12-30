@@ -4,10 +4,10 @@ import { StackScreenProps } from '@react-navigation/stack';
 import React, { useCallback, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { KeyboardAvoidingView, Platform, View } from 'react-native';
+import BiometricsLoadingIndicator from 'components/BiometricsLoadingIndicator';
+import { Padding } from 'components/Flexible/Padding';
+import SecureTextInput from 'components/SecureTextInput';
 import { Button, StyledSafeAreaView, TopBar } from '../components';
-import BiometricsLoadingIndicator from '../components/BiometricsLoadingIndicator';
-import { FlexPadding } from '../components/FlexPadding';
-import SecureTextInput from '../components/SecureTextInput';
 import { Typography } from '../components/Typography';
 import { useAppContext } from '../contexts/AppContext';
 import useSettings from '../hooks/settings/useSettings';
@@ -42,7 +42,7 @@ const AuthorizeOperation: React.FC<Props> = (props) => {
           });
         }
       }),
-    [navigation, resolve]
+    [navigation, resolve],
   );
 
   const unlockWallet = useCallback(async () => {
@@ -169,7 +169,7 @@ const AuthorizeOperation: React.FC<Props> = (props) => {
       if (settings.biometricSignature) {
         unlockWithBiometrics();
       }
-    }, [settings.biometricSignature, unlockWithBiometrics])
+    }, [settings.biometricSignature, unlockWithBiometrics]),
   );
 
   return (
@@ -186,7 +186,7 @@ const AuthorizeOperation: React.FC<Props> = (props) => {
           autoFocus
         />
         <Typography.Body style={styles.errorMsg}>{error}</Typography.Body>
-        <FlexPadding flex={1} />
+        <Padding flex={1} />
         <KeyboardAvoidingView
           keyboardVerticalOffset={Platform.OS === 'ios' ? 110 : 0}
           {...(Platform.OS === 'ios' ? { behavior: 'padding' } : {})}

@@ -64,7 +64,7 @@ export const TransactionsList: React.FC<TransactionsListProps> = ({ chainAccount
         </View>
       );
     },
-    [onTxPressed, styles.txMessage]
+    [onTxPressed, styles.txMessage],
   );
 
   const reloadFromChain = useCallback(() => {

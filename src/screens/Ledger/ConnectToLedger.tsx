@@ -1,8 +1,8 @@
 import { StackScreenProps } from '@react-navigation/stack';
 import React, { useCallback, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
+import { Padding } from 'components/Flexible/Padding';
 import { Button, DpmImage, StyledSafeAreaView, ThemedLottieView, TopBar } from '../../components';
-import { FlexPadding } from '../../components/FlexPadding';
 import useConnectToLedger from '../../hooks/ledger/useConnectToLedger';
 import { makeStyle } from '../../theming';
 import { ConnectToLedgerScreensStackParams } from '../../types/navigation';
@@ -16,7 +16,7 @@ export const ConnectToLedger: React.FC<Props> = ({ navigation, route }) => {
   const styles = useStyles();
   const { connecting, connected, connectionError, transport, retry } = useConnectToLedger(
     bleLedger,
-    ledgerApp
+    ledgerApp,
   );
 
   const status = connected ? t('connected') : t('error');
@@ -50,7 +50,7 @@ export const ConnectToLedger: React.FC<Props> = ({ navigation, route }) => {
           onCancel();
         }
       }),
-    [navigation, connected, onCancel]
+    [navigation, connected, onCancel],
   );
 
   return (
@@ -73,7 +73,7 @@ export const ConnectToLedger: React.FC<Props> = ({ navigation, route }) => {
 
       <Typography.Body style={styles.errorMessage}>{connectionError}</Typography.Body>
 
-      <FlexPadding flex={1} />
+      <Padding flex={1} />
       <Button mode="contained" onPress={onButtonPressed} disabled={connecting} loading={connecting}>
         {connecting ? t('connecting') : statusButton}
       </Button>

@@ -11,10 +11,10 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
+import BiometricsLoadingIndicator from 'components/BiometricsLoadingIndicator';
+import { Padding } from 'components/Flexible/Padding';
+import SecureTextInput from 'components/SecureTextInput';
 import { Button, StyledSafeAreaView, TopBar } from '../components';
-import BiometricsLoadingIndicator from '../components/BiometricsLoadingIndicator';
-import { FlexPadding } from '../components/FlexPadding';
-import SecureTextInput from '../components/SecureTextInput';
 import { Typography } from '../components/Typography';
 import { useAppContext } from '../contexts/AppContext';
 import useSetSettings from '../hooks/settings/useSetSettings';
@@ -152,7 +152,7 @@ const UnlockApplication: React.FC<Props> = (props) => {
       if (settings.biometricLogin) {
         unlockWithBiometrics();
       }
-    }, [settings.biometricLogin, unlockWithBiometrics])
+    }, [settings.biometricLogin, unlockWithBiometrics]),
   );
 
   return (
@@ -172,7 +172,7 @@ const UnlockApplication: React.FC<Props> = (props) => {
           clearTextOnFocus
         />
         <Typography.Body style={styles.errorMsg}>{error}</Typography.Body>
-        <FlexPadding flex={1} />
+        <Padding flex={1} />
         <KeyboardAvoidingView
           keyboardVerticalOffset={Platform.OS === 'ios' ? 70 : 0}
           {...(Platform.OS === 'ios' ? { behavior: 'padding' } : {})}

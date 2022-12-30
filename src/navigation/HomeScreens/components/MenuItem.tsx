@@ -1,7 +1,7 @@
 import React from 'react';
 import { TouchableOpacity } from 'react-native';
+import IconButton from 'components/IconButton';
 import { makeStyle } from '../../../theming';
-import IconButton from '../../../components/IconButton';
 import { Typography } from '../../../components/Typography';
 
 export type MenuItemProps = {

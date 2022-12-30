@@ -1,6 +1,6 @@
 import React from 'react';
 import { Image, ImageProps, View } from 'react-native';
-import {format} from "date-fns";
+import {format} from 'date-fns';
 import { makeStyle } from '../../../../theming';
 import { Divider } from '../../../Divider';
 import { Typography } from '../../../Typography';
