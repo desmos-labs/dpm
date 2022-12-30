@@ -25,7 +25,7 @@ export default function useDisconnectChainLink() {
       ];
 
       const gas = messagesGas(msgs);
-      const fee = computeTxFees(gas, chainInfo.stakingDenom).average;
+      const fee = computeTxFees(gas, chainInfo.stakeCurrency.coinDenom).average;
       await broadcastMessages(wallet, msgs, fee);
     },
     [broadcastMessages, chainInfo]
