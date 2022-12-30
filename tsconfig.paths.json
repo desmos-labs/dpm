@@ -1,0 +1,109 @@
+{
+  "compilerOptions": {
+    "baseUrl": "./src",
+    "paths": {
+      "api": [
+        "./api"
+      ],
+      "api/*": [
+        "./api/*"
+      ],
+      "assets": [
+        "./assets"
+      ],
+      "assets/*": [
+        "./assets/*"
+      ],
+      "components": [
+        "./components"
+      ],
+      "components/*": [
+        "./components/*"
+      ],
+      "constants": [
+        "./constants"
+      ],
+      "constants/*": [
+        "./constants/*"
+      ],
+      "contexts": [
+        "./contexts"
+      ],
+      "contexts/*": [
+        "./contexts/*"
+      ],
+      "hooks": [
+        "./hooks"
+      ],
+      "hooks/*": [
+        "./hooks/*"
+      ],
+      "i18n": [
+        "./i18n"
+      ],
+      "i18n/*": [
+        "./i18n/*"
+      ],
+      "modals": [
+        "./modals"
+      ],
+      "modals/*": [
+        "./modals/*"
+      ],
+      "native": [
+        "./native"
+      ],
+      "native/*": [
+        "./native/*"
+      ],
+      "navigation": [
+        "./navigation"
+      ],
+      "navigation/*": [
+        "./navigation/*"
+      ],
+      "screens": [
+        "./screens"
+      ],
+      "screens/*": [
+        "./screens/*"
+      ],
+      "sources": [
+        "./sources"
+      ],
+      "sources/*": [
+        "./sources/*"
+      ],
+      "theming": [
+        "./theming"
+      ],
+      "theming/*": [
+        "./theming/*"
+      ],
+      "types": [
+        "./types"
+      ],
+      "types/*": [
+        "./types/*"
+      ],
+      "utils": [
+        "./utils"
+      ],
+      "utils/*": [
+        "./utils/*"
+      ],
+      "wallet": [
+        "./wallet"
+      ],
+      "wallet/*": [
+        "./wallet/*"
+      ],
+      "walletconnect": [
+        "./walletconnect"
+      ],
+      "walletconnect/*": [
+        "./walletconnect/*"
+      ]
+    }
+  }
+}
