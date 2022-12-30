@@ -32,7 +32,7 @@ module.exports = {
     // Typescript related warnings
     '@typescript-eslint/no-use-before-define': 0,
     '@typescript-eslint/no-var-requires': 0,
-    '@typescript-eslint/no-unused-vars': 0,
+    '@typescript-eslint/no-unused-vars': ['error', {argsIgnorePattern: '^_'}],
     // React related warnings
     'react/function-component-definition': 0,
     'react/no-unstable-nested-components': 1,
@@ -40,5 +40,27 @@ module.exports = {
     // Sometimes is heavier to pass every single prop, especially when there are inherited props from default components
     'react/require-default-props': 0,
     'react/jsx-props-no-spreading': 0,
+    'react/jsx-filename-extension': [
+      1,
+      {
+        extensions: ['.jsx', '.tsx'],
+      },
+    ],
+    'import/extensions': 0,
+    'import/no-extraneous-dependencies': 0,
+    'react-hooks/exhaustive-deps': 0,
+    'react-native/sort-styles': 'error',
+    'no-shadow': 'off',
+    '@typescript-eslint/no-shadow': ['error'],
+    'no-unused-vars': 'off',
+    'no-undef': 0,
+  },
+  settings: {
+    'import/resolver': {
+      node: {
+        extensions: ['.js', '.jsx', '.ts', '.tsx', '.json'],
+      },
+      typescript: {},
+    },
   },
 };
