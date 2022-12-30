@@ -69,7 +69,7 @@ export default function useProfileValidators() {
       }
       return undefined;
     },
-    [dtagValidationParams, t]
+    [dtagValidationParams, t],
   );
 
   const validateBio = useCallback(
@@ -83,7 +83,7 @@ export default function useProfileValidators() {
       }
       return undefined;
     },
-    [bioValidationParams, t]
+    [bioValidationParams, t],
   );
 
   const validateNickname = useCallback(
@@ -103,7 +103,7 @@ export default function useProfileValidators() {
       }
       return undefined;
     },
-    [nicknameValidationParams, t]
+    [nicknameValidationParams, t],
   );
 
   return {

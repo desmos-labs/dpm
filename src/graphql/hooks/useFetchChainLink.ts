@@ -1,8 +1,8 @@
 import { useState } from 'react';
-import { ChainLink } from '../../types/link';
-import { useGetChainLinkByAddress } from '../types';
+import { ChainLink } from 'types/link';
+import { useGetChainLinkByAddress } from 'graphql/types';
 
-export default function useFetchChainLink(address: string) {
+function useFetchChainLink(address: string) {
   const [loading, setLoading] = useState(true);
   const [chainLinks, setChainLinks] = useState<ChainLink[]>([]);
   const [error, setError] = useState<string | null>(null);
@@ -20,7 +20,7 @@ export default function useFetchChainLink(address: string) {
             externalAddress: link.external_address,
             userAddress: link.user_address,
             creationTime: new Date(`${link.creation_time}Z`),
-          } as ChainLink)
+          } as ChainLink),
       );
       setChainLinks(cLinks);
       setError(null);
@@ -40,3 +40,5 @@ export default function useFetchChainLink(address: string) {
     error,
   };
 }
+
+export default useFetchChainLink;

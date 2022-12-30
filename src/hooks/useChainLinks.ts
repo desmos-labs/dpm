@@ -19,7 +19,7 @@ export default function useChainLinks(address: string) {
             externalAddress: link.external_address,
             userAddress: link.user_address,
             creationTime: new Date(`${link.creation_time}Z`),
-          } as ChainLink)
+          } as ChainLink),
       );
       if (userLinks === undefined) {
         setChainLinks((old) => {

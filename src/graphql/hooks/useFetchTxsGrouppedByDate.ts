@@ -17,11 +17,11 @@ import { VoteOption } from 'cosmjs-types/cosmos/gov/v1beta1/gov';
 import { Any } from 'cosmjs-types/google/protobuf/any';
 import Long from 'long';
 import { useCallback, useState } from 'react';
-import { ChainAccount } from '../../types/chain';
-import { MsgMultiSendEncodeObject } from '../../types/encodeobject';
-import MsgTypes from '../../types/msgtypes';
-import { BroadcastedTx } from '../../types/tx';
-import { GqlTransaction, useGetTransactionsByAddressQuery } from '../types';
+import { ChainAccount } from 'types/chain';
+import { MsgMultiSendEncodeObject } from 'types/encodeobject';
+import MsgTypes from 'types/msgtypes';
+import { BroadcastedTx } from 'types/tx';
+import { GqlTransaction, useGetTransactionsByAddressQuery } from 'graphql/types';
 
 const LIMIT = 20;
 
@@ -40,7 +40,7 @@ function gqlPubKeyToAny(gqlPubKey: any): Any | undefined {
       value: PubKey.encode(
         PubKey.fromPartial({
           key: Buffer.from(key, 'utf-8'),
-        })
+        }),
       ).finish(),
     });
   }
@@ -200,7 +200,7 @@ function gqlFeeToStdFee(gqlFee: any): StdFee {
         ({
           amount: gqlCoin.amount ?? '0',
           denom: gqlCoin.denom ?? '',
-        } as Coin)
+        } as Coin),
     ),
   };
 }
@@ -227,7 +227,7 @@ function mapTransactions(tx: GqlTransaction): BroadcastedTx {
  */
 function groupTransactionByDate(
   groups: Record<string, BroadcastedTx[]>,
-  tx: BroadcastedTx
+  tx: BroadcastedTx,
 ): Record<string, BroadcastedTx[]> {
   const groupsDeepCloned = groups;
   const date: string = tx.timestamp.split('T')[0];
@@ -269,7 +269,7 @@ export function useFetchTxsGrouppedByDate(chainAccount: ChainAccount) {
             ({
               date: obj[0],
               data: obj[1],
-            } as SectionedTx)
+            } as SectionedTx),
         )
         .reverse();
       setTxs(sorted);
@@ -298,7 +298,7 @@ export function useFetchTxsGrouppedByDate(chainAccount: ChainAccount) {
             ({
               date: obj[0],
               data: obj[1],
-            } as SectionedTx)
+            } as SectionedTx),
         )
         .reverse();
       setTxs(sorted);
@@ -338,7 +338,7 @@ export function useFetchTxsGrouppedByDate(chainAccount: ChainAccount) {
                 ({
                   date: obj[0],
                   data: obj[1],
-                } as SectionedTx)
+                } as SectionedTx),
             )
             .reverse();
         });
