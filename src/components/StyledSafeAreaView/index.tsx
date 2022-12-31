@@ -40,11 +40,10 @@ export type StyledSafeAreaViewProps = ViewProps & {
   noIosPadding?: boolean;
 };
 
-export const StyledSafeAreaView: React.FC<StyledSafeAreaViewProps> = (props) => {
+const StyledSafeAreaView: React.FC<StyledSafeAreaViewProps> = (props) => {
   const { scrollable, topBar, divider, background, children, style } = props;
   const styles = useStyles(props);
   const theme = useTheme();
-  const closeKeyboard = useCloseKeyboard();
   const statusBarVariant = theme.dark ? 'light-content' : 'dark-content';
 
   return (

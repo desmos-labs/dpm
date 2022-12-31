@@ -14,7 +14,7 @@ import {
 import BiometricsLoadingIndicator from 'components/BiometricsLoadingIndicator';
 import { Padding } from 'components/Flexible/Padding';
 import SecureTextInput from 'components/SecureTextInput';
-import { TwoButtonModal } from 'modals/TwoButtonModal/TwoButtonModal';
+import { TwoButtonModal } from 'modals/TwoButtonModal';
 import { Button, StyledSafeAreaView, TopBar } from '../components';
 import { Typography } from '../components/Typography';
 import { useAppContext } from '../contexts/AppContext';
