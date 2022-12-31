@@ -2,8 +2,8 @@ import { MsgWithdrawDelegatorRewardEncodeObject } from '@cosmjs/stargate';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { View } from 'react-native';
-import { Typography } from '../../Typography';
-import {BaseMessage} from '../base/BaseMessage';
+import Typography from 'components/Typography';
+import BaseMessage from '../BaseMessage';
 
 export type DetailsProps = {
   message?: MsgWithdrawDelegatorRewardEncodeObject['value'];
@@ -14,7 +14,7 @@ export type ListItemProps = {
   date: Date;
 };
 
-export namespace MessageWithdrawDelegatorRewards {
+namespace MsgWithdrawDelegatorRewards {
   /**
    * Displays the short details of a MsgWithdrawDelegatorRewards within a list.
    * @constructor
@@ -62,4 +62,4 @@ export namespace MessageWithdrawDelegatorRewards {
   };
 }
 
-
+export default MsgWithdrawDelegatorRewards;

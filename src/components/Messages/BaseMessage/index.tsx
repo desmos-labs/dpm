@@ -2,9 +2,9 @@ import React from 'react';
 import { Image, ImageProps, View } from 'react-native';
 import {format} from 'date-fns';
 import { makeStyle } from 'theming';
-import { Divider } from '../../Divider';
-import { Typography } from '../../Typography';
-import { LabeledValue } from '../../LabeledValue';
+import Divider from 'components/Divider';
+import Typography from 'components/Typography';
+import LabeledValue from 'components/LabeledValue';
 
 export type DetailsProps = {
   icon?: ImageProps['source'];
@@ -19,7 +19,7 @@ export type ListItemProps = {
   renderContent: () => React.ReactNode;
 };
 
-export namespace BaseMessage {
+namespace BaseMessage {
   export const ListItem: React.FC<ListItemProps> = (props) => {
     const useStyles = makeStyle((theme) => ({
       root: {
@@ -98,3 +98,5 @@ export namespace BaseMessage {
     );
   };
 }
+
+export default BaseMessage;

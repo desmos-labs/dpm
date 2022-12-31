@@ -2,9 +2,9 @@ import { MsgUnlinkChainAccountEncodeObject } from '@desmoslabs/desmjs';
 import React, { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Image, StyleSheet, View } from 'react-native';
-import findLinkableChainInfoByName from '../../../utilils/find';
-import {BaseMessage} from '../base/BaseMessage';
-import {Typography} from '../../Typography';
+import findLinkableChainInfoByName from 'utilils/find';
+import Typography from 'components/Typography';
+import BaseMessage from '../BaseMessage';
 
 export type DetailsProps = {
   message: MsgUnlinkChainAccountEncodeObject['value'];
@@ -15,7 +15,7 @@ export type ListItemProps = {
   date: Date;
 };
 
-export namespace MessageUnlinkChainAccount {
+namespace MsgUnlinkChainAccount {
   /**
    * Displays the short details of a MsgUnlinkChainAccount within a list.
    * @constructor
@@ -92,4 +92,4 @@ export namespace MessageUnlinkChainAccount {
   };
 }
 
-
+export default MsgUnlinkChainAccount;

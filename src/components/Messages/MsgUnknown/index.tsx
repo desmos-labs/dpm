@@ -2,10 +2,10 @@ import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { View } from 'react-native';
 import {EncodeObject} from '@cosmjs/proto-signing';
-import { Divider } from '../../Divider';
-import { LabeledValue } from '../../LabeledValue';
-import {BaseMessage} from '../base/BaseMessage';
-import {Typography} from '../../Typography';
+import Divider from 'components/Divider';
+import LabeledValue from 'components/LabeledValue';
+import Typography from 'components/Typography';
+import BaseMessage from '../BaseMessage';
 
 export type DetailsProps = {
   typeUrl: string;
@@ -17,9 +17,9 @@ export type ListItemProps = {
   date: Date;
 };
 
-export namespace MessageUnknown {
+namespace MsgUnknown {
   /**
-   * Displays the full details of an unknown message.
+   * Displays the full details of an MsgUnknown message.
    * @constructor
    */
   export const Details: React.FC<DetailsProps> = (props) => {
@@ -48,4 +48,4 @@ export namespace MessageUnknown {
   );
 }
 
-
+export default MsgUnknown;

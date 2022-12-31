@@ -5,8 +5,8 @@ import {View} from 'react-native';
 import {Input} from 'cosmjs-types/cosmos/bank/v1beta1/bank';
 import useCurrentChainInfo from 'hooks/desmosclient/useCurrentChainInfo';
 import {MsgMultiSendEncodeObject} from 'types/encodeobject';
-import {BaseMessage} from '../base/BaseMessage';
-import {Typography} from '../../Typography';
+import BaseMessage from '../BaseMessage';
+import Typography from '../../Typography';
 
 export type DetailsProps = {
   message: MsgMultiSendEncodeObject['value'];
@@ -20,14 +20,14 @@ export type ListItemProps = {
 function serializeInputs(inputs: Input[], chainInfo: ChainInfo, separator: string) {
   return inputs
     .map((input) => input.coins
-      .map((c) => convertCoin(c, 6, chainInfo.denomUnits))
+      .map((c) => convertCoin(c, 6, chainInfo.currencies))
       .filter((c) => c !== null)
       .map((c) => `${c?.amount} ${c?.denom?.toUpperCase()}`)
       .join(separator))
     .join(', ');
 }
 
-export namespace MessageMultiSend {
+namespace MsgMultiSend {
   /**
    * Displays the short details of a MsgMultiSend within a list.
    * @constructor
@@ -86,7 +86,7 @@ export namespace MessageMultiSend {
       return multiOutputs
         .map((output) => {
           const serializedCoins = output.coins
-            .map((c) => convertCoin(c, 6, chainInfo.denomUnits))
+            .map((c) => convertCoin(c, 6, chainInfo.currencies))
             .filter((c) => c !== null)
             .map((c) => `${c!.amount} ${c!.denom.toUpperCase()}`)
             .join('\n');
@@ -107,7 +107,7 @@ export namespace MessageMultiSend {
         ])
         .reduce((oldValue, sum) => [...oldValue, ...sum], []);
     }, [
-      chainInfo.denomUnits,
+      chainInfo.currencies,
       message?.outputs,
       t,
     ]);
@@ -122,4 +122,4 @@ export namespace MessageMultiSend {
   };
 }
 
-
+export default MsgMultiSend;

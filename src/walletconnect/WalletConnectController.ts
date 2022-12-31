@@ -252,7 +252,7 @@ export default class WalletConnectController {
   private async onSessionRequest(
     session: WalletConnectSession,
     error: Error | null,
-    payload: SessionRequestPayload
+    payload: SessionRequestPayload,
   ) {
     const { clientId } = session.client;
     const event: SessionRequestEvent = {
@@ -314,7 +314,7 @@ export default class WalletConnectController {
   private async onCallRequest(
     session: WalletConnectSession,
     error: Error | null,
-    payload?: WalletConnectCallRequestPayload
+    payload?: WalletConnectCallRequestPayload,
   ) {
     const { clientId } = session.client;
     const event: CallRequestEvent = {
@@ -344,7 +344,7 @@ export default class WalletConnectController {
     client.on('disconnect', (error, payload) => this.onDisconnect(session, error, payload));
     client.on('session_update', (error, payload) => this.onSessionUpdate(session, error, payload));
     client.on('session_request', (error, payload) =>
-      this.onSessionRequest(session, error, payload)
+      this.onSessionRequest(session, error, payload),
     );
     client.on('call_request', (error, payload) => this.onCallRequest(session, error, payload));
   }
@@ -415,7 +415,7 @@ export default class WalletConnectController {
           this.subscribeToEvents(session);
           resolve(sessionDetails);
         } else {
-          reject(error ?? new Error('unknown error'));
+          reject(error ?? new Error('MsgUnknown error'));
         }
       };
 

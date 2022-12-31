@@ -4,8 +4,8 @@ import React, { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import {View} from 'react-native';
 import useCurrentChainInfo from 'hooks/desmosclient/useCurrentChainInfo';
-import {BaseMessage} from '../base/BaseMessage';
-import {Typography} from '../../Typography';
+import BaseMessage from '../BaseMessage';
+import Typography from '../../Typography';
 
 export type DetailsProps = {
   message: MsgDelegateEncodeObject['value'];
@@ -16,7 +16,7 @@ export type ListItemProps = {
   date: Date;
 };
 
-export namespace MessageDelegate {
+namespace MsgDelegate {
   /**
    * Displays the short details of a MsgDelegate within a list.
    * @constructor
@@ -27,7 +27,7 @@ export namespace MessageDelegate {
 
     const delegateAmount = useMemo(() => {
       if (message.amount) {
-        const converted = convertCoin(message.amount, 6, chainInfo.denomUnits);
+        const converted = convertCoin(message.amount, 6, chainInfo.currencies);
         if (converted !== null) {
           return `${converted.amount} ${converted.denom.toUpperCase()}`;
         }
@@ -67,14 +67,14 @@ export namespace MessageDelegate {
     const amount = useMemo(() => {
       const totalAmount = message?.amount;
       if (totalAmount !== undefined) {
-        const converted = convertCoin(totalAmount, 6, chainInfo.denomUnits);
+        const converted = convertCoin(totalAmount, 6, chainInfo.currencies);
         if (converted !== null) {
           return `${converted.amount} ${converted.denom.toUpperCase()}`;
         }
         return '';
       }
       return '';
-    }, [message?.amount, chainInfo.denomUnits]);
+    }, [message?.amount, chainInfo.currencies]);
 
     return (
       <BaseMessage.Details
@@ -99,4 +99,4 @@ export namespace MessageDelegate {
   };
 }
 
-
+export default MsgDelegate;

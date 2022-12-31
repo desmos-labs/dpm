@@ -3,9 +3,9 @@ import { MsgLinkChainAccountEncodeObject } from '@desmoslabs/desmjs';
 import React, { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Image, StyleSheet, View } from 'react-native';
+import Typography from 'components/Typography';
 import findLinkableChainInfoByName from '../../../utilils/find';
-import {BaseMessage} from '../base/BaseMessage';
-import {Typography} from '../../Typography';
+import BaseMessage from '../BaseMessage';
 
 export type DetailsProps = {
   message: MsgLinkChainAccountEncodeObject['value'];
@@ -16,7 +16,7 @@ export type ListItemProps = {
   date: Date;
 };
 
-export namespace MessageLinkChainAccount {
+namespace MsgLinkChainAccount {
   /**
    * Displays the short details of a MsgLinkChainAccount within a list.
    * @constructor
@@ -30,7 +30,7 @@ export namespace MessageLinkChainAccount {
         const bech32Address = Bech32Address.decode(chainAddress.value);
         return bech32Address.value;
       }
-      return 'unknown address';
+      return 'MsgUnknown address';
     }, [chainAddress]);
 
     return (
@@ -115,3 +115,5 @@ export namespace MessageLinkChainAccount {
     );
   };
 }
+
+export default MsgLinkChainAccount;

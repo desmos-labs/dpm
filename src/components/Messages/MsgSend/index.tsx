@@ -5,8 +5,8 @@ import {Coin} from '@desmoslabs/desmjs-types/cosmos/base/v1beta1/coin';
 import {ChainInfo, convertCoin} from '@desmoslabs/desmjs';
 import {View} from 'react-native';
 import useCurrentChainInfo from 'hooks/desmosclient/useCurrentChainInfo';
-import {BaseMessage} from '../base/BaseMessage';
-import {Typography} from '../../Typography';
+import Typography from 'components/Typography';
+import BaseMessage from '../BaseMessage';
 
 export type DetailsProps = {
   message: MsgSendEncodeObject['value'];
@@ -23,7 +23,7 @@ function formatCoins(amount: Coin[] | undefined, chainInfo: ChainInfo) {
   }
   return amount
     .map((coinAmount) => {
-      const converted = convertCoin(coinAmount, 6, chainInfo.denomUnits);
+      const converted = convertCoin(coinAmount, 6, chainInfo.currencies);
       if (converted !== null) {
         return `${converted.amount} ${converted.denom.toUpperCase()}`;
       }
@@ -32,7 +32,7 @@ function formatCoins(amount: Coin[] | undefined, chainInfo: ChainInfo) {
     .join('\n');
 }
 
-export namespace MessageSend {
+namespace MsgSend {
   /**
    * Displays the short details of a MsgSend within a list.
    * @constructor
@@ -61,13 +61,13 @@ export namespace MessageSend {
               denom,
             },
             6,
-            currentChainInfo.denomUnits,
+            currentChainInfo.currencies,
           );
         })
         .filter((coin) => coin !== null)
         .map((coin) => `${coin!.amount} ${coin!.denom.toUpperCase()}`)
         .join('\n');
-    }, [currentChainInfo.denomUnits, message.amount]);
+    }, [currentChainInfo.currencies, message.amount]);
 
     return (
       <BaseMessage.ListItem
@@ -120,3 +120,5 @@ export namespace MessageSend {
     );
   };
 }
+
+export default MsgSend;

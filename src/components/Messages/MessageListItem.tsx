@@ -13,15 +13,15 @@ import {
 import React from 'react';
 import { MsgMultiSendEncodeObject } from 'types/encodeobject';
 import MsgTypes from 'types/msgtypes';
-import { MessageDelegate } from './staking/MessageDelegate';
-import { MessageLinkChainAccount } from './profiles/MessageLinkChainAccount';
-import { MessageMultiSend } from './bank/MessageMultiSend';
-import { MessageSaveProfile } from './profiles/MessageSaveProfile';
-import { MessageSend } from './bank/MessageSend';
-import { MessageUnlinkChainAccount } from './profiles/MessageUnlinkChainAccount';
-import { MessageVote } from './gov/MessageVote';
-import { MessageWithdrawDelegatorRewards } from './staking/MessageWithdrawDelegatorRewards';
-import { MessageUnknown } from './unknown/MessageUnknown';
+import MsgDelegate from './MsgDelegate';
+import MsgLinkChainAccount from './MsgLinkChainAccount';
+import MsgMultiSend from './MsgMultiSend';
+import MsgSaveProfile from './MsgSaveProfile';
+import MsgSend from './MsgSend';
+import MsgUnlinkChainAccount from './MsgUnlinkChainAccount';
+import MsgVote from './MsgVote';
+import MsgWithdrawDelegatorRewards from './MsgWithdrawDelegatorRewards';
+import MsgUnknown from './MsgUnknown';
 
 export type Props = {
   encodeObject: EncodeObject;
@@ -32,45 +32,45 @@ export const MessageListItem: React.FC<Props> = ({ encodeObject, date }) => {
   switch (encodeObject.typeUrl) {
     case MsgTypes.MsgSend: {
       const message = (encodeObject as MsgSendEncodeObject).value;
-      return <MessageSend.ListItem message={message} date={date}/>;
+      return <MsgSend.ListItem message={message} date={date}/>;
     }
 
     case MsgTypes.MsgMultiSend: {
       const message = (encodeObject as MsgMultiSendEncodeObject).value;
-      return <MessageMultiSend.ListItem message={message} date={date} />;
+      return <MsgMultiSend.ListItem message={message} date={date} />;
     }
 
     case MsgTypes.MsgSaveProfile: {
       const message = (encodeObject as MsgSaveProfileEncodeObject).value;
-      return <MessageSaveProfile.ListItem message={message} date={date}/>;
+      return <MsgSaveProfile.ListItem message={message} date={date}/>;
     }
 
     case MsgTypes.MsgVote: {
       const message = (encodeObject as MsgVoteEncodeObject).value;
-      return <MessageVote.ListItem message={message} date={date}/>;
+      return <MsgVote.ListItem message={message} date={date}/>;
     }
 
     case MsgTypes.MsgDelegate: {
       const message = (encodeObject as MsgDelegateEncodeObject).value;
-      return <MessageDelegate.ListItem message={message} date={date}/>;
+      return <MsgDelegate.ListItem message={message} date={date}/>;
     }
 
     case MsgTypes.MsgWithdrawDelegatorReward: {
       const message = (encodeObject as MsgWithdrawDelegatorRewardEncodeObject).value;
-      return <MessageWithdrawDelegatorRewards.ListItem message={message} date={date}/>;
+      return <MsgWithdrawDelegatorRewards.ListItem message={message} date={date}/>;
     }
 
     case MsgTypes.MsgLinkChainAccount: {
       const message = (encodeObject as MsgLinkChainAccountEncodeObject).value;
-      return <MessageLinkChainAccount.ListItem message={message} date={date} />;
+      return <MsgLinkChainAccount.ListItem message={message} date={date} />;
     }
 
     case MsgTypes.MsgUnlinkChainAccount: {
       const message = (encodeObject as MsgUnlinkChainAccountEncodeObject).value;
-      return <MessageUnlinkChainAccount.ListItem message={message} date={date} />;
+      return <MsgUnlinkChainAccount.ListItem message={message} date={date} />;
     }
 
     default:
-      return <MessageUnknown.ListItem message={encodeObject} date={date} />;
+      return <MsgUnknown.ListItem message={encodeObject} date={date} />;
   }
 };
