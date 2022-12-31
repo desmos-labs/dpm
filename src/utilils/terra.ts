@@ -52,7 +52,7 @@ export default class TerraLedgerApp implements LedgerApp {
 
   async showAddressAndPubKey(
     path: Array<number>,
-    hrp: string
+    hrp: string,
   ): Promise<AddressAndPublicKeyResponse | ErrorResponse> {
     const response = await this.app.showAddressAndPubKey(path, hrp);
     return {

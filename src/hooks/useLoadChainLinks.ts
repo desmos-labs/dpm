@@ -1,6 +1,6 @@
 import { useCallback } from 'react';
-import { useAppContext } from '../contexts/AppContext';
-import { ChainLink } from '../types/link';
+import useAppContext from 'contexts/AppContext';
+import { ChainLink } from 'types/link';
 
 /**
  * Hooks that provide a function to load all the chain links of
@@ -17,6 +17,6 @@ export default function useLoadAllChainLinks(): (
       setChainLinks(result);
       return result;
     },
-    [setChainLinks]
+    [setChainLinks],
   );
 }

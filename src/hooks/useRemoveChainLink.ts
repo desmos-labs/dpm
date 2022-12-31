@@ -1,5 +1,5 @@
 import { useCallback } from 'react';
-import { useAppContext } from '../contexts/AppContext';
+import useAppContext from '../contexts/AppContext';
 
 export default function useRemoveChainLink(address: string) {
   const { setChainLinks } = useAppContext();
@@ -11,7 +11,7 @@ export default function useRemoveChainLink(address: string) {
         const index = currentLinks.findIndex(
           (link) =>
             link.externalAddress === toRemove.externalAddress &&
-            link.chainName === toRemove.chainName
+            link.chainName === toRemove.chainName,
         );
         if (index >= 0) {
           currentLinks.splice(index, 1);
@@ -24,6 +24,6 @@ export default function useRemoveChainLink(address: string) {
         return old;
       });
     },
-    [address, setChainLinks]
+    [address, setChainLinks],
   );
 }

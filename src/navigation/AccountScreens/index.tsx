@@ -7,7 +7,7 @@ import ConfirmProfileEdit from 'screens/ConfirmProfileEdit';
 import ConfirmTx from 'screens/ConfirmTx';
 import SendTokens from 'screens/SendTokens';
 import TransactionDetails from 'components/TransactionDetails';
-import { WalletConnectCallRequest } from 'screens/WalletConnectCallRequest';
+import WalletConnectCallRequest from 'screens/WalletConnectCallRequest';
 import { AccountScreensStack } from 'types/navigation';
 import AuthorizeOperation from 'screens/AuthorizeOperation';
 import AuthorizeSession from 'screens/AuthorizeSession';

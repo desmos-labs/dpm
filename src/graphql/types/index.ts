@@ -134,12 +134,12 @@ export function useGetTransactionsByAddressQuery(
   baseOptions?: QueryHookOptions<
     GetTransactionsByAddressQuery,
     GetTransactionsByAddressQueryVariables
-  >
+  >,
 ) {
   const options = { ...defaultOptions, ...baseOptions };
   return useQuery<GetTransactionsByAddressQuery, GetTransactionsByAddressQueryVariables>(
     GetTransactionsByAddressDocument,
-    options
+    options,
   );
 }
 
@@ -172,7 +172,7 @@ export const GetChainLinkByAddressDocument = gql`
 `;
 
 export function useGetChainLinkByAddress(
-  baseOptions?: QueryHookOptions<GetChainLinkByAddressQuery, GetChainLinkByAddressQueryVariable>
+  baseOptions?: QueryHookOptions<GetChainLinkByAddressQuery, GetChainLinkByAddressQueryVariable>,
 ) {
   const options = { ...defaultOptions, ...baseOptions };
   return useQuery(GetChainLinkByAddressDocument, options);

@@ -15,12 +15,7 @@ const InlineInput: React.FC<InlineInputProps> = (props) => {
   const styles = useStyles();
 
   return (
-    <View
-      style={{
-        display: 'flex',
-        flexDirection: 'column',
-      }}
-    >
+    <View style={styles.root}>
       <View style={[styles.container, style]}>
         <Typography.Subtitle style={styles.label}>{label}</Typography.Subtitle>
         <TextInput {...props} style={[styles.input, inputStyle]} textAlignVertical="top" />

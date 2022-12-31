@@ -70,7 +70,7 @@ async function decryptData(data: EncryptedData, password: string): Promise<strin
  */
 export async function getItem(
   key: string,
-  options: StoreOptions | undefined = undefined
+  options: StoreOptions | undefined = undefined,
 ): Promise<string | null> {
   const moreOptions = options?.biometrics === true ? { ...defaultOptions } : null;
   const insertedWithoutPassword = await Keychain.getGenericPassword({
@@ -108,7 +108,7 @@ export async function getItem(
 export async function setItem(
   key: string,
   value: string,
-  options: StoreOptions | undefined = undefined
+  options: StoreOptions | undefined = undefined,
 ): Promise<false | Result> {
   const moreOptions = options?.biometrics === true ? { ...defaultOptions } : null;
   if (options?.password !== undefined) {
@@ -126,7 +126,7 @@ export async function setItem(
 
 export async function turnOnBiometrics(
   key: string,
-  password: string
+  password: string,
 ): Promise<false | Result | null> {
   const passwordKey = await getItem('dpm_global_password');
   if (passwordKey === 'dpm_global_password') {

@@ -1,5 +1,5 @@
 import { useCallback } from 'react';
-import { useWalletConnectContext } from '../contexts/WalletConnectContext';
+import useWalletConnectContext from '../contexts/WalletConnectContext';
 
 /**
  * Hook that provides a function to reject a WalletConnect call request.
@@ -12,6 +12,6 @@ export default function useWalletConnectRejectRequest() {
       controller.rejectRequest(sessionId, requestId, message);
       removeCallRequest(requestId);
     },
-    [controller, removeCallRequest]
+    [controller, removeCallRequest],
   );
 }

@@ -12,23 +12,25 @@ import {
   View,
 } from 'react-native';
 import BiometricsLoadingIndicator from 'components/BiometricsLoadingIndicator';
-import { Padding } from 'components/Flexible/Padding';
+import Padding from 'components/Flexible/Padding';
 import SecureTextInput from 'components/SecureTextInput';
-import { TwoButtonModal } from 'modals/TwoButtonModal';
-import { Button, StyledSafeAreaView, TopBar } from '../components';
-import { Typography } from '../components/Typography';
-import { useAppContext } from '../contexts/AppContext';
-import useSetSettings from '../hooks/settings/useSetSettings';
-import useSettings from '../hooks/settings/useSettings';
-import useNavigateToHomeScreen from '../hooks/useNavigateToHomeScreen';
-import useShowModal from '../hooks/useShowModal';
-import AccountSource from '../sources/AccountSource';
-import { LocalWalletsSource } from '../sources/LocalWalletsSource';
-import ProfileSource from '../sources/ProfileSource';
-import { makeStyle } from '../theming';
-import { AccountScreensStackParams, RootStackParams } from '../types/navigation';
-import { DefaultAppSettings } from '../types/settings';
-import * as SecureStorage from '../utilils/SecureStorage';
+import TwoButtonModal from 'modals/TwoButtonModal';
+import Typography from 'components/Typography';
+import useAppContext from 'contexts/AppContext';
+import useSetSettings from 'hooks/settings/useSetSettings';
+import useSettings from 'hooks/settings/useSettings';
+import useNavigateToHomeScreen from 'hooks/useNavigateToHomeScreen';
+import useShowModal from 'hooks/useShowModal';
+import AccountSource from 'sources/AccountSource';
+import { LocalWalletsSource } from 'sources/LocalWalletsSource';
+import ProfileSource from 'sources/ProfileSource';
+import { AccountScreensStackParams, RootStackParams } from 'types/navigation';
+import { DefaultAppSettings } from 'types/settings';
+import StyledSafeAreaView from 'components/StyledSafeAreaView';
+import TopBar from 'components/TopBar';
+import Button from 'components/Button';
+import * as SecureStorage from '../../utilils/SecureStorage';
+import useStyles from './useStyles';
 
 export type Props = CompositeScreenProps<
   StackScreenProps<RootStackParams, 'UnlockApplication'>,
@@ -156,7 +158,7 @@ const UnlockApplication: React.FC<Props> = (props) => {
   );
 
   return (
-    <View style={{ flex: 1 }}>
+    <View style={styles.root}>
       {loadingBiometrics && <BiometricsLoadingIndicator />}
       <StyledSafeAreaView topBar={<TopBar stackProps={props} />}>
         <Typography.Subtitle>{t('enter security password')}</Typography.Subtitle>
@@ -188,31 +190,5 @@ const UnlockApplication: React.FC<Props> = (props) => {
     </View>
   );
 };
-
-const useStyles = makeStyle((theme) => ({
-  password: {
-    marginTop: theme.spacing.s,
-  },
-  errorMsg: {
-    color: theme.colors.error,
-    marginTop: theme.spacing.s,
-  },
-  forgotPasswordBtn: {
-    display: 'flex',
-    flexDirection: 'row',
-    width: '100%',
-    justifyContent: 'center',
-    padding: theme.spacing.s,
-  },
-  labelStyle: {
-    fontFamily: 'Poppins-Medium',
-    fontStyle: 'normal',
-    fontWeight: '400',
-    fontSize: 16,
-    lineHeight: 22,
-    letterSpacing: 0.0125,
-    color: theme.colors.font['1'],
-  },
-}));
 
 export default UnlockApplication;

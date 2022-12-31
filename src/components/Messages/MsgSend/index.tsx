@@ -7,6 +7,7 @@ import {View} from 'react-native';
 import useCurrentChainInfo from 'hooks/desmosclient/useCurrentChainInfo';
 import Typography from 'components/Typography';
 import BaseMessage from '../BaseMessage';
+import useStyles from './useStyles';
 
 export type DetailsProps = {
   message: MsgSendEncodeObject['value'];
@@ -40,6 +41,7 @@ namespace MsgSend {
   export const ListItem: React.FC<ListItemProps> = ({ message, date }) => {
     const { t } = useTranslation();
     const currentChainInfo = useCurrentChainInfo();
+    const styles = useStyles();
 
     const tokenSent = useMemo(() => {
       const totals =
@@ -78,7 +80,7 @@ namespace MsgSend {
             <Typography.Body1>
               {t('send')} {tokenSent}
             </Typography.Body1>
-            <View style={{ flexDirection: 'row', flexShrink: 1 }}>
+            <View style={styles.toAddress}>
               <Typography.Caption>
                 {t('to')} {message.toAddress}
               </Typography.Caption>

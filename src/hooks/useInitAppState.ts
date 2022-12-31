@@ -1,10 +1,10 @@
 import { useEffect } from 'react';
-import { InitState, useAppContext } from '../contexts/AppContext';
-import { useInitI18n } from '../i18n/i18n';
-import AccountSource from '../sources/AccountSource';
-import { LocalWalletsSource } from '../sources/LocalWalletsSource';
-import ProfileSource from '../sources/ProfileSource';
-import * as SecureStorage from '../utilils/SecureStorage';
+import useAppContext, { InitState } from 'contexts/AppContext';
+import { useInitI18n } from 'i18n/i18n';
+import AccountSource from 'sources/AccountSource';
+import { LocalWalletsSource } from 'sources/LocalWalletsSource';
+import ProfileSource from 'sources/ProfileSource';
+import * as SecureStorage from 'utilils/SecureStorage';
 import useConnectDesmosClient from './desmosclient/useConnectDesmosClient';
 import useLoadSettings from './settings/useLoadSettings';
 import useLoadAccounts from './useLoadAccounts';
@@ -57,7 +57,6 @@ export default function useInitAppState(): InitState {
         console.error(e);
       }
     })();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return initializing;

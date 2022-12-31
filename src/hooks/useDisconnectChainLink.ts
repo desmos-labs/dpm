@@ -1,8 +1,8 @@
 import { OfflineSigner } from '@cosmjs/proto-signing';
 import { MsgUnlinkChainAccountEncodeObject } from '@desmoslabs/desmjs';
 import { useCallback } from 'react';
-import { computeTxFees, messagesGas } from '../types/fees';
-import { ChainLink } from '../types/link';
+import { computeTxFees, messagesGas } from 'types/fees';
+import { ChainLink } from 'types/link';
 import useCurrentChainInfo from './desmosclient/useCurrentChainInfo';
 import useBroadcastMessages from './useBroadcastMessages';
 
@@ -28,6 +28,6 @@ export default function useDisconnectChainLink() {
       const fee = computeTxFees(gas, chainInfo.stakeCurrency.coinDenom).average;
       await broadcastMessages(wallet, msgs, fee);
     },
-    [broadcastMessages, chainInfo]
+    [broadcastMessages, chainInfo],
   );
 }

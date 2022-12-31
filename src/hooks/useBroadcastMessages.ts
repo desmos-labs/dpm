@@ -12,7 +12,7 @@ import useDesmosClient from './desmosclient/useDesmosClient';
 
 function makeSignerInfo(
   signer: { readonly pubkey: Any; readonly sequence: number },
-  signMode: SignMode
+  signMode: SignMode,
 ): SignerInfo {
   return SignerInfo.fromPartial({
     publicKey: signer.pubkey,
@@ -30,7 +30,7 @@ export function makeAuthInfoBytes(
   feeAmount: readonly Coin[],
   gasLimit: number,
   signMode: SignMode,
-  granter?: string
+  granter?: string,
 ): Uint8Array {
   return AuthInfo.encode(
     AuthInfo.fromPartial({
@@ -40,7 +40,7 @@ export function makeAuthInfoBytes(
         gasLimit: Long.fromNumber(gasLimit),
         granter,
       },
-    })
+    }),
   ).finish();
 }
 
@@ -62,13 +62,13 @@ export default function useBroadcastMessages() {
         messages,
         fee,
         memo ?? '',
-        undefined
+        undefined,
       );
       const broadcastResult = await client!.broadcastTx(TxRaw.encode(signed).finish());
       if (isDeliverTxFailure(broadcastResult)) {
         throw new Error(broadcastResult.rawLog ?? 'Unknown error');
       }
     },
-    [client]
+    [client],
   );
 }

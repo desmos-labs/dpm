@@ -6,7 +6,7 @@ import NamedStyles = StyleSheet.NamedStyles;
 export * from './theme';
 
 export function makeStyle<T extends NamedStyles<T> | NamedStyles<any>>(
-  styleProvider: (theme: ReactNativePaper.Theme) => T
+  styleProvider: (theme: ReactNativePaper.Theme) => T,
 ): () => T {
   return () => {
     const theme = useTheme();
@@ -15,7 +15,7 @@ export function makeStyle<T extends NamedStyles<T> | NamedStyles<any>>(
 }
 
 export function makeStyleWithProps<P, T extends NamedStyles<T> | NamedStyles<any>>(
-  styleProvider: (props: P, theme: ReactNativePaper.Theme) => T
+  styleProvider: (props: P, theme: ReactNativePaper.Theme) => T,
 ): (props: P) => T {
   return (props: P) => {
     const theme = useTheme();

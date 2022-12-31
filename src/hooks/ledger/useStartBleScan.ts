@@ -4,7 +4,7 @@ import { useTranslation } from 'react-i18next';
 import { Linking, Platform } from 'react-native';
 import { BleError, BleErrorCode } from 'react-native-ble-plx';
 import BluetoothStateManager from 'react-native-bluetooth-state-manager';
-import { BleLedger, Subscription } from '../../types/ledger';
+import { BleLedger, Subscription } from 'types/ledger';
 
 export enum ScanErrorCause {
   PoweredOff,
@@ -32,7 +32,7 @@ export default function useStartBleScan() {
         subscription.unsubscribe();
       }
     },
-    [subscription]
+    [subscription],
   );
 
   // Clear the scan timeout
@@ -42,7 +42,7 @@ export default function useStartBleScan() {
         clearTimeout(stopScanTimeout);
       }
     },
-    [stopScanTimeout]
+    [stopScanTimeout],
   );
 
   const stopScan = useCallback(() => {
@@ -128,14 +128,13 @@ export default function useStartBleScan() {
                 }
                 setScanning(false);
               },
-            })
+            }),
           );
           setStopStopScanTimeout(
-            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
             // @ts-ignore
             setTimeout(() => {
               stopScan();
-            }, durationMs)
+            }, durationMs),
           );
         } else if (state === 'PoweredOff') {
           setScanError({
@@ -164,7 +163,7 @@ export default function useStartBleScan() {
         }
       }
     },
-    [stopScan, t, scanError]
+    [stopScan, t, scanError],
   );
 
   return {

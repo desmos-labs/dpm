@@ -1,6 +1,6 @@
 import { StdFee } from '@cosmjs/amino';
 import { EncodeObject } from '@cosmjs/proto-signing';
-import { calculateFee, GasPrice } from '@cosmjs/stargate';
+import { calculateFee } from '@cosmjs/stargate';
 import MsgTypes from './msgtypes';
 
 /**

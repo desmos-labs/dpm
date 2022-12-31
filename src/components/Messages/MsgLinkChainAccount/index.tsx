@@ -4,8 +4,9 @@ import React, { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Image, StyleSheet, View } from 'react-native';
 import Typography from 'components/Typography';
-import findLinkableChainInfoByName from '../../../utilils/find';
+import findLinkableChainInfoByName from 'utilils/find';
 import BaseMessage from '../BaseMessage';
+import useStyles from './useStyles';
 
 export type DetailsProps = {
   message: MsgLinkChainAccountEncodeObject['value'];
@@ -23,6 +24,7 @@ namespace MsgLinkChainAccount {
    */
   export const ListItem: React.FC<ListItemProps> = ({ message, date }) => {
     const { t } = useTranslation();
+    const styles = useStyles();
 
     const { chainAddress } = message;
     const chainAccount = useMemo(() => {
@@ -40,7 +42,7 @@ namespace MsgLinkChainAccount {
         renderContent={() => (
           <View>
             <Typography.Body1>{t('tx type link chain account')}</Typography.Body1>
-            <View style={{ flexDirection: 'row', flexShrink: 1 }}>
+            <View style={styles.chainAccount}>
               <Typography.Caption>
                 {t('to')} {chainAccount}
               </Typography.Caption>

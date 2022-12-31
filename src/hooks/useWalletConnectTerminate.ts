@@ -1,5 +1,5 @@
 import { useCallback, useState } from 'react';
-import { useWalletConnectContext } from '../contexts/WalletConnectContext';
+import useWalletConnectContext from 'contexts/WalletConnectContext';
 
 export type DisconnectionStatus = {
   disconnecting: boolean;
@@ -38,7 +38,7 @@ export default function useWalletConnectDisconnect(): [
         });
       }
     },
-    [controller]
+    [controller],
   );
 
   return [status, disconnect];

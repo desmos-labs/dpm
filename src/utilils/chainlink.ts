@@ -11,8 +11,8 @@ import {PubKey} from 'cosmjs-types/cosmos/crypto/secp256k1/keys';
 import {SignDoc, TxBody} from 'cosmjs-types/cosmos/tx/v1beta1/tx';
 import {Any} from 'cosmjs-types/google/protobuf/any';
 import Long from 'long';
-import {LinkableChain} from '../types/chain';
-import {ChainLinkProof} from '../types/link';
+import {LinkableChain} from 'types/chain';
+import {ChainLinkProof} from 'types/link';
 
 export type GenerateProofConfig = {
   desmosAddress: string;
@@ -37,7 +37,7 @@ export async function generateProof(config: GenerateProofConfig): Promise<ChainL
       bodyBytes: TxBody.encode(
         TxBody.fromPartial({
           memo: desmosAddress,
-        })
+        }),
       ).finish(),
       chainId: '',
     });
@@ -72,7 +72,7 @@ export async function generateProof(config: GenerateProofConfig): Promise<ChainL
             SignatureValueType.SIGNATURE_VALUE_TYPE_COSMOS_DIRECT :
             SignatureValueType.SIGNATURE_VALUE_TYPE_COSMOS_AMINO,
           signature,
-        })
+        }),
       ).finish(),
     }),
     plainText: toHex(plainTextBytes),
@@ -81,7 +81,7 @@ export async function generateProof(config: GenerateProofConfig): Promise<ChainL
       value: PubKey.encode(
         PubKey.fromPartial({
           key: pubKey,
-        })
+        }),
       ).finish(),
     }),
   });
@@ -92,7 +92,7 @@ export async function generateProof(config: GenerateProofConfig): Promise<ChainL
       Bech32Address.fromPartial({
         value: externalAddress,
         prefix: chain.prefix,
-      })
+      }),
     ).finish(),
   });
 

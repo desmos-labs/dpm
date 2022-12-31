@@ -6,27 +6,29 @@ import { View } from 'react-native';
 import {createDesmosTypes} from '@desmoslabs/desmjs';
 import {AminoTypes} from '@cosmjs/stargate';
 import {EncodeObject} from '@cosmjs/proto-signing';
-import { LoadingModal } from 'modals/LoadingModal';
-import { SingleButtonModal } from 'modals/SingleButtonModal';
-import { TransactionDetails } from 'components/TransactionDetails';
-import { Button, StyledSafeAreaView, TopBar } from '../components';
-import { useWalletConnectContext } from '../contexts/WalletConnectContext';
-import useShowModal from '../hooks/useShowModal';
-import useSignTx from '../hooks/useSignTx';
-import useUnlockWallet from '../hooks/useUnlockWallet';
-import useWalletCallRequests from '../hooks/useWalletCallRequests';
-import useWalletConnectRejectRequest from '../hooks/useWalletConnectRejectRequest';
-import AccountSource from '../sources/AccountSource';
-import { makeStyle } from '../theming';
-import { ChainAccountType } from '../types/chain';
-import { CosmosMethod } from '../types/jsonRpCosmosc';
-import { AccountScreensStackParams } from '../types/navigation';
-import { CosmosTx } from '../types/tx';
-import { CallRequestType, ParsedCallRequest } from '../types/walletconnect';
+import LoadingModal from 'modals/LoadingModal';
+import SingleButtonModal from 'modals/SingleButtonModal';
+import TransactionDetails from 'components/TransactionDetails';
+import useWalletConnectContext from 'contexts/WalletConnectContext';
+import useShowModal from 'hooks/useShowModal';
+import useSignTx from 'hooks/useSignTx';
+import useUnlockWallet from 'hooks/useUnlockWallet';
+import useWalletCallRequests from 'hooks/useWalletCallRequests';
+import useWalletConnectRejectRequest from 'hooks/useWalletConnectRejectRequest';
+import AccountSource from 'sources/AccountSource';
+import { ChainAccountType } from 'types/chain';
+import { CosmosMethod } from 'types/jsonRpCosmosc';
+import { AccountScreensStackParams } from 'types/navigation';
+import { CosmosTx } from 'types/tx';
+import { CallRequestType, ParsedCallRequest } from 'types/walletconnect';
+import StyledSafeAreaView from 'components/StyledSafeAreaView';
+import TopBar from 'components/TopBar';
+import Button from 'components/Button';
+import useStyles from './useStyles';
 
 export type Props = StackScreenProps<AccountScreensStackParams, 'WalletConnectCallRequest'>;
 
-export const WalletConnectCallRequest: React.FC<Props> = (props) => {
+const WalletConnectCallRequest: React.FC<Props> = (props) => {
   const { navigation } = props;
   const { t } = useTranslation();
   const styles = useStyles();
@@ -185,17 +187,4 @@ export const WalletConnectCallRequest: React.FC<Props> = (props) => {
   ) : null;
 };
 
-const useStyles = makeStyle((theme) => ({
-  txDetails: {
-    flex: 1,
-  },
-  buttonsContainer: {
-    marginVertical: theme.spacing.m,
-    display: 'flex',
-    flexDirection: 'row',
-    justifyContent: 'space-around',
-  },
-  button: {
-    width: '40%',
-  },
-}));
+export default WalletConnectCallRequest;

@@ -1,7 +1,7 @@
 import { useNavigation } from '@react-navigation/native';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { MutableRefObject, useCallback } from 'react';
-import { ModalComponent, RootStackParams } from '../types/navigation';
+import { ModalComponent, RootStackParams } from 'types/navigation';
 
 /**
  * Hook that provide a function to display a ModalComponent.
@@ -27,6 +27,6 @@ export default function useShowModal() {
         navigationRef.current?.goBack();
       };
     },
-    [navigation]
+    [navigation],
   );
 }

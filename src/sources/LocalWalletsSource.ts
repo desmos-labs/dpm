@@ -1,5 +1,5 @@
-import * as SecureStorage from '../utilils/SecureStorage';
-import LocalWallet from '../wallet/LocalWallet';
+import * as SecureStorage from 'utilils/SecureStorage';
+import LocalWallet from 'wallet/LocalWallet';
 
 /**
  * Source that contains the user's wallets.
@@ -30,7 +30,7 @@ export class LocalWalletsSource {
   public static async putWallet(
     wallet: LocalWallet,
     password: string,
-    accessWithBiometrics?: boolean
+    accessWithBiometrics?: boolean,
   ): Promise<void> {
     const addresses = await LocalWalletsSource.getAllAddresses();
     // Saves the wallet address.
@@ -63,7 +63,7 @@ export class LocalWalletsSource {
   public static async getWallet(
     address: string,
     password?: string,
-    useBiometrics?: boolean
+    useBiometrics?: boolean,
   ): Promise<LocalWallet> {
     let walletPassword: string | null = password ?? null;
     if (useBiometrics === true) {
@@ -116,7 +116,7 @@ export class LocalWalletsSource {
   public static async reset(): Promise<void> {
     const addresses = await LocalWalletsSource.getAllAddresses();
     Promise.all(addresses.map((address) => LocalWalletsSource.removeWallet(address))).catch((e) =>
-      console.error(e)
+      console.error(e),
     );
   }
 }

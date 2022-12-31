@@ -1,12 +1,12 @@
 import { CompositeNavigationProp, useNavigation } from '@react-navigation/native';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { useCallback } from 'react';
-import { ChainAccount } from '../types/chain';
+import { ChainAccount } from 'types/chain';
 import {
   AccountScreensStackParams,
   AuthorizeOperationResolveParams,
   RootStackParams,
-} from '../types/navigation';
+} from 'types/navigation';
 
 type NavigationProps = CompositeNavigationProp<
   StackNavigationProp<AccountScreensStackParams>,
@@ -35,6 +35,6 @@ export default function useAuthorizeOperation(): (account: ChainAccount) => Prom
           },
         });
       }),
-    [navigation]
+    [navigation],
   );
 }

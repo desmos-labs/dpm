@@ -3,8 +3,8 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import WalletConnect from '@walletconnect/client';
 import { ISessionParams, IWalletConnectSession } from '@walletconnect/types';
 import { AuthInfo, TxBody } from 'cosmjs-types/cosmos/tx/v1beta1/tx';
-import { CosmosMethod } from '../types/jsonRpCosmosc';
-import { SignedCosmosTx } from '../types/tx';
+import { CosmosMethod } from 'types/jsonRpCosmosc';
+import { SignedCosmosTx } from 'types/tx';
 import {
   CallRequestEvent,
   ConnectedEvent,
@@ -15,7 +15,7 @@ import {
   SessionRequestDetails,
   SessionRequestEvent,
   SessionUpdateEvent,
-} from '../types/walletconnect';
+} from 'types/walletconnect';
 
 /**
  * Type that represents the payload returned from the
@@ -207,10 +207,10 @@ export default class WalletConnectController {
    * Callback that will be called when the session is established.
    * @param session - Object that represents the WalletConnect session.
    * @param error - Optional error that has occur.
-   * @param payload - The event payload.
+   * @param _ - The event payload.
    * @private
    */
-  private async onConnect(session: WalletConnectSession, error: Error | null, payload: any) {
+  private async onConnect(session: WalletConnectSession, error: Error | null, _: any) {
     const { clientId } = session.client;
     if (error === null) {
       await this.saveSessionsToDisk();
@@ -226,10 +226,10 @@ export default class WalletConnectController {
    * Callback that will be called when the session is terminated.
    * @param session - Object that represents the WalletConnect session.
    * @param error - Optional error that has occur.
-   * @param payload - The event payload.
+   * @param _ - The event payload.
    * @private
    */
-  private async onDisconnect(session: WalletConnectSession, error: Error | null, payload: any) {
+  private async onDisconnect(session: WalletConnectSession, error: Error | null, _: any) {
     const { clientId } = session.client;
     if (error === null) {
       await this.saveSessionsToDisk();
@@ -284,10 +284,10 @@ export default class WalletConnectController {
    * Callback that will be called when the session has bee updated.
    * @param session - Object that represents the WalletConnect session.
    * @param error - Optional error that has occur.
-   * @param payload - The event payload.
+   * @param _ - The event payload.
    * @private
    */
-  private async onSessionUpdate(session: WalletConnectSession, error: Error | null, payload: any) {
+  private async onSessionUpdate(session: WalletConnectSession, error: Error | null, _: any) {
     const { clientId, chainId, accounts } = session.client;
     const event: SessionUpdateEvent = {
       error,

@@ -4,14 +4,14 @@ import BluetoothTransport from '@ledgerhq/react-native-hw-transport-ble';
 import { CompositeNavigationProp, useNavigation } from '@react-navigation/native';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { useCallback } from 'react';
-import { ChainAccount, ChainAccountType } from '../types/chain';
-import { DesmosLedgerApp } from '../types/ledger';
+import { ChainAccount, ChainAccountType } from 'types/chain';
+import { DesmosLedgerApp } from 'types/ledger';
 import {
   AccountScreensStackParams,
   AuthorizeOperationResolveParams,
   RootStackParams,
-} from '../types/navigation';
-import toCosmjsHdPath from '../utilils/hdpath';
+} from 'types/navigation';
+import toCosmJSHdPath from 'utilils/hdpath';
 
 type NavigationProps = CompositeNavigationProp<
   StackNavigationProp<AccountScreensStackParams>,
@@ -54,9 +54,9 @@ export default function useUnlockWallet(): (
                 new LedgerSigner(transport!, {
                   minLedgerAppVersion: DesmosLedgerApp!.minVersion,
                   ledgerAppName: DesmosLedgerApp!.name,
-                  hdPaths: [toCosmjsHdPath(account.hdPath)],
+                  hdPaths: [toCosmJSHdPath(account.hdPath)],
                   prefix: 'desmos',
-                })
+                }),
               );
             },
             onCancel: () => {
@@ -66,6 +66,6 @@ export default function useUnlockWallet(): (
         });
       });
     },
-    [navigation]
+    [navigation],
   );
 }

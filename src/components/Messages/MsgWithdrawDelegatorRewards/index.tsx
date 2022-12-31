@@ -4,6 +4,7 @@ import { useTranslation } from 'react-i18next';
 import { View } from 'react-native';
 import Typography from 'components/Typography';
 import BaseMessage from '../BaseMessage';
+import useStyles from './useStyles';
 
 export type DetailsProps = {
   message?: MsgWithdrawDelegatorRewardEncodeObject['value'];
@@ -21,6 +22,7 @@ namespace MsgWithdrawDelegatorRewards {
    */
   export const ListItem: React.FC<ListItemProps> = ({ message, date }) => {
     const { t } = useTranslation();
+    const styles = useStyles();
 
     return (
       <BaseMessage.ListItem
@@ -29,7 +31,7 @@ namespace MsgWithdrawDelegatorRewards {
         renderContent={() => (
           <View>
             <Typography.Body1>{t('withdraw rewards')}</Typography.Body1>
-            <View style={{ flexDirection: 'row', flexShrink: 1 }}>
+            <View style={styles.validatorAddress}>
               <Typography.Caption>
                 {t('from')} {message.validatorAddress}
               </Typography.Caption>

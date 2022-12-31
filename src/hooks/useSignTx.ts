@@ -10,12 +10,12 @@ import {
 import { SignMode } from 'cosmjs-types/cosmos/tx/signing/v1beta1/signing';
 import { AuthInfo, SignDoc, TxBody } from 'cosmjs-types/cosmos/tx/v1beta1/tx';
 import { useCallback } from 'react';
-import { CosmosMethod, CosmosSignDocDirect } from '../types/jsonRpCosmosc';
-import { CosmosTx, SignedCosmosTx } from '../types/tx';
+import { CosmosMethod, CosmosSignDocDirect } from 'types/jsonRpCosmosc';
+import { CosmosTx, SignedCosmosTx } from 'types/tx';
 
 async function signDirectTx(
   signDoc: CosmosSignDocDirect,
-  signer: OfflineSigner
+  signer: OfflineSigner,
 ): Promise<SignedCosmosTx> {
   if (!isOfflineDirectSigner(signer)) {
     throw new Error("Can't sign, method direct is not supported from the wallet");
@@ -37,7 +37,9 @@ async function signDirectTx(
     ],
     authInfo.fee?.amount!,
     authInfo.fee?.gasLimit?.toNumber() || 200_000,
-    SignMode.SIGN_MODE_DIRECT
+    undefined,
+    undefined,
+    SignMode.SIGN_MODE_DIRECT,
   );
 
   const bodyBytes = TxBody.encode(signDoc.body).finish();

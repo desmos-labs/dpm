@@ -1,6 +1,6 @@
 import { useCallback } from 'react';
-import AccountSource from '../sources/AccountSource';
-import { ChainAccount } from '../types/chain';
+import AccountSource from 'sources/AccountSource';
+import { ChainAccount } from 'types/chain';
 import useSetAccounts from './useSetAccounts';
 
 /**
@@ -18,6 +18,6 @@ export default function useSaveAccount() {
       }
       return account;
     },
-    [setAccounts]
+    [setAccounts],
   );
 }

@@ -5,6 +5,7 @@ import { Image, StyleSheet, View } from 'react-native';
 import findLinkableChainInfoByName from 'utilils/find';
 import Typography from 'components/Typography';
 import BaseMessage from '../BaseMessage';
+import useStyles from './useStyles';
 
 export type DetailsProps = {
   message: MsgUnlinkChainAccountEncodeObject['value'];
@@ -22,6 +23,7 @@ namespace MsgUnlinkChainAccount {
    */
   export const ListItem: React.FC<ListItemProps> = ({ message, date }) => {
     const { t } = useTranslation();
+    const styles = useStyles();
 
     return (
       <BaseMessage.ListItem
@@ -30,7 +32,7 @@ namespace MsgUnlinkChainAccount {
         renderContent={() => (
           <View>
             <Typography.Body1>{t('tx type unlink chain account')}</Typography.Body1>
-            <View style={{ flexDirection: 'row', flexShrink: 1 }}>
+            <View style={styles.target}>
               <Typography.Caption>{message.target}</Typography.Caption>
             </View>
           </View>

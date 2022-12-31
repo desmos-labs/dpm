@@ -16,8 +16,7 @@ export default class SignerWrapper extends Signer {
 
   private readonly _signMode: SigningMode | undefined;
 
-  // eslint-disable-next-line class-methods-use-this
-  private readonly _throwError = (address: string, doc: SignDoc) => {
+  private readonly _throwError = () => {
     throw new Error("Can't sign, the singer is undefined");
   };
 
@@ -55,12 +54,12 @@ export default class SignerWrapper extends Signer {
     return undefined;
   }
 
-  // eslint-disable-next-line class-methods-use-this
+  // eslint-disable-next-line class-methods-use-this, @typescript-eslint/no-unused-vars
   signDirect(signerAddress: string, signDoc: SignDoc): Promise<DirectSignResponse> {
     throw new Error('Method not patched');
   }
 
-  // eslint-disable-next-line class-methods-use-this
+  // eslint-disable-next-line class-methods-use-this, @typescript-eslint/no-unused-vars
   signAmino(signerAddress: string, signDoc: StdSignDoc): Promise<AminoSignResponse> {
     throw new Error('Method not patched');
   }

@@ -16,8 +16,8 @@ import {
 } from '@cosmjs/proto-signing';
 import * as bip39 from 'bip39';
 import { SignDoc } from 'cosmjs-types/cosmos/tx/v1beta1/tx';
-import { CryptoUtils } from '../native/CryptoUtils';
-import { DesmosHdPath, HdPath } from '../types/hdpath';
+import { CryptoUtils } from 'native/CryptoUtils';
+import { DesmosHdPath, HdPath } from 'types/hdpath';
 
 export interface LocalWalletOptions {
   /**
@@ -64,7 +64,7 @@ export default class LocalWallet implements OfflineDirectSigner, OfflineAminoSig
       hdPath.coinType,
       hdPath.account,
       hdPath.change,
-      hdPath.addressIndex
+      hdPath.addressIndex,
     );
     const privkeyBytes = fromHex(privkey);
     const pubkeyBytes = fromHex(pubkey);

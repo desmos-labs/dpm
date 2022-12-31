@@ -2,7 +2,6 @@ import { DefaultTheme } from 'react-native-paper';
 import Colors from '../constants/colors';
 
 declare global {
-  // eslint-disable-next-line @typescript-eslint/no-namespace
   namespace ReactNativePaper {
     /**
      * Interface that represents the color used to

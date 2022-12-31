@@ -7,7 +7,6 @@ import {
   ViewProps,
 } from 'react-native';
 import { useTheme } from 'react-native-paper';
-import useCloseKeyboard from 'hooks/useCloseKeyboard';
 import Divider from 'components/Divider';
 import useStyles from './useStyles';
 

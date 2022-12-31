@@ -4,8 +4,9 @@ import React, { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import {View} from 'react-native';
 import useCurrentChainInfo from 'hooks/desmosclient/useCurrentChainInfo';
+import Typography from 'components/Typography';
 import BaseMessage from '../BaseMessage';
-import Typography from '../../Typography';
+import useStyles from './useStyles';
 
 export type DetailsProps = {
   message: MsgDelegateEncodeObject['value'];
@@ -24,6 +25,7 @@ namespace MsgDelegate {
   export const ListItem: React.FC<ListItemProps> = ({ message, date }) => {
     const { t } = useTranslation();
     const chainInfo = useCurrentChainInfo();
+    const styles = useStyles();
 
     const delegateAmount = useMemo(() => {
       if (message.amount) {
@@ -45,7 +47,7 @@ namespace MsgDelegate {
             <Typography.Body1>
               {t('delegate')} {delegateAmount}
             </Typography.Body1>
-            <View style={{ flexDirection: 'row', flexShrink: 1 }}>
+            <View style={styles.validatorAddress}>
               <Typography.Caption>
                 {t('to')} {message.validatorAddress}
               </Typography.Caption>

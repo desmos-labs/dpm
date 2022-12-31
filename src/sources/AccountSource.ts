@@ -1,5 +1,5 @@
-import { ChainAccount } from '../types/chain';
-import * as SecureStorage from '../utilils/SecureStorage';
+import { ChainAccount } from 'types/chain';
+import * as SecureStorage from 'utilils/SecureStorage';
 
 declare type SourceCache = Map<string, ChainAccount>;
 
@@ -117,6 +117,5 @@ class AccountSource {
 }
 
 // Singleton instance that will be exposed.
-// eslint-disable-next-line @typescript-eslint/naming-convention
 const _AccountSource = new AccountSource();
 export default _AccountSource;

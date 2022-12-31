@@ -1,9 +1,9 @@
 import React, { useCallback, useEffect, useRef } from 'react';
 import { Animated, TouchableOpacity } from 'react-native';
-import { useTheme } from 'react-native-paper';
+import useStyles from './useStyles';
 
 type SwitchProps = {
-  /** The initial value of the switch. You can dinamically pass a value to change the position of the switch */
+  /** The initial value of the switch. You can dynamically pass a value to change the position of the switch */
   value: boolean;
   /** Indicates if the switch is enabled or disabled */
   isDisabled: boolean;
@@ -16,8 +16,8 @@ type SwitchProps = {
 const Switch: React.FC<SwitchProps> = (props) => {
   const { onPress, value, isDisabled, animateOnPress } = props;
   const [active, setActive] = React.useState(value);
-  const theme = useTheme();
   const translation = useRef(new Animated.Value(active ? 7 : -7)).current;
+  const styles = useStyles(isDisabled, active, translation);
 
   const animateToggle = useCallback(() => {
     Animated.spring(translation, {
@@ -36,31 +36,15 @@ const Switch: React.FC<SwitchProps> = (props) => {
   return (
     <TouchableOpacity
       disabled={isDisabled}
-      style={[{ padding: 8, marginLeft: 6 }, isDisabled ? { opacity: 0.3 } : null]}
+      style={styles.opacity}
       onPress={() => {
         if (animateOnPress) animateToggle();
         if (onPress) onPress();
       }}
     >
-      <Animated.View style={{ alignItems: 'center', justifyContent: 'center' }}>
-        <Animated.View
-          style={{
-            width: 28,
-            height: 4,
-            borderRadius: 1,
-            backgroundColor: active ? theme.colors.toggle.active : theme.colors.toggle.inactive,
-          }}
-        />
-        <Animated.View
-          style={{
-            width: 14,
-            position: 'absolute',
-            height: 14,
-            borderRadius: 2,
-            backgroundColor: active ? theme.colors.toggle.active : theme.colors.toggle.inactive,
-            transform: [{ translateX: translation }],
-          }}
-        />
+      <Animated.View style={styles.button}>
+        <Animated.View style={styles.square}/>
+        <Animated.View style={styles.line}/>
       </Animated.View>
     </TouchableOpacity>
   );

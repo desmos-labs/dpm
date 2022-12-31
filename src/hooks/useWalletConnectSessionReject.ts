@@ -1,5 +1,5 @@
 import { useCallback, useState } from 'react';
-import { useWalletConnectContext } from '../contexts/WalletConnectContext';
+import useWalletConnectContext from '../contexts/WalletConnectContext';
 
 export type RejectStatus = {
   rejecting: boolean;
@@ -38,7 +38,7 @@ export default function useWalletConnectSessionReject(): [
         });
       }
     },
-    [controller]
+    [controller],
   );
 
   return [status, reject];

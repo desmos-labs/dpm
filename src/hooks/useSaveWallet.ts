@@ -1,6 +1,6 @@
 import { useCallback } from 'react';
-import { LocalWalletsSource } from '../sources/LocalWalletsSource';
-import LocalWallet from '../wallet/LocalWallet';
+import { LocalWalletsSource } from 'sources/LocalWalletsSource';
+import LocalWallet from 'wallet/LocalWallet';
 
 /**
  * Hook to save a wallet into the device storage.
@@ -12,6 +12,6 @@ export default function useSaveWallet() {
       await LocalWalletsSource.putWallet(wallet, password, biometricProtected);
       return wallet;
     },
-    []
+    [],
   );
 }

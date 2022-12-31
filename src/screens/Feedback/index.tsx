@@ -40,8 +40,8 @@ const Feedback: React.FC<Props> = (props) => {
       <VerticalInput label={t('subject')} placeholder={t('summary of your observation')} />
       <VerticalInput
         label={t('message')}
-        style={{ flex: 1 }}
-        inputStyle={{ flex: 1 }}
+        style={styles.message}
+        inputStyle={styles.message}
         placeholder={t('give as many details as possible')}
         multiline
         textAlignVertical="top"

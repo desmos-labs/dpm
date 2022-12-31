@@ -3,7 +3,6 @@ import React, { useCallback, useEffect, useState } from 'react';
 import { Trans, useTranslation } from 'react-i18next';
 import { View } from 'react-native';
 import { ActivityIndicator } from 'react-native-paper';
-import Colors from 'constants/colors';
 import { AccountCreationStackParams } from 'types/navigation';
 import { randomMnemonic } from 'wallet/LocalWallet';
 import Typography from 'components/Typography';
@@ -53,7 +52,6 @@ const GenerateNewMnemonic = (props: Props) => {
   // Hook to launch the generation when the user enter on the screen
   useEffect(() => {
     generateMnemonic(mnemonicLength).then(setMnemonic);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const onOkPressed = () => {
@@ -73,13 +71,7 @@ const GenerateNewMnemonic = (props: Props) => {
           i18nKey="save recovery passphrase"
           components={{
             bold: (
-              <Typography.Subtitle
-                style={{
-                  color: Colors.DesmosOrange,
-                  fontFamily: 'Poppins-Bold',
-                  fontWeight: 'bold',
-                }}
-              />
+              <Typography.Subtitle style={styles.saveMnemonicAdviceSubtitle}/>
             ),
           }}
         />

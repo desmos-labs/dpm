@@ -1,6 +1,6 @@
 import { useCallback, useState } from 'react';
-import { useWalletConnectContext } from '../contexts/WalletConnectContext';
-import { SessionRequestDetails } from '../types/walletconnect';
+import useWalletConnectContext from 'contexts/WalletConnectContext';
+import { SessionRequestDetails } from 'types/walletconnect';
 
 export type PairStatus = {
   pairing: boolean;
@@ -35,7 +35,7 @@ export default function useWalletConnectPair(): [PairStatus, (uri: string) => Pr
         });
       }
     },
-    [controller]
+    [controller],
   );
 
   return [pairStatus, connectToDapp];

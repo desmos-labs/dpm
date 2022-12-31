@@ -175,7 +175,7 @@ const AuthorizeOperation: React.FC<Props> = (props) => {
   );
 
   return (
-    <View style={{ flex: 1 }}>
+    <View style={styles.root}>
       {loadingBiometrics && <BiometricsLoadingIndicator />}
       <StyledSafeAreaView topBar={<TopBar stackProps={props} title={t('wallet password')} />}>
         <Typography.Subtitle>{t('enter wallet password')}</Typography.Subtitle>

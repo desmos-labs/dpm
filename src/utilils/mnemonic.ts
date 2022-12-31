@@ -9,7 +9,7 @@ export default function sanitizeMnemonic(
     removeStartingSpaces?: boolean;
     removeDoubleSpaces?: boolean;
     removeTrailingSpaces?: boolean;
-  }
+  },
 ): string {
   let sanitizedMnemonic = mnemonic;
 

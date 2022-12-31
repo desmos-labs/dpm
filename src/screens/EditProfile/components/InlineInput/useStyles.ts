@@ -1,6 +1,10 @@
 import {makeStyle} from 'theming';
 
 const useStyles = makeStyle((theme) => ({
+  root: {
+    display: 'flex',
+    flexDirection: 'column',
+  },
   container: {
     display: 'flex',
     flexDirection: 'row',

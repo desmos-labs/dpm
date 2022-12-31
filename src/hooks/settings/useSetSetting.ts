@@ -1,5 +1,5 @@
 import { useCallback } from 'react';
-import { AppSettings } from '../../types/settings';
+import { AppSettings } from 'types/settings';
 import useSetSettings from './useSetSettings';
 
 /**
@@ -15,6 +15,6 @@ export default function useSetSetting<K extends keyof AppSettings>(settingKey: K
       settings[settingKey] = setting;
       setSettings(settings);
     },
-    [settingKey, setSettings]
+    [settingKey, setSettings],
   );
 }

@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useState } from 'react';
-import { useWalletConnectContext } from '../contexts/WalletConnectContext';
-import { ChainAccount } from '../types/chain';
-import { Events, Session } from '../types/walletconnect';
+import useWalletConnectContext from 'contexts/WalletConnectContext';
+import { ChainAccount } from 'types/chain';
+import { Events, Session } from 'types/walletconnect';
 
 /**
  * Hook that provides a stateful variable to the active WalletConnect session of a ChainAccount.
@@ -12,7 +12,7 @@ export default function useWalletConnectSessions(account: ChainAccount): Session
 
   const onChange = useCallback(() => {
     setSessions(
-      controller.sessions.filter((session) => session.accounts.indexOf(account.address) !== -1)
+      controller.sessions.filter((session) => session.accounts.indexOf(account.address) !== -1),
     );
   }, [controller, account]);
 

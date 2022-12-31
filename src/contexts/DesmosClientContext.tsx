@@ -78,7 +78,7 @@ export const DesmosClientProvider: React.FC<Props> = (props) => {
   }
 
   const [signer, setSigner] = useState<Signer | undefined>();
-  const [addresses, setAddresses] = useState<string[] | undefined>(undefined);
+  const [addresses] = useState<string[] | undefined>(undefined);
 
   const connectClient = useCallback(async () => {
     try {

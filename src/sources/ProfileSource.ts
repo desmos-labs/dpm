@@ -1,5 +1,5 @@
 import RNFS from 'react-native-fs';
-import { DesmosProfile } from '../types/desmos';
+import { DesmosProfile } from 'types/desmos';
 
 /**
  * Class that stores the desmos profiles
@@ -135,7 +135,7 @@ export class ProfileSource {
           return null;
         }
         return profile;
-      })
+      }),
     ).then((profiles) => profiles.filter((p) => p !== null) as DesmosProfile[]);
   }
 
@@ -223,7 +223,7 @@ export class ProfileSource {
   public async reset() {
     const addresses = await this.getStoredProfilesAddress();
     Promise.all(addresses.map((address) => this.deleteProfile(address))).catch((e) =>
-      console.error(e)
+      console.error(e),
     );
   }
 }
