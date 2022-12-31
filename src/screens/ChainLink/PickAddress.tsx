@@ -9,6 +9,7 @@ import { debounce } from 'lodash';
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { ListRenderItemInfo, TouchableOpacity, View } from 'react-native';
+import { LoadingModal } from 'modals/LoadingModal';
 import {
   AddressListItem,
   Button,
@@ -22,7 +23,6 @@ import useCurrentChainInfo from '../../hooks/desmosclient/useCurrentChainInfo';
 import useAddChinLink from '../../hooks/useAddChainLink';
 import useSelectedAccount from '../../hooks/useSelectedAccount';
 import useShowModal from '../../hooks/useShowModal';
-import { LoadingModal } from '../../modals/LodingModal';
 import { makeStyle } from '../../theming';
 import { computeTxFees, messagesGas } from '../../types/fees';
 import { CosmosHdPath, HdPath } from '../../types/hdpath';
@@ -52,7 +52,7 @@ export type Props = CompositeScreenProps<
 async function generateWalletsFromMnemonic(
   mnemonic: string,
   prefix: string,
-  hdPaths: HdPath[]
+  hdPaths: HdPath[],
 ): Promise<Wallet[]> {
   return Promise.all(
     hdPaths.map(async (hdPath) => {
@@ -65,7 +65,7 @@ async function generateWalletsFromMnemonic(
         signer,
         hdPath,
       };
-    })
+    }),
   );
 }
 
@@ -73,7 +73,7 @@ async function generateWalletsFromLedger(
   transport: BluetoothTransport,
   ledgerApp: LedgerApp,
   prefix: string,
-  hdPaths: HdPath[]
+  hdPaths: HdPath[],
 ): Promise<Wallet[]> {
   const cosmJsPaths = hdPaths.map(toCosmjsHdPath);
 
@@ -156,7 +156,7 @@ export const PickAddress: React.FC<Props> = (props) => {
         return null;
       }
     },
-    [importMode, mnemonic, chain.prefix, ledgerTransport, ledgerApp]
+    [importMode, mnemonic, chain.prefix, ledgerTransport, ledgerApp],
   );
 
   useEffect(() => {
@@ -197,7 +197,7 @@ export const PickAddress: React.FC<Props> = (props) => {
         />
       );
     },
-    [selectedWallet]
+    [selectedWallet],
   );
 
   const listKeyExtractor = useCallback((item: Wallet, _: number) => item.address, []);
@@ -207,7 +207,7 @@ export const PickAddress: React.FC<Props> = (props) => {
       const wallet = await generateWalletFromHdPath(hdPath);
       setSelectedWallet(wallet);
     }, 2000),
-    [generateWalletFromHdPath]
+    [generateWalletFromHdPath],
   );
 
   const onHdPathChange = useCallback(
@@ -216,7 +216,7 @@ export const PickAddress: React.FC<Props> = (props) => {
       setSelectedHdPath(hdPath);
       debouncedGenerateWallet(hdPath);
     },
-    [debouncedGenerateWallet]
+    [debouncedGenerateWallet],
   );
 
   const fetchWallets = useCallback(
@@ -240,13 +240,13 @@ export const PickAddress: React.FC<Props> = (props) => {
           ledgerTransport!,
           ledgerApp!,
           chain.prefix,
-          hdPaths
+          hdPaths,
         );
       }
       setGeneratingAddresses(false);
       return wallets;
     },
-    [chain.prefix, importMode, ledgerApp, ledgerTransport, mnemonic, selectedHdPath.coinType]
+    [chain.prefix, importMode, ledgerApp, ledgerTransport, mnemonic, selectedHdPath.coinType],
   );
 
   const onNextPressed = useCallback(async () => {

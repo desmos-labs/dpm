@@ -5,10 +5,10 @@ import React, { useCallback, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { BarCodeReadEvent } from 'react-native-camera';
 import QRCodeScanner from 'react-native-qrcode-scanner';
+import { SingleButtonModal } from 'modals/SingleButtonModal';
 import { IconButton, StyledSafeAreaView, TextInput } from '../components';
 import useShowModal from '../hooks/useShowModal';
 import useWalletConnectPair from '../hooks/useWalletConnectPair';
-import { SingleButtonModal } from '../modals/SingleButtonModal';
 import { makeStyle } from '../theming';
 import { AccountScreensStackParams, HomeScreensBottomTabsParams } from '../types/navigation';
 
@@ -40,7 +40,7 @@ export const ScanQr: React.FC<Props> = ({ navigation }) => {
         actionLabel: t('ok'),
       });
     },
-    [openModal, t]
+    [openModal, t],
   );
 
   const onQrCoreRead = useCallback(
@@ -51,7 +51,7 @@ export const ScanQr: React.FC<Props> = ({ navigation }) => {
         openErrorModal(t('invalid qr code'));
       }
     },
-    [pair, openErrorModal, t]
+    [pair, openErrorModal, t],
   );
 
   useEffect(() => {

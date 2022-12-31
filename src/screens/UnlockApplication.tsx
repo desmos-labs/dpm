@@ -14,6 +14,7 @@ import {
 import BiometricsLoadingIndicator from 'components/BiometricsLoadingIndicator';
 import { Padding } from 'components/Flexible/Padding';
 import SecureTextInput from 'components/SecureTextInput';
+import { TwoButtonModal } from 'modals/TwoButtonModal/TwoButtonModal';
 import { Button, StyledSafeAreaView, TopBar } from '../components';
 import { Typography } from '../components/Typography';
 import { useAppContext } from '../contexts/AppContext';
@@ -21,7 +22,6 @@ import useSetSettings from '../hooks/settings/useSetSettings';
 import useSettings from '../hooks/settings/useSettings';
 import useNavigateToHomeScreen from '../hooks/useNavigateToHomeScreen';
 import useShowModal from '../hooks/useShowModal';
-import { TwoButtonModal } from '../modals/TwoButtonModal';
 import AccountSource from '../sources/AccountSource';
 import { LocalWalletsSource } from '../sources/LocalWalletsSource';
 import ProfileSource from '../sources/ProfileSource';

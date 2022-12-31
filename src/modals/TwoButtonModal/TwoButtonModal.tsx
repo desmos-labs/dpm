@@ -1,9 +1,9 @@
 import React, { useCallback } from 'react';
 import { View } from 'react-native';
-import { Button } from '../components';
-import { Typography } from '../components/Typography';
-import { makeStyle } from '../theming';
-import { ModalComponentProps } from '../types/navigation';
+import Typography from 'components/Typography';
+import { ModalComponentProps } from 'types/navigation';
+import Button from 'components/Button';
+import useStyles from './useStyles';
 
 export type TwoButtonModalParams = {
   /**
@@ -32,7 +32,7 @@ export type TwoButtonModalParams = {
   negativeAction?: () => void;
 };
 
-export const TwoButtonModal: React.FC<ModalComponentProps<TwoButtonModalParams>> = (props) => {
+const TwoButtonModal: React.FC<ModalComponentProps<TwoButtonModalParams>> = (props) => {
   const { params, navigation } = props;
   const styles = useStyles();
 
@@ -70,27 +70,4 @@ export const TwoButtonModal: React.FC<ModalComponentProps<TwoButtonModalParams>>
   );
 };
 
-const useStyles = makeStyle((theme) => ({
-  root: {
-    minWidth: '60%',
-    maxWidth: '70%',
-  },
-  title: {
-    marginTop: theme.spacing.xs,
-    textAlign: 'center',
-  },
-  message: {
-    textAlign: 'center',
-    marginTop: 8,
-  },
-  buttonsRow: {
-    display: 'flex',
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-around',
-    marginTop: theme.spacing.m,
-  },
-  centred: {
-    alignSelf: 'center',
-  },
-}));
+export default TwoButtonModal;

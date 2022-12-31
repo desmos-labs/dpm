@@ -1,10 +1,12 @@
 import { StackNavigationProp } from '@react-navigation/stack/lib/typescript/src/types';
 import React, { useCallback } from 'react';
 import { ImageSourcePropType, View } from 'react-native';
-import { Button , DpmImage, DpmImages } from '../components';
-import { Typography } from '../components/Typography';
-import { makeStyle } from '../theming';
-import { ModalComponentProps, RootStackParams } from '../types/navigation';
+import Typography from 'components/Typography';
+import { ModalComponentProps, RootStackParams } from 'types/navigation';
+import {DpmImages} from 'types/images';
+import DpmImage from 'components/DPMImage';
+import Button from 'components/Button';
+import useStyles from './useStyles';
 
 export type SingleButtonModalParams = {
   /**
@@ -30,8 +32,8 @@ export type SingleButtonModalParams = {
   action?: (navigation: StackNavigationProp<RootStackParams>) => void;
 };
 
-export const SingleButtonModal: React.FC<ModalComponentProps<SingleButtonModalParams>> = (
-  props
+const SingleButtonModal: React.FC<ModalComponentProps<SingleButtonModalParams>> = (
+  props,
 ) => {
   const { params, navigation } = props;
   const styles = useStyles();
@@ -57,20 +59,4 @@ export const SingleButtonModal: React.FC<ModalComponentProps<SingleButtonModalPa
   );
 };
 
-const useStyles = makeStyle((theme) => ({
-  root: {},
-  image: {
-    alignSelf: 'center',
-    width: 200,
-    height: 100,
-  },
-  title: {
-    marginTop: theme.spacing.s,
-  },
-  button: {
-    marginTop: theme.spacing.m,
-  },
-  centred: {
-    alignSelf: 'center',
-  },
-}));
+export default SingleButtonModal;

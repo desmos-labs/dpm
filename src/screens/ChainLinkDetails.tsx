@@ -3,6 +3,8 @@ import { format } from 'date-fns';
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Image, View } from 'react-native';
+import { SingleButtonModal } from 'modals/SingleButtonModal';
+import { TwoButtonModal } from 'modals/TwoButtonModal/TwoButtonModal';
 import { Button, StyledSafeAreaView, IconButton } from '../components';
 import useDisconnectChainLink from '../hooks/useDisconnectChainLink';
 import useNavigateToHomeScreen from '../hooks/useNavigateToHomeScreen';
@@ -10,8 +12,6 @@ import useRemoveChainLink from '../hooks/useRemoveChainLink';
 import useSelectedAccount from '../hooks/useSelectedAccount';
 import useShowModal from '../hooks/useShowModal';
 import useUnlockWallet from '../hooks/useUnlockWallet';
-import { SingleButtonModal } from '../modals/SingleButtonModal';
-import { TwoButtonModal } from '../modals/TwoButtonModal';
 import { makeStyle } from '../theming';
 import { AccountScreensStackParams } from '../types/navigation';
 import findLinkableChainInfoByName from '../utilils/find';
@@ -66,7 +66,7 @@ export const ChainLinkDetails: React.FC<Props> = (props) => {
         actionLabel: t('cancel'),
       });
     },
-    [showModal, t]
+    [showModal, t],
   );
 
   useEffect(() => {

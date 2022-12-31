@@ -1,10 +1,10 @@
 import { NavigationContainer, NavigationContainerRef, Route } from '@react-navigation/native';
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { AppState } from 'react-native';
+import { ModalScreen } from 'modals/ModalScreen';
 import { useAppContext } from '../contexts/AppContext';
 import { useWalletConnectContext } from '../contexts/WalletConnectContext';
 import useInitAppState from '../hooks/useInitAppState';
-import { ModalScreen } from '../modals/ModalScreen';
 import { MarkdownText } from '../screens/MarkdownText';
 import SplashScreen from '../screens/SplashScreen';
 import UnlockApplication from '../screens/UnlockApplication';
@@ -20,7 +20,7 @@ const RootStackScreens: React.FC = () => {
   const navigatorRef = useRef<NavigationContainerRef<RootStackParams>>(null);
   const appVisibilityState = useRef(AppState.currentState);
   const [oldRoute, setOldRoute] = useState<Route<string> | undefined>(
-    navigatorRef.current?.getCurrentRoute()
+    navigatorRef.current?.getCurrentRoute(),
   );
   const [oldState, setOldState] = useState(navigatorRef.current?.getState());
   const [appStateVisible, setAppStateVisible] = useState(appVisibilityState.current);
@@ -81,12 +81,12 @@ const RootStackScreens: React.FC = () => {
       }
       appVisibilityState.current = nextAppState;
     },
-    [accounts.length, appState.initializing, oldRoute, oldState]
+    [accounts.length, appState.initializing, oldRoute, oldState],
   );
 
   useEffect(() => {
     const subscription = AppState.addEventListener('change', (nextAppState) =>
-      handleAppStateChange(nextAppState)
+      handleAppStateChange(nextAppState),
     );
     return () => {
       subscription.remove();

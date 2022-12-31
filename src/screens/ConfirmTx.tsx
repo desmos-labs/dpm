@@ -1,6 +1,7 @@
 import { StackScreenProps } from '@react-navigation/stack';
 import React, { useCallback, useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { SingleButtonModal } from 'modals/SingleButtonModal';
 import { Button, StyledSafeAreaView, TopBar } from '../components';
 import { TransactionDetails } from '../components/Transaction/TransactionDetails';
 import useBroadcastMessages from '../hooks/useBroadcastMessages';
@@ -8,7 +9,6 @@ import useNavigateToHomeScreen from '../hooks/useNavigateToHomeScreen';
 import useSelectedAccount from '../hooks/useSelectedAccount';
 import useShowModal from '../hooks/useShowModal';
 import useUnlockWallet from '../hooks/useUnlockWallet';
-import { SingleButtonModal } from '../modals/SingleButtonModal';
 import { makeStyle } from '../theming';
 import { AccountScreensStackParams } from '../types/navigation';
 
@@ -52,7 +52,7 @@ export const ConfirmTx: React.FC<Props> = (props) => {
         actionLabel: t('ok'),
       });
     },
-    [showModal, t]
+    [showModal, t],
   );
 
   const broadcastTx = useCallback(async () => {

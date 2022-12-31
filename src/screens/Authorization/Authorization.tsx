@@ -4,6 +4,8 @@ import { StackScreenProps } from '@react-navigation/stack';
 import React, { useCallback, useEffect, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { FlatList, View } from 'react-native';
+import { SingleButtonModal } from 'modals/SingleButtonModal';
+import { TwoButtonModal } from 'modals/TwoButtonModal/TwoButtonModal';
 import {
   AvatarImage,
   Button,
@@ -18,13 +20,11 @@ import useSelectedAccount from '../../hooks/useSelectedAccount';
 import useShowModal from '../../hooks/useShowModal';
 import useWalletConnectSessions from '../../hooks/useWalletConnectSessions';
 import useWalletConnectTerminate from '../../hooks/useWalletConnectTerminate';
-import { SingleButtonModal } from '../../modals/SingleButtonModal';
-import { TwoButtonModal } from '../../modals/TwoButtonModal';
 import { makeStyle } from '../../theming';
 import { DAppPermissions, DAppSession } from '../../types/dapp';
 import { AccountScreensStackParams, HomeScreensBottomTabsParams } from '../../types/navigation';
 import { Typography } from '../../components/Typography';
-import {DAppSessionView} from "./components/DAppSessionView";
+import {DAppSessionView} from './components/DAppSessionView';
 
 export type Props = CompositeScreenProps<
   BottomTabScreenProps<HomeScreensBottomTabsParams, 'Authorization'>,
@@ -85,7 +85,7 @@ export const Authorization: React.FC<Props> = (props) => {
         walletConnectTerminate(dAppSession.id);
       }
     },
-    [currentAccount, walletConnectTerminate, authorizeOperation]
+    [currentAccount, walletConnectTerminate, authorizeOperation],
   );
 
   const openRevokePopup = useCallback(
@@ -98,7 +98,7 @@ export const Authorization: React.FC<Props> = (props) => {
         negativeActionLabel: t('cancel'),
       });
     },
-    [showModal, t, revokeAuthorization]
+    [showModal, t, revokeAuthorization],
   );
 
   const navigateToAuthorize = useCallback(() => {

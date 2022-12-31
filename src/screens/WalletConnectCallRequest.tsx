@@ -3,9 +3,11 @@ import { StackScreenProps } from '@react-navigation/stack';
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { View } from 'react-native';
-import {createDesmosTypes} from "@desmoslabs/desmjs";
-import {AminoTypes} from "@cosmjs/stargate";
-import {EncodeObject} from "@cosmjs/proto-signing";
+import {createDesmosTypes} from '@desmoslabs/desmjs';
+import {AminoTypes} from '@cosmjs/stargate';
+import {EncodeObject} from '@cosmjs/proto-signing';
+import { LoadingModal } from 'modals/LoadingModal';
+import { SingleButtonModal } from 'modals/SingleButtonModal';
 import { Button, StyledSafeAreaView, TopBar } from '../components';
 import { TransactionDetails } from '../components/Transaction/TransactionDetails';
 import { useWalletConnectContext } from '../contexts/WalletConnectContext';
@@ -14,8 +16,6 @@ import useSignTx from '../hooks/useSignTx';
 import useUnlockWallet from '../hooks/useUnlockWallet';
 import useWalletCallRequests from '../hooks/useWalletCallRequests';
 import useWalletConnectRejectRequest from '../hooks/useWalletConnectRejectRequest';
-import { LoadingModal } from '../modals/LodingModal';
-import { SingleButtonModal } from '../modals/SingleButtonModal';
 import AccountSource from '../sources/AccountSource';
 import { makeStyle } from '../theming';
 import { ChainAccountType } from '../types/chain';
@@ -75,7 +75,7 @@ export const WalletConnectCallRequest: React.FC<Props> = (props) => {
     return undefined;
   }, [request]);
 
-  const aminoTypes = useMemo(() => new AminoTypes(createDesmosTypes("desmos")), []);
+  const aminoTypes = useMemo(() => new AminoTypes(createDesmosTypes('desmos')), []);
   const messages: EncodeObject[] = useMemo(() => {
       if (request?.type === CallRequestType.SignDirect) {
         return request.signDoc.body.messages;
@@ -157,7 +157,7 @@ export const WalletConnectCallRequest: React.FC<Props> = (props) => {
           e.preventDefault();
         }
       }),
-    [navigation, request]
+    [navigation, request],
   );
 
   return request !== null ? (
