@@ -1,5 +1,5 @@
-import { useAppContext } from '../../contexts/AppContext';
-import { AppSettings } from '../../types/settings';
+import useAppContext from 'contexts/AppContext';
+import { AppSettings } from 'types/settings';
 
 /**
  * Hook that provides a stateful variable that represents

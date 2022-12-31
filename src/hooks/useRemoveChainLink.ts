@@ -1,5 +1,5 @@
 import { useCallback } from 'react';
-import useAppContext from '../contexts/AppContext';
+import useAppContext from 'contexts/AppContext';
 
 export default function useRemoveChainLink(address: string) {
   const { setChainLinks } = useAppContext();

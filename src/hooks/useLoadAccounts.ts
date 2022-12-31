@@ -1,7 +1,7 @@
 import { useCallback } from 'react';
-import { useAppContext } from '../contexts/AppContext';
-import AccountSource from '../sources/AccountSource';
-import { ChainAccount } from '../types/chain';
+import useAppContext from 'contexts/AppContext';
+import AccountSource from 'sources/AccountSource';
+import { ChainAccount } from 'types/chain';
 
 export type LoadedAccounts = {
   accounts: ChainAccount[];

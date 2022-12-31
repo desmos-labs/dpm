@@ -1,7 +1,7 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useCallback } from 'react';
-import { useAppContext } from '../../contexts/AppContext';
-import { AppSettings, AppSettingsStorageKey, DefaultAppSettings } from '../../types/settings';
+import useAppContext from 'contexts/AppContext';
+import { AppSettings, AppSettingsStorageKey, DefaultAppSettings } from 'types/settings';
 
 /**
  * Hook that provides a function to load the settings from the storage into

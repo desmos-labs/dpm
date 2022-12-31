@@ -1,7 +1,7 @@
 import { convertCoin } from '@desmoslabs/desmjs';
 import { useNavigation } from '@react-navigation/native';
 import { useCallback, useEffect, useRef } from 'react';
-import useAppContext from '../contexts/AppContext';
+import useAppContext from 'contexts/AppContext';
 import useDesmosClient from './desmosclient/useDesmosClient';
 import useCurrentChainInfo from './desmosclient/useCurrentChainInfo';
 

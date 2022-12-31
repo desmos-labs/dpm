@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import Deferred from '../types/defered';
+import Deferred from 'types/defered';
 
 type RunArgs<T> = Promise<T> | (() => Promise<T>);
 

@@ -1,5 +1,5 @@
 import { useMemo } from 'react';
-import { AppSettings } from '../../types/settings';
+import { AppSettings } from 'types/settings';
 import useSettings from './useSettings';
 
 /**
