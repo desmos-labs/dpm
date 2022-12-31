@@ -4,7 +4,7 @@ import React, { useCallback, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { ScrollView, View } from 'react-native';
 import { Snackbar, useTheme } from 'react-native-paper';
-import useChainLinks from 'hooks/useChainLinks';
+import useGetChainLinks from 'hooks/chainlinks/useGetChainLinks';
 import useFetchProfile from 'hooks/useFetchProfile';
 import useSelectedAccount from 'hooks/useSelectedAccount';
 import { ChainLink } from 'types/link';
@@ -30,7 +30,7 @@ const Profile = (props: Props) =>  {
   const theme = useTheme();
   const profile = useFetchProfile(account.address);
   const [snackBarMessage, setShowSnackbar] = useState<string | null>(null);
-  const chainLinks = useChainLinks(account.address);
+  const chainLinks = useGetChainLinks(account.address);
 
   const onEditProfile = useCallback(() => {
     navigation.navigate({

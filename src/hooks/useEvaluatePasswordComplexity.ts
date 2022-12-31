@@ -1,6 +1,6 @@
-import { PasswordComplexityScore } from 'components/PasswordComplexityScore';
+import {PasswordComplexity} from 'types/password';
 
-export default function evaluatePasswordComplexity(password: string): PasswordComplexityScore {
+const useEvaluatePasswordComplexity = (password: string) => {
   const specialChars = '\\|!"£$%&/()=?^\'[]*+@#{}<>';
   if (password.length < 6) {
     return 0;
@@ -30,5 +30,7 @@ export default function evaluatePasswordComplexity(password: string): PasswordCo
     score += 1;
   }
 
-  return score as PasswordComplexityScore;
-}
+  return score as PasswordComplexity;
+};
+
+export default useEvaluatePasswordComplexity;

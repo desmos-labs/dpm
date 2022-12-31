@@ -7,7 +7,7 @@ import Typography from 'components/Typography';
 import useAppContext from 'contexts/AppContext';
 import { computeTxFees, messagesGas } from 'types/fees';
 import { AccountScreensStackParams } from 'types/navigation';
-import { decimalSeparator, localeParseFloat } from 'utilils/parsing';
+import { useDecimalSeparator, useParseFloat } from 'hooks/parsing/useDecimalSeparator';
 import checkDesmosAddress from 'utilils/validators';
 import useSelectedAccount from 'hooks/useSelectedAccount';
 import Flexible from 'components/Flexible';
@@ -41,12 +41,12 @@ const SendTokens: React.FC<Props> = (props) => {
 
   const onAmountChange = useCallback(
     (changedAmount: string) => {
-      const separator = decimalSeparator();
+      const separator = useDecimalSeparator();
       let isValid =
         changedAmount.length === 0 ||
         new RegExp(`^[0-9]+(\\${separator})?[0-9]*$`).test(changedAmount);
       if (isValid && changedAmount.length > 0) {
-        const value = localeParseFloat(changedAmount);
+        const value = useParseFloat(changedAmount);
         const balance = parseFloat(selectedAccountBalance.amount);
         isValid = balance >= value;
       }
@@ -65,7 +65,7 @@ const SendTokens: React.FC<Props> = (props) => {
   }, [selectedAccountBalance]);
 
   const onNextPressed = useCallback(() => {
-    const amountNumber = Math.floor(localeParseFloat(amount) * 1000000);
+    const amountNumber = Math.floor(useParseFloat(amount) * 1000000);
 
     const msgSend: MsgSendEncodeObject = {
       typeUrl: '/cosmos.bank.v1beta1.MsgSend',

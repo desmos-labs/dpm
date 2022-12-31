@@ -1,33 +1,24 @@
-import { LedgerApp as CosmosLedgerApp, LedgerSigner } from '@cosmjs/ledger-amino';
-import { OfflineSigner } from '@cosmjs/proto-signing';
 import { MsgLinkChainAccountEncodeObject } from '@desmoslabs/desmjs';
 import { MsgLinkChainAccount } from '@desmoslabs/desmjs-types/desmos/profiles/v3/msgs_chain_links';
-import BluetoothTransport from '@ledgerhq/react-native-hw-transport-ble';
 import { CompositeScreenProps } from '@react-navigation/native';
 import { StackScreenProps } from '@react-navigation/stack';
 import { debounce } from 'lodash';
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { ListRenderItemInfo, TouchableOpacity, View } from 'react-native';
+import { TouchableOpacity, View } from 'react-native';
 import LoadingModal from 'modals/LoadingModal';
 import useCurrentChainInfo from 'hooks/desmosclient/useCurrentChainInfo';
-import useAddChinLink from 'hooks/useAddChainLink';
+import useAddChainLink from 'hooks/useAddChainLink';
 import useSelectedAccount from 'hooks/useSelectedAccount';
 import useShowModal from 'hooks/useShowModal';
 import { computeTxFees, messagesGas } from 'types/fees';
 import { CosmosHdPath, HdPath } from 'types/hdpath';
-import { LedgerApp } from 'types/ledger';
 import {
   AccountScreensStackParams,
   ChainLinkScreensStackParams,
   ImportMode,
 } from 'types/navigation';
-import LocalWallet from 'wallet/LocalWallet';
 import Typography from 'components/Typography';
-import { generateProof } from 'utilils/chainlink';
-import toCosmJSHdPath from 'utilils/hdpath';
-import TerraLedgerApp from 'utilils/terra';
-import AddressListItem from 'components/AddressListItem';
 import StyledSafeAreaView from 'components/StyledSafeAreaView';
 import TopBar from 'components/TopBar';
 import HdPathPicker from 'components/HdPathPicker';
@@ -36,67 +27,17 @@ import PaginatedFlatList from 'components/PaginatedFlatList';
 import ListItemSeparator from 'components/ListItemSeparator';
 import Flexible from 'components/Flexible';
 import Button from 'components/Button';
+import useGenerateProof from 'hooks/chainlinks/chainlink';
+import useGenerateWalletFromHDPath from 'hooks/wallet/useGenerateWalletFromHDPath';
+import {Wallet} from 'types/wallet';
+import useFetchWallets from 'hooks/wallet/useFetchWallets';
+import useRenderListItem from './useHooks';
 import useStyles from './useStyles';
-
-type Wallet = {
-  signer: OfflineSigner;
-  address: string;
-  hdPath: HdPath;
-};
 
 export type Props = CompositeScreenProps<
   StackScreenProps<ChainLinkScreensStackParams, 'PickAddress'>,
   StackScreenProps<AccountScreensStackParams>
 >;
-
-async function generateWalletsFromMnemonic(
-  mnemonic: string,
-  prefix: string,
-  hdPaths: HdPath[],
-): Promise<Wallet[]> {
-  return Promise.all(
-    hdPaths.map(async (hdPath) => {
-      const signer = await LocalWallet.fromMnemonic(mnemonic, {
-        hdPath,
-        prefix,
-      });
-      return {
-        address: signer.bech32Address,
-        signer,
-        hdPath,
-      };
-    }),
-  );
-}
-
-async function generateWalletsFromLedger(
-  transport: BluetoothTransport,
-  ledgerApp: LedgerApp,
-  prefix: string,
-  hdPaths: HdPath[],
-): Promise<Wallet[]> {
-  const cosmJsPaths = hdPaths.map(toCosmJSHdPath);
-
-  let cosmosLedgerApp: CosmosLedgerApp | undefined;
-  if (ledgerApp!.name === 'Terra') {
-    cosmosLedgerApp = new TerraLedgerApp(transport!);
-  }
-
-  const ledgerSigner = new LedgerSigner(transport, {
-    ledgerAppName: ledgerApp.name,
-    minLedgerAppVersion: ledgerApp.minVersion,
-    hdPaths: cosmJsPaths,
-    prefix,
-    ledgerApp: cosmosLedgerApp,
-  });
-
-  const accounts = await ledgerSigner.getAccounts();
-  return accounts.map((account, index) => ({
-    signer: ledgerSigner,
-    hdPath: hdPaths[index],
-    address: account.address,
-  }));
-}
 
 const PickAddress: React.FC<Props> = (props) => {
   const { navigation, route } = props;
@@ -104,6 +45,7 @@ const PickAddress: React.FC<Props> = (props) => {
     route.params;
   const { t } = useTranslation();
   const styles = useStyles();
+
   const defaultHdPath = useMemo(() => {
     if (importMode === ImportMode.Mnemonic) {
       return chain.hdPath;
@@ -116,48 +58,16 @@ const PickAddress: React.FC<Props> = (props) => {
   const [selectedHdPath, setSelectedHdPath] = useState<HdPath>(defaultHdPath);
   const [selectedWallet, setSelectedWallet] = useState<Wallet | null>(null);
   const [addressPickerVisible, setAddressPickerVisible] = useState(false);
-  const [, setGenerationError] = useState<string | null>(null);
-  const [generatingAddresses, setGeneratingAddresses] = useState(false);
+
+  const showModal = useShowModal();
+
   const chainInfo = useCurrentChainInfo();
   const selectedAccount = useSelectedAccount();
-  const addChainLink = useAddChinLink(selectedAccount.address);
-  const showModal = useShowModal();
-  const generateWalletFromHdPath = useCallback(
-    async (hdPath: HdPath) => {
-      try {
-        let signer: OfflineSigner;
-        if (importMode === ImportMode.Mnemonic) {
-          signer = await LocalWallet.fromMnemonic(mnemonic!, {
-            hdPath,
-            prefix: chain.prefix,
-          });
-        } else {
-          let cosmosLedgerApp: CosmosLedgerApp | undefined;
-          if (ledgerApp!.name === 'Terra') {
-            cosmosLedgerApp = new TerraLedgerApp(ledgerTransport!);
-          }
-          signer = new LedgerSigner(ledgerTransport!, {
-            minLedgerAppVersion: ledgerApp!.minVersion,
-            ledgerAppName: ledgerApp!.name,
-            hdPaths: [toCosmJSHdPath(hdPath)],
-            prefix: chain.prefix,
-            ledgerApp: cosmosLedgerApp,
-          });
-        }
-        const { address } = (await signer.getAccounts())[0];
+  const addChainLink = useAddChainLink(selectedAccount.address);
+  const generateProof = useGenerateProof();
 
-        return {
-          signer,
-          hdPath,
-          address,
-        } as Wallet;
-      } catch (e) {
-        setGenerationError(e.toString());
-        return null;
-      }
-    },
-    [importMode, mnemonic, chain.prefix, ledgerTransport, ledgerApp],
-  );
+  const {fetchingWallets, fetchWallets} = useFetchWallets(importMode, chain, selectedHdPath, {mnemonic, ledgerApp, ledgerTransport});
+  const generateWalletFromHdPath = useGenerateWalletFromHDPath(importMode, chain, {mnemonic, ledgerApp, ledgerTransport});
 
   useEffect(() => {
     (async () => {
@@ -169,7 +79,7 @@ const PickAddress: React.FC<Props> = (props) => {
   const toggleAddressPicker = useCallback(() => {
     setAddressPickerVisible((visible) => {
       if (!visible) {
-        // The address picker is is being displayed,
+        // The address picker is being displayed,
         // remove the wallet generated from the derivation path.
         setSelectedWallet(null);
         setSelectedHdPath(defaultHdPath);
@@ -181,71 +91,22 @@ const PickAddress: React.FC<Props> = (props) => {
     });
   }, [generateWalletFromHdPath, selectedWallet, defaultHdPath]);
 
-  const renderListItem = useCallback(
-    (info: ListRenderItemInfo<Wallet>) => {
-      const { hdPath, address } = info.item;
-      return (
-        <AddressListItem
-          number={hdPath.account}
-          address={address}
-          highlight={selectedWallet?.address === address}
-          onPress={() => {
-            setSelectedWallet((old) => (old?.address === address ? null : info.item));
-            setSelectedHdPath(hdPath);
-          }}
-        />
-      );
-    },
-    [selectedWallet],
-  );
-
   const listKeyExtractor = useCallback((item: Wallet, _: number) => item.address, []);
-  const debouncedGenerateWallet = useCallback(
-    debounce(async (hdPath: HdPath) => {
-      const wallet = await generateWalletFromHdPath(hdPath);
-      setSelectedWallet(wallet);
-    }, 2000),
-    [generateWalletFromHdPath],
-  );
+  const renderListItem = useRenderListItem(selectedWallet, (hdPath, address, info) => {
+    setSelectedWallet((old) => (old?.address === address ? null : info.item));
+    setSelectedHdPath(hdPath);
+  });
 
-  const onHdPathChange = useCallback(
-    (hdPath: HdPath) => {
-      setSelectedWallet(null);
-      setSelectedHdPath(hdPath);
-      debouncedGenerateWallet(hdPath);
-    },
-    [debouncedGenerateWallet],
-  );
+  const debouncedGenerateWallet = useCallback(debounce(async (hdPath: HdPath) => {
+    const wallet = await generateWalletFromHdPath(hdPath);
+    setSelectedWallet(wallet);
+  }, 2000), [generateWalletFromHdPath]);
 
-  const fetchWallets = useCallback(
-    async (offset: number, limit: number) => {
-      setGeneratingAddresses(true);
-      const hdPaths: HdPath[] = [];
-      for (let walletIndex = offset; walletIndex < limit; walletIndex += 1) {
-        const hdPath: HdPath = {
-          coinType: selectedHdPath.coinType,
-          account: walletIndex,
-          change: 0,
-          addressIndex: 0,
-        };
-        hdPaths.push(hdPath);
-      }
-      let wallets: Wallet[];
-      if (importMode === ImportMode.Mnemonic) {
-        wallets = await generateWalletsFromMnemonic(mnemonic!, chain.prefix, hdPaths);
-      } else {
-        wallets = await generateWalletsFromLedger(
-          ledgerTransport!,
-          ledgerApp!,
-          chain.prefix,
-          hdPaths,
-        );
-      }
-      setGeneratingAddresses(false);
-      return wallets;
-    },
-    [chain.prefix, importMode, ledgerApp, ledgerTransport, mnemonic, selectedHdPath.coinType],
-  );
+  const onHdPathChange = useCallback((hdPath: HdPath) => {
+    setSelectedWallet(null);
+    setSelectedHdPath(hdPath);
+    debouncedGenerateWallet(hdPath);
+  }, [debouncedGenerateWallet]);
 
   const onNextPressed = useCallback(async () => {
     if (selectedWallet !== null) {
@@ -350,7 +211,7 @@ const PickAddress: React.FC<Props> = (props) => {
         <Divider style={styles.dividerLine} />
       </View>
 
-      <TouchableOpacity onPress={toggleAddressPicker} disabled={generatingAddresses}>
+      <TouchableOpacity onPress={toggleAddressPicker} disabled={fetchingWallets}>
         <Typography.Subtitle
           style={[
             styles.toggleSelectAccount,
@@ -378,7 +239,7 @@ const PickAddress: React.FC<Props> = (props) => {
         style={styles.nextButton}
         mode="contained"
         onPress={onNextPressed}
-        disabled={selectedWallet === null || generatingAddresses}
+        disabled={selectedWallet === null || fetchingWallets}
       >
         {t('next')}
       </Button>

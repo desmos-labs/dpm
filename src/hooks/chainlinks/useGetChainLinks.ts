@@ -2,7 +2,7 @@ import useAppContext from 'contexts/AppContext';
 import { useGetChainLinkByAddress } from 'graphql/types';
 import { ChainLink } from 'types/link';
 
-export default function useChainLinks(address: string) {
+export default function useGetChainLinks(address: string) {
   const { chainLinks, setChainLinks } = useAppContext();
   const userLinks = chainLinks[address];
 

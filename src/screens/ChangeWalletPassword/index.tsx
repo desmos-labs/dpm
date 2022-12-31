@@ -12,7 +12,7 @@ import { LocalWalletsSource } from 'sources/LocalWalletsSource';
 import { ChainAccountType } from 'types/chain';
 import { SettingsScreensStackParams } from 'types/navigation';
 import LocalWallet from 'wallet/LocalWallet';
-import evaluatePasswordComplexity from 'utilils/passwordEvaluation';
+import evaluatePasswordComplexity from 'hooks/useEvaluatePasswordComplexity';
 import * as SecureStorage from 'utilils/SecureStorage';
 import StyledSafeAreaView from 'components/StyledSafeAreaView';
 import TopBar from 'components/TopBar';

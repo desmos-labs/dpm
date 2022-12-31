@@ -12,7 +12,6 @@ import {SignDoc, TxBody} from 'cosmjs-types/cosmos/tx/v1beta1/tx';
 import {Any} from 'cosmjs-types/google/protobuf/any';
 import Long from 'long';
 import {LinkableChain} from 'types/chain';
-import {ChainLinkProof} from 'types/link';
 
 export type GenerateProofConfig = {
   desmosAddress: string;
@@ -24,7 +23,7 @@ export type GenerateProofConfig = {
 /**
  * Generates the proof used to signal that an user own an external chain address.
  */
-export async function generateProof(config: GenerateProofConfig): Promise<ChainLinkProof> {
+const useGenerateProof = () => async (config: GenerateProofConfig) => {
   const { desmosAddress, externalAddress, externalChainWallet, chain } = config;
   let signature: Uint8Array;
   let plainTextBytes: Uint8Array;
@@ -101,4 +100,6 @@ export async function generateProof(config: GenerateProofConfig): Promise<ChainL
     chainConfig,
     chainAddress,
   };
-}
+};
+
+export default useGenerateProof;

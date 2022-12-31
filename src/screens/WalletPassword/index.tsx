@@ -5,7 +5,7 @@ import { KeyboardAvoidingView, Platform, View } from 'react-native';
 import SecureTextInput from 'components/SecureTextInput';
 import Typography from 'components/Typography';
 import { AccountCreationStackParams } from 'types/navigation';
-import evaluatePasswordComplexity from 'utilils/passwordEvaluation';
+import evaluatePasswordComplexity from 'hooks/useEvaluatePasswordComplexity';
 import * as SecureStorage from 'utilils/SecureStorage';
 import StyledSafeAreaView from 'components/StyledSafeAreaView';
 import TopBar from 'components/TopBar';
