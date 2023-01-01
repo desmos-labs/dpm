@@ -2,7 +2,7 @@ import { MsgUnlinkChainAccountEncodeObject } from '@desmoslabs/desmjs';
 import React, { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Image, StyleSheet, View } from 'react-native';
-import findLinkableChainInfoByName from 'utilils/find';
+import useGetLinkableChainInfoByName from 'hooks/chainlinks/useGetLinkableChainInfoByName';
 import Typography from 'components/Typography';
 import BaseMessage from '../BaseMessage';
 import useStyles from './useStyles';
@@ -64,10 +64,11 @@ namespace MsgUnlinkChainAccount {
     });
 
     const { t } = useTranslation();
+    const getLinkableChainInfoByName = useGetLinkableChainInfoByName();
 
     const { chainName}  = message;
     const chainIcon = useMemo(() => {
-      const chain = chainName !== undefined ? findLinkableChainInfoByName(chainName) : undefined;
+      const chain = chainName !== undefined ? getLinkableChainInfoByName(chainName) : undefined;
       if (chain !== undefined) {
         return chain.icon;
       }

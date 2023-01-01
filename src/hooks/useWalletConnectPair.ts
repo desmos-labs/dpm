@@ -7,6 +7,7 @@ export type PairStatus = {
   requestDetails?: SessionRequestDetails;
   error?: string;
 };
+
 /**
  * Hook that provides a function to initiate the pairing procedure with a
  * DApp that use WalletConnect.

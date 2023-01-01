@@ -5,6 +5,5 @@ import useWalletConnectContext from '../contexts/WalletConnectContext';
  */
 export default function useWalletCallRequests() {
   const { callRequests } = useWalletConnectContext();
-
   return callRequests;
 }

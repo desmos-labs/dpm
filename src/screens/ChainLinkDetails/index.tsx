@@ -16,7 +16,7 @@ import Typography from 'components/Typography';
 import StyledSafeAreaView from 'components/StyledSafeAreaView';
 import IconButton from 'components/IconButton';
 import Button from 'components/Button';
-import findLinkableChainInfoByName from 'utilils/find';
+import useGetLinkableChainInfoByName from 'hooks/chainlinks/useGetLinkableChainInfoByName';
 import useStyles from './useStyles';
 
 export type Props = StackScreenProps<AccountScreensStackParams, 'ChainLinkDetails'>;
@@ -33,10 +33,12 @@ export const ChainLinkDetails: React.FC<Props> = (props) => {
   const disconnectChainLink = useDisconnectChainLink();
   const goToProfile = useNavigateToHomeScreen();
   const account = useSelectedAccount();
+
+  const getLinkableChainInfoByName = useGetLinkableChainInfoByName();
   const removeChainLink = useRemoveChainLink(account.address);
 
   const { chainIcon, chainName } = useMemo(() => {
-    const chainInfo = findLinkableChainInfoByName(chainLink.chainName);
+    const chainInfo = getLinkableChainInfoByName(chainLink.chainName);
     return {
       chainIcon: chainInfo?.icon ?? require('assets/chains/cosmos.png'),
       chainName: chainInfo?.name ?? chainLink.chainName,

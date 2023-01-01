@@ -1,10 +1,9 @@
-import { LinkableChain, LinkableChains } from '../types/chain';
+import { LinkableChain, LinkableChains } from 'types/chain';
 
 /**
- * Finds the details regarding a linkable chain from it's chain name.
- * @param chainName - Name of the chain of interest like: cosmos, osmosis, crypto.com.
+ * Finds the details regarding a linkable chain from its chain name.
  */
-export default function findLinkableChainInfoByName(chainName: string): LinkableChain | undefined {
+const useGetLinkableChainInfoByName = () => (chainName: string) : LinkableChain | undefined => {
   const lowerCase = chainName.toLowerCase();
   return LinkableChains.find((linkableChain) => {
     const { name } = linkableChain.chainConfig;
@@ -14,4 +13,6 @@ export default function findLinkableChainInfoByName(chainName: string): Linkable
     }
     return lowerCase.indexOf(name) >= 0;
   });
-}
+};
+
+export default useGetLinkableChainInfoByName;

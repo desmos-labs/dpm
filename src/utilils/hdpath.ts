@@ -1,5 +1,5 @@
 import { HdPath as CosmjsHdPath, Slip10RawIndex } from '@cosmjs/crypto';
-import { HdPath } from '../types/hdpath';
+import { HdPath } from 'types/hdpath';
 
 /**
  * Converts our hdpath object to a cosmjs hdpath object.

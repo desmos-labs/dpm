@@ -7,9 +7,7 @@ import ProfileSource from 'sources/ProfileSource';
 import * as SecureStorage from 'utilils/SecureStorage';
 import useConnectDesmosClient from './desmosclient/useConnectDesmosClient';
 import useLoadSettings from './settings/useLoadSettings';
-import useLoadAccounts from './useLoadAccounts';
 import useLoadAllProfiles from './useLoadAllProfiles';
-import useLoadAllChainLinks from './useLoadChainLinks';
 
 /**
  * Hook that initialize the application state.
@@ -19,10 +17,8 @@ export default function useInitAppState(): InitState {
   const { initializing, setInitializing } = useAppContext();
 
   const initLocalization = useInitI18n();
-  const loadAccounts = useLoadAccounts();
   const loadProfiles = useLoadAllProfiles();
   const loadSettings = useLoadSettings();
-  const loadChainLinks = useLoadAllChainLinks();
   const connectDesmosClient = useConnectDesmosClient();
 
   useEffect(() => {
@@ -40,12 +36,11 @@ export default function useInitAppState(): InitState {
           // Set new global password flow
           await SecureStorage.setItem('using_global_password', 'using_global_password');
         }
-        // Load accounts and profiles from disk.
-        const accounts = await loadAccounts();
+
+        // Load profiles and settings from disk.
         await loadProfiles();
         await loadSettings();
         await connectDesmosClient();
-        await loadChainLinks(accounts.accounts.map((account) => account.address));
         setInitializing({
           initializing: false,
         });

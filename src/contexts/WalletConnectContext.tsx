@@ -6,8 +6,8 @@ import {
   Events,
   ParsedCallRequest,
 } from 'types/walletconnect';
-import parseCallRequest from 'utilils/jsonRpcParse';
 import WalletConnectController from 'walletconnect/WalletConnectController';
+import useParseCallRequest from 'hooks/walletconnect/useParseCallRequest';
 
 type WalletConnectInitState = {
   initializing: boolean;
@@ -37,6 +37,7 @@ export const WalletContextProvider: React.FC = ({ children }) => {
   });
   const controller = useMemo(() => new WalletConnectController(), []);
   const [callRequests, setCallRequests] = useState<ParsedCallRequest[]>([]);
+  const parseCallRequest = useParseCallRequest();
 
   const initWalletConnect = useCallback(() => {
     (async () => {

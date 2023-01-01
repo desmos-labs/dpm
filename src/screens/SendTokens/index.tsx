@@ -7,7 +7,6 @@ import Typography from 'components/Typography';
 import useAppContext from 'contexts/AppContext';
 import { computeTxFees, messagesGas } from 'types/fees';
 import { AccountScreensStackParams } from 'types/navigation';
-import { useDecimalSeparator, useParseFloat } from 'hooks/parsing/useDecimalSeparator';
 import checkDesmosAddress from 'utilils/validators';
 import useSelectedAccount from 'hooks/useSelectedAccount';
 import Flexible from 'components/Flexible';
@@ -15,6 +14,8 @@ import StyledSafeAreaView from 'components/StyledSafeAreaView';
 import TopBar from 'components/TopBar';
 import TextInput from 'components/TextInput';
 import Button from 'components/Button';
+import useDecimalSeparator from 'hooks/parsing/useDecimalSeparator';
+import useParseFloat from 'hooks/parsing/useParseFloat';
 import useStyles from './useStyles';
 
 export type Props = StackScreenProps<AccountScreensStackParams, 'SendToken'>;
@@ -23,16 +24,21 @@ const SendTokens: React.FC<Props> = (props) => {
   const { navigation } = props;
   const { t } = useTranslation();
   const styles = useStyles();
+
+  const { selectedAccountBalance } = useAppContext();
   const currentAccount = useSelectedAccount();
+
   const [address, setAddress] = useState('');
   const [addressInvalid, setAddressInvalid] = useState(false);
   const [amount, setAmount] = useState('');
   const [amountInvalid, setAmountInvalid] = useState(false);
   const [memo, setMemo] = useState('');
-  const { selectedAccountBalance } = useAppContext();
+
   const chainInfo = useCurrentChainInfo();
-  const nextDisabled =
-    addressInvalid || amountInvalid || address.length === 0 || amount.length === 0;
+  const separator = useDecimalSeparator();
+  const parseFloat = useParseFloat();
+
+  const nextDisabled = addressInvalid || amountInvalid || address.length === 0 || amount.length === 0;
 
   const onAddressChange = useCallback((newAddress: string) => {
     setAddress(newAddress);
@@ -41,12 +47,11 @@ const SendTokens: React.FC<Props> = (props) => {
 
   const onAmountChange = useCallback(
     (changedAmount: string) => {
-      const separator = useDecimalSeparator();
       let isValid =
         changedAmount.length === 0 ||
         new RegExp(`^[0-9]+(\\${separator})?[0-9]*$`).test(changedAmount);
       if (isValid && changedAmount.length > 0) {
-        const value = useParseFloat(changedAmount);
+        const value = parseFloat(changedAmount);
         const balance = parseFloat(selectedAccountBalance.amount);
         isValid = balance >= value;
       }
@@ -65,7 +70,7 @@ const SendTokens: React.FC<Props> = (props) => {
   }, [selectedAccountBalance]);
 
   const onNextPressed = useCallback(() => {
-    const amountNumber = Math.floor(useParseFloat(amount) * 1000000);
+    const amountNumber = Math.floor(parseFloat(amount) * 1000000);
 
     const msgSend: MsgSendEncodeObject = {
       typeUrl: '/cosmos.bank.v1beta1.MsgSend',

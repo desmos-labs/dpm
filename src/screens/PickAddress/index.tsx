@@ -11,7 +11,6 @@ import useCurrentChainInfo from 'hooks/desmosclient/useCurrentChainInfo';
 import useAddChainLink from 'hooks/useAddChainLink';
 import useSelectedAccount from 'hooks/useSelectedAccount';
 import useShowModal from 'hooks/useShowModal';
-import { computeTxFees, messagesGas } from 'types/fees';
 import { CosmosHdPath, HdPath } from 'types/hdpath';
 import {
   AccountScreensStackParams,
@@ -27,10 +26,11 @@ import PaginatedFlatList from 'components/PaginatedFlatList';
 import ListItemSeparator from 'components/ListItemSeparator';
 import Flexible from 'components/Flexible';
 import Button from 'components/Button';
-import useGenerateProof from 'hooks/chainlinks/chainlink';
+import useGenerateProof from 'hooks/chainlinks/useGenerateProof';
 import useGenerateWalletFromHDPath from 'hooks/wallet/useGenerateWalletFromHDPath';
 import {Wallet} from 'types/wallet';
 import useFetchWallets from 'hooks/wallet/useFetchWallets';
+import useConfirmTx from 'hooks/useConfirmTx';
 import useRenderListItem from './useHooks';
 import useStyles from './useStyles';
 
@@ -65,6 +65,7 @@ const PickAddress: React.FC<Props> = (props) => {
   const selectedAccount = useSelectedAccount();
   const addChainLink = useAddChainLink(selectedAccount.address);
   const generateProof = useGenerateProof();
+  const confirmTx = useConfirmTx(chainInfo, feeGranter, backAction);
 
   const {fetchingWallets, fetchWallets} = useFetchWallets(importMode, chain, selectedHdPath, {mnemonic, ledgerApp, ledgerTransport});
   const generateWalletFromHdPath = useGenerateWalletFromHDPath(importMode, chain, {mnemonic, ledgerApp, ledgerTransport});
@@ -116,7 +117,9 @@ const PickAddress: React.FC<Props> = (props) => {
           text: t('waiting ledger confirmation'),
         });
       }
+
       try {
+        // Generate the proof
         const proof = await generateProof({
           desmosAddress: selectedAccount.address,
           externalAddress: selectedWallet.address,
@@ -124,12 +127,12 @@ const PickAddress: React.FC<Props> = (props) => {
           chain,
         });
 
-        console.log('proof', proof);
-
+        // Close the Ledger modal if opened
         if (closeModal !== undefined) {
           closeModal();
         }
 
+        // Build the message
         const msg: MsgLinkChainAccountEncodeObject = {
           typeUrl: '/desmos.profiles.v3.MsgLinkChainAccount',
           value: MsgLinkChainAccount.fromPartial({
@@ -139,25 +142,15 @@ const PickAddress: React.FC<Props> = (props) => {
             chainAddress: proof.chainAddress,
           }),
         };
-        const messages = [msg];
-        const gas = messagesGas(messages);
-        const fee = computeTxFees(gas, chainInfo.stakeCurrency.coinDenom).average;
-        navigation.navigate({
-          name: 'ConfirmTx',
-          params: {
-            messages,
-            fee,
-            feeGranter,
-            backAction,
-            successAction: () => {
-              addChainLink({
-                externalAddress: selectedWallet.address!,
-                chainName: proof.chainConfig.name,
-                userAddress: selectedAccount.address,
-                creationTime: new Date(),
-              });
-            },
-          },
+
+        // Confirm the transaction
+        confirmTx(msg, () => {
+          addChainLink({
+            externalAddress: selectedWallet.address!,
+            chainName: proof.chainConfig.name,
+            userAddress: selectedAccount.address,
+            creationTime: new Date(),
+          });
         });
       } catch (e) {
         if (closeModal !== undefined) {
