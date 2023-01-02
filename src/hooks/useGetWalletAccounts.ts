@@ -1,8 +1,8 @@
 import {useCallback, useState} from 'react';
-import generateWalletFromHDPaths from 'hooks/wallet/generateWalletFromHDPaths';
 import Wallet, {WalletGenerationData} from 'types/wallet';
 import {AccountData} from '@cosmjs/amino';
 import {HdPath} from '@cosmjs/crypto';
+import {generateWallet} from 'lib/WalletUtils';
 
 /**
  * Hook that allows to get the accounts connected to a Wallet based on the given generation data and master HD path.
@@ -28,7 +28,7 @@ const useGetWalletAccounts = (data: WalletGenerationData, options?: {masterPath?
     }
 
     try {
-      const generatedWallet = await generateWalletFromHDPaths(data, hdPaths);
+      const generatedWallet = await generateWallet(data, hdPaths);
       setWallet(generatedWallet);
       const generatedAccounts = await generatedWallet.signer.getAccounts();
       setAccounts(generatedAccounts);
