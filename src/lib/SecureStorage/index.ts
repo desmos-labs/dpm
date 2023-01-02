@@ -1,6 +1,13 @@
 import { getAllGenericPasswordServices, resetGenericPassword, Result } from 'react-native-keychain';
 import * as Keychain from 'react-native-keychain';
 import { decryptData, encryptData, EncryptedData } from 'lib/EncryptionUtils';
+import { SerializableWallet, Wallet } from 'types/wallet';
+import { serializeWallet } from 'lib/WalletUtils/serialize';
+import { deserializeWallet } from 'lib/WalletUtils/deserialize';
+
+export enum SECURE_STORAGE_KEYS {
+  WALLET_SUFFIX = '_WALLET',
+}
 
 const defaultOptions: Keychain.Options = {
   authenticationPrompt: {
@@ -106,3 +113,37 @@ export async function resetSecureStorage(): Promise<void> {
   const keys = await getAllGenericPasswordServices();
   await Promise.all(keys.map(async (key) => resetGenericPassword({ service: key })));
 }
+
+/**
+ * Saves a wallet into the device storage.
+ * @param wallet - Wallet instance to save.
+ * @param password - Password to protect the wallet.
+ */
+export const saveWallet = async (wallet: Wallet, password: string) => {
+  const serializableWallet = serializeWallet(wallet);
+
+  const result = await setItem(`${wallet.address}${SECURE_STORAGE_KEYS.WALLET_SUFFIX}`, serializableWallet, {
+    password,
+  });
+
+  if (!result) {
+    throw new Error(`error while saving wallet ${wallet.address}`);
+  }
+};
+
+/**
+ * Gets a wallet from the device storage.
+ * @param address - Address of the wallet to load.
+ * @param password - Password used to protect the wallet.
+ */
+export const getWallet = async (address: string, password: string): Promise<SerializableWallet> => {
+  const loadedValue = await getItem<Partial<SerializableWallet>>(`${address}${SECURE_STORAGE_KEYS.WALLET_SUFFIX}`, {
+    password,
+  });
+
+  if (loadedValue === null) {
+    throw new Error(`can't find wallet for address: ${address}`);
+  }
+
+  return deserializeWallet(loadedValue);
+};

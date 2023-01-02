@@ -3,6 +3,12 @@ import { LedgerApp } from 'types/ledger';
 import BluetoothTransport from '@ledgerhq/react-native-hw-transport-ble';
 import { Signer } from '@desmoslabs/desmjs';
 
+export enum WalletSerializationVersion {
+  Mnemonic = 1,
+  Ledger = 1,
+  Web3Auth = 1,
+}
+
 /**
  * Enum that represents the type of wallet that the app supports.
  */
@@ -53,6 +59,22 @@ export interface MnemonicWallet extends BaseWallet {
 }
 
 /**
+ * [MnemonicWallet] that can be serialized to JSON.
+ */
+export type SerializableMnemonicWallet =  Omit<MnemonicWallet, 'signer' | 'privateKey' | 'hdPath'> & {
+  readonly version: WalletSerializationVersion.Mnemonic,
+  /**
+   * HD Derivation path used to generate the user
+   * private key.
+   */
+  readonly hdPath: string,
+  /**
+   * Hex encoded private key.
+   */
+  readonly privateKey: string,
+};
+
+/**
  * Interface representing a wallet imported through a Ledger device.
  */
 export interface LedgerWallet extends BaseWallet {
@@ -63,6 +85,18 @@ export interface LedgerWallet extends BaseWallet {
    */
   readonly hdPath: HdPath,
 }
+
+/**
+ * [LedgerWallet] that can be serialized to JSON.
+ */
+export type SerializableLedgerWallet =  Omit<LedgerWallet, 'signer' | 'hdPath'> & {
+  version: WalletSerializationVersion.Ledger
+  /**
+   * HD Derivation path used to generate the user
+   * private key.
+   */
+  readonly hdPath: string,
+};
 
 /**
  * Interface representing a wallet imported through Web3Auth.
@@ -80,9 +114,26 @@ export interface Web3AuthWallet extends BaseWallet {
 }
 
 /**
+ * [Web3AuthWallet] that can be serialized to JSON.
+ */
+export type SerializableWeb3AuthWallet =  Omit<Web3AuthWallet, 'signer' | 'privateKey'> & {
+  version: WalletSerializationVersion.Web3Auth,
+  /**
+   * Hex encoded private key.
+   */
+  privateKey: string,
+};
+
+/**
  * Type representing all the supported wallets.
  */
 export type Wallet = MnemonicWallet | LedgerWallet | Web3AuthWallet;
+
+/**
+ * Type representing a wallet that can be serialized to JSON and
+ * stored in the device storage.
+ */
+export type SerializableWallet = SerializableMnemonicWallet | SerializableLedgerWallet | SerializableWeb3AuthWallet;
 
 export interface BaseWalletGenerationData {
   readonly accountPrefix: string;

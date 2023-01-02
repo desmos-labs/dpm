@@ -68,6 +68,12 @@ export const generateMnemonicWallets = async (prefix: string, hdPaths: HdPath[],
   }));
 };
 
+/**
+ * Function allowing to generate a Web3AuthWallet.
+ * @param prefix - Account prefix that should be used to generate the Bech32 address of the wallet.
+ * @param loginProvider - Login provided used from the user to obtain the private key.
+ * @param privateKey - The private key obtained from Web3Auth.
+ */
 export const generateWeb3AuthWallet = async (prefix: string, loginProvider: string, privateKey: Uint8Array): Promise<Web3AuthWallet> => {
   const signer = await PrivateKeySigner.fromSecp256k1(privateKey, SigningMode.DIRECT, {
     prefix,
@@ -85,6 +91,10 @@ export const generateWeb3AuthWallet = async (prefix: string, loginProvider: stri
   };
 };
 
+/**
+ * Function allowing to generate a list of Wallet.
+ * @param data - Wallet generation config.
+ */
 export const generateWallets = async (data: WalletGenerationData): Promise<Wallet[]> => {
   switch (data.type) {
     case WalletType.Ledger:
