@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { ChainLink } from 'types/link';
-import { useGetChainLinkByAddress } from 'graphql/types';
+import { useGetChainLinkByAddress } from 'services/graphql/types';
 
 function useFetchChainLink(address: string) {
   const [loading, setLoading] = useState(true);

@@ -1,5 +1,5 @@
 import useAppContext from 'contexts/AppContext';
-import { useGetChainLinkByAddress } from 'graphql/types';
+import { useGetChainLinkByAddress } from 'services/graphql/types';
 import { ChainLink } from 'types/link';
 
 export default function useGetChainLinks(address: string) {

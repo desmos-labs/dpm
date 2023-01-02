@@ -21,7 +21,7 @@ import { ChainAccount } from 'types/chains';
 import { MsgMultiSendEncodeObject } from 'types/encodeobject';
 import MsgTypes from 'types/msgtypes';
 import { BroadcastTx } from 'types/transaction';
-import { GqlTransaction, useGetTransactionsByAddressQuery } from 'graphql/types';
+import { GqlTransaction, useGetTransactionsByAddressQuery } from 'services/graphql/types';
 
 const LIMIT = 20;
 

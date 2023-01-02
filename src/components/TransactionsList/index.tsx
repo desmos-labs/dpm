@@ -17,7 +17,7 @@ import { BroadcastTx } from 'types/transaction';
 import {
   SectionedTx,
   useFetchTxsGrouppedByDate,
-} from 'graphql/hooks/useFetchTxsGrouppedByDate';
+} from 'services/graphql/hooks/useFetchTxsGrouppedByDate';
 import Divider from 'components/Divider';
 import DpmImage from 'components/DPMImage';
 import Typography from 'components/Typography';

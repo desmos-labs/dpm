@@ -1,7 +1,7 @@
 import { useApolloClient } from '@apollo/client';
 import { useCallback, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { GetProfileModuleParams, GetProfileModuleParamsDocument } from 'graphql/types';
+import { GetProfileModuleParams, GetProfileModuleParamsDocument } from 'services/graphql/types';
 
 export default function useProfileValidators() {
   const client = useApolloClient();
