@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { StyleProp, StyleSheet, Text, View, ViewStyle } from 'react-native';
-import { DESMOS_COIN_TYPE, HdPath } from 'types/hdpath';
+import { DESMOS_COIN_TYPE, HdPath } from 'types/cosmos';
 import Typography from 'components/Typography';
 import TextInput from 'components/TextInput';
 import useStyles from './useStyles';

@@ -1,7 +1,7 @@
 import { Coin } from '@cosmjs/amino';
 import { AminoMsg } from '@cosmjs/amino/build/signdoc';
 import { CosmosSignAminoParams } from 'types/jsonRpCosmosc';
-import { CallRequest } from 'types/walletconnect';
+import { CallRequest } from 'types/walletConnect';
 
 const useParseSignAminoParams = () => (request: CallRequest): CosmosSignAminoParams | null => {
   const param = request.params.length > 0 ? request.params[0] : undefined;

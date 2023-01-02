@@ -1,6 +1,6 @@
 import { useCallback, useState } from 'react';
 import useWalletConnectContext from 'contexts/WalletConnectContext';
-import { SessionRequestDetails } from 'types/walletconnect';
+import { SessionRequestDetails } from 'types/walletConnect';
 
 export type PairStatus = {
   pairing: boolean;

@@ -1,5 +1,3 @@
-import { ChainId } from './chain';
-
 /**
  * Supported application themes.
  * - light: Light color schema.
@@ -9,11 +7,19 @@ import { ChainId } from './chain';
 export type AppTheme = 'light' | 'dark' | 'auto';
 
 /**
+ * Identifies the type of chains that DPM can connect to.
+ */
+export enum ChainType {
+  TESTNET,
+  MAINNET,
+}
+
+/**
  * Type that represents the application settings.
  */
 export type AppSettings = {
   theme: AppTheme;
-  chainId: ChainId;
+  chainType: ChainType;
   balanceHidden: boolean;
   biometricSignature: boolean;
   biometricLogin: boolean;
@@ -30,7 +36,7 @@ export const AppSettingsStorageKey = 'dpm_app_settings';
  */
 export const DefaultAppSettings: AppSettings = {
   theme: 'auto',
-  chainId: 'testnet',
+  chainType: ChainType.TESTNET,
   balanceHidden: false,
   biometricSignature: false,
   biometricLogin: false,

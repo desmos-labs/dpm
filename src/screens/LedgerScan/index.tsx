@@ -4,7 +4,7 @@ import React, { useCallback, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { FlatList, ListRenderItemInfo, TouchableOpacity } from 'react-native';
 import useStartBleScan from 'hooks/ledger/useStartBleScan';
-import { BleLedger } from 'types/ledger';
+import { BLELedger } from 'types/ledger';
 import { ConnectToLedgerScreensStackParams } from 'types/navigation';
 import Typography from 'components/Typography';
 import DpmImage from 'components/DPMImage';
@@ -38,7 +38,7 @@ const LedgerScan: React.FC<Props> = ({ navigation, route }) => {
   );
 
   const onDeviceSelected = useCallback(
-    (bleLedger: BleLedger) => {
+    (bleLedger: BLELedger) => {
       navigation.dispatch(
         StackActions.replace('ConnectToLedger', {
           bleLedger,
@@ -53,7 +53,7 @@ const LedgerScan: React.FC<Props> = ({ navigation, route }) => {
   );
 
   const renderLedgerDevice = useCallback(
-    (info: ListRenderItemInfo<BleLedger>) => (
+    (info: ListRenderItemInfo<BLELedger>) => (
       <TouchableOpacity style={styles.ledgerListItem} onPress={() => onDeviceSelected(info.item)}>
         <DpmImage source="ledger" />
         <Typography.Subtitle style={styles.ledgerName}>{info.item.name}</Typography.Subtitle>

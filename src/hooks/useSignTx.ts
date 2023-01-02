@@ -11,7 +11,7 @@ import { SignMode } from 'cosmjs-types/cosmos/tx/signing/v1beta1/signing';
 import { AuthInfo, SignDoc, TxBody } from 'cosmjs-types/cosmos/tx/v1beta1/tx';
 import { useCallback } from 'react';
 import { CosmosMethod, CosmosSignDocDirect } from 'types/jsonRpCosmosc';
-import { CosmosTx, SignedCosmosTx } from 'types/tx';
+import { CosmosTx, SignedCosmosTx } from 'types/transaction';
 
 async function signDirectTx(
   signDoc: CosmosSignDocDirect,

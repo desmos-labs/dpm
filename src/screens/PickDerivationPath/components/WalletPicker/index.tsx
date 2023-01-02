@@ -6,7 +6,7 @@ import { debounce } from 'lodash';
 import React, { useCallback, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { ListRenderItemInfo, StyleProp, TouchableOpacity, View, ViewStyle } from 'react-native';
-import { HdPath } from 'types/hdpath';
+import { HdPath } from 'types/cosmos';
 import { LedgerApp } from 'types/ledger';
 import { Wallet, WalletType } from 'types/wallet';
 import LocalWallet from 'wallet/LocalWallet';

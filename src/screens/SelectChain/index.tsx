@@ -2,7 +2,7 @@ import { StackScreenProps } from '@react-navigation/stack';
 import React, { useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
 import { FlatList, ListRenderItemInfo } from 'react-native';
-import { LinkableChain, LinkableChains } from 'types/chain';
+import { LinkableChain, LinkableChains } from 'types/chainLinks';
 import { CosmosLedgerApp, CryptoOrgLedgerApp, LedgerApp, TerraLedgerApp } from 'types/ledger';
 import { ChainLinkScreensStackParams, ImportMode } from 'types/navigation';
 import BlockchainListItem from 'components/BlockchainListItem';

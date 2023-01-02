@@ -13,7 +13,7 @@ import useSaveProfile from 'hooks/useSaveProfile';
 import useShowModal from 'hooks/useShowModal';
 import useUnlockWallet from 'hooks/useUnlockWallet';
 import useUploadPicture from 'hooks/useUploadPicture';
-import { DesmosProfile } from 'types/desmos';
+import { DesmosProfile } from 'types/desmosTypes';
 import { computeTxFees, messagesGas } from 'types/fees';
 import { AccountScreensStackParams, resetTo, RootStackParams } from 'types/navigation';
 import TopBar from 'components/TopBar';

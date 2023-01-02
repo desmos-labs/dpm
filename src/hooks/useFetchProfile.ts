@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import useAppContext from 'contexts/AppContext';
 import ProfileSourceSingleton from 'sources/ProfileSource';
-import { DesmosProfile } from 'types/desmos';
+import { DesmosProfile } from 'types/desmosTypes';
 import useDesmosClient from './desmosclient/useDesmosClient';
 
 /**

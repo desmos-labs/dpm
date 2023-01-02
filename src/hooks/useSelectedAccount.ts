@@ -1,5 +1,5 @@
 import useAppContext from 'contexts/AppContext';
-import { ChainAccount } from 'types/chain';
+import { ChainAccount } from 'types/chainLinks';
 
 /**
  * Hooks that provides the current selected account.

@@ -4,7 +4,7 @@ import { useTranslation } from 'react-i18next';
 import { Linking, Platform } from 'react-native';
 import { BleError, BleErrorCode } from 'react-native-ble-plx';
 import BluetoothStateManager from 'react-native-bluetooth-state-manager';
-import { BleLedger, Subscription } from 'types/ledger';
+import { BLELedger, Subscription } from 'types/ledger';
 
 export enum ScanErrorCause {
   PoweredOff,
@@ -22,7 +22,7 @@ export default function useStartBleScan() {
   const [subscription, setScanSubscription] = useState<Subscription | undefined>(undefined);
   const [stopScanTimeout, setStopStopScanTimeout] = useState<NodeJS.Timeout | undefined>(undefined);
   const [scanning, setScanning] = useState(false);
-  const [devices, setDevices] = useState<BleLedger[]>([]);
+  const [devices, setDevices] = useState<BLELedger[]>([]);
   const [scanError, setScanError] = useState<ScanError | undefined>(undefined);
 
   // Clear the subscription when leaving the screen or when staring a new scan.
@@ -91,7 +91,7 @@ export default function useStartBleScan() {
                         {
                           id,
                           name,
-                        },
+                        } as BLELedger,
                       ];
                     }
                     return currentDevices;

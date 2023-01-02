@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useState } from 'react';
 import useDesmosClientContext from 'contexts/DesmosClientContext';
 import useWalletConnectContext from 'contexts/WalletConnectContext';
-import { ConnectedEvent, Events } from 'types/walletconnect';
+import { ConnectedEvent, Events } from 'types/walletConnect';
 
 export type ApproveStatus = {
   approving: boolean;

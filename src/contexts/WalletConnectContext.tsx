@@ -5,7 +5,7 @@ import {
   CallRequestType,
   Events,
   ParsedCallRequest,
-} from 'types/walletconnect';
+} from 'types/walletConnect';
 import WalletConnectController from 'walletconnect/WalletConnectController';
 import useParseCallRequest from 'hooks/walletconnect/useParseCallRequest';
 

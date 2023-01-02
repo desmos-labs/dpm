@@ -2,8 +2,8 @@ import { ApolloProvider } from '@apollo/client';
 import { Coin } from 'cosmjs-types/cosmos/base/v1beta1/coin';
 import React, { useMemo, useState } from 'react';
 import useApolloClient from 'graphql/hooks/useApolloClient';
-import { ChainAccount } from 'types/chain';
-import { DesmosProfile } from 'types/desmos';
+import { ChainAccount } from 'types/chainLinks';
+import { DesmosProfile } from 'types/desmosTypes';
 import { ChainLink } from 'types/link';
 import { AppSettings, DefaultAppSettings } from 'types/settings';
 import { DesmosClientProvider } from './DesmosClientContext';
@@ -47,7 +47,7 @@ export const AppStateProvider: React.FC = ({ children }) => {
     denom: '',
   });
   const [settings, setSettings] = useState(DefaultAppSettings);
-  const client = useApolloClient(settings.chainId);
+  const client = useApolloClient(settings.chainType);
 
   const contextProviderValue = useMemo(
     () => ({
@@ -80,7 +80,7 @@ export const AppStateProvider: React.FC = ({ children }) => {
   return (
     <AppContext.Provider value={contextProviderValue}>
       <ApolloProvider client={client}>
-        <DesmosClientProvider chainId={settings.chainId}>{children}</DesmosClientProvider>
+        <DesmosClientProvider chainId={settings.chainType}>{children}</DesmosClientProvider>
       </ApolloProvider>
     </AppContext.Provider>
   );

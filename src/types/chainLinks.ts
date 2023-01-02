@@ -1,38 +1,46 @@
-import { ChainConfig } from '@desmoslabs/desmjs-types/desmos/profiles/v3/models_chain_links';
+import {ChainConfig, Proof} from '@desmoslabs/desmjs-types/desmos/profiles/v3/models_chain_links';
 import { ImageSourcePropType } from 'react-native';
-import { BandHdPath, CosmosHdPath, CroHdPath, HdPath, KavaHdPath, LunaHdPath } from './hdpath';
+import {Any} from '@desmoslabs/desmjs-types/google/protobuf/any';
+import {  HdPath } from './cosmos';
+import { BandHdPath, CosmosHdPath, CroHdPath, KavaHdPath, LunaHdPath } from './wallet';
 
-export enum ChainAccountType {
-  Local,
-  Ledger,
-}
+export type ChainLink = {
+  /**
+   * Name of the linked chain like osmosis, cosmos.
+   */
+  chainName: string;
+  /**
+   * Desmos address of the user.
+   */
+  userAddress: string;
+  /**
+   * User address on the linked chain.
+   */
+  externalAddress: string;
+  /**
+   * Time when the chain link has been created.
+   */
+  creationTime: Date;
+};
 
-export type ChainId = 'mainnet' | 'testnet';
-
-export interface ChainAccount {
+/**
+ * Type that represents the information need to
+ * prove the ownership of a different chain account.
+ */
+export type ChainLinkProof = {
   /**
-   * Account type.
-   * Can be a local account or an
-   * account imported from an external device like Ledger.
+   * Cryptographic proof.
    */
-  type: ChainAccountType;
+  proof: Proof;
   /**
-   * The bech32 address of this account.
+   * External chain informations.
    */
-  address: string;
+  chainConfig: ChainConfig;
   /**
-   * The derivation path used to generate this account.
+   * External chain address.
    */
-  hdPath: HdPath;
-  /**
-   * Base64 encoded public key.
-   */
-  pubKey: string;
-  /**
-   * Algorithm used to sign a transaction.
-   */
-  signAlgorithm: 'secp256k1' | 'ed25519' | 'sr25519';
-}
+  chainAddress: Any;
+};
 
 /**
  * Type that represents a chain that can be
@@ -60,6 +68,8 @@ export type LinkableChain = {
    */
   chainConfig: ChainConfig;
 };
+
+
 
 export const LinkableChains: LinkableChain[] = [
   {

@@ -5,7 +5,7 @@ import useDesmosClientContext from 'contexts/DesmosClientContext';
 import useWalletConnectContext from 'contexts/WalletConnectContext';
 import useSetSetting from 'hooks/settings/useSetSetting';
 import useSetting from 'hooks/settings/useSetting';
-import { ChainId } from 'types/chain';
+import { ChainId } from 'types/chainLinks';
 import { AccountScreensStackParams } from 'types/navigation';
 import RadioGroup, {RadioValue} from 'components/RadioGroup';
 import StyledSafeAreaView from 'components/StyledSafeAreaView';
@@ -16,8 +16,8 @@ type Props = StackScreenProps<AccountScreensStackParams, 'SettingsScreens'>;
 
 const SwitchChain: React.FC<Props> = (props) => {
   const { t } = useTranslation();
-  const chainId = useSetting('chainId');
-  const setChainId = useSetSetting('chainId');
+  const chainId = useSetting('chainType');
+  const setChainId = useSetSetting('chainType');
   const clientContext = useDesmosClientContext();
   const { controller } = useWalletConnectContext();
   const styles = useStyles();

@@ -1,6 +1,6 @@
 import React from 'react';
 import useAppContext from 'contexts/AppContext';
-import { ChainAccount } from 'types/chain';
+import { ChainAccount } from 'types/chainLinks';
 
 /**
  * Hooks that provides a function to update the global

@@ -1,5 +1,5 @@
 import useAppContext from 'contexts/AppContext';
-import { DesmosProfile } from 'types/desmos';
+import { DesmosProfile } from 'types/desmosTypes';
 
 /**
  * Hooks that provides a stateful variable that contains

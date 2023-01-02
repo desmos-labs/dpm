@@ -1,5 +1,5 @@
 import RNFS from 'react-native-fs';
-import { DesmosProfile } from 'types/desmos';
+import { DesmosProfile } from 'types/desmosTypes';
 
 /**
  * Class that stores the desmos profiles

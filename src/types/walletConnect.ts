@@ -1,5 +1,6 @@
 import { StdSignDoc } from '@cosmjs/amino';
-import { CosmosSignDocDirect } from './jsonRpCosmosc';
+import Long from 'long';
+import {AuthInfo, TxBody} from 'cosmjs-types/cosmos/tx/v1beta1/tx';
 
 export enum Events {
   OnConnect = 'connect',
@@ -27,10 +28,12 @@ export type ConnectedEvent = {
   sessionId: string;
   error: Error | null;
 };
+
 export type DisconnectedEvent = {
   sessionId: string;
   error: Error | null;
 };
+
 export type SessionRequestDetails = {
   sessionId: string;
   chainId: number | null;
@@ -38,10 +41,12 @@ export type SessionRequestDetails = {
   addresses: string[] | null;
   peerMeta?: PeerMeta;
 };
+
 export type SessionRequestEvent = {
   error: Error | null;
   sessionDetails?: SessionRequestDetails;
 };
+
 export type SessionUpdateEvent = {
   error: Error | null;
   session?: Session;
@@ -66,13 +71,35 @@ export enum CallRequestType {
   SignAmino = 'cosmos_signAmino',
 }
 
-export type CosmosGetAccountRequest = {
+export enum CosmosMethod {
+  SignDirect = 'cosmos_signDirect',
+  SignAmino = 'cosmos_signAmino',
+}
+
+export type CosmosSignDocDirect = {
+  chainId: string;
+  accountNumber: Long;
+  authInfo: AuthInfo;
+  body: TxBody;
+};
+
+export type CosmosSignDirectParams = {
+  signerAddress: string;
+  signDoc: CosmosSignDocDirect;
+};
+
+export type CosmosSignAminoParams = {
+  signerAddress: string;
+  signDoc: StdSignDoc;
+};
+
+export type ParsedCosmosGetAccountRequest = {
   type: CallRequestType.GetAccounts;
   sessionId: string;
   requestId: number;
 };
 
-export type CosmosSignDirectCallRequest = {
+export type ParsedCosmosSignDirectCallRequest = {
   type: CallRequestType.SignDirect;
   sessionId: string;
   requestId: number;
@@ -80,7 +107,7 @@ export type CosmosSignDirectCallRequest = {
   signDoc: CosmosSignDocDirect;
 };
 
-export type CosmosSignAminoCallRequest = {
+export type ParsedCosmosSignAminoCallRequest = {
   type: CallRequestType.SignAmino;
   sessionId: string;
   requestId: number;
@@ -89,6 +116,6 @@ export type CosmosSignAminoCallRequest = {
 };
 
 export type ParsedCallRequest =
-  | CosmosGetAccountRequest
-  | CosmosSignDirectCallRequest
-  | CosmosSignAminoCallRequest;
+  | ParsedCosmosGetAccountRequest
+  | ParsedCosmosSignDirectCallRequest
+  | ParsedCosmosSignAminoCallRequest;

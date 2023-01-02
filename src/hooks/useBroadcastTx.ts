@@ -2,7 +2,7 @@ import { EncodeObject } from '@cosmjs/proto-signing';
 import { useNavigation } from '@react-navigation/native';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { useCallback } from 'react';
-import { ChainAccount } from 'types/chain';
+import { ChainAccount } from 'types/chainLinks';
 import { AccountScreensStackParams } from 'types/navigation';
 
 /**

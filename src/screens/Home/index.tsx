@@ -6,7 +6,7 @@ import React, { useCallback, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Image, Text, View } from 'react-native';
 import { Snackbar, useTheme } from 'react-native-paper';
-import { BroadcastedTx } from 'types/tx';
+import { BroadcastTx } from 'types/transaction';
 import TransactionsList from 'components/TransactionsList';
 import Typography from 'components/Typography';
 import useAppContext from 'contexts/AppContext';
@@ -65,7 +65,7 @@ const Home: React.FC<Props> = (props) => {
   }, [navigation]);
 
   const onTxPressed = useCallback(
-    (tx: BroadcastedTx) => {
+    (tx: BroadcastTx) => {
       navigation.navigate({
         name: 'TxDetails',
         params: {

@@ -12,8 +12,8 @@ import {
 } from 'react-native';
 import Colors from 'constants/colors';
 import useFetchUserBalance from 'hooks/useFetchUserBalance';
-import { ChainAccount } from 'types/chain';
-import { BroadcastedTx } from 'types/tx';
+import { ChainAccount } from 'types/chainLinks';
+import { BroadcastTx } from 'types/transaction';
 import {
   SectionedTx,
   useFetchTxsGrouppedByDate,
@@ -26,7 +26,7 @@ import useStyles from './useStyles';
 
 export type TransactionsListProps = {
   chainAccount: ChainAccount;
-  onTxPressed: (tx: BroadcastedTx) => void;
+  onTxPressed: (tx: BroadcastTx) => void;
   style?: StyleProp<ViewStyle>;
 };
 
@@ -37,7 +37,7 @@ export const TransactionsList: React.FC<TransactionsListProps> = ({ chainAccount
   const fetchBalance = useFetchUserBalance(chainAccount.address);
 
   const renderItem = useCallback(
-    (info: SectionListRenderItemInfo<BroadcastedTx, SectionedTx>) => {
+    (info: SectionListRenderItemInfo<BroadcastTx, SectionedTx>) => {
       const begin = info.index === 0;
       const end = info.index === info.section.data.length - 1;
       const viewStyle: StyleProp<ViewStyle> = {

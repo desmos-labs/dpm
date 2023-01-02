@@ -69,7 +69,7 @@ const Authorization: React.FC<Props> = (props) => {
         id: session.id,
         name: session.peerMeta?.name ?? 'Undefined name',
         creationDate: session.creationDate,
-        // Wallet connect use this permissions.
+        // Wallet connect use these permissions.
         permissions: [DAppPermissions.RequestTxSign, DAppPermissions.BroadcastSignedTx],
         iconUri,
       });

@@ -4,7 +4,7 @@ import WalletConnect from '@walletconnect/client';
 import { ISessionParams, IWalletConnectSession } from '@walletconnect/types';
 import { AuthInfo, TxBody } from 'cosmjs-types/cosmos/tx/v1beta1/tx';
 import { CosmosMethod } from 'types/jsonRpCosmosc';
-import { SignedCosmosTx } from 'types/tx';
+import { SignedCosmosTx } from 'types/transaction';
 import {
   CallRequestEvent,
   ConnectedEvent,
@@ -15,7 +15,7 @@ import {
   SessionRequestDetails,
   SessionRequestEvent,
   SessionUpdateEvent,
-} from 'types/walletconnect';
+} from 'types/walletConnect';
 
 /**
  * Type that represents the payload returned from the

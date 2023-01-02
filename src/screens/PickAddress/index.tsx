@@ -11,7 +11,7 @@ import useCurrentChainInfo from 'hooks/desmosclient/useCurrentChainInfo';
 import useAddChainLink from 'hooks/useAddChainLink';
 import useSelectedAccount from 'hooks/useSelectedAccount';
 import useShowModal from 'hooks/useShowModal';
-import { CosmosHdPath, HdPath } from 'types/hdpath';
+import { CosmosHdPath, HdPath } from 'types/cosmos';
 import {
   AccountScreensStackParams,
   ChainLinkScreensStackParams,
@@ -27,9 +27,9 @@ import ListItemSeparator from 'components/ListItemSeparator';
 import Flexible from 'components/Flexible';
 import Button from 'components/Button';
 import useGenerateProof from 'hooks/chainlinks/useGenerateProof';
-import useGenerateWalletFromHDPath from 'hooks/wallet/useGenerateWalletFromHDPath';
+import generateWalletFromHDPaths from 'hooks/wallet/generateWalletFromHDPaths';
 import {Wallet} from 'types/wallet';
-import useFetchWallets from 'hooks/wallet/useFetchWallets';
+import useGetWalletAccounts from 'hooks/wallet/useGetWalletAccounts';
 import useConfirmTx from 'hooks/useConfirmTx';
 import useRenderListItem from './useHooks';
 import useStyles from './useStyles';
@@ -67,8 +67,8 @@ const PickAddress: React.FC<Props> = (props) => {
   const generateProof = useGenerateProof();
   const confirmTx = useConfirmTx(chainInfo, feeGranter, backAction);
 
-  const {fetchingWallets, fetchWallets} = useFetchWallets(importMode, chain, selectedHdPath, {mnemonic, ledgerApp, ledgerTransport});
-  const generateWalletFromHdPath = useGenerateWalletFromHDPath(importMode, chain, {mnemonic, ledgerApp, ledgerTransport});
+  const {fetchingWallets, fetchWallets} = useGetWalletAccounts(importMode, chain, selectedHdPath, {mnemonic, ledgerApp, ledgerTransport});
+  const generateWalletFromHdPath = generateWalletFromHDPaths(importMode, chain, {mnemonic, ledgerApp, ledgerTransport});
 
   useEffect(() => {
     (async () => {

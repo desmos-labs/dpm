@@ -4,11 +4,17 @@ export type Subscription = {
   unsubscribe: () => void;
 };
 
-export type BleLedger = {
+/**
+ * Type that represents a Bluetooth Low Energy Ledger device.
+ */
+export type BLELedger = {
   id: string;
   name: string;
 };
 
+/**
+ * Type that represents an application that can be installed on a Ledger device.
+ */
 export type LedgerApp = {
   /**
    * Ledger application name.
@@ -43,7 +49,7 @@ export const CosmosLedgerApp: LedgerApp = {
 };
 
 export const CryptoOrgLedgerApp: LedgerApp = {
-  name: 'Crypto.org Chain',
+  name: 'Crypto.org',
   icon: require('../assets/chains/crypto_com.png'),
   uiName: 'Crypto.org',
   minVersion: '2.16.5',
@@ -57,12 +63,6 @@ export const TerraLedgerApp: LedgerApp = {
 };
 
 export const LedgerApps: LedgerApp[] = [
-  // {
-  //     name: "band",
-  //     icon: require("../assets/chains/band.png"),
-  //     uiName: "Band",
-  //     minVersion: "1.5.3",
-  // },
   CosmosLedgerApp,
   CryptoOrgLedgerApp,
   TerraLedgerApp,

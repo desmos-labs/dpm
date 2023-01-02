@@ -5,7 +5,7 @@ import { useTranslation } from 'react-i18next';
 import { ScrollView } from 'react-native';
 import { launchImageLibrary } from 'react-native-image-picker';
 import { ImagePickerResponse } from 'react-native-image-picker/src/types';
-import { DesmosProfile } from 'types/desmos';
+import { DesmosProfile } from 'types/desmosTypes';
 import { AccountScreensStackParams, RootStackParams } from 'types/navigation';
 import StyledSafeAreaView from 'components/StyledSafeAreaView';
 import TopBar from 'components/TopBar';

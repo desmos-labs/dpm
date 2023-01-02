@@ -3,7 +3,7 @@ import React, { useCallback, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import Typography from 'components/Typography';
 import useAppContext from 'contexts/AppContext';
-import { DesmosHdPath } from 'types/hdpath';
+import { DesmosHdPath } from 'types/cosmos';
 import { DesmosLedgerApp } from 'types/ledger';
 import { AccountCreationStackParams } from 'types/navigation';
 import { Wallet } from 'types/wallet';

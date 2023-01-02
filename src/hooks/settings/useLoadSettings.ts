@@ -31,10 +31,10 @@ export default function useLoadSettings() {
     // * morpheus-apollo-2 -> testnet
     // This is required since an application that has been updated can contain the old
     // chain id keys.
-    if (settings.chainId.indexOf('mainnet') > 0) {
-      settings.chainId = 'mainnet';
+    if (settings.chainType.indexOf('mainnet') > 0) {
+      settings.chainType = 'mainnet';
     } else {
-      settings.chainId = 'testnet';
+      settings.chainType = 'testnet';
     }
     setSettings(settings);
   }, [setSettings]);

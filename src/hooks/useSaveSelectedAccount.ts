@@ -1,5 +1,5 @@
 import { useCallback } from 'react';
-import { ChainAccount } from 'types/chain';
+import { ChainAccount } from 'types/chainLinks';
 import AccountSource from 'sources/AccountSource';
 
 /**

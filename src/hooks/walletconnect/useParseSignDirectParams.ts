@@ -1,4 +1,4 @@
-import {CallRequest} from 'types/walletconnect';
+import {CallRequest} from 'types/walletConnect';
 import {CosmosSignDirectParams} from 'types/jsonRpCosmosc';
 import Long from 'long';
 import {AuthInfo, TxBody} from 'cosmjs-types/cosmos/tx/v1beta1/tx';

@@ -13,12 +13,12 @@ import { createStackNavigator } from '@react-navigation/stack';
 import { StackNavigationProp } from '@react-navigation/stack/lib/typescript/src/types';
 import React, { MutableRefObject } from 'react';
 import LocalWallet from '../wallet/LocalWallet';
-import { ChainAccount, LinkableChain } from './chain';
-import { DesmosProfile } from './desmos';
-import { BleLedger, LedgerApp } from './ledger';
+import { ChainAccount, LinkableChain } from './chainLinks';
+import { DesmosProfile } from './desmosTypes';
+import { BLELedger, LedgerApp } from './ledger';
 import { ChainLink } from './link';
 import { Wallet } from './wallet';
-import { SessionRequestDetails } from './walletconnect';
+import { SessionRequestDetails } from './walletConnect';
 
 export type AccountCreationStackParams = {
   Login: undefined;
@@ -181,10 +181,7 @@ export type AuthorizeOperationResolveParams = {
 
 export const AccountScreensStack = createStackNavigator<AccountScreensStackParams>();
 
-export enum ImportMode {
-  Mnemonic,
-  Ledger,
-}
+
 
 export type ChainLinkScreensStackParams = {
   ConnectChain: {
@@ -236,7 +233,7 @@ export type ConnectToLedgerScreensStackParams = {
   };
   ConnectToLedger: {
     ledgerApp: LedgerApp;
-    bleLedger: BleLedger;
+    bleLedger: BLELedger;
     onConnectionEstablished: (transport: BluetoothTransport) => void;
     autoClose?: boolean;
     onCancel?: () => void;

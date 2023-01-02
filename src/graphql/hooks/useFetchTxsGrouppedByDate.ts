@@ -17,17 +17,17 @@ import { VoteOption } from 'cosmjs-types/cosmos/gov/v1beta1/gov';
 import { Any } from 'cosmjs-types/google/protobuf/any';
 import Long from 'long';
 import { useCallback, useState } from 'react';
-import { ChainAccount } from 'types/chain';
+import { ChainAccount } from 'types/chainLinks';
 import { MsgMultiSendEncodeObject } from 'types/encodeobject';
 import MsgTypes from 'types/msgtypes';
-import { BroadcastedTx } from 'types/tx';
+import { BroadcastTx } from 'types/transaction';
 import { GqlTransaction, useGetTransactionsByAddressQuery } from 'graphql/types';
 
 const LIMIT = 20;
 
 export type SectionedTx = {
   date: string;
-  data: BroadcastedTx[];
+  data: BroadcastTx[];
 };
 
 function gqlPubKeyToAny(gqlPubKey: any): Any | undefined {
@@ -209,7 +209,7 @@ function gqlFeeToStdFee(gqlFee: any): StdFee {
  * Converts a graphql transaction into a BroadcastedTx.
  * @param tx - The transaction to convert.
  */
-function mapTransactions(tx: GqlTransaction): BroadcastedTx {
+function mapTransactions(tx: GqlTransaction): BroadcastTx {
   return {
     hash: tx.transaction.hash,
     msgs: tx.transaction.messages.map(gqlMessageToEncodeObject),
@@ -226,9 +226,9 @@ function mapTransactions(tx: GqlTransaction): BroadcastedTx {
  * @param tx - The transaction to store.
  */
 function groupTransactionByDate(
-  groups: Record<string, BroadcastedTx[]>,
-  tx: BroadcastedTx,
-): Record<string, BroadcastedTx[]> {
+  groups: Record<string, BroadcastTx[]>,
+  tx: BroadcastTx,
+): Record<string, BroadcastTx[]> {
   const groupsDeepCloned = groups;
   const date: string = tx.timestamp.split('T')[0];
   if (groupsDeepCloned[date] === undefined) {
@@ -325,7 +325,7 @@ export function useFetchTxsGrouppedByDate(chainAccount: ChainAccount) {
         });
         const fetchedTransactions = queryResponse.data.transactionsByAddress.map(mapTransactions);
         setTxs((transactions) => {
-          const baseObj: Record<string, BroadcastedTx[]> = {};
+          const baseObj: Record<string, BroadcastTx[]> = {};
           transactions.forEach((tx) => {
             baseObj[tx.date] = tx.data;
           });
