@@ -1,4 +1,4 @@
-import {makeStyle} from 'theming';
+import {makeStyle} from 'config/theme';
 import {Platform} from 'react-native';
 
 const useStyles = makeStyle((theme) => ({

@@ -1,4 +1,4 @@
-import {makeStyle} from 'theming';
+import {makeStyle} from 'config/theme';
 
 const useStyle = makeStyle((theme) => ({
   desmosIcon: {

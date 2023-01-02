@@ -9,7 +9,7 @@ import useNavigateToHomeScreen from 'hooks/useNavigateToHomeScreen';
 import useSelectedAccount from 'hooks/useSelectedAccount';
 import useShowModal from 'hooks/useShowModal';
 import { LocalWalletsSource } from 'sources/LocalWalletsSource';
-import { ChainAccountType } from 'types/chainLinks';
+import { ChainAccountType } from 'types/chains';
 import { SettingsScreensStackParams } from 'types/navigation';
 import LocalWallet from 'wallet/LocalWallet';
 import evaluatePasswordComplexity from 'hooks/useEvaluatePasswordComplexity';

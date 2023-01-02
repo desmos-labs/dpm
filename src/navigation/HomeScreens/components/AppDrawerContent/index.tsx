@@ -15,7 +15,7 @@ import useDeleteAccount from 'hooks/useDeleteAccount';
 import useProfiles from 'hooks/useProfiles';
 import useSelectedAccount from 'hooks/useSelectedAccount';
 import useShowModal from 'hooks/useShowModal';
-import { ChainAccount } from 'types/chainLinks';
+import { ChainAccount } from 'types/chains';
 import { DesmosProfile } from 'types/desmosTypes';
 import { AccountScreensStackParams, RootStackParams } from 'types/navigation';
 import Typography from 'components/Typography';

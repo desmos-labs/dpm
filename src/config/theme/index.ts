@@ -3,7 +3,7 @@ import { StyleSheet } from 'react-native';
 import { useTheme } from 'react-native-paper';
 import NamedStyles = StyleSheet.NamedStyles;
 
-export * from './theme';
+export * from './customTheme';
 
 export function makeStyle<T extends NamedStyles<T> | NamedStyles<any>>(
   styleProvider: (theme: ReactNativePaper.Theme) => T,

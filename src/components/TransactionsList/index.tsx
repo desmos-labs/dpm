@@ -12,7 +12,7 @@ import {
 } from 'react-native';
 import Colors from 'constants/colors';
 import useFetchUserBalance from 'hooks/useFetchUserBalance';
-import { ChainAccount } from 'types/chainLinks';
+import { ChainAccount } from 'types/chains';
 import { BroadcastTx } from 'types/transaction';
 import {
   SectionedTx,

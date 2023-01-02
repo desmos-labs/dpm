@@ -5,7 +5,7 @@ import useDesmosClientContext from 'contexts/DesmosClientContext';
 import useWalletConnectContext from 'contexts/WalletConnectContext';
 import useSetSetting from 'hooks/settings/useSetSetting';
 import useSetting from 'hooks/settings/useSetting';
-import { ChainId } from 'types/chainLinks';
+import { ChainId } from 'types/chains';
 import { AccountScreensStackParams } from 'types/navigation';
 import RadioGroup, {RadioValue} from 'components/RadioGroup';
 import StyledSafeAreaView from 'components/StyledSafeAreaView';

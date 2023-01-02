@@ -16,7 +16,7 @@ import useUnlockWallet from 'hooks/useUnlockWallet';
 import useWalletCallRequests from 'hooks/useWalletCallRequests';
 import useWalletConnectRejectRequest from 'hooks/useWalletConnectRejectRequest';
 import AccountSource from 'sources/AccountSource';
-import { ChainAccountType } from 'types/chainLinks';
+import { ChainAccountType } from 'types/chains';
 import { CosmosMethod } from 'types/jsonRpCosmosc';
 import { AccountScreensStackParams } from 'types/navigation';
 import { CosmosTx } from 'types/transaction';

@@ -2,7 +2,7 @@ import { ApolloProvider } from '@apollo/client';
 import { Coin } from 'cosmjs-types/cosmos/base/v1beta1/coin';
 import React, { useMemo, useState } from 'react';
 import useApolloClient from 'graphql/hooks/useApolloClient';
-import { ChainAccount } from 'types/chainLinks';
+import { ChainAccount } from 'types/chains';
 import { DesmosProfile } from 'types/desmosTypes';
 import { ChainLink } from 'types/link';
 import { AppSettings, DefaultAppSettings } from 'types/settings';

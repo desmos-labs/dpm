@@ -1,4 +1,4 @@
-import {makeStyleWithProps} from 'theming';
+import {makeStyleWithProps} from 'config/theme';
 import {ButtonProps} from 'components/Button/index';
 
 const useStyles = makeStyleWithProps((props: ButtonProps, theme) => {

@@ -20,6 +20,12 @@
       "components/*": [
         "./components/*"
       ],
+      "config": [
+        "./config"
+      ],
+      "config/*": [
+        "./config/*"
+      ],
       "constants": [
         "./constants"
       ],

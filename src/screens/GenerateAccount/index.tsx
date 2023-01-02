@@ -9,7 +9,7 @@ import useSaveAccount from 'hooks/useSaveAccount';
 import useSaveSelectedAccount from 'hooks/useSaveSelectedAccount';
 import useSaveWallet from 'hooks/useSaveWallet';
 import useSetAccounts from 'hooks/useSetAccounts';
-import { ChainAccount, ChainAccountType } from 'types/chainLinks';
+import { ChainAccount, ChainAccountType } from 'types/chains';
 import { AccountCreationStackParams, RootStackParams } from 'types/navigation';
 import { WalletType } from 'types/wallet';
 import * as SecureStorage from 'utilils/SecureStorage';

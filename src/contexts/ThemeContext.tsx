@@ -2,7 +2,7 @@ import React, { useCallback, useEffect, useState } from 'react';
 import { Appearance, NativeEventSubscription } from 'react-native';
 import { Provider as PaperProvider } from 'react-native-paper';
 import { Settings } from 'react-native-paper/lib/typescript/core/settings';
-import { AppThemeDark, AppThemeLight } from 'theming';
+import { DarkTheme, LightTheme } from 'config/theme';
 import useSetting from 'hooks/settings/useSetting';
 import useDebouncingColorScheme from 'hooks/useDebouncingColorScheme';
 import DesmosIcon from 'components/DesmosIcon';
@@ -13,11 +13,11 @@ const PaperProviderSettings: Settings = {
 
 const ThemeProvider: React.FC = ({ children }) => {
   const theme = useSetting('theme');
-  const [appTheme, setAppTheme] = useState(AppThemeLight);
+  const [appTheme, setAppTheme] = useState(LightTheme);
   const colorScheme = useDebouncingColorScheme();
 
   const handleAppearanceChange = useCallback(() => {
-    setAppTheme(colorScheme === 'light' ? AppThemeLight : AppThemeDark);
+    setAppTheme(colorScheme === 'light' ? LightTheme : DarkTheme);
   }, [colorScheme]);
 
   useEffect(() => {
@@ -30,9 +30,9 @@ const ThemeProvider: React.FC = ({ children }) => {
       };
     }
     if (theme === 'dark') {
-      setAppTheme(AppThemeDark);
+      setAppTheme(DarkTheme);
     } else {
-      setAppTheme(AppThemeLight);
+      setAppTheme(LightTheme);
     }
     return () => {
       appearanceSubscription?.remove();

@@ -17,7 +17,7 @@ import { VoteOption } from 'cosmjs-types/cosmos/gov/v1beta1/gov';
 import { Any } from 'cosmjs-types/google/protobuf/any';
 import Long from 'long';
 import { useCallback, useState } from 'react';
-import { ChainAccount } from 'types/chainLinks';
+import { ChainAccount } from 'types/chains';
 import { MsgMultiSendEncodeObject } from 'types/encodeobject';
 import MsgTypes from 'types/msgtypes';
 import { BroadcastTx } from 'types/transaction';

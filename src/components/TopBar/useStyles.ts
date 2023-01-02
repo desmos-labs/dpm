@@ -1,4 +1,4 @@
-import {makeStyleWithProps} from 'theming';
+import {makeStyleWithProps} from 'config/theme';
 import {Platform, StatusBar} from 'react-native';
 import {TopBarProps} from 'components/TopBar/index';
 

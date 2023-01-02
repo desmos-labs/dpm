@@ -2,7 +2,7 @@ import { ApolloClient, ApolloLink, createHttpLink, InMemoryCache } from '@apollo
 import { MultiAPILink } from '@habx/apollo-multi-endpoint-link';
 import { DefaultEndpoints } from '@habx/apollo-multi-endpoint-link/dist/typings/interface';
 import { useMemo } from 'react';
-import { ChainId } from 'types/chainLinks';
+import { ChainId } from 'types/chains';
 
 const gqlEndpoints = new Map<ChainId, DefaultEndpoints>([
   [

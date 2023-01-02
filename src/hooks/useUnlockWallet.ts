@@ -4,7 +4,7 @@ import BluetoothTransport from '@ledgerhq/react-native-hw-transport-ble';
 import { CompositeNavigationProp, useNavigation } from '@react-navigation/native';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { useCallback } from 'react';
-import { ChainAccount, ChainAccountType } from 'types/chainLinks';
+import { ChainAccount, ChainAccountType } from 'types/chains';
 import { DesmosLedgerApp } from 'types/ledger';
 import {
   AccountScreensStackParams,

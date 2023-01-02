@@ -1,4 +1,4 @@
-import {makeStyleWithProps} from 'theming';
+import {makeStyleWithProps} from 'config/theme';
 import {HdPathPickerProps} from 'components/HdPathPicker/index';
 
 const useStyle = makeStyleWithProps((props: HdPathPickerProps, theme) => ({

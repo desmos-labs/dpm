@@ -1,7 +1,7 @@
 import React from 'react';
 import { Image, ImageProps, View } from 'react-native';
 import {format} from 'date-fns';
-import { makeStyle } from 'theming';
+import { makeStyle } from 'config/theme';
 import Divider from 'components/Divider';
 import Typography from 'components/Typography';
 import LabeledValue from 'components/LabeledValue';

@@ -1,4 +1,4 @@
-import {makeStyleWithProps} from 'theming';
+import {makeStyleWithProps} from 'config/theme';
 import {AvatarImageProps} from 'components/AvatarImage/index';
 
 const useStyles = makeStyleWithProps((props: AvatarImageProps, theme) => ({

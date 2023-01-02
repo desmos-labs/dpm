@@ -1,4 +1,4 @@
-import {makeStyle} from 'theming';
+import {makeStyle} from 'config/theme';
 import Colors from 'constants/colors';
 
 const useStyles = makeStyle((theme) => ({

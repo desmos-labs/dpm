@@ -1,4 +1,4 @@
-import { ChainAccount } from 'types/chainLinks';
+import { ChainAccount } from 'types/chains';
 import * as SecureStorage from 'utilils/SecureStorage';
 
 declare type SourceCache = Map<string, ChainAccount>;

@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useState } from 'react';
 import useWalletConnectContext from 'contexts/WalletConnectContext';
-import { ChainAccount } from 'types/chainLinks';
+import { ChainAccount } from 'types/chains';
 import { Events, Session } from 'types/walletConnect';
 
 /**

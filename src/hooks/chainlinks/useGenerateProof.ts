@@ -11,7 +11,7 @@ import {PubKey} from 'cosmjs-types/cosmos/crypto/secp256k1/keys';
 import {SignDoc, TxBody} from 'cosmjs-types/cosmos/tx/v1beta1/tx';
 import {Any} from 'cosmjs-types/google/protobuf/any';
 import Long from 'long';
-import {LinkableChain} from 'types/chainLinks';
+import {LinkableChain} from 'types/chains';
 
 export type GenerateProofConfig = {
   desmosAddress: string;

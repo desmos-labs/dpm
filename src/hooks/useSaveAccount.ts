@@ -1,6 +1,6 @@
 import { useCallback } from 'react';
 import AccountSource from 'sources/AccountSource';
-import { ChainAccount } from 'types/chainLinks';
+import { ChainAccount } from 'types/chains';
 import useSetAccounts from './useSetAccounts';
 
 /**

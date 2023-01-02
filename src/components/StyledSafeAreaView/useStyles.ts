@@ -1,4 +1,4 @@
-import {makeStyleWithProps} from 'theming';
+import {makeStyleWithProps} from 'config/theme';
 import {Platform} from 'react-native';
 import {StyledSafeAreaViewProps} from 'components/StyledSafeAreaView/index';
 

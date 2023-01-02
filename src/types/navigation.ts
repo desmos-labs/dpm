@@ -13,7 +13,7 @@ import { createStackNavigator } from '@react-navigation/stack';
 import { StackNavigationProp } from '@react-navigation/stack/lib/typescript/src/types';
 import React, { MutableRefObject } from 'react';
 import LocalWallet from '../wallet/LocalWallet';
-import { ChainAccount, LinkableChain } from './chainLinks';
+import { ChainAccount, LinkableChain } from './chains';
 import { DesmosProfile } from './desmosTypes';
 import { BLELedger, LedgerApp } from './ledger';
 import { ChainLink } from './link';

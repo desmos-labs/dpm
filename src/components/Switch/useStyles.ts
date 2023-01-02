@@ -1,4 +1,4 @@
-import {makeStyle} from 'theming';
+import {makeStyle} from 'config/theme';
 
 const useStyles = (disable: boolean, active: boolean, translation: any) => {
   return makeStyle((theme) => ({
