@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 import useAppContext, { InitState } from 'contexts/AppContext';
-import { useInitI18n } from 'i18n/i18n';
+import { useInitI18n } from 'assets/locales/i18n';
 import AccountSource from 'sources/AccountSource';
 import { LocalWalletsSource } from 'sources/LocalWalletsSource';
 import ProfileSource from 'sources/ProfileSource';
