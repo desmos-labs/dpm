@@ -12,7 +12,7 @@ export interface EncryptedData {
  * @param password The password from which will be derived the safer password.
  */
 export const deriveSecurePassword = async (password: string): Promise<string> => {
-  return Aes.pbkdf2(password, 'salt_dpm', 100000, 256);
+  return Aes.pbkdf2(password, password.normalize('NFKC'), 100000, 256);
 };
 
 /**
