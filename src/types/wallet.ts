@@ -1,115 +1,110 @@
-import {Signer} from '@desmoslabs/desmjs';
-import {HdPath} from '@cosmjs/crypto';
-import {LedgerApp} from 'types/ledger';
+import { HdPath } from '@cosmjs/crypto';
+import { LedgerApp } from 'types/ledger';
 import BluetoothTransport from '@ledgerhq/react-native-hw-transport-ble';
-
-export const DESMOS_COIN_TYPE = 852;
-export const COSMOS_COIN_TYPE = 118;
-export const LUNA_COIN_TYPE = 330;
-export const KAVA_COIN_TYPE = 459;
-export const BAND_COIN_TYPE = 494;
-export const CRO_COIN_TYPE = 394;
-
-export const DesmosHdPath: HdPath = {
-  coinType: DESMOS_COIN_TYPE,
-  account: 0,
-  change: 0,
-  addressIndex: 0,
-};
-
-export const CosmosHdPath: HdPath = {
-  coinType: COSMOS_COIN_TYPE,
-  account: 0,
-  change: 0,
-  addressIndex: 0,
-};
-
-export const LunaHdPath: HdPath = {
-  coinType: LUNA_COIN_TYPE,
-  account: 0,
-  change: 0,
-  addressIndex: 0,
-};
-
-export const KavaHdPath: HdPath = {
-  coinType: KAVA_COIN_TYPE,
-  account: 0,
-  change: 0,
-  addressIndex: 0,
-};
-
-export const BandHdPath: HdPath = {
-  coinType: BAND_COIN_TYPE,
-  account: 0,
-  change: 0,
-  addressIndex: 0,
-};
-
-export const CroHdPath: HdPath = {
-  coinType: CRO_COIN_TYPE,
-  account: 0,
-  change: 0,
-  addressIndex: 0,
-};
+import { Signer } from '@desmoslabs/desmjs';
 
 /**
- * Enum that represents the type of Wallet.
+ * Enum that represents the type of wallet that the app supports.
  */
 export enum WalletType {
   /**
    * Wallet generated from a mnemonic of witch the key pair is stored
    * encrypted in the device storage.
    */
-  Mnemonic,
+  Mnemonic = 'mnemonic',
   /**
    * Wallet imported from a Ledger device.
    */
-  Ledger,
+  Ledger = 'ledger',
   /**
    * Wallet imported using Web3Auth.
    */
-  Web3Auth,
+  Web3Auth = 'web3auth',
 }
 
 /**
- * Interface to define the common fields of each wallet type.
+ * Interface holding the common fields between each wallet type.
  */
-interface Wallet {
+interface BaseWallet {
   /**
-   * Type of the wallet.
+   * wallet bech32 address.
    */
-  type: WalletType;
-
+  readonly address: string
   /**
-   * Hardened derivation path(s) used to generate this wallet.
+   * Signer that can be used with the DesmosClient to sign transactions.
    */
-  hdPaths: HdPath[],
-
-  /**
-   * Signer that can be used to sign and broadcast transactions.
-   */
-  signer: Signer;
+  readonly signer: Signer,
 }
 
-export interface WalletData {
+/**
+ * Interface that represents a wallet created from a mnemonic.
+ */
+export interface MnemonicWallet extends BaseWallet {
+  readonly type: WalletType.Mnemonic,
+  /**
+   * HD Derivation path used to generate the user
+   * private key.
+   */
+  readonly hdPath: HdPath,
+  /**
+   * secp256k1 private key derived from the mnemonic with the hdPath.
+   */
+  readonly privateKey: Uint8Array,
+}
+
+/**
+ * Interface representing a wallet imported through a Ledger device.
+ */
+export interface LedgerWallet extends BaseWallet {
+  readonly type: WalletType.Ledger,
+  /**
+   * HD Derivation path used to generate the user
+   * private key.
+   */
+  readonly hdPath: HdPath,
+}
+
+/**
+ * Interface representing a wallet imported through Web3Auth.
+ */
+export interface Web3AuthWallet extends BaseWallet {
+  readonly type: WalletType.Web3Auth,
+  /**
+   * Login method used from the user.
+   */
+  readonly loginProvider: string,
+  /**
+   * secp256k1 private key obtained from Web3Auth.
+   */
+  readonly privateKey: Uint8Array,
+}
+
+/**
+ * Type representing all the supported wallets.
+ */
+export type Wallet = MnemonicWallet | LedgerWallet | Web3AuthWallet;
+
+export interface BaseWalletGenerationData {
   readonly accountPrefix: string;
 }
 
-export interface MnemonicGenerationData extends WalletData {
+export interface MnemonicGenerationData extends BaseWalletGenerationData {
   readonly type: WalletType.Mnemonic;
   readonly mnemonic: string;
+  readonly hdPaths: HdPath[]
 }
 
-export interface LedgerGenerationData extends WalletData {
+export interface LedgerGenerationData extends BaseWalletGenerationData {
   readonly type: WalletType.Ledger;
   readonly app: LedgerApp;
   readonly transport: BluetoothTransport;
+  readonly hdPaths: HdPath[]
 }
 
-export interface Web3AuthGenerationData extends WalletData {
+export interface Web3AuthGenerationData extends BaseWalletGenerationData {
   readonly type: WalletType.Web3Auth;
+  readonly privateKey: Uint8Array,
+  readonly loginProvider: string,
 }
 
 export type WalletGenerationData = MnemonicGenerationData | LedgerGenerationData | Web3AuthGenerationData
-
-export default Wallet;
