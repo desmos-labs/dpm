@@ -1,6 +1,6 @@
 import { getAllGenericPasswordServices, resetGenericPassword, Result } from 'react-native-keychain';
 import * as Keychain from 'react-native-keychain';
-import {decryptData, encryptData, EncryptedData} from 'lib/EncryptionUtils';
+import { decryptData, encryptData, EncryptedData } from 'lib/EncryptionUtils';
 
 const defaultOptions: Keychain.Options = {
   authenticationPrompt: {
@@ -35,30 +35,27 @@ export async function getItem(
   options: StoreOptions | undefined = undefined,
 ): Promise<string | null> {
   const moreOptions = options?.biometrics === true ? { ...defaultOptions } : null;
-  const insertedWithoutPassword = await Keychain.getGenericPassword({
+
+  const data = await Keychain.getGenericPassword({
     service: key,
     ...moreOptions,
   });
-  if (!insertedWithoutPassword) {
+
+  if (!data) {
     return null;
   }
 
+  // Password provided, decrypt the data
   if (options?.password !== undefined) {
-    const insertedWithPassword = await Keychain.getGenericPassword({
-      service: key,
-      ...moreOptions,
-    });
-    if (insertedWithPassword) {
-      const jsonValueNew = JSON.parse(insertedWithPassword.password);
-      if (typeof jsonValueNew.iv !== 'string' && typeof jsonValueNew.cipher !== 'string') {
-        throw new Error('Invalid encrypted data');
-      } else {
-        return decryptData(jsonValueNew as EncryptedData, options.password);
-      }
+    const jsonValueNew = JSON.parse(data.password);
+    if (typeof jsonValueNew.iv !== 'string' && typeof jsonValueNew.cipher !== 'string') {
+      throw new Error('Invalid encrypted data');
+    } else {
+      return decryptData(jsonValueNew as EncryptedData, options.password);
     }
   }
 
-  return insertedWithoutPassword.password;
+  return data.password;
 }
 
 /**
@@ -73,14 +70,16 @@ export async function setItem(
   options: StoreOptions | undefined = undefined,
 ): Promise<false | Result> {
   const moreOptions = options?.biometrics === true ? { ...defaultOptions } : null;
+
+  let data = value;
+
+  // Password provided, encrypt the data.
   if (options?.password !== undefined) {
     const encryptedData = await encryptData(value, options.password);
-    return Keychain.setGenericPassword('dpm', JSON.stringify(encryptedData), {
-      service: key,
-      ...moreOptions,
-    });
+    data = JSON.stringify(encryptedData);
   }
-  return Keychain.setGenericPassword('dpm', value, {
+
+  return Keychain.setGenericPassword('dpm', data, {
     service: key,
     ...moreOptions,
   });
