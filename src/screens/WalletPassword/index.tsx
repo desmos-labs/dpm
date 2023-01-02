@@ -6,7 +6,7 @@ import SecureTextInput from 'components/SecureTextInput';
 import Typography from 'components/Typography';
 import { AccountCreationStackParams } from 'types/navigation';
 import evaluatePasswordComplexity from 'hooks/useEvaluatePasswordComplexity';
-import * as SecureStorage from 'utilils/SecureStorage';
+import * as SecureStorage from 'lib/SecureStorage';
 import StyledSafeAreaView from 'components/StyledSafeAreaView';
 import TopBar from 'components/TopBar';
 import PasswordComplexityScore from 'components/PasswordComplexityScore';

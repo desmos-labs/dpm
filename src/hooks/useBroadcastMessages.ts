@@ -7,7 +7,7 @@ import { AuthInfo, SignerInfo, TxRaw } from 'cosmjs-types/cosmos/tx/v1beta1/tx';
 import { Any } from 'cosmjs-types/google/protobuf/any';
 import Long from 'long';
 import { useCallback } from 'react';
-import SignerWrapper from '../utilils/offlinesignerwrapper';
+import {OfflineSignerAdapter} from '@desmoslabs/desmjs';
 import useDesmosClient from './desmosclient/useDesmosClient';
 
 function makeSignerInfo(
@@ -54,7 +54,7 @@ export default function useBroadcastMessages() {
 
   return useCallback(
     async (signer: OfflineSigner, messages: EncodeObject[], fee: StdFee, memo?: string) => {
-      const wrapper = new SignerWrapper(signer);
+      const wrapper = new OfflineSignerAdapter(signer);
       client!.setSigner(wrapper);
       const signerAddress = await signer.getAccounts();
       const signed = await client!.sign(

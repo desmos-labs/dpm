@@ -1,4 +1,4 @@
-import * as SecureStorage from 'utilils/SecureStorage';
+import * as SecureStorage from 'lib/SecureStorage';
 import LocalWallet from 'wallet/LocalWallet';
 
 /**

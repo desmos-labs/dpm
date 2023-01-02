@@ -1,11 +1,11 @@
 import { MsgSendEncodeObject } from '@cosmjs/stargate';
 import React, { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
-import {Coin} from '@desmoslabs/desmjs-types/cosmos/base/v1beta1/coin';
-import {ChainInfo, convertCoin} from '@desmoslabs/desmjs';
+import { convertCoin } from '@desmoslabs/desmjs';
 import {View} from 'react-native';
 import useCurrentChainInfo from 'hooks/desmosclient/useCurrentChainInfo';
 import Typography from 'components/Typography';
+import {formatCoins} from 'lib/FormatUtils';
 import BaseMessage from '../BaseMessage';
 import useStyles from './useStyles';
 
@@ -17,21 +17,6 @@ export type ListItemProps = {
   message: MsgSendEncodeObject['value'];
   date: Date;
 };
-
-function formatCoins(amount: Coin[] | undefined, chainInfo: ChainInfo) {
-  if (!amount) {
-    return '';
-  }
-  return amount
-    .map((coinAmount) => {
-      const converted = convertCoin(coinAmount, 6, chainInfo.currencies);
-      if (converted !== null) {
-        return `${converted.amount} ${converted.denom.toUpperCase()}`;
-      }
-      return `${coinAmount.amount} ${coinAmount.denom}`;
-    })
-    .join('\n');
-}
 
 namespace MsgSend {
   /**
@@ -98,7 +83,7 @@ namespace MsgSend {
   export const Details: React.FC<DetailsProps> = ({message}) => {
     const {t} = useTranslation();
     const chainInfo = useCurrentChainInfo();
-    const convertedAmount = useMemo(() => formatCoins(message.amount, chainInfo), [message.amount, chainInfo]);
+    const convertedAmount = useMemo(() => formatCoins(chainInfo, message.amount), [message.amount, chainInfo]);
 
     return (
       <BaseMessage.Details

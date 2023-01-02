@@ -4,7 +4,7 @@ import { useInitI18n } from 'i18n/i18n';
 import AccountSource from 'sources/AccountSource';
 import { LocalWalletsSource } from 'sources/LocalWalletsSource';
 import ProfileSource from 'sources/ProfileSource';
-import * as SecureStorage from 'utilils/SecureStorage';
+import * as SecureStorage from 'lib/SecureStorage';
 import useConnectDesmosClient from './desmosclient/useConnectDesmosClient';
 import useLoadSettings from './settings/useLoadSettings';
 import useLoadAllProfiles from './useLoadAllProfiles';

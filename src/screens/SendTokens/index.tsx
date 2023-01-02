@@ -7,7 +7,7 @@ import Typography from 'components/Typography';
 import useAppContext from 'contexts/AppContext';
 import { computeTxFees, messagesGas } from 'types/fees';
 import { AccountScreensStackParams } from 'types/navigation';
-import checkDesmosAddress from 'utilils/validators';
+import validateDesmosAddress from 'lib/ValidationUtils';
 import useSelectedAccount from 'hooks/useSelectedAccount';
 import Flexible from 'components/Flexible';
 import StyledSafeAreaView from 'components/StyledSafeAreaView';
@@ -42,7 +42,7 @@ const SendTokens: React.FC<Props> = (props) => {
 
   const onAddressChange = useCallback((newAddress: string) => {
     setAddress(newAddress);
-    setAddressInvalid(newAddress.length > 0 && !checkDesmosAddress(newAddress));
+    setAddressInvalid(newAddress.length > 0 && !validateDesmosAddress(newAddress));
   }, []);
 
   const onAmountChange = useCallback(

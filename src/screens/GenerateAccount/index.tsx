@@ -12,7 +12,7 @@ import useSetAccounts from 'hooks/useSetAccounts';
 import { ChainAccount, ChainAccountType } from 'types/chains';
 import { AccountCreationStackParams, RootStackParams } from 'types/navigation';
 import { WalletType } from 'types/wallet';
-import * as SecureStorage from 'utilils/SecureStorage';
+import * as SecureStorage from 'lib/SecureStorage';
 import DpmImage from 'components/DPMImage';
 import Button from 'components/Button';
 import StyledSafeAreaView from 'components/StyledSafeAreaView';

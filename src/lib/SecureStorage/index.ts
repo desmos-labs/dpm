@@ -1,8 +1,6 @@
-import { NativeModules } from 'react-native';
 import { getAllGenericPasswordServices, resetGenericPassword, Result } from 'react-native-keychain';
 import * as Keychain from 'react-native-keychain';
-
-const { Aes } = NativeModules;
+import {decryptData, encryptData, EncryptedData} from 'lib/EncryptionUtils';
 
 const defaultOptions: Keychain.Options = {
   authenticationPrompt: {
@@ -11,11 +9,6 @@ const defaultOptions: Keychain.Options = {
   accessible: Keychain.ACCESSIBLE.WHEN_UNLOCKED_THIS_DEVICE_ONLY,
   accessControl: Keychain.ACCESS_CONTROL.BIOMETRY_CURRENT_SET,
 };
-
-interface EncryptedData {
-  iv: string;
-  cipher: string;
-}
 
 /**
  * Options used to configure how the data will be stored into the device.
@@ -26,42 +19,11 @@ export interface StoreOptions {
    */
   password?: string;
   /**
-   * Tells if the data should be linked to the user's biometric informations.
+   * Tells if the data should be linked to the user's biometric information.
    */
   biometrics?: boolean;
 }
 
-/**
- * Derive a safe password using the pbkdf2 algorithm.
- * @param password The password from which will be derived the safer password.
- */
-async function deriveSecurePassword(password: string): Promise<string> {
-  return Aes.pbkdf2(password, 'salt_dpm', 100000, 256);
-}
-
-/**
- * Encrypts the provided text using the AES algorithm.
- * @param text The text to encrypt.
- * @param password The password used to generate the cipher key.
- */
-async function encryptData(text: string, password: string): Promise<EncryptedData> {
-  const securePassword: string = await deriveSecurePassword(password);
-  const iv: string = await Aes.randomKey(16);
-  return Aes.encrypt(text, securePassword, iv, 'aes-256-cbc').then((cipher: string) => ({
-    cipher,
-    iv,
-  }));
-}
-
-/**
- * Decrypts data with the provided password.
- * @param data The data to be decrypted.
- * @param password The password used to generate the cipher key.
- */
-async function decryptData(data: EncryptedData, password: string): Promise<string> {
-  const securePassword: string = await deriveSecurePassword(password);
-  return Aes.decrypt(data.cipher, securePassword, data.iv, 'aes-256-cbc');
-}
 
 /**
  * Gets an item from the storage.

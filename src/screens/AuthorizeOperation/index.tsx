@@ -17,7 +17,7 @@ import LocalWallet from 'wallet/LocalWallet';
 import StyledSafeAreaView from 'components/StyledSafeAreaView';
 import TopBar from 'components/TopBar';
 import Button from 'components/Button';
-import * as SecureStorage from 'utilils/SecureStorage';
+import * as SecureStorage from 'lib/SecureStorage';
 import useStyles from './useStyles';
 
 type Props = StackScreenProps<AccountScreensStackParams, 'AuthorizeOperation'>;

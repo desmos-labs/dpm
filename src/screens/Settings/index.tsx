@@ -9,7 +9,7 @@ import Flexible from 'components/Flexible';
 import useSetSettings from 'hooks/settings/useSetSettings';
 import useSettings from 'hooks/settings/useSettings';
 import { RootStackParams, SettingsScreensStackParams } from 'types/navigation';
-import * as SecureStorage from 'utilils/SecureStorage';
+import * as SecureStorage from 'lib/SecureStorage';
 import StyledSafeAreaView from 'components/StyledSafeAreaView';
 import TopBar from 'components/TopBar';
 import useStyles from './useStyles';

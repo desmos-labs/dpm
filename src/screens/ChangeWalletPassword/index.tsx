@@ -13,7 +13,7 @@ import { ChainAccountType } from 'types/chains';
 import { SettingsScreensStackParams } from 'types/navigation';
 import LocalWallet from 'wallet/LocalWallet';
 import evaluatePasswordComplexity from 'hooks/useEvaluatePasswordComplexity';
-import * as SecureStorage from 'utilils/SecureStorage';
+import * as SecureStorage from 'lib/SecureStorage';
 import StyledSafeAreaView from 'components/StyledSafeAreaView';
 import TopBar from 'components/TopBar';
 import PasswordComplexityScore from 'components/PasswordComplexityScore';

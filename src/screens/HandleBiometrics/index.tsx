@@ -8,7 +8,7 @@ import useSetSettings from 'hooks/settings/useSetSettings';
 import useSettings from 'hooks/settings/useSettings';
 import Typography from 'components/Typography';
 import { SettingsScreensStackParams } from 'types/navigation';
-import * as SecureStorage from 'utilils/SecureStorage';
+import * as SecureStorage from 'lib/SecureStorage';
 import StyledSafeAreaView from 'components/StyledSafeAreaView';
 import TopBar from 'components/TopBar';
 import Flexible from 'components/Flexible';

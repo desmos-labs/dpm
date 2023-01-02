@@ -4,7 +4,7 @@ import { useTranslation } from 'react-i18next';
 import { View } from 'react-native';
 import { AccountCreationStackParams } from 'types/navigation';
 import Typography from 'components/Typography';
-import shuffleArray from 'utilils/shuffle';
+import _ from 'lodash';
 import MnemonicWordBadge from 'components/MnemonicWordBadge';
 import StyledSafeAreaView from 'components/StyledSafeAreaView';
 import TopBar from 'components/TopBar';
@@ -24,7 +24,7 @@ const CheckMnemonic = (props: Props) => {
   const { t } = useTranslation();
   const receivedMnemonic = mnemonic;
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
-  const words = useMemo(() => shuffleArray(receivedMnemonic.split(' '), 100), [receivedMnemonic]);
+  const words = useMemo(() => _.shuffle(receivedMnemonic.split(' ')), [receivedMnemonic]);
   const [selectedWords, setSelectedWords] = useState<string[]>([]);
   const [availableWords, setAvailableWords] = useState<string[]>([...words]);
 
