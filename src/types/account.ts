@@ -1,3 +1,4 @@
+import { Algo } from '@cosmjs/amino';
 import { WalletType } from 'types/wallet';
 
 /**
@@ -12,4 +13,12 @@ export interface Account {
    * Account bech32 address.
    */
   readonly address: string,
+  /**
+   * Account public key.
+   */
+  readonly pubKey: Uint8Array,
+  /**
+   * Account public key type.
+   */
+  readonly algo: Algo
 }
