@@ -1,12 +1,10 @@
 import { LedgerWallet, MnemonicWallet, Wallet, WalletGenerationData, WalletType, Web3AuthWallet } from 'types/wallet';
 import { OfflineSignerAdapter, PrivateKeySigner, SigningMode } from '@desmoslabs/desmjs';
 import { HdPath } from '@cosmjs/crypto';
-import { LedgerApp } from 'types/ledger';
 import BluetoothTransport from '@ledgerhq/react-native-hw-transport-ble';
-import { LedgerApp as CosmosLedgerApp } from '@cosmjs/ledger-amino/build/ledgerapp';
 import { LedgerSigner } from '@cosmjs/ledger-amino';
 import { CryptoUtils } from 'native/CryptoUtils';
-import TerraLedgerApp from '../../utilils/terra';
+import { LedgerApp } from 'types/ledger';
 
 /**
  * Function allowing to generate a list of [LedgerWallet].
@@ -17,17 +15,11 @@ import TerraLedgerApp from '../../utilils/terra';
  * @param transport - Bluetooth Transport that should be used to connect to the Ledger device.
  */
 export const generateLedgerWallets = async (prefix: string, hdPaths: HdPath[], app: LedgerApp, transport: BluetoothTransport): Promise<LedgerWallet[]> => {
-  let ledgerApp: CosmosLedgerApp | undefined;
-  if (app.name === 'Terra') {
-    ledgerApp = new TerraLedgerApp(transport!);
-  }
-
   const signer = new OfflineSignerAdapter(new LedgerSigner(transport!, {
     minLedgerAppVersion: app.minVersion,
     ledgerAppName: app.name,
     prefix,
     hdPaths,
-    ledgerApp,
   }));
 
   await signer.connect();
