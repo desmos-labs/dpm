@@ -30,10 +30,10 @@ export interface StoreOptions {
  * @param key Item key.
  * @param options Options to describe how the data are stored into the device storage.
  */
-export async function getItem(
+export async function getItem<T>(
   key: string,
   options: StoreOptions | undefined = undefined,
-): Promise<string | null> {
+): Promise<T | null> {
   const moreOptions = options?.biometrics === true ? { ...defaultOptions } : null;
 
   const data = await Keychain.getGenericPassword({
@@ -45,17 +45,19 @@ export async function getItem(
     return null;
   }
 
+  let jsonSerialized = data.password;
+
   // Password provided, decrypt the data
   if (options?.password !== undefined) {
     const jsonValueNew = JSON.parse(data.password);
     if (typeof jsonValueNew.iv !== 'string' && typeof jsonValueNew.cipher !== 'string') {
       throw new Error('Invalid encrypted data');
     } else {
-      return decryptData(jsonValueNew as EncryptedData, options.password);
+      jsonSerialized = await decryptData(jsonValueNew as EncryptedData, options.password);
     }
   }
 
-  return data.password;
+  return JSON.parse(jsonSerialized);
 }
 
 /**
@@ -64,18 +66,18 @@ export async function getItem(
  * @param value Value to insert into the storage.
  * @param options Options to describe how the data will be stored into the device storage.
  */
-export async function setItem(
+export async function setItem<T>(
   key: string,
-  value: string,
+  value: T,
   options: StoreOptions | undefined = undefined,
 ): Promise<false | Result> {
   const moreOptions = options?.biometrics === true ? { ...defaultOptions } : null;
 
-  let data = value;
+  let data = JSON.stringify(value);
 
   // Password provided, encrypt the data.
   if (options?.password !== undefined) {
-    const encryptedData = await encryptData(value, options.password);
+    const encryptedData = await encryptData(data, options.password);
     data = JSON.stringify(encryptedData);
   }
 
