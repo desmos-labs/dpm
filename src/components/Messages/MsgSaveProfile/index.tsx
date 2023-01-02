@@ -26,7 +26,7 @@ namespace MsgSaveProfile {
     const { t } = useTranslation();
     return (
       <BaseMessage.ListItem
-        icon={require('assets/tx-icons/general.png')}
+        icon={require('assets/images/messages/general.png')}
         date={date}
         renderContent={() => (
           <View>

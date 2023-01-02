@@ -58,7 +58,7 @@ namespace MsgSend {
 
     return (
       <BaseMessage.ListItem
-        icon={require('assets/tx-icons/send.png')}
+        icon={require('assets/images/messages/send.png')}
         date={date}
         renderContent={() => (
           <View>
@@ -87,7 +87,7 @@ namespace MsgSend {
 
     return (
       <BaseMessage.Details
-        icon={require('assets/tx-icons/send.png')}
+        icon={require('assets/images/messages/send.png')}
         iconSubtitle={convertedAmount}
         fields={[
           {

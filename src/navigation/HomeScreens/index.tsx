@@ -46,7 +46,7 @@ const HomeScreens: React.FC<HomeScreensProps> = (props) => {
     <Image
       style={{ width: size, height: size }}
       resizeMode="contain"
-      source={require('../../assets/scan-qr-button.png')}
+      source={require('assets/images/scanQRButton.png')}
     />
   );
 

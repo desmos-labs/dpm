@@ -67,7 +67,7 @@ const ProfileListItem: React.FC<ProfileListItemProps> = (props) => {
 
   return (
     <TouchableOpacity style={[styles.root, isItemSelected ? styles.itemSelected : null]} onPress={onPress}>
-      <AvatarImage source={image ?? require('assets/default-profile-picture.png')} size={48} />
+      <AvatarImage source={image ?? require('assets/images/defaultProfilePicture.png')} size={48} />
       <View style={styles.textContainer}>
         <Typography.Subtitle style={styles.nickname} numberOfLines={1} ellipsizeMode="tail">
           {nickname ?? '-'}

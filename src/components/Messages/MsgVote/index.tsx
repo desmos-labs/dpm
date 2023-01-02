@@ -44,7 +44,7 @@ namespace MsgVote {
 
     return (
       <BaseMessage.ListItem
-        icon={require('assets/tx-icons/vote.png')}
+        icon={require('assets/images/messages/vote.png')}
         date={date}
         renderContent={() => (
           <View>
@@ -89,7 +89,7 @@ namespace MsgVote {
     const proposalId = useMemo(() => message?.proposalId?.toString() ?? '??', [message]);
     return (
       <BaseMessage.Details
-        icon={require('assets/tx-icons/vote.png')}
+        icon={require('assets/images/messages/vote.png')}
         iconSubtitle={t('vote proposal number with vote', {
           number: proposalId,
           vote: voteValue,

@@ -43,7 +43,7 @@ const ChainConnections: React.FC<ChainConnectionsProps> = ({
       const { item } = info;
 
       const chainInfo = getLinkableChainInfoByName(item.chainName);
-      const chainIcon = chainInfo?.icon ?? require('assets/chains/cosmos.png');
+      const chainIcon = chainInfo?.icon ?? require('assets/images/chains/cosmos.png');
       const chainName = chainInfo?.name ?? item.chainName;
 
       return (

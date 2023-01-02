@@ -160,7 +160,7 @@ export const AppDrawerContent: React.FC<AppDrawerContentProps> = (props) => {
       <IconButton style={styles.settingsBtn} icon="settings" onPress={openSettings} size={24} />
       <Image
         style={styles.desmosIcon}
-        source={require('assets/desmos-vertical-orange.png')}
+        source={require('assets/images/desmosLogo-orange.png')}
         resizeMode="contain"
       />
 

@@ -55,7 +55,7 @@ const Authorization: React.FC<Props> = (props) => {
       ? {
           uri: userProfile.profilePicture,
         }
-      : require('../../assets/default-profile-picture.png');
+      : require('assets/images/defaultProfilePicture.png');
   }, [currentAccount, profiles]);
 
   let dAppSessions: DAppSession[] = useMemo(() => {

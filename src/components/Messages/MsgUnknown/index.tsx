@@ -37,7 +37,7 @@ namespace MsgUnknown {
 
   export const ListItem: React.FC<ListItemProps> = ({ message, date }) => (
     <BaseMessage.ListItem
-      icon={require('assets/tx-icons/general-1.png')}
+      icon={require('assets/images/messages/unknown.png')}
       date={date}
       renderContent={() => (
         <View>

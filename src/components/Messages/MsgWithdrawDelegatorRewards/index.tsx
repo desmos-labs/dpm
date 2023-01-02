@@ -26,7 +26,7 @@ namespace MsgWithdrawDelegatorRewards {
 
     return (
       <BaseMessage.ListItem
-        icon={require('assets/tx-icons/withdraw.png')}
+        icon={require('assets/images/messages/withdraw.png')}
         date={date}
         renderContent={() => (
           <View>
@@ -51,7 +51,7 @@ namespace MsgWithdrawDelegatorRewards {
 
     return (
       <BaseMessage.Details
-        icon={require('assets/tx-icons/withdraw.png')}
+        icon={require('assets/images/messages/withdraw.png')}
         iconSubtitle={t('withdraw rewards')}
         fields={[
           {

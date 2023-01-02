@@ -23,7 +23,7 @@ const DAppSessionView = (props: DAppSessionViewProps) => {
 
   const appIcon = useMemo(() => {
     if (session.iconUri === undefined) {
-      return require('assets/desmos-icon-orange.png');
+      return require('assets/images/desmosIcon-orange.png');
     }
     return { uri: session.iconUri };
   }, [session.iconUri]);

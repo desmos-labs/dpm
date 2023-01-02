@@ -49,9 +49,9 @@ const AuthorizeSession = (props: Props) => {
           uri: iconUri,
         };
       }
-      return require('assets/desmos-icon-orange.png');
+      return require('assets/images/desmosIcon-orange.png');
     }
-    return require('assets/desmos-icon-orange.png');
+    return require('assets/images/desmosIcon-orange.png');
   }, [sessionRequestDetails]);
 
   const onDeny = useCallback(() => {

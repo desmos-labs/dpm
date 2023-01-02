@@ -48,7 +48,7 @@ namespace MsgMultiSend {
 
     return (
       <BaseMessage.ListItem
-        icon={require('assets/tx-icons/send.png')}
+        icon={require('assets/images/messages/send.png')}
         date={date}
         renderContent={() => (
           <View>
@@ -114,7 +114,7 @@ namespace MsgMultiSend {
 
     return (
       <BaseMessage.Details
-        icon={require('assets/tx-icons/send.png')}
+        icon={require('assets/images/messages/send.png')}
         iconSubtitle={amounts}
         fields={[...outputs]}
       />

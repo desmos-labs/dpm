@@ -79,7 +79,7 @@ const Login = ({ navigation }: Props) => {
   return (
     <StyledSafeAreaView style={styles.root} noIosPadding>
       <ImageBackground
-        source={require('assets/home-background-light.png')}
+        source={require('assets/images/homeBackground-light.png')}
         resizeMode="stretch"
         style={styles.background}
       >
@@ -95,7 +95,7 @@ const Login = ({ navigation }: Props) => {
         >
           <Image
             style={styles.icon}
-            source={require('assets/desmos-vertical-white.png')}
+            source={require('assets/images/desmosLogo-white.png')}
             resizeMode="contain"
           />
         </Animated.View>

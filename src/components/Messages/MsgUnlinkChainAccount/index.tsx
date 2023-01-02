@@ -27,7 +27,7 @@ namespace MsgUnlinkChainAccount {
 
     return (
       <BaseMessage.ListItem
-        icon={require('assets/tx-icons/general.png')}
+        icon={require('assets/images/messages/general.png')}
         date={date}
         renderContent={() => (
           <View>
@@ -72,15 +72,15 @@ namespace MsgUnlinkChainAccount {
       if (chain !== undefined) {
         return chain.icon;
       }
-      return require('assets/chains/cosmos.png');
+      return require('assets/images/chains/cosmos.png');
     }, [chainName]);
 
     return (
       <BaseMessage.Details
         customIconView={
           <View style={styles.customIconView}>
-            <Image style={styles.chainIcon} source={require('assets/chains/desmos.png')} />
-            <Image style={styles.disconnectIcon} source={require('assets/disconnect.png')} />
+            <Image style={styles.chainIcon} source={require('assets/images/chains/desmos.png')} />
+            <Image style={styles.disconnectIcon} source={require('assets/images/disconnect.png')} />
             <Image style={styles.chainIcon} source={chainIcon} />
           </View>
         }

@@ -42,8 +42,8 @@ const JoinCommunity: React.FC<Props> = (props) => {
           label={t('website')}
           icon={
             theme.dark
-              ? require('assets/community-icons/desmos-dark.png')
-              : require('assets/community-icons/desmos.png')
+              ? require('assets/images/community/desmos-dark.png')
+              : require('assets/images/community/desmos.png')
           }
           onPress={() => navigateToExternalSite('https://www.desmos.network/')}
         />
@@ -51,8 +51,8 @@ const JoinCommunity: React.FC<Props> = (props) => {
           label={t('discord')}
           icon={
             theme.dark
-              ? require('assets/community-icons/discord-dark.png')
-              : require('assets/community-icons/discord.png')
+              ? require('assets/images/community/discord-dark.png')
+              : require('assets/images/community/discord.png')
           }
           onPress={() => navigateToExternalSite('https://discord.com/invite/yxPRGdq')}
         />
@@ -60,8 +60,8 @@ const JoinCommunity: React.FC<Props> = (props) => {
           label={t('twitter')}
           icon={
             theme.dark
-              ? require('assets/community-icons/twitter-dark.png')
-              : require('assets/community-icons/twitter.png')
+              ? require('assets/images/community/twitter-dark.png')
+              : require('assets/images/community/twitter.png')
           }
           onPress={navigateToTwitterApp}
         />
@@ -69,8 +69,8 @@ const JoinCommunity: React.FC<Props> = (props) => {
           label={t('medium')}
           icon={
             theme.dark
-              ? require('assets/community-icons/medium-dark.png')
-              : require('assets/community-icons/medium.png')
+              ? require('assets/images/community/medium-dark.png')
+              : require('assets/images/community/medium.png')
           }
           onPress={() => navigateToExternalSite('https://medium.com/desmosnetwork')}
         />
@@ -78,8 +78,8 @@ const JoinCommunity: React.FC<Props> = (props) => {
           label={t('block explorer')}
           icon={
             theme.dark
-              ? require('assets/community-icons/bigdipper-dark.png')
-              : require('assets/community-icons/bigdipper.png')
+              ? require('assets/images/community/bigdipper-dark.png')
+              : require('assets/images/community/bigdipper.png')
           }
           onPress={() => navigateToExternalSite('https://explorer.desmos.network/')}
         />

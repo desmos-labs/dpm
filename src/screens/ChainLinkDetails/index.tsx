@@ -40,7 +40,7 @@ export const ChainLinkDetails: React.FC<Props> = (props) => {
   const { chainIcon, chainName } = useMemo(() => {
     const chainInfo = getLinkableChainInfoByName(chainLink.chainName);
     return {
-      chainIcon: chainInfo?.icon ?? require('assets/chains/cosmos.png'),
+      chainIcon: chainInfo?.icon ?? require('assets/images/chains/cosmos.png'),
       chainName: chainInfo?.name ?? chainLink.chainName,
     };
   }, [chainLink.chainName]);

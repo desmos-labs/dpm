@@ -42,7 +42,7 @@ const ProfileHeader: React.FC<ProfileHeaderProps> = (props) => {
         ? {
             uri: coverPictureUri,
           }
-        : require('assets/default-profile-cover-light.png'),
+        : require('assets/images/defaultProfileCover.png'),
     [coverPictureUri],
   );
 
@@ -52,7 +52,7 @@ const ProfileHeader: React.FC<ProfileHeaderProps> = (props) => {
         ? {
             uri: profilePictureUri,
           }
-        : require('assets/default-profile-picture.png'),
+        : require('assets/images/defaultProfilePicture.png'),
     [profilePictureUri],
   );
 

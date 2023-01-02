@@ -92,8 +92,8 @@ const Home: React.FC<Props> = (props) => {
       <Image
         source={
           theme.dark
-            ? require('../../assets/home-background-dark.png')
-            : require('../../assets/home-background-light.png')
+            ? require('assets/images/homeBackground-dark.png')
+            : require('assets/images/homeBackground-light.png')
         }
         resizeMode="stretch"
         style={styles.background}
@@ -117,7 +117,7 @@ const Home: React.FC<Props> = (props) => {
                 ? {
                     uri: profile.profilePicture,
                   }
-                : require('../../assets/default-profile-picture.png')
+                : require('assets/images/defaultProfilePicture.png')
             }
             onPress={openProfileDetails}
           />

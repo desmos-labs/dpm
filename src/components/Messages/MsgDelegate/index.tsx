@@ -40,7 +40,7 @@ namespace MsgDelegate {
 
     return (
       <BaseMessage.ListItem
-        icon={require('assets/tx-icons/delegate.png')}
+        icon={require('assets/images/messages/delegate.png')}
         date={date}
         renderContent={() => (
           <View>
@@ -80,7 +80,7 @@ namespace MsgDelegate {
 
     return (
       <BaseMessage.Details
-        icon={require('assets/tx-icons/delegate.png')}
+        icon={require('assets/images/messages/delegate.png')}
         iconSubtitle={`${t('delegate')} ${amount}`}
         fields={[
           {
