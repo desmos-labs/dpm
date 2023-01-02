@@ -2,12 +2,6 @@
   "compilerOptions": {
     "baseUrl": "./src",
     "paths": {
-      "api": [
-        "./api"
-      ],
-      "api/*": [
-        "./api/*"
-      ],
       "assets": [
         "./assets"
       ],
@@ -43,12 +37,6 @@
       ],
       "hooks/*": [
         "./hooks/*"
-      ],
-      "i18n": [
-        "./i18n"
-      ],
-      "i18n/*": [
-        "./i18n/*"
       ],
       "lib": [
         "./lib"
@@ -92,29 +80,11 @@
       "sources/*": [
         "./sources/*"
       ],
-      "theming": [
-        "./theming"
-      ],
-      "theming/*": [
-        "./theming/*"
-      ],
       "types": [
         "./types"
       ],
       "types/*": [
         "./types/*"
-      ],
-      "utils": [
-        "./utils"
-      ],
-      "utils/*": [
-        "./utils/*"
-      ],
-      "wallet": [
-        "./wallet"
-      ],
-      "wallet/*": [
-        "./wallet/*"
       ],
       "walletconnect": [
         "./walletconnect"
