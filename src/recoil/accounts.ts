@@ -3,7 +3,7 @@ import { getMMKV, MMKVKEYS, setMMKV } from 'lib/MMKVStorage';
 import { Account } from 'types/account';
 
 /**
- * An atom that hold all the accounts stored in the application.
+ * An atom that holds all the accounts stored in the application.
  */
 const accounts = atom<Record<string, Account>>({
   key: 'accounts',

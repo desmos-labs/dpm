@@ -2,7 +2,7 @@ import { atom } from 'recoil';
 import { getMMKV, MMKVKEYS, setMMKV } from 'lib/MMKVStorage';
 
 /**
- * An atom that hold the current selected account address.
+ * An atom that holds the current selected account address.
  */
 const activeAccountAddress = atom<string | undefined>({
   key: 'activeAccountAddress',
