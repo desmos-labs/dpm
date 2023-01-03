@@ -10,12 +10,12 @@ import {
   ViewStyle,
 } from 'react-native';
 import { ActivityIndicator } from 'react-native-paper';
-import { ChainLink } from 'types/link';
 import Typography from 'components/Typography';
 import useGetLinkableChainInfoByName from 'hooks/chainlinks/useGetLinkableChainInfoByName';
 import DpmImage from 'components/DPMImage';
 import Button from 'components/Button';
 import ListItemSeparator from 'components/ListItemSeparator';
+import { ChainLink } from 'types/chains';
 import useStyles from './useStyles';
 
 export type ChainConnectionsProps = {

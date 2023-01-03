@@ -1,4 +1,3 @@
-import {DesmosTestnet} from '@desmoslabs/desmjs/build/types/chains';
 import {getMMKV, MMKVKEYS, setMMKV} from 'lib/MMKVStorage';
 import {atom} from 'recoil';
 import {AppSettings} from 'types/settings';
@@ -8,7 +7,7 @@ import {AppSettings} from 'types/settings';
  */
 export const DefaultAppSettings: AppSettings = {
   theme: 'light',
-  chainName: DesmosTestnet.chainName,
+  chainId: __DEV__ ? 'testnet' : 'mainnet',
   balanceHidden: false,
   biometrics: false,
   notifications: false,

@@ -1,4 +1,5 @@
-import { LinkableChain, LinkableChains } from 'types/chains';
+import LinkableChains from 'config/LinkableChains';
+import { LinkableChain } from 'types/chains';
 
 /**
  * Finds the details regarding a linkable chain from its chain name.

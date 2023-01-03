@@ -1,13 +1,13 @@
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useCallback } from 'react';
-import useAppContext from 'contexts/AppContext';
-import { AppSettings, AppSettingsStorageKey } from 'types/settings';
+import { AppSettings } from 'types/settings';
+import { useRecoilState } from 'recoil';
+import appSettingsState from '@recoil/settings';
 
 /**
  * Hook that provides a function to update the application settings.
  */
 export default function useSetSettings() {
-  const { settings, setSettings } = useAppContext();
+  const [settings, setSettings] = useRecoilState(appSettingsState);
 
   return useCallback(
     (newSettings: Partial<AppSettings>) => {
@@ -16,7 +16,6 @@ export default function useSetSettings() {
         ...newSettings,
       };
       setSettings(updatedSettings);
-      AsyncStorage.setItem(AppSettingsStorageKey, JSON.stringify(updatedSettings));
     },
     [settings, setSettings],
   );

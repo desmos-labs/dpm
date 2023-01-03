@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useState } from 'react';
-import useDesmosClientContext from 'contexts/DesmosClientContext';
 import useWalletConnectContext from 'contexts/WalletConnectContext';
 import { ConnectedEvent, Events } from 'types/walletConnect';
+import { DesmosChains } from '@desmoslabs/desmjs';
 
 export type ApproveStatus = {
   approving: boolean;
@@ -18,7 +18,6 @@ export default function useWalletConnectSessionApprove(): [
   (id: string, accounts: string[], chaiId: string) => void
 ] {
   const { controller } = useWalletConnectContext();
-  const { desmosChains } = useDesmosClientContext();
 
   const [status, setStatus] = useState<ApproveStatus>({
     approving: false,
@@ -47,7 +46,7 @@ export default function useWalletConnectSessionApprove(): [
 
   const approve = useCallback(
     (id: string, accounts: string[], chaiId: string) => {
-      const chainsIndex = Object.keys(desmosChains).map(key => desmosChains[key].chainName).sort().indexOf(chaiId);
+      const chainsIndex = Object.keys(DesmosChains).map(key => DesmosChains[key].chainName).sort().indexOf(chaiId);
       setStatus({
         approving: true,
       });
@@ -60,7 +59,7 @@ export default function useWalletConnectSessionApprove(): [
         controller.approveSession(id, accounts, chainsIndex);
       }
     },
-    [controller, desmosChains],
+    [controller],
   );
 
   return [status, approve];

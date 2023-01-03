@@ -1,8 +1,7 @@
 import {useCallback, useState} from 'react';
-import Wallet, {WalletGenerationData} from 'types/wallet';
+import {WalletGenerationData} from 'types/wallet';
 import {AccountData} from '@cosmjs/amino';
 import {HdPath} from '@cosmjs/crypto';
-import {generateWallet} from 'lib/WalletUtils';
 
 /**
  * Hook that allows to get the accounts connected to a Wallet based on the given generation data and master HD path.
@@ -12,26 +11,24 @@ import {generateWallet} from 'lib/WalletUtils';
 const useGetWalletAccounts = (data: WalletGenerationData, options?: {masterPath?: HdPath}) => {
   const masterPath = options?.masterPath;
   const [loading, setLoading] = useState<boolean>(false);
-  const [wallet, setWallet] = useState<Wallet>();
-  const [accounts, setAccounts] = useState<readonly AccountData[]>([]);
+  const [wallet] = useState<any>();
+  const [accounts] = useState<readonly AccountData[]>([]);
   const [error, setError] = useState<string | undefined>(undefined);
 
   const getAccounts = useCallback(async (offset: number, limit: number) => {
     setLoading(true);
 
-    let hdPaths: HdPath[] | undefined;
+    let _hdPaths: HdPath[] | undefined;
     if (masterPath) {
-      hdPaths = [Array(limit - offset).keys()].map((_, index) => {
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      _hdPaths = [Array(limit - offset).keys()].map((_, index) => {
         // Only change the account index of the original HD path
         return [masterPath[0], masterPath[1], index, masterPath[3], masterPath[4]] as HdPath;
       });
     }
 
     try {
-      const generatedWallet = await generateWallet(data, hdPaths);
-      setWallet(generatedWallet);
-      const generatedAccounts = await generatedWallet.signer.getAccounts();
-      setAccounts(generatedAccounts);
+
     } catch (e) {
       setError(e.toString());
     } finally {

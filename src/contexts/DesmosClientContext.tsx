@@ -1,22 +1,17 @@
 import { ChainInfo, DesmosChains, DesmosClient, Signer } from '@desmoslabs/desmjs';
 import React, { createContext, useCallback, useContext, useMemo, useState } from 'react';
+import { useRecoilState } from 'recoil';
+import appSettingsState from '@recoil/settings';
+import { ChainId } from 'types/settings';
 
 /**
  * Interface that represents the global desmos client state.
  */
 interface DesmosClientState {
   /**
-   * Record of all the chains informations that can be accessed from the application.
-   */
-  desmosChains: Record<string, ChainInfo>;
-  /**
-   * Id of the current chain is use.
-   */
-  currentChainId: string;
-  /**
    * Set the current chain ID.
    */
-  setCurrentChainId: (chainId: string) => void;
+  setCurrentChainId: (chainId: ChainId) => void;
   /**
    * Current chain informations.
    */
@@ -47,34 +42,15 @@ interface DesmosClientState {
 const initialState: {} = {};
 const DesmosClientContext = createContext<DesmosClientState>(initialState as DesmosClientState);
 
-export type Props = {
-  /**
-   * Id of the chain to use.
-   */
-  chainId: string;
-  /**
-   * User defined chains configurations.
-   */
-  extraChains?: Record<string, ChainInfo>;
-};
-
-export const DesmosClientProvider: React.FC<Props> = (props) => {
-  const { chainId, extraChains, children } = props;
-  // Record of all the chains exposed from the sdk.
-  const desmosChains = useMemo(
-    () => ({
-      ...DesmosChains,
-      ...extraChains,
-    }),
-    [extraChains],
-  );
+export const DesmosClientProvider: React.FC = (props) => {
+  const [appSettings, setAppSettings] = useRecoilState(appSettingsState);
+  const { children } = props;
 
   const [desmosClient, setDesmosClient] = useState<DesmosClient | undefined>();
   // Gets the current chain from the current selected chain id
-  const [currentChainId, setCurrentChainId] = useState(chainId);
-  const currentChain = desmosChains[currentChainId];
+  const currentChain = useMemo(() => DesmosChains[appSettings.chainId], [appSettings.chainId]);
   if (currentChain === undefined) {
-    throw new Error(`Can't find chain with id ${currentChainId}`);
+    throw new Error(`Can't find chain with id ${appSettings.chainId}`);
   }
 
   const [signer, setSigner] = useState<Signer | undefined>();
@@ -108,14 +84,17 @@ export const DesmosClientProvider: React.FC<Props> = (props) => {
   );
 
   const setNewChainId = useCallback(
-    async (newChainId: string) => {
-      const chainInfo = desmosChains[newChainId];
+    async (newChainId: ChainId) => {
+      const chainInfo = DesmosChains[newChainId];
       if (chainInfo !== undefined) {
         const newClient = await DesmosClient.connect(chainInfo.rpcUrl);
         if (signer !== undefined) {
           newClient.setSigner(signer);
         }
-        setCurrentChainId(newChainId);
+        setAppSettings(current => ({
+          ...current,
+          chainId: newChainId,
+        }));
         setDesmosClient((old) => {
           if (old) {
             old.disconnect();
@@ -124,13 +103,11 @@ export const DesmosClientProvider: React.FC<Props> = (props) => {
         });
       }
     },
-    [desmosChains, signer],
+    [signer],
   );
 
   const providerValue = useMemo(
     () => ({
-      desmosChains,
-      currentChainId,
       currentChain,
       setCurrentChainId: setNewChainId,
       signer,
@@ -140,8 +117,6 @@ export const DesmosClientProvider: React.FC<Props> = (props) => {
       setSigner: setNewSigner,
     }),
     [
-      desmosChains,
-      currentChainId,
       currentChain,
       setNewChainId,
       signer,

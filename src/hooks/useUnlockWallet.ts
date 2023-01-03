@@ -4,14 +4,12 @@ import BluetoothTransport from '@ledgerhq/react-native-hw-transport-ble';
 import { CompositeNavigationProp, useNavigation } from '@react-navigation/native';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { useCallback } from 'react';
-import { ChainAccount, ChainAccountType } from 'types/chains';
-import { DesmosLedgerApp } from 'types/ledger';
 import {
   AccountScreensStackParams,
   AuthorizeOperationResolveParams,
   RootStackParams,
 } from 'types/navigation';
-import toCosmJSHdPath from 'utilils/hdpath';
+import { DesmosLedgerApp } from 'config/LedgerApps';
 
 type NavigationProps = CompositeNavigationProp<
   StackNavigationProp<AccountScreensStackParams>,
@@ -22,13 +20,13 @@ type NavigationProps = CompositeNavigationProp<
  * Hooks that provides a function to unlock and access the user wallet.
  */
 export default function useUnlockWallet(): (
-  account: ChainAccount
+  account: any
 ) => Promise<OfflineSigner | null> {
   const navigation = useNavigation<NavigationProps>();
 
   return useCallback(
-    async (account: ChainAccount) => {
-      if (account.type === ChainAccountType.Local) {
+    async (account: any) => {
+      if (account.type === 0) {
         return new Promise((resolve, reject) => {
           navigation.navigate({
             name: 'AuthorizeOperation',
@@ -54,7 +52,7 @@ export default function useUnlockWallet(): (
                 new LedgerSigner(transport!, {
                   minLedgerAppVersion: DesmosLedgerApp!.minVersion,
                   ledgerAppName: DesmosLedgerApp!.name,
-                  hdPaths: [toCosmJSHdPath(account.hdPath)],
+                  hdPaths: account.hdPath,
                   prefix: 'desmos',
                 }),
               );

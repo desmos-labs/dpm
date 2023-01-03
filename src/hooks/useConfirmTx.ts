@@ -1,4 +1,3 @@
-import {computeTxFees, messagesGas} from 'types/fees';
 import {NavigationAction, useNavigation} from '@react-navigation/native';
 import {ChainInfo} from '@desmoslabs/desmjs';
 import {useCallback} from 'react';
@@ -15,8 +14,8 @@ const useConfirmTx = (
 
   return useCallback((msg: any, successAction: () => void) => {
     const messages = [msg];
-    const gas = messagesGas(messages);
-    const fee = computeTxFees(gas, chainInfo.stakeCurrency.coinDenom).average;
+    const gas = '0';
+    const fee = { amount: [], gas };
     navigation.navigate({
       name: 'ConfirmTx',
       params: {

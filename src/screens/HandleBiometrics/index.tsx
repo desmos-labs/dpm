@@ -2,17 +2,15 @@ import { StackScreenProps } from '@react-navigation/stack';
 import React, { useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Keyboard, KeyboardAvoidingView, Platform } from 'react-native';
-import * as Keychain from 'react-native-keychain';
 import SecureTextInput from 'components/SecureTextInput';
-import useSetSettings from 'hooks/settings/useSetSettings';
-import useSettings from 'hooks/settings/useSettings';
 import Typography from 'components/Typography';
 import { SettingsScreensStackParams } from 'types/navigation';
-import * as SecureStorage from 'lib/SecureStorage';
 import StyledSafeAreaView from 'components/StyledSafeAreaView';
 import TopBar from 'components/TopBar';
 import Flexible from 'components/Flexible';
 import Button from 'components/Button';
+import { useRecoilState } from 'recoil';
+import appSettingsState from '@recoil/settings';
 import useStyles from './useStyles';
 
 type Props = StackScreenProps<SettingsScreensStackParams, 'HandleBiometrics'>;
@@ -27,45 +25,18 @@ const HandleBiometrics: React.FC<Props> = (props) => {
   const [loading, setLoading] = React.useState<boolean>(false);
   const { t } = useTranslation();
   const styles = useStyles();
-  const setSettings = useSetSettings();
-  const settings = useSettings();
+  const [setSettings] = useRecoilState(appSettingsState);
 
   const btnAction = useCallback(
-    async (inputPassword: string) => {
+    async (_inputPassword: string) => {
       setLoading(true);
       Keyboard.dismiss();
-      try {
-        const isSupported = await Keychain.getSupportedBiometryType();
-        if (!isSupported) {
-          setLoading(false);
-          return;
-        }
-        if (inputPassword) {
-          const stringToCheck = await SecureStorage.getItem('dpm_global_password', {
-            password: inputPassword,
-          });
-          if (stringToCheck === 'dpm_global_password') {
-            await SecureStorage.setItem(biometricsType, inputPassword, { biometrics: true });
-            if (biometricsType === 'biometricsLogin') {
-              setSettings({ biometricLogin: !settings.biometricLogin });
-            } else {
-              setSettings({ biometricSignature: !settings.biometricSignature });
-            }
-            setLoading(false);
-            navigation.goBack();
-          }
-        }
-      } catch (e) {
-        setLoading(false);
-        setError(t('invalid password'));
-      }
+      setLoading(false);
     },
     [
       biometricsType,
       navigation,
       setSettings,
-      settings.biometricLogin,
-      settings.biometricSignature,
       t,
     ],
   );

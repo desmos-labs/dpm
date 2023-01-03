@@ -12,11 +12,10 @@ import { StackNavigationState } from '@react-navigation/routers/lib/typescript/s
 import { createStackNavigator } from '@react-navigation/stack';
 import { StackNavigationProp } from '@react-navigation/stack/lib/typescript/src/types';
 import React, { MutableRefObject } from 'react';
-import LocalWallet from '../wallet/LocalWallet';
-import { ChainAccount, LinkableChain } from './chains';
+import { Account } from 'types/account';
+import { ChainLink, LinkableChain } from './chains';
 import { DesmosProfile } from './desmosTypes';
 import { BLELedger, LedgerApp } from './ledger';
-import { ChainLink } from './link';
 import { Wallet } from './wallet';
 import { SessionRequestDetails } from './walletConnect';
 
@@ -68,7 +67,7 @@ export type AccountScreensStackParams = {
   HomeScreens: NavigatorScreenParams<HomeScreensBottomTabsParams>;
   Profile: undefined;
   EditProfile: {
-    account?: ChainAccount;
+    account?: Account;
     profile?: DesmosProfile | null;
     bio?: string | null;
     goBackTo?: string;
@@ -78,7 +77,7 @@ export type AccountScreensStackParams = {
     bio?: string;
   };
   ConfirmProfileEdit: {
-    account: ChainAccount;
+    account: Account;
     /**
      * The profile before modifications.
      */
@@ -150,7 +149,7 @@ export type AccountScreensStackParams = {
     chainLink: ChainLink;
   };
   BroadcastTx: {
-    signer: ChainAccount;
+    signer: Account;
     msgs: EncodeObject[];
     onSuccess: (value?: void | PromiseLike<void> | undefined) => void;
     onCancel: (reasons?: any) => void;
@@ -168,7 +167,7 @@ export type SettingsScreensStackParams = {
     biometricsType: 'biometricsLogin' | 'biometricsSignature';
   };
   CreateNewPassword: {
-    wallet?: LocalWallet;
+    wallet?: any;
   };
 };
 
@@ -176,7 +175,7 @@ export const SettingsScreensStack = createStackNavigator<SettingsScreensStackPar
 
 export type AuthorizeOperationResolveParams = {
   authorized: boolean;
-  wallet: LocalWallet | null;
+  wallet: any | null;
 };
 
 export const AccountScreensStack = createStackNavigator<AccountScreensStackParams>();
@@ -189,7 +188,7 @@ export type ChainLinkScreensStackParams = {
     backAction?: ((state: StackNavigationState<any>) => NavigationAction) | NavigationAction;
   };
   SelectChain: {
-    importMode: ImportMode;
+    importMode: any;
     feeGranter?: string;
     backAction?: ((state: StackNavigationState<any>) => NavigationAction) | NavigationAction;
   };
@@ -199,20 +198,20 @@ export type ChainLinkScreensStackParams = {
     backAction?: ((state: StackNavigationState<any>) => NavigationAction) | NavigationAction;
   };
   LinkWithMnemonic: {
-    importMode: ImportMode;
+    importMode: any;
     chain: LinkableChain;
     feeGranter?: string;
     backAction?: ((state: StackNavigationState<any>) => NavigationAction) | NavigationAction;
   };
   ConfirmAddress: {
-    importMode: ImportMode;
+    importMode: any;
     chain: LinkableChain;
     mnemonic?: string;
     feeGranter?: string;
     backAction?: ((state: StackNavigationState<any>) => NavigationAction) | NavigationAction;
   };
   PickAddress: {
-    importMode: ImportMode;
+    importMode: any;
     chain: LinkableChain;
     ledgerTransport?: BluetoothTransport;
     ledgerApp?: LedgerApp;

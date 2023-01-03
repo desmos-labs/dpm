@@ -1,7 +1,6 @@
 import { CompositeNavigationProp, useNavigation } from '@react-navigation/native';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { useCallback } from 'react';
-import { ChainAccount } from 'types/chains';
 import {
   AccountScreensStackParams,
   AuthorizeOperationResolveParams,
@@ -17,11 +16,11 @@ type NavigationProps = CompositeNavigationProp<
  * Hooks that provides a function that request the user to
  * input the password that has been used to secure the account.
  */
-export default function useAuthorizeOperation(): (account: ChainAccount) => Promise<boolean> {
+export default function useAuthorizeOperation(): (account: any) => Promise<boolean> {
   const navigation = useNavigation<NavigationProps>();
 
   return useCallback(
-    async (account: ChainAccount) =>
+    async (account: any) =>
       new Promise((resolve, reject) => {
         navigation.navigate({
           name: 'AuthorizeOperation',

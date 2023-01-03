@@ -7,7 +7,7 @@ import { Snackbar, useTheme } from 'react-native-paper';
 import useGetChainLinks from 'hooks/chainlinks/useGetChainLinks';
 import useFetchProfile from 'hooks/useFetchProfile';
 import useSelectedAccount from 'hooks/useSelectedAccount';
-import { ChainLink } from 'types/link';
+import { ChainLink } from 'types/chains';
 import { AccountScreensStackParams } from 'types/navigation';
 import Typography from 'components/Typography';
 import IconButton from 'components/IconButton';

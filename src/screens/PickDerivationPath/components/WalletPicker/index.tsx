@@ -1,23 +1,17 @@
-import { toBase64 } from '@cosmjs/encoding';
-import { LedgerSigner } from '@cosmjs/ledger-amino';
-import { LedgerApp as CosmosLedgerApp } from '@cosmjs/ledger-amino/build/ledgerapp';
 import BluetoothTransport from '@ledgerhq/react-native-hw-transport-ble';
 import { debounce } from 'lodash';
 import React, { useCallback, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { ListRenderItemInfo, StyleProp, TouchableOpacity, View, ViewStyle } from 'react-native';
-import { HdPath } from 'types/cosmos';
 import { LedgerApp } from 'types/ledger';
-import { Wallet, WalletType } from 'types/wallet';
-import LocalWallet from 'wallet/LocalWallet';
+import { Wallet } from 'types/wallet';
 import Typography from 'components/Typography';
-import toCosmjsHdPath from 'utilils/hdpath';
-import TerraLedgerApp from 'utilils/terra';
 import AddressListItem from 'components/AddressListItem';
 import HdPathPicker from 'components/HdPathPicker';
 import Divider from 'components/Divider';
 import PaginatedFlatList from 'components/PaginatedFlatList';
 import ListItemSeparator from 'components/ListItemSeparator';
+import { HdPath } from '@cosmjs/crypto';
 import useStyles from './useStyles';
 
 export type WalletPickerProps = {
@@ -76,7 +70,7 @@ const WalletPicker: React.FC<WalletPickerProps> = ({
   const [selectedHdPath, setSelectedHdPath] = useState<HdPath>(defaultHdPath);
   const [selectedWallet, setSelectedWallet] = useState<Wallet | null>(null);
   const [addressPickerVisible, setAddressPickerVisible] = useState(false);
-  const [generatingAddresses, setGeneratingAddresses] = useState(false);
+  const [generatingAddresses] = useState(false);
   const [, setGenerationError] = useState<string | null>(null);
 
   useEffect(() => {
@@ -136,10 +130,10 @@ const WalletPicker: React.FC<WalletPickerProps> = ({
 
   const renderListItem = useCallback(
     (info: ListRenderItemInfo<Wallet>) => {
-      const { hdPath, address } = info.item;
+      const { address } = info.item;
       return (
         <AddressListItem
-          number={hdPath.account}
+          number={1}
           address={address}
           highlight={selectedWallet?.address === address}
           onPress={() => {
@@ -172,40 +166,10 @@ const WalletPicker: React.FC<WalletPickerProps> = ({
   );
 
   const fetchWallets = useCallback(
-    async (offset: number, limit: number) => {
-      setGeneratingAddresses(true);
-      const hdPaths: HdPath[] = [];
-      for (let walletIndex = offset; walletIndex < limit; walletIndex += 1) {
-        const hdPath: HdPath = {
-          coinType: selectedHdPath.coinType,
-          account: walletIndex,
-          change: 0,
-          addressIndex: 0,
-        };
-        hdPaths.push(hdPath);
-      }
-      let wallets: Wallet[];
-      if (mnemonic !== undefined) {
-        wallets = await generateWalletsFromMnemonic(mnemonic!, addressPrefix, hdPaths);
-      } else {
-        wallets = await generateWalletsFromLedger(
-          ledgerTransport!,
-          ledgerApp!,
-          addressPrefix,
-          hdPaths,
-        );
-      }
-      setGeneratingAddresses(false);
-      return wallets;
+    async (_offset: number, _limit: number) => {
+      return [];
     },
-    [
-      addressPrefix,
-      ledgerApp,
-      ledgerTransport,
-      mnemonic,
-      selectedHdPath.coinType,
-      setGeneratingAddresses,
-    ],
+    [],
   );
 
   return (
@@ -262,59 +226,20 @@ const WalletPicker: React.FC<WalletPickerProps> = ({
 };
 
 async function generateWalletsFromMnemonic(
-  mnemonic: string,
-  prefix: string,
-  hdPaths: HdPath[],
+  _mnemonic: string,
+  _prefix: string,
+  _hdPaths: HdPath[],
 ): Promise<Wallet[]> {
-  return Promise.all(
-    hdPaths.map(async (hdPath) => {
-      const signer = await LocalWallet.fromMnemonic(mnemonic, {
-        hdPath,
-        prefix,
-      });
-      return {
-        type: WalletType.Mnemonic,
-        address: signer.bech32Address,
-        localWallet: signer,
-        signer,
-        hdPath,
-        pubKey: toBase64(signer.publicKey),
-        signAlgorithm: 'secp256k1',
-      } as Wallet;
-    }),
-  );
+  return Promise.resolve([]);
 }
 
 async function generateWalletsFromLedger(
-  transport: BluetoothTransport,
-  ledgerApp: LedgerApp,
-  prefix: string,
-  hdPaths: HdPath[],
+  _transport: BluetoothTransport,
+  _ledgerApp: LedgerApp,
+  _prefix: string,
+  _hdPaths: HdPath[],
 ): Promise<Wallet[]> {
-  const cosmJsPaths = hdPaths.map(toCosmjsHdPath);
-
-  let cosmosLedgerApp: CosmosLedgerApp | undefined;
-  if (ledgerApp.name === 'Terra') {
-    cosmosLedgerApp = new TerraLedgerApp(transport!);
-  }
-
-  const ledgerSigner = new LedgerSigner(transport, {
-    ledgerAppName: ledgerApp.name,
-    minLedgerAppVersion: ledgerApp.minVersion,
-    hdPaths: cosmJsPaths,
-    prefix,
-    ledgerApp: cosmosLedgerApp,
-  });
-
-  const accounts = await ledgerSigner.getAccounts();
-  return accounts.map((account, index) => ({
-    type: WalletType.Ledger,
-    signer: ledgerSigner,
-    hdPath: hdPaths[index],
-    address: account.address,
-    signAlgorithm: account.algo,
-    pubKey: toBase64(account.pubkey),
-  }));
+  return Promise.resolve([]);
 }
 
 export default WalletPicker;

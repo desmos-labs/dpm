@@ -2,7 +2,6 @@ import { EncodeObject } from '@cosmjs/proto-signing';
 import { useNavigation } from '@react-navigation/native';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { useCallback } from 'react';
-import { ChainAccount } from 'types/chains';
 import { AccountScreensStackParams } from 'types/navigation';
 
 /**
@@ -10,13 +9,13 @@ import { AccountScreensStackParams } from 'types/navigation';
  * The returned function shows to the user the transaction that will be broadcasted.
  */
 function useBroadcastTx(): (
-  signer: ChainAccount,
+  signer: any,
   msgs: EncodeObject[]
 ) => Promise<void> {
   const navigation = useNavigation<StackNavigationProp<AccountScreensStackParams>>();
 
   return useCallback(
-    async (signer: ChainAccount, msgs: EncodeObject[]) =>
+    async (signer: any, msgs: EncodeObject[]) =>
       new Promise((resolve, reject) => {
         navigation.navigate({
           name: 'BroadcastTx',

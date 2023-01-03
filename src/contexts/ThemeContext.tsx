@@ -2,10 +2,11 @@ import React, { useCallback, useEffect, useState } from 'react';
 import { Appearance, NativeEventSubscription } from 'react-native';
 import { Provider as PaperProvider } from 'react-native-paper';
 import { Settings } from 'react-native-paper/lib/typescript/core/settings';
-import { DarkTheme, LightTheme } from 'config/theme';
 import useSetting from 'hooks/settings/useSetting';
 import useDebouncingColorScheme from 'hooks/useDebouncingColorScheme';
 import DesmosIcon from 'components/DesmosIcon';
+import LightTheme from 'config/theme/LightTheme';
+import DarkTheme from 'config/theme/DarkTheme';
 
 const PaperProviderSettings: Settings = {
   icon: (props) => <DesmosIcon {...props} />,

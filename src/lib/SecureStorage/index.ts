@@ -6,6 +6,7 @@ import { serializeWallet } from 'lib/WalletUtils/serialize';
 import { deserializeWallet } from 'lib/WalletUtils/deserialize';
 
 export enum SECURE_STORAGE_KEYS {
+  WALLET_PASSWORD = 'WALLET_PASSWORD',
   WALLET_SUFFIX = '_WALLET',
 }
 

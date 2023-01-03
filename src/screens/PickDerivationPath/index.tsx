@@ -3,13 +3,13 @@ import React, { useCallback, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import Typography from 'components/Typography';
 import useAppContext from 'contexts/AppContext';
-import { DesmosHdPath } from 'types/cosmos';
-import { DesmosLedgerApp } from 'types/ledger';
 import { AccountCreationStackParams } from 'types/navigation';
 import { Wallet } from 'types/wallet';
 import StyledSafeAreaView from 'components/StyledSafeAreaView';
 import TopBar from 'components/TopBar';
 import Button from 'components/Button';
+import { DesmosLedgerApp } from 'config/LedgerApps';
+import { DesmosHdPath } from 'types/chainsHdPaths';
 import useStyles from './useStyles';
 import WalletPicker from './components/WalletPicker';
 

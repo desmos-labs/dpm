@@ -1,6 +1,7 @@
 import { useMemo } from 'react';
 import { AppSettings } from 'types/settings';
-import useSettings from './useSettings';
+import { useRecoilValue } from 'recoil';
+import appSettingsState from '@recoil/settings';
 
 /**
  * Hook that provides a stateful variable that represents
@@ -8,7 +9,7 @@ import useSettings from './useSettings';
  * @param setting - The setting of interest.
  */
 export default function useSetting<K extends keyof AppSettings>(setting: K): AppSettings[K] {
-  const settings = useSettings();
+  const settings = useRecoilValue(appSettingsState);
 
   return useMemo(() => settings[setting], [setting, settings]);
 }

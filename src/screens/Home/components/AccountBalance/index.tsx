@@ -4,6 +4,8 @@ import { StyleProp, TouchableOpacity, View, ViewStyle } from 'react-native';
 import IconButton from 'components/IconButton';
 import useAppContext from 'contexts/AppContext';
 import Typography from 'components/Typography';
+import { useRecoilValue } from 'recoil';
+import appSettingsState from '@recoil/settings';
 import useStyles from './useStyles';
 
 export type AccountBalanceProps = {
@@ -34,7 +36,8 @@ const AccountBalance: React.FC<AccountBalanceProps> = (props) => {
   const { address, nickname, onCopyPress, onSendPressed, onHidePressed, style } = props;
   const { t } = useTranslation();
   const styles = useStyles();
-  const { selectedAccountBalance, settings } = useAppContext();
+  const { selectedAccountBalance } = useAppContext();
+  const settings = useRecoilValue(appSettingsState);
 
   const hideAmount = (balance: string): string => {
     let toReturn = '';

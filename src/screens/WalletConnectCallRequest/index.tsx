@@ -6,7 +6,6 @@ import { View } from 'react-native';
 import {createDesmosTypes} from '@desmoslabs/desmjs';
 import {AminoTypes} from '@cosmjs/stargate';
 import {EncodeObject} from '@cosmjs/proto-signing';
-import LoadingModal from 'modals/LoadingModal';
 import SingleButtonModal from 'modals/SingleButtonModal';
 import TransactionDetails from 'components/TransactionDetails';
 import useWalletConnectContext from 'contexts/WalletConnectContext';
@@ -16,10 +15,7 @@ import useUnlockWallet from 'hooks/useUnlockWallet';
 import useWalletCallRequests from 'hooks/useWalletCallRequests';
 import useWalletConnectRejectRequest from 'hooks/useWalletConnectRejectRequest';
 import AccountSource from 'sources/AccountSource';
-import { ChainAccountType } from 'types/chains';
-import { CosmosMethod } from 'types/jsonRpCosmosc';
 import { AccountScreensStackParams } from 'types/navigation';
-import { CosmosTx } from 'types/transaction';
 import { CallRequestType, ParsedCallRequest } from 'types/walletConnect';
 import StyledSafeAreaView from 'components/StyledSafeAreaView';
 import TopBar from 'components/TopBar';
@@ -99,10 +95,6 @@ const WalletConnectCallRequest: React.FC<Props> = (props) => {
       request !== null &&
       (request.type === CallRequestType.SignAmino || request.type === CallRequestType.SignDirect)
     ) {
-      const signMethod =
-        request.type === CallRequestType.SignAmino
-          ? CosmosMethod.SignAmino
-          : CosmosMethod.SignDirect;
       const account = await AccountSource.getAccount(request?.signerAddress);
       let closeModal: undefined | (() => void);
 
@@ -111,19 +103,6 @@ const WalletConnectCallRequest: React.FC<Props> = (props) => {
           const wallet = await unlockWallet(account);
           if (wallet !== null) {
             setSigning(true);
-            if (account.type === ChainAccountType.Ledger) {
-              closeModal = showModal(LoadingModal, {
-                text: t('waiting ledger confirmation'),
-              });
-            }
-            const signature = await signTx(wallet, {
-              method: signMethod,
-              tx: request?.signDoc,
-            } as CosmosTx);
-            if (closeModal !== undefined) {
-              closeModal();
-            }
-            controller.approveSignRequest(request?.sessionId, request?.requestId, signature);
             removeCallRequest(request?.requestId);
           }
         } catch (e) {

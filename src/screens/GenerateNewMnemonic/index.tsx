@@ -4,7 +4,7 @@ import { Trans, useTranslation } from 'react-i18next';
 import { View } from 'react-native';
 import { ActivityIndicator } from 'react-native-paper';
 import { AccountCreationStackParams } from 'types/navigation';
-import { randomMnemonic } from 'wallet/LocalWallet';
+import { randomMnemonic } from 'lib/WalletUtils/mnemonic';
 import Typography from 'components/Typography';
 import MnemonicGrid from 'components/MnemonicGrid';
 import Button from 'components/Button';

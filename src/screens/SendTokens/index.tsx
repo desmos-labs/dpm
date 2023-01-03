@@ -5,7 +5,6 @@ import { useTranslation } from 'react-i18next';
 import useCurrentChainInfo from 'hooks/desmosclient/useCurrentChainInfo';
 import Typography from 'components/Typography';
 import useAppContext from 'contexts/AppContext';
-import { computeTxFees, messagesGas } from 'types/fees';
 import { AccountScreensStackParams } from 'types/navigation';
 import validateDesmosAddress from 'lib/ValidationUtils';
 import useSelectedAccount from 'hooks/useSelectedAccount';
@@ -80,8 +79,8 @@ const SendTokens: React.FC<Props> = (props) => {
         amount: [{ amount: amountNumber.toString(), denom: chainInfo.stakeCurrency.coinDenom }],
       },
     };
-    const gas = messagesGas([msgSend]);
-    const txFee = computeTxFees(gas, chainInfo.stakeCurrency.coinDenom).average;
+    const gas = '0';
+    const txFee = { amount: [{amount: '0', denom: '' }], gas };
 
     navigation.navigate({
       name: 'ConfirmTx',

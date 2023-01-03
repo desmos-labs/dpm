@@ -5,7 +5,7 @@ import React, { useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
 import { FlatList, ListRenderItemInfo } from 'react-native';
 import { LedgerApp } from 'types/ledger';
-import { ChainLinkScreensStackParams, ImportMode, RootStackParams } from 'types/navigation';
+import { ChainLinkScreensStackParams, RootStackParams } from 'types/navigation';
 import Typography from 'components/Typography';
 import BlockchainListItem from 'components/BlockchainListItem';
 import StyledSafeAreaView from 'components/StyledSafeAreaView';
@@ -35,7 +35,7 @@ const SelectLedgerApp: React.FC<Props> = ({ navigation, route }) => {
                 navigation.navigate({
                   name: 'PickAddress',
                   params: {
-                    importMode: ImportMode.Ledger,
+                    importMode: 'Ledger',
                     chain,
                     backAction,
                     ledgerTransport: transport,

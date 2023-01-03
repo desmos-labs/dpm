@@ -1,16 +1,15 @@
 import { useCallback } from 'react';
-import { ChainAccount } from 'types/chains';
 import useAppContext from '../contexts/AppContext';
 import AccountSource from '../sources/AccountSource';
 
 /**
  * Hook that provides a function to change the current selected account.
  */
-export default function useChangeAccount(): (account: ChainAccount) => void {
+export default function useChangeAccount(): (account: any) => void {
   const { setSelectedAccount } = useAppContext();
 
   return useCallback(
-    (account: ChainAccount) => {
+    (account: any) => {
       setSelectedAccount(account);
       AccountSource.setSelectedAccount(account.address).then(() => {});
     },

@@ -3,8 +3,6 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import WalletConnect from '@walletconnect/client';
 import { ISessionParams, IWalletConnectSession } from '@walletconnect/types';
 import { AuthInfo, TxBody } from 'cosmjs-types/cosmos/tx/v1beta1/tx';
-import { CosmosMethod } from 'types/jsonRpCosmosc';
-import { SignedCosmosTx } from 'types/transaction';
 import {
   CallRequestEvent,
   ConnectedEvent,
@@ -16,6 +14,7 @@ import {
   SessionRequestEvent,
   SessionUpdateEvent,
 } from 'types/walletConnect';
+import { SignedCosmosTx, TxType } from 'types/cosmos';
 
 /**
  * Type that represents the payload returned from the
@@ -508,7 +507,7 @@ export default class WalletConnectController {
    * @param signedTx - The signed transaction that will be returned to the DApp.
    */
   approveSignRequest(sessionId: string, requestId: number, signedTx: SignedCosmosTx) {
-    if (signedTx.method === CosmosMethod.SignDirect) {
+    if (signedTx.method === TxType.SignDirect) {
       const serializedTx = {
         bodyBytes: toHex(TxBody.encode(signedTx.tx.body).finish()),
         authInfoBytes: toHex(AuthInfo.encode(signedTx.tx.authInfo).finish()),
@@ -518,7 +517,7 @@ export default class WalletConnectController {
       };
 
       this.approveRequest(sessionId, requestId, serializedTx);
-    } else if (signedTx.method === CosmosMethod.SignAmino) {
+    } else if (signedTx.method === TxType.SignAmino) {
       const serializedTx = {
         signature: signedTx.signature,
         pub_key: signedTx.pubKey,

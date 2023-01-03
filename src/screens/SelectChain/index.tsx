@@ -2,21 +2,21 @@ import { StackScreenProps } from '@react-navigation/stack';
 import React, { useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
 import { FlatList, ListRenderItemInfo } from 'react-native';
-import { LinkableChain, LinkableChains } from 'types/chains';
-import { CosmosLedgerApp, CryptoOrgLedgerApp, LedgerApp, TerraLedgerApp } from 'types/ledger';
-import { ChainLinkScreensStackParams, ImportMode } from 'types/navigation';
+import { LinkableChain } from 'types/chains';
+import { ChainLinkScreensStackParams } from 'types/navigation';
 import BlockchainListItem from 'components/BlockchainListItem';
 import StyledSafeAreaView from 'components/StyledSafeAreaView';
 import TopBar from 'components/TopBar';
 import ListItemSeparator from 'components/ListItemSeparator';
+import { LedgerApp } from 'types/ledger';
+import { CosmosLedgerApp, CryptoOrgLedgerApp } from 'config/LedgerApps';
+import LinkableChains from 'config/LinkableChains';
 import useStyles from './useStyles';
 
 export type Props = StackScreenProps<ChainLinkScreensStackParams, 'SelectChain'>;
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 function getLedgerApplicationForChain(chain: LinkableChain): LedgerApp[] {
-  if (chain.chainConfig.name === 'terra') {
-    return [TerraLedgerApp, CosmosLedgerApp];
-  }
   if (chain.chainConfig.name === 'crypto.org') {
     return [CryptoOrgLedgerApp, CosmosLedgerApp];
   }
@@ -28,31 +28,8 @@ const SelectChain: React.FC<Props> = ({ navigation, route }) => {
   const { t } = useTranslation();
   const styles = useStyles();
 
-  const linkChain = useCallback(
-    (chain: LinkableChain) => {
-      if (importMode === ImportMode.Mnemonic) {
-        navigation.navigate({
-          name: 'LinkWithMnemonic',
-          params: {
-            importMode,
-            chain,
-            feeGranter,
-            backAction,
-          },
-        });
-      } else {
-        navigation.navigate({
-          name: 'SelectLedgerApp',
-          params: {
-            chain,
-            ledgerApplications: getLedgerApplicationForChain(chain),
-            backAction,
-          },
-        });
-      }
-    },
-    [navigation, importMode, feeGranter, backAction],
-  );
+  const linkChain = useCallback((_chain: LinkableChain) => {
+  }, [navigation, importMode, feeGranter, backAction]);
 
   const renderListItem = useCallback(
     ({ item }: ListRenderItemInfo<LinkableChain>) => (

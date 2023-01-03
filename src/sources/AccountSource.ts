@@ -1,7 +1,6 @@
-import { ChainAccount } from 'types/chains';
 import * as SecureStorage from 'lib/SecureStorage';
 
-declare type SourceCache = Map<string, ChainAccount>;
+declare type SourceCache = Map<string, any>;
 
 /**
  * Data source class to access the user's accounts stored into the device storage.
@@ -24,7 +23,7 @@ class AccountSource {
   async useCache<T>(reader: (cache: SourceCache) => Promise<T>): Promise<T> {
     if (this._cache === null) {
       try {
-        const content = await SecureStorage.getItem(this.ACCOUNTS_KEY);
+        const content = await SecureStorage.getItem<string>(this.ACCOUNTS_KEY);
         if (content !== null) {
           const jsonCache = JSON.parse(content);
           this._cache = new Map(jsonCache);
@@ -42,7 +41,7 @@ class AccountSource {
   /**
    * Gets all the user's accounts.
    */
-  public async getAllAccounts(): Promise<ChainAccount[]> {
+  public async getAllAccounts(): Promise<any[]> {
     return this.useCache(async (cache) => Array.from(cache.values()));
   }
 
@@ -63,7 +62,7 @@ class AccountSource {
    * the previous account will be overwritten.
    * @param account - Account that will be inserted.
    */
-  public async putAccount(account: ChainAccount): Promise<void> {
+  public async putAccount(account: any): Promise<void> {
     const cache = await this.useCache(async (sourceCache) => {
       sourceCache.set(account.address, account);
       return sourceCache;
@@ -76,7 +75,7 @@ class AccountSource {
    * Gets an account by it's bech32 address.
    * @param address - The bech32 address of the account of interest.
    */
-  public async getAccount(address: string): Promise<ChainAccount | null> {
+  public async getAccount(address: string): Promise<any | null> {
     return this.useCache(async (cache) => {
       const account = cache.get(address);
       return account !== undefined ? account : null;
@@ -98,7 +97,7 @@ class AccountSource {
    * Removes an account from the device storage.
    * @param account - The account that will be removed.
    */
-  public async removeAccount(account: ChainAccount): Promise<void> {
+  public async removeAccount(account: any): Promise<void> {
     const cache = await this.useCache(async (sourceCache) => {
       sourceCache.delete(account.address);
       return sourceCache;
@@ -112,7 +111,7 @@ class AccountSource {
   public async reset(): Promise<void> {
     await SecureStorage.deleteItem(this.ACCOUNTS_KEY);
     await SecureStorage.deleteItem(this.SELECTED_ACCOUNT_KEY);
-    this._cache = new Map<string, ChainAccount>();
+    this._cache = new Map<string, any>();
   }
 }
 

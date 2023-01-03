@@ -1,12 +1,10 @@
 import { useEffect } from 'react';
 import useAppContext, { InitState } from 'contexts/AppContext';
-import { useInitI18n } from 'assets/locales/i18n';
 import AccountSource from 'sources/AccountSource';
 import { LocalWalletsSource } from 'sources/LocalWalletsSource';
 import ProfileSource from 'sources/ProfileSource';
 import * as SecureStorage from 'lib/SecureStorage';
 import useConnectDesmosClient from './desmosclient/useConnectDesmosClient';
-import useLoadSettings from './settings/useLoadSettings';
 import useLoadAllProfiles from './useLoadAllProfiles';
 
 /**
@@ -16,15 +14,12 @@ import useLoadAllProfiles from './useLoadAllProfiles';
 export default function useInitAppState(): InitState {
   const { initializing, setInitializing } = useAppContext();
 
-  const initLocalization = useInitI18n();
   const loadProfiles = useLoadAllProfiles();
-  const loadSettings = useLoadSettings();
   const connectDesmosClient = useConnectDesmosClient();
 
   useEffect(() => {
     (async () => {
       try {
-        await initLocalization();
         // Check if using global password
         const usingGlobalPassword = await SecureStorage.getItem('using_global_password');
         if (!usingGlobalPassword) {
@@ -39,7 +34,6 @@ export default function useInitAppState(): InitState {
 
         // Load profiles and settings from disk.
         await loadProfiles();
-        await loadSettings();
         await connectDesmosClient();
         setInitializing({
           initializing: false,

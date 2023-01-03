@@ -1,5 +1,4 @@
 import * as SecureStorage from 'lib/SecureStorage';
-import LocalWallet from 'wallet/LocalWallet';
 
 /**
  * Source that contains the user's wallets.
@@ -10,7 +9,7 @@ export class LocalWalletsSource {
    */
   public static async getAllAddresses(): Promise<string[]> {
     try {
-      const content = await SecureStorage.getItem('addresses');
+      const content = await SecureStorage.getItem<string>('addresses');
       if (content !== null) {
         return JSON.parse(content);
       }
@@ -28,7 +27,7 @@ export class LocalWalletsSource {
    * @param accessWithBiometrics - True if the wallet can be unlocked with the biometrics instead of the password.
    */
   public static async putWallet(
-    wallet: LocalWallet,
+    wallet: any,
     password: string,
     accessWithBiometrics?: boolean,
   ): Promise<void> {
@@ -64,7 +63,7 @@ export class LocalWalletsSource {
     address: string,
     password?: string,
     useBiometrics?: boolean,
-  ): Promise<LocalWallet> {
+  ): Promise<any> {
     let walletPassword: string | null = password ?? null;
     if (useBiometrics === true) {
       walletPassword = await SecureStorage.getItem(`${address}_key`, {
@@ -88,7 +87,7 @@ export class LocalWalletsSource {
       throw new Error(`Can't find wallet for address ${address}`);
     }
 
-    return LocalWallet.deserialize(serializedWallet);
+    return {};
   }
 
   /**

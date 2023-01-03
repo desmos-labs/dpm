@@ -6,7 +6,7 @@ import { useTranslation } from 'react-i18next';
 import Padding from 'components/Flexible/Padding';
 import Flexible from 'components/Flexible';
 import Typography from 'components/Typography';
-import { DesmosLedgerApp } from 'types/ledger';
+import { DesmosLedgerApp } from 'config/LedgerApps';
 import { AccountCreationStackParams, RootStackParams } from 'types/navigation';
 import StyledSafeAreaView from 'components/StyledSafeAreaView';
 import TopBar from 'components/TopBar';

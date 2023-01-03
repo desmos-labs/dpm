@@ -10,8 +10,8 @@ import {
 import { SignMode } from 'cosmjs-types/cosmos/tx/signing/v1beta1/signing';
 import { AuthInfo, SignDoc, TxBody } from 'cosmjs-types/cosmos/tx/v1beta1/tx';
 import { useCallback } from 'react';
-import { CosmosMethod, CosmosSignDocDirect } from 'types/jsonRpCosmosc';
-import { CosmosTx, SignedCosmosTx } from 'types/transaction';
+import { CosmosTx, SignedCosmosTx, TxType } from 'types/cosmos';
+import { CosmosSignDocDirect } from 'types/walletConnect';
 
 async function signDirectTx(
   signDoc: CosmosSignDocDirect,
@@ -55,7 +55,7 @@ async function signDirectTx(
   // Sign the document
   const signature = await directSigner.signDirect(account.address, finalSignDoc);
   return {
-    method: CosmosMethod.SignDirect,
+    method: TxType.SignDirect,
     tx: {
       body: signDoc.body,
       chainId: signDoc.chainId,
@@ -77,7 +77,7 @@ async function signAminoTx(signDoc: StdSignDoc, signer: OfflineSigner): Promise<
   const signResult = await aminoSigner.signAmino(account.address, signDoc);
 
   return {
-    method: CosmosMethod.SignAmino,
+    method: TxType.SignAmino,
     tx: signDoc,
     signature: signResult.signature.signature,
     pubKey: signResult.signature.pub_key,
@@ -94,10 +94,10 @@ export default function useSignTx(): (
 ) => Promise<SignedCosmosTx> {
   return useCallback(async (wallet: OfflineSigner, tx: CosmosTx) => {
     switch (tx.method) {
-      case CosmosMethod.SignAmino:
+      case TxType.SignAmino:
         return signAminoTx(tx.tx, wallet);
 
-      case CosmosMethod.SignDirect:
+      case TxType.SignDirect:
         return signDirectTx(tx.tx, wallet);
       default:
         return {} as never;

@@ -1,4 +1,4 @@
-import LocalWallet, { LocalWalletOptions } from '../wallet/LocalWallet';
+import { useCallback } from 'react';
 
 /**
  * Hook to create a wallet that is stored into the device storage.
@@ -6,20 +6,5 @@ import LocalWallet, { LocalWalletOptions } from '../wallet/LocalWallet';
  * a wallet from a recovery passphrase(mnemonic).
  */
 export default function useCreateLocalWallet() {
-  return (userMnemonic: string, options?: LocalWalletOptions): Promise<LocalWallet> =>
-    new Promise((resolve, reject) => {
-      const creationTask = () => {
-        try {
-          const wallet = LocalWallet.fromMnemonic(userMnemonic!, options);
-          resolve(wallet);
-        } catch (ex) {
-          reject(ex);
-        }
-      };
-
-      if (userMnemonic !== null) {
-        // Use a timeout to allow refresh of the ui before doing the crypto operations.
-        setTimeout(creationTask, 20);
-      }
-    });
+  return useCallback((_userMnemonic: string, _options?: any): Promise<any> => Promise.reject(), []);
 }

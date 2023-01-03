@@ -1,11 +1,10 @@
 import { useCallback } from 'react';
 import useAppContext from 'contexts/AppContext';
 import AccountSource from 'sources/AccountSource';
-import { ChainAccount } from 'types/chains';
 
 export type LoadedAccounts = {
-  accounts: ChainAccount[];
-  selectedAccount: ChainAccount | null;
+  accounts: any[];
+  selectedAccount: any | null;
 };
 
 /**
@@ -16,7 +15,7 @@ export default function useLoadAccounts(): () => Promise<LoadedAccounts> {
   const { setAccounts, setSelectedAccount } = useAppContext();
 
   return useCallback(async () => {
-    let selectedAccount: ChainAccount | null = null;
+    let selectedAccount: any | null = null;
     const accounts = await AccountSource.getAllAccounts();
     const selectedAccountAddress = await AccountSource.getSelectedAccount();
     setAccounts(accounts);

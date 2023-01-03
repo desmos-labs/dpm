@@ -18,18 +18,18 @@ import TwoButtonModal from 'modals/TwoButtonModal';
 import Typography from 'components/Typography';
 import useAppContext from 'contexts/AppContext';
 import useSetSettings from 'hooks/settings/useSetSettings';
-import useSettings from 'hooks/settings/useSettings';
 import useNavigateToHomeScreen from 'hooks/useNavigateToHomeScreen';
 import useShowModal from 'hooks/useShowModal';
 import AccountSource from 'sources/AccountSource';
 import { LocalWalletsSource } from 'sources/LocalWalletsSource';
 import ProfileSource from 'sources/ProfileSource';
 import { AccountScreensStackParams, RootStackParams } from 'types/navigation';
-import { DefaultAppSettings } from 'types/settings';
 import StyledSafeAreaView from 'components/StyledSafeAreaView';
 import TopBar from 'components/TopBar';
 import Button from 'components/Button';
 import * as SecureStorage from 'lib/SecureStorage';
+import appSettingsState, { DefaultAppSettings } from '@recoil/settings';
+import { useRecoilValue } from 'recoil';
 import useStyles from './useStyles';
 
 export type Props = CompositeScreenProps<
@@ -50,7 +50,7 @@ const UnlockApplication: React.FC<Props> = (props) => {
   const navigateToHomeScreen = useNavigateToHomeScreen();
   const openModal = useShowModal();
   const { setProfiles, setAccounts, setSelectedAccount, setChainLinks } = useAppContext();
-  const settings = useSettings();
+  const settings = useRecoilValue(appSettingsState);
   const setSettings = useSetSettings();
   const inputRef = useRef<TextInput>(null);
 
@@ -128,7 +128,7 @@ const UnlockApplication: React.FC<Props> = (props) => {
     setLoadingBiometrics(true);
     setTimeout(async () => {
       try {
-        const savedPassword = await SecureStorage.getItem('biometricsLogin', {
+        const savedPassword = await SecureStorage.getItem<string>('biometricsLogin', {
           biometrics: true,
         });
         if (savedPassword) {
@@ -151,10 +151,10 @@ const UnlockApplication: React.FC<Props> = (props) => {
 
   useFocusEffect(
     React.useCallback(() => {
-      if (settings.biometricLogin) {
+      if (settings.biometrics) {
         unlockWithBiometrics();
       }
-    }, [settings.biometricLogin, unlockWithBiometrics]),
+    }, [settings.biometrics, unlockWithBiometrics]),
   );
 
   return (

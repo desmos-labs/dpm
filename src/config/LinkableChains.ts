@@ -1,6 +1,6 @@
-import {BandHdPath, CosmosHdPath, CroHdPath, KavaHdPath, LunaHdPath} from 'types/wallet';
 import {ChainConfig} from '@desmoslabs/desmjs-types/desmos/profiles/v3/models_chain_links';
 import {LinkableChain} from 'types/chains';
+import { CosmosHdPath, BandHdPath, CroHdPath, KavaHdPath, LunaHdPath } from 'types/chainsHdPaths';
 
 export const LinkableChains: LinkableChain[] = [
   {

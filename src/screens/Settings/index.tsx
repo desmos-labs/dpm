@@ -7,11 +7,12 @@ import DeviceInfo from 'react-native-device-info';
 import Keychain from 'react-native-keychain';
 import Flexible from 'components/Flexible';
 import useSetSettings from 'hooks/settings/useSetSettings';
-import useSettings from 'hooks/settings/useSettings';
 import { RootStackParams, SettingsScreensStackParams } from 'types/navigation';
 import * as SecureStorage from 'lib/SecureStorage';
 import StyledSafeAreaView from 'components/StyledSafeAreaView';
 import TopBar from 'components/TopBar';
+import { useRecoilValue } from 'recoil';
+import appSettingsState from '@recoil/settings';
 import useStyles from './useStyles';
 
 declare type Props = CompositeScreenProps<
@@ -23,7 +24,7 @@ const Settings: React.FC<Props> = (props) => {
   const { navigation } = props;
   const { t } = useTranslation();
   const styles = useStyles();
-  const settings = useSettings();
+  const settings = useRecoilValue(appSettingsState);
   const setSettings = useSetSettings();
   const [biometricsSupported, setBiometricsSupported] = React.useState<boolean>(false);
 
@@ -99,24 +100,20 @@ const Settings: React.FC<Props> = (props) => {
 
   const turnOffBiometrics = useCallback(
     async (biometricsType: 'biometricsLogin' | 'biometricsSignature') => {
-      const savedPassword = await SecureStorage.getItem(biometricsType, {
+      const savedPassword = await SecureStorage.getItem<string>(biometricsType, {
         biometrics: true,
       });
       if (savedPassword) {
-        const stringToCheck = await SecureStorage.getItem('dpm_global_password', {
+        const stringToCheck = await SecureStorage.getItem<string>('dpm_global_password', {
           password: savedPassword,
         });
         if (stringToCheck === 'dpm_global_password') {
           await SecureStorage.deleteItem(biometricsType);
-          if (biometricsType === 'biometricsLogin') {
-            setSettings({ biometricLogin: !settings.biometricLogin });
-          } else {
-            setSettings({ biometricSignature: !settings.biometricSignature });
-          }
+          setSettings({ biometrics: !settings.biometrics });
         }
       }
     },
-    [setSettings, settings.biometricLogin, settings.biometricSignature],
+    [setSettings, settings.biometrics],
   );
 
   const areBiometricsSupported = useCallback(async () => {
@@ -151,20 +148,20 @@ const Settings: React.FC<Props> = (props) => {
         />
         <Flexible.SectionSwitch
           label={t('enable face id for signature')}
-          value={settings.biometricSignature}
+          value={settings.biometrics}
           isDisabled={!biometricsSupported}
           onPress={
-            settings.biometricSignature
+            settings.biometrics
               ? () => turnOffBiometrics('biometricsSignature')
               : () => navigateHandleBiometrics('biometricsSignature')
           }
         />
         <Flexible.SectionSwitch
           label={t('enable face id for login')}
-          value={settings.biometricLogin}
+          value={settings.biometrics}
           isDisabled={!biometricsSupported}
           onPress={
-            settings.biometricLogin
+            settings.biometrics
               ? () => turnOffBiometrics('biometricsLogin')
               : () => navigateHandleBiometrics('biometricsLogin')
           }

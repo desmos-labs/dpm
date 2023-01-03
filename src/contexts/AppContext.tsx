@@ -1,10 +1,7 @@
 import { ApolloProvider } from '@apollo/client';
 import { Coin } from 'cosmjs-types/cosmos/base/v1beta1/coin';
 import React, { useMemo, useState } from 'react';
-import { ChainAccount } from 'types/chains';
 import { DesmosProfile } from 'types/desmosTypes';
-import { ChainLink } from 'types/link';
-import { AppSettings, DefaultAppSettings } from 'types/settings';
 import buildGraphQlClient from 'services/graphql/client';
 import { DesmosClientProvider } from './DesmosClientContext';
 
@@ -17,16 +14,14 @@ export interface AppState {
   initializing: InitState;
   setInitializing: React.Dispatch<React.SetStateAction<InitState>>;
 
-  settings: AppSettings;
-  setSettings: React.Dispatch<React.SetStateAction<AppSettings>>;
-  accounts: ChainAccount[];
-  setAccounts: React.Dispatch<React.SetStateAction<ChainAccount[]>>;
+  accounts: any[];
+  setAccounts: React.Dispatch<React.SetStateAction<any[]>>;
   profiles: Record<string, DesmosProfile>;
   setProfiles: React.Dispatch<React.SetStateAction<Record<string, DesmosProfile>>>;
-  chainLinks: Record<string, ChainLink[]>;
-  setChainLinks: React.Dispatch<React.SetStateAction<Record<string, ChainLink[]>>>;
-  selectedAccount: ChainAccount | null;
-  setSelectedAccount: React.Dispatch<React.SetStateAction<ChainAccount | null>>;
+  chainLinks: Record<string, any[]>;
+  setChainLinks: React.Dispatch<React.SetStateAction<Record<string, any[]>>>;
+  selectedAccount: any | null;
+  setSelectedAccount: React.Dispatch<React.SetStateAction<any | null>>;
   selectedAccountBalance: Coin;
   setSelectedAccountBalance: React.Dispatch<React.SetStateAction<Coin>>;
 }
@@ -38,16 +33,15 @@ export const AppStateProvider: React.FC = ({ children }) => {
   const [initializing, setInitializing] = useState<InitState>({
     initializing: true,
   });
-  const [accounts, setAccounts] = useState<ChainAccount[]>([]);
+  const [accounts, setAccounts] = useState<any[]>([]);
   const [profiles, setProfiles] = useState<Record<string, DesmosProfile>>({});
-  const [chainLinks, setChainLinks] = useState<Record<string, ChainLink[]>>({});
-  const [selectedAccount, setSelectedAccount] = useState<ChainAccount | null>(null);
+  const [chainLinks, setChainLinks] = useState<Record<string, any[]>>({});
+  const [selectedAccount, setSelectedAccount] = useState<any | null>(null);
   const [selectedAccountBalance, setSelectedAccountBalance] = useState<Coin>({
     amount: '---',
     denom: '',
   });
-  const [settings, setSettings] = useState(DefaultAppSettings);
-  const client = buildGraphQlClient(settings.chainName);
+  const client = buildGraphQlClient();
 
   const contextProviderValue = useMemo(
     () => ({
@@ -63,8 +57,6 @@ export const AppStateProvider: React.FC = ({ children }) => {
       setSelectedAccount,
       selectedAccountBalance,
       setSelectedAccountBalance,
-      settings,
-      setSettings,
     }),
     [
       initializing,
@@ -73,14 +65,13 @@ export const AppStateProvider: React.FC = ({ children }) => {
       chainLinks,
       selectedAccount,
       selectedAccountBalance,
-      settings,
     ],
   );
 
   return (
     <AppContext.Provider value={contextProviderValue}>
       <ApolloProvider client={client}>
-        <DesmosClientProvider chainId={settings.chainName}>{children}</DesmosClientProvider>
+        <DesmosClientProvider>{children}</DesmosClientProvider>
       </ApolloProvider>
     </AppContext.Provider>
   );

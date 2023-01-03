@@ -4,9 +4,9 @@ import React, { useState } from 'react';
 import { Trans, useTranslation } from 'react-i18next';
 import Flexible from 'components/Flexible';
 import { ChainLinkScreensStackParams } from 'types/navigation';
-import { checkMnemonic } from 'wallet/LocalWallet';
+import { checkMnemonic } from 'lib/WalletUtils/mnemonic';
 import Typography from 'components/Typography';
-import sanitizeMnemonic from 'utilils/mnemonic';
+import { sanitizeMnemonic } from 'lib/FormatUtils';
 import StyledSafeAreaView from 'components/StyledSafeAreaView';
 import TopBar from 'components/TopBar';
 import TextInput from 'components/TextInput';
@@ -23,10 +23,7 @@ const LinkWithMnemonic: React.FC<Props> = ({ navigation, route }) => {
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
   const onMnemonicChange = (changedMnemonic: string) => {
-    const sanitizedMnemonic = sanitizeMnemonic(changedMnemonic, {
-      removeStartingSpaces: true,
-      removeDoubleSpaces: true,
-    });
+    const sanitizedMnemonic = sanitizeMnemonic(changedMnemonic);
 
     // Handle enter pressed
     if (sanitizedMnemonic.indexOf('\n') > 0) {
@@ -41,9 +38,7 @@ const LinkWithMnemonic: React.FC<Props> = ({ navigation, route }) => {
     if (mnemonic === '') {
       setErrorMessage(t('empty recovery passphrase'));
     } else {
-      const sanitizedMnemonic = sanitizeMnemonic(mnemonic, {
-        removeTrailingSpaces: true,
-      });
+      const sanitizedMnemonic = sanitizeMnemonic(mnemonic);
       if (checkMnemonic(sanitizedMnemonic)) {
         navigation.navigate({
           name: 'PickAddress',

@@ -14,7 +14,6 @@ import useShowModal from 'hooks/useShowModal';
 import useUnlockWallet from 'hooks/useUnlockWallet';
 import useUploadPicture from 'hooks/useUploadPicture';
 import { DesmosProfile } from 'types/desmosTypes';
-import { computeTxFees, messagesGas } from 'types/fees';
 import { AccountScreensStackParams, resetTo, RootStackParams } from 'types/navigation';
 import TopBar from 'components/TopBar';
 import StyledSafeAreaView from 'components/StyledSafeAreaView';
@@ -44,7 +43,8 @@ const ConfirmProfileEdit: React.FC<Props> = (props) => {
   const broadcastMessages = useBroadcastMessages();
 
   const txFee = useMemo(() => {
-    const saveProfileMessage: MsgSaveProfileEncodeObject = {
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const _saveProfileMessage: MsgSaveProfileEncodeObject = {
       typeUrl: '/desmos.profiles.v3.MsgSaveProfile',
       value: {
         creator: account.address,
@@ -55,9 +55,8 @@ const ConfirmProfileEdit: React.FC<Props> = (props) => {
         coverPicture: profile.coverPicture || '',
       },
     };
-    const messages = [saveProfileMessage];
-    const gas = messagesGas(messages);
-    return computeTxFees(gas, chainInfo.stakeCurrency.coinDenom).average;
+    const gas = '0';
+    return { amount: [ { denom: '', amount: '' } ], gas };
   }, [account.address, profile, chainInfo.stakeCurrency.coinDenom]);
 
   const convertedTxFee = useMemo(() => {

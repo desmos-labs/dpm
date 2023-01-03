@@ -6,10 +6,8 @@ import React, { useCallback, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Image, Text, View } from 'react-native';
 import { Snackbar, useTheme } from 'react-native-paper';
-import { BroadcastTx } from 'types/transaction';
 import TransactionsList from 'components/TransactionsList';
 import Typography from 'components/Typography';
-import useAppContext from 'contexts/AppContext';
 import useDrawerContext from 'contexts/AppDrawerContex';
 import useCurrentChainInfo from 'hooks/desmosclient/useCurrentChainInfo';
 import useSetSetting from 'hooks/settings/useSetSetting';
@@ -19,6 +17,8 @@ import { AccountScreensStackParams, HomeScreensBottomTabsParams } from 'types/na
 import StyledSafeAreaView from 'components/StyledSafeAreaView';
 import TopBar from 'components/TopBar';
 import AvatarImage from 'components/AvatarImage';
+import { useRecoilValue } from 'recoil';
+import appSettingsState from '@recoil/settings';
 import AccountBalance from './components/AccountBalance';
 import useStyles from './useStyles';
 
@@ -31,7 +31,7 @@ const Home: React.FC<Props> = (props) => {
   const { navigation } = props;
   const { openDrawer } = useDrawerContext();
   const account = useSelectedAccount();
-  const { settings } = useAppContext();
+  const settings = useRecoilValue(appSettingsState);
   const { t } = useTranslation();
   const theme = useTheme();
   const styles = useStyles();
@@ -65,7 +65,7 @@ const Home: React.FC<Props> = (props) => {
   }, [navigation]);
 
   const onTxPressed = useCallback(
-    (tx: BroadcastTx) => {
+    (tx: any) => {
       navigation.navigate({
         name: 'TxDetails',
         params: {

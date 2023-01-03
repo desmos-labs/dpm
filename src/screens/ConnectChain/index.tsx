@@ -1,7 +1,7 @@
 import { StackScreenProps } from '@react-navigation/stack';
 import React, { useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
-import { ChainLinkScreensStackParams, ImportMode } from 'types/navigation';
+import { ChainLinkScreensStackParams } from 'types/navigation';
 import Typography from 'components/Typography';
 import StyledSafeAreaView from 'components/StyledSafeAreaView';
 import TopBar from 'components/TopBar';
@@ -16,24 +16,11 @@ const ConnectChain: React.FC<Props> = ({ navigation, route }) => {
   const { backAction, feeGranter } = route.params;
 
   const connectWithMnemonic = useCallback(() => {
-    navigation.navigate({
-      name: 'SelectChain',
-      params: {
-        importMode: ImportMode.Mnemonic,
-        backAction,
-        feeGranter,
-      },
-    });
+
   }, [navigation, backAction, feeGranter]);
 
   const connectWithLedger = useCallback(() => {
-    navigation.navigate({
-      name: 'SelectChain',
-      params: {
-        importMode: ImportMode.Ledger,
-        backAction,
-      },
-    });
+
   }, [navigation, backAction]);
 
   return (

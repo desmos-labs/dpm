@@ -8,12 +8,8 @@ import Typography from 'components/Typography';
 import useNavigateToHomeScreen from 'hooks/useNavigateToHomeScreen';
 import useSelectedAccount from 'hooks/useSelectedAccount';
 import useShowModal from 'hooks/useShowModal';
-import { LocalWalletsSource } from 'sources/LocalWalletsSource';
-import { ChainAccountType } from 'types/chains';
 import { SettingsScreensStackParams } from 'types/navigation';
-import LocalWallet from 'wallet/LocalWallet';
 import evaluatePasswordComplexity from 'hooks/useEvaluatePasswordComplexity';
-import * as SecureStorage from 'lib/SecureStorage';
 import StyledSafeAreaView from 'components/StyledSafeAreaView';
 import TopBar from 'components/TopBar';
 import PasswordComplexityScore from 'components/PasswordComplexityScore';
@@ -47,7 +43,7 @@ const ChangeWalletPassword = (props: Props) => {
   };
 
   const navigateToCreateNewPassword = useCallback(
-    (wallet?: LocalWallet) => {
+    (wallet?: any) => {
       navigation.navigate({
         name: 'CreateNewPassword',
         params: wallet ? { wallet } : {},
@@ -57,12 +53,6 @@ const ChangeWalletPassword = (props: Props) => {
   );
 
   const saveUserPassword = useCallback(async () => {
-    await SecureStorage.setItem('dpm_global_password', 'dpm_global_password', {
-      password,
-    });
-    if (account.type === ChainAccountType.Local && params?.wallet) {
-      await LocalWalletsSource.putWallet(params.wallet, password, false);
-    }
     showModal(SingleButtonModal, {
       image: 'password-success',
       title: t('success'),
@@ -73,20 +63,7 @@ const ChangeWalletPassword = (props: Props) => {
   }, [account.type, navigateToHomeScreen, params?.wallet, password, showModal, t]);
 
   const checkUserPassword = useCallback(async () => {
-    const passwordMatch =
-      (await SecureStorage.getItem('dpm_global_password', {
-        password,
-      })) === 'dpm_global_password';
-    if (passwordMatch) {
-      // ChainAccountType.Local
-      if (account.type === ChainAccountType.Local) {
-        const decryptedWallet = await LocalWalletsSource.getWallet(account.address, password);
-        navigateToCreateNewPassword(decryptedWallet);
-      } else {
-        // ChainAccountType.Ledger
-        navigateToCreateNewPassword();
-      }
-    }
+
   }, [account.address, account.type, navigateToCreateNewPassword, password]);
 
   const onContinuePressed = async () => {

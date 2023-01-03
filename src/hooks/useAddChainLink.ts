@@ -1,6 +1,6 @@
 import { useCallback } from 'react';
 import useAppContext from 'contexts/AppContext';
-import { ChainLink } from 'types/link';
+import { ChainLink } from 'types/chains';
 
 export default function useAddChainLink(address: string): (link: ChainLink) => void {
   const { setChainLinks } = useAppContext();

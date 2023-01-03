@@ -1,5 +1,4 @@
-import {CallRequest, CallRequestType, ParsedCallRequest} from 'types/walletConnect';
-import {CosmosMethod} from 'types/jsonRpCosmosc';
+import { CallRequest, CallRequestType, CosmosMethod, ParsedCallRequest } from 'types/walletConnect';
 import useParseSignDirectParams from './useParseSignDirectParams';
 import useParseSignAminoParams from './useParseSignAminoParams';
 

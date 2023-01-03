@@ -1,14 +1,13 @@
 import { useCallback } from 'react';
-import { ChainAccount } from 'types/chains';
 import useAppContext from '../contexts/AppContext';
 import AccountSource from '../sources/AccountSource';
 import ProfileSourceSingleton from '../sources/ProfileSource';
 
-export default function useDeleteAccount(): (toDelete: ChainAccount) => Promise<ChainAccount[]> {
+export default function useDeleteAccount(): (toDelete: any) => Promise<any[]> {
   const { accounts, setAccounts, setProfiles } = useAppContext();
 
   return useCallback(
-    async (toDelete: ChainAccount) => {
+    async (toDelete: any) => {
       const newAccounts = accounts.filter((a) => a.address !== toDelete.address);
       setProfiles((old) => {
         if (old[toDelete.address] !== undefined) {

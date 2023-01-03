@@ -1,11 +1,10 @@
 import useAppContext from 'contexts/AppContext';
-import { ChainAccount } from 'types/chains';
 
 /**
  * Hooks that provides the current selected account.
  * Returns the current selected account.
  */
-export default function useSelectedAccount(): ChainAccount {
+export default function useSelectedAccount(): any {
   const { selectedAccount } = useAppContext();
 
   if (selectedAccount === null) {

@@ -6,12 +6,14 @@
  */
 export type AppTheme = 'light' | 'dark' | 'auto';
 
+export type ChainId = 'mainnet' | 'testnet';
+
 /**
  * Type that represents the application settings.
  */
 export type AppSettings = {
   theme: AppTheme;
-  chainName: string;
+  chainId: ChainId;
   balanceHidden: boolean;
   biometrics: boolean;
   notifications: boolean;
