@@ -62,6 +62,12 @@
       "navigation/*": [
         "./navigation/*"
       ],
+      "@recoil": [
+        "./recoil"
+      ],
+      "@recoil/*": [
+        "./recoil/*"
+      ],
       "screens": [
         "./screens"
       ],
