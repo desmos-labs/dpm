@@ -1,5 +1,3 @@
-import {DesmosTestnet} from '@desmoslabs/desmjs';
-
 /**
  * Supported application themes.
  * - light: Light color schema.
@@ -15,23 +13,9 @@ export type AppSettings = {
   theme: AppTheme;
   chainName: string;
   balanceHidden: boolean;
-  biometricSignature: boolean;
-  biometricLogin: boolean;
+  biometrics: boolean;
+  notifications: boolean;
+  dataInitialized: false,
+  currentTimezone: '',
 };
 
-/**
- * Key used to identify the application
- * settings stored into the AsyncStorage.
- */
-export const AppSettingsStorageKey = 'dpm_app_settings';
-
-/**
- * Default application settings.
- */
-export const DefaultAppSettings: AppSettings = {
-  theme: 'auto',
-  chainName: DesmosTestnet.chainName,
-  balanceHidden: false,
-  biometricSignature: false,
-  biometricLogin: false,
-};

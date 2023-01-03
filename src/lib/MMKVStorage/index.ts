@@ -1,8 +1,10 @@
 import {MMKV, useMMKVObject} from 'react-native-mmkv';
 
 export enum MMKVKEYS {
+  APP_SETTINGS = 'APP_SETTINGS',
   ACTIVE_ACCOUNT_ADDRESS = 'ACTIVE_ACCOUNT_ADDRESS',
   ACCOUNTS = 'ACCOUNTS',
+  PROFILES = 'PROFILES'
 }
 
 const MMKVStorage = new MMKV({
