@@ -1,11 +1,19 @@
-export type DpmImages =
-  | 'no-transaction'
-  | 'no-profile'
-  | 'success'
-  | 'fail'
-  | 'no-connection'
-  | 'connect-chain'
-  | 'connect-mnemonic'
-  | 'connect-ledger'
-  | 'password-success'
-  | 'ledger';
+export enum DPMImages {
+  NoTransaction,
+  NoProfile,
+  Success,
+  Fail,
+  NoConnection,
+  ConnectChain,
+  ConnectMnemonic,
+  ConnectLedger,
+  PasswordSuccess,
+  Ledger,
+}
+
+export enum DPMAnimations {
+  BroadcastTx,
+  LookingForDevices,
+  ConnectToLedger,
+  Loading,
+}

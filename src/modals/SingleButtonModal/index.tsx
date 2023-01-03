@@ -3,7 +3,7 @@ import React, { useCallback } from 'react';
 import { ImageSourcePropType, View } from 'react-native';
 import Typography from 'components/Typography';
 import { ModalComponentProps, RootStackParams } from 'types/navigation';
-import {DpmImages} from 'types/images';
+import {DPMImages} from 'types/images';
 import DpmImage from 'components/DPMImage';
 import Button from 'components/Button';
 import useStyles from './useStyles';
@@ -21,7 +21,7 @@ export type SingleButtonModalParams = {
    * Optional image that will be displayed on top
    * of the title.
    */
-  image?: ImageSourcePropType | DpmImages;
+  image?: ImageSourcePropType | DPMImages;
   /**
    * Text displayed on the action button.
    */

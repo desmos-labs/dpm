@@ -1,15 +1,18 @@
 import LottieView from 'lottie-react-native';
-import React, { useMemo } from 'react';
-import { useTheme } from 'react-native-paper';
-
-export type DesmosAnimations =
-  | 'broadcast-tx'
-  | 'looking-for-devices'
-  | 'connect-to-ledger'
-  | 'loading';
+import React, {useMemo} from 'react';
+import {useTheme} from 'react-native-paper';
+import {DPMAnimations} from 'types/images';
+import {
+  broadcastTxDarkAnimation,
+  broadcastTxLightAnimation,
+  connectToLedgerDarkAnimation,
+  connectToLedgerLightAnimation, loadingDarkAnimation, loadingLightAnimation,
+  lookingForDevicesDarkAnimation,
+  lookingForDevicesLightAnimation,
+} from 'assets/animations';
 
 type ThemedLottieViewProps = Omit<React.ComponentProps<typeof LottieView>, 'source'> & {
-  source: DesmosAnimations;
+  source: DPMAnimations;
 };
 
 const ThemedLottieView: React.FC<ThemedLottieViewProps> = (props) => {
@@ -17,24 +20,14 @@ const ThemedLottieView: React.FC<ThemedLottieViewProps> = (props) => {
   const theme = useTheme();
   const animation = useMemo(() => {
     switch (source) {
-      case 'broadcast-tx':
-        return theme.dark
-          ? require('assets/animations/broadcast-tx-dark.json')
-          : require('assets/animations/broadcast-tx-light.json');
-      case 'looking-for-devices':
-        return theme.dark
-          ? require('assets/animations/looking-for-devices-dark.json')
-          : require('assets/animations/looking-for-devices-light.json');
-      case 'connect-to-ledger':
-        return theme.dark
-          ? require('assets/animations/connect-to-ledger-dark.json')
-          : require('assets/animations/connect-to-ledger-light.json');
-      case 'loading':
-        return theme.dark
-          ? require('assets/animations/loading-dark.json')
-          : require('assets/animations/loading-light.json');
-      default:
-        throw new Error(`Unknown animation ${source}`);
+      case DPMAnimations.BroadcastTx:
+        return theme.dark ? broadcastTxDarkAnimation : broadcastTxLightAnimation;
+      case DPMAnimations.LookingForDevices:
+        return theme.dark ? lookingForDevicesDarkAnimation : lookingForDevicesLightAnimation;
+      case DPMAnimations.ConnectToLedger:
+        return theme.dark ? connectToLedgerDarkAnimation : connectToLedgerLightAnimation;
+      case DPMAnimations.Loading:
+        return theme.dark ? loadingDarkAnimation : loadingLightAnimation;
     }
   }, [theme, source]);
 

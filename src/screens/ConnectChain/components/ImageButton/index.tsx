@@ -1,12 +1,12 @@
 import {ImageSourcePropType, StyleProp, TouchableOpacity, ViewStyle} from 'react-native';
 import React from 'react';
 import Typography from 'components/Typography';
-import { DpmImages } from 'types/images';
+import { DPMImages } from 'types/images';
 import DpmImage from 'components/DPMImage';
 import useStyles from './useStyles';
 
 type ImageButtonProps = {
-  image: ImageSourcePropType | DpmImages;
+  image: ImageSourcePropType | DPMImages;
   label: string;
   onPress?: () => void;
   disabled?: boolean;

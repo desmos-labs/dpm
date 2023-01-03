@@ -1,6 +1,6 @@
 import React, { useCallback, useMemo } from 'react';
 import { FlatList, ListRenderItemInfo, StyleProp, StyleSheet, View, ViewStyle } from 'react-native';
-import { MnemonicWordBadge } from 'components/MnemonicWordBadge';
+import MnemonicWordBadge from 'components/MnemonicWordBadge';
 import useStyles from './useStyles';
 
 export type MnemonicGridProps = {

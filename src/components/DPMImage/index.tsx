@@ -1,12 +1,33 @@
-import React, { useMemo } from 'react';
-import { Image } from 'react-native';
+import React, {useMemo} from 'react';
+import {Image} from 'react-native';
 import useIsCurrentThemeDark from 'hooks/useIsCurrentThemeDark';
-import {DpmImages} from 'types/images';
+import {DPMImages} from 'types/images';
+import {
+  connectChainDarkIcon,
+  connectChainLightIcon,
+  connectLedgerDarkIcon,
+  connectLedgerLightIcon,
+  connectMnemonicDarkIcon,
+  connectMnemonicLightIcon,
+  desmosIconWhite,
+  ledgerIcon,
+  noConnectionDarkIcon,
+  noConnectionLightIcon,
+  noProfileDarkIcon,
+  noProfileLightIcon,
+  noTransactionDarkIcon,
+  noTransactionLightIcon,
+  resultFailDarkIcon,
+  resultFailLightIcon,
+  resultPasswordSuccess,
+  resultRejectLightIcon,
+  resultSuccessDarkIcon,
+} from 'assets/images';
 
 type ImageProps = React.ComponentProps<typeof Image>;
 
 export type DPMImageProps = Omit<ImageProps, 'source'> & {
-  source: DpmImages | ImageProps['source'];
+  source: DPMImages | ImageProps['source'];
 };
 
 const DpmImage: React.FC<DPMImageProps> = (props) => {
@@ -15,49 +36,32 @@ const DpmImage: React.FC<DPMImageProps> = (props) => {
 
   const imageSource = useMemo(() => {
     const typeOfSource = typeof source;
+    const typeOfDPMImage = typeof DPMImages;
 
-    if (typeOfSource === 'string') {
-      switch (source as DpmImages) {
-        case 'no-transaction':
-          return darkTheme
-            ? require('assets/images/noTransaction-dark.png')
-            : require('assets/images/noProfile-light.png');
-        case 'no-profile':
-          return darkTheme
-            ? require('assets/images/noProfile-dark.png')
-            : require('assets/images/noProfile-light.png');
-        case 'success':
-          return darkTheme
-            ? require('assets/images/resultSucess-dark.png')
-            : require('assets/images/resultSucess-light.png');
-        case 'password-success':
-          return darkTheme
-            ? require('assets/images/resultPasswordSuccess.png')
-            : require('assets/images/resultPasswordSuccess.png');
-        case 'fail':
-          return darkTheme
-            ? require('assets/images/resultFail-dark.png')
-            : require('assets/images/resultFail-light.png');
-        case 'no-connection':
-          return darkTheme
-            ? require('assets/images/noConnection-dark.png')
-            : require('assets/images/noConnection-light.png');
-        case 'connect-chain':
-          return darkTheme
-            ? require('assets/images/connectChain-dark.png')
-            : require('assets/images/connectChain-light.png');
-        case 'connect-mnemonic':
-          return darkTheme
-            ? require('assets/images/connectMnemonic-dark.png')
-            : require('assets/images/connectMnemonic-light.png');
-        case 'connect-ledger':
-          return darkTheme
-            ? require('assets/images/connectLedger-dark.png')
-            : require('assets/images/connectLedger-light.png');
-        case 'ledger':
-          return require('assets/images/ledger.png');
+    if (typeOfSource === typeOfDPMImage) {
+      switch (source as DPMImages) {
+        case DPMImages.NoTransaction:
+          return darkTheme ? noTransactionDarkIcon : noTransactionLightIcon;
+        case DPMImages.NoProfile:
+          return darkTheme ? noProfileDarkIcon : noProfileLightIcon;
+        case DPMImages.Success:
+          return darkTheme ? resultSuccessDarkIcon : resultRejectLightIcon;
+        case DPMImages.PasswordSuccess:
+          return resultPasswordSuccess;
+        case DPMImages.Fail:
+          return darkTheme ? resultFailDarkIcon : resultFailLightIcon;
+        case DPMImages.NoConnection:
+          return darkTheme ? noConnectionDarkIcon : noConnectionLightIcon;
+        case DPMImages.ConnectChain:
+          return darkTheme ? connectChainDarkIcon : connectChainLightIcon;
+        case DPMImages.ConnectMnemonic:
+          return darkTheme ? connectMnemonicDarkIcon : connectMnemonicLightIcon;
+        case DPMImages.ConnectLedger:
+          return darkTheme ? connectLedgerDarkIcon : connectLedgerLightIcon;
+        case DPMImages.Ledger:
+          return ledgerIcon;
         default:
-          return require('assets/images/desmosIcon-white.png');
+          return desmosIconWhite;
       }
     } else {
       return source;
