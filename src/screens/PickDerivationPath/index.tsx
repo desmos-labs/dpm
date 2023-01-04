@@ -1,52 +1,33 @@
 import { StackScreenProps } from '@react-navigation/stack';
-import React, { useCallback, useState } from 'react';
+import React, { FC, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import Typography from 'components/Typography';
-import useAppContext from 'contexts/AppContext';
-import { AccountCreationStackParams } from 'types/navigation';
 import { Wallet } from 'types/wallet';
 import StyledSafeAreaView from 'components/StyledSafeAreaView';
 import TopBar from 'components/TopBar';
 import Button from 'components/Button';
-import { DesmosLedgerApp } from 'config/LedgerApps';
-import { DesmosHdPath } from 'types/chainsHdPaths';
+// eslint-disable-next-line import/no-cycle
+import { RootNavigatorParamList } from 'navigation/RootNavigator';
+import ROUTES from 'navigation/routes';
+import { WalletPickerParams } from 'screens/PickDerivationPath/components/WalletPicker/types';
 import useStyles from './useStyles';
 import WalletPicker from './components/WalletPicker';
 
-export type Props = StackScreenProps<AccountCreationStackParams, 'PickDerivationPath'>;
+export type SelectAccountParams = {
+  walletPickerParams: WalletPickerParams;
+};
 
-const PickDerivationPath: React.FC<Props> = (props) => {
+type NavProps = StackScreenProps<RootNavigatorParamList, ROUTES.SELECT_ACCOUNT>;
+
+const SelectAccount: FC<NavProps> = (props) => {
   const {
     navigation,
     route: { params },
   } = props;
-  const { mnemonic, ledgerTransport } = params;
   const { t } = useTranslation();
   const styles = useStyles();
   const [selectedWallet, setSelectedWallet] = useState<Wallet | null>(null);
   const [generatingAddresses, setGeneratingAddresses] = useState(false);
-  const { accounts } = useAppContext();
-
-  const onNextPressed = useCallback(async () => {
-    if (selectedWallet !== null) {
-      if (accounts.length === 0) {
-        navigation.navigate({
-          name: 'CreateWalletPassword',
-          params: {
-            wallet: selectedWallet,
-          },
-        });
-      } else {
-        navigation.navigate({
-          name: 'CheckWalletPassword',
-          params: {
-            addingNewAccount: true,
-            wallet: selectedWallet,
-          },
-        });
-      }
-    }
-  }, [accounts.length, navigation, selectedWallet]);
 
   return (
     <StyledSafeAreaView style={styles.root} topBar={<TopBar stackProps={props} />}>
@@ -57,17 +38,12 @@ const PickDerivationPath: React.FC<Props> = (props) => {
       <WalletPicker
         onWalletSelected={setSelectedWallet}
         onGeneratingAddressesStateChange={setGeneratingAddresses}
-        mnemonic={mnemonic}
-        ledgerTransport={ledgerTransport}
-        ledgerApp={DesmosLedgerApp}
-        defaultHdPath={DesmosHdPath}
-        addressPrefix="desmos"
+        params={params.walletPickerParams}
       />
 
       <Button
         style={styles.nextButton}
         mode="contained"
-        onPress={onNextPressed}
         disabled={selectedWallet === null || generatingAddresses}
       >
         {t('next')}
@@ -76,4 +52,4 @@ const PickDerivationPath: React.FC<Props> = (props) => {
   );
 };
 
-export default PickDerivationPath;
+export default SelectAccount;

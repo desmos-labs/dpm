@@ -1,3 +1,5 @@
+import { LedgerApp } from 'types/ledger';
+
 export const DesmosLedgerApp: LedgerApp = {
   name: 'Desmos',
   icon: require('../assets/images/chains/desmos.png'),
@@ -26,8 +28,4 @@ export const TerraLedgerApp: LedgerApp = {
   minVersion: '1.0.0',
 };
 
-export const LedgerApps: LedgerApp[] = [
-  CosmosLedgerApp,
-  CryptoOrgLedgerApp,
-  TerraLedgerApp,
-];
+export const LedgerApps: LedgerApp[] = [CosmosLedgerApp, CryptoOrgLedgerApp, TerraLedgerApp];

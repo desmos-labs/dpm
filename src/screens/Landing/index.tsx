@@ -1,20 +1,20 @@
-import { CompositeScreenProps } from '@react-navigation/native';
 import { StackScreenProps } from '@react-navigation/stack';
 import React, { useCallback, useEffect, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Animated, Image, ImageBackground, Text } from 'react-native';
-import { AccountCreationStackParams, RootStackParams } from 'types/navigation';
 import StyledSafeAreaView from 'components/StyledSafeAreaView';
 import IconButton from 'components/IconButton';
 import Button from 'components/Button';
+import { RootNavigatorParamList } from 'navigation/RootNavigator';
+import ROUTES from 'navigation/routes';
 import useStyles from './useStyles';
 
-declare type Props = CompositeScreenProps<
-  StackScreenProps<AccountCreationStackParams, 'Login'>,
-  StackScreenProps<RootStackParams>
+export type NavProps = StackScreenProps<
+  RootNavigatorParamList,
+  ROUTES.LANDING
 >;
 
-const Login = ({ navigation }: Props) => {
+const Landing = ({ navigation }: NavProps) => {
   const { t } = useTranslation();
   const styles = useStyles();
   const animate = !navigation.canGoBack();
@@ -47,29 +47,17 @@ const Login = ({ navigation }: Props) => {
 
   const onCreatePressed = useCallback(() => {
     navigation.navigate({
-      name: 'Legal',
-      params: {
-        mode: 'create',
-      },
+      name: ROUTES.CREATE_WALLET,
+      params: undefined,
     });
   }, [navigation]);
 
   const onImportMnemonic = useCallback(() => {
-    navigation.navigate({
-      name: 'Legal',
-      params: {
-        mode: 'import',
-      },
-    });
+
   }, [navigation]);
 
   const onImportWithLedger = useCallback(() => {
-    navigation.navigate({
-      name: 'Legal',
-      params: {
-        mode: 'ledger',
-      },
-    });
+
   }, [navigation]);
 
   const goBack = useCallback(() => {
@@ -143,4 +131,4 @@ const Login = ({ navigation }: Props) => {
   );
 };
 
-export default Login;
+export default Landing;

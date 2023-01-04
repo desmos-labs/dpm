@@ -9,14 +9,20 @@ import { AccountCreationStackParams, RootStackParams } from 'types/navigation';
 import DpmImage from 'components/DPMImage';
 import Button from 'components/Button';
 import StyledSafeAreaView from 'components/StyledSafeAreaView';
+import { WalletGenerationData } from 'types/wallet';
+import { DPMImages } from 'types/images';
 import useStyles from './useStyles';
 
-declare type Props = CompositeScreenProps<
+export type GenerateAccountParams = {
+  walletGenerationData: WalletGenerationData,
+}
+
+declare type NavProps = CompositeScreenProps<
   StackScreenProps<AccountCreationStackParams, 'GenerateAccount'>,
   StackScreenProps<RootStackParams, 'AccountCreationScreens'>
 >;
 
-const GenerateAccount = (props: Props) => {
+const GenerateAccount = (props: NavProps) => {
   const { navigation } = props;
   const { t } = useTranslation();
   const styles = useStyles();
@@ -57,7 +63,7 @@ const GenerateAccount = (props: Props) => {
   const generatedAccount =
     account !== null ? (
       <>
-        <DpmImage style={styles.icon} source="success" resizeMode="contain" />
+        <DpmImage style={styles.icon} source={DPMImages.Success} resizeMode="contain" />
 
         <Typography.Title>{t('success')}</Typography.Title>
         <Typography.Body1>{t('account created')}</Typography.Body1>

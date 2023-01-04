@@ -2,9 +2,9 @@ import React, { useEffect, useState } from 'react';
 import { StyleProp, StyleSheet, Text, View, ViewStyle } from 'react-native';
 import Typography from 'components/Typography';
 import TextInput from 'components/TextInput';
-import {HdPath, Slip10RawIndex} from '@cosmjs/crypto';
-import {DesmosHdPath} from 'types/chainsHdPaths';
-import {safeParseInt} from 'lib/FormatUtils';
+import { HdPath, Slip10RawIndex } from '@cosmjs/crypto';
+import { DesmosHdPath } from 'types/chainsHdPaths';
+import { safeParseInt, slip10IndexToString } from 'lib/FormatUtils';
 import useStyles from './useStyles';
 
 type HdPathValues = 'coinType' | 'account' | 'change' | 'addressIndex';
@@ -97,14 +97,14 @@ const HdPathPicker: React.FC<HdPathPickerProps> = (props) => {
             inputStyle={styles.input}
             keyboardType="numeric"
             onChangeText={(v) => onElementChange(v, 'coinType')}
-            value={hdPath[1].toString()}
+            value={slip10IndexToString(hdPath[1])}
             editable={disabled !== true}
           />
           <Text style={styles.hdPathText}>/</Text>
         </>
       ) : (
         <Typography.Body1 style={styles.hdPathText}>
-          m/44&#39;/{hdPath[1].toString()}&#39;/
+          m/44&#39;/{slip10IndexToString(hdPath[1])}&#39;/
         </Typography.Body1>
       )}
 
@@ -113,7 +113,7 @@ const HdPathPicker: React.FC<HdPathPickerProps> = (props) => {
         inputStyle={styles.input}
         keyboardType="numeric"
         onChangeText={(v) => onElementChange(v, 'account')}
-        value={hdPath[2].toString()}
+        value={slip10IndexToString(hdPath[2])}
         editable={disabled !== true}
       />
       <Text style={styles.hdPathText}>/</Text>
@@ -122,7 +122,7 @@ const HdPathPicker: React.FC<HdPathPickerProps> = (props) => {
         inputStyle={styles.input}
         keyboardType="numeric"
         onChangeText={(v) => onElementChange(v, 'change')}
-        value={hdPath[3].toString()}
+        value={slip10IndexToString(hdPath[3])}
         editable={disabled !== true}
       />
       <Text style={styles.hdPathText}>/</Text>
@@ -131,7 +131,7 @@ const HdPathPicker: React.FC<HdPathPickerProps> = (props) => {
         inputStyle={styles.input}
         keyboardType="numeric"
         onChangeText={(v) => onElementChange(v, 'addressIndex')}
-        value={hdPath[4].toString()}
+        value={slip10IndexToString(hdPath[4])}
         editable={disabled !== true}
       />
     </View>

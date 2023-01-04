@@ -1,10 +1,19 @@
-import { LedgerWallet, MnemonicWallet, Wallet, WalletGenerationData, WalletType, Web3AuthWallet } from 'types/wallet';
+import {
+  LedgerWallet,
+  MnemonicWallet,
+  Wallet,
+  WalletGenerationData,
+  WalletType,
+  Web3AuthWallet,
+} from 'types/wallet';
 import { OfflineSignerAdapter, PrivateKeySigner, SigningMode } from '@desmoslabs/desmjs';
 import { HdPath } from '@cosmjs/crypto';
 import BluetoothTransport from '@ledgerhq/react-native-hw-transport-ble';
 import { LedgerSigner } from '@cosmjs/ledger-amino';
 import { CryptoUtils } from 'native/CryptoUtils';
 import { LedgerApp } from 'types/ledger';
+import { slip10IndexToBaseNumber } from 'lib/FormatUtils';
+import { fromHex } from '@cosmjs/encoding';
 
 /**
  * Function allowing to generate a list of [LedgerWallet].
@@ -14,13 +23,20 @@ import { LedgerApp } from 'types/ledger';
  * @param app - Ledger app that should be used to sign the transactions.
  * @param transport - Bluetooth Transport that should be used to connect to the Ledger device.
  */
-export const generateLedgerWallets = async (prefix: string, hdPaths: HdPath[], app: LedgerApp, transport: BluetoothTransport): Promise<LedgerWallet[]> => {
-  const signer = new OfflineSignerAdapter(new LedgerSigner(transport!, {
-    minLedgerAppVersion: app.minVersion,
-    ledgerAppName: app.name,
-    prefix,
-    hdPaths,
-  }));
+export const generateLedgerWallets = async (
+  prefix: string,
+  hdPaths: HdPath[],
+  app: LedgerApp,
+  transport: BluetoothTransport,
+): Promise<LedgerWallet[]> => {
+  const signer = new OfflineSignerAdapter(
+    new LedgerSigner(transport!, {
+      minLedgerAppVersion: app.minVersion,
+      ledgerAppName: app.name,
+      prefix,
+      hdPaths,
+    }),
+  );
 
   await signer.connect();
   const accounts = await signer.getAccounts();
@@ -40,32 +56,39 @@ export const generateLedgerWallets = async (prefix: string, hdPaths: HdPath[], a
  * the getAccounts() method will return all the information for each account.
  * @param mnemonic - Mnemonic from which to generate the wallet.
  */
-export const generateMnemonicWallets = async (prefix: string, hdPaths: HdPath[], mnemonic: string): Promise<MnemonicWallet[]> => {
-  return Promise.all(hdPaths.map(async hdPath => {
-    const [, coinType, account, change, index] = hdPath;
-    const { privateKey } = await CryptoUtils.fromMnemonic(
-      mnemonic,
-      coinType.toString(),
-      account.toString(),
-      change.toString(),
-      index.toString(),
-    );
+export const generateMnemonicWallets = async (
+  prefix: string,
+  hdPaths: HdPath[],
+  mnemonic: string,
+): Promise<MnemonicWallet[]> => {
+  return Promise.all(
+    hdPaths.map(async (hdPath) => {
+      const [, coinType, account, change, index] = hdPath;
+      const { privkey } = await CryptoUtils.deriveKeyPairFromMnemonic(
+        mnemonic,
+        slip10IndexToBaseNumber(coinType),
+        slip10IndexToBaseNumber(account),
+        slip10IndexToBaseNumber(change),
+        slip10IndexToBaseNumber(index),
+      );
+      const privKeyByteArray = fromHex(privkey);
+      console.log(privKeyByteArray.length, privKeyByteArray);
+      const signer = PrivateKeySigner.fromSecp256k1(privKeyByteArray, SigningMode.DIRECT, {
+        prefix,
+      });
+      await signer.connect();
 
-    const signer = PrivateKeySigner.fromSecp256k1(privateKey, SigningMode.DIRECT, {
-      prefix,
-    });
-    await signer.connect();
+      const [accountData] = await signer.getAccounts();
 
-    const [accountData] = await signer.getAccounts();
-
-    return {
-      type: WalletType.Mnemonic,
-      signer,
-      address: accountData.address,
-      hdPath,
-      privateKey: signer.privateKey.key,
-    } as MnemonicWallet;
-  }));
+      return {
+        type: WalletType.Mnemonic,
+        signer,
+        address: accountData.address,
+        hdPath,
+        privateKey: signer.privateKey.key,
+      } as MnemonicWallet;
+    }),
+  );
 };
 
 /**
@@ -74,7 +97,11 @@ export const generateMnemonicWallets = async (prefix: string, hdPaths: HdPath[],
  * @param loginProvider - Login provided used from the user to obtain the private key.
  * @param privateKey - The private key obtained from Web3Auth.
  */
-export const generateWeb3AuthWallet = async (prefix: string, loginProvider: string, privateKey: Uint8Array): Promise<Web3AuthWallet> => {
+export const generateWeb3AuthWallet = async (
+  prefix: string,
+  loginProvider: string,
+  privateKey: Uint8Array,
+): Promise<Web3AuthWallet> => {
   const signer = await PrivateKeySigner.fromSecp256k1(privateKey, SigningMode.DIRECT, {
     prefix,
   });
@@ -110,7 +137,11 @@ export const generateWallets = async (data: WalletGenerationData): Promise<Walle
       return generateMnemonicWallets(data.accountPrefix, data.hdPaths, data.mnemonic);
 
     case WalletType.Web3Auth: {
-      const wallet = await generateWeb3AuthWallet(data.accountPrefix, data.loginProvider, data.privateKey);
+      const wallet = await generateWeb3AuthWallet(
+        data.accountPrefix,
+        data.loginProvider,
+        data.privateKey,
+      );
       return [wallet];
     }
 

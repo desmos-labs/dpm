@@ -1,10 +1,8 @@
-import BluetoothTransport from '@ledgerhq/react-native-hw-transport-ble';
 import { debounce } from 'lodash';
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { ListRenderItemInfo, StyleProp, TouchableOpacity, View, ViewStyle } from 'react-native';
-import { LedgerApp } from 'types/ledger';
-import { Wallet } from 'types/wallet';
+import { Wallet, WalletType } from 'types/wallet';
 import Typography from 'components/Typography';
 import AddressListItem from 'components/AddressListItem';
 import HdPathPicker from 'components/HdPathPicker';
@@ -12,17 +10,15 @@ import Divider from 'components/Divider';
 import PaginatedFlatList from 'components/PaginatedFlatList';
 import ListItemSeparator from 'components/ListItemSeparator';
 import { HdPath } from '@cosmjs/crypto';
+import {
+  useFetchWallets,
+  useGenerateWalletFromHdPath,
+} from 'screens/PickDerivationPath/components/WalletPicker/useHooks';
+import { slip10IndexToBaseNumber } from 'lib/FormatUtils';
 import useStyles from './useStyles';
+import { WalletPickerMode, WalletPickerParams } from './types';
 
 export type WalletPickerProps = {
-  /**
-   * Base derivation path
-   */
-  defaultHdPath: HdPath;
-  /**
-   * Address prefix
-   */
-  addressPrefix: string;
   /**
    * Callback called when the component is generating the addresses
    * or the component have correctly generated all the addresses
@@ -36,42 +32,33 @@ export type WalletPickerProps = {
    */
   onWalletSelected: (wallet: Wallet | null) => void;
   /**
-   * Mnemonic used to generate the wallets.
+   * Params that tells the component how to generate the addresses that are showed to the
+   * user.
    */
-  mnemonic?: string;
-  /**
-   * transport to communicate with a Ledger device.
-   */
-  ledgerTransport?: BluetoothTransport;
-  /**
-   * Application that the user should have open on the Ledger.
-   */
-  ledgerApp?: LedgerApp;
-  /**
-   * Allow to edit derivation path coin type field.
-   */
-  allowCoinTypeEdit?: boolean;
+  params: WalletPickerParams;
   style?: StyleProp<ViewStyle>;
 };
 
 const WalletPicker: React.FC<WalletPickerProps> = ({
-  defaultHdPath,
-  addressPrefix,
   onGeneratingAddressesStateChange,
   onWalletSelected,
-  mnemonic,
-  ledgerTransport,
-  ledgerApp,
-  allowCoinTypeEdit,
+  params,
   style,
 }) => {
   const styles = useStyles();
   const { t } = useTranslation();
-  const [selectedHdPath, setSelectedHdPath] = useState<HdPath>(defaultHdPath);
+  const [selectedHdPath, setSelectedHdPath] = useState<HdPath>(params.masterHdPath);
   const [selectedWallet, setSelectedWallet] = useState<Wallet | null>(null);
   const [addressPickerVisible, setAddressPickerVisible] = useState(false);
   const [generatingAddresses] = useState(false);
-  const [, setGenerationError] = useState<string | null>(null);
+  const { generateWalletFromHdPath } = useGenerateWalletFromHdPath();
+  const { fetchWallets } = useFetchWallets(params);
+  const allowCoinTypeEdit = useMemo(() => {
+    if (params.mode === WalletPickerMode.Mnemonic) {
+      return params.allowCoinTypeEdit ?? false;
+    }
+    return false;
+  }, [params]);
 
   useEffect(() => {
     onWalletSelected(selectedWallet);
@@ -81,32 +68,9 @@ const WalletPicker: React.FC<WalletPickerProps> = ({
     onGeneratingAddressesStateChange(generatingAddresses);
   }, [generatingAddresses, onGeneratingAddressesStateChange]);
 
-  const generateWalletFromHdPath = useCallback(
-    async (hdPath: HdPath) => {
-      try {
-        let wallets: Wallet[];
-
-        if (ledgerTransport !== undefined) {
-          wallets = await generateWalletsFromLedger(ledgerTransport, ledgerApp!, addressPrefix, [
-            hdPath,
-          ]);
-        } else {
-          wallets = await generateWalletsFromMnemonic(mnemonic!, addressPrefix, [hdPath]);
-        }
-
-        return wallets[0];
-      } catch (e) {
-        console.error(e);
-        setGenerationError(e.toString());
-        return null;
-      }
-    },
-    [addressPrefix, ledgerApp, ledgerTransport, mnemonic],
-  );
-
   useEffect(() => {
     (async () => {
-      const wallet = await generateWalletFromHdPath(selectedHdPath);
+      const wallet = await generateWalletFromHdPath(selectedHdPath, params);
       setSelectedWallet(wallet);
     })();
   }, []);
@@ -114,26 +78,36 @@ const WalletPicker: React.FC<WalletPickerProps> = ({
   const toggleAddressPicker = useCallback(() => {
     setAddressPickerVisible((visible) => {
       if (!visible) {
-        // The address picker is is being displayed,
+        // The address picker is being displayed,
         // remove the wallet generated from the derivation path.
         setSelectedWallet(null);
-        setSelectedHdPath(defaultHdPath);
+        setSelectedHdPath(params.masterHdPath);
       } else if (selectedWallet === null) {
-        setSelectedHdPath(defaultHdPath);
-        generateWalletFromHdPath(defaultHdPath).then((wallet) => {
+        setSelectedHdPath(params.masterHdPath);
+        generateWalletFromHdPath(params.masterHdPath, params).then((wallet) => {
           setSelectedWallet(wallet);
         });
       }
       return !visible;
     });
-  }, [setSelectedWallet, defaultHdPath, selectedWallet, generateWalletFromHdPath]);
+  }, [setSelectedWallet, selectedWallet, generateWalletFromHdPath, params]);
 
   const renderListItem = useCallback(
     (info: ListRenderItemInfo<Wallet>) => {
       const { address } = info.item;
+      let number = 0;
+      switch (info.item.type) {
+        case WalletType.Mnemonic:
+        case WalletType.Ledger:
+          number = slip10IndexToBaseNumber(info.item.hdPath[2]);
+          break;
+        default:
+          number = 0;
+          break;
+      }
       return (
         <AddressListItem
-          number={1}
+          number={number}
           address={address}
           highlight={selectedWallet?.address === address}
           onPress={() => {
@@ -147,13 +121,14 @@ const WalletPicker: React.FC<WalletPickerProps> = ({
     [selectedWallet, setSelectedWallet],
   );
 
-  const listKeyExtractor = useCallback((item: Wallet, _: number) => item.address, []);
+  const listKeyExtractor = useCallback((item: Wallet) => item.address, []);
+
   const debouncedGenerateWallet = useCallback(
     debounce(async (hdPath: HdPath) => {
-      const wallet = await generateWalletFromHdPath(hdPath);
+      const wallet = await generateWalletFromHdPath(hdPath, params);
       setSelectedWallet(wallet);
     }, 2000),
-    [generateWalletFromHdPath],
+    [generateWalletFromHdPath, params],
   );
 
   const onHdPathChange = useCallback(
@@ -163,13 +138,6 @@ const WalletPicker: React.FC<WalletPickerProps> = ({
       debouncedGenerateWallet(hdPath);
     },
     [debouncedGenerateWallet, setSelectedWallet],
-  );
-
-  const fetchWallets = useCallback(
-    async (_offset: number, _limit: number) => {
-      return [];
-    },
-    [],
   );
 
   return (
@@ -184,7 +152,7 @@ const WalletPicker: React.FC<WalletPickerProps> = ({
         onChange={onHdPathChange}
         value={selectedHdPath}
         disabled={addressPickerVisible}
-        allowCoinTypeEdit={ledgerTransport === undefined && allowCoinTypeEdit}
+        allowCoinTypeEdit={allowCoinTypeEdit}
       />
 
       {!addressPickerVisible && (
@@ -224,22 +192,5 @@ const WalletPicker: React.FC<WalletPickerProps> = ({
     </View>
   );
 };
-
-async function generateWalletsFromMnemonic(
-  _mnemonic: string,
-  _prefix: string,
-  _hdPaths: HdPath[],
-): Promise<Wallet[]> {
-  return Promise.resolve([]);
-}
-
-async function generateWalletsFromLedger(
-  _transport: BluetoothTransport,
-  _ledgerApp: LedgerApp,
-  _prefix: string,
-  _hdPaths: HdPath[],
-): Promise<Wallet[]> {
-  return Promise.resolve([]);
-}
 
 export default WalletPicker;

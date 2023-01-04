@@ -1,21 +1,22 @@
 import { StackScreenProps } from '@react-navigation/stack';
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { FC, useCallback, useEffect, useState } from 'react';
 import { Trans, useTranslation } from 'react-i18next';
 import { View } from 'react-native';
 import { ActivityIndicator } from 'react-native-paper';
-import { AccountCreationStackParams } from 'types/navigation';
 import { randomMnemonic } from 'lib/WalletUtils/mnemonic';
 import Typography from 'components/Typography';
 import MnemonicGrid from 'components/MnemonicGrid';
 import Button from 'components/Button';
 import StyledSafeAreaView from 'components/StyledSafeAreaView';
 import TopBar from 'components/TopBar';
+import { RootNavigatorParamList } from 'navigation/RootNavigator';
+import ROUTES from 'navigation/routes';
 import InlineButton from './components/InlineButton';
 import useStyles from './useStyles';
 
-declare type Props = StackScreenProps<AccountCreationStackParams, 'GenerateNewMnemonic'>;
+declare type NavProps = StackScreenProps<RootNavigatorParamList, ROUTES.CREATE_WALLET>;
 
-const GenerateNewMnemonic = (props: Props) => {
+const GenerateNewMnemonic: FC<NavProps> = (props) => {
   const { navigation } = props;
   const styles = useStyles();
   const { t } = useTranslation();
@@ -54,14 +55,16 @@ const GenerateNewMnemonic = (props: Props) => {
     generateMnemonic(mnemonicLength).then(setMnemonic);
   }, []);
 
-  const onOkPressed = () => {
-    navigation.navigate({
-      name: 'CheckMnemonic',
-      params: {
-        mnemonic: mnemonic!,
-      },
-    });
-  };
+  const onOkPressed = useCallback(() => {
+    if (mnemonic !== null) {
+      navigation.navigate({
+        name: ROUTES.CHECK_MNEMONIC,
+        params: {
+          mnemonic,
+        },
+      });
+    }
+  }, [navigation, mnemonic]);
 
   return (
     <StyledSafeAreaView style={styles.root} topBar={<TopBar stackProps={props} />}>
@@ -71,7 +74,7 @@ const GenerateNewMnemonic = (props: Props) => {
           i18nKey="save recovery passphrase"
           components={{
             bold: (
-              <Typography.Subtitle style={styles.saveMnemonicAdviceSubtitle}/>
+              <Typography.Subtitle style={styles.saveMnemonicAdviceSubtitle} />
             ),
           }}
         />

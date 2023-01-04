@@ -1,19 +1,31 @@
 import { StackScreenProps } from '@react-navigation/stack';
-import React, { useCallback, useMemo, useState } from 'react';
+import React, { FC, useCallback, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { View } from 'react-native';
-import { AccountCreationStackParams } from 'types/navigation';
 import Typography from 'components/Typography';
 import _ from 'lodash';
 import MnemonicWordBadge from 'components/MnemonicWordBadge';
 import StyledSafeAreaView from 'components/StyledSafeAreaView';
 import TopBar from 'components/TopBar';
 import Button from 'components/Button';
+import { RootNavigatorParamList } from 'navigation/RootNavigator';
+import ROUTES from 'navigation/routes';
+import {
+  WalletPickerMnemonicParams,
+  WalletPickerMode,
+} from 'screens/PickDerivationPath/components/WalletPicker/types';
+import { DesmosHdPath } from 'types/chainsHdPaths';
+import { useRecoilValue } from 'recoil';
+import { accountsHdPathsAppState } from '@recoil/accounts';
 import useStyles from './useStyles';
 
-declare type Props = StackScreenProps<AccountCreationStackParams, 'CheckMnemonic'>;
+export type CheckMnemonicParams = {
+  mnemonic: string;
+};
 
-const CheckMnemonic = (props: Props) => {
+declare type NavProps = StackScreenProps<RootNavigatorParamList, ROUTES.CHECK_MNEMONIC>;
+
+const CheckMnemonic: FC<NavProps> = (props) => {
   const {
     route: {
       params: { mnemonic },
@@ -27,6 +39,7 @@ const CheckMnemonic = (props: Props) => {
   const words = useMemo(() => _.shuffle(receivedMnemonic.split(' ')), [receivedMnemonic]);
   const [selectedWords, setSelectedWords] = useState<string[]>([]);
   const [availableWords, setAvailableWords] = useState<string[]>([...words]);
+  const accountsHdPaths = useRecoilValue(accountsHdPathsAppState);
 
   const onWordSelected = useCallback(
     (word: string) => {
@@ -60,16 +73,23 @@ const CheckMnemonic = (props: Props) => {
       const composedMnemonic = selectedWords.join(' ');
       if (receivedMnemonic === composedMnemonic) {
         navigation.navigate({
-          name: 'PickDerivationPath',
+          name: ROUTES.SELECT_ACCOUNT,
           params: {
-            mnemonic: composedMnemonic,
+            walletPickerParams: {
+              mode: WalletPickerMode.Mnemonic,
+              mnemonic,
+              masterHdPath: DesmosHdPath,
+              addressPrefix: 'desmos',
+              allowCoinTypeEdit: false,
+              ignorePaths: accountsHdPaths,
+            } as WalletPickerMnemonicParams,
           },
         });
       } else {
         setErrorMessage(t('invalid recovery passphrase'));
       }
     }
-  }, [navigation, receivedMnemonic, selectedWords, t, words.length]);
+  }, [navigation, receivedMnemonic, selectedWords, words.length, mnemonic, accountsHdPaths]);
 
   return (
     <StyledSafeAreaView style={styles.root} topBar={<TopBar stackProps={props} />}>

@@ -1,5 +1,6 @@
-import {Coin} from '@desmoslabs/desmjs-types/cosmos/base/v1beta1/coin';
-import {ChainInfo, convertCoin} from '@desmoslabs/desmjs';
+import { Coin } from '@desmoslabs/desmjs-types/cosmos/base/v1beta1/coin';
+import { ChainInfo, convertCoin } from '@desmoslabs/desmjs';
+import { Slip10RawIndex } from '@cosmjs/crypto';
 
 /**
  * Safely parse the given value as an integer, returning 0 if malformed.
@@ -12,7 +13,6 @@ export const safeParseInt = (value: string): number => {
   }
   return number;
 };
-
 
 /**
  * Formats the given coins and returns a string representing the overall amount.
@@ -40,4 +40,20 @@ export const formatCoins = (chainInfo: ChainInfo, amount: Coin[] | undefined): s
  */
 export const sanitizeMnemonic = (mnemonic: string): string => {
   return mnemonic.replace(/\n\n/g, ' ').trim();
+};
+
+/**
+ * Converts a [Slip10RawIndex] to it's base number representation.
+ * @param index - The index to convert.
+ */
+export const slip10IndexToBaseNumber = (index: Slip10RawIndex): number => {
+  return index.isHardened() ? index.toNumber() - 2 ** 31 : index.toNumber();
+};
+
+/**
+ * Converts a [Slip10RawIndex] to it string representation.
+ * @param index - The index to convert to string.
+ */
+export const slip10IndexToString = (index: Slip10RawIndex): string => {
+  return slip10IndexToBaseNumber(index).toString();
 };
