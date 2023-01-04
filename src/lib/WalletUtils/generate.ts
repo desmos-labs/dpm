@@ -13,7 +13,6 @@ import { LedgerSigner } from '@cosmjs/ledger-amino';
 import { CryptoUtils } from 'native/CryptoUtils';
 import { LedgerApp } from 'types/ledger';
 import { slip10IndexToBaseNumber } from 'lib/FormatUtils';
-import { fromHex } from '@cosmjs/encoding';
 
 /**
  * Function allowing to generate a list of [LedgerWallet].
@@ -71,9 +70,7 @@ export const generateMnemonicWallets = async (
         slip10IndexToBaseNumber(change),
         slip10IndexToBaseNumber(index),
       );
-      const privKeyByteArray = fromHex(privkey);
-      console.log(privKeyByteArray.length, privKeyByteArray);
-      const signer = PrivateKeySigner.fromSecp256k1(privKeyByteArray, SigningMode.DIRECT, {
+      const signer = PrivateKeySigner.fromSecp256k1(privkey, SigningMode.DIRECT, {
         prefix,
       });
       await signer.connect();
