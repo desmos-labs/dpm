@@ -5,7 +5,7 @@ import GenerateNewMnemonic from 'screens/GenerateNewMnemonic';
 import ImportRecoveryPassphrase from 'screens/ImportRecoveryPassphrase';
 import Legal from 'screens/Legal';
 import Landing from 'screens/Landing';
-import SelectAccount from 'screens/PickDerivationPath';
+import SelectAddress from 'screens/SelectAddress';
 import WalletPassword from 'screens/WalletPassword';
 import { AccountCreationStack } from 'types/navigation';
 
@@ -21,7 +21,7 @@ const AccountCreationScreens = () => {
       <AccountCreationStack.Screen name="Legal" component={Legal} />
       <AccountCreationStack.Screen name="GenerateNewMnemonic" component={GenerateNewMnemonic} />
       <AccountCreationStack.Screen name="CheckMnemonic" component={CheckMnemonic} />
-      <AccountCreationStack.Screen name="PickDerivationPath" component={SelectAccount} />
+      <AccountCreationStack.Screen name="PickDerivationPath" component={SelectAddress} />
       <AccountCreationStack.Screen
         name="ImportRecoveryPassphrase"
         component={ImportRecoveryPassphrase}

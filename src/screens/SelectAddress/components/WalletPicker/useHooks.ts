@@ -1,12 +1,12 @@
 import { useCallback, useState } from 'react';
 import { HdPath, Slip10RawIndex } from '@cosmjs/crypto';
-import { Wallet, WalletGenerationData, WalletType } from 'types/wallet';
+import { WalletGenerationData, WalletType } from 'types/wallet';
 import _ from 'lodash';
 import { generateWallets } from 'lib/WalletUtils/generate';
 import {
   WalletPickerMode,
   WalletPickerParams,
-} from 'screens/PickDerivationPath/components/WalletPicker/types';
+} from 'screens/SelectAddress/components/WalletPicker/types';
 
 function generationParamsToWalletGenerationData(
   params: WalletPickerParams,
@@ -70,12 +70,8 @@ export const useFetchWallets = (params: WalletPickerParams) => {
   const { generateWalletFromHdPath } = useGenerateWalletFromHdPath();
 
   const fetchWallets = useCallback(
-    async (offset: number, limit: number) => {
-      if (offset + limit >= 256) {
-        return null;
-      }
-
-      let paths = _.range(offset, offset + limit)
+    async (start: number, end: number) => {
+      let paths = _.range(start, end)
         .map(Slip10RawIndex.hardened)
         .map((accountIndex) => {
           const path = [...params.masterHdPath];

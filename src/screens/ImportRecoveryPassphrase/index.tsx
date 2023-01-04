@@ -16,7 +16,7 @@ import ROUTES from 'navigation/routes';
 import {
   WalletPickerMnemonicParams,
   WalletPickerMode,
-} from 'screens/PickDerivationPath/components/WalletPicker/types';
+} from 'screens/SelectAddress/components/WalletPicker/types';
 import { DesmosHdPath } from 'types/chainsHdPaths';
 import { useRecoilValue } from 'recoil';
 import { accountsHdPathsAppState } from '@recoil/accounts';

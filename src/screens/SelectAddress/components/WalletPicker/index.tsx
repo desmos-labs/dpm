@@ -13,7 +13,7 @@ import { HdPath } from '@cosmjs/crypto';
 import {
   useFetchWallets,
   useGenerateWalletFromHdPath,
-} from 'screens/PickDerivationPath/components/WalletPicker/useHooks';
+} from 'screens/SelectAddress/components/WalletPicker/useHooks';
 import { slip10IndexToBaseNumber } from 'lib/FormatUtils';
 import useStyles from './useStyles';
 import { WalletPickerMode, WalletPickerParams } from './types';
@@ -95,7 +95,7 @@ const WalletPicker: React.FC<WalletPickerProps> = ({
   const renderListItem = useCallback(
     (info: ListRenderItemInfo<Wallet>) => {
       const { address } = info.item;
-      let number = 0;
+      let number;
       switch (info.item.type) {
         case WalletType.Mnemonic:
         case WalletType.Ledger:

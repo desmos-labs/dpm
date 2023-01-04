@@ -1,8 +1,8 @@
-import {makeStyle} from 'config/theme';
+import { makeStyle } from 'config/theme';
 
 const useStyles = makeStyle((theme) => ({
   root: {
-    flex: 1,
+    paddingTop: 0,
   },
   hpPathLabel: {
     marginTop: theme.spacing.l,
@@ -37,6 +37,9 @@ const useStyles = makeStyle((theme) => ({
   addressesList: {
     flex: 1,
     marginTop: theme.spacing.s,
+  },
+  nextButton: {
+    marginTop: theme.spacing.m,
   },
   disabledText: {
     color: theme.colors.disabled,
