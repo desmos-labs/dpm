@@ -9,10 +9,7 @@ import { RootNavigatorParamList } from 'navigation/RootNavigator';
 import ROUTES from 'navigation/routes';
 import useStyles from './useStyles';
 
-export type NavProps = StackScreenProps<
-  RootNavigatorParamList,
-  ROUTES.LANDING
->;
+export type NavProps = StackScreenProps<RootNavigatorParamList, ROUTES.LANDING>;
 
 const Landing = ({ navigation }: NavProps) => {
   const { t } = useTranslation();
@@ -53,12 +50,13 @@ const Landing = ({ navigation }: NavProps) => {
   }, [navigation]);
 
   const onImportMnemonic = useCallback(() => {
-
+    navigation.navigate({
+      name: ROUTES.IMPORT_RECOVERY_PASSPHRASE,
+      params: undefined,
+    });
   }, [navigation]);
 
-  const onImportWithLedger = useCallback(() => {
-
-  }, [navigation]);
+  const onImportWithLedger = useCallback(() => {}, [navigation]);
 
   const goBack = useCallback(() => {
     navigation.goBack();

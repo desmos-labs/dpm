@@ -1,27 +1,36 @@
 import { EnglishMnemonic } from '@cosmjs/crypto';
 import { StackScreenProps } from '@react-navigation/stack';
-import React, { useState } from 'react';
+import React, { FC, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { KeyboardAvoidingView, Platform } from 'react-native';
 import Flexible from 'components/Flexible';
 import Typography from 'components/Typography';
-import { AccountCreationStackParams } from 'types/navigation';
 import { checkMnemonic } from 'lib/WalletUtils/mnemonic';
 import { sanitizeMnemonic } from 'lib/FormatUtils';
 import StyledSafeAreaView from 'components/StyledSafeAreaView';
 import TopBar from 'components/TopBar';
 import TextInput from 'components/TextInput';
 import Button from 'components/Button';
+import { RootNavigatorParamList } from 'navigation/RootNavigator';
+import ROUTES from 'navigation/routes';
+import {
+  WalletPickerMnemonicParams,
+  WalletPickerMode,
+} from 'screens/PickDerivationPath/components/WalletPicker/types';
+import { DesmosHdPath } from 'types/chainsHdPaths';
+import { useRecoilValue } from 'recoil';
+import { accountsHdPathsAppState } from '@recoil/accounts';
 import useStyles from './useStyles';
 
-declare type Props = StackScreenProps<AccountCreationStackParams, 'ImportRecoveryPassphrase'>;
+declare type NavProps = StackScreenProps<RootNavigatorParamList, ROUTES.IMPORT_RECOVERY_PASSPHRASE>;
 
-const ImportRecoveryPassphrase = (props: Props) => {
+const ImportRecoveryPassphrase: FC<NavProps> = (props) => {
   const styles = useStyles();
   const { t } = useTranslation();
   const [mnemonic, setMnemonic] = useState<string>('');
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const { navigation } = props;
+  const accountsHdPaths = useRecoilValue(accountsHdPathsAppState);
 
   const onMnemonicChange = (changedMnemonic: string) => {
     const sanitizedMnemonic = sanitizeMnemonic(changedMnemonic);
@@ -43,9 +52,16 @@ const ImportRecoveryPassphrase = (props: Props) => {
 
       if (checkMnemonic(sanitizedMnemonic)) {
         navigation.navigate({
-          name: 'PickDerivationPath',
+          name: ROUTES.SELECT_ACCOUNT,
           params: {
-            mnemonic: sanitizedMnemonic,
+            walletPickerParams: {
+              mode: WalletPickerMode.Mnemonic,
+              mnemonic,
+              masterHdPath: DesmosHdPath,
+              addressPrefix: 'desmos',
+              allowCoinTypeEdit: false,
+              ignorePaths: accountsHdPaths,
+            } as WalletPickerMnemonicParams,
           },
         });
       } else {

@@ -6,11 +6,13 @@ import Landing from 'screens/Landing';
 import GenerateNewMnemonic from 'screens/GenerateNewMnemonic';
 import CheckMnemonic, { CheckMnemonicParams } from 'screens/CheckMnemonic';
 import PickDerivationPath, { SelectAccountParams } from 'screens/PickDerivationPath';
+import ImportRecoveryPassphrase from 'screens/ImportRecoveryPassphrase';
 
 export type RootNavigatorParamList = {
   [ROUTES.DEV_SCREEN]: undefined;
   [ROUTES.LANDING]: undefined;
   [ROUTES.CREATE_WALLET]: undefined;
+  [ROUTES.IMPORT_RECOVERY_PASSPHRASE]: undefined;
   [ROUTES.CHECK_MNEMONIC]: CheckMnemonicParams;
   [ROUTES.SELECT_ACCOUNT]: SelectAccountParams;
   [ROUTES.CREATE_WALLET_PASSWORD]: undefined;
@@ -28,6 +30,7 @@ const RootNavigator = () => {
       {__DEV__ && <Stack.Screen name={ROUTES.DEV_SCREEN} component={DevScreen} />}
       <Stack.Screen name={ROUTES.LANDING} component={Landing} />
       <Stack.Screen name={ROUTES.CREATE_WALLET} component={GenerateNewMnemonic} />
+      <Stack.Screen name={ROUTES.IMPORT_RECOVERY_PASSPHRASE} component={ImportRecoveryPassphrase} />
       <Stack.Screen name={ROUTES.CHECK_MNEMONIC} component={CheckMnemonic} />
       <Stack.Screen name={ROUTES.SELECT_ACCOUNT} component={PickDerivationPath} />
     </Stack.Navigator>

@@ -13,6 +13,11 @@ enum ROUTES {
    */
   CREATE_WALLET = 'CREATE_WALLET',
   /**
+   * Screen that allow the user to import a wallet through a 12/24 words
+   * mnemonic.
+   */
+  IMPORT_RECOVERY_PASSPHRASE = 'IMPORT_RECOVERY_PASSPHRASE',
+  /**
    * Screen that allow the user to check if the inserted
    * mnemonic is what he wrote down.
    */
