@@ -53,6 +53,7 @@
     "date-fns": "^2.25.0",
     "dns.js": "1.0.1",
     "domain-browser": "1.2.0",
+    "eslint-config-airbnb-typescript": "^17.0.0",
     "events": "1.1.1",
     "graphql": "15.6.1",
     "https-browserify": "0.0.1",

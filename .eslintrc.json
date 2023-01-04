@@ -1,0 +1,59 @@
+{
+  "env": {
+    "es6": true,
+    "jest": true
+  },
+  "extends": [
+    "airbnb-base",
+    "airbnb-typescript/base",
+    "plugin:import/errors",
+    "plugin:import/warnings",
+    "plugin:import/typescript",
+    "plugin:prettier/recommended"
+  ],
+  "parserOptions": {
+    "ecmaVersion": "latest",
+    "sourceType": "module",
+    "project": "./tsconfig.json"
+  },
+  "parser": "@typescript-eslint/parser",
+  "plugins": [
+    "@typescript-eslint"
+  ],
+  "rules": {
+    "class-methods-use-this": [
+      "off"
+    ],
+    "import/extensions": [
+      "error",
+      "ignorePackages",
+      {
+        "js": "never",
+        "jsx": "never",
+        "ts": "never",
+        "tsx": "never"
+      }
+    ],
+    "prettier/prettier": "error",
+    // Avoiding refactoring every image request, is fine to use (written also in the react-native doc)
+    "global-require": 0,
+    // Strange behavior with default imports
+    "import/no-named-as-default": 0,
+    // Typescript related warnings
+    "@typescript-eslint/no-use-before-define": 0
+  },
+  "settings": {
+    "import/resolver": {
+      "node": {
+        "extensions": [
+          ".js",
+          ".jsx",
+          ".ts",
+          ".tsx",
+          ".json"
+        ]
+      },
+      "typescript": {}
+    }
+  }
+}
