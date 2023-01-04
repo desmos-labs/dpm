@@ -31,6 +31,11 @@ enum ROUTES {
    * used to encrypt the user's wallets.
    */
   CREATE_WALLET_PASSWORD = 'CREATE_WALLET_PASSWORD',
+  /**
+   * Screen that allow the user to check that have written the
+   * correct password before encrypting the wallet.
+   */
+  CHECK_WALLET_PASSWORD = 'CHECK_WALLET_PASSWORD',
 }
 
 export default ROUTES;

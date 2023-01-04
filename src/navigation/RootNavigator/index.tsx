@@ -8,6 +8,7 @@ import CheckMnemonic, { CheckMnemonicParams } from 'screens/CheckMnemonic';
 import PickDerivationPath, { SelectAddressParams } from 'screens/SelectAddress';
 import ImportRecoveryPassphrase from 'screens/ImportRecoveryPassphrase';
 import CreateWalletPassword, { CreateWalletPasswordParams } from 'screens/CreateWalletPassword';
+import CheckWalletPassword, { CheckWalletPasswordParams } from 'screens/CheckWalletPassword';
 
 export type RootNavigatorParamList = {
   [ROUTES.DEV_SCREEN]: undefined;
@@ -17,6 +18,7 @@ export type RootNavigatorParamList = {
   [ROUTES.CHECK_MNEMONIC]: CheckMnemonicParams;
   [ROUTES.SELECT_ACCOUNT]: SelectAddressParams;
   [ROUTES.CREATE_WALLET_PASSWORD]: CreateWalletPasswordParams;
+  [ROUTES.CHECK_WALLET_PASSWORD]: CheckWalletPasswordParams;
 };
 
 const Stack = createStackNavigator<RootNavigatorParamList>();
@@ -35,6 +37,7 @@ const RootNavigator = () => {
       <Stack.Screen name={ROUTES.CHECK_MNEMONIC} component={CheckMnemonic} />
       <Stack.Screen name={ROUTES.SELECT_ACCOUNT} component={PickDerivationPath} />
       <Stack.Screen name={ROUTES.CREATE_WALLET_PASSWORD} component={CreateWalletPassword} />
+      <Stack.Screen name={ROUTES.CHECK_WALLET_PASSWORD} component={CheckWalletPassword} />
     </Stack.Navigator>
   );
 };

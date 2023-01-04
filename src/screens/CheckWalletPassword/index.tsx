@@ -4,23 +4,22 @@ import { useTranslation } from 'react-i18next';
 import { KeyboardAvoidingView, Platform, View } from 'react-native';
 import SecureTextInput from 'components/SecureTextInput';
 import Typography from 'components/Typography';
-import evaluatePasswordComplexity from 'hooks/useEvaluatePasswordComplexity';
 import StyledSafeAreaView from 'components/StyledSafeAreaView';
 import TopBar from 'components/TopBar';
-import PasswordComplexityScore from 'components/PasswordComplexityScore';
 import Button from 'components/Button';
 import { RootNavigatorParamList } from 'navigation/RootNavigator';
 import ROUTES from 'navigation/routes';
 import { Wallet } from 'types/wallet';
 import useStyles from './useStyles';
 
-export interface CreateWalletPasswordParams {
+export interface CheckWalletPasswordParams {
+  password: string;
   wallet: Wallet;
 }
 
-export type NavProps = StackScreenProps<RootNavigatorParamList, ROUTES.CREATE_WALLET_PASSWORD>;
+export type NavProps = StackScreenProps<RootNavigatorParamList, ROUTES.CHECK_WALLET_PASSWORD>;
 
-const WalletPassword = (props: NavProps) => {
+const CheckWalletPassword = (props: NavProps) => {
   const { navigation, route } = props;
   const { t } = useTranslation();
   const styles = useStyles();
@@ -32,23 +31,18 @@ const WalletPassword = (props: NavProps) => {
     setErrorMessage(null);
   };
 
-  const onContinuePressed = useCallback(async () => {
-    navigation.navigate({
-      name: ROUTES.CHECK_WALLET_PASSWORD,
-      params: {
-        password,
-        wallet: route.params.wallet,
-      },
-    });
+  const onContinuePressed = useCallback(() => {
+    if (password !== route.params.password) {
+      setErrorMessage(t('wrong confirmation password'));
+    } else {
+    }
   }, [password]);
 
   return (
     <StyledSafeAreaView style={styles.root} topBar={<TopBar stackProps={props} />}>
-      <Typography.Title>{t('create password')}</Typography.Title>
-      <Typography.Body>{t('add an extra security')}</Typography.Body>
+      <Typography.Title>{t('confirm password')}</Typography.Title>
       <View style={styles.passwordLabel}>
         <Typography.Body>{t('enter security password')}</Typography.Body>
-        <PasswordComplexityScore score={evaluatePasswordComplexity(password)} />
       </View>
       <SecureTextInput
         placeholder={t('password')}
@@ -58,9 +52,6 @@ const WalletPassword = (props: NavProps) => {
         onSubmitEditing={onContinuePressed}
         autoFocus
       />
-      <Typography.Body style={styles.passwordComplexityHint}>
-        {t('password complexity hint')}.
-      </Typography.Body>
       <Typography.Body style={styles.errorParagraph}>{errorMessage}</Typography.Body>
       <KeyboardAvoidingView
         keyboardVerticalOffset={Platform.OS === 'ios' ? 110 : 0}
@@ -74,4 +65,4 @@ const WalletPassword = (props: NavProps) => {
   );
 };
 
-export default WalletPassword;
+export default CheckWalletPassword;

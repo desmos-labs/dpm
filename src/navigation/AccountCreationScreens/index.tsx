@@ -6,7 +6,7 @@ import ImportRecoveryPassphrase from 'screens/ImportRecoveryPassphrase';
 import Legal from 'screens/Legal';
 import Landing from 'screens/Landing';
 import SelectAddress from 'screens/SelectAddress';
-import WalletPassword from 'screens/WalletPassword';
+import WalletPassword from 'screens/CheckWalletPassword';
 import { AccountCreationStack } from 'types/navigation';
 
 const AccountCreationScreens = () => {
