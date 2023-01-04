@@ -31,7 +31,6 @@ const PaginatedFlatList = (props: PaginatedFlatListProps<any>) => {
       const itemsToFetch = itemsPerPage - fetched.length;
       // Need to understand how to refactor this part. Actually we can't use Promise.all because it is a while loop.
       // eslint-disable-next-line no-await-in-loop
-      console.log('load page', offset, offset + itemsToFetch);
       const items = await loadPage(offset, offset + itemsToFetch);
       if (items !== null) {
         fetched.push(...items);
@@ -40,6 +39,7 @@ const PaginatedFlatList = (props: PaginatedFlatListProps<any>) => {
         itemsAvailable = false;
       }
     }
+
     if (fetched.length > 0) {
       setData((current) => [...current, ...fetched]);
     }
