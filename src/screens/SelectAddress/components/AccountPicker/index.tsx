@@ -12,13 +12,14 @@ import ListItemSeparator from 'components/ListItemSeparator';
 import { HdPath } from '@cosmjs/crypto';
 import {
   useFetchWallets,
-  useGenerateWalletFromHdPath,
-} from 'screens/SelectAddress/components/WalletPicker/useHooks';
+  useGenerateAccountWithWalletFromHdPath,
+} from 'screens/SelectAddress/components/AccountPicker/useHooks';
 import { slip10IndexToBaseNumber } from 'lib/FormatUtils';
+import { AccountWithWallet } from 'types/account';
 import useStyles from './useStyles';
 import { WalletPickerMode, WalletPickerParams } from './types';
 
-export type WalletPickerProps = {
+export type AccountPickerProps = {
   /**
    * Callback called when the component is generating the addresses
    * or the component have correctly generated all the addresses
@@ -30,7 +31,7 @@ export type WalletPickerProps = {
    * Callback called when the user select a wallet.
    * @param wallet
    */
-  onWalletSelected: (wallet: Wallet | null) => void;
+  onAccountSelected: (wallet: AccountWithWallet | null) => void;
   /**
    * Params that tells the component how to generate the addresses that are showed to the
    * user.
@@ -39,19 +40,19 @@ export type WalletPickerProps = {
   style?: StyleProp<ViewStyle>;
 };
 
-const WalletPicker: React.FC<WalletPickerProps> = ({
+const AccountPicker: React.FC<AccountPickerProps> = ({
   onGeneratingAddressesStateChange,
-  onWalletSelected,
+  onAccountSelected,
   params,
   style,
 }) => {
   const styles = useStyles();
   const { t } = useTranslation();
   const [selectedHdPath, setSelectedHdPath] = useState<HdPath>(params.masterHdPath);
-  const [selectedWallet, setSelectedWallet] = useState<Wallet | null>(null);
+  const [selectedAccount, setSelectedAccount] = useState<AccountWithWallet | null>(null);
   const [addressPickerVisible, setAddressPickerVisible] = useState(false);
   const [generatingAddresses] = useState(false);
-  const { generateWalletFromHdPath } = useGenerateWalletFromHdPath();
+  const { generateWalletAccountFromHdPath } = useGenerateAccountWithWalletFromHdPath();
   const { fetchWallets } = useFetchWallets(params);
   const allowCoinTypeEdit = useMemo(() => {
     if (params.mode === WalletPickerMode.Mnemonic) {
@@ -61,8 +62,8 @@ const WalletPicker: React.FC<WalletPickerProps> = ({
   }, [params]);
 
   useEffect(() => {
-    onWalletSelected(selectedWallet);
-  }, [selectedWallet, onWalletSelected]);
+    onAccountSelected(selectedAccount);
+  }, [selectedAccount, onAccountSelected]);
 
   useEffect(() => {
     onGeneratingAddressesStateChange(generatingAddresses);
@@ -70,8 +71,8 @@ const WalletPicker: React.FC<WalletPickerProps> = ({
 
   useEffect(() => {
     (async () => {
-      const wallet = await generateWalletFromHdPath(selectedHdPath, params);
-      setSelectedWallet(wallet);
+      const account = await generateWalletAccountFromHdPath(selectedHdPath, params);
+      setSelectedAccount(account);
     })();
   }, []);
 
@@ -80,26 +81,26 @@ const WalletPicker: React.FC<WalletPickerProps> = ({
       if (!visible) {
         // The address picker is being displayed,
         // remove the wallet generated from the derivation path.
-        setSelectedWallet(null);
+        setSelectedAccount(null);
         setSelectedHdPath(params.masterHdPath);
-      } else if (selectedWallet === null) {
+      } else if (selectedAccount === null) {
         setSelectedHdPath(params.masterHdPath);
-        generateWalletFromHdPath(params.masterHdPath, params).then((wallet) => {
-          setSelectedWallet(wallet);
+        generateWalletAccountFromHdPath(params.masterHdPath, params).then((account) => {
+          setSelectedAccount(account);
         });
       }
       return !visible;
     });
-  }, [setSelectedWallet, selectedWallet, generateWalletFromHdPath, params]);
+  }, [setSelectedAccount, selectedAccount, generateWalletAccountFromHdPath, params]);
 
   const renderListItem = useCallback(
-    (info: ListRenderItemInfo<Wallet>) => {
-      const { address } = info.item;
+    (info: ListRenderItemInfo<AccountWithWallet>) => {
+      const { address } = info.item.account;
       let number;
-      switch (info.item.type) {
+      switch (info.item.wallet.type) {
         case WalletType.Mnemonic:
         case WalletType.Ledger:
-          number = slip10IndexToBaseNumber(info.item.hdPath[2]);
+          number = slip10IndexToBaseNumber(info.item.wallet.hdPath[2]);
           break;
         default:
           number = 0;
@@ -109,35 +110,35 @@ const WalletPicker: React.FC<WalletPickerProps> = ({
         <AddressListItem
           number={number}
           address={address}
-          highlight={selectedWallet?.address === address}
+          highlight={selectedAccount?.account.address === address}
           onPress={() => {
-            const wallet = selectedWallet?.address === address ? null : info.item;
-            setSelectedWallet(wallet);
-            return wallet;
+            const account = selectedAccount?.account.address === address ? null : info.item;
+            setSelectedAccount(account);
+            return account;
           }}
         />
       );
     },
-    [selectedWallet, setSelectedWallet],
+    [selectedAccount, setSelectedAccount],
   );
 
   const listKeyExtractor = useCallback((item: Wallet) => item.address, []);
 
   const debouncedGenerateWallet = useCallback(
     debounce(async (hdPath: HdPath) => {
-      const wallet = await generateWalletFromHdPath(hdPath, params);
-      setSelectedWallet(wallet);
+      const wallet = await generateWalletAccountFromHdPath(hdPath, params);
+      setSelectedAccount(wallet);
     }, 2000),
-    [generateWalletFromHdPath, params],
+    [generateWalletAccountFromHdPath, params],
   );
 
   const onHdPathChange = useCallback(
     (hdPath: HdPath) => {
-      setSelectedWallet(null);
+      setSelectedAccount(null);
       setSelectedHdPath(hdPath);
       debouncedGenerateWallet(hdPath);
     },
-    [debouncedGenerateWallet, setSelectedWallet],
+    [debouncedGenerateWallet, setSelectedAccount],
   );
 
   return (
@@ -157,7 +158,7 @@ const WalletPicker: React.FC<WalletPickerProps> = ({
 
       {!addressPickerVisible && (
         <Typography.Body style={styles.addressText}>
-          {selectedWallet ? selectedWallet.address : `${t('generating address')}...`}
+          {selectedAccount ? selectedAccount.account.address : `${t('generating address')}...`}
         </Typography.Body>
       )}
 
@@ -193,4 +194,4 @@ const WalletPicker: React.FC<WalletPickerProps> = ({
   );
 };
 
-export default WalletPicker;
+export default AccountPicker;

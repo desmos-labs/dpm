@@ -3,17 +3,19 @@ import { getMMKV, MMKVKEYS, setMMKV } from 'lib/MMKVStorage';
 import { Account } from 'types/account';
 import { HdPath } from '@cosmjs/crypto';
 import { WalletType } from 'types/wallet';
+import { deserializeAccounts } from 'lib/AccountUtils/deserialize';
+import { serializeAccounts } from 'lib/AccountUtils/serialize';
 
 /**
  * An atom that holds all the accounts stored in the application.
  */
 export const accountsAppState = atom<Record<string, Account>>({
   key: 'accounts',
-  default: getMMKV(MMKVKEYS.ACCOUNTS) || {},
+  default: deserializeAccounts(getMMKV(MMKVKEYS.ACCOUNTS), {}),
   effects: [
     ({ onSet }) => {
       onSet((newAccounts) => {
-        setMMKV(MMKVKEYS.ACCOUNTS, newAccounts);
+        setMMKV(MMKVKEYS.ACCOUNTS, serializeAccounts(newAccounts));
       });
     },
   ],

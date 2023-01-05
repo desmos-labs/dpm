@@ -13,11 +13,11 @@ import ROUTES from 'navigation/routes';
 import {
   WalletPickerMnemonicParams,
   WalletPickerMode,
-} from 'screens/SelectAddress/components/WalletPicker/types';
+} from 'screens/SelectAddress/components/AccountPicker/types';
 import { DesmosHdPath } from 'types/chainsHdPaths';
 import { useRecoilValue } from 'recoil';
 import { accountsHdPathsAppState } from '@recoil/accounts';
-import { Wallet } from 'types/wallet';
+import { AccountWithWallet } from 'types/account';
 import useStyles from './useStyles';
 
 export type CheckMnemonicParams = {
@@ -84,12 +84,12 @@ const CheckMnemonic: FC<NavProps> = (props) => {
               allowCoinTypeEdit: false,
               ignorePaths: accountsHdPaths,
             } as WalletPickerMnemonicParams,
-            onSelect: (wallet: Wallet) => {
+            onSelect: (account: AccountWithWallet) => {
               // TODO: Navigate to the check password screen if
               // the user have already created an account.
               navigation.navigate({
                 name: ROUTES.CREATE_WALLET_PASSWORD,
-                params: { wallet },
+                params: { account },
               });
             },
           },

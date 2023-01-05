@@ -2,8 +2,13 @@ import {
   LedgerWallet,
   MnemonicWallet,
   SerializableLedgerWallet,
-  SerializableMnemonicWallet, SerializableWallet, SerializableWeb3AuthWallet, Wallet, WalletSerializationVersion,
-  WalletType, Web3AuthWallet,
+  SerializableMnemonicWallet,
+  SerializableWallet,
+  SerializableWeb3AuthWallet,
+  Wallet,
+  WalletSerializationVersion,
+  WalletType,
+  Web3AuthWallet,
 } from 'types/wallet';
 import { toHex } from '@cosmjs/encoding';
 import { pathToString } from '@cosmjs/crypto';

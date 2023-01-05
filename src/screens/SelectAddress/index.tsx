@@ -2,37 +2,37 @@ import { StackScreenProps } from '@react-navigation/stack';
 import React, { FC, useCallback, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import Typography from 'components/Typography';
-import { Wallet } from 'types/wallet';
 import StyledSafeAreaView from 'components/StyledSafeAreaView';
 import TopBar from 'components/TopBar';
 import Button from 'components/Button';
 // eslint-disable-next-line import/no-cycle
 import { RootNavigatorParamList } from 'navigation/RootNavigator';
 import ROUTES from 'navigation/routes';
-import { WalletPickerParams } from 'screens/SelectAddress/components/WalletPicker/types';
+import { WalletPickerParams } from 'screens/SelectAddress/components/AccountPicker/types';
+import { AccountWithWallet } from 'types/account';
 import useStyles from './useStyles';
-import WalletPicker from './components/WalletPicker';
+import AccountPicker from './components/AccountPicker';
 
 export type SelectAddressParams = {
   walletPickerParams: WalletPickerParams;
-  onSelect: (wallet: Wallet) => any;
+  onSelect: (wallet: AccountWithWallet) => any;
 };
 
 type NavProps = StackScreenProps<RootNavigatorParamList, ROUTES.SELECT_ACCOUNT>;
 
-const SelectAddress: FC<NavProps> = (props) => {
+const SelectAccount: FC<NavProps> = (props) => {
   const {
     route: { params },
   } = props;
   const { t } = useTranslation();
   const styles = useStyles();
-  const [selectedWallet, setSelectedWallet] = useState<Wallet | null>(null);
+  const [selectedAccount, setSelectedAccount] = useState<AccountWithWallet | null>(null);
   const [generatingAddresses, setGeneratingAddresses] = useState(false);
   const onNextPressed = useCallback(() => {
-    if (selectedWallet !== null) {
-      params.onSelect(selectedWallet);
+    if (selectedAccount !== null) {
+      params.onSelect(selectedAccount);
     }
-  }, [selectedWallet]);
+  }, [selectedAccount]);
 
   return (
     <StyledSafeAreaView style={styles.root} topBar={<TopBar stackProps={props} />}>
@@ -40,8 +40,8 @@ const SelectAddress: FC<NavProps> = (props) => {
 
       <Typography.Body>{t('select account or enter derivation path')}.</Typography.Body>
 
-      <WalletPicker
-        onWalletSelected={setSelectedWallet}
+      <AccountPicker
+        onAccountSelected={setSelectedAccount}
         onGeneratingAddressesStateChange={setGeneratingAddresses}
         params={params.walletPickerParams}
       />
@@ -49,7 +49,7 @@ const SelectAddress: FC<NavProps> = (props) => {
       <Button
         style={styles.nextButton}
         mode="contained"
-        disabled={selectedWallet === null || generatingAddresses}
+        disabled={selectedAccount === null || generatingAddresses}
         onPress={onNextPressed}
       >
         {t('next')}
@@ -58,4 +58,4 @@ const SelectAddress: FC<NavProps> = (props) => {
   );
 };
 
-export default SelectAddress;
+export default SelectAccount;

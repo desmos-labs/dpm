@@ -2,11 +2,11 @@ import { useCallback, useState } from 'react';
 import { HdPath, Slip10RawIndex } from '@cosmjs/crypto';
 import { WalletGenerationData, WalletType } from 'types/wallet';
 import _ from 'lodash';
-import { generateWallets } from 'lib/WalletUtils/generate';
+import { generateAccountWithWallets } from 'lib/WalletUtils/generate';
 import {
   WalletPickerMode,
   WalletPickerParams,
-} from 'screens/SelectAddress/components/WalletPicker/types';
+} from 'screens/SelectAddress/components/AccountPicker/types';
 
 function generationParamsToWalletGenerationData(
   params: WalletPickerParams,
@@ -35,13 +35,13 @@ function generationParamsToWalletGenerationData(
   }
 }
 
-export const useGenerateWalletFromHdPath = () => {
-  const [walletGenerationError, setGenerationError] = useState<string>();
+export const useGenerateAccountWithWalletFromHdPath = () => {
+  const [generationError, setGenerationError] = useState<string>();
 
-  const generateWalletFromHdPath = useCallback(
+  const generateWalletAccountFromHdPath = useCallback(
     async (hdPath: HdPath, generationParams: WalletPickerParams) => {
       try {
-        const wallets = await generateWallets(
+        const wallets = await generateAccountWithWallets(
           generationParamsToWalletGenerationData(generationParams, [hdPath]),
         );
 
@@ -61,14 +61,12 @@ export const useGenerateWalletFromHdPath = () => {
   );
 
   return {
-    walletGenerationError,
-    generateWalletFromHdPath,
+    generationError,
+    generateWalletAccountFromHdPath,
   };
 };
 
 export const useFetchWallets = (params: WalletPickerParams) => {
-  const { generateWalletFromHdPath } = useGenerateWalletFromHdPath();
-
   const fetchWallets = useCallback(
     async (start: number, end: number) => {
       let paths = _.range(start, end)
@@ -87,9 +85,9 @@ export const useFetchWallets = (params: WalletPickerParams) => {
         );
       }
 
-      return generateWallets(generationParamsToWalletGenerationData(params, paths));
+      return generateAccountWithWallets(generationParamsToWalletGenerationData(params, paths));
     },
-    [params, generateWalletFromHdPath],
+    [params],
   );
 
   return {

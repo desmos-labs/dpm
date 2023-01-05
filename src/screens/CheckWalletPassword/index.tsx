@@ -9,12 +9,12 @@ import TopBar from 'components/TopBar';
 import Button from 'components/Button';
 import { RootNavigatorParamList } from 'navigation/RootNavigator';
 import ROUTES from 'navigation/routes';
-import { Wallet } from 'types/wallet';
+import { AccountWithWallet } from 'types/account';
 import useStyles from './useStyles';
 
 export interface CheckWalletPasswordParams {
   password: string;
-  wallet: Wallet;
+  account: AccountWithWallet;
 }
 
 export type NavProps = StackScreenProps<RootNavigatorParamList, ROUTES.CHECK_WALLET_PASSWORD>;
@@ -35,6 +35,13 @@ const CheckWalletPassword = (props: NavProps) => {
     if (password !== route.params.password) {
       setErrorMessage(t('wrong confirmation password'));
     } else {
+      navigation.navigate({
+        name: ROUTES.SAVE_GENERATED_ACCOUNT,
+        params: {
+          account: route.params.account,
+          password,
+        },
+      });
     }
   }, [password]);
 

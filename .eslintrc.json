@@ -40,7 +40,9 @@
     // Strange behavior with default imports
     "import/no-named-as-default": 0,
     // Typescript related warnings
-    "@typescript-eslint/no-use-before-define": 0
+    "@typescript-eslint/no-use-before-define": 0,
+    // Disable warning when exportin just one object and is not exported as default
+    "import/prefer-default-export": 0
   },
   "settings": {
     "import/resolver": {

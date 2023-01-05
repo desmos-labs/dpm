@@ -1,11 +1,4 @@
-import {
-  LedgerWallet,
-  MnemonicWallet,
-  Wallet,
-  WalletGenerationData,
-  WalletType,
-  Web3AuthWallet,
-} from 'types/wallet';
+import { WalletGenerationData, WalletType } from 'types/wallet';
 import { OfflineSignerAdapter, PrivateKeySigner, SigningMode } from '@desmoslabs/desmjs';
 import { HdPath } from '@cosmjs/crypto';
 import BluetoothTransport from '@ledgerhq/react-native-hw-transport-ble';
@@ -13,6 +6,7 @@ import { LedgerSigner } from '@cosmjs/ledger-amino';
 import { CryptoUtils } from 'native/CryptoUtils';
 import { LedgerApp } from 'types/ledger';
 import { slip10IndexToBaseNumber } from 'lib/FormatUtils';
+import { AccountWithWallet } from 'types/account';
 
 /**
  * Function allowing to generate a list of [LedgerWallet].
@@ -22,12 +16,12 @@ import { slip10IndexToBaseNumber } from 'lib/FormatUtils';
  * @param app - Ledger app that should be used to sign the transactions.
  * @param transport - Bluetooth Transport that should be used to connect to the Ledger device.
  */
-export const generateLedgerWallets = async (
+export const generateLedgerAccountWallets = async (
   prefix: string,
   hdPaths: HdPath[],
   app: LedgerApp,
   transport: BluetoothTransport,
-): Promise<LedgerWallet[]> => {
+): Promise<AccountWithWallet[]> => {
   const signer = new OfflineSignerAdapter(
     new LedgerSigner(transport!, {
       minLedgerAppVersion: app.minVersion,
@@ -41,10 +35,21 @@ export const generateLedgerWallets = async (
   const accounts = await signer.getAccounts();
 
   return accounts.map((account, i) => ({
-    type: WalletType.Ledger,
-    address: account.address,
-    signer,
-    hdPath: hdPaths[i],
+    wallet: {
+      type: WalletType.Ledger,
+      address: account.address,
+      publicKey: account.pubkey,
+      signer,
+      hdPath: hdPaths[i],
+    },
+    account: {
+      walletType: WalletType.Ledger,
+      address: account.address,
+      hdPath: hdPaths[i],
+      algo: account.algo,
+      pubKey: account.pubkey,
+      ledgerAppName: app.name,
+    },
   }));
 };
 
@@ -59,7 +64,7 @@ export const generateMnemonicWallets = async (
   prefix: string,
   hdPaths: HdPath[],
   mnemonic: string,
-): Promise<MnemonicWallet[]> => {
+): Promise<AccountWithWallet[]> => {
   return Promise.all(
     hdPaths.map(async (hdPath) => {
       const [, coinType, account, change, index] = hdPath;
@@ -78,12 +83,22 @@ export const generateMnemonicWallets = async (
       const [accountData] = await signer.getAccounts();
 
       return {
-        type: WalletType.Mnemonic,
-        signer,
-        address: accountData.address,
-        hdPath,
-        privateKey: signer.privateKey.key,
-      } as MnemonicWallet;
+        wallet: {
+          type: WalletType.Mnemonic,
+          signer,
+          address: accountData.address,
+          hdPath,
+          privateKey: signer.privateKey.key,
+          publicKey: accountData.pubkey,
+        },
+        account: {
+          walletType: WalletType.Mnemonic,
+          address: accountData.address,
+          hdPath,
+          algo: accountData.algo,
+          pubKey: accountData.pubkey,
+        },
+      } as AccountWithWallet;
     }),
   );
 };
@@ -98,7 +113,7 @@ export const generateWeb3AuthWallet = async (
   prefix: string,
   loginProvider: string,
   privateKey: Uint8Array,
-): Promise<Web3AuthWallet> => {
+): Promise<AccountWithWallet> => {
   const signer = await PrivateKeySigner.fromSecp256k1(privateKey, SigningMode.DIRECT, {
     prefix,
   });
@@ -107,11 +122,20 @@ export const generateWeb3AuthWallet = async (
   const [accountData] = await signer.getAccounts();
 
   return {
-    type: WalletType.Web3Auth,
-    address: accountData.address,
-    signer,
-    loginProvider,
-    privateKey,
+    wallet: {
+      type: WalletType.Web3Auth,
+      address: accountData.address,
+      signer,
+      loginProvider,
+      privateKey,
+    },
+    account: {
+      walletType: WalletType.Web3Auth,
+      address: accountData.address,
+      pubKey: accountData.pubkey,
+      algo: accountData.algo,
+      loginProvider,
+    },
   };
 };
 
@@ -119,13 +143,20 @@ export const generateWeb3AuthWallet = async (
  * Function allowing to generate a list of Wallet.
  * @param data - Wallet generation config.
  */
-export const generateWallets = async (data: WalletGenerationData): Promise<Wallet[]> => {
+export const generateAccountWithWallets = async (
+  data: WalletGenerationData,
+): Promise<AccountWithWallet[]> => {
   switch (data.type) {
     case WalletType.Ledger:
       if (data.hdPaths.length === 0) {
         throw new Error('At least one HD path needs to be specified');
       }
-      return generateLedgerWallets(data.accountPrefix, data.hdPaths, data.app, data.transport);
+      return generateLedgerAccountWallets(
+        data.accountPrefix,
+        data.hdPaths,
+        data.app,
+        data.transport,
+      );
 
     case WalletType.Mnemonic:
       if (data.hdPaths.length === 0) {

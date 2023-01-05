@@ -11,11 +11,11 @@ import PasswordComplexityScore from 'components/PasswordComplexityScore';
 import Button from 'components/Button';
 import { RootNavigatorParamList } from 'navigation/RootNavigator';
 import ROUTES from 'navigation/routes';
-import { Wallet } from 'types/wallet';
+import { AccountWithWallet } from 'types/account';
 import useStyles from './useStyles';
 
 export interface CreateWalletPasswordParams {
-  wallet: Wallet;
+  account: AccountWithWallet;
 }
 
 export type NavProps = StackScreenProps<RootNavigatorParamList, ROUTES.CREATE_WALLET_PASSWORD>;
@@ -37,7 +37,7 @@ const WalletPassword = (props: NavProps) => {
       name: ROUTES.CHECK_WALLET_PASSWORD,
       params: {
         password,
-        wallet: route.params.wallet,
+        account: route.params.account,
       },
     });
   }, [password]);

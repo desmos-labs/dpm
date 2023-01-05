@@ -1,6 +1,7 @@
 import {
   SerializableLedgerWallet,
-  SerializableMnemonicWallet, SerializableWallet,
+  SerializableMnemonicWallet,
+  SerializableWallet,
   SerializableWeb3AuthWallet,
   WalletType,
 } from 'types/wallet';
@@ -10,10 +11,16 @@ import { stringToPath } from '@cosmjs/crypto/build/slip10';
  * Deserialize a [SerializableMnemonicWallet] from a JSON parsed object.
  * @param value - The JSON parsed value that should be a [SerializableMnemonicWallet].
  */
-export const deserializeMnemonicWallet = (value: Partial<SerializableMnemonicWallet>): SerializableMnemonicWallet => {
-  if (value.type === undefined || value.version === undefined ||
-      value.address === undefined || value.hdPath === undefined ||
-      value.privateKey === undefined) {
+export const deserializeMnemonicWallet = (
+  value: Partial<SerializableMnemonicWallet>,
+): SerializableMnemonicWallet => {
+  if (
+    value.type === undefined ||
+    value.version === undefined ||
+    value.address === undefined ||
+    value.hdPath === undefined ||
+    value.privateKey === undefined
+  ) {
     throw new Error('invalid serialized mnemonic wallet');
   }
 
@@ -41,9 +48,15 @@ export const deserializeMnemonicWallet = (value: Partial<SerializableMnemonicWal
  * Deserialize a [SerializableLedgerWallet] from a JSON parsed object.
  * @param value - The JSON parsed value that should be a [SerializableLedgerWallet].
  */
-export const deserializeLedgerWallet = (value: Partial<SerializableLedgerWallet>): SerializableLedgerWallet => {
-  if (value.version === undefined || value.type === undefined ||
-      value.address === undefined || value.hdPath === undefined) {
+export const deserializeLedgerWallet = (
+  value: Partial<SerializableLedgerWallet>,
+): SerializableLedgerWallet => {
+  if (
+    value.version === undefined ||
+    value.type === undefined ||
+    value.address === undefined ||
+    value.hdPath === undefined
+  ) {
     throw new Error('invalid serialized ledger wallet');
   }
 
@@ -70,10 +83,16 @@ export const deserializeLedgerWallet = (value: Partial<SerializableLedgerWallet>
  * Deserialize a [SerializableWeb3AuthWallet] from a JSON parsed object.
  * @param value - The JSON parsed value that should be a [SerializableWeb3AuthWallet].
  */
-export const deserializeWeb3AuthWallet = (value: Partial<SerializableWeb3AuthWallet>): SerializableWeb3AuthWallet => {
-  if (value.version === undefined || value.type === undefined ||
-      value.address === undefined || value.privateKey === undefined ||
-      value.loginProvider === undefined) {
+export const deserializeWeb3AuthWallet = (
+  value: Partial<SerializableWeb3AuthWallet>,
+): SerializableWeb3AuthWallet => {
+  if (
+    value.version === undefined ||
+    value.type === undefined ||
+    value.address === undefined ||
+    value.privateKey === undefined ||
+    value.loginProvider === undefined
+  ) {
     throw new Error('invalid serialized web3auth wallet');
   }
 
@@ -82,7 +101,6 @@ export const deserializeWeb3AuthWallet = (value: Partial<SerializableWeb3AuthWal
   }
 
   // Skip version check, at the moment we just have one version.
-
   return {
     version: value.version,
     type: value.type,

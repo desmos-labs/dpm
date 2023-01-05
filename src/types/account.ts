@@ -1,6 +1,12 @@
 import { Algo } from '@cosmjs/amino';
-import { WalletType } from 'types/wallet';
+import { Wallet, WalletType } from 'types/wallet';
 import { HdPath } from '@cosmjs/crypto';
+
+export enum AccountSerializationVersion {
+  Mnemonic = 1,
+  Ledger = 1,
+  Web3Auth = 1,
+}
 
 /**
  * Interface representing a base user account.
@@ -35,6 +41,19 @@ export interface MnemonicAccount extends BaseAccount {
   readonly hdPath: HdPath;
 }
 
+export type SerializableMnemonicAccount = Omit<MnemonicAccount, 'pubKey' | 'hdPath'> & {
+  readonly version: AccountSerializationVersion.Mnemonic;
+  /**
+   * hex encoded public key.
+   */
+  readonly pubKey: string;
+  /**
+   * String representation of the hd derivation path used to derive the user
+   * private key.
+   */
+  readonly hdPath: string;
+};
+
 /**
  * Interface representing an account imported through a Ledger device.
  */
@@ -50,6 +69,19 @@ export interface LedgerAccount extends BaseAccount {
   readonly ledgerAppName: string;
 }
 
+export type SerializableLedgerAccount = Omit<LedgerAccount, 'pubKey' | 'hdPath'> & {
+  readonly version: AccountSerializationVersion.Ledger;
+  /**
+   * hex encoded public key.
+   */
+  readonly pubKey: string;
+  /**
+   * String representation of the hd derivation path used to derive the user
+   * private key.
+   */
+  readonly hdPath: string;
+};
+
 /**
  * Interface representing an account imported through Web3Auth.
  */
@@ -61,4 +93,22 @@ export interface Web3AuthAccount extends BaseAccount {
   readonly loginProvider: string;
 }
 
+export type SerializableWeb3AuthAccount = Omit<Web3AuthAccount, 'pubKey' | 'hdPath'> & {
+  readonly version: AccountSerializationVersion.Web3Auth;
+  /**
+   * hex encoded public key.
+   */
+  readonly pubKey: string;
+};
+
 export type Account = MnemonicAccount | LedgerAccount | Web3AuthAccount;
+
+export interface AccountWithWallet {
+  readonly account: Account;
+  readonly wallet: Wallet;
+}
+
+export type SerializableAccount =
+  | SerializableMnemonicAccount
+  | SerializableLedgerAccount
+  | SerializableWeb3AuthAccount;

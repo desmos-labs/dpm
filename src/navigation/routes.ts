@@ -36,6 +36,10 @@ enum ROUTES {
    * correct password before encrypting the wallet.
    */
   CHECK_WALLET_PASSWORD = 'CHECK_WALLET_PASSWORD',
+  /**
+   * Screen that saves in the new generated account in the device storage.
+   */
+  SAVE_GENERATED_ACCOUNT = 'SAVE_GENERATED_ACCOUNT',
 }
 
 export default ROUTES;
