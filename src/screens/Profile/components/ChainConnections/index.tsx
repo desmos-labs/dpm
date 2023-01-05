@@ -70,6 +70,7 @@ const ChainConnections: React.FC<ChainConnectionsProps> = (props: ChainConnectio
           <Spacer paddingVertical={14} />
           {hasConnections && <Typography.Body1>{t('connected chains')}</Typography.Body1>}
           <FlatList
+            style={styles.connectionsList}
             data={chainLinks}
             renderItem={renderItem}
             keyExtractor={(item) => item.chainName + item.externalAddress}

@@ -22,6 +22,9 @@ const useStyles = makeStyle((theme) => ({
     flexGrow: 1,
     flexDirection: 'column',
   },
+  connectionsList: {
+    marginTop: 8,
+  },
   connectChainButton: {
     marginTop: theme.spacing.m,
     marginBottom: theme.spacing.m,
