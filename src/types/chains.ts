@@ -1,6 +1,5 @@
-import { ChainConfig, Proof } from '@desmoslabs/desmjs-types/desmos/profiles/v3/models_chain_links';
+import { ChainConfig } from '@desmoslabs/desmjs-types/desmos/profiles/v3/models_chain_links';
 import { ImageSourcePropType } from 'react-native';
-import { Any } from '@desmoslabs/desmjs-types/google/protobuf/any';
 import { HdPath } from '@cosmjs/crypto';
 
 export type ChainLink = {
@@ -17,6 +16,10 @@ export type ChainLink = {
    */
   externalAddress: string;
   /**
+   * Proof that was used to prove the ownership of the external account;
+   */
+  proof: ChainLinkProof;
+  /**
    * Time when the chain link has been created.
    */
   creationTime: Date;
@@ -28,17 +31,13 @@ export type ChainLink = {
  */
 export type ChainLinkProof = {
   /**
-   * Cryptographic proof.
+   * Plain text that was signed to prove the ownership of the external account.
    */
-  proof: Proof;
+  plainText: string;
   /**
-   * External chain informations.
+   * Signature that was produced to prove the ownerhip of the external account.
    */
-  chainConfig: ChainConfig;
-  /**
-   * External chain address.
-   */
-  chainAddress: Any;
+  signature: string;
 };
 
 /**

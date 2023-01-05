@@ -1,4 +1,4 @@
-import { LinkableChain } from 'types/chains';
+import { ChainLink, LinkableChain } from 'types/chains';
 import LinkableChains from 'config/LinkableChains';
 
 /**
@@ -15,3 +15,20 @@ export const getLinkableChainInfoByName = (chainName: string): LinkableChain | u
     return lowerCase.indexOf(name) >= 0;
   });
 };
+
+/**
+ * Format an incoming chain link data from the server into a format that is easier to parse by the app.
+ * @param {any} chainLink - Chain link data retrieved from the server.
+ * @returns {ChainLink[]} - An array of formatted ChainLink objects
+ */
+export const convertGraphQLChainLink = (chainLink: any) =>
+  ({
+    chainName: chainLink.chainConfig.name,
+    externalAddress: chainLink.externalAddress,
+    userAddress: chainLink.userAddress,
+    proof: {
+      plainText: chainLink.proof.plainText,
+      signature: chainLink.proof.signature,
+    },
+    creationTime: new Date(`${chainLink.creationTime}Z`),
+  } as ChainLink);

@@ -2,13 +2,17 @@ import { gql } from '@apollo/client';
 
 const GetChainLinks = gql`
   query GetChainLinks($address: String) @api(name: desmos) {
-    chainLinks: chain_link(where: { user_address: { _eq: $address } }) {
-      user_address
-      external_address
-      chain_config {
+    chainLinks: chain_link(where: { user_address: { _eq: $address }, proof: {} }) {
+      userAddress: user_address
+      externalAddress: external_address
+      chainConfig: chain_config {
         name
       }
-      creation_time
+      proof {
+        plainText: plain_text
+        signature
+      }
+      creationTime: creation_time
     }
   }
 `;

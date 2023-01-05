@@ -11,6 +11,7 @@ import CreateWalletPassword, { CreateWalletPasswordParams } from 'screens/Create
 import CheckWalletPassword, { CheckWalletPasswordParams } from 'screens/CheckWalletPassword';
 import SaveGeneratedAccount, { SaveGeneratedAccountParams } from 'screens/SaveGeneratedAccount';
 import Profile, { ProfileAccountParams } from 'screens/Profile';
+import ChainLinkDetails, { ChainLinkDetailsProps } from 'screens/ChainLinkDetails';
 
 export type RootNavigatorParamList = {
   [ROUTES.DEV_SCREEN]: undefined;
@@ -24,6 +25,7 @@ export type RootNavigatorParamList = {
   [ROUTES.SAVE_GENERATED_ACCOUNT]: SaveGeneratedAccountParams;
 
   [ROUTES.PROFILE]: ProfileAccountParams;
+  [ROUTES.CHAIN_LINK_DETAILS]: ChainLinkDetailsProps;
 };
 
 const Stack = createStackNavigator<RootNavigatorParamList>();
@@ -44,6 +46,7 @@ const RootNavigator = () => {
       <Stack.Screen name={ROUTES.SAVE_GENERATED_ACCOUNT} component={SaveGeneratedAccount} />
 
       <Stack.Screen name={ROUTES.PROFILE} component={Profile} />
+      <Stack.Screen name={ROUTES.CHAIN_LINK_DETAILS} component={ChainLinkDetails} />
     </Stack.Navigator>
   );
 };

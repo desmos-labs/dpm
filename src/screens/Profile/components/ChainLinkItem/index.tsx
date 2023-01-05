@@ -4,6 +4,10 @@ import { getLinkableChainInfoByName } from 'lib/ChainsUtils';
 import { cosmosIcon } from 'assets/images';
 import { Image, TouchableOpacity, View } from 'react-native';
 import Typography from 'components/Typography';
+import { useNavigation } from '@react-navigation/native';
+import ROUTES from 'navigation/routes';
+import { RootNavigatorParamList } from 'navigation/RootNavigator';
+import { StackNavigationProp } from '@react-navigation/stack';
 import useStyles from './useStyles';
 
 export interface ChainLinkItemProps {
@@ -11,16 +15,14 @@ export interface ChainLinkItemProps {
 }
 
 const ChainLinkItem = (props: ChainLinkItemProps) => {
+  const navigation = useNavigation<StackNavigationProp<RootNavigatorParamList>>();
   const styles = useStyles();
   const { chainLink } = props;
 
   const onShowChainLinkInfo = useCallback(() => {
-    // navigation.navigate({
-    //   name: 'ChainLinkDetails',
-    //   params: {
-    //     chainLink,
-    //   },
-    // });
+    navigation.navigate(ROUTES.CHAIN_LINK_DETAILS, {
+      chainLink,
+    });
   }, [chainLink]);
 
   const chainInfo = getLinkableChainInfoByName(chainLink.chainName);

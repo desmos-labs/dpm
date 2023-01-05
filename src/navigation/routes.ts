@@ -45,6 +45,10 @@ enum ROUTES {
    * Screen that shows the user the data of the Desmos Profile associated to the current profile wallet.
    */
   PROFILE = 'PROFILE',
+  /**
+   * Screen that shows the details of a single chain link.
+   */
+  CHAIN_LINK_DETAILS = 'CHAIN_LINK_DETAILS',
 }
 
 export default ROUTES;

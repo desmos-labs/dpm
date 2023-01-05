@@ -2,9 +2,9 @@ import { makeStyle } from 'config/theme';
 
 const useStyles = makeStyle((theme) => ({
   root: {
-    backgroundColor: theme.colors.popupBackground,
-    justifyContent: 'flex-end',
-    padding: 0,
+    // backgroundColor: theme.colors.popupBackground,
+    // justifyContent: 'flex-end',
+    // padding: 0,
   },
   closeButton: {
     position: 'absolute',
@@ -12,16 +12,17 @@ const useStyles = makeStyle((theme) => ({
     right: theme.spacing.s,
     zIndex: 1,
   },
-  details: {
-    backgroundColor: theme.colors.background,
-    paddingVertical: 60,
+  chainDetails: {
     alignItems: 'center',
     borderTopLeftRadius: 28,
     borderTopRightRadius: 28,
   },
   chainLinkIcon: {
-    width: 44,
-    height: 44,
+    width: 60,
+    height: 60,
+  },
+  linkDetailTitle: {
+    fontWeight: 'bold',
   },
   disconnectButton: {
     marginTop: theme.spacing.m,

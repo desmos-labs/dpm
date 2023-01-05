@@ -1,15 +1,7 @@
-import { ChainLink } from 'types/chains';
 import { useQuery } from '@apollo/client';
 import { useMemo } from 'react';
 import GetChainLinks from 'services/graphql/queries/GetChainLinks';
-
-const convertChainLink = (chainLink: any): ChainLink => ({
-  chainName: chainLink.chain_config.name,
-  externalAddress: chainLink.external_address,
-  userAddress: chainLink.user_address,
-  creationTime: new Date(`${chainLink.creation_time}Z`),
-});
-
+import { convertGraphQLChainLink } from 'lib/ChainsUtils';
 /**
  * Hook to retrieve the selected address profile data.
  */
@@ -19,7 +11,7 @@ const useChainLinksGivenAddress = (address: string | undefined) => {
     fetchPolicy: 'no-cache',
   });
 
-  const chainLinks = useMemo(() => (data?.chainLinks || []).map(convertChainLink), [data]);
+  const chainLinks = useMemo(() => (data?.chainLinks || []).map(convertGraphQLChainLink), [data]);
   return {
     chainLinks,
     loading,
