@@ -10,11 +10,17 @@ import Button from 'components/Button';
 import { RootNavigatorParamList } from 'navigation/RootNavigator';
 import ROUTES from 'navigation/routes';
 import { AccountWithWallet } from 'types/account';
+import { checkUserPassword } from 'lib/SecureStorage';
 import useStyles from './useStyles';
 
 export interface CheckWalletPasswordParams {
-  password: string;
   account: AccountWithWallet;
+  /**
+   * Optional password that the user should write.
+   * If this is undefined will be used the password challenge
+   * stored in the secure storage to validate the user's password.
+   */
+  password?: string;
 }
 
 export type NavProps = StackScreenProps<RootNavigatorParamList, ROUTES.CHECK_WALLET_PASSWORD>;
@@ -31,10 +37,16 @@ const CheckWalletPassword = (props: NavProps) => {
     setErrorMessage(null);
   };
 
-  const onContinuePressed = useCallback(() => {
-    if (password !== route.params.password) {
-      setErrorMessage(t('wrong confirmation password'));
+  const onContinuePressed = useCallback(async () => {
+    let isPasswordCorrect: boolean;
+
+    if (route.params.password === undefined) {
+      isPasswordCorrect = await checkUserPassword(password).catch((_) => false);
     } else {
+      isPasswordCorrect = route.params.password === password;
+    }
+
+    if (isPasswordCorrect) {
       navigation.navigate({
         name: ROUTES.SAVE_GENERATED_ACCOUNT,
         params: {
@@ -42,6 +54,8 @@ const CheckWalletPassword = (props: NavProps) => {
           password,
         },
       });
+    } else {
+      setErrorMessage(t('wrong confirmation password'));
     }
   }, [password]);
 

@@ -20,7 +20,7 @@ import {
 import { DesmosHdPath } from 'types/chainsHdPaths';
 import { useRecoilValue } from 'recoil';
 import { accountsHdPathsAppState } from '@recoil/accounts';
-import { Wallet } from 'types/wallet';
+import { AccountWithWallet } from 'types/account';
 import useStyles from './useStyles';
 
 declare type NavProps = StackScreenProps<RootNavigatorParamList, ROUTES.IMPORT_RECOVERY_PASSPHRASE>;
@@ -63,15 +63,22 @@ const ImportRecoveryPassphrase: FC<NavProps> = (props) => {
               allowCoinTypeEdit: false,
               ignorePaths: accountsHdPaths,
             } as WalletPickerMnemonicParams,
-            onSelect: (wallet: Wallet) => {
-              // TODO: Navigate to the check password screen if
-              // the user have already created an account.
-              navigation.navigate({
-                name: ROUTES.CREATE_WALLET_PASSWORD,
-                params: {
-                  wallet,
-                },
-              });
+            onSelect: (account: AccountWithWallet) => {
+              if (accountsHdPaths.length === 0) {
+                navigation.navigate({
+                  name: ROUTES.CREATE_WALLET_PASSWORD,
+                  params: {
+                    account,
+                  },
+                });
+              } else {
+                navigation.navigate({
+                  name: ROUTES.CHECK_WALLET_PASSWORD,
+                  params: {
+                    account,
+                  },
+                });
+              }
             },
           },
         });

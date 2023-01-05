@@ -85,12 +85,17 @@ const CheckMnemonic: FC<NavProps> = (props) => {
               ignorePaths: accountsHdPaths,
             } as WalletPickerMnemonicParams,
             onSelect: (account: AccountWithWallet) => {
-              // TODO: Navigate to the check password screen if
-              // the user have already created an account.
-              navigation.navigate({
-                name: ROUTES.CREATE_WALLET_PASSWORD,
-                params: { account },
-              });
+              if (accountsHdPaths.length === 0) {
+                navigation.navigate({
+                  name: ROUTES.CREATE_WALLET_PASSWORD,
+                  params: { account },
+                });
+              } else {
+                navigation.navigate({
+                  name: ROUTES.CHECK_WALLET_PASSWORD,
+                  params: { account },
+                });
+              }
             },
           },
         });
