@@ -5291,6 +5291,11 @@ eslint-config-prettier@^6.10.1:
   dependencies:
     get-stdin "^6.0.0"
 
+eslint-config-prettier@^8.6.0:
+  version "8.6.0"
+  resolved "https://registry.npmjs.org/eslint-config-prettier/-/eslint-config-prettier-8.6.0.tgz#dec1d29ab728f4fa63061774e1672ac4e363d207"
+  integrity sha512-bAF0eLpLVqP5oEVUFKpMA+NnRFICwn9X8B5jrR9FcqnYBuPbqWEjTEspPWMj5ye6czoSLDweCzSo3Ko7gGrZaA==
+
 eslint-config-react-native@^4.1.0:
   version "4.1.0"
   resolved "https://registry.yarnpkg.com/eslint-config-react-native/-/eslint-config-react-native-4.1.0.tgz#63e9401c7fac146804785f609e7df8f15b3e04eb"

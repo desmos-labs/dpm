@@ -8,8 +8,8 @@
     "airbnb-typescript/base",
     "plugin:import/errors",
     "plugin:import/warnings",
-    "plugin:import/typescript",
-    "plugin:prettier/recommended"
+    "eslint:recommended",
+    "prettier"
   ],
   "parserOptions": {
     "ecmaVersion": "latest",
