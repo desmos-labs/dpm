@@ -1,7 +1,7 @@
-import React, {useMemo} from 'react';
-import {Image} from 'react-native';
+import React, { useMemo } from 'react';
+import { Image } from 'react-native';
 import useIsCurrentThemeDark from 'hooks/useIsCurrentThemeDark';
-import {DPMImages} from 'types/images';
+import { DPMImages } from 'types/images';
 import {
   connectChainDarkIcon,
   connectChainLightIcon,
@@ -20,8 +20,8 @@ import {
   resultFailDarkIcon,
   resultFailLightIcon,
   resultPasswordSuccess,
-  resultRejectLightIcon,
   resultSuccessDarkIcon,
+  resultSuccessLightIcon,
 } from 'assets/images';
 
 type ImageProps = React.ComponentProps<typeof Image>;
@@ -36,7 +36,7 @@ const DpmImage: React.FC<DPMImageProps> = (props) => {
 
   const imageSource = useMemo(() => {
     const typeOfSource = typeof source;
-    const typeOfDPMImage = typeof DPMImages;
+    const typeOfDPMImage = typeof DPMImages.Success;
 
     if (typeOfSource === typeOfDPMImage) {
       switch (source as DPMImages) {
@@ -45,7 +45,7 @@ const DpmImage: React.FC<DPMImageProps> = (props) => {
         case DPMImages.NoProfile:
           return darkTheme ? noProfileDarkIcon : noProfileLightIcon;
         case DPMImages.Success:
-          return darkTheme ? resultSuccessDarkIcon : resultRejectLightIcon;
+          return darkTheme ? resultSuccessDarkIcon : resultSuccessLightIcon;
         case DPMImages.PasswordSuccess:
           return resultPasswordSuccess;
         case DPMImages.Fail:
