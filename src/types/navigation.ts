@@ -33,16 +33,6 @@ export type AccountCreationStackParams = {
     mnemonic?: string;
     ledgerTransport?: BluetoothTransport;
   };
-  CreateWalletPassword: {
-    addingNewAccount?: boolean;
-    wallet: Wallet;
-    password?: string;
-  };
-  CheckWalletPassword: {
-    addingNewAccount: boolean;
-    password?: string;
-    wallet: Wallet;
-  };
   ChangeWalletPassword: {
     password: string;
     wallet: Wallet;
@@ -52,8 +42,6 @@ export type AccountCreationStackParams = {
     wallet: Wallet;
   };
 };
-
-export const AccountCreationStack = createStackNavigator<AccountCreationStackParams>();
 
 export type HomeScreensBottomTabsParams = {
   Home: undefined;
@@ -179,8 +167,6 @@ export type AuthorizeOperationResolveParams = {
 };
 
 export const AccountScreensStack = createStackNavigator<AccountScreensStackParams>();
-
-
 
 export type ChainLinkScreensStackParams = {
   ConnectChain: {

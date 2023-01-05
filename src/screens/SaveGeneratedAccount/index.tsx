@@ -5,11 +5,11 @@ import Typography from 'components/Typography';
 import DpmImage from 'components/DPMImage';
 import Button from 'components/Button';
 import StyledSafeAreaView from 'components/StyledSafeAreaView';
-import { DPMImages } from 'types/images';
 import { RootNavigatorParamList } from 'navigation/RootNavigator';
 import ROUTES from 'navigation/routes';
 import { AccountWithWallet } from 'types/account';
 import { useSaveAccount } from 'screens/SaveGeneratedAccount/useHooks';
+import { DPMImages } from 'types/images';
 import useStyles from './useStyles';
 
 export type SaveGeneratedAccountParams = {
@@ -32,7 +32,7 @@ const SaveGeneratedAccount = (props: NavProps) => {
   useEffect(
     () =>
       navigation.addListener('beforeRemove', (e) => {
-        if (e.data.action.type !== 'RESET') {
+        if (!__DEV__ && e.data.action.type !== 'RESET') {
           e.preventDefault();
         }
       }),

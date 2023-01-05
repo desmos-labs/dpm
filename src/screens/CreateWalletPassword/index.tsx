@@ -20,7 +20,7 @@ export interface CreateWalletPasswordParams {
 
 export type NavProps = StackScreenProps<RootNavigatorParamList, ROUTES.CREATE_WALLET_PASSWORD>;
 
-const WalletPassword = (props: NavProps) => {
+const CreateWalletPassword = (props: NavProps) => {
   const { navigation, route } = props;
   const { t } = useTranslation();
   const styles = useStyles();
@@ -74,4 +74,4 @@ const WalletPassword = (props: NavProps) => {
   );
 };
 
-export default WalletPassword;
+export default CreateWalletPassword;
