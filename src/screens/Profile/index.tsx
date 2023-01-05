@@ -1,10 +1,8 @@
-import Clipboard from '@react-native-community/clipboard';
+import React from 'react';
 import { StackScreenProps } from '@react-navigation/stack';
-import React, { useCallback, useMemo, useState } from 'react';
-import { ActivityIndicator, Snackbar, useTheme } from 'react-native-paper';
+import { ActivityIndicator, useTheme } from 'react-native-paper';
 import StyledSafeAreaView from 'components/StyledSafeAreaView';
 import TopBar from 'components/TopBar';
-import ProfileHeader from 'components/ProfileHeader';
 import EditProfileButton from 'screens/Profile/components/EditProfileButton';
 import { RootNavigatorParamList } from 'navigation/RootNavigator';
 import ROUTES from 'navigation/routes';
