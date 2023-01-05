@@ -2,13 +2,13 @@ import React, { useCallback, useMemo, useState } from 'react';
 import ProfileHeader from 'components/ProfileHeader';
 import { View } from 'react-native';
 import Typography from 'components/Typography';
-import ChainConnections from 'screens/Profile/components/ChainConnections';
-import NonExistingProfile from 'screens/Profile/components/NonExistingProfile';
 import { Snackbar } from 'react-native-paper';
 import { DesmosProfile } from 'types/desmosTypes';
 import Clipboard from '@react-native-community/clipboard';
 import { useTranslation } from 'react-i18next';
-import useQueries from 'screens/Profile/useQueries';
+import useQueries from './useQueries';
+import NonExistingProfile from '../NonExistingProfile';
+import ChainLinks from '../ChainLinks';
 import useStyles from './useStyles';
 
 export interface ProfileDataProps {
@@ -50,7 +50,7 @@ const ProfileData = (props: ProfileDataProps) => {
       {/* Main content */}
       <View style={styles.content}>
         {profile ? (
-          <ChainConnections chainLinks={chainLinks} loading={loadingChainLinks} />
+          <ChainLinks chainLinks={chainLinks} loading={loadingChainLinks} />
         ) : (
           <NonExistingProfile />
         )}

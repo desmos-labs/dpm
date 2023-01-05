@@ -10,7 +10,7 @@ import { ChainLink } from 'types/chains';
 import { DPMImages } from 'types/images';
 import { useNavigation } from '@react-navigation/native';
 import Spacer from 'components/Spacer';
-import ChainLinkItem from 'screens/Profile/components/ChainLinkItem';
+import ChainLinkItem from '../ChainLinkItem';
 import useStyles from './useStyles';
 
 export interface ChainConnectionsProps {
