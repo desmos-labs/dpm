@@ -57,9 +57,9 @@ namespace MsgLinkChainAccount {
    * Displays the full details of a MsgLinkChainAccount.
    * @constructor
    */
-  export const Details: React.FC<DetailsProps> = ({message}) => {
+  export const Details: React.FC<DetailsProps> = ({ message }) => {
     const styles = StyleSheet.create({
-      chainIcon: {
+      chainLinkIcon: {
         height: 44,
         width: 44,
       },
@@ -75,7 +75,7 @@ namespace MsgLinkChainAccount {
       },
     });
 
-    const {t} = useTranslation();
+    const { t } = useTranslation();
     const getLinkableChainInfoByName = useGetLinkableChainInfoByName();
 
     const bech32Address = useMemo(() => {
@@ -99,9 +99,12 @@ namespace MsgLinkChainAccount {
       <BaseMessage.Details
         customIconView={
           <View style={styles.customIconView}>
-            <Image style={styles.chainIcon} source={require('assets/images/chains/desmos.png')}/>
-            <Image style={styles.disconnectIcon} source={require('assets/images/disconnect.png')}/>
-            <Image style={styles.chainIcon} source={chainIcon}/>
+            <Image
+              style={styles.chainLinkIcon}
+              source={require('assets/images/chains/desmos.png')}
+            />
+            <Image style={styles.disconnectIcon} source={require('assets/images/disconnect.png')} />
+            <Image style={styles.chainLinkIcon} source={chainIcon} />
           </View>
         }
         fields={[

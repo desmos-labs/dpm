@@ -173,7 +173,7 @@ function gqlMessageToEncodeObject(msg: any): EncodeObject {
         value: {
           target: msg.target,
           owner: msg.owner,
-          chainName: msg.chain_name,
+          chainLinkName: msg.chain_name,
         },
       } as MsgUnlinkChainAccountEncodeObject;
 

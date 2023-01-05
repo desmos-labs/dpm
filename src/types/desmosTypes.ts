@@ -1,9 +1,9 @@
 export interface DesmosProfile {
   /** The user's address */
   address: string;
-  /** User dtag */
-  dtag: string;
-  /** The user nick name */
+  /** User DTag */
+  dtag?: string;
+  /** The user nickname */
   nickname?: string;
   /** The user bio */
   bio?: string;
@@ -12,3 +12,8 @@ export interface DesmosProfile {
   /** Url to the user cover picture */
   coverPicture?: string;
 }
+
+export const defaultDesmosProfile = (address: string): DesmosProfile =>
+  ({
+    address,
+  } as DesmosProfile);

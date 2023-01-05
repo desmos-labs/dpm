@@ -40,6 +40,11 @@ enum ROUTES {
    * Screen that saves in the new generated account in the device storage.
    */
   SAVE_GENERATED_ACCOUNT = 'SAVE_GENERATED_ACCOUNT',
+
+  /**
+   * Screen that shows the user the data of the Desmos Profile associated to the current profile wallet.
+   */
+  PROFILE = 'PROFILE',
 }
 
 export default ROUTES;

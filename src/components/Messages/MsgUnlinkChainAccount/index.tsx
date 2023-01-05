@@ -45,9 +45,9 @@ namespace MsgUnlinkChainAccount {
    * Displays the full details of a MsgUnlinkChainAccount
    * @constructor
    */
-  export const Details: React.FC<DetailsProps> = ({message}) => {
+  export const Details: React.FC<DetailsProps> = ({ message }) => {
     const styles = StyleSheet.create({
-      chainIcon: {
+      chainLinkIcon: {
         height: 44,
         width: 44,
       },
@@ -66,7 +66,7 @@ namespace MsgUnlinkChainAccount {
     const { t } = useTranslation();
     const getLinkableChainInfoByName = useGetLinkableChainInfoByName();
 
-    const { chainName}  = message;
+    const { chainName } = message;
     const chainIcon = useMemo(() => {
       const chain = chainName !== undefined ? getLinkableChainInfoByName(chainName) : undefined;
       if (chain !== undefined) {
@@ -79,9 +79,12 @@ namespace MsgUnlinkChainAccount {
       <BaseMessage.Details
         customIconView={
           <View style={styles.customIconView}>
-            <Image style={styles.chainIcon} source={require('assets/images/chains/desmos.png')} />
+            <Image
+              style={styles.chainLinkIcon}
+              source={require('assets/images/chains/desmos.png')}
+            />
             <Image style={styles.disconnectIcon} source={require('assets/images/disconnect.png')} />
-            <Image style={styles.chainIcon} source={chainIcon} />
+            <Image style={styles.chainLinkIcon} source={chainIcon} />
           </View>
         }
         fields={[

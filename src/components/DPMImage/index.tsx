@@ -36,9 +36,7 @@ const DpmImage: React.FC<DPMImageProps> = (props) => {
 
   const imageSource = useMemo(() => {
     const typeOfSource = typeof source;
-    const typeOfDPMImage = typeof DPMImages.Success;
-
-    if (typeOfSource === typeOfDPMImage) {
+    if (typeOfSource === 'number') {
       switch (source as DPMImages) {
         case DPMImages.NoTransaction:
           return darkTheme ? noTransactionDarkIcon : noTransactionLightIcon;

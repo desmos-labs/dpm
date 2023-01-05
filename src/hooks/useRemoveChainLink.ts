@@ -11,7 +11,7 @@ export default function useRemoveChainLink(address: string) {
         const index = currentLinks.findIndex(
           (link) =>
             link.externalAddress === toRemove.externalAddress &&
-            link.chainName === toRemove.chainName,
+            link.chainName === toRemove.chainLinkName,
         );
         if (index >= 0) {
           currentLinks.splice(index, 1);

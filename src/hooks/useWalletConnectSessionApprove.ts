@@ -15,7 +15,7 @@ export type ApproveStatus = {
  */
 export default function useWalletConnectSessionApprove(): [
   ApproveStatus,
-  (id: string, accounts: string[], chaiId: string) => void
+  (id: string, accounts: string[], chaiId: string) => void,
 ] {
   const { controller } = useWalletConnectContext();
 
@@ -46,7 +46,10 @@ export default function useWalletConnectSessionApprove(): [
 
   const approve = useCallback(
     (id: string, accounts: string[], chaiId: string) => {
-      const chainsIndex = Object.keys(DesmosChains).map(key => DesmosChains[key].chainName).sort().indexOf(chaiId);
+      const chainsIndex = Object.keys(DesmosChains)
+        .map((key) => DesmosChains[key].chainLinkName)
+        .sort()
+        .indexOf(chaiId);
       setStatus({
         approving: true,
       });

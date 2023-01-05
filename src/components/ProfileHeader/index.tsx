@@ -5,14 +5,12 @@ import { useTheme } from 'react-native-paper';
 import AvatarImage from 'components/AvatarImage';
 import IconButton from 'components/IconButton';
 import Typography from 'components/Typography';
+import { DesmosProfile } from 'types/desmosTypes';
+import { defaultProfileCover, defaultProfilePicture } from 'assets/images';
 import useStyles from './useStyles';
 
 export type ProfileHeaderProps = {
-  address?: string;
-  dtag?: string;
-  nickname?: string;
-  coverPictureUri?: string;
-  profilePictureUri?: string;
+  profile: DesmosProfile | undefined;
   topRightElement?: ReactNode | null;
   topLeftElement?: ReactNode | null;
   onCopyPressed?: () => void;
@@ -22,11 +20,7 @@ export type ProfileHeaderProps = {
 
 const ProfileHeader: React.FC<ProfileHeaderProps> = (props) => {
   const {
-    address,
-    dtag,
-    nickname,
-    coverPictureUri,
-    profilePictureUri,
+    profile,
     topRightElement,
     topLeftElement,
     onCopyPressed,
@@ -36,25 +30,11 @@ const ProfileHeader: React.FC<ProfileHeaderProps> = (props) => {
   const theme = useTheme();
   const styles = useStyles();
 
-  const coverPicture = useMemo(
-    () =>
-      coverPictureUri
-        ? {
-            uri: coverPictureUri,
-          }
-        : require('assets/images/defaultProfileCover.png'),
-    [coverPictureUri],
-  );
+  const memoizedPictureSource = (url: string | undefined, picture: any) =>
+    useMemo(() => (url ? { uri: url } : picture), [url, picture]);
 
-  const profilePicture = useMemo(
-    () =>
-      profilePictureUri
-        ? {
-            uri: profilePictureUri,
-          }
-        : require('assets/images/defaultProfilePicture.png'),
-    [profilePictureUri],
-  );
+  const coverPicture = memoizedPictureSource(profile?.coverPicture, defaultProfileCover);
+  const profilePicture = memoizedPictureSource(profile?.profilePicture, defaultProfilePicture);
 
   return (
     <View style={styles.root}>
@@ -85,15 +65,17 @@ const ProfileHeader: React.FC<ProfileHeaderProps> = (props) => {
         )}
       </View>
 
-      {nickname !== undefined && <Typography.H4 style={styles.nickName}>{nickname}</Typography.H4>}
+      {profile?.nickname && (
+        <Typography.H4 style={styles.nickName}>{profile.nickname}</Typography.H4>
+      )}
 
-      {dtag !== undefined && <Typography.Body style={styles.dtag}>@{dtag}</Typography.Body>}
+      {profile?.dtag && <Typography.Body style={styles.dtag}>@{profile.dtag}</Typography.Body>}
 
-      {address && (
+      {profile?.address && (
         <View style={styles.addressContainer}>
-          <Typography.Body ellipsizeMode="middle" numberOfLines={1}>
-            {address}
-          </Typography.Body>
+          <Typography.Caption ellipsizeMode="middle" numberOfLines={1}>
+            {profile.address}
+          </Typography.Caption>
           <View>
             <IconButton icon="content-copy" size={20} onPress={onCopyPressed} color="#c4c4c4" />
           </View>

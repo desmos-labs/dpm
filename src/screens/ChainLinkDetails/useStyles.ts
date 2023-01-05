@@ -1,4 +1,4 @@
-import {makeStyle} from 'config/theme';
+import { makeStyle } from 'config/theme';
 
 const useStyles = makeStyle((theme) => ({
   root: {
@@ -19,7 +19,7 @@ const useStyles = makeStyle((theme) => ({
     borderTopLeftRadius: 28,
     borderTopRightRadius: 28,
   },
-  chainIcon: {
+  chainLinkIcon: {
     width: 44,
     height: 44,
   },

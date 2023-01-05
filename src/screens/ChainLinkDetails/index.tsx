@@ -38,12 +38,12 @@ export const ChainLinkDetails: React.FC<Props> = (props) => {
   const removeChainLink = useRemoveChainLink(account.address);
 
   const { chainIcon, chainName } = useMemo(() => {
-    const chainInfo = getLinkableChainInfoByName(chainLink.chainName);
+    const chainInfo = getLinkableChainInfoByName(chainLink.chainLinkName);
     return {
-      chainIcon: chainInfo?.icon ?? require('assets/images/chains/cosmos.png'),
-      chainName: chainInfo?.name ?? chainLink.chainName,
+      chainLinkIcon: chainInfo?.icon ?? require('assets/images/chains/cosmos.png'),
+      chainLinkName: chainInfo?.name ?? chainLink.chainLinkName,
     };
-  }, [chainLink.chainName]);
+  }, [chainLink.chainLinkName]);
 
   const showSuccessModal = useCallback(() => {
     showModal(SingleButtonModal, {
@@ -83,7 +83,7 @@ export const ChainLinkDetails: React.FC<Props> = (props) => {
           if (wallet !== null) {
             await disconnectChainLink(wallet, chainLink);
             removeChainLink({
-              chainName: chainLink.chainName,
+              chainLinkName: chainLink.chainLinkName,
               externalAddress: chainLink.externalAddress,
             });
             showSuccessModal();
@@ -127,7 +127,7 @@ export const ChainLinkDetails: React.FC<Props> = (props) => {
     <StyledSafeAreaView style={styles.root}>
       <View style={styles.details}>
         <IconButton style={styles.closeButton} icon="close" onPress={close} />
-        <Image style={styles.chainIcon} source={chainIcon} />
+        <Image style={styles.chainLinkIcon} source={chainIcon} />
         <Typography.Subtitle>{chainName}</Typography.Subtitle>
         <Typography.Body>
           {t('connected on')} {format(chainLink.creationTime, 'EEE MMM dd, yyyy')}

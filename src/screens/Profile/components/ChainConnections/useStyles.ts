@@ -1,42 +1,29 @@
-import {makeStyle} from 'config/theme';
+import { makeStyle } from 'config/theme';
 
 const useStyles = makeStyle((theme) => ({
   root: {
     display: 'flex',
+    flex: 1,
     flexDirection: 'column',
     width: '100%',
+    marginTop: theme.spacing.s,
+    alignSelf: 'center',
   },
-  flexStart: {
-    alignSelf: 'flex-start',
-  },
-  noConnections: {
+  noConnectionsContainer: {
     alignItems: 'center',
   },
   noConnectionImage: {
     width: 90,
     height: 90,
   },
-  connectionItem: {
+  connectionsContainer: {
     display: 'flex',
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
-  chainIcon: {
-    width: 32,
-    height: 32,
-  },
-  connectionInfo: {
-    display: 'flex',
+    flex: 1,
+    flexGrow: 1,
     flexDirection: 'column',
-    marginLeft: theme.spacing.s,
   },
-  chainName: {
-    textTransform: 'capitalize',
-  },
-  marginTop: {
+  connectChainButton: {
     marginTop: theme.spacing.m,
-  },
-  marginBottom: {
     marginBottom: theme.spacing.m,
   },
 }));

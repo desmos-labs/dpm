@@ -1,12 +1,8 @@
 import { makeStyle } from 'config/theme';
 
 const useStyles = makeStyle((theme) => ({
-  topBar: {
-    backgroundColor: 'transparent',
-    position: 'absolute',
-    top: 0,
-    left: 0,
-    zIndex: 1,
+  button: {
+    color: theme.colors.icon['5'],
   },
 }));
 

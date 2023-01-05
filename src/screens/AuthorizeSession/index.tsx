@@ -12,7 +12,7 @@ import useWalletConnectRequestApproveTs from 'hooks/useWalletConnectSessionAppro
 import useWalletConnectSessionReject from 'hooks/useWalletConnectSessionReject';
 import { AccountScreensStackParams } from 'types/navigation';
 import Typography from 'components/Typography';
-import {Authorization} from 'types/authorization';
+import { Authorization } from 'types/authorization';
 import StyledSafeAreaView from 'components/StyledSafeAreaView';
 import TopBar from 'components/TopBar';
 import Divider from 'components/Divider';
@@ -61,11 +61,15 @@ const AuthorizeSession = (props: Props) => {
   const onGrant = useCallback(async () => {
     const authorized = await authorizeOperation(selectedAccount);
     if (authorized) {
-      approve(sessionRequestDetails.sessionId, [selectedAccount.address], currentChain.chainName);
+      approve(
+        sessionRequestDetails.sessionId,
+        [selectedAccount.address],
+        currentChain.chainLinkName,
+      );
     }
   }, [
     approve,
-    currentChain.chainName,
+    currentChain.chainLinkName,
     selectedAccount,
     sessionRequestDetails.sessionId,
     authorizeOperation,

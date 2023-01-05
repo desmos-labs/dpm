@@ -1,10 +1,10 @@
-import LinkableChains from 'config/LinkableChains';
 import { LinkableChain } from 'types/chains';
+import LinkableChains from 'config/LinkableChains';
 
 /**
  * Finds the details regarding a linkable chain from its chain name.
  */
-const useGetLinkableChainInfoByName = () => (chainName: string) : LinkableChain | undefined => {
+export const getLinkableChainInfoByName = (chainName: string): LinkableChain | undefined => {
   const lowerCase = chainName.toLowerCase();
   return LinkableChains.find((linkableChain) => {
     const { name } = linkableChain.chainConfig;
@@ -15,5 +15,3 @@ const useGetLinkableChainInfoByName = () => (chainName: string) : LinkableChain 
     return lowerCase.indexOf(name) >= 0;
   });
 };
-
-export default useGetLinkableChainInfoByName;

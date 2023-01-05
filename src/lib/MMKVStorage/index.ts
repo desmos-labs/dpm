@@ -1,10 +1,9 @@
-import {MMKV, useMMKVObject} from 'react-native-mmkv';
+import { MMKV, useMMKVObject } from 'react-native-mmkv';
 
 export enum MMKVKEYS {
   APP_SETTINGS = 'APP_SETTINGS',
   ACTIVE_ACCOUNT_ADDRESS = 'ACTIVE_ACCOUNT_ADDRESS',
   ACCOUNTS = 'ACCOUNTS',
-  PROFILES = 'PROFILES'
 }
 
 const MMKVStorage = new MMKV({
@@ -30,8 +29,7 @@ export const getMMKV = <T>(key: MMKVKEYS): T | undefined => {
 /**
  * Stringifies a value and writes it to a given MMKV key
  */
-export const setMMKV = (key: MMKVKEYS, value: any) =>
-  MMKVStorage.set(key, JSON.stringify(value));
+export const setMMKV = (key: MMKVKEYS, value: any) => MMKVStorage.set(key, JSON.stringify(value));
 
 /**
  * Clear the whole MMKV storage
@@ -46,6 +44,4 @@ export const deleteMMKV = (key: MMKVKEYS) => MMKVStorage.delete(key);
 /**
  * A hook that wraps useMMKVObject to enforce MMKVKEYS enum usage.
  */
-export const useMMKVStorage = <T>(key: MMKVKEYS) => {
-  return useMMKVObject<T>(key, MMKVStorage);
-};
+export const useMMKVStorage = <T>(key: MMKVKEYS) => useMMKVObject<T>(key, MMKVStorage);

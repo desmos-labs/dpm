@@ -1,4 +1,4 @@
-import {makeStyle} from 'config/theme';
+import { makeStyle } from 'config/theme';
 
 const useStyles = makeStyle((theme) => ({
   root: {
@@ -62,7 +62,6 @@ const useStyles = makeStyle((theme) => ({
   addressContainer: {
     display: 'flex',
     flexDirection: 'row',
-    marginTop: 16,
     marginHorizontal: 32,
     alignItems: 'center',
   },

@@ -15,7 +15,7 @@ const BlockchainListItem: React.FC<Props> = ({ name, icon, onPress }) => {
   return (
     <TouchableOpacity style={styles.chainItem} onPress={onPress}>
       <Image style={styles.chainLogo} source={icon} resizeMode="contain" />
-      <Typography.Body1 style={styles.chainName}>{name}</Typography.Body1>
+      <Typography.Body1 style={styles.chainLinkName}>{name}</Typography.Body1>
     </TouchableOpacity>
   );
 };

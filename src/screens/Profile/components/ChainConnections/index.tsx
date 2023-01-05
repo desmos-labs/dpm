@@ -1,82 +1,57 @@
 import React, { useCallback, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
-import {
-  FlatList,
-  Image,
-  ListRenderItemInfo,
-  StyleProp,
-  TouchableOpacity,
-  View,
-  ViewStyle,
-} from 'react-native';
+import { FlatList, ListRenderItemInfo, View } from 'react-native';
 import { ActivityIndicator } from 'react-native-paper';
 import Typography from 'components/Typography';
-import useGetLinkableChainInfoByName from 'hooks/chainlinks/useGetLinkableChainInfoByName';
 import DpmImage from 'components/DPMImage';
 import Button from 'components/Button';
 import ListItemSeparator from 'components/ListItemSeparator';
 import { ChainLink } from 'types/chains';
+import { DPMImages } from 'types/images';
+import { useNavigation } from '@react-navigation/native';
+import Spacer from 'components/Spacer';
+import ChainLinkItem from 'screens/Profile/components/ChainLinkItem';
 import useStyles from './useStyles';
 
-export type ChainConnectionsProps = {
-  connections: ChainLink[];
-  onConnectChain?: () => void;
-  onShowChainInfo?: (chain: ChainLink) => void;
-  loading?: boolean;
-  style?: StyleProp<ViewStyle>;
-};
+export interface ChainConnectionsProps {
+  chainLinks: ChainLink[];
+  loading: boolean;
+}
 
-const ChainConnections: React.FC<ChainConnectionsProps> = ({
-  connections,
-  style,
-  onConnectChain,
-  onShowChainInfo,
-  loading,
-}) => {
+const ChainConnections: React.FC<ChainConnectionsProps> = (props: ChainConnectionsProps) => {
+  const navigation = useNavigation();
   const { t } = useTranslation();
+  const { chainLinks, loading } = props;
+  const hasConnections = chainLinks.length !== 0;
   const styles = useStyles();
-  const noConnections = connections.length === 0 || loading === true;
-  const getLinkableChainInfoByName = useGetLinkableChainInfoByName();
 
-  const renderItem = useCallback(
-    (info: ListRenderItemInfo<ChainLink>) => {
-      const { item } = info;
+  const onConnectChain = useCallback(() => {
+    // navigation.navigate({
+    //   name: 'ChainLinkScreens',
+    //   params: {
+    //     screen: 'ConnectChain',
+    //     params: {},
+    //   },
+    // });
+  }, []);
 
-      const chainInfo = getLinkableChainInfoByName(item.chainName);
-      const chainIcon = chainInfo?.icon ?? require('assets/images/chains/cosmos.png');
-      const chainName = chainInfo?.name ?? item.chainName;
-
-      return (
-        <TouchableOpacity
-          style={styles.connectionItem}
-          onPress={() => onShowChainInfo !== undefined && onShowChainInfo(item)}
-        >
-          <Image style={styles.chainIcon} source={chainIcon} />
-          <View style={styles.connectionInfo}>
-            <Typography.Body1 style={styles.chainName}>{chainName}</Typography.Body1>
-            <Typography.Caption2 ellipsizeMode="middle" numberOfLines={1}>
-              {item.externalAddress}
-            </Typography.Caption2>
-          </View>
-        </TouchableOpacity>
-      );
-    },
-    [
-      onShowChainInfo,
-      styles.chainIcon,
-      styles.chainName,
-      styles.connectionInfo,
-      styles.connectionItem,
-    ],
-  );
+  const renderItem = useCallback((info: ListRenderItemInfo<ChainLink>) => {
+    const { item } = info;
+    return <ChainLinkItem chainLink={item} />;
+  }, []);
 
   const ListEmptyComponent = useMemo(
     () => (
-      <View style={styles.noConnections}>
-        <DpmImage style={styles.noConnectionImage} resizeMode="cover" source="no-connection" />
-        <Typography.Body>{t('connect your chain account')}</Typography.Body>
+      <View style={styles.noConnectionsContainer}>
+        <DpmImage
+          style={styles.noConnectionImage}
+          resizeMode="cover"
+          source={DPMImages.NoConnection}
+        />
 
-        <Button style={[styles.marginTop]} onPress={onConnectChain} mode="outlined">
+        {/* Option to connect a chain */}
+        <Typography.Body>{t('connect your chain account')}</Typography.Body>
+        <Button style={styles.connectChainButton} onPress={onConnectChain} mode="outlined">
           {t('connect chain')}
         </Button>
       </View>
@@ -85,24 +60,28 @@ const ChainConnections: React.FC<ChainConnectionsProps> = ({
   );
 
   return (
-    <View style={[styles.root, !noConnections ? styles.flexStart : null, style]}>
-      {loading === true ? (
-        <ActivityIndicator />
-      ) : (
-        <FlatList
-          data={connections}
-          renderItem={renderItem}
-          keyExtractor={(item) => item.externalAddress}
-          ItemSeparatorComponent={ListItemSeparator}
-          ListEmptyComponent={ListEmptyComponent}
-        />
+    <View style={styles.root}>
+      {/* Loading indicator */}
+      {loading && <ActivityIndicator />}
+
+      {/* Chain links list */}
+      {!loading && (
+        <View style={styles.connectionsContainer}>
+          <Spacer paddingVertical={14} />
+          {hasConnections && <Typography.Body1>{t('connected chains')}</Typography.Body1>}
+          <FlatList
+            data={chainLinks}
+            renderItem={renderItem}
+            keyExtractor={(item) => item.chainName + item.externalAddress}
+            ItemSeparatorComponent={ListItemSeparator}
+            ListEmptyComponent={ListEmptyComponent}
+          />
+        </View>
       )}
-      {!noConnections && (
-        <Button
-          style={[styles.marginTop, styles.marginBottom]}
-          onPress={onConnectChain}
-          mode="outlined"
-        >
+
+      {/* Connect button */}
+      {!loading && hasConnections && (
+        <Button style={styles.connectChainButton} onPress={onConnectChain} mode="outlined">
           {t('connect chain')}
         </Button>
       )}

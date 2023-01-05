@@ -83,7 +83,7 @@ const Home: React.FC<Props> = (props) => {
 
   return (
     <StyledSafeAreaView padding={0} noIosPadding>
-      {currentChain.chainName !== 'desmos-mainnet' && (
+      {currentChain.chainLinkName !== 'desmos-mainnet' && (
         <View style={styles.testnetBadge}>
           <Text style={styles.testnetText}>TESTNET</Text>
         </View>

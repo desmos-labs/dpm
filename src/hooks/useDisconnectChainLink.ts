@@ -16,7 +16,7 @@ export default function useDisconnectChainLink() {
         {
           typeUrl: '/desmos.profiles.v3.MsgUnlinkChainAccount',
           value: {
-            chainName: chainLink.chainName,
+            chainLinkName: chainLink.chainLinkName,
             owner: accounts[0].address,
             target: chainLink.externalAddress,
           },

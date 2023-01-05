@@ -1,20 +1,22 @@
 import { makeStyle } from 'config/theme';
 
 const useStyles = makeStyle((theme) => ({
-  chainItem: {
+  chainLinkItem: {
     display: 'flex',
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: theme.colors.background,
-    padding: theme.spacing.s,
-    borderRadius: theme.roundness,
   },
-  chainLogo: {
+  chainLinkIcon: {
     width: 32,
     height: 32,
   },
-  chainLinkName: {
+  chainLinkInfo: {
+    display: 'flex',
+    flexDirection: 'column',
     marginLeft: theme.spacing.s,
+  },
+  chainLinkName: {
+    textTransform: 'capitalize',
   },
 }));
 

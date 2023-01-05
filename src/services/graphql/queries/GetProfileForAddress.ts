@@ -1,23 +1,11 @@
-import {gql} from '@apollo/client';
+import { gql } from '@apollo/client';
+import PROFILE_FIELDS from './fragments/ProfilesFields';
 
 const GetProfileForAddress = gql`
+  ${PROFILE_FIELDS}
   query GetProfileForAddress($address: String) @api(name: desmos) {
-    profile(where: {address: {_eq: $address}}) {
-      address
-      bio
-      dtag
-      creation_time
-      cover_pic
-      nickname
-      profile_pic
-      followage {
-        counterparty_address
-        subspace_id
-      }
-      following {
-        counterparty_address
-        subspace_id
-      }
+    profile(where: { address: { _eq: $address } }) {
+      ...ProfileFields
     }
   }
 `;

@@ -1,11 +1,12 @@
 import {
   selectorFamily,
-  useRecoilRefresher_UNSTABLE, useRecoilValue,
+  useRecoilRefresher_UNSTABLE,
+  useRecoilValue,
   useRecoilValueLoadable,
 } from 'recoil';
 import GetChainLinks from 'services/graphql/queries/GetChainLinks';
-import {ChainLink} from 'types/chains';
-import {AppSettings} from 'types/settings';
+import { ChainLink } from 'types/chains';
+import { AppSettings } from 'types/settings';
 import appSettingsState from '@recoil/settings';
 import buildGraphQlClient from 'services/graphql/client';
 import useGraphQLClient from 'services/graphql/client';
@@ -17,9 +18,9 @@ import useGraphQLClient from 'services/graphql/client';
  */
 const formatChainLink = (chainLinks: any[]) =>
   chainLinks.map(
-    link =>
+    (link) =>
       ({
-        chainName: link.chain_config.name,
+        chainLinkName: link.chain_config.name,
         externalAddress: link.external_address,
         userAddress: link.user_address,
         creationTime: new Date(`${link.creation_time}Z`),
@@ -33,7 +34,7 @@ const chainLinkState = selectorFamily<ChainLink[], string>({
   key: 'chainLink',
   get: (address: string) => async () => {
     const client = useGraphQLClient();
-    const {data} = await client.query({
+    const { data } = await client.query({
       query: GetChainLinks,
       variables: {
         address,
@@ -41,21 +42,17 @@ const chainLinkState = selectorFamily<ChainLink[], string>({
       fetchPolicy: 'no-cache',
     });
 
-    const {chain_link} = data;
+    const { chain_link } = data;
     return formatChainLink(chain_link);
   },
 });
 
 export const useChainLinks = (address: string) => {
-  const chainLinksSelector = useRecoilValueLoadable<ChainLink[]>(
-    chainLinkState(address),
-  );
+  const chainLinksSelector = useRecoilValueLoadable<ChainLink[]>(chainLinkState(address));
 
-  const refetchChainLinks = useRecoilRefresher_UNSTABLE(
-    chainLinkState(address),
-  );
+  const refetchChainLinks = useRecoilRefresher_UNSTABLE(chainLinkState(address));
 
-  const {state, contents} = chainLinksSelector;
+  const { state, contents } = chainLinksSelector;
   return {
     loading: state === 'loading',
     chainLinks: state === 'hasValue' ? contents : [],
