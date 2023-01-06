@@ -1,69 +1,49 @@
-import { LedgerSigner } from '@cosmjs/ledger-amino';
-import { OfflineSigner } from '@cosmjs/proto-signing';
-import BluetoothTransport from '@ledgerhq/react-native-hw-transport-ble';
-import { CompositeNavigationProp, useNavigation } from '@react-navigation/native';
+import { useReturnToCurrentScreen } from 'hooks/useReturnToCurrentScreen';
+import { useCallback, useMemo } from 'react';
+import { useNavigation } from '@react-navigation/native';
+import { RootNavigatorParamList } from 'navigation/RootNavigator';
 import { StackNavigationProp } from '@react-navigation/stack';
-import { useCallback } from 'react';
-import {
-  AccountScreensStackParams,
-  AuthorizeOperationResolveParams,
-  RootStackParams,
-} from 'types/navigation';
-import { DesmosLedgerApp } from 'config/LedgerApps';
-
-type NavigationProps = CompositeNavigationProp<
-  StackNavigationProp<AccountScreensStackParams>,
-  StackNavigationProp<RootStackParams>
->;
+import { Wallet } from 'types/wallet';
+import ROUTES from 'navigation/routes';
+import { useRecoilValue } from 'recoil';
+import { activeAccountAppState } from '@recoil/activeAccountState';
 
 /**
  * Hooks that provides a function to unlock and access the user wallet.
+ * @param address - address of the wallet to unlock, if undefined will
+ * be used the address of the current active account
  */
-export default function useUnlockWallet(): (
-  account: any
-) => Promise<OfflineSigner | null> {
-  const navigation = useNavigation<NavigationProps>();
+export const useUnlockWallet = (address?: string) => {
+  const { returnToCurrentScreen } = useReturnToCurrentScreen();
+  const navigator = useNavigation<StackNavigationProp<RootNavigatorParamList>>();
+  const activeAccount = useRecoilValue(activeAccountAppState);
 
-  return useCallback(
-    async (account: any) => {
-      if (account.type === 0) {
-        return new Promise((resolve, reject) => {
-          navigation.navigate({
-            name: 'AuthorizeOperation',
-            params: {
-              address: account.address,
-              provideWallet: true,
-              resolve: (result: AuthorizeOperationResolveParams) => {
-                resolve(result.wallet);
-              },
-              reject,
-            },
-          });
-        });
-      }
-      return new Promise((resolve) => {
-        navigation.navigate({
-          name: 'ConnectToLedgerScreens',
-          params: {
-            ledgerApp: DesmosLedgerApp,
-            autoClose: true,
-            onConnectionEstablished: (transport: BluetoothTransport) => {
-              resolve(
-                new LedgerSigner(transport!, {
-                  minLedgerAppVersion: DesmosLedgerApp!.minVersion,
-                  ledgerAppName: DesmosLedgerApp!.name,
-                  hdPaths: account.hdPath,
-                  prefix: 'desmos',
-                }),
-              );
-            },
-            onCancel: () => {
-              resolve(null);
-            },
-          },
-        });
-      });
-    },
-    [navigation],
+  // Address of the wallet to unlock.
+  const toUnlockAddress = useMemo(
+    () => address ?? activeAccount?.address,
+    [address, activeAccount],
   );
-}
+
+  return useCallback(() => {
+    if (toUnlockAddress === undefined) {
+      return Promise.reject(new Error('no account selected'));
+    }
+
+    return new Promise<Wallet | undefined>((resolve) => {
+      navigator.navigate({
+        name: ROUTES.UNLOCK_WALLET,
+        params: {
+          address: toUnlockAddress,
+          onSuccess: (wallet) => {
+            resolve(wallet);
+            returnToCurrentScreen();
+          },
+          onCancel: () => {
+            resolve(undefined);
+            returnToCurrentScreen();
+          },
+        },
+      });
+    });
+  }, [address, returnToCurrentScreen, toUnlockAddress]);
+};

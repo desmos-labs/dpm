@@ -33,6 +33,10 @@ export enum WalletType {
  */
 interface BaseWallet {
   /**
+   * Bech32 Address prefix of this wallet.
+   */
+  readonly addressPrefix: string;
+  /**
    * Wallet bech32 address.
    */
   readonly address: string;
@@ -87,6 +91,10 @@ export interface LedgerWallet extends BaseWallet {
    * private key.
    */
   readonly hdPath: HdPath;
+  /**
+   * Name of the app used to generate this wallet.
+   */
+  readonly ledgerAppName: string;
 }
 
 /**

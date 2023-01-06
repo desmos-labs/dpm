@@ -19,6 +19,7 @@ import ChainLinkDetails, { ChainLinkDetailsProps } from 'screens/ChainLinkDetail
 import ImportAccountSelectChain from 'screens/ImportAccountSelectChain';
 import ImportAccountSelectType from 'screens/ImportAccountSelectType';
 import ImportAccountSelectLedgerApp from 'screens/ImportAccountSelectLedgerApp';
+import UnlockWallet, { UnlockWalletParams } from 'screens/UnlockWallet';
 
 export type RootNavigatorParamList = {
   [ROUTES.DEV_SCREEN]: undefined;
@@ -35,10 +36,11 @@ export type RootNavigatorParamList = {
   [ROUTES.SAVE_GENERATED_ACCOUNT]: SaveGeneratedAccountParams;
 
   [ROUTES.CONNECT_TO_LEDGER_STACK]: ConnectToLedgerStackParams;
-  [ROUTES.HOME]: undefined;
 
+  [ROUTES.HOME]: undefined;
   [ROUTES.PROFILE]: ProfileAccountParams;
   [ROUTES.CHAIN_LINK_DETAILS]: ChainLinkDetailsProps;
+  [ROUTES.UNLOCK_WALLET]: UnlockWalletParams;
 };
 
 const Stack = createStackNavigator<RootNavigatorParamList>();
@@ -74,6 +76,7 @@ const RootNavigator = () => {
       <Stack.Screen name={ROUTES.SAVE_GENERATED_ACCOUNT} component={SaveGeneratedAccount} />
 
       <Stack.Screen name={ROUTES.CONNECT_TO_LEDGER_STACK} component={ConnectToLedgerStack} />
+      <Stack.Screen name={ROUTES.UNLOCK_WALLET} component={UnlockWallet} />
 
       <Stack.Screen name={ROUTES.HOME} component={Home} />
 

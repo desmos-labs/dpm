@@ -41,6 +41,8 @@ export const generateLedgerAccountWallets = async (
       publicKey: account.pubkey,
       signer,
       hdPath: hdPaths[i],
+      ledgerAppName: app.name,
+      addressPrefix: prefix,
     },
     account: {
       walletType: WalletType.Ledger,
@@ -64,8 +66,8 @@ export const generateMnemonicWallets = async (
   prefix: string,
   hdPaths: HdPath[],
   mnemonic: string,
-): Promise<AccountWithWallet[]> => {
-  return Promise.all(
+): Promise<AccountWithWallet[]> =>
+  Promise.all(
     hdPaths.map(async (hdPath) => {
       const [, coinType, account, change, index] = hdPath;
       const { privkey } = await CryptoUtils.deriveKeyPairFromMnemonic(
@@ -90,6 +92,7 @@ export const generateMnemonicWallets = async (
           hdPath,
           privateKey: signer.privateKey.key,
           publicKey: accountData.pubkey,
+          addressPrefix: prefix,
         },
         account: {
           walletType: WalletType.Mnemonic,
@@ -101,7 +104,6 @@ export const generateMnemonicWallets = async (
       } as AccountWithWallet;
     }),
   );
-};
 
 /**
  * Function allowing to generate a Web3AuthWallet.
@@ -128,6 +130,7 @@ export const generateWeb3AuthWallet = async (
       signer,
       loginProvider,
       privateKey,
+      addressPrefix: prefix,
     },
     account: {
       walletType: WalletType.Web3Auth,

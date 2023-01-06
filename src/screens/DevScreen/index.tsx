@@ -8,6 +8,7 @@ import { getAccounts } from '@recoil/accounts';
 import Typography from 'components/Typography';
 import { FlatList, Text, TouchableOpacity } from 'react-native';
 import Spacer from 'components/Spacer';
+import { useUnlockWallet } from 'hooks/useUnlockWallet';
 import useStyles from './useStyles';
 
 const routesToRender = [ROUTES.LANDING, ROUTES.CREATE_NEW_MNEMONIC, ROUTES.PROFILE, ROUTES.HOME];
@@ -19,10 +20,7 @@ const DevScreen: FC<NavProps> = ({ navigation }) => {
   const styles = useStyles();
 
   const accounts = getAccounts();
-
-  // React.useEffect(() => {
-  //   setSetting(DesmosTestnet.chainName);
-  // });
+  const unlockWallet = useUnlockWallet();
 
   const itemSeparator = React.useCallback(() => <Spacer paddingVertical={4} />, []);
 
@@ -54,6 +52,11 @@ const DevScreen: FC<NavProps> = ({ navigation }) => {
       params: undefined,
     });
   }, [navigation]);
+
+  const testUnlockWallet = useCallback(async () => {
+    const wallet = await unlockWallet();
+    console.log('unlocked wallet', wallet);
+  }, [unlockWallet]);
 
   return (
     <StyledSafeAreaView>
@@ -99,6 +102,12 @@ const DevScreen: FC<NavProps> = ({ navigation }) => {
 
       <Button mode="contained" onPress={navigateToLandingPage}>
         Go to landing page
+      </Button>
+
+      <Spacer paddingVertical={4} />
+
+      <Button mode="contained" onPress={testUnlockWallet}>
+        Unlock wallet
       </Button>
       <Spacer paddingVertical={4} />
       <Typography.H1>Account: {Object.keys(accounts).length}</Typography.H1>

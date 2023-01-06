@@ -19,7 +19,8 @@ export const deserializeMnemonicWallet = (
     value.version === undefined ||
     value.address === undefined ||
     value.hdPath === undefined ||
-    value.privateKey === undefined
+    value.privateKey === undefined ||
+    value.addressPrefix === undefined
   ) {
     throw new Error('invalid serialized mnemonic wallet');
   }
@@ -41,6 +42,7 @@ export const deserializeMnemonicWallet = (
     address: value.address,
     hdPath: value.hdPath,
     privateKey: value.privateKey,
+    addressPrefix: value.addressPrefix,
   };
 };
 
@@ -55,7 +57,9 @@ export const deserializeLedgerWallet = (
     value.version === undefined ||
     value.type === undefined ||
     value.address === undefined ||
-    value.hdPath === undefined
+    value.hdPath === undefined ||
+    value.ledgerAppName === undefined ||
+    value.addressPrefix === undefined
   ) {
     throw new Error('invalid serialized ledger wallet');
   }
@@ -76,6 +80,8 @@ export const deserializeLedgerWallet = (
     type: value.type,
     address: value.address,
     hdPath: value.hdPath,
+    addressPrefix: value.addressPrefix,
+    ledgerAppName: value.ledgerAppName,
   };
 };
 
@@ -91,7 +97,8 @@ export const deserializeWeb3AuthWallet = (
     value.type === undefined ||
     value.address === undefined ||
     value.privateKey === undefined ||
-    value.loginProvider === undefined
+    value.loginProvider === undefined ||
+    value.addressPrefix === undefined
   ) {
     throw new Error('invalid serialized web3auth wallet');
   }
@@ -107,6 +114,7 @@ export const deserializeWeb3AuthWallet = (
     address: value.address,
     privateKey: value.privateKey,
     loginProvider: value.loginProvider,
+    addressPrefix: value.addressPrefix,
   };
 };
 
@@ -124,6 +132,6 @@ export const deserializeWallet = (value: Partial<SerializableWallet>): Serializa
       return deserializeWeb3AuthWallet(value);
     default:
       // @ts-ignore
-      throw new Error(`can't deserialize wallet with type ${wallet.type}`);
+      throw new Error(`can't deserialize wallet with type ${value.type}`);
   }
 };

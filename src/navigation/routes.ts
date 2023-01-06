@@ -82,6 +82,10 @@ enum ROUTES {
    * Screen that shows the details of a single chain link.
    */
   CHAIN_LINK_DETAILS = 'CHAIN_LINK_DETAILS',
+  /**
+   * Screen that allow the user to unlock the wallet.
+   */
+  UNLOCK_WALLET = 'UNLOCK_WALLET',
 }
 
 export default ROUTES;
