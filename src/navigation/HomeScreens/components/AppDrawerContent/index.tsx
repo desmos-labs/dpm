@@ -13,7 +13,6 @@ import useAccounts from 'hooks/useAccounts';
 import useChangeAccount from 'hooks/useChangeAccount';
 import useDeleteAccount from 'hooks/useDeleteAccount';
 import useProfiles from 'hooks/useProfiles';
-import useSelectedAccount from 'hooks/useSelectedAccount';
 import useShowModal from 'hooks/useShowModal';
 import { ChainAccount } from 'types/chains';
 import { DesmosProfile } from 'types/desmosTypes';
@@ -38,7 +37,7 @@ export const AppDrawerContent: React.FC<AppDrawerContentProps> = (props) => {
   const styles = useStyles();
   const accounts = useAccounts();
   const profiles = useProfiles();
-  const selectedAccount = useSelectedAccount();
+  const selectedAccount = {} as any;
   const changeAccount = useChangeAccount();
   const deleteAccount = useDeleteAccount();
   const showModal = useShowModal();

@@ -6,7 +6,6 @@ import SingleButtonModal from 'modals/SingleButtonModal';
 import useCurrentChainInfo from 'hooks/desmosclient/useCurrentChainInfo';
 import useAuthorizeOperation from 'hooks/useAuthorizeOperation';
 import useNavigateToHomeScreen from 'hooks/useNavigateToHomeScreen';
-import useSelectedAccount from 'hooks/useSelectedAccount';
 import useShowModal from 'hooks/useShowModal';
 import useWalletConnectRequestApproveTs from 'hooks/useWalletConnectSessionApprove';
 import useWalletConnectSessionReject from 'hooks/useWalletConnectSessionReject';
@@ -29,7 +28,7 @@ const AuthorizeSession = (props: Props) => {
   const styles = useStyles();
   const [approveStatus, approve] = useWalletConnectRequestApproveTs();
   const [rejectStatus, reject] = useWalletConnectSessionReject();
-  const selectedAccount = useSelectedAccount();
+  const selectedAccount = {} as any;
   const currentChain = useCurrentChainInfo();
   const navigateToHomeScreen = useNavigateToHomeScreen();
   const authorizeOperation = useAuthorizeOperation();

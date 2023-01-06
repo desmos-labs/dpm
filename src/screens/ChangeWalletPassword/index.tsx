@@ -6,7 +6,6 @@ import SecureTextInput from 'components/SecureTextInput';
 import SingleButtonModal from 'modals/SingleButtonModal';
 import Typography from 'components/Typography';
 import useNavigateToHomeScreen from 'hooks/useNavigateToHomeScreen';
-import useSelectedAccount from 'hooks/useSelectedAccount';
 import useShowModal from 'hooks/useShowModal';
 import { SettingsScreensStackParams } from 'types/navigation';
 import evaluatePasswordComplexity from 'hooks/useEvaluatePasswordComplexity';
@@ -23,7 +22,7 @@ const ChangeWalletPassword = (props: Props) => {
   const { params } = route;
   const { t } = useTranslation();
   const styles = useStyles();
-  const account = useSelectedAccount();
+  const account = {} as any;
   const [password, setPassword] = useState('');
   const [confirmationPassword, setConfirmationPassword] = useState('');
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
@@ -62,9 +61,12 @@ const ChangeWalletPassword = (props: Props) => {
     });
   }, [account.type, navigateToHomeScreen, params?.wallet, password, showModal, t]);
 
-  const checkUserPassword = useCallback(async () => {
-
-  }, [account.address, account.type, navigateToCreateNewPassword, password]);
+  const checkUserPassword = useCallback(async () => {}, [
+    account.address,
+    account.type,
+    navigateToCreateNewPassword,
+    password,
+  ]);
 
   const onContinuePressed = async () => {
     if (createNewPassword && password !== confirmationPassword) {
@@ -105,7 +107,9 @@ const ChangeWalletPassword = (props: Props) => {
         <Typography.Body>
           {createNewPassword ? t('enter your new password') : t('enter your old password')}
         </Typography.Body>
-        {createNewPassword && <PasswordComplexityScore score={evaluatePasswordComplexity(password)} />}
+        {createNewPassword && (
+          <PasswordComplexityScore score={evaluatePasswordComplexity(password)} />
+        )}
       </View>
       <SecureTextInput
         placeholder={t('password')}

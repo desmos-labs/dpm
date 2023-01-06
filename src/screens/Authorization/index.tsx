@@ -11,7 +11,6 @@ import { AccountScreensStackParams, HomeScreensBottomTabsParams } from 'types/na
 import useDrawerContext from 'contexts/AppDrawerContex';
 import useAuthorizeOperation from 'hooks/useAuthorizeOperation';
 import useProfiles from 'hooks/useProfiles';
-import useSelectedAccount from 'hooks/useSelectedAccount';
 import useShowModal from 'hooks/useShowModal';
 import useWalletConnectSessions from 'hooks/useWalletConnectSessions';
 import useWalletConnectTerminate from 'hooks/useWalletConnectTerminate';
@@ -35,7 +34,7 @@ const Authorization: React.FC<Props> = (props) => {
   const { openDrawer } = useDrawerContext();
   const { t } = useTranslation();
   const styles = useStyles();
-  const currentAccount = useSelectedAccount();
+  const currentAccount = {} as any;
   const profiles = useProfiles();
   const sessions = useWalletConnectSessions(currentAccount);
   const showModal = useShowModal();
@@ -148,9 +147,7 @@ const Authorization: React.FC<Props> = (props) => {
         <View style={styles.dAppSessions} onStartShouldSetResponder={() => true}>
           <FlatList
             data={dAppSessions}
-            renderItem={({ item }) => (
-              <DAppSessionView session={item} onRevoke={openRevokePopup} />
-            )}
+            renderItem={({ item }) => <DAppSessionView session={item} onRevoke={openRevokePopup} />}
             keyExtractor={(item) => item.id}
             ItemSeparatorComponent={ListItemSeparator}
           />
