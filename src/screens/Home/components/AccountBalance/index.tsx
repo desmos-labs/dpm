@@ -1,57 +1,49 @@
-import React from 'react';
+import React, { useCallback, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { StyleProp, TouchableOpacity, View, ViewStyle } from 'react-native';
 import IconButton from 'components/IconButton';
 import useAppContext from 'contexts/AppContext';
 import Typography from 'components/Typography';
-import { useRecoilValue } from 'recoil';
-import appSettingsState from '@recoil/settings';
+import { useSettingsState } from '@recoil/settings';
+import CopyButton from 'components/CopyButton';
+import { Account } from 'types/account';
+import { DesmosProfile } from 'types/desmosTypes';
+import { formatHiddenValue } from 'lib/FormatUtils';
 import useStyles from './useStyles';
 
 export type AccountBalanceProps = {
-  /**
-   * Address of the account of interest.
-   */
-  address: string;
-  /**
-   * The nickname associated to account.
-   */
-  nickname?: string;
-  /**
-   * Callback called when the user press the copy button.
-   */
-  onCopyPress?: () => void;
-  /**
-   * Callback called when the user click the send button.
-   */
-  onSendPressed?: () => void;
-  /**
-   * Callback called when the user click the hide button.
-   */
-  onHidePressed?: () => void;
+  account: Account;
+  profile: DesmosProfile | undefined;
   style?: StyleProp<ViewStyle>;
 };
 
 const AccountBalance: React.FC<AccountBalanceProps> = (props) => {
-  const { address, nickname, onCopyPress, onSendPressed, onHidePressed, style } = props;
+  const { account, profile, style } = props;
   const { t } = useTranslation();
   const styles = useStyles();
   const { selectedAccountBalance } = useAppContext();
-  const settings = useRecoilValue(appSettingsState);
+  const [settings, setSettings] = useSettingsState();
 
-  const hideAmount = (balance: string): string => {
-    let toReturn = '';
-    for (let index = 0; index < balance.length; index += 1) {
-      toReturn += '*';
-    }
-    return toReturn;
-  };
+  const nickname = useMemo(() => profile?.nickname, [profile]);
+  const address = useMemo(() => profile?.address || account.address, [account, profile]);
+
+  const onHidePressed = useCallback(() => {
+    setSettings({
+      ...settings,
+      balanceHidden: !settings.balanceHidden,
+    });
+  }, [settings]);
+
+  const onSendPressed = useCallback(() => {
+    console.log('AccountBalance - implement onSend');
+  }, []);
 
   return (
     <View style={[styles.root, style]}>
-      {nickname !== undefined ? (
-        <Typography.H4 style={styles.text}>{nickname}</Typography.H4>
-      ) : null}
+      {/* Nickname */}
+      {nickname && <Typography.H4 style={styles.text}>{nickname}</Typography.H4>}
+
+      {/* Address data */}
       <View style={styles.addressContainer}>
         <Typography.Body
           style={[styles.address, styles.text]}
@@ -60,7 +52,7 @@ const AccountBalance: React.FC<AccountBalanceProps> = (props) => {
         >
           {address}
         </Typography.Body>
-        <IconButton color="#ffffff" icon="content-copy" size={16} onPress={onCopyPress} />
+        <CopyButton value={address} />
         <IconButton
           color="#ffffff"
           icon={settings.balanceHidden ? 'eye' : 'eye-off'}
@@ -68,12 +60,14 @@ const AccountBalance: React.FC<AccountBalanceProps> = (props) => {
           onPress={onHidePressed}
         />
       </View>
+
+      {/* Balance data */}
       <View style={styles.balanceContainer}>
         <View style={styles.balanceTextContainer}>
           <Typography.Body style={styles.balanceText}>{t('available')}</Typography.Body>
           <Typography.H4 style={styles.balanceText}>
             {settings.balanceHidden
-              ? hideAmount(selectedAccountBalance.amount)
+              ? formatHiddenValue(selectedAccountBalance.amount)
               : selectedAccountBalance.amount}{' '}
             {selectedAccountBalance.denom.toUpperCase()}
           </Typography.H4>
@@ -87,4 +81,3 @@ const AccountBalance: React.FC<AccountBalanceProps> = (props) => {
 };
 
 export default AccountBalance;
-

@@ -38,22 +38,30 @@ export const formatCoins = (chainInfo: ChainInfo, amount: Coin[] | undefined): s
  * Perform the sanitization to a seed phrase.
  * @param mnemonic - The seed phrase to sanitize.
  */
-export const sanitizeMnemonic = (mnemonic: string): string => {
-  return mnemonic.replace(/\n\n/g, ' ').trim();
-};
+export const sanitizeMnemonic = (mnemonic: string): string => mnemonic.replace(/\n\n/g, ' ').trim();
 
 /**
  * Converts a [Slip10RawIndex] to it's base number representation.
  * @param index - The index to convert.
  */
-export const slip10IndexToBaseNumber = (index: Slip10RawIndex): number => {
-  return index.isHardened() ? index.toNumber() - 2 ** 31 : index.toNumber();
-};
+export const slip10IndexToBaseNumber = (index: Slip10RawIndex): number =>
+  index.isHardened() ? index.toNumber() - 2 ** 31 : index.toNumber();
 
 /**
  * Converts a [Slip10RawIndex] to it string representation.
  * @param index - The index to convert to string.
  */
-export const slip10IndexToString = (index: Slip10RawIndex): string => {
-  return slip10IndexToBaseNumber(index).toString();
+export const slip10IndexToString = (index: Slip10RawIndex): string =>
+  slip10IndexToBaseNumber(index).toString();
+
+/**
+ * Hides the given value, using * in order to cover each character.
+ * @param value - Value to be hidden.
+ */
+export const formatHiddenValue = (value: string): string => {
+  let toReturn = '';
+  for (let index = 0; index < value.length; index += 1) {
+    toReturn += '*';
+  }
+  return toReturn;
 };

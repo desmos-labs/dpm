@@ -13,11 +13,10 @@ export type ChainId = 'mainnet' | 'testnet';
  */
 export type AppSettings = {
   theme: AppTheme;
-  chainId: ChainId;
+  chainName: ChainId;
   balanceHidden: boolean;
   biometrics: boolean;
   notifications: boolean;
-  dataInitialized: false,
-  currentTimezone: '',
+  dataInitialized: false;
+  currentTimezone: '';
 };
-

@@ -1,5 +1,5 @@
 import { getMMKV, MMKVKEYS, setMMKV } from 'lib/MMKVStorage';
-import { atom } from 'recoil';
+import { atom, useRecoilState, useRecoilValue } from 'recoil';
 import { AppSettings } from 'types/settings';
 
 /**
@@ -7,7 +7,7 @@ import { AppSettings } from 'types/settings';
  */
 export const DefaultAppSettings: AppSettings = {
   theme: 'light',
-  chainId: __DEV__ ? 'testnet' : 'mainnet',
+  chainName: __DEV__ ? 'testnet' : 'mainnet',
   balanceHidden: false,
   biometrics: false,
   notifications: false,
@@ -32,5 +32,9 @@ const appSettingsState = atom<AppSettings>({
     },
   ],
 });
+
+export const useSettingsState = () => useRecoilState(appSettingsState);
+
+export const useSettings = () => useRecoilValue(appSettingsState);
 
 export default appSettingsState;

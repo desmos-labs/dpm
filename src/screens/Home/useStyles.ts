@@ -1,4 +1,4 @@
-import {makeStyle} from 'config/theme';
+import { makeStyle } from 'config/theme';
 
 const useStyles = makeStyle((theme) => ({
   testnetBadge: {
@@ -11,10 +11,6 @@ const useStyles = makeStyle((theme) => ({
     backgroundColor: theme.colors.background,
     zIndex: 1,
     elevation: 4,
-  },
-  snackbar: {
-    zIndex: 2,
-    backgroundColor: theme.colors.popupSurface,
   },
   testnetText: {
     color: theme.colors.primary,

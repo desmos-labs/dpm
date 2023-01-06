@@ -1,4 +1,4 @@
-import { atom, selector } from 'recoil';
+import { atom, selector, useRecoilValue } from 'recoil';
 import { getMMKV, MMKVKEYS, setMMKV } from 'lib/MMKVStorage';
 import { Account } from 'types/account';
 import { accountsAppState } from '@recoil/accounts';
@@ -33,3 +33,5 @@ export const activeAccountAppState = selector<Account | undefined>({
     return accounts[selectedAccountAddress];
   },
 });
+
+export const useActiveAccount = () => useRecoilValue(activeAccountAppState);

@@ -48,9 +48,9 @@ export const DesmosClientProvider: React.FC = (props) => {
 
   const [desmosClient, setDesmosClient] = useState<DesmosClient | undefined>();
   // Gets the current chain from the current selected chain id
-  const currentChain = useMemo(() => DesmosChains[appSettings.chainId], [appSettings.chainId]);
+  const currentChain = useMemo(() => DesmosChains[appSettings.chainName], [appSettings.chainName]);
   if (currentChain === undefined) {
-    throw new Error(`Can't find chain with id ${appSettings.chainId}`);
+    throw new Error(`Can't find chain with id ${appSettings.chainName}`);
   }
 
   const [signer, setSigner] = useState<Signer | undefined>();
@@ -91,9 +91,9 @@ export const DesmosClientProvider: React.FC = (props) => {
         if (signer !== undefined) {
           newClient.setSigner(signer);
         }
-        setAppSettings(current => ({
+        setAppSettings((current) => ({
           ...current,
-          chainId: newChainId,
+          chainName: newChainId,
         }));
         setDesmosClient((old) => {
           if (old) {
@@ -116,15 +116,7 @@ export const DesmosClientProvider: React.FC = (props) => {
       connectClient,
       setSigner: setNewSigner,
     }),
-    [
-      currentChain,
-      setNewChainId,
-      signer,
-      addresses,
-      desmosClient,
-      connectClient,
-      setNewSigner,
-    ],
+    [currentChain, setNewChainId, signer, addresses, desmosClient, connectClient, setNewSigner],
   );
 
   return (

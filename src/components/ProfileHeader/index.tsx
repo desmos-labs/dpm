@@ -7,26 +7,20 @@ import IconButton from 'components/IconButton';
 import Typography from 'components/Typography';
 import { DesmosProfile } from 'types/desmosTypes';
 import { defaultProfileCover, defaultProfilePicture } from 'assets/images';
+import CopyButton from 'components/CopyButton';
 import useStyles from './useStyles';
 
 export type ProfileHeaderProps = {
   profile: DesmosProfile | undefined;
   topRightElement?: ReactNode | null;
   topLeftElement?: ReactNode | null;
-  onCopyPressed?: () => void;
   onEditProfilePicture?: () => void;
   onEditCoverPicture?: () => void;
 };
 
 const ProfileHeader: React.FC<ProfileHeaderProps> = (props) => {
-  const {
-    profile,
-    topRightElement,
-    topLeftElement,
-    onCopyPressed,
-    onEditProfilePicture,
-    onEditCoverPicture,
-  } = props;
+  const { profile, topRightElement, topLeftElement, onEditProfilePicture, onEditCoverPicture } =
+    props;
   const theme = useTheme();
   const styles = useStyles();
 
@@ -76,9 +70,7 @@ const ProfileHeader: React.FC<ProfileHeaderProps> = (props) => {
           <Typography.Caption ellipsizeMode="middle" numberOfLines={1}>
             {profile.address}
           </Typography.Caption>
-          <View>
-            <IconButton icon="content-copy" size={20} onPress={onCopyPressed} color="#c4c4c4" />
-          </View>
+          <CopyButton value={profile.address} color="#c4c4c4" />
         </View>
       )}
     </View>
