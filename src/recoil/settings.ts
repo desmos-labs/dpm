@@ -3,6 +3,7 @@ import { atom, useRecoilState, useRecoilValue } from 'recoil';
 import { AppSettings } from 'types/settings';
 import { findChainInfoByName } from 'lib/ChainsUtils';
 import { DesmosMainnet, DesmosTestnet } from '@desmoslabs/desmjs';
+import { useMemo } from 'react';
 
 /**
  * Default application settings
@@ -37,7 +38,7 @@ const appSettingsState = atom<AppSettings>({
 
 export const useCurrentChainInfo = () => {
   const settings = useSettings();
-  return findChainInfoByName(settings.chainName);
+  return useMemo(() => findChainInfoByName(settings.chainName), [settings.chainName]);
 };
 
 export const useSettingsState = () => useRecoilState(appSettingsState);
