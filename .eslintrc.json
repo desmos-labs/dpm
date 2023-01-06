@@ -9,6 +9,7 @@
     "plugin:import/errors",
     "plugin:import/warnings",
     "eslint:recommended",
+    "plugin:react-hooks/recommended",
     "prettier"
   ],
   "parserOptions": {
@@ -43,7 +44,10 @@
     // Typescript related warnings
     "@typescript-eslint/no-use-before-define": 0,
     // Disable warning when exportin just one object and is not exported as default
-    "import/prefer-default-export": 0
+    "import/prefer-default-export": 0,
+    // React hooks deps lints
+    "react-hooks/rules-of-hooks": "error",
+    "react-hooks/exhaustive-deps": "warn"
   },
   "settings": {
     "import/resolver": {
