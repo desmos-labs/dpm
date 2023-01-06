@@ -1,7 +1,6 @@
 // See https://github.com/satoshilabs/slips/blob/master/slip-0044.md for the list of all slips.
-import {Pubkey, StdFee, StdSignDoc} from '@cosmjs/amino';
-import {CosmosSignDocDirect} from 'types/walletConnect';
-import {EncodeObject} from '@cosmjs/proto-signing';
+import { Pubkey, StdSignDoc } from '@cosmjs/amino';
+import { CosmosSignDocDirect } from 'types/walletConnect';
 
 export enum TxType {
   SignAmino,
@@ -23,13 +22,4 @@ export type CosmosTx = CosmosAminoTx | CosmosDirectTx;
 
 export type SignedCosmosTx = CosmosTx & {
   signature: string;
-};
-
-export type BroadcastTx = {
-  hash: string;
-  msgs: EncodeObject[];
-  fee: StdFee;
-  memo: string;
-  success: boolean;
-  timestamp: string;
 };
