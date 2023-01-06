@@ -4,31 +4,22 @@ import { StackNavigationProp } from '@react-navigation/stack';
 import { useCallback } from 'react';
 import { AccountScreensStackParams } from 'types/navigation';
 
-/**
- * Hooks that provides a function that sign and broadcast a transaction.
- * The returned function shows to the user the transaction that will be broadcasted.
- */
-function useBroadcastTx(): (
-  signer: any,
-  msgs: EncodeObject[]
-) => Promise<void> {
-  const navigation = useNavigation<StackNavigationProp<AccountScreensStackParams>>();
+export interface BroadcastTxOptions {
+  onSuccess?: () => void;
+  onError?: () => void;
+}
 
+/**
+ * Hook that provides a function used to sign and broadcast a transaction.
+ */
+const useBroadcastTx = (): ((msgs: EncodeObject[], options?: BroadcastTxOptions) => void) => {
+  const navigation = useNavigation<StackNavigationProp<AccountScreensStackParams>>();
   return useCallback(
-    async (signer: any, msgs: EncodeObject[]) =>
-      new Promise((resolve, reject) => {
-        navigation.navigate({
-          name: 'BroadcastTx',
-          params: {
-            signer,
-            msgs,
-            onSuccess: resolve,
-            onCancel: reject,
-          },
-        });
-      }),
+    async (msgs: EncodeObject[], options?: BroadcastTxOptions) => {
+      console.log(msgs);
+    },
     [navigation],
   );
-}
+};
 
 export default useBroadcastTx;
