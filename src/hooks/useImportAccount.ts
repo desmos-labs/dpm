@@ -11,6 +11,7 @@ import { WalletPickerMode } from 'screens/SelectAccount/components/AccountPicker
 import { useSelectAccount } from 'hooks/useSelectAccount';
 import { AccountWithWallet } from 'types/account';
 import { SupportedChain } from 'types/chains';
+import { DesmosChain } from 'config/LinkableChains';
 
 /**
  * Parameters to import an account from a mnemonic.
@@ -141,14 +142,20 @@ const useImportLedgerAccount = () => {
  * to be imported will be skipped.
  */
 const useGetAccountCreationParams = (chains: SupportedChain[]) => {
-  const getAccountCreationParams = useCallback(async (): Promise<AccountCreationParams> => {
+  const getAccountCreationParams = useCallback(async (): Promise<{
+    params: AccountCreationParams;
+    chain: SupportedChain;
+  }> => {
     // TODO: Implement this
     console.log(chains);
     return {
-      addressPrefix: '',
-      type: WalletType.Mnemonic,
-      masterHdPath: [],
-    } as MnemonicAccountImportParams;
+      chain: DesmosChain,
+      params: {
+        addressPrefix: '',
+        type: WalletType.Mnemonic,
+        masterHdPath: [],
+      } as MnemonicAccountImportParams,
+    };
   }, [chains]);
 
   return {
@@ -168,15 +175,24 @@ export const useImportAccount = (chains: SupportedChain[]) => {
   const { getAccountCreationParams } = useGetAccountCreationParams(chains);
 
   const importAccount = useCallback(async () => {
-    const params = await getAccountCreationParams();
+    const { chain, params } = await getAccountCreationParams();
+
+    let accountWithWallet: AccountWithWallet | undefined;
     switch (params.type) {
       case WalletType.Mnemonic:
-        return importMnemonicAccount(params);
+        accountWithWallet = await importMnemonicAccount(params);
+        break;
       case WalletType.Ledger:
-        return importLedgerAccount(params);
+        accountWithWallet = await importLedgerAccount(params);
+        break;
       default:
         throw new Error(`unsupported account type ${params.type}`);
     }
+
+    return {
+      chain,
+      account: accountWithWallet,
+    };
   }, [importMnemonicAccount]);
 
   return {
