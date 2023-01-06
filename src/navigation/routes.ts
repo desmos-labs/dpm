@@ -37,11 +37,15 @@ enum ROUTES {
   SAVE_GENERATED_ACCOUNT = 'SAVE_GENERATED_ACCOUNT',
   /**
    * Screen that allow the user to select from which chain an account should be
-   * imported.
+   * imported, this screen the navigates to IMPORT_ACCOUNT_SELECT_TYPE.
    */
   IMPORT_ACCOUNT_SELECT_CHAIN = 'IMPORT_ACCOUNT_SELECT_CHAIN',
   /**
    * Screen that allow the user how the account should be imported.
+   * This screen then navigates to one of the following screen
+   * based on what the user have selected:
+   * * IMPORT_ACCOUNT_FROM_MNEMONIC if the type is WalletType.Mnemonic
+   * * IMPORT_ACCOUNT_SELECT_LEDGER_APP if the type is WalletType.Ledger
    */
   IMPORT_ACCOUNT_SELECT_TYPE = 'IMPORT_ACCOUNT_SELECT_TYPE',
   /**
@@ -50,8 +54,8 @@ enum ROUTES {
    */
   IMPORT_ACCOUNT_FROM_MNEMONIC = 'IMPORT_ACCOUNT_FROM_MNEMONIC',
   /**
-   * Screen that allow the user which Ledger application to use during the import
-   * procedure.
+   * Screen that allow the user to select which Ledger application to
+   * use during the import procedure.
    */
   IMPORT_ACCOUNT_SELECT_LEDGER_APP = 'IMPORT_ACCOUNT_SELECT_LEDGER_APP',
   /**
