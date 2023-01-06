@@ -4,12 +4,9 @@ import { WalletType } from 'types/wallet';
 import { AccountWithWallet } from 'types/account';
 import { bech32AddressToAny } from '@desmoslabs/desmjs/build/aminomessages/profiles';
 import { Bech32Address } from '@desmoslabs/desmjs-types/desmos/profiles/v3/models_chain_links';
-import { DesmosMainnet, DesmosTestnet } from '@desmoslabs/desmjs';
 
-/**
- * List of chains that are currently supported within the Desmos wallet.
- */
-export const SUPPORTED_CHAINS = [DesmosMainnet, DesmosTestnet];
+export const findChainInfoByName = (chainName: string) =>
+  SupportedChains.flatMap((chain) => chain.chainInfo).find((info) => info?.chainName === chainName);
 
 /**
  * Finds the details regarding a linkable chain from its chain name.
