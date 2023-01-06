@@ -54,6 +54,7 @@ const UnlockWallet: React.FC<Props> = (props) => {
       const wallet = await unlockWalletWithPassword(address, password);
 
       if (wallet !== undefined) {
+        await wallet.signer.connect();
         onSuccess(wallet);
       }
     } catch (e) {
@@ -65,7 +66,7 @@ const UnlockWallet: React.FC<Props> = (props) => {
     } finally {
       setLoading(false);
     }
-  }, [password, address, onSuccess, t]);
+  }, [unlockWalletWithPassword, address, password, onSuccess, t]);
 
   return (
     <View style={styles.root}>
