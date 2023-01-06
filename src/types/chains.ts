@@ -41,10 +41,10 @@ export type ChainLinkProof = {
 };
 
 /**
- * Type that represents a chain that can be
- * linked to a desmos profile.
+ * Type that represents a chain that is supported within our wallet.
+ * It can be either a chain that can be linked or imported as the main wallet.
  */
-export type LinkableChain = {
+export type SupportedChain = {
   /**
    * Chain name.
    */
@@ -56,7 +56,7 @@ export type LinkableChain = {
   /**
    * HD path used to derive the keys.
    */
-  hdPath: HdPath;
+  masterHDPath: HdPath;
   /**
    * Chain icon.
    */

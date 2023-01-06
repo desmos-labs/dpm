@@ -8,7 +8,7 @@ import Clipboard from '@react-native-community/clipboard';
 import { useTranslation } from 'react-i18next';
 import useQueries from './useQueries';
 import NonExistingProfile from '../NonExistingProfile';
-import ChainLinks from '../ChainLinks';
+import ChainLinks from '../ChainLinksList';
 import useStyles from './useStyles';
 
 export interface ProfileDataProps {

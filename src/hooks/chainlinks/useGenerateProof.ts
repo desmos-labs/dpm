@@ -1,23 +1,23 @@
-import {serializeSignDoc, StdSignDoc} from '@cosmjs/amino';
-import {fromBase64, toHex} from '@cosmjs/encoding';
-import {isOfflineDirectSigner, OfflineSigner} from '@cosmjs/proto-signing';
+import { serializeSignDoc, StdSignDoc } from '@cosmjs/amino';
+import { fromBase64, toHex } from '@cosmjs/encoding';
+import { isOfflineDirectSigner, OfflineSigner } from '@cosmjs/proto-signing';
 import {
   Bech32Address,
   Proof,
   SignatureValueType,
   SingleSignature,
 } from '@desmoslabs/desmjs-types/desmos/profiles/v3/models_chain_links';
-import {PubKey} from 'cosmjs-types/cosmos/crypto/secp256k1/keys';
-import {SignDoc, TxBody} from 'cosmjs-types/cosmos/tx/v1beta1/tx';
-import {Any} from 'cosmjs-types/google/protobuf/any';
+import { PubKey } from 'cosmjs-types/cosmos/crypto/secp256k1/keys';
+import { SignDoc, TxBody } from 'cosmjs-types/cosmos/tx/v1beta1/tx';
+import { Any } from 'cosmjs-types/google/protobuf/any';
 import Long from 'long';
-import {LinkableChain} from 'types/chains';
+import { SupportedChain } from 'types/chains';
 
 export type GenerateProofConfig = {
   desmosAddress: string;
   externalAddress: string;
   externalChainWallet: OfflineSigner;
-  chain: LinkableChain;
+  chain: SupportedChain;
 };
 
 /**
@@ -67,9 +67,9 @@ const useGenerateProof = () => async (config: GenerateProofConfig) => {
       typeUrl: '/desmos.profiles.v3.SingleSignature',
       value: SingleSignature.encode(
         SingleSignature.fromPartial({
-          valueType: isOfflineDirectSigner(externalChainWallet) ?
-            SignatureValueType.SIGNATURE_VALUE_TYPE_COSMOS_DIRECT :
-            SignatureValueType.SIGNATURE_VALUE_TYPE_COSMOS_AMINO,
+          valueType: isOfflineDirectSigner(externalChainWallet)
+            ? SignatureValueType.SIGNATURE_VALUE_TYPE_COSMOS_DIRECT
+            : SignatureValueType.SIGNATURE_VALUE_TYPE_COSMOS_AMINO,
           signature,
         }),
       ).finish(),

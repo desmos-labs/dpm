@@ -13,7 +13,7 @@ import { createStackNavigator } from '@react-navigation/stack';
 import { StackNavigationProp } from '@react-navigation/stack/lib/typescript/src/types';
 import React, { MutableRefObject } from 'react';
 import { Account } from 'types/account';
-import { ChainLink, LinkableChain } from './chains';
+import { ChainLink, SupportedChain } from './chains';
 import { DesmosProfile } from './desmosTypes';
 import { BLELedger, LedgerApp } from './ledger';
 import { Wallet } from './wallet';
@@ -179,26 +179,26 @@ export type ChainLinkScreensStackParams = {
     backAction?: ((state: StackNavigationState<any>) => NavigationAction) | NavigationAction;
   };
   SelectLedgerApp: {
-    chain: LinkableChain;
+    chain: SupportedChain;
     ledgerApplications: LedgerApp[];
     backAction?: ((state: StackNavigationState<any>) => NavigationAction) | NavigationAction;
   };
   LinkWithMnemonic: {
     importMode: any;
-    chain: LinkableChain;
+    chain: SupportedChain;
     feeGranter?: string;
     backAction?: ((state: StackNavigationState<any>) => NavigationAction) | NavigationAction;
   };
   ConfirmAddress: {
     importMode: any;
-    chain: LinkableChain;
+    chain: SupportedChain;
     mnemonic?: string;
     feeGranter?: string;
     backAction?: ((state: StackNavigationState<any>) => NavigationAction) | NavigationAction;
   };
   PickAddress: {
     importMode: any;
-    chain: LinkableChain;
+    chain: SupportedChain;
     ledgerTransport?: BluetoothTransport;
     ledgerApp?: LedgerApp;
     mnemonic?: string;

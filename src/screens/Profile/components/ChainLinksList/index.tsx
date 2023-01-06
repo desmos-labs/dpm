@@ -18,7 +18,7 @@ export interface ChainConnectionsProps {
   loading: boolean;
 }
 
-const ChainConnections: React.FC<ChainConnectionsProps> = (props: ChainConnectionsProps) => {
+const ChainLinksList: React.FC<ChainConnectionsProps> = (props: ChainConnectionsProps) => {
   const navigation = useNavigation();
   const { t } = useTranslation();
   const { chainLinks, loading } = props;
@@ -90,4 +90,4 @@ const ChainConnections: React.FC<ChainConnectionsProps> = (props: ChainConnectio
   );
 };
 
-export default ChainConnections;
+export default ChainLinksList;

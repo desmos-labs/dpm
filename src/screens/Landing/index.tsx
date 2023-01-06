@@ -7,17 +7,15 @@ import IconButton from 'components/IconButton';
 import Button from 'components/Button';
 import { RootNavigatorParamList } from 'navigation/RootNavigator';
 import ROUTES from 'navigation/routes';
-import { DesmosLedgerApp } from 'config/LedgerApps';
-import { DesmosHdPath } from 'types/chainsHdPaths';
 import { useSaveAccount } from 'hooks/useSaveAccount';
 import { useImportAccount } from 'hooks/useImportAccount';
-import { WalletType } from 'types/wallet';
+import { DesmosChain } from 'config/LinkableChains';
 import useStyles from './useStyles';
 
 export type NavProps = StackScreenProps<RootNavigatorParamList, ROUTES.LANDING>;
 
 const Landing = ({ navigation }: NavProps) => {
-  const { importAccount } = useImportAccount();
+  const { importAccount } = useImportAccount([DesmosChain]);
   const { saveAccount } = useSaveAccount();
   const { t } = useTranslation();
   const styles = useStyles();
@@ -49,35 +47,19 @@ const Landing = ({ navigation }: NavProps) => {
     }
   }, [animate, iconOpacity, profileManagerTextOpacity, buttonsOpacity]);
 
-  const onCreatePressed = useCallback(() => {
+  const onCreateAccount = useCallback(() => {
     navigation.navigate({
       name: ROUTES.CREATE_NEW_MNEMONIC,
       params: undefined,
     });
   }, [navigation]);
 
-  const onImportMnemonic = useCallback(async () => {
-    const account = await importAccount({
-      type: WalletType.Mnemonic,
-      masterHdPath: DesmosHdPath,
-      addressPrefix: 'desmos',
-    });
+  const onImportAccount = useCallback(async () => {
+    const account = await importAccount();
     if (account !== undefined) {
       saveAccount(account);
     }
   }, [importAccount]);
-
-  const onImportWithLedger = useCallback(async () => {
-    const account = await importAccount({
-      type: WalletType.Ledger,
-      masterHdPath: DesmosHdPath,
-      addressPrefix: 'desmos',
-      ledgerApp: DesmosLedgerApp,
-    });
-    if (account !== undefined) {
-      saveAccount(account);
-    }
-  }, [navigation, saveAccount]);
 
   const goBack = useCallback(() => {
     navigation.goBack();
@@ -123,7 +105,7 @@ const Landing = ({ navigation }: NavProps) => {
             style={styles.buttons}
             mode="contained"
             color="#ffffff"
-            onPress={onCreatePressed}
+            onPress={onCreateAccount}
             labelStyle={styles.createWalletLabel}
           >
             {t('create wallet')}
@@ -132,17 +114,9 @@ const Landing = ({ navigation }: NavProps) => {
             style={[styles.buttons, styles.buttonMargin]}
             mode="outlined"
             color="#ffffff"
-            onPress={onImportMnemonic}
+            onPress={onImportAccount}
           >
-            {t('import recovery passphrase')}
-          </Button>
-          <Button
-            style={[styles.buttons, styles.buttonMargin]}
-            mode="outlined"
-            color="#ffffff"
-            onPress={onImportWithLedger}
-          >
-            {t('import with Ledger')}
+            {t('import account')}
           </Button>
         </Animated.View>
       </ImageBackground>

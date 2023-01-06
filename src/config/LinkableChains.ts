@@ -1,12 +1,29 @@
-import {ChainConfig} from '@desmoslabs/desmjs-types/desmos/profiles/v3/models_chain_links';
-import {LinkableChain} from 'types/chains';
-import { CosmosHdPath, BandHdPath, CroHdPath, KavaHdPath, LunaHdPath } from 'types/chainsHdPaths';
+import { ChainConfig } from '@desmoslabs/desmjs-types/desmos/profiles/v3/models_chain_links';
+import { SupportedChain } from 'types/chains';
+import {
+  CosmosHdPath,
+  BandHdPath,
+  CroHdPath,
+  KavaHdPath,
+  LunaHdPath,
+  DesmosHdPath,
+} from 'types/chainsHdPaths';
 
-export const LinkableChains: LinkableChain[] = [
+export const DesmosChain: SupportedChain = {
+  name: 'Desmos',
+  prefix: 'desmos',
+  masterHDPath: DesmosHdPath,
+  icon: require('../assets/images/chains/desmos.png'),
+  chainConfig: ChainConfig.fromPartial({
+    name: 'desmos',
+  }),
+};
+
+export const SupportedChains: SupportedChain[] = [
   {
     name: 'Akash',
     prefix: 'akash',
-    hdPath: CosmosHdPath,
+    masterHDPath: CosmosHdPath,
     icon: require('../assets/images/chains/akash.png'),
     chainConfig: ChainConfig.fromPartial({
       name: 'akash',
@@ -15,7 +32,7 @@ export const LinkableChains: LinkableChain[] = [
   {
     name: 'Band',
     prefix: 'band',
-    hdPath: BandHdPath,
+    masterHDPath: BandHdPath,
     icon: require('../assets/images/chains/band.png'),
     chainConfig: ChainConfig.fromPartial({
       name: 'band',
@@ -24,7 +41,7 @@ export const LinkableChains: LinkableChain[] = [
   {
     name: 'Cosmos Hub',
     prefix: 'cosmos',
-    hdPath: CosmosHdPath,
+    masterHDPath: CosmosHdPath,
     icon: require('../assets/images/chains/cosmos.png'),
     chainConfig: ChainConfig.fromPartial({
       name: 'cosmos',
@@ -33,7 +50,7 @@ export const LinkableChains: LinkableChain[] = [
   {
     name: 'Crypto.org',
     prefix: 'cro',
-    hdPath: CroHdPath,
+    masterHDPath: CroHdPath,
     icon: require('assets/images/chains/cryptoOrg.png'),
     chainConfig: ChainConfig.fromPartial({
       name: 'crypto.org',
@@ -42,7 +59,7 @@ export const LinkableChains: LinkableChain[] = [
   {
     name: 'e-Money',
     prefix: 'emoney',
-    hdPath: CosmosHdPath,
+    masterHDPath: CosmosHdPath,
     icon: require('assets/images/chains/eMoney.png'),
     chainConfig: ChainConfig.fromPartial({
       name: 'emoney',
@@ -51,7 +68,7 @@ export const LinkableChains: LinkableChain[] = [
   {
     name: 'Juno',
     prefix: 'juno',
-    hdPath: CosmosHdPath,
+    masterHDPath: CosmosHdPath,
     icon: require('../assets/images/chains/juno.png'),
     chainConfig: ChainConfig.fromPartial({
       name: 'juno',
@@ -60,7 +77,7 @@ export const LinkableChains: LinkableChain[] = [
   {
     name: 'Kava',
     prefix: 'kava',
-    hdPath: KavaHdPath,
+    masterHDPath: KavaHdPath,
     icon: require('../assets/images/chains/kava.png'),
     chainConfig: ChainConfig.fromPartial({
       name: 'kava',
@@ -69,7 +86,7 @@ export const LinkableChains: LinkableChain[] = [
   {
     name: 'Likecoin',
     prefix: 'cosmos',
-    hdPath: CosmosHdPath,
+    masterHDPath: CosmosHdPath,
     icon: require('../assets/images/chains/likecoin.png'),
     chainConfig: ChainConfig.fromPartial({
       name: 'likecoin',
@@ -78,7 +95,7 @@ export const LinkableChains: LinkableChain[] = [
   {
     name: 'Osmosis',
     prefix: 'osmo',
-    hdPath: CosmosHdPath,
+    masterHDPath: CosmosHdPath,
     icon: require('../assets/images/chains/osmosis.png'),
     chainConfig: ChainConfig.fromPartial({
       name: 'osmosis',
@@ -87,7 +104,7 @@ export const LinkableChains: LinkableChain[] = [
   {
     name: 'Regen',
     prefix: 'regen',
-    hdPath: CosmosHdPath,
+    masterHDPath: CosmosHdPath,
     icon: require('../assets/images/chains/regen.png'),
     chainConfig: ChainConfig.fromPartial({
       name: 'regen',
@@ -96,7 +113,7 @@ export const LinkableChains: LinkableChain[] = [
   {
     name: 'Terra',
     prefix: 'terra',
-    hdPath: LunaHdPath,
+    masterHDPath: LunaHdPath,
     icon: require('../assets/images/chains/terra.png'),
     chainConfig: ChainConfig.fromPartial({
       name: 'terra',
@@ -104,4 +121,4 @@ export const LinkableChains: LinkableChain[] = [
   },
 ];
 
-export default LinkableChains;
+export default SupportedChains;

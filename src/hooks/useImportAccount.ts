@@ -10,6 +10,7 @@ import { useConnectToLedger } from 'hooks/useConnectToLedger';
 import { WalletPickerMode } from 'screens/SelectAccount/components/AccountPicker/types';
 import { useSelectAccount } from 'hooks/useSelectAccount';
 import { AccountWithWallet } from 'types/account';
+import { SupportedChain } from 'types/chains';
 
 /**
  * Parameters to import an account from a mnemonic.
@@ -71,7 +72,7 @@ export type AccountCreationParams =
 /**
  * Hook that starts a flow that allow the user to import an account from a mnemonic.
  */
-export const useImportMnemonicAccount = () => {
+const useImportMnemonicAccount = () => {
   const navigator = useNavigation<StackNavigationProp<RootNavigatorParamList>>();
 
   const importMnemonicAccount = useCallback(
@@ -102,7 +103,7 @@ export const useImportMnemonicAccount = () => {
 /**
  * Hook that starts a flow that allow the user to import an account from a Ledger device.
  */
-export const useImportLedgerAccount = () => {
+const useImportLedgerAccount = () => {
   const navigator = useNavigation<StackNavigationProp<RootNavigatorParamList>>();
   const { connectToLedger } = useConnectToLedger();
   const { selectAccount } = useSelectAccount();
@@ -133,26 +134,50 @@ export const useImportLedgerAccount = () => {
 };
 
 /**
- * Hook that starts a flow that allow the user to import an account
- * from different sources.
+ * Hook that starts the flow to allow the user to select the chain to be imported and the import method.
+ * @param chains - List of supported chains to be showed during the import flow.
+ *
+ * <b>Note</b>: If the {@param chains} list only contains one item, the screen allowing to select the chain
+ * to be imported will be skipped.
  */
-export const useImportAccount = () => {
+const useGetAccountCreationParams = (chains: SupportedChain[]) => {
+  const getAccountCreationParams = useCallback(async (): Promise<AccountCreationParams> => {
+    // TODO: Implement this
+    console.log(chains);
+    return {
+      addressPrefix: '',
+      type: WalletType.Mnemonic,
+      masterHdPath: [],
+    } as MnemonicAccountImportParams;
+  }, [chains]);
+
+  return {
+    getAccountCreationParams,
+  };
+};
+
+/**
+ * Hook that starts a flow that allow the user to import an account from either one of the supported chains.
+ *
+ * <b>Note</b>: If the {@param chains} list only contains one item, the screen allowing to select the chain
+ * to be imported will be skipped.
+ */
+export const useImportAccount = (chains: SupportedChain[]) => {
   const { importMnemonicAccount } = useImportMnemonicAccount();
   const { importLedgerAccount } = useImportLedgerAccount();
+  const { getAccountCreationParams } = useGetAccountCreationParams(chains);
 
-  const importAccount = useCallback(
-    (params: AccountCreationParams) => {
-      switch (params.type) {
-        case WalletType.Mnemonic:
-          return importMnemonicAccount(params);
-        case WalletType.Ledger:
-          return importLedgerAccount(params);
-        default:
-          throw new Error(`unsupported account type ${params.type}`);
-      }
-    },
-    [importMnemonicAccount],
-  );
+  const importAccount = useCallback(async () => {
+    const params = await getAccountCreationParams();
+    switch (params.type) {
+      case WalletType.Mnemonic:
+        return importMnemonicAccount(params);
+      case WalletType.Ledger:
+        return importLedgerAccount(params);
+      default:
+        throw new Error(`unsupported account type ${params.type}`);
+    }
+  }, [importMnemonicAccount]);
 
   return {
     importAccount,
