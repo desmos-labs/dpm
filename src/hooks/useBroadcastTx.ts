@@ -4,9 +4,14 @@ import { StackNavigationProp } from '@react-navigation/stack';
 import { useCallback } from 'react';
 import { AccountScreensStackParams } from 'types/navigation';
 
-export interface BroadcastTxOptions {
+export interface BroadcastTxCallbacks {
   onSuccess?: () => void;
+  onCancel?: () => void;
   onError?: () => void;
+}
+
+export interface BroadcastTxOptions extends BroadcastTxCallbacks {
+  memo?: string;
 }
 
 /**
