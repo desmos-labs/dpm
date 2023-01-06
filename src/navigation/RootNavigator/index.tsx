@@ -14,12 +14,13 @@ import ConnectToLedgerStack, {
   ConnectToLedgerStackParams,
 } from 'navigation/RootNavigator/ConnectToLedgerStack';
 import Home from 'screens/Home';
-import Profile, { ProfileAccountParams } from 'screens/Profile';
+import Profile, { ProfileParams } from 'screens/Profile';
 import ChainLinkDetails, { ChainLinkDetailsProps } from 'screens/ChainLinkDetails';
 import ImportAccountSelectChain from 'screens/ImportAccountSelectChain';
 import ImportAccountSelectType from 'screens/ImportAccountSelectType';
 import ImportAccountSelectLedgerApp from 'screens/ImportAccountSelectLedgerApp';
 import UnlockWallet, { UnlockWalletParams } from 'screens/UnlockWallet';
+import SendTokens from 'screens/SendTokens';
 
 export type RootNavigatorParamList = {
   [ROUTES.DEV_SCREEN]: undefined;
@@ -36,9 +37,10 @@ export type RootNavigatorParamList = {
   [ROUTES.SAVE_GENERATED_ACCOUNT]: SaveGeneratedAccountParams;
 
   [ROUTES.CONNECT_TO_LEDGER_STACK]: ConnectToLedgerStackParams;
-
   [ROUTES.HOME]: undefined;
-  [ROUTES.PROFILE]: ProfileAccountParams;
+
+  [ROUTES.PROFILE]: ProfileParams;
+  [ROUTES.SEND_TOKENS]: undefined;
   [ROUTES.CHAIN_LINK_DETAILS]: ChainLinkDetailsProps;
   [ROUTES.UNLOCK_WALLET]: UnlockWalletParams;
 };
@@ -81,6 +83,7 @@ const RootNavigator = () => {
       <Stack.Screen name={ROUTES.HOME} component={Home} />
 
       <Stack.Screen name={ROUTES.PROFILE} component={Profile} />
+      <Stack.Screen name={ROUTES.SEND_TOKENS} component={SendTokens} />
       <Stack.Screen name={ROUTES.CHAIN_LINK_DETAILS} component={ChainLinkDetails} />
     </Stack.Navigator>
   );

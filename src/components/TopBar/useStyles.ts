@@ -1,6 +1,6 @@
-import {makeStyleWithProps} from 'config/theme';
-import {Platform, StatusBar} from 'react-native';
-import {TopBarProps} from 'components/TopBar/index';
+import { makeStyleWithProps } from 'config/theme';
+import { Platform, StatusBar } from 'react-native';
+import { TopBarProps } from 'components/TopBar/index';
 
 const useStyles = makeStyleWithProps((props: TopBarProps, theme) => ({
   root: {

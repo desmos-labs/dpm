@@ -2,7 +2,6 @@ import { ChainInfo, DesmosChains, DesmosClient, DesmosTestnet, Signer } from '@d
 import React, { createContext, useCallback, useContext, useMemo, useState } from 'react';
 import { useRecoilState } from 'recoil';
 import appSettingsState from '@recoil/settings';
-import { ChainId } from 'types/settings';
 
 /**
  * Interface that represents the global desmos client state.
@@ -79,7 +78,7 @@ export const DesmosClientProvider: React.FC = (props) => {
   );
 
   const setNewChainId = useCallback(
-    async (newChainId: ChainId) => {
+    async (newChainId: string) => {
       const chainInfo = DesmosChains[newChainId];
       if (chainInfo !== undefined) {
         const newClient = await DesmosClient.connect(chainInfo.rpcUrl);

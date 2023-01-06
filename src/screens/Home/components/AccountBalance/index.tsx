@@ -8,8 +8,12 @@ import CopyButton from 'components/CopyButton';
 import { Account } from 'types/account';
 import { DesmosProfile } from 'types/desmosTypes';
 import { formatCoins, formatHiddenValue } from 'lib/FormatUtils';
-import useAccountBalance from 'hooks/useAccountBalance';
+import useActiveAccountBalance from 'hooks/useActiveAccountBalance';
 import { ActivityIndicator } from 'react-native-paper';
+import { useNavigation } from '@react-navigation/native';
+import { StackNavigationProp } from '@react-navigation/stack';
+import ROUTES from 'navigation/routes';
+import { RootNavigatorParamList } from 'navigation/RootNavigator';
 import useStyles from './useStyles';
 
 export type AccountBalanceProps = {
@@ -22,12 +26,13 @@ const AccountBalance: React.FC<AccountBalanceProps> = (props) => {
   const { account, profile, style } = props;
   const { t } = useTranslation();
   const styles = useStyles();
+  const navigation = useNavigation<StackNavigationProp<RootNavigatorParamList>>();
   const [settings, setSettings] = useSettingsState();
 
   const nickname = useMemo(() => profile?.nickname, [profile]);
   const address = useMemo(() => profile?.address || account.address, [account, profile]);
 
-  const { balance, loading } = useAccountBalance(address);
+  const { balance, loading } = useActiveAccountBalance();
   const balanceValue = useMemo(() => {
     const value = formatCoins(balance);
     return settings.balanceHidden ? formatHiddenValue(value) : value;
@@ -41,7 +46,7 @@ const AccountBalance: React.FC<AccountBalanceProps> = (props) => {
   }, [settings]);
 
   const onSendPressed = useCallback(() => {
-    console.log('AccountBalance - implement onSend');
+    navigation.navigate(ROUTES.SEND_TOKENS);
   }, []);
 
   return (

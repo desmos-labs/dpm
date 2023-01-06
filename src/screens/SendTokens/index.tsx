@@ -1,99 +1,95 @@
-import { MsgSendEncodeObject } from '@cosmjs/stargate';
 import { StackScreenProps } from '@react-navigation/stack';
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import useCurrentChainInfo from 'hooks/desmosclient/useCurrentChainInfo';
 import Typography from 'components/Typography';
-import useAppContext from 'contexts/AppContext';
-import { AccountScreensStackParams } from 'types/navigation';
 import validateDesmosAddress from 'lib/ValidationUtils';
-import useSelectedAccount from 'hooks/useSelectedAccount';
 import Flexible from 'components/Flexible';
 import StyledSafeAreaView from 'components/StyledSafeAreaView';
 import TopBar from 'components/TopBar';
 import TextInput from 'components/TextInput';
 import Button from 'components/Button';
-import useDecimalSeparator from 'hooks/parsing/useDecimalSeparator';
-import useParseFloat from 'hooks/parsing/useParseFloat';
+import { RootNavigatorParamList } from 'navigation/RootNavigator';
+import ROUTES from 'navigation/routes';
+import { useNavigation } from '@react-navigation/native';
+import useActiveAccountBalance from 'hooks/useActiveAccountBalance';
+import { useCurrentChainInfo } from '@recoil/settings';
+import { View } from 'react-native';
+import { formatCoin, formatNumber, safePartFloat } from 'lib/FormatUtils';
 import useStyles from './useStyles';
+import useSendTokens from './useHooks';
 
-export type Props = StackScreenProps<AccountScreensStackParams, 'SendToken'>;
+export type NavProps = StackScreenProps<RootNavigatorParamList, ROUTES.SEND_TOKENS>;
 
-const SendTokens: React.FC<Props> = (props) => {
-  const { navigation } = props;
+const SendTokens = () => {
   const { t } = useTranslation();
   const styles = useStyles();
-
-  const { selectedAccountBalance } = useAppContext();
-  const currentAccount = useSelectedAccount();
-
-  const [address, setAddress] = useState('');
-  const [addressInvalid, setAddressInvalid] = useState(false);
-  const [amount, setAmount] = useState('');
-  const [amountInvalid, setAmountInvalid] = useState(false);
-  const [memo, setMemo] = useState('');
+  const navigation = useNavigation();
 
   const chainInfo = useCurrentChainInfo();
-  const separator = useDecimalSeparator();
-  const parseFloat = useParseFloat();
+  const { loading, balance } = useActiveAccountBalance();
+  const spendable = useMemo(
+    () => balance.find((coin) => coin.denom === chainInfo.stakeCurrency.coinMinimalDenom),
+    [chainInfo, balance],
+  );
 
-  const nextDisabled = addressInvalid || amountInvalid || address.length === 0 || amount.length === 0;
+  const [address, setAddress] = useState('');
+  const [isAddressValid, setIsAddressValid] = useState(true);
+  const [amount, setAmount] = useState('');
+  const [isAmountValid, setIsAmountValid] = useState(true);
+  const [memo, setMemo] = useState('');
+  const sendEnabled = useMemo(
+    () => address.length > 0 && isAddressValid && amount.length > 0 && isAmountValid,
+    [address.length, amount.length, isAddressValid, isAmountValid],
+  );
 
   const onAddressChange = useCallback((newAddress: string) => {
     setAddress(newAddress);
-    setAddressInvalid(newAddress.length > 0 && !validateDesmosAddress(newAddress));
+    setIsAddressValid(newAddress.length > 0 && validateDesmosAddress(newAddress));
   }, []);
 
   const onAmountChange = useCallback(
     (changedAmount: string) => {
-      let isValid =
-        changedAmount.length === 0 ||
-        new RegExp(`^[0-9]+(\\${separator})?[0-9]*$`).test(changedAmount);
-      if (isValid && changedAmount.length > 0) {
-        const value = parseFloat(changedAmount);
-        const balance = parseFloat(selectedAccountBalance.amount);
-        isValid = balance >= value;
-      }
-      setAmountInvalid(!isValid);
+      const value = safePartFloat(changedAmount);
+      const accountBalance = safePartFloat(spendable?.amount || '0');
       setAmount(changedAmount);
+      setIsAmountValid(value * 1_000_000 <= accountBalance);
     },
-    [selectedAccountBalance],
+    [spendable],
   );
+
+  const onMaxPressed = useCallback(() => {
+    setAmount(formatNumber(safePartFloat(spendable?.amount) / 1_000_000));
+  }, [spendable]);
 
   const onMemoChange = useCallback((changedMemo: string) => {
     setMemo(changedMemo);
   }, []);
 
-  const onMaxPressed = useCallback(() => {
-    setAmount(selectedAccountBalance.amount);
-  }, [selectedAccountBalance]);
+  /**
+   * Called when the transaction has been sent successfully
+   */
+  const onSendSuccess = () => {
+    console.log('SendTokens - transaction success');
+    // TODO: Probable better add a popup here to inform the user
+    navigation.goBack();
+  };
 
-  const onNextPressed = useCallback(() => {
-    const amountNumber = Math.floor(parseFloat(amount) * 1000000);
+  /**
+   * Called when there is an error during the broadcast of the transaction;
+   */
+  const onSendError = () => {
+    console.log('SendTokens - transaction error');
+    // TODO: Probable better show a popup to inform the user
+  };
 
-    const msgSend: MsgSendEncodeObject = {
-      typeUrl: '/cosmos.bank.v1beta1.MsgSend',
-      value: {
-        fromAddress: currentAccount.address,
-        toAddress: address,
-        amount: [{ amount: amountNumber.toString(), denom: chainInfo.stakeCurrency.coinDenom }],
-      },
-    };
-    const gas = '0';
-    const txFee = { amount: [{amount: '0', denom: '' }], gas };
-
-    navigation.navigate({
-      name: 'ConfirmTx',
-      params: {
-        messages: [msgSend],
-        memo,
-        fee: txFee,
-      },
-    });
-  }, [address, amount, chainInfo.stakeCurrency.coinDenom, currentAccount.address, navigation, memo]);
+  const sendTokens = useSendTokens({ onSuccess: onSendSuccess, onError: onSendError });
+  const onNextPressed = useCallback(async () => {
+    await sendTokens(address, safePartFloat(amount) * 1_000_000, memo);
+  }, [address, amount, memo, sendTokens]);
 
   return (
-    <StyledSafeAreaView topBar={<TopBar stackProps={props} title={t('send')} />}>
+    <StyledSafeAreaView topBar={<TopBar stackProps={{ navigation }} title={t('send')} />}>
+      {/* Address */}
       <Typography.Subtitle>{t('recipient address')}</Typography.Subtitle>
       <TextInput
         style={styles.topMarginSmall}
@@ -101,8 +97,11 @@ const SendTokens: React.FC<Props> = (props) => {
         value={address}
         onChangeText={onAddressChange}
         numberOfLines={1}
-        error={addressInvalid}
+        error={!isAddressValid}
       />
+
+      {/* Amount */}
+      <Typography.Subtitle>{t('amount')}</Typography.Subtitle>
       <TextInput
         style={styles.topMarginSmall}
         placeholder={t('insert amount')}
@@ -110,13 +109,21 @@ const SendTokens: React.FC<Props> = (props) => {
         keyboardType="numeric"
         onChangeText={onAmountChange}
         numberOfLines={1}
-        error={amountInvalid}
+        error={!isAmountValid}
         rightElement={<Button onPress={onMaxPressed}>{t('max')}</Button>}
       />
-      <Typography.Body style={styles.topMarginSmall}>
-        {t('available')} {selectedAccountBalance.amount} {selectedAccountBalance.denom}
-      </Typography.Body>
 
+      {/* Spendable amount */}
+      <View style={styles.spendableContainer}>
+        <Typography.Body>{t('available')}:</Typography.Body>
+        {!loading && spendable && (
+          <Typography.Body style={styles.spendableAmountValue}>
+            {formatCoin(spendable)}
+          </Typography.Body>
+        )}
+      </View>
+
+      {/* Transaction note / memo */}
       <Typography.Subtitle style={styles.topMarginMedium}>{t('tx note')}</Typography.Subtitle>
       <TextInput
         style={[styles.topMarginSmall, styles.memoInput]}
@@ -128,9 +135,11 @@ const SendTokens: React.FC<Props> = (props) => {
         multiline
       />
 
+      {/* Spacer */}
       <Flexible.Padding flex={1} />
 
-      <Button mode="contained" disabled={nextDisabled} onPress={onNextPressed}>
+      {/* Send button */}
+      <Button mode="contained" disabled={!sendEnabled} onPress={onNextPressed}>
         {t('next')}
       </Button>
     </StyledSafeAreaView>

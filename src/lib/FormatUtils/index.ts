@@ -2,6 +2,31 @@ import { Coin } from '@desmoslabs/desmjs-types/cosmos/base/v1beta1/coin';
 import { convertCoin, Currency } from '@desmoslabs/desmjs';
 import { Slip10RawIndex } from '@cosmjs/crypto';
 import SupportedChains from 'config/LinkableChains';
+import numbro from 'numbro';
+
+/**
+ * Gets the decimal separator used on the provided locale.
+ * @param locale - The locale to us, if empty use the current one.
+ */
+export const getDecimalSeparator = (locale?: string) => {
+  // Get the thousands and decimal separator characters used in the locale.
+  const [, separator] = (1.1).toLocaleString(locale);
+  return separator;
+};
+
+/**
+ * Parse a number using the current locale or the provided one.
+ * @param value - Value to be parsed
+ * @param locale - The locale to us, if empty use the current one.
+ */
+export const safePartFloat = (value: string | undefined, locale?: string) => {
+  const separator = getDecimalSeparator(locale);
+
+  // Remove thousands separators, and put a point where the decimal separator occurs
+  const string = Array.from(value || '0', (c) => (c === separator ? '.' : c)).join('');
+  const parsed = parseFloat(string);
+  return Number.isNaN(parsed) ? 0 : parsed;
+};
 
 /**
  * Safely parse the given value as an integer, returning 0 if malformed.
@@ -19,18 +44,32 @@ const getChainCurrencies = (): Currency[] =>
   SupportedChains.flatMap((chain) => chain.chainInfo || []).flatMap((info) => info.currencies);
 
 /**
+ * Formats the given value into a human-readable string.
+ * @param value - Value to be formatted
+ */
+export const formatNumber = (value: number): string => {
+  console.log(value);
+  return numbro(value).format({
+    thousandSeparated: true,
+  });
+};
+
+/**
+ * Formats the given amount into a human-readable value.
+ * @param amount - Coin that should be formatted.
+ */
+export const formatCoin = (amount: Coin): string => {
+  const currencies = getChainCurrencies();
+  const convertedAmount = convertCoin(amount, 6, currencies) || amount;
+  return `${convertedAmount.amount} ${convertedAmount.denom.toUpperCase()}`;
+};
+
+/**
  * Formats the given coins and returns a string representing the overall amount.
  * @param amount - Amount to be formatted.
  */
-export const formatCoins = (amount: Coin[] | undefined): string => {
-  const currencies = getChainCurrencies();
-  return (amount || [])
-    .map((coinAmount) => {
-      const convertedAmount = convertCoin(coinAmount, 6, currencies) || coinAmount;
-      return `${convertedAmount.amount} ${convertedAmount.denom.toUpperCase()}`;
-    })
-    .join('\n');
-};
+export const formatCoins = (amount: Coin[] | undefined): string =>
+  (amount || []).map(formatCoin).join('\n');
 
 /**
  * Perform the sanitization to a seed phrase.

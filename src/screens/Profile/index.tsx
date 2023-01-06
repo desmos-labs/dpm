@@ -15,7 +15,7 @@ import useStyles from './useStyles';
 
 export type NavProps = StackScreenProps<RootNavigatorParamList, ROUTES.PROFILE>;
 
-export interface ProfileAccountParams {
+export interface ProfileParams {
   /**
    * Address of the profile that the user is visiting.
    * If no address is provided, this screen will load the current user profile data instead.

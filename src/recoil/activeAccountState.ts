@@ -26,11 +26,7 @@ export const activeAccountAppState = selector<Account | undefined>({
   get: ({ get }) => {
     const accounts = get(accountsAppState);
     const selectedAccountAddress = get(activeAccountAddress);
-
-    if (selectedAccountAddress === undefined) {
-      return undefined;
-    }
-    return accounts[selectedAccountAddress];
+    return selectedAccountAddress ? accounts[selectedAccountAddress] : undefined;
   },
 });
 

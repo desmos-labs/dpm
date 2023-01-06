@@ -79,6 +79,10 @@ enum ROUTES {
    */
   PROFILE = 'PROFILE',
   /**
+   * Screen that allows sending tokens to another user.
+   */
+  SEND_TOKENS = 'SEND_TOKENS',
+  /**
    * Screen that shows the details of a single chain link.
    */
   CHAIN_LINK_DETAILS = 'CHAIN_LINK_DETAILS',
