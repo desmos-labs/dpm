@@ -244,6 +244,7 @@
   "unlock": "Unlock",
   "unlocking": "Unlocking",
   "use secret recovery passphrase": "Use Secret Recovery Passphrase",
+  "user does not have profile": "This user does not yet have a Desmos profile",
   "version": "Version",
   "view on explorer": "View on Desmos explorer",
   "vote proposal number with vote": "Vote proposal #{{number}} with {{vote}}",

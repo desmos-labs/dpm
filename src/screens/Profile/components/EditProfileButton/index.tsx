@@ -15,6 +15,8 @@ const EditProfileButton = (props: EditProfileButtonProps) => {
 
   const onEditProfile = useCallback(() => {
     // TODO: Re-implement
+    console.log('EditProfileButton - Implement onEditProfile');
+
     // navigation.navigate({
     //   name: 'EditProfile',
     //   params: {

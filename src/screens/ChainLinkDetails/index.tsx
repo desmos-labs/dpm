@@ -1,16 +1,8 @@
 import { StackScreenProps } from '@react-navigation/stack';
 import { format } from 'date-fns';
-import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import React, { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Image, View } from 'react-native';
-import SingleButtonModal from 'modals/SingleButtonModal';
-import TwoButtonModal from 'modals/TwoButtonModal';
-import useDisconnectChainLink from 'hooks/useDisconnectChainLink';
-import useNavigateToHomeScreen from 'hooks/useNavigateToHomeScreen';
-import useRemoveChainLink from 'hooks/useRemoveChainLink';
-import useSelectedAccount from 'hooks/useSelectedAccount';
-import useShowModal from 'hooks/useShowModal';
-import useUnlockWallet from 'hooks/useUnlockWallet';
 import Typography from 'components/Typography';
 import StyledSafeAreaView from 'components/StyledSafeAreaView';
 import Button from 'components/Button';
@@ -22,13 +14,13 @@ import { getLinkableChainInfoByName } from 'lib/ChainsUtils';
 import { cosmosIcon } from 'assets/images';
 import TopBar from 'components/TopBar';
 import Spacer from 'components/Spacer';
-import { useIsCurrentUserLink } from 'screens/ChainLinkDetails/useHooks';
 import useStyles from './useStyles';
 
 export type NavProps = StackScreenProps<RootNavigatorParamList, ROUTES.CHAIN_LINK_DETAILS>;
 
 export interface ChainLinkDetailsProps {
   chainLink: ChainLink;
+  canEdit: boolean;
 }
 
 const ChainLinkDetails = () => {
@@ -36,10 +28,9 @@ const ChainLinkDetails = () => {
   const { params } = useRoute<NavProps['route']>();
 
   const styles = useStyles();
-  const { chainLink } = params;
+  const { chainLink, canEdit } = params;
   const { t } = useTranslation();
 
-  const isCurrentUserLink = useIsCurrentUserLink(chainLink);
   const { chainIcon, chainName } = useMemo(() => {
     const chainInfo = getLinkableChainInfoByName(chainLink.chainName);
     return {
@@ -170,7 +161,7 @@ const ChainLinkDetails = () => {
       </View>
 
       {/* Disconnect button */}
-      {isCurrentUserLink && (
+      {canEdit && (
         <Button style={styles.disconnectButton} mode="outlined">
           {t('disconnect')}
         </Button>

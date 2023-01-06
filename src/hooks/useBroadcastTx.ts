@@ -17,6 +17,9 @@ const useBroadcastTx = (): ((msgs: EncodeObject[], options?: BroadcastTxOptions)
   return useCallback(
     async (msgs: EncodeObject[], options?: BroadcastTxOptions) => {
       console.log(msgs);
+      if (options?.onSuccess) {
+        options?.onSuccess();
+      }
     },
     [navigation],
   );

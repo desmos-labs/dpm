@@ -3,7 +3,7 @@ import React from 'react';
 import { atom, useRecoilState } from 'recoil';
 import GetProfileForAddress from 'services/graphql/queries/GetProfileForAddress';
 import { defaultDesmosProfile, DesmosProfile } from 'types/desmosTypes';
-import activeAccountAddress from '@recoil/activeAccountState';
+import { activeAccountAddress } from '@recoil/activeAccountState';
 
 /**
  * An atom to hold account data of the user's selected profile
