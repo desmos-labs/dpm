@@ -29,4 +29,4 @@ export interface WalletPickerLedgerParams extends BaseWalletPickerParams {
   ledgerApp: LedgerApp;
 }
 
-export type WalletPickerParams = WalletPickerMnemonicParams | WalletPickerLedgerParams;
+export type AccountPickerParams = WalletPickerMnemonicParams | WalletPickerLedgerParams;

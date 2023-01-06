@@ -17,7 +17,7 @@ import {
 import { slip10IndexToBaseNumber } from 'lib/FormatUtils';
 import { AccountWithWallet } from 'types/account';
 import useStyles from './useStyles';
-import { WalletPickerMode, WalletPickerParams } from './types';
+import { AccountPickerParams, WalletPickerMode } from './types';
 
 export type AccountPickerProps = {
   /**
@@ -36,7 +36,7 @@ export type AccountPickerProps = {
    * Params that tells the component how to generate the addresses that are showed to the
    * user.
    */
-  params: WalletPickerParams;
+  params: AccountPickerParams;
   style?: StyleProp<ViewStyle>;
 };
 

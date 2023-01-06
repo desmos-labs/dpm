@@ -1,4 +1,4 @@
-import { EnglishMnemonic, HdPath } from '@cosmjs/crypto';
+import { EnglishMnemonic } from '@cosmjs/crypto';
 import { StackScreenProps } from '@react-navigation/stack';
 import React, { FC, useCallback, useState } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -14,31 +14,24 @@ import Button from 'components/Button';
 import { RootNavigatorParamList } from 'navigation/RootNavigator';
 import ROUTES from 'navigation/routes';
 import { WalletPickerMode } from 'screens/SelectAccount/components/AccountPicker/types';
-import { AccountWithWallet } from 'types/account';
+import { useRecoilState } from 'recoil';
+import importAccountAppState from '@recoil/importAccount';
+import { useSelectAccount } from 'hooks/useSelectAccount';
 import useStyles from './useStyles';
-
-export interface CreateAccountFromMnemonicParams {
-  readonly masterHdPath: HdPath;
-  readonly addressPrefix: string;
-  readonly allowCoinTypeEdit: boolean;
-  readonly ignorePaths?: HdPath[];
-  readonly onSelect: (account: AccountWithWallet) => any;
-  readonly onCancel?: () => any;
-}
 
 declare type NavProps = StackScreenProps<
   RootNavigatorParamList,
-  ROUTES.CREATE_ACCOUNT_FROM_MNEMONIC
+  ROUTES.IMPORT_ACCOUNT_FROM_MNEMONIC
 >;
 
-const CreateAccountFromMnemonic: FC<NavProps> = (props) => {
-  const { masterHdPath, addressPrefix, allowCoinTypeEdit, ignorePaths, onSelect, onCancel } =
-    props.route.params;
+const ImportAccountFromMnemonic: FC<NavProps> = (props) => {
+  const [importAccountState] = useRecoilState(importAccountAppState);
+  const { ignoreHdPaths, selectedChain, onSuccess } = importAccountState!;
   const styles = useStyles();
   const { t } = useTranslation();
   const [mnemonic, setMnemonic] = useState<string>('');
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
-  const { navigation } = props;
+  const { selectAccount } = useSelectAccount();
 
   const onMnemonicChange = (changedMnemonic: string) => {
     const sanitizedMnemonic = sanitizeMnemonic(changedMnemonic);
@@ -52,28 +45,25 @@ const CreateAccountFromMnemonic: FC<NavProps> = (props) => {
     }
   };
 
-  const onNextPressed = useCallback(() => {
+  const onNextPressed = useCallback(async () => {
     if (mnemonic === '') {
       setErrorMessage(t('empty recovery passphrase'));
     } else {
       const sanitizedMnemonic = sanitizeMnemonic(mnemonic);
 
       if (checkMnemonic(sanitizedMnemonic)) {
-        navigation.navigate({
-          name: ROUTES.SELECT_ACCOUNT,
-          params: {
-            walletPickerParams: {
-              mode: WalletPickerMode.Mnemonic,
-              mnemonic,
-              masterHdPath,
-              addressPrefix,
-              allowCoinTypeEdit,
-              ignorePaths,
-            },
-            onSelect,
-            onCancel,
-          },
+        const account = await selectAccount({
+          mode: WalletPickerMode.Mnemonic,
+          mnemonic: sanitizedMnemonic,
+          masterHdPath: selectedChain!.masterHDPath,
+          ignorePaths: ignoreHdPaths!,
+          addressPrefix: selectedChain!.prefix,
+          allowCoinTypeEdit: false,
         });
+
+        if (account !== undefined) {
+          onSuccess({ account, chain: selectedChain! });
+        }
       } else {
         const invalidWords = sanitizedMnemonic
           .split(' ')
@@ -87,7 +77,7 @@ const CreateAccountFromMnemonic: FC<NavProps> = (props) => {
         }
       }
     }
-  }, [mnemonic, masterHdPath, addressPrefix, allowCoinTypeEdit, ignorePaths]);
+  }, [mnemonic, selectedChain, ignoreHdPaths, onSuccess]);
 
   const useDebugMnemonic = () => {
     setMnemonic(
@@ -135,4 +125,4 @@ const CreateAccountFromMnemonic: FC<NavProps> = (props) => {
   );
 };
 
-export default CreateAccountFromMnemonic;
+export default ImportAccountFromMnemonic;

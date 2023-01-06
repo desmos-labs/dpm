@@ -1,5 +1,6 @@
 import { ChainLink, SupportedChain } from 'types/chains';
 import SupportedChains from 'config/LinkableChains';
+import { WalletType } from 'types/wallet';
 import { AccountWithWallet } from 'types/account';
 import { bech32AddressToAny } from '@desmoslabs/desmjs/build/aminomessages/profiles';
 import {
@@ -59,3 +60,12 @@ export const getAddress = (chain: SupportedChain, account: AccountWithWallet) =>
       prefix: chain.prefix,
     }),
   );
+
+/**
+ * Return the supported types of wallet that can be created for a chain.
+ * @param chain - The chain of interest.
+ */
+// eslint-disable-next-line no-unused-vars
+export const getChainSupportedWalletTypes = (chain: SupportedChain): WalletType[] =>
+  // Return all since at the moment all the chains support those methods.
+  [WalletType.Mnemonic, WalletType.Ledger];

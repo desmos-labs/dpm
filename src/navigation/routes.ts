@@ -13,11 +13,6 @@ enum ROUTES {
    */
   CREATE_NEW_MNEMONIC = 'CREATE_NEW_MNEMONIC',
   /**
-   * Screen that allow the user to import a wallet through a 12/24 words
-   * mnemonic.
-   */
-  CREATE_ACCOUNT_FROM_MNEMONIC = 'CREATE_ACCOUNT_FROM_MNEMONIC',
-  /**
    * Screen that allow the user to check if the inserted
    * mnemonic is what he wrote down.
    */
@@ -40,7 +35,25 @@ enum ROUTES {
    * Screen that saves in the new generated account in the device storage.
    */
   SAVE_GENERATED_ACCOUNT = 'SAVE_GENERATED_ACCOUNT',
-
+  /**
+   * Screen that allow the user to select from which chain an account should be
+   * imported.
+   */
+  IMPORT_ACCOUNT_SELECT_CHAIN = 'IMPORT_ACCOUNT_SELECT_CHAIN',
+  /**
+   * Screen that allow the user how the account should be imported.
+   */
+  IMPORT_ACCOUNT_SELECT_TYPE = 'IMPORT_ACCOUNT_SELECT_TYPE',
+  /**
+   * Screen that allow the user to import a wallet through a 12/24 words
+   * mnemonic.
+   */
+  IMPORT_ACCOUNT_FROM_MNEMONIC = 'IMPORT_ACCOUNT_FROM_MNEMONIC',
+  /**
+   * Screen that allow the user which Ledger application to use during the import
+   * procedure.
+   */
+  IMPORT_ACCOUNT_SELECT_LEDGER_APP = 'IMPORT_ACCOUNT_SELECT_LEDGER_APP',
   /**
    * Navigate to the stack that allow the user to connect to a ledger device.
    */

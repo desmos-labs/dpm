@@ -4,7 +4,7 @@ import { RootNavigatorParamList } from 'navigation/RootNavigator';
 import ROUTES from 'navigation/routes';
 import { useCallback } from 'react';
 import { useReturnToCurrentScreen } from 'hooks/useReturnToCurrentScreen';
-import { WalletPickerParams } from 'screens/SelectAccount/components/AccountPicker/types';
+import { AccountPickerParams } from 'screens/SelectAccount/components/AccountPicker/types';
 import { AccountWithWallet } from 'types/account';
 
 export const useSelectAccount = () => {
@@ -12,12 +12,12 @@ export const useSelectAccount = () => {
   const { returnToCurrentScreen } = useReturnToCurrentScreen();
 
   const selectAccount = useCallback(
-    (walletPickerParams: WalletPickerParams): Promise<AccountWithWallet | undefined> =>
+    (accountPickerParams: AccountPickerParams): Promise<AccountWithWallet | undefined> =>
       new Promise<AccountWithWallet | undefined>((resolve) => {
         navigator.navigate({
           name: ROUTES.SELECT_ACCOUNT,
           params: {
-            walletPickerParams,
+            accountPickerParams,
             onSelect: (account) => {
               resolve(account);
               returnToCurrentScreen();

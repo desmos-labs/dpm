@@ -10,14 +10,12 @@ import TopBar from 'components/TopBar';
 import Button from 'components/Button';
 import { RootNavigatorParamList } from 'navigation/RootNavigator';
 import ROUTES from 'navigation/routes';
-import {
-  WalletPickerMnemonicParams,
-  WalletPickerMode,
-} from 'screens/SelectAccount/components/AccountPicker/types';
+import { WalletPickerMode } from 'screens/SelectAccount/components/AccountPicker/types';
 import { DesmosHdPath } from 'types/chainsHdPaths';
 import { useRecoilValue } from 'recoil';
 import { accountsHdPathsAppState } from '@recoil/accounts';
 import { useSaveAccount } from 'hooks/useSaveAccount';
+import { useSelectAccount } from 'hooks/useSelectAccount';
 import useStyles from './useStyles';
 
 export type CheckMnemonicParams = {
@@ -42,6 +40,7 @@ const CheckMnemonic: FC<NavProps> = (props) => {
   const [availableWords, setAvailableWords] = useState<string[]>([...words]);
   const accountsHdPaths = useRecoilValue(accountsHdPathsAppState);
   const { saveAccount } = useSaveAccount();
+  const { selectAccount } = useSelectAccount();
 
   const onWordSelected = useCallback(
     (word: string) => {
@@ -68,37 +67,35 @@ const CheckMnemonic: FC<NavProps> = (props) => {
     [availableWords, selectedWords],
   );
 
-  const onCheckPressed = useCallback(() => {
+  const onCheckPressed = useCallback(async () => {
     if (selectedWords.length !== words.length) {
       setErrorMessage(t('invalid recovery passphrase'));
     } else {
       const composedMnemonic = selectedWords.join(' ');
       if (receivedMnemonic === composedMnemonic) {
-        navigation.navigate({
-          name: ROUTES.SELECT_ACCOUNT,
-          params: {
-            walletPickerParams: {
-              mode: WalletPickerMode.Mnemonic,
-              mnemonic,
-              masterHdPath: DesmosHdPath,
-              addressPrefix: 'desmos',
-              allowCoinTypeEdit: false,
-              ignorePaths: accountsHdPaths,
-            } as WalletPickerMnemonicParams,
-            onSelect: saveAccount,
-          },
+        const account = await selectAccount({
+          mode: WalletPickerMode.Mnemonic,
+          mnemonic,
+          masterHdPath: DesmosHdPath,
+          addressPrefix: 'desmos',
+          allowCoinTypeEdit: false,
+          ignorePaths: accountsHdPaths,
         });
+
+        if (account !== undefined) {
+          saveAccount(account);
+        }
       } else {
         setErrorMessage(t('invalid recovery passphrase'));
       }
     }
   }, [
-    navigation,
     receivedMnemonic,
     selectedWords,
     words.length,
     mnemonic,
     accountsHdPaths,
+    selectAccount,
     saveAccount,
   ]);
 

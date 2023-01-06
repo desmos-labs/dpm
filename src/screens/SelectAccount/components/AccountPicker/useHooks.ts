@@ -4,12 +4,12 @@ import { WalletGenerationData, WalletType } from 'types/wallet';
 import _ from 'lodash';
 import { generateAccountWithWallets } from 'lib/WalletUtils/generate';
 import {
+  AccountPickerParams,
   WalletPickerMode,
-  WalletPickerParams,
 } from 'screens/SelectAccount/components/AccountPicker/types';
 
 function generationParamsToWalletGenerationData(
-  params: WalletPickerParams,
+  params: AccountPickerParams,
   hdPaths: HdPath[],
 ): WalletGenerationData {
   switch (params.mode) {
@@ -39,7 +39,7 @@ export const useGenerateAccountWithWalletFromHdPath = () => {
   const [generationError, setGenerationError] = useState<string>();
 
   const generateWalletAccountFromHdPath = useCallback(
-    async (hdPath: HdPath, generationParams: WalletPickerParams) => {
+    async (hdPath: HdPath, generationParams: AccountPickerParams) => {
       try {
         const wallets = await generateAccountWithWallets(
           generationParamsToWalletGenerationData(generationParams, [hdPath]),
@@ -66,7 +66,7 @@ export const useGenerateAccountWithWalletFromHdPath = () => {
   };
 };
 
-export const useFetchWallets = (params: WalletPickerParams) => {
+export const useFetchWallets = (params: AccountPickerParams) => {
   const fetchWallets = useCallback(
     async (start: number, end: number) => {
       let paths = _.range(start, end)
@@ -79,9 +79,9 @@ export const useFetchWallets = (params: WalletPickerParams) => {
 
       // Filter ignore paths from the list.
       if (params.ignorePaths !== undefined && params.ignorePaths.length > 0) {
+        const { ignorePaths } = params;
         paths = paths.filter(
-          (path) =>
-            params.ignorePaths?.find((ignorePath) => _.isEqual(ignorePath, path)) !== undefined,
+          (path) => ignorePaths.find((ignorePath) => _.isEqual(ignorePath, path)) === undefined,
         );
       }
 

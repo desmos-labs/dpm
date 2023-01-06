@@ -8,13 +8,13 @@ import Button from 'components/Button';
 // eslint-disable-next-line import/no-cycle
 import { RootNavigatorParamList } from 'navigation/RootNavigator';
 import ROUTES from 'navigation/routes';
-import { WalletPickerParams } from 'screens/SelectAccount/components/AccountPicker/types';
+import { AccountPickerParams } from 'screens/SelectAccount/components/AccountPicker/types';
 import { AccountWithWallet } from 'types/account';
 import useStyles from './useStyles';
 import AccountPicker from './components/AccountPicker';
 
-export type SelectAddressParams = {
-  walletPickerParams: WalletPickerParams;
+export type SelectAccountParams = {
+  accountPickerParams: AccountPickerParams;
   onSelect: (wallet: AccountWithWallet) => any;
   onCancel?: () => any;
 };
@@ -23,7 +23,7 @@ type NavProps = StackScreenProps<RootNavigatorParamList, ROUTES.SELECT_ACCOUNT>;
 
 const SelectAccount: FC<NavProps> = (props) => {
   const { navigation } = props;
-  const { onSelect, onCancel, walletPickerParams } = props.route.params;
+  const { onSelect, onCancel, accountPickerParams } = props.route.params;
   const { t } = useTranslation();
   const styles = useStyles();
   const [selectedAccount, setSelectedAccount] = useState<AccountWithWallet | null>(null);
@@ -53,7 +53,7 @@ const SelectAccount: FC<NavProps> = (props) => {
       <AccountPicker
         onAccountSelected={setSelectedAccount}
         onGeneratingAddressesStateChange={setGeneratingAddresses}
-        params={walletPickerParams}
+        params={accountPickerParams}
       />
 
       <Button

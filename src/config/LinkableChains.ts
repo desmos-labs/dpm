@@ -1,12 +1,12 @@
 import { ChainConfig } from '@desmoslabs/desmjs-types/desmos/profiles/v3/models_chain_links';
 import { SupportedChain } from 'types/chains';
 import {
-  CosmosHdPath,
   BandHdPath,
+  CosmosHdPath,
   CroHdPath,
+  DesmosHdPath,
   KavaHdPath,
   LunaHdPath,
-  DesmosHdPath,
 } from 'types/chainsHdPaths';
 
 export const DesmosChain: SupportedChain = {
@@ -19,7 +19,18 @@ export const DesmosChain: SupportedChain = {
   }),
 };
 
+export const CryptoDotOrgChain: SupportedChain = {
+  name: 'Crypto.org',
+  prefix: 'cro',
+  masterHDPath: CroHdPath,
+  icon: require('assets/images/chains/cryptoOrg.png'),
+  chainConfig: ChainConfig.fromPartial({
+    name: 'crypto.org',
+  }),
+};
+
 export const SupportedChains: SupportedChain[] = [
+  DesmosChain,
   {
     name: 'Akash',
     prefix: 'akash',
@@ -47,15 +58,7 @@ export const SupportedChains: SupportedChain[] = [
       name: 'cosmos',
     }),
   },
-  {
-    name: 'Crypto.org',
-    prefix: 'cro',
-    masterHDPath: CroHdPath,
-    icon: require('assets/images/chains/cryptoOrg.png'),
-    chainConfig: ChainConfig.fromPartial({
-      name: 'crypto.org',
-    }),
-  },
+  CryptoDotOrgChain,
   {
     name: 'e-Money',
     prefix: 'emoney',
