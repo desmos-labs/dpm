@@ -2,7 +2,7 @@ import { getMMKV, MMKVKEYS, setMMKV } from 'lib/MMKVStorage';
 import { atom, useRecoilState, useRecoilValue } from 'recoil';
 import { AppSettings } from 'types/settings';
 import { findChainInfoByName } from 'lib/ChainsUtils';
-import { DesmosMainnet, DesmosTestnet } from '@desmoslabs/desmjs';
+import { DesmosMainnet, DesmosTestnet, GasPrice } from '@desmoslabs/desmjs';
 import { useMemo } from 'react';
 
 /**
@@ -39,6 +39,17 @@ const appSettingsState = atom<AppSettings>({
 export const useCurrentChainInfo = () => {
   const settings = useSettings();
   return useMemo(() => findChainInfoByName(settings.chainName)!, [settings.chainName]);
+};
+
+export const useCurrentChainGasPrice = () => {
+  const currentChainInfo = useCurrentChainInfo();
+  return useMemo(() => {
+    if (currentChainInfo === undefined) {
+      return undefined;
+    }
+    // We support only Desmos at the moment so 0.1 is fine.
+    return GasPrice.fromString(`0.1${currentChainInfo.stakeCurrency.coinMinimalDenom}`);
+  }, [currentChainInfo]);
 };
 
 export const useSettingsState = () => useRecoilState(appSettingsState);
