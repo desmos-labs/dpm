@@ -13,11 +13,11 @@ import ROUTES from 'navigation/routes';
 import {
   WalletPickerMnemonicParams,
   WalletPickerMode,
-} from 'screens/SelectAddress/components/AccountPicker/types';
+} from 'screens/SelectAccount/components/AccountPicker/types';
 import { DesmosHdPath } from 'types/chainsHdPaths';
 import { useRecoilValue } from 'recoil';
 import { accountsHdPathsAppState } from '@recoil/accounts';
-import { AccountWithWallet } from 'types/account';
+import { useSaveAccount } from 'hooks/useSaveAccount';
 import useStyles from './useStyles';
 
 export type CheckMnemonicParams = {
@@ -41,6 +41,7 @@ const CheckMnemonic: FC<NavProps> = (props) => {
   const [selectedWords, setSelectedWords] = useState<string[]>([]);
   const [availableWords, setAvailableWords] = useState<string[]>([...words]);
   const accountsHdPaths = useRecoilValue(accountsHdPathsAppState);
+  const { saveAccount } = useSaveAccount();
 
   const onWordSelected = useCallback(
     (word: string) => {
@@ -84,26 +85,22 @@ const CheckMnemonic: FC<NavProps> = (props) => {
               allowCoinTypeEdit: false,
               ignorePaths: accountsHdPaths,
             } as WalletPickerMnemonicParams,
-            onSelect: (account: AccountWithWallet) => {
-              if (accountsHdPaths.length === 0) {
-                navigation.navigate({
-                  name: ROUTES.CREATE_WALLET_PASSWORD,
-                  params: { account },
-                });
-              } else {
-                navigation.navigate({
-                  name: ROUTES.CHECK_WALLET_PASSWORD,
-                  params: { account },
-                });
-              }
-            },
+            onSelect: saveAccount,
           },
         });
       } else {
         setErrorMessage(t('invalid recovery passphrase'));
       }
     }
-  }, [navigation, receivedMnemonic, selectedWords, words.length, mnemonic, accountsHdPaths]);
+  }, [
+    navigation,
+    receivedMnemonic,
+    selectedWords,
+    words.length,
+    mnemonic,
+    accountsHdPaths,
+    saveAccount,
+  ]);
 
   return (
     <StyledSafeAreaView style={styles.root} topBar={<TopBar stackProps={props} />}>

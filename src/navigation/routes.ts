@@ -11,12 +11,12 @@ enum ROUTES {
   /**
    * Screen that allow the user to create a new wallet.
    */
-  CREATE_WALLET = 'CREATE_WALLET',
+  CREATE_NEW_MNEMONIC = 'CREATE_NEW_MNEMONIC',
   /**
    * Screen that allow the user to import a wallet through a 12/24 words
    * mnemonic.
    */
-  IMPORT_RECOVERY_PASSPHRASE = 'IMPORT_RECOVERY_PASSPHRASE',
+  CREATE_ACCOUNT_FROM_MNEMONIC = 'CREATE_ACCOUNT_FROM_MNEMONIC',
   /**
    * Screen that allow the user to check if the inserted
    * mnemonic is what he wrote down.
@@ -41,6 +41,22 @@ enum ROUTES {
    */
   SAVE_GENERATED_ACCOUNT = 'SAVE_GENERATED_ACCOUNT',
 
+  /**
+   * Navigate to the stack that allow the user to connect to a ledger device.
+   */
+  CONNECT_TO_LEDGER_STACK = 'CONNECT_TO_LEDGER_STACK',
+  /**
+   * Screen that performs a bluetooth scan in order to find a Ledger device.
+   */
+  PERFORM_LEDGER_SCAN = 'PERFORM_LEDGER_SCAN',
+  /**
+   * Screen that performs a bluetooth scan in order to find a Ledger device.
+   */
+  CONNECT_TO_LEDGER = 'CONNECT_TO_LEDGER',
+  /**
+   * Home screen.
+   */
+  HOME = 'HOME',
   /**
    * Screen that shows the user the data of the Desmos Profile associated to the current profile wallet.
    */

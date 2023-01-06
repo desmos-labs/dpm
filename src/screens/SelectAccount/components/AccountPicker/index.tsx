@@ -13,7 +13,7 @@ import { HdPath } from '@cosmjs/crypto';
 import {
   useFetchWallets,
   useGenerateAccountWithWalletFromHdPath,
-} from 'screens/SelectAddress/components/AccountPicker/useHooks';
+} from 'screens/SelectAccount/components/AccountPicker/useHooks';
 import { slip10IndexToBaseNumber } from 'lib/FormatUtils';
 import { AccountWithWallet } from 'types/account';
 import useStyles from './useStyles';

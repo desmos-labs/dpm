@@ -13,7 +13,6 @@ import AuthorizeOperation from 'screens/AuthorizeOperation';
 import AuthorizeSession from 'screens/AuthorizeSession';
 import Profile from 'screens/Profile';
 import useHandleCallRequests from 'hooks/useHandleCallRequests';
-import ChainLinkScreens from '../ChainLinkScreens';
 import HomeScreens from '../HomeScreens';
 import SettingsScreens from '../SettingsScreens';
 
@@ -51,7 +50,6 @@ export default function AccountScreens() {
         }}
         component={AuthorizeOperation}
       />
-      <AccountScreensStack.Screen name="ChainLinkScreens" component={ChainLinkScreens} />
       <AccountScreensStack.Screen
         name="WalletConnectCallRequest"
         component={WalletConnectCallRequest}

@@ -6,7 +6,7 @@ import { generateAccountWithWallets } from 'lib/WalletUtils/generate';
 import {
   WalletPickerMode,
   WalletPickerParams,
-} from 'screens/SelectAddress/components/AccountPicker/types';
+} from 'screens/SelectAccount/components/AccountPicker/types';
 
 function generationParamsToWalletGenerationData(
   params: WalletPickerParams,

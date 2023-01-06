@@ -1,4 +1,3 @@
-import BluetoothTransport from '@ledgerhq/react-native-hw-transport-ble';
 import { CompositeScreenProps } from '@react-navigation/native';
 import { StackScreenProps } from '@react-navigation/stack';
 import React, { useCallback } from 'react';
@@ -25,30 +24,7 @@ const SelectLedgerApp: React.FC<Props> = ({ navigation, route }) => {
 
   const renderLedgerApp = useCallback(
     ({ item }: ListRenderItemInfo<LedgerApp>) => (
-      <BlockchainListItem
-        onPress={() => {
-          navigation.navigate({
-            name: 'ConnectToLedgerScreens',
-            params: {
-              ledgerApp: item,
-              onConnectionEstablished: (transport: BluetoothTransport) => {
-                navigation.navigate({
-                  name: 'PickAddress',
-                  params: {
-                    importMode: 'Ledger',
-                    chain,
-                    backAction,
-                    ledgerTransport: transport,
-                    ledgerApp: item,
-                  },
-                });
-              },
-            },
-          });
-        }}
-        name={item.uiName}
-        icon={item.icon}
-      />
+      <BlockchainListItem name={item.uiName} icon={item.icon} />
     ),
     [backAction, chain, navigation],
   );

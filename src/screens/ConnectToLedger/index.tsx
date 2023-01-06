@@ -1,8 +1,6 @@
 import { StackScreenProps } from '@react-navigation/stack';
 import React, { useCallback, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
-import useConnectToLedger from 'hooks/ledger/useConnectToLedger';
-import { ConnectToLedgerScreensStackParams } from 'types/navigation';
 import Typography from 'components/Typography';
 import DpmImage from 'components/DPMImage';
 import StyledSafeAreaView from 'components/StyledSafeAreaView';
@@ -10,12 +8,24 @@ import TopBar from 'components/TopBar';
 import ThemedLottieView from 'components/ThemedLottieView';
 import Flexible from 'components/Flexible';
 import Button from 'components/Button';
+import { BLELedger, LedgerApp } from 'types/ledger';
+import BluetoothTransport from '@ledgerhq/react-native-hw-transport-ble';
+import { DPMAnimations, DPMImages } from 'types/images';
+import ROUTES from 'navigation/routes';
+import { ConnectToLedgerStackParamList } from 'navigation/RootNavigator/ConnectToLedgerStack';
+import { useConnectToLedger } from './useHooks';
 import useStyles from './useStyles';
 
-export type Props = StackScreenProps<ConnectToLedgerScreensStackParams, 'ConnectToLedger'>;
+export interface ConnectToLedgerParams {
+  readonly bleLedger: BLELedger;
+  readonly ledgerApp: LedgerApp;
+  readonly onConnect: (transport: BluetoothTransport) => any;
+}
+
+export type Props = StackScreenProps<ConnectToLedgerStackParamList, ROUTES.CONNECT_TO_LEDGER>;
 
 const ConnectToLedger: React.FC<Props> = ({ navigation, route }) => {
-  const { bleLedger, ledgerApp, onConnectionEstablished, onCancel, autoClose } = route.params;
+  const { bleLedger, ledgerApp, onConnect } = route.params;
   const { t } = useTranslation();
   const styles = useStyles();
   const { connecting, connected, connectionError, transport, retry } = useConnectToLedger(
@@ -26,43 +36,31 @@ const ConnectToLedger: React.FC<Props> = ({ navigation, route }) => {
   const status = connected ? t('connected') : t('error');
   const statusButton = connected ? t('next') : t('retry');
   const statusImage = connected ? (
-    <DpmImage style={styles.image} source="success" />
+    <DpmImage style={styles.image} source={DPMImages.Success} />
   ) : (
-    <DpmImage style={styles.image} source="fail" />
+    <DpmImage style={styles.image} source={DPMImages.Fail} />
   );
 
   useEffect(() => {
-    if (connected && autoClose === true) {
-      navigation.goBack();
-      onConnectionEstablished(transport!);
+    if (connected) {
+      onConnect(transport!);
     }
-  }, [connected, autoClose, onConnectionEstablished, transport, navigation]);
+  }, [connected, transport, onConnect, navigation]);
 
   const onButtonPressed = useCallback(() => {
     if (connected) {
-      navigation.goBack();
-      onConnectionEstablished(transport!);
+      onConnect(transport!);
     } else {
       retry();
     }
-  }, [connected, navigation, onConnectionEstablished, retry, transport]);
-
-  useEffect(
-    () =>
-      navigation.addListener('beforeRemove', (e) => {
-        if (e.data.action.type === 'GO_BACK' && !connected && onCancel !== undefined) {
-          onCancel();
-        }
-      }),
-    [navigation, connected, onCancel],
-  );
+  }, [connected, navigation, onConnect, retry, transport]);
 
   return (
     <StyledSafeAreaView topBar={<TopBar stackProps={{ navigation }} />}>
       {connecting ? (
         <ThemedLottieView
           style={styles.animation}
-          source="connect-to-ledger"
+          source={DPMAnimations.ConnectToLedger}
           autoPlay
           loop
           autoSize

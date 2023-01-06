@@ -10,6 +10,8 @@ import ROUTES from 'navigation/routes';
 import { AccountWithWallet } from 'types/account';
 import { useSaveAccount } from 'screens/SaveGeneratedAccount/useHooks';
 import { DPMImages } from 'types/images';
+import { useSetRecoilState } from 'recoil';
+import { activeAccountAddress } from '@recoil/activeAccountState';
 import useStyles from './useStyles';
 
 export type SaveGeneratedAccountParams = {
@@ -21,13 +23,16 @@ declare type NavProps = StackScreenProps<RootNavigatorParamList, ROUTES.SAVE_GEN
 
 const SaveGeneratedAccount = (props: NavProps) => {
   const { navigation } = props;
+  const { account, password } = props.route.params;
   const { t } = useTranslation();
   const styles = useStyles();
+  const setActiveAccountAddress = useSetRecoilState(activeAccountAddress);
   const { savingAccount, saveAccount, saveAccountError } = useSaveAccount();
 
   const generateAccount = useCallback(async () => {
-    saveAccount(props.route.params.account, props.route.params.password);
-  }, [props.route.params]);
+    await saveAccount(account, password);
+    setActiveAccountAddress(account.account.address);
+  }, [account, password, setActiveAccountAddress]);
 
   useEffect(
     () =>
@@ -43,7 +48,12 @@ const SaveGeneratedAccount = (props: NavProps) => {
     generateAccount().then(() => {});
   }, []);
 
-  const onContinuePressed = useCallback(() => {}, []);
+  const onContinuePressed = useCallback(() => {
+    navigation.reset({
+      index: 0,
+      routes: [{ name: ROUTES.HOME }],
+    });
+  }, [navigation]);
 
   const generatedAccount =
     !savingAccount && saveAccountError === undefined ? (

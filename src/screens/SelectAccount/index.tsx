@@ -1,5 +1,5 @@
 import { StackScreenProps } from '@react-navigation/stack';
-import React, { FC, useCallback, useState } from 'react';
+import React, { FC, useCallback, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import Typography from 'components/Typography';
 import StyledSafeAreaView from 'components/StyledSafeAreaView';
@@ -8,7 +8,7 @@ import Button from 'components/Button';
 // eslint-disable-next-line import/no-cycle
 import { RootNavigatorParamList } from 'navigation/RootNavigator';
 import ROUTES from 'navigation/routes';
-import { WalletPickerParams } from 'screens/SelectAddress/components/AccountPicker/types';
+import { WalletPickerParams } from 'screens/SelectAccount/components/AccountPicker/types';
 import { AccountWithWallet } from 'types/account';
 import useStyles from './useStyles';
 import AccountPicker from './components/AccountPicker';
@@ -16,23 +16,33 @@ import AccountPicker from './components/AccountPicker';
 export type SelectAddressParams = {
   walletPickerParams: WalletPickerParams;
   onSelect: (wallet: AccountWithWallet) => any;
+  onCancel?: () => any;
 };
 
 type NavProps = StackScreenProps<RootNavigatorParamList, ROUTES.SELECT_ACCOUNT>;
 
 const SelectAccount: FC<NavProps> = (props) => {
-  const {
-    route: { params },
-  } = props;
+  const { navigation } = props;
+  const { onSelect, onCancel, walletPickerParams } = props.route.params;
   const { t } = useTranslation();
   const styles = useStyles();
   const [selectedAccount, setSelectedAccount] = useState<AccountWithWallet | null>(null);
   const [generatingAddresses, setGeneratingAddresses] = useState(false);
   const onNextPressed = useCallback(() => {
     if (selectedAccount !== null) {
-      params.onSelect(selectedAccount);
+      onSelect(selectedAccount);
     }
-  }, [selectedAccount]);
+  }, [onSelect, selectedAccount]);
+
+  useEffect(
+    () =>
+      navigation.addListener('beforeRemove', (e) => {
+        if (e.data.action.type === 'GO_BACK' && onCancel !== undefined) {
+          onCancel();
+        }
+      }),
+    [navigation, onCancel],
+  );
 
   return (
     <StyledSafeAreaView style={styles.root} topBar={<TopBar stackProps={props} />}>
@@ -43,7 +53,7 @@ const SelectAccount: FC<NavProps> = (props) => {
       <AccountPicker
         onAccountSelected={setSelectedAccount}
         onGeneratingAddressesStateChange={setGeneratingAddresses}
-        params={params.walletPickerParams}
+        params={walletPickerParams}
       />
 
       <Button

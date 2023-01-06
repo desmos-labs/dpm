@@ -1,6 +1,6 @@
-import {getMMKV, MMKVKEYS, setMMKV} from 'lib/MMKVStorage';
-import {atom} from 'recoil';
-import {AppSettings} from 'types/settings';
+import { getMMKV, MMKVKEYS, setMMKV } from 'lib/MMKVStorage';
+import { atom } from 'recoil';
+import { AppSettings } from 'types/settings';
 
 /**
  * Default application settings
@@ -25,8 +25,8 @@ const appSettingsState = atom<AppSettings>({
     return savedSettings || DefaultAppSettings;
   })(),
   effects: [
-    ({onSet}) => {
-      onSet(newSettingsValues => {
+    ({ onSet }) => {
+      onSet((newSettingsValues) => {
         setMMKV(MMKVKEYS.APP_SETTINGS, newSettingsValues);
       });
     },

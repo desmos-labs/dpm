@@ -3,7 +3,7 @@ import BluetoothTransport from '@ledgerhq/react-native-hw-transport-ble';
 import { useCallback, useEffect, useState } from 'react';
 import { BLELedger, LedgerApp } from 'types/ledger';
 
-export default function useConnectToLedger(ledger: BLELedger, ledgerApp: LedgerApp) {
+export function useConnectToLedger(ledger: BLELedger, ledgerApp: LedgerApp) {
   const [connecting, setConnecting] = useState(true);
   const [connected, setConnected] = useState(false);
   const [transport, setTransport] = useState<BluetoothTransport | undefined>();

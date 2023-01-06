@@ -1,55 +1,47 @@
 import Clipboard from '@react-native-community/clipboard';
-import { BottomTabScreenProps } from '@react-navigation/bottom-tabs';
-import { CompositeScreenProps } from '@react-navigation/native';
 import { StackScreenProps } from '@react-navigation/stack';
 import React, { useCallback, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Image, Text, View } from 'react-native';
 import { Snackbar, useTheme } from 'react-native-paper';
-import TransactionsList from 'components/TransactionsList';
 import Typography from 'components/Typography';
 import useDrawerContext from 'contexts/AppDrawerContex';
 import useCurrentChainInfo from 'hooks/desmosclient/useCurrentChainInfo';
 import useSetSetting from 'hooks/settings/useSetSetting';
 import useFetchProfile from 'hooks/useFetchProfile';
-import useSelectedAccount from 'hooks/useSelectedAccount';
-import { AccountScreensStackParams, HomeScreensBottomTabsParams } from 'types/navigation';
 import StyledSafeAreaView from 'components/StyledSafeAreaView';
 import TopBar from 'components/TopBar';
 import AvatarImage from 'components/AvatarImage';
 import { useRecoilValue } from 'recoil';
 import appSettingsState from '@recoil/settings';
+import { RootNavigatorParamList } from 'navigation/RootNavigator';
+import ROUTES from 'navigation/routes';
+import { activeAccountAppState } from '@recoil/activeAccountState';
 import AccountBalance from './components/AccountBalance';
 import useStyles from './useStyles';
 
-export type Props = CompositeScreenProps<
-  BottomTabScreenProps<HomeScreensBottomTabsParams, 'Home'>,
-  StackScreenProps<AccountScreensStackParams>
->;
+export type NavProps = StackScreenProps<RootNavigatorParamList, ROUTES.HOME>;
 
-const Home: React.FC<Props> = (props) => {
+const Home: React.FC<NavProps> = (props) => {
   const { navigation } = props;
   const { openDrawer } = useDrawerContext();
-  const account = useSelectedAccount();
+  const account = useRecoilValue(activeAccountAppState);
   const settings = useRecoilValue(appSettingsState);
   const { t } = useTranslation();
   const theme = useTheme();
   const styles = useStyles();
-  const profile = useFetchProfile(account.address);
+  const profile = useFetchProfile(account!.address);
   const [snackBarMessage, setShowSnackbar] = useState<string | null>(null);
   const currentChain = useCurrentChainInfo();
   const hideBalance = useSetSetting('balanceHidden');
 
   const openProfileDetails = useCallback(() => {
-    navigation.navigate({
-      name: 'Profile',
-      params: undefined,
-    });
+    console.log('open profile');
   }, [navigation]);
 
   const onAddressCopy = useCallback(() => {
-    Clipboard.setString(account.address);
-    console.log(account.address);
+    Clipboard.setString(account!.address);
+    console.log(account!.address);
     setShowSnackbar(t('address copied'));
   }, [t, account]);
 
@@ -58,25 +50,12 @@ const Home: React.FC<Props> = (props) => {
   }, [hideBalance, settings.balanceHidden]);
 
   const onSendPressed = useCallback(() => {
-    navigation.navigate({
-      name: 'SendToken',
-      params: undefined,
-    });
+    console.log('send token');
   }, [navigation]);
 
   const onTxPressed = useCallback(
     (tx: any) => {
-      navigation.navigate({
-        name: 'TxDetails',
-        params: {
-          messages: tx.msgs,
-          fee: tx.fee,
-          memo: tx.memo,
-          success: tx.success,
-          dateTime: new Date(tx.timestamp),
-          hash: tx.hash,
-        },
-      });
+      console.log('tx pressed');
     },
     [navigation],
   );
@@ -125,7 +104,7 @@ const Home: React.FC<Props> = (props) => {
       />
       <AccountBalance
         style={styles.userBalance}
-        address={account.address}
+        address={account!.address}
         nickname={profile?.nickname}
         onCopyPress={onAddressCopy}
         onSendPressed={onSendPressed}
@@ -133,11 +112,6 @@ const Home: React.FC<Props> = (props) => {
       />
       <View style={styles.transactionsContainer}>
         <Typography.Subtitle>{t('transactions')}</Typography.Subtitle>
-        <TransactionsList
-          style={styles.transactionList}
-          onTxPressed={onTxPressed}
-          chainAccount={account}
-        />
       </View>
       <Snackbar
         visible={snackBarMessage !== null}

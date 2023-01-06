@@ -7,11 +7,18 @@ import IconButton from 'components/IconButton';
 import Button from 'components/Button';
 import { RootNavigatorParamList } from 'navigation/RootNavigator';
 import ROUTES from 'navigation/routes';
+import { DesmosLedgerApp } from 'config/LedgerApps';
+import { DesmosHdPath } from 'types/chainsHdPaths';
+import { useSaveAccount } from 'hooks/useSaveAccount';
+import { useImportAccount } from 'hooks/useImportAccount';
+import { WalletType } from 'types/wallet';
 import useStyles from './useStyles';
 
 export type NavProps = StackScreenProps<RootNavigatorParamList, ROUTES.LANDING>;
 
 const Landing = ({ navigation }: NavProps) => {
+  const { importAccount } = useImportAccount();
+  const { saveAccount } = useSaveAccount();
   const { t } = useTranslation();
   const styles = useStyles();
   const animate = !navigation.canGoBack();
@@ -44,19 +51,33 @@ const Landing = ({ navigation }: NavProps) => {
 
   const onCreatePressed = useCallback(() => {
     navigation.navigate({
-      name: ROUTES.CREATE_WALLET,
+      name: ROUTES.CREATE_NEW_MNEMONIC,
       params: undefined,
     });
   }, [navigation]);
 
-  const onImportMnemonic = useCallback(() => {
-    navigation.navigate({
-      name: ROUTES.IMPORT_RECOVERY_PASSPHRASE,
-      params: undefined,
+  const onImportMnemonic = useCallback(async () => {
+    const account = await importAccount({
+      type: WalletType.Mnemonic,
+      masterHdPath: DesmosHdPath,
+      addressPrefix: 'desmos',
     });
-  }, [navigation]);
+    if (account !== undefined) {
+      saveAccount(account);
+    }
+  }, [importAccount]);
 
-  const onImportWithLedger = useCallback(() => {}, [navigation]);
+  const onImportWithLedger = useCallback(async () => {
+    const account = await importAccount({
+      type: WalletType.Ledger,
+      masterHdPath: DesmosHdPath,
+      addressPrefix: 'desmos',
+      ledgerApp: DesmosLedgerApp,
+    });
+    if (account !== undefined) {
+      saveAccount(account);
+    }
+  }, [navigation, saveAccount]);
 
   const goBack = useCallback(() => {
     navigation.goBack();

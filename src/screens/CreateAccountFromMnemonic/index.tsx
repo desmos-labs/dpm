@@ -1,6 +1,6 @@
-import { EnglishMnemonic } from '@cosmjs/crypto';
+import { EnglishMnemonic, HdPath } from '@cosmjs/crypto';
 import { StackScreenProps } from '@react-navigation/stack';
-import React, { FC, useState } from 'react';
+import React, { FC, useCallback, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { KeyboardAvoidingView, Platform } from 'react-native';
 import Flexible from 'components/Flexible';
@@ -13,25 +13,32 @@ import TextInput from 'components/TextInput';
 import Button from 'components/Button';
 import { RootNavigatorParamList } from 'navigation/RootNavigator';
 import ROUTES from 'navigation/routes';
-import {
-  WalletPickerMnemonicParams,
-  WalletPickerMode,
-} from 'screens/SelectAddress/components/AccountPicker/types';
-import { DesmosHdPath } from 'types/chainsHdPaths';
-import { useRecoilValue } from 'recoil';
-import { accountsHdPathsAppState } from '@recoil/accounts';
+import { WalletPickerMode } from 'screens/SelectAccount/components/AccountPicker/types';
 import { AccountWithWallet } from 'types/account';
 import useStyles from './useStyles';
 
-declare type NavProps = StackScreenProps<RootNavigatorParamList, ROUTES.IMPORT_RECOVERY_PASSPHRASE>;
+export interface CreateAccountFromMnemonicParams {
+  readonly masterHdPath: HdPath;
+  readonly addressPrefix: string;
+  readonly allowCoinTypeEdit: boolean;
+  readonly ignorePaths?: HdPath[];
+  readonly onSelect: (account: AccountWithWallet) => any;
+  readonly onCancel?: () => any;
+}
 
-const ImportRecoveryPassphrase: FC<NavProps> = (props) => {
+declare type NavProps = StackScreenProps<
+  RootNavigatorParamList,
+  ROUTES.CREATE_ACCOUNT_FROM_MNEMONIC
+>;
+
+const CreateAccountFromMnemonic: FC<NavProps> = (props) => {
+  const { masterHdPath, addressPrefix, allowCoinTypeEdit, ignorePaths, onSelect, onCancel } =
+    props.route.params;
   const styles = useStyles();
   const { t } = useTranslation();
   const [mnemonic, setMnemonic] = useState<string>('');
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const { navigation } = props;
-  const accountsHdPaths = useRecoilValue(accountsHdPathsAppState);
 
   const onMnemonicChange = (changedMnemonic: string) => {
     const sanitizedMnemonic = sanitizeMnemonic(changedMnemonic);
@@ -45,7 +52,7 @@ const ImportRecoveryPassphrase: FC<NavProps> = (props) => {
     }
   };
 
-  const onNextPressed = () => {
+  const onNextPressed = useCallback(() => {
     if (mnemonic === '') {
       setErrorMessage(t('empty recovery passphrase'));
     } else {
@@ -58,28 +65,13 @@ const ImportRecoveryPassphrase: FC<NavProps> = (props) => {
             walletPickerParams: {
               mode: WalletPickerMode.Mnemonic,
               mnemonic,
-              masterHdPath: DesmosHdPath,
-              addressPrefix: 'desmos',
-              allowCoinTypeEdit: false,
-              ignorePaths: accountsHdPaths,
-            } as WalletPickerMnemonicParams,
-            onSelect: (account: AccountWithWallet) => {
-              if (accountsHdPaths.length === 0) {
-                navigation.navigate({
-                  name: ROUTES.CREATE_WALLET_PASSWORD,
-                  params: {
-                    account,
-                  },
-                });
-              } else {
-                navigation.navigate({
-                  name: ROUTES.CHECK_WALLET_PASSWORD,
-                  params: {
-                    account,
-                  },
-                });
-              }
+              masterHdPath,
+              addressPrefix,
+              allowCoinTypeEdit,
+              ignorePaths,
             },
+            onSelect,
+            onCancel,
           },
         });
       } else {
@@ -95,15 +87,12 @@ const ImportRecoveryPassphrase: FC<NavProps> = (props) => {
         }
       }
     }
-  };
+  }, [mnemonic, masterHdPath, addressPrefix, allowCoinTypeEdit, ignorePaths]);
 
-  const useDebugTestnetMnemonic = () => {
-    setMnemonic('');
-    setErrorMessage(null);
-  };
-
-  const useDebugMainnetMnemonic = () => {
-    setMnemonic('');
+  const useDebugMnemonic = () => {
+    setMnemonic(
+      'hour harbor fame unaware bunker junk garment decrease federal vicious island smile warrior fame right suit portion skate analyst multiply magnet medal fresh sweet',
+    );
     setErrorMessage(null);
   };
 
@@ -134,13 +123,8 @@ const ImportRecoveryPassphrase: FC<NavProps> = (props) => {
         {...(Platform.OS === 'ios' ? { behavior: 'padding' } : {})}
       >
         {__DEV__ && (
-          <Button style={styles.nextBtn} mode="contained" onPress={useDebugTestnetMnemonic}>
-            Use testnet debug mnemonic
-          </Button>
-        )}
-        {__DEV__ && (
-          <Button style={styles.nextBtn} mode="contained" onPress={useDebugMainnetMnemonic}>
-            Use mainnet debug mnemonic
+          <Button style={styles.nextBtn} mode="contained" onPress={useDebugMnemonic}>
+            Use debug mnemonic
           </Button>
         )}
         <Button mode="contained" onPress={onNextPressed}>
@@ -151,4 +135,4 @@ const ImportRecoveryPassphrase: FC<NavProps> = (props) => {
   );
 };
 
-export default ImportRecoveryPassphrase;
+export default CreateAccountFromMnemonic;

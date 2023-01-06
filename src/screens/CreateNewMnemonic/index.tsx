@@ -14,9 +14,9 @@ import ROUTES from 'navigation/routes';
 import InlineButton from './components/InlineButton';
 import useStyles from './useStyles';
 
-declare type NavProps = StackScreenProps<RootNavigatorParamList, ROUTES.CREATE_WALLET>;
+declare type NavProps = StackScreenProps<RootNavigatorParamList, ROUTES.CREATE_NEW_MNEMONIC>;
 
-const GenerateNewMnemonic: FC<NavProps> = (props) => {
+const CreateNewMnemonic: FC<NavProps> = (props) => {
   const { navigation } = props;
   const styles = useStyles();
   const { t } = useTranslation();
@@ -73,9 +73,7 @@ const GenerateNewMnemonic: FC<NavProps> = (props) => {
         <Trans
           i18nKey="save recovery passphrase"
           components={{
-            bold: (
-              <Typography.Subtitle style={styles.saveMnemonicAdviceSubtitle} />
-            ),
+            bold: <Typography.Subtitle style={styles.saveMnemonicAdviceSubtitle} />,
           }}
         />
       </Typography.Subtitle>
@@ -114,5 +112,4 @@ const GenerateNewMnemonic: FC<NavProps> = (props) => {
   );
 };
 
-export default GenerateNewMnemonic;
-
+export default CreateNewMnemonic;

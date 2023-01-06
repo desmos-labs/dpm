@@ -17,7 +17,7 @@ export type ScanError = {
   message: string;
 };
 
-export default function useStartBleScan() {
+export function useStartBleScan() {
   const { t } = useTranslation();
   const [subscription, setScanSubscription] = useState<Subscription | undefined>(undefined);
   const [stopScanTimeout, setStopStopScanTimeout] = useState<NodeJS.Timeout | undefined>(undefined);
