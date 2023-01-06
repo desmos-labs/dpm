@@ -4,8 +4,7 @@ import React, { FC, useCallback } from 'react';
 import { StackScreenProps } from '@react-navigation/stack';
 import { RootNavigatorParamList } from 'navigation/RootNavigator';
 import ROUTES from 'navigation/routes';
-import { accountsAppState } from '@recoil/accounts';
-import { useRecoilValue } from 'recoil';
+import { getAccounts } from '@recoil/accounts';
 import Typography from 'components/Typography';
 import { FlatList, Text, TouchableOpacity } from 'react-native';
 import Spacer from 'components/Spacer';
@@ -19,7 +18,11 @@ const DevScreen: FC<NavProps> = ({ navigation }) => {
   const { navigate } = navigation;
   const styles = useStyles();
 
-  const accounts = useRecoilValue(accountsAppState);
+  const accounts = getAccounts();
+
+  // React.useEffect(() => {
+  //   setSetting(DesmosTestnet.chainName);
+  // });
 
   const itemSeparator = React.useCallback(() => <Spacer paddingVertical={4} />, []);
 

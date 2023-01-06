@@ -8,6 +8,7 @@ import {
   KavaHdPath,
   LunaHdPath,
 } from 'types/chainsHdPaths';
+import { DesmosMainnet, DesmosTestnet } from '@desmoslabs/desmjs';
 
 export const DesmosChain: SupportedChain = {
   name: 'Desmos',
@@ -17,6 +18,7 @@ export const DesmosChain: SupportedChain = {
   chainConfig: ChainConfig.fromPartial({
     name: 'desmos',
   }),
+  chainInfo: [DesmosTestnet, DesmosMainnet],
 };
 
 export const CryptoDotOrgChain: SupportedChain = {
@@ -30,7 +32,6 @@ export const CryptoDotOrgChain: SupportedChain = {
 };
 
 export const SupportedChains: SupportedChain[] = [
-  DesmosChain,
   {
     name: 'Akash',
     prefix: 'akash',
@@ -59,6 +60,7 @@ export const SupportedChains: SupportedChain[] = [
     }),
   },
   CryptoDotOrgChain,
+  DesmosChain,
   {
     name: 'e-Money',
     prefix: 'emoney',

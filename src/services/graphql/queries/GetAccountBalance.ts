@@ -1,12 +1,9 @@
-import {gql} from '@apollo/client';
+import { gql } from '@apollo/client';
 
 const GetAccountBalance = gql`
-  query Balance($address: String!, $tokenName: String!) @api(name: forbole) {
-    action_account_balance(address: $address) {
+  query Balance($address: String!) @api(name: forbole) {
+    accountBalance: action_account_balance(address: $address) {
       coins
-    }
-    token_price(where: {unit_name: {_ilike: $tokenName}}) {
-      price
     }
   }
 `;

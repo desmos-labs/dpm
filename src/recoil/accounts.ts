@@ -1,4 +1,4 @@
-import { atom, selector } from 'recoil';
+import { atom, selector, useRecoilValue } from 'recoil';
 import { getMMKV, MMKVKEYS, setMMKV } from 'lib/MMKVStorage';
 import { Account } from 'types/account';
 import { HdPath } from '@cosmjs/crypto';
@@ -41,3 +41,5 @@ export const accountsHdPathsAppState = selector<HdPath[]>({
       .filter((value) => value !== null) as HdPath[];
   },
 });
+
+export const getAccounts = () => useRecoilValue(accountsAppState);

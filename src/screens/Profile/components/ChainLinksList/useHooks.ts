@@ -24,7 +24,7 @@ import { SignerData } from '@cosmjs/stargate';
 import { SupportedChain } from 'types/chains';
 import { getPubKeyBytes } from '@desmoslabs/desmjs/build/signatureresult';
 import { singleSignatureToAny } from '@desmoslabs/desmjs/build/aminomessages/profiles';
-import { getAddress, getChainConfig } from 'lib/ChainsUtils';
+import { getAddress } from 'lib/ChainsUtils';
 import useBroadcastTx from 'hooks/useBroadcastTx';
 
 const useSaveChainLinkAccount = () =>
@@ -97,14 +97,13 @@ const useGenerateMsgLinkChainAccount = () => {
   const generateProof = useGenerateProof();
 
   return useCallback(async (chain: SupportedChain, account: AccountWithWallet) => {
-    const chainConfig = getChainConfig(chain);
     const address = getAddress(chain, account);
     const proof = await generateProof(chain, account);
     return {
       typeUrl: MsgLinkChainAccountTypeUrl,
       value: {
         proof,
-        chainConfig,
+        chainConfig: chain.chainConfig,
         signer: account.account.address,
         chainAddress: address,
       },

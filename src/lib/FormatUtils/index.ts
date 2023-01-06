@@ -1,6 +1,7 @@
 import { Coin } from '@desmoslabs/desmjs-types/cosmos/base/v1beta1/coin';
-import { ChainInfo, convertCoin } from '@desmoslabs/desmjs';
+import { convertCoin, Currency } from '@desmoslabs/desmjs';
 import { Slip10RawIndex } from '@cosmjs/crypto';
+import SupportedChains from 'config/LinkableChains';
 
 /**
  * Safely parse the given value as an integer, returning 0 if malformed.
@@ -14,22 +15,19 @@ export const safeParseInt = (value: string): number => {
   return number;
 };
 
+const getChainCurrencies = (): Currency[] =>
+  SupportedChains.flatMap((chain) => chain.chainInfo || []).flatMap((info) => info.currencies);
+
 /**
  * Formats the given coins and returns a string representing the overall amount.
- * @param chainInfo - Info of the chain that should be used to format the coins.
  * @param amount - Amount to be formatted.
  */
-export const formatCoins = (chainInfo: ChainInfo, amount: Coin[] | undefined): string => {
-  if (!amount) {
-    return '';
-  }
-  return amount
+export const formatCoins = (amount: Coin[] | undefined): string => {
+  const currencies = getChainCurrencies();
+  return (amount || [])
     .map((coinAmount) => {
-      const converted = convertCoin(coinAmount, 6, chainInfo.currencies);
-      if (converted !== null) {
-        return `${converted.amount} ${converted.denom.toUpperCase()}`;
-      }
-      return `${coinAmount.amount} ${coinAmount.denom}`;
+      const convertedAmount = convertCoin(coinAmount, 6, currencies) || coinAmount;
+      return `${convertedAmount.amount} ${convertedAmount.denom.toUpperCase()}`;
     })
     .join('\n');
 };

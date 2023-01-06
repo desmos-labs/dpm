@@ -1,6 +1,7 @@
 import { ChainConfig } from '@desmoslabs/desmjs-types/desmos/profiles/v3/models_chain_links';
 import { ImageSourcePropType } from 'react-native';
 import { HdPath } from '@cosmjs/crypto';
+import { ChainInfo } from '@desmoslabs/desmjs';
 
 export type ChainLink = {
   /**
@@ -65,4 +66,8 @@ export type SupportedChain = {
    * Chain configurations.
    */
   chainConfig: ChainConfig;
+  /**
+   * Optional chain info(s) associated to this chain.
+   */
+  chainInfo?: ChainInfo[];
 };

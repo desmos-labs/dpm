@@ -1,13 +1,15 @@
 import { getMMKV, MMKVKEYS, setMMKV } from 'lib/MMKVStorage';
 import { atom, useRecoilState, useRecoilValue } from 'recoil';
 import { AppSettings } from 'types/settings';
+import { findChainByName } from 'lib/ChainsUtils';
+import { DesmosMainnet, DesmosTestnet } from '@desmoslabs/desmjs';
 
 /**
  * Default application settings
  */
 export const DefaultAppSettings: AppSettings = {
   theme: 'light',
-  chainName: __DEV__ ? 'testnet' : 'mainnet',
+  chainName: __DEV__ ? DesmosTestnet.chainName : DesmosMainnet.chainName,
   balanceHidden: false,
   biometrics: false,
   notifications: false,
@@ -32,6 +34,11 @@ const appSettingsState = atom<AppSettings>({
     },
   ],
 });
+
+export const useCurrentChainInfo = () => {
+  const settings = useSettings();
+  return findChainByName(settings.chainName);
+};
 
 export const useSettingsState = () => useRecoilState(appSettingsState);
 

@@ -38,7 +38,7 @@ export const AppStateProvider: React.FC = ({ children }) => {
   const [chainLinks, setChainLinks] = useState<Record<string, any[]>>({});
   const [selectedAccount, setSelectedAccount] = useState<any | null>(null);
   const [selectedAccountBalance, setSelectedAccountBalance] = useState<Coin>({
-    amount: '---',
+    amount: '0',
     denom: '',
   });
   const client = buildGraphQlClient();
@@ -58,14 +58,7 @@ export const AppStateProvider: React.FC = ({ children }) => {
       selectedAccountBalance,
       setSelectedAccountBalance,
     }),
-    [
-      initializing,
-      accounts,
-      profiles,
-      chainLinks,
-      selectedAccount,
-      selectedAccountBalance,
-    ],
+    [initializing, accounts, profiles, chainLinks, selectedAccount, selectedAccountBalance],
   );
 
   return (

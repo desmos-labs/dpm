@@ -2,13 +2,14 @@ import React, { useCallback, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { StyleProp, TouchableOpacity, View, ViewStyle } from 'react-native';
 import IconButton from 'components/IconButton';
-import useAppContext from 'contexts/AppContext';
 import Typography from 'components/Typography';
 import { useSettingsState } from '@recoil/settings';
 import CopyButton from 'components/CopyButton';
 import { Account } from 'types/account';
 import { DesmosProfile } from 'types/desmosTypes';
-import { formatHiddenValue } from 'lib/FormatUtils';
+import { formatCoins, formatHiddenValue } from 'lib/FormatUtils';
+import useAccountBalance from 'hooks/useAccountBalance';
+import { ActivityIndicator } from 'react-native-paper';
 import useStyles from './useStyles';
 
 export type AccountBalanceProps = {
@@ -21,11 +22,16 @@ const AccountBalance: React.FC<AccountBalanceProps> = (props) => {
   const { account, profile, style } = props;
   const { t } = useTranslation();
   const styles = useStyles();
-  const { selectedAccountBalance } = useAppContext();
   const [settings, setSettings] = useSettingsState();
 
   const nickname = useMemo(() => profile?.nickname, [profile]);
   const address = useMemo(() => profile?.address || account.address, [account, profile]);
+
+  const { balance, loading } = useAccountBalance(address);
+  const balanceValue = useMemo(() => {
+    const value = formatCoins(balance);
+    return settings.balanceHidden ? formatHiddenValue(value) : value;
+  }, [settings, balance]);
 
   const onHidePressed = useCallback(() => {
     setSettings({
@@ -65,12 +71,11 @@ const AccountBalance: React.FC<AccountBalanceProps> = (props) => {
       <View style={styles.balanceContainer}>
         <View style={styles.balanceTextContainer}>
           <Typography.Body style={styles.balanceText}>{t('available')}</Typography.Body>
-          <Typography.H4 style={styles.balanceText}>
-            {settings.balanceHidden
-              ? formatHiddenValue(selectedAccountBalance.amount)
-              : selectedAccountBalance.amount}{' '}
-            {selectedAccountBalance.denom.toUpperCase()}
-          </Typography.H4>
+          {loading ? (
+            <ActivityIndicator />
+          ) : (
+            <Typography.H4 style={styles.balanceText}>{balanceValue}</Typography.H4>
+          )}
         </View>
         <TouchableOpacity style={styles.sendButton} onPress={onSendPressed}>
           <Typography.Body style={styles.sendButtonText}>{t('send')}</Typography.Body>

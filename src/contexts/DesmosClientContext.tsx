@@ -1,4 +1,4 @@
-import { ChainInfo, DesmosChains, DesmosClient, Signer } from '@desmoslabs/desmjs';
+import { ChainInfo, DesmosChains, DesmosClient, DesmosTestnet, Signer } from '@desmoslabs/desmjs';
 import React, { createContext, useCallback, useContext, useMemo, useState } from 'react';
 import { useRecoilState } from 'recoil';
 import appSettingsState from '@recoil/settings';
@@ -43,22 +43,17 @@ const initialState: {} = {};
 const DesmosClientContext = createContext<DesmosClientState>(initialState as DesmosClientState);
 
 export const DesmosClientProvider: React.FC = (props) => {
-  const [appSettings, setAppSettings] = useRecoilState(appSettingsState);
+  const [, setAppSettings] = useRecoilState(appSettingsState);
   const { children } = props;
 
   const [desmosClient, setDesmosClient] = useState<DesmosClient | undefined>();
-  // Gets the current chain from the current selected chain id
-  const currentChain = useMemo(() => DesmosChains[appSettings.chainName], [appSettings.chainName]);
-  if (currentChain === undefined) {
-    throw new Error(`Can't find chain with id ${appSettings.chainName}`);
-  }
 
   const [signer, setSigner] = useState<Signer | undefined>();
   const [addresses] = useState<string[] | undefined>(undefined);
 
   const connectClient = useCallback(async () => {
     try {
-      const client = await DesmosClient.connect(currentChain.rpcUrl);
+      const client = await DesmosClient.connect(DesmosTestnet.rpcUrl);
       if (signer !== undefined) {
         client.setSigner(signer);
       }
@@ -71,7 +66,7 @@ export const DesmosClientProvider: React.FC = (props) => {
     } catch (e) {
       console.error(e);
     }
-  }, [currentChain, signer]);
+  }, [signer]);
 
   const setNewSigner = useCallback(
     (newSigner: Signer) => {
@@ -108,7 +103,7 @@ export const DesmosClientProvider: React.FC = (props) => {
 
   const providerValue = useMemo(
     () => ({
-      currentChain,
+      DesmosTestnet,
       setCurrentChainId: setNewChainId,
       signer,
       addresses,
@@ -116,7 +111,7 @@ export const DesmosClientProvider: React.FC = (props) => {
       connectClient,
       setSigner: setNewSigner,
     }),
-    [currentChain, setNewChainId, signer, addresses, desmosClient, connectClient, setNewSigner],
+    [DesmosTestnet, setNewChainId, signer, addresses, desmosClient, connectClient, setNewSigner],
   );
 
   return (

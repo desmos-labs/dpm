@@ -8,21 +8,20 @@ import {
 import { MultiAPILink } from '@habx/apollo-multi-endpoint-link';
 import { DefaultEndpoints } from '@habx/apollo-multi-endpoint-link/dist/typings/interface';
 import { WebSocketLink } from '@apollo/client/link/ws';
-import { useRecoilState } from 'recoil';
-import appSettingsState from '@recoil/settings';
-import { AppSettings, ChainId } from 'types/settings';
+import { useSettings } from '@recoil/settings';
 import React, { useState } from 'react';
+import { DesmosMainnet, DesmosTestnet } from '@desmoslabs/desmjs';
 
-const gqlEndpoints = new Map<ChainId, DefaultEndpoints>([
+const gqlEndpoints = new Map<string, DefaultEndpoints>([
   [
-    'testnet',
+    DesmosTestnet.chainName,
     {
       forbole: 'https://gql-morpheus.desmos.forbole.com',
       desmos: 'https://gql.morpheus.desmos.network',
     },
   ],
   [
-    'mainnet',
+    DesmosMainnet.chainName,
     {
       forbole: 'https://gql.desmos.forbole.com',
       desmos: 'https://gql.mainnet.desmos.network',
@@ -30,10 +29,10 @@ const gqlEndpoints = new Map<ChainId, DefaultEndpoints>([
   ],
 ]);
 
-const multiApiLink = (chainId: ChainId) => {
-  const endpoints = gqlEndpoints.get(chainId);
+const multiApiLink = (chainName: string) => {
+  const endpoints = gqlEndpoints.get(chainName);
   if (!endpoints) {
-    throw Error(`Undefined endpoints for chain id ${chainId}`);
+    throw Error(`Undefined endpoints for chain id ${chainName}`);
   }
 
   return ApolloLink.from([
@@ -53,17 +52,16 @@ const multiApiLink = (chainId: ChainId) => {
   ]);
 };
 
-const buildGraphQlClient = (chainId: ChainId) =>
+const buildGraphQlClient = (chainName: string) =>
   new ApolloClient({
     cache: new InMemoryCache(),
-    link: multiApiLink(chainId),
+    link: multiApiLink(chainName),
   });
 
 const useGraphQLClient = () => {
-  const [settings] = useRecoilState<AppSettings>(appSettingsState);
-  const { chainName } = settings;
+  const { chainName } = useSettings();
 
-  const defaultClient = buildGraphQlClient('testnet');
+  const defaultClient = buildGraphQlClient(DesmosTestnet.chainName);
   const [client, setClient] = useState<ApolloClient<NormalizedCacheObject>>(defaultClient);
 
   React.useEffect(() => {

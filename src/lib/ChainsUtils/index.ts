@@ -3,10 +3,13 @@ import SupportedChains from 'config/LinkableChains';
 import { WalletType } from 'types/wallet';
 import { AccountWithWallet } from 'types/account';
 import { bech32AddressToAny } from '@desmoslabs/desmjs/build/aminomessages/profiles';
-import {
-  Bech32Address,
-  ChainConfig,
-} from '@desmoslabs/desmjs-types/desmos/profiles/v3/models_chain_links';
+import { Bech32Address } from '@desmoslabs/desmjs-types/desmos/profiles/v3/models_chain_links';
+import { DesmosMainnet, DesmosTestnet } from '@desmoslabs/desmjs';
+
+/**
+ * List of chains that are currently supported within the Desmos wallet.
+ */
+export const SUPPORTED_CHAINS = [DesmosMainnet, DesmosTestnet];
 
 /**
  * Finds the details regarding a linkable chain from its chain name.
@@ -39,15 +42,6 @@ export const convertGraphQLChainLink = (chainLink: any) =>
     },
     creationTime: new Date(`${chainLink.creationTime}Z`),
   } as ChainLink);
-
-/**
- * Converts the given {@param chain} into a ChainConfig instance.
- * @param chain - Chain config to be converted.
- */
-export const getChainConfig = (chain: SupportedChain) =>
-  ({
-    name: chain.name,
-  } as ChainConfig);
 
 /**
  * Gets the address data to be used when linking an exteranl chain, based on the given
