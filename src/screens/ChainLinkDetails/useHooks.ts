@@ -1,8 +1,8 @@
 import { ChainLink } from 'types/chains';
-import { useRecoilState } from 'recoil';
-import activeAccountState from '@recoil/activeAccountState';
+import { useRecoilValue } from 'recoil';
+import { activeAccountAddress } from '@recoil/activeAccountState';
 
 export const useIsCurrentUserLink = (chainLink: ChainLink) => {
-  const [currentAddress] = useRecoilState(activeAccountState);
+  const currentAddress = useRecoilValue(activeAccountAddress);
   return currentAddress === chainLink.userAddress;
 };

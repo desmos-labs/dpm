@@ -11,12 +11,7 @@ import { FlatList, Text, TouchableOpacity } from 'react-native';
 import Spacer from 'components/Spacer';
 import useStyles from './useStyles';
 
-const routesToRender = [
-  ROUTES.LANDING,
-  ROUTES.CREATE_WALLET,
-  ROUTES.IMPORT_RECOVERY_PASSPHRASE,
-  ROUTES.PROFILE,
-];
+const routesToRender = [ROUTES.LANDING, ROUTES.CREATE_NEW_MNEMONIC, ROUTES.PROFILE, ROUTES.HOME];
 
 type NavProps = StackScreenProps<RootNavigatorParamList, ROUTES.DEV_SCREEN>;
 
