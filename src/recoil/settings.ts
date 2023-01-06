@@ -1,7 +1,7 @@
 import { getMMKV, MMKVKEYS, setMMKV } from 'lib/MMKVStorage';
 import { atom, useRecoilState, useRecoilValue } from 'recoil';
 import { AppSettings } from 'types/settings';
-import { findChainByName } from 'lib/ChainsUtils';
+import { findChainInfoByName } from 'lib/ChainsUtils';
 import { DesmosMainnet, DesmosTestnet } from '@desmoslabs/desmjs';
 
 /**
@@ -37,7 +37,7 @@ const appSettingsState = atom<AppSettings>({
 
 export const useCurrentChainInfo = () => {
   const settings = useSettings();
-  return findChainByName(settings.chainName);
+  return findChainInfoByName(settings.chainName);
 };
 
 export const useSettingsState = () => useRecoilState(appSettingsState);
