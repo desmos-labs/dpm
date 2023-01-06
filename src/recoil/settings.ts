@@ -38,7 +38,7 @@ const appSettingsState = atom<AppSettings>({
 
 export const useCurrentChainInfo = () => {
   const settings = useSettings();
-  return useMemo(() => findChainInfoByName(settings.chainName), [settings.chainName]);
+  return useMemo(() => findChainInfoByName(settings.chainName)!, [settings.chainName]);
 };
 
 export const useSettingsState = () => useRecoilState(appSettingsState);
