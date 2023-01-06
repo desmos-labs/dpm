@@ -122,10 +122,12 @@ const useConnectChain = (onSuccess: () => void) => {
   const saveChainLinkAccount = useSaveChainLinkAccount();
 
   const connectChain = useCallback(async () => {
-    const { chain, account } = await importAccount();
-    if (!account) {
+    const accountWithChain = await importAccount();
+    if (accountWithChain === undefined) {
       return;
     }
+
+    const { account, chain } = accountWithChain;
 
     const message = await generateMsgChainLink(chain, account);
     broadcastTx([message], {
