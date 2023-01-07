@@ -47,12 +47,10 @@ const getChainCurrencies = (): Currency[] =>
  * Formats the given value into a human-readable string.
  * @param value - Value to be formatted
  */
-export const formatNumber = (value: number): string => {
-  console.log(value);
-  return numbro(value).format({
+export const formatNumber = (value: number): string =>
+  numbro(value).format({
     thousandSeparated: true,
   });
-};
 
 /**
  * Formats the given amount into a human-readable value.

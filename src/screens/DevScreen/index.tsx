@@ -4,11 +4,14 @@ import React, { FC, useCallback } from 'react';
 import { StackScreenProps } from '@react-navigation/stack';
 import { RootNavigatorParamList } from 'navigation/RootNavigator';
 import ROUTES from 'navigation/routes';
-import { getAccounts } from '@recoil/accounts';
+import { useGetAccounts, useStoreAccount } from '@recoil/accounts';
 import Typography from 'components/Typography';
 import { FlatList, Text, TouchableOpacity } from 'react-native';
 import Spacer from 'components/Spacer';
-import { useUnlockWallet } from 'hooks/useUnlockWallet';
+import { useActiveAccountAddress, useSetActiveAccountAddress } from '@recoil/activeAccountState';
+import { MnemonicAccount } from 'types/account';
+import { DesmosHdPath } from 'types/chainsHdPaths';
+import { WalletType } from 'types/wallet';
 import useStyles from './useStyles';
 
 const routesToRender = [ROUTES.LANDING, ROUTES.CREATE_NEW_MNEMONIC, ROUTES.PROFILE, ROUTES.HOME];
@@ -19,8 +22,11 @@ const DevScreen: FC<NavProps> = ({ navigation }) => {
   const { navigate } = navigation;
   const styles = useStyles();
 
-  const accounts = getAccounts();
-  const unlockWallet = useUnlockWallet();
+  const accounts = useGetAccounts();
+  const activeAccountAddress = useActiveAccountAddress();
+
+  const setActiveAccountAddress = useSetActiveAccountAddress();
+  const storeAccount = useStoreAccount();
 
   const itemSeparator = React.useCallback(() => <Spacer paddingVertical={4} />, []);
 
@@ -39,15 +45,6 @@ const DevScreen: FC<NavProps> = ({ navigation }) => {
     </TouchableOpacity>
   );
 
-  const navigateToProfile = useCallback(
-    (address: string) => {
-      navigate(ROUTES.PROFILE, {
-        visitingProfile: address,
-      });
-    },
-    [navigate],
-  );
-
   const navigateToLandingPage = useCallback(() => {
     navigation.navigate({
       name: ROUTES.LANDING,
@@ -55,10 +52,16 @@ const DevScreen: FC<NavProps> = ({ navigation }) => {
     });
   }, [navigation]);
 
-  const testUnlockWallet = useCallback(async () => {
-    const wallet = await unlockWallet();
-    console.log('unlocked wallet', wallet);
-  }, [unlockWallet]);
+  const setActiveAccount = useCallback(async () => {
+    storeAccount({
+      walletType: WalletType.Mnemonic,
+      address: 'desmos1nm6kh6jwqmsezwtnmgdd4w4tzyk9f8gvqu5en0',
+      algo: 'secp256k1',
+      hdPath: DesmosHdPath,
+      pubKey: new Uint8Array(),
+    } as MnemonicAccount);
+    setActiveAccountAddress('desmos1nm6kh6jwqmsezwtnmgdd4w4tzyk9f8gvqu5en0');
+  }, [storeAccount, setActiveAccountAddress]);
 
   return (
     <StyledSafeAreaView>
@@ -72,32 +75,8 @@ const DevScreen: FC<NavProps> = ({ navigation }) => {
 
       <Spacer paddingVertical={4} />
 
-      <Button
-        mode="contained"
-        color="green"
-        onPress={() => navigateToProfile('desmos16c60y8t8vra27zjg2arlcd58dck9cwn7p6fwtd')}
-      >
-        Profile with chain links
-      </Button>
-
-      <Spacer paddingVertical={4} />
-
-      <Button
-        mode="contained"
-        color="orange"
-        onPress={() => navigateToProfile('desmos1rz9wvs95jsndxjpqhqndwa3urd930zrf7c5lcs')}
-      >
-        Profile without chain links
-      </Button>
-
-      <Spacer paddingVertical={4} />
-
-      <Button
-        mode="contained"
-        color="red"
-        onPress={() => navigateToProfile('desmos1jgv4e2rfd740hen27d805pxayzk4hpvekv92g9')}
-      >
-        Non existing profile
+      <Button mode="contained" color="blue" onPress={setActiveAccount}>
+        Set active account
       </Button>
 
       <Spacer paddingVertical={4} />
@@ -108,10 +87,7 @@ const DevScreen: FC<NavProps> = ({ navigation }) => {
 
       <Spacer paddingVertical={4} />
 
-      <Button mode="contained" onPress={testUnlockWallet}>
-        Unlock wallet
-      </Button>
-      <Spacer paddingVertical={4} />
+      <Typography.Caption>Address: {activeAccountAddress}</Typography.Caption>
       <Typography.Caption>Account: {Object.keys(accounts).length}</Typography.Caption>
     </StyledSafeAreaView>
   );

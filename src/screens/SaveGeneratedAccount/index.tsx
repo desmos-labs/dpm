@@ -10,8 +10,7 @@ import ROUTES from 'navigation/routes';
 import { AccountWithWallet } from 'types/account';
 import { useSaveAccount } from 'screens/SaveGeneratedAccount/useHooks';
 import { DPMImages } from 'types/images';
-import { useSetRecoilState } from 'recoil';
-import { activeAccountAddress } from '@recoil/activeAccountState';
+import { useSetActiveAccountAddress } from '@recoil/activeAccountState';
 import useStyles from './useStyles';
 
 export type SaveGeneratedAccountParams = {
@@ -26,7 +25,7 @@ const SaveGeneratedAccount = (props: NavProps) => {
   const { account, password } = props.route.params;
   const { t } = useTranslation();
   const styles = useStyles();
-  const setActiveAccountAddress = useSetRecoilState(activeAccountAddress);
+  const setActiveAccountAddress = useSetActiveAccountAddress();
   const { savingAccount, saveAccount, saveAccountError } = useSaveAccount();
 
   const generateAccount = useCallback(async () => {

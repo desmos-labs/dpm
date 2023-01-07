@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo } from 'react';
+import React, { useCallback } from 'react';
 import { DesmosProfile } from 'types/desmosTypes';
 import AvatarImage from 'components/AvatarImage';
 import { useNavigation } from '@react-navigation/native';
@@ -21,10 +21,9 @@ const AccountProfilePic = (props: AccountProfilePicProps) => {
     navigation.navigate(ROUTES.PROFILE, {});
   }, [navigation]);
 
-  const imageSource = useMemo(
-    () => (profile?.profilePicture ? { uri: profile?.profilePicture } : defaultProfilePicture),
-    [profile],
-  );
+  const imageSource = profile?.profilePicture
+    ? { uri: profile?.profilePicture }
+    : defaultProfilePicture;
 
   return (
     <AvatarImage

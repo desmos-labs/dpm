@@ -7,8 +7,7 @@ import { RootNavigatorParamList } from 'navigation/RootNavigator';
 import ROUTES from 'navigation/routes';
 import useProfileDataQueries from 'screens/Profile/useProfileDataQueries';
 import { useNavigation, useRoute } from '@react-navigation/native';
-import { useRecoilValue } from 'recoil';
-import { activeAccountAppState } from '@recoil/activeAccountState';
+import { useActiveAccount } from '@recoil/activeAccountState';
 import EditProfileButton from 'screens/Profile/components/EditProfileButton';
 import ProfileData from './components/ProfileData';
 import useStyles from './useStyles';
@@ -30,7 +29,7 @@ const Profile = () => {
   const theme = useTheme();
 
   const visitingProfile = params?.visitingProfile;
-  const activeAccount = useRecoilValue(activeAccountAppState);
+  const activeAccount = useActiveAccount();
   const profileAddress = useMemo(() => {
     if (visitingProfile) {
       return visitingProfile;
@@ -55,7 +54,7 @@ const Profile = () => {
         rightElement={EditProfileBtn}
       />
     ),
-    [navigation],
+    [EditProfileBtn, navigation, styles, theme],
   );
 
   return (

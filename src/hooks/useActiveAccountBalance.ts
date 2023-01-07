@@ -2,16 +2,13 @@ import { useQuery } from '@apollo/client';
 import GetAccountBalance from 'services/graphql/queries/GetAccountBalance';
 import { useMemo } from 'react';
 import { Coin } from '@cosmjs/amino';
-import { activeAccountAddress } from '@recoil/activeAccountState';
-import { useRecoilValue } from 'recoil';
+import { useActiveAccountAddress } from '@recoil/activeAccountState';
 
 /**
  * Hook that allows to get the account balance for the currently active account.
  */
 const useActiveAccountBalance = () => {
-  // TODO: Replace this with useActiveAccount() instead
-  const address = useRecoilValue(activeAccountAddress);
-
+  const address = useActiveAccountAddress();
   const { data, loading, refetch } = useQuery(GetAccountBalance, {
     variables: { address: address || 'undefined' },
     fetchPolicy: 'no-cache',

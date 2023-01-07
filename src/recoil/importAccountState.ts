@@ -5,7 +5,7 @@ import { LedgerApp } from 'types/ledger';
 import { atom } from 'recoil';
 import { HdPath } from '@cosmjs/crypto';
 
-export interface ImportAccountAtom {
+export interface ImportAccountState {
   /**
    * Chains from which the account can be imported.
    */
@@ -44,9 +44,9 @@ export interface ImportAccountAtom {
 /**
  * Atom that contains the import account state.
  */
-const importAccountAppState = atom<ImportAccountAtom | undefined>({
+const importAccountState = atom<ImportAccountState | undefined>({
   key: 'importAccountState',
   default: undefined,
 });
 
-export default importAccountAppState;
+export default importAccountState;

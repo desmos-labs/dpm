@@ -1,17 +1,13 @@
-import {
-  selectorFamily,
-  useRecoilRefresher_UNSTABLE,
-  useRecoilValueLoadable,
-} from 'recoil';
+import { selectorFamily, useRecoilRefresher_UNSTABLE, useRecoilValueLoadable } from 'recoil';
 import GetConnectedApps from 'services/graphql/queries/GetConnectedApps';
 import useGraphQLClient from 'services/graphql/client';
-import {ConnectedApp} from 'types/app';
+import { ConnectedApp } from 'types/app';
 
 const connectedAppsState = selectorFamily<ConnectedApp[], string>({
   key: 'connectedApps',
   get: (address: string) => async () => {
     const client = useGraphQLClient();
-    const {data} = await client.query({
+    const { data } = await client.query({
       query: GetConnectedApps,
       variables: {
         address,
@@ -25,15 +21,11 @@ const connectedAppsState = selectorFamily<ConnectedApp[], string>({
 
 // eslint-disable-next-line import/prefer-default-export
 export const useApplicationLinks = (address: string) => {
-  const appLinksSelector = useRecoilValueLoadable<ConnectedApp[]>(
-    connectedAppsState(address),
-  );
+  const appLinksSelector = useRecoilValueLoadable<ConnectedApp[]>(connectedAppsState(address));
 
-  const refetchAppLinks = useRecoilRefresher_UNSTABLE(
-    connectedAppsState(address),
-  );
+  const refetchAppLinks = useRecoilRefresher_UNSTABLE(connectedAppsState(address));
 
-  const {state, contents} = appLinksSelector;
+  const { state, contents } = appLinksSelector;
 
   return {
     loading: state === 'loading',

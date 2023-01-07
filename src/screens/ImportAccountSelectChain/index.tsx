@@ -11,14 +11,13 @@ import { RootNavigatorParamList } from 'navigation/RootNavigator';
 import ROUTES from 'navigation/routes';
 import useOnBackAction from 'hooks/useOnBackAction';
 import { useRecoilState } from 'recoil';
-import importAccountAppState from '@recoil/importAccount';
 import { getChainSupportedWalletTypes } from 'lib/ChainsUtils';
 import useStyles from './useStyles';
 
 export type NavProps = StackScreenProps<RootNavigatorParamList, ROUTES.IMPORT_ACCOUNT_SELECT_CHAIN>;
 
 const ImportAccountSelectChain: React.FC<NavProps> = ({ navigation, route }) => {
-  const [importAccountState, setImportAccountState] = useRecoilState(importAccountAppState)!;
+  const [importAccountState, setImportAccountState] = useRecoilState(importAccountState)!;
   const { chains, onCancel } = importAccountState!;
   const { t } = useTranslation();
   const styles = useStyles();

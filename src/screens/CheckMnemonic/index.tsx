@@ -12,8 +12,7 @@ import { RootNavigatorParamList } from 'navigation/RootNavigator';
 import ROUTES from 'navigation/routes';
 import { WalletPickerMode } from 'screens/SelectAccount/components/AccountPicker/types';
 import { DesmosHdPath } from 'types/chainsHdPaths';
-import { useRecoilValue } from 'recoil';
-import { accountsHdPathsAppState } from '@recoil/accounts';
+import { useGetAccountsHDPaths } from '@recoil/accounts';
 import { useSaveAccount } from 'hooks/useSaveAccount';
 import { useSelectAccount } from 'hooks/useSelectAccount';
 import useStyles from './useStyles';
@@ -38,7 +37,7 @@ const CheckMnemonic: FC<NavProps> = (props) => {
   const words = useMemo(() => _.shuffle(receivedMnemonic.split(' ')), [receivedMnemonic]);
   const [selectedWords, setSelectedWords] = useState<string[]>([]);
   const [availableWords, setAvailableWords] = useState<string[]>([...words]);
-  const accountsHdPaths = useRecoilValue(accountsHdPathsAppState);
+  const accountsHdPaths = useGetAccountsHDPaths();
   const { saveAccount } = useSaveAccount();
   const { selectAccount } = useSelectAccount();
 

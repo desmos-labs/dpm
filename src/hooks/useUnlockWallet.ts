@@ -5,8 +5,7 @@ import { RootNavigatorParamList } from 'navigation/RootNavigator';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { Wallet } from 'types/wallet';
 import ROUTES from 'navigation/routes';
-import { useRecoilValue } from 'recoil';
-import { activeAccountAppState } from '@recoil/activeAccountState';
+import { useActiveAccount } from '@recoil/activeAccountState';
 
 /**
  * Hooks that provides a function to unlock and access the user wallet.
@@ -16,7 +15,7 @@ import { activeAccountAppState } from '@recoil/activeAccountState';
 export const useUnlockWallet = (address?: string) => {
   const { returnToCurrentScreen } = useReturnToCurrentScreen();
   const navigator = useNavigation<StackNavigationProp<RootNavigatorParamList>>();
-  const activeAccount = useRecoilValue(activeAccountAppState);
+  const activeAccount = useActiveAccount();
 
   // Address of the wallet to unlock.
   const toUnlockAddress = useMemo(

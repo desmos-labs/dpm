@@ -14,6 +14,7 @@ import { homeBackgroundDark, homeBackgroundLight } from 'assets/images';
 import useActiveProfile from '@recoil/activeProfileState';
 import AccountProfilePic from 'screens/Home/components/AccountProfilePic';
 import { useActiveAccount } from '@recoil/activeAccountState';
+import useActiveAccountBalance from 'hooks/useActiveAccountBalance';
 import useStyles from './useStyles';
 import AccountBalance from './components/AccountBalance';
 
@@ -32,7 +33,12 @@ const Home: React.FC<NavProps> = (props) => {
   const settings = useSettings();
 
   const account = useActiveAccount()!;
-  const { profile } = useActiveProfile();
+  const { profile, refetch: updateProfile } = useActiveProfile();
+  const { balance, loading: balanceLoading } = useActiveAccountBalance();
+
+  React.useEffect(() => {
+    updateProfile();
+  }, [updateProfile]);
 
   return (
     <StyledSafeAreaView padding={0} noIosPadding>
@@ -59,7 +65,13 @@ const Home: React.FC<NavProps> = (props) => {
       />
 
       {/* Account balance */}
-      <AccountBalance style={styles.userBalance} account={account} profile={profile} />
+      <AccountBalance
+        style={styles.userBalance}
+        account={account}
+        profile={profile}
+        balance={balance}
+        loading={balanceLoading}
+      />
 
       {/* Transactions list */}
       <View style={styles.transactionsContainer}>

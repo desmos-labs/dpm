@@ -10,14 +10,13 @@ import ROUTES from 'navigation/routes';
 import { useSaveAccount } from 'hooks/useSaveAccount';
 import { useImportAccount } from 'hooks/useImportAccount';
 import { DesmosChain } from 'config/LinkableChains';
-import { useRecoilValue } from 'recoil';
-import { accountsHdPathsAppState } from '@recoil/accounts';
+import { useGetAccountsHDPaths } from '@recoil/accounts';
 import useStyles from './useStyles';
 
 export type NavProps = StackScreenProps<RootNavigatorParamList, ROUTES.LANDING>;
 
 const Landing = ({ navigation }: NavProps) => {
-  const accountsHdPaths = useRecoilValue(accountsHdPathsAppState);
+  const accountsHdPaths = useGetAccountsHDPaths();
   const { importAccount } = useImportAccount([DesmosChain], accountsHdPaths);
   const { saveAccount } = useSaveAccount();
   const { t } = useTranslation();

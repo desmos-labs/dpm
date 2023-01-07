@@ -7,7 +7,7 @@ import ROUTES from 'navigation/routes';
 import { AccountWithWallet } from 'types/account';
 import { SupportedChain } from 'types/chains';
 import { useRecoilState } from 'recoil';
-import importAccountAppState from '@recoil/importAccount';
+import importAccountState from '@recoil/importAccountState';
 import { getChainSupportedWalletTypes } from 'lib/ChainsUtils';
 import { useReturnToCurrentScreen } from 'hooks/useReturnToCurrentScreen';
 
@@ -26,7 +26,7 @@ type AccountWithWalletAndChain = {
  */
 export const useImportAccount = (chains: SupportedChain[], ignoreHdPaths?: HdPath[]) => {
   const navigation = useNavigation<StackNavigationProp<RootNavigatorParamList>>();
-  const [, setImportAccountState] = useRecoilState(importAccountAppState);
+  const [, setImportAccountState] = useRecoilState(importAccountState);
   const { returnToCurrentScreen } = useReturnToCurrentScreen();
 
   const importAccount = useCallback(async (): Promise<AccountWithWalletAndChain | undefined> => {

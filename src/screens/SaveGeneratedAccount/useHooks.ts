@@ -1,7 +1,5 @@
 import { useCallback, useState } from 'react';
-import { Account, AccountWithWallet } from 'types/account';
-import { useRecoilState } from 'recoil';
-import { accountsAppState } from '@recoil/accounts';
+import { AccountWithWallet } from 'types/account';
 import {
   deleteItem,
   deleteWallet,
@@ -9,9 +7,11 @@ import {
   saveWallet,
   SECURE_STORAGE_KEYS,
 } from 'lib/SecureStorage';
+import { useGetAccounts, useStoreAccount } from '@recoil/accounts';
 
 export const useSaveAccount = () => {
-  const [accounts, setAccounts] = useRecoilState(accountsAppState);
+  const accounts = useGetAccounts();
+  const storeAccount = useStoreAccount();
   const [savingAccount, setSavingAccount] = useState(false);
   const [saveAccountError, setError] = useState<string>();
 
@@ -21,22 +21,12 @@ export const useSaveAccount = () => {
       try {
         setSavingAccount(true);
         setError(undefined);
-        const operations: Promise<any>[] = [];
-        // Save the wallet
-        operations.push(saveWallet(wallet, password));
+
+        await saveWallet(wallet, password);
         if (savingFirstAccount) {
-          operations.push(savePasswordChallenge(password));
+          await savePasswordChallenge(password);
         }
-        // Update the accounts
-        setAccounts((oldValue) => {
-          const newValue: Record<string, Account> = {
-            ...oldValue,
-          };
-          newValue[account.address] = account;
-          return newValue;
-        });
-        await Promise.all(operations);
-        setSavingAccount(false);
+        storeAccount(account);
       } catch (e) {
         console.error(e);
 
@@ -46,12 +36,13 @@ export const useSaveAccount = () => {
         }
         deleteWallet(wallet.address);
 
-        setSavingAccount(false);
         setError(e.toString());
         throw e;
+      } finally {
+        setSavingAccount(false);
       }
     },
-    [setAccounts, accounts],
+    [accounts, storeAccount],
   );
 
   return {

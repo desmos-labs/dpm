@@ -11,7 +11,6 @@ import ListItemSeparator from 'components/ListItemSeparator';
 import { RootNavigatorParamList } from 'navigation/RootNavigator';
 import ROUTES from 'navigation/routes';
 import { useRecoilState } from 'recoil';
-import importAccountAppState from '@recoil/importAccount';
 import { CosmosLedgerApp, CryptoOrgLedgerApp, DesmosLedgerApp } from 'config/LedgerApps';
 import { CryptoDotOrgChain, DesmosChain } from 'config/LinkableChains';
 import { useConnectToLedger } from 'hooks/useConnectToLedger';
@@ -22,7 +21,7 @@ import useStyles from './useStyles';
 type NavProps = StackScreenProps<RootNavigatorParamList, ROUTES.IMPORT_ACCOUNT_SELECT_LEDGER_APP>;
 
 const ImportAccountSelectLedgerApp: React.FC<NavProps> = ({ navigation }) => {
-  const [importAccountState] = useRecoilState(importAccountAppState);
+  const [importAccountState] = useRecoilState(importAccountState);
   const { ignoreHdPaths, selectedChain, onSuccess } = importAccountState!;
   const { connectToLedger } = useConnectToLedger();
   const { selectAccount } = useSelectAccount();

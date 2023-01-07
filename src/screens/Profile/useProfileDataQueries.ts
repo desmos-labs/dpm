@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import { useMemo } from 'react';
 import useActiveProfile from '@recoil/activeProfileState';
 import useProfileDataGivenAddress from 'hooks/useProfileDataGivenAddress';
 
@@ -17,11 +17,6 @@ const useProfileDataQueries = (visitingProfileAddress?: string) => {
     }
     return 'myProfile';
   }, [visitingProfileAddress]);
-
-  // Refetch the data
-  React.useEffect(() => {
-    refetchProfile();
-  });
 
   return {
     profile,

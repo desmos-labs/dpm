@@ -1,4 +1,5 @@
-import { atom, selector, useRecoilValue } from 'recoil';
+import React from 'react';
+import { atom, selector, useRecoilState, useRecoilValue } from 'recoil';
 import { getMMKV, MMKVKEYS, setMMKV } from 'lib/MMKVStorage';
 import { Account } from 'types/account';
 import { HdPath } from '@cosmjs/crypto';
@@ -24,7 +25,7 @@ export const accountsAppState = atom<Record<string, Account>>({
 /**
  * An atom that holds all the accounts addresses.
  */
-export const accountsHdPathsAppState = selector<HdPath[]>({
+const accountsHdPathsAppState = selector<HdPath[]>({
   key: 'accountsAddresses',
   get: ({ get }) => {
     const accounts = get(accountsAppState);
@@ -42,4 +43,31 @@ export const accountsHdPathsAppState = selector<HdPath[]>({
   },
 });
 
-export const getAccounts = () => useRecoilValue(accountsAppState);
+/**
+ * Hook that allows to get the currently stored accounts HD paths.
+ */
+export const useGetAccountsHDPaths = () => useRecoilValue(accountsHdPathsAppState);
+
+/**
+ * Hook that allows to store a new account inside the app state.
+ */
+export const useStoreAccount = () => {
+  const [, setAccounts] = useRecoilState(accountsAppState);
+  return React.useCallback(
+    (account: Account) => {
+      setAccounts((curValue) => {
+        const newValue: Record<string, Account> = {
+          ...curValue,
+        };
+        newValue[account.address] = account;
+        return newValue;
+      });
+    },
+    [setAccounts],
+  );
+};
+
+/**
+ * Hook that allows to get the accounts stored on the device.
+ */
+export const useGetAccounts = () => useRecoilValue(accountsAppState);

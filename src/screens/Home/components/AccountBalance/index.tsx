@@ -8,31 +8,32 @@ import CopyButton from 'components/CopyButton';
 import { Account } from 'types/account';
 import { DesmosProfile } from 'types/desmosTypes';
 import { formatCoins, formatHiddenValue } from 'lib/FormatUtils';
-import useActiveAccountBalance from 'hooks/useActiveAccountBalance';
 import { ActivityIndicator } from 'react-native-paper';
 import { useNavigation } from '@react-navigation/native';
 import { StackNavigationProp } from '@react-navigation/stack';
 import ROUTES from 'navigation/routes';
 import { RootNavigatorParamList } from 'navigation/RootNavigator';
+import { Coin } from '@cosmjs/amino';
 import useStyles from './useStyles';
 
 export type AccountBalanceProps = {
   account: Account;
   profile: DesmosProfile | undefined;
+  balance: Coin[];
+  loading: boolean;
   style?: StyleProp<ViewStyle>;
 };
 
 const AccountBalance: React.FC<AccountBalanceProps> = (props) => {
-  const { account, profile, style } = props;
+  const { account, profile, balance, loading, style } = props;
   const { t } = useTranslation();
   const styles = useStyles();
   const navigation = useNavigation<StackNavigationProp<RootNavigatorParamList>>();
   const [settings, setSettings] = useSettingsState();
 
-  const nickname = useMemo(() => profile?.nickname, [profile]);
-  const address = useMemo(() => profile?.address || account.address, [account, profile]);
+  const nickname = profile?.nickname;
+  const address = profile?.address || account.address;
 
-  const { balance, loading } = useActiveAccountBalance();
   const balanceValue = useMemo(() => {
     const value = formatCoins(balance);
     return settings.balanceHidden ? formatHiddenValue(value) : value;
@@ -43,11 +44,11 @@ const AccountBalance: React.FC<AccountBalanceProps> = (props) => {
       ...settings,
       balanceHidden: !settings.balanceHidden,
     });
-  }, [settings]);
+  }, [setSettings, settings]);
 
   const onSendPressed = useCallback(() => {
     navigation.navigate(ROUTES.SEND_TOKENS);
-  }, []);
+  }, [navigation]);
 
   return (
     <View style={[styles.root, style]}>

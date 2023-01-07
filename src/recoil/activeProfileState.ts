@@ -1,40 +1,49 @@
-import { useLazyQuery } from '@apollo/client';
 import React from 'react';
-import { atom, useRecoilState } from 'recoil';
+import { useLazyQuery } from '@apollo/client';
+import { selector, useRecoilValue } from 'recoil';
 import GetProfileForAddress from 'services/graphql/queries/GetProfileForAddress';
-import { defaultDesmosProfile, DesmosProfile } from 'types/desmosTypes';
-import { activeAccountAddress } from '@recoil/activeAccountState';
+import { DesmosProfile } from 'types/desmosTypes';
+import { activeAccountAddressAppState, useActiveAccountAddress } from '@recoil/activeAccountState';
+import { profilesAppState, useStoreProfile } from '@recoil/profiles';
 
 /**
- * An atom to hold account data of the user's selected profile
- * This should not be confused with the profiles atom, which contains data
- * for ALL of the profiles stored on the user's device
+ * An atom to hold profile data of the user's selected account.
+ * This should not be confused with the profiles' atom, which contains data
+ * for ALL the profiles stored on the user's device
  */
-export const activeProfileState = atom<DesmosProfile | undefined>({
+const activeProfileAppState = selector<DesmosProfile | undefined>({
   key: 'activeProfile',
-  default: undefined,
+  get: ({ get }) => {
+    const profiles = get(profilesAppState);
+    const selectedAccountAddress = get(activeAccountAddressAppState);
+    return selectedAccountAddress && profiles ? profiles[selectedAccountAddress] : undefined;
+  },
 });
 
 const useActiveProfile = () => {
-  const [address] = useRecoilState(activeAccountAddress);
-  const [activeProfile, setActiveProfile] = useRecoilState(activeProfileState);
+  const activeAddress = useActiveAccountAddress();
+  const storeProfile = useStoreProfile();
+  const activeProfile = useRecoilValue(activeProfileAppState);
+
   const [, { loading, refetch }] = useLazyQuery(GetProfileForAddress, {
-    variables: { address },
+    variables: { address: activeAddress },
     fetchPolicy: 'no-cache',
   });
 
   const fetchActiveProfile = React.useCallback(async () => {
-    const { data } = await refetch({ address });
+    if (!activeAddress) {
+      return;
+    }
+
+    const { data } = await refetch({ address: activeAddress });
     if (!data) {
-      const profile = defaultDesmosProfile(address!);
-      setActiveProfile(profile);
       return;
     }
 
     const { profile } = data;
     const [firstProfile] = profile;
-    setActiveProfile(firstProfile);
-  }, [address]);
+    storeProfile(firstProfile);
+  }, [activeAddress, refetch, storeProfile]);
 
   return {
     profile: activeProfile,
