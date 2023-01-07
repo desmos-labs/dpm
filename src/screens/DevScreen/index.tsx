@@ -9,7 +9,6 @@ import Typography from 'components/Typography';
 import { FlatList, Text, TouchableOpacity } from 'react-native';
 import Spacer from 'components/Spacer';
 import { useUnlockWallet } from 'hooks/useUnlockWallet';
-import { useCurrentChainInfo } from '@recoil/settings';
 import useStyles from './useStyles';
 
 const routesToRender = [ROUTES.LANDING, ROUTES.CREATE_NEW_MNEMONIC, ROUTES.PROFILE, ROUTES.HOME];
@@ -22,7 +21,6 @@ const DevScreen: FC<NavProps> = ({ navigation }) => {
 
   const accounts = getAccounts();
   const unlockWallet = useUnlockWallet();
-  const chainInfo = useCurrentChainInfo();
 
   const itemSeparator = React.useCallback(() => <Spacer paddingVertical={4} />, []);
 
@@ -77,7 +75,7 @@ const DevScreen: FC<NavProps> = ({ navigation }) => {
       <Button
         mode="contained"
         color="green"
-        onPress={navigateToProfile('desmos16c60y8t8vra27zjg2arlcd58dck9cwn7p6fwtd')}
+        onPress={() => navigateToProfile('desmos16c60y8t8vra27zjg2arlcd58dck9cwn7p6fwtd')}
       >
         Profile with chain links
       </Button>
@@ -87,7 +85,7 @@ const DevScreen: FC<NavProps> = ({ navigation }) => {
       <Button
         mode="contained"
         color="orange"
-        onPress={navigateToProfile('desmos1rz9wvs95jsndxjpqhqndwa3urd930zrf7c5lcs')}
+        onPress={() => navigateToProfile('desmos1rz9wvs95jsndxjpqhqndwa3urd930zrf7c5lcs')}
       >
         Profile without chain links
       </Button>
@@ -97,7 +95,7 @@ const DevScreen: FC<NavProps> = ({ navigation }) => {
       <Button
         mode="contained"
         color="red"
-        onPress={navigateToProfile('desmos1jgv4e2rfd740hen27d805pxayzk4hpvekv92g9')}
+        onPress={() => navigateToProfile('desmos1jgv4e2rfd740hen27d805pxayzk4hpvekv92g9')}
       >
         Non existing profile
       </Button>
