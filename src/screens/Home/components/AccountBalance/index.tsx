@@ -26,7 +26,7 @@ export type AccountBalanceProps = {
 
 const AccountBalance: React.FC<AccountBalanceProps> = (props) => {
   const { account, profile, balance, loading, style } = props;
-  const { t } = useTranslation();
+  const { t } = useTranslation('common');
   const styles = useStyles();
   const navigation = useNavigation<StackNavigationProp<RootNavigatorParamList>>();
   const [settings, setSettings] = useSettingsState();

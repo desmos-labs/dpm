@@ -4,14 +4,11 @@ import React, { FC, useCallback } from 'react';
 import { StackScreenProps } from '@react-navigation/stack';
 import { RootNavigatorParamList } from 'navigation/RootNavigator';
 import ROUTES from 'navigation/routes';
-import { useGetAccounts, useStoreAccount } from '@recoil/accounts';
+import { useGetAccounts } from '@recoil/accounts';
 import Typography from 'components/Typography';
 import { FlatList, Text, TouchableOpacity } from 'react-native';
 import Spacer from 'components/Spacer';
-import { useActiveAccountAddress, useSetActiveAccountAddress } from '@recoil/activeAccountState';
-import { MnemonicAccount } from 'types/account';
-import { DesmosHdPath } from 'types/chainsHdPaths';
-import { WalletType } from 'types/wallet';
+import { useActiveAccountAddress } from '@recoil/activeAccountState';
 import useStyles from './useStyles';
 
 const routesToRender = [ROUTES.LANDING, ROUTES.CREATE_NEW_MNEMONIC, ROUTES.PROFILE, ROUTES.HOME];
@@ -24,9 +21,6 @@ const DevScreen: FC<NavProps> = ({ navigation }) => {
 
   const accounts = useGetAccounts();
   const activeAccountAddress = useActiveAccountAddress();
-
-  const setActiveAccountAddress = useSetActiveAccountAddress();
-  const storeAccount = useStoreAccount();
 
   const itemSeparator = React.useCallback(() => <Spacer paddingVertical={4} />, []);
 
@@ -52,17 +46,6 @@ const DevScreen: FC<NavProps> = ({ navigation }) => {
     });
   }, [navigation]);
 
-  const setActiveAccount = useCallback(async () => {
-    storeAccount({
-      walletType: WalletType.Mnemonic,
-      address: 'desmos1nm6kh6jwqmsezwtnmgdd4w4tzyk9f8gvqu5en0',
-      algo: 'secp256k1',
-      hdPath: DesmosHdPath,
-      pubKey: new Uint8Array(),
-    } as MnemonicAccount);
-    setActiveAccountAddress('desmos1nm6kh6jwqmsezwtnmgdd4w4tzyk9f8gvqu5en0');
-  }, [storeAccount, setActiveAccountAddress]);
-
   return (
     <StyledSafeAreaView>
       <FlatList
@@ -72,12 +55,6 @@ const DevScreen: FC<NavProps> = ({ navigation }) => {
         renderItem={renderItem}
         ItemSeparatorComponent={itemSeparator}
       />
-
-      <Spacer paddingVertical={4} />
-
-      <Button mode="contained" color="blue" onPress={setActiveAccount}>
-        Set active account
-      </Button>
 
       <Spacer paddingVertical={4} />
 

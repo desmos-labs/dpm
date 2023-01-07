@@ -1,18 +1,17 @@
-import { useUnlockWallet } from 'hooks/useUnlockWallet';
 import { useCallback } from 'react';
 import { MsgSendEncodeObject } from '@cosmjs/stargate';
 import { useCurrentChainInfo } from '@recoil/settings';
 import useBroadcastTx, { BroadcastTxCallbacks } from 'hooks/useBroadcastTx';
+import { useActiveAccount } from '@recoil/activeAccountState';
 
 const useSendTokens = (callbacks: BroadcastTxCallbacks) => {
   const chainInfo = useCurrentChainInfo();
-  const unlockWallet = useUnlockWallet();
+  const activeAccount = useActiveAccount();
   const broadcastTx = useBroadcastTx();
 
   return useCallback(
     async (toAddress: string, amount: number, memo?: string) => {
-      const wallet = await unlockWallet();
-      if (!wallet || !chainInfo) {
+      if (!activeAccount || !chainInfo) {
         return;
       }
 
@@ -20,7 +19,7 @@ const useSendTokens = (callbacks: BroadcastTxCallbacks) => {
       const msgSend: MsgSendEncodeObject = {
         typeUrl: '/cosmos.bank.v1beta1.MsgSend',
         value: {
-          fromAddress: wallet.address,
+          fromAddress: activeAccount.address,
           toAddress,
           amount: [
             {
@@ -34,7 +33,7 @@ const useSendTokens = (callbacks: BroadcastTxCallbacks) => {
       // Broadcast transaction
       await broadcastTx([msgSend], { memo, ...callbacks });
     },
-    [unlockWallet, chainInfo, broadcastTx, callbacks],
+    [activeAccount, chainInfo, broadcastTx, callbacks],
   );
 };
 

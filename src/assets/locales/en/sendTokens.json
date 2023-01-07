@@ -1,0 +1,9 @@
+{
+  "recipient address": "Recipient address",
+  "amount": "Amount",
+  "insert address": "Insert address",
+  "insert amount": "Insert amount",
+  "max": "Max",
+  "tx note": "Note (memo)",
+  "tx description": "Description (optional)"
+}

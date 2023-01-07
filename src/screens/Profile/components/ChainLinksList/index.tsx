@@ -8,6 +8,9 @@ import Button from 'components/Button';
 import ListItemSeparator from 'components/ListItemSeparator';
 import { ChainLink } from 'types/chains';
 import { DPMImages } from 'types/images';
+import useShowModal from 'hooks/useShowModal';
+import SingleButtonModal from 'modals/SingleButtonModal';
+import { useNavigation } from '@react-navigation/native';
 import ChainLinkItem from '../ChainLinkItem';
 import useStyles from './useStyles';
 import useConnectChain from './useHooks';
@@ -20,13 +23,24 @@ export interface ChainConnectionsProps {
 
 const ChainLinksList: React.FC<ChainConnectionsProps> = (props: ChainConnectionsProps) => {
   const { t } = useTranslation();
+  const navigation = useNavigation();
   const { canEdit, chainLinks, loading } = props;
   const hasConnections = chainLinks.length !== 0;
   const styles = useStyles();
 
+  const showModal = useShowModal();
+
   const onChainConnected = useCallback(() => {
-    console.log('ChainLinksList - Implement onChainConnected');
-  }, []);
+    showModal(SingleButtonModal, {
+      title: t('chain linked'),
+      message: t('chain link created successfully'),
+      action: () => {
+        navigation.goBack();
+      },
+      actionLabel: t('ok'),
+      image: DPMImages.Success,
+    });
+  }, [navigation, showModal, t]);
 
   const { connectChain } = useConnectChain(onChainConnected);
 
@@ -56,7 +70,7 @@ const ChainLinksList: React.FC<ChainConnectionsProps> = (props: ChainConnections
         </Button>
       </View>
     );
-  }, [canEdit]);
+  }, [canEdit, connectChain, styles, t]);
 
   return (
     <View style={styles.root}>

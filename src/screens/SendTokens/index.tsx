@@ -21,7 +21,7 @@ import useSendTokens from './useHooks';
 export type NavProps = StackScreenProps<RootNavigatorParamList, ROUTES.SEND_TOKENS>;
 
 const SendTokens = () => {
-  const { t } = useTranslation();
+  const { t } = useTranslation(['sendTokens', 'common']);
   const styles = useStyles();
   const navigation = useNavigation();
 
@@ -68,21 +68,14 @@ const SendTokens = () => {
   /**
    * Called when the transaction has been sent successfully
    */
-  const onSendSuccess = () => {
-    console.log('SendTokens - transaction success');
-    // TODO: Probable better add a popup here to inform the user
-    navigation.goBack();
-  };
+  const onSendSuccess = useCallback(() => {
+    // Clean all the inputs
+    setAddress('');
+    setAmount('');
+    setMemo('');
+  }, []);
 
-  /**
-   * Called when there is an error during the broadcast of the transaction;
-   */
-  const onSendError = () => {
-    console.log('SendTokens - transaction error');
-    // TODO: Probable better show a popup to inform the user
-  };
-
-  const sendTokens = useSendTokens({ onSuccess: onSendSuccess, onError: onSendError });
+  const sendTokens = useSendTokens({ onSuccess: onSendSuccess });
   const onNextPressed = useCallback(async () => {
     await sendTokens(address, safePartFloat(amount) * 1_000_000, memo);
   }, [address, amount, memo, sendTokens]);
@@ -115,7 +108,7 @@ const SendTokens = () => {
 
       {/* Spendable amount */}
       <View style={styles.spendableContainer}>
-        <Typography.Body>{t('available')}:</Typography.Body>
+        <Typography.Body>{t('available', { ns: 'common' })}:</Typography.Body>
         {!loading && spendable && (
           <Typography.Body style={styles.spendableAmountValue}>
             {formatCoin(spendable)}
@@ -140,7 +133,7 @@ const SendTokens = () => {
 
       {/* Send button */}
       <Button mode="contained" disabled={!sendEnabled} onPress={onNextPressed}>
-        {t('next')}
+        {t('next', { ns: 'common' })}
       </Button>
     </StyledSafeAreaView>
   );
