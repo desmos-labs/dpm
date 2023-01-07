@@ -14,8 +14,9 @@ import Button from 'components/Button';
 import { RootNavigatorParamList } from 'navigation/RootNavigator';
 import ROUTES from 'navigation/routes';
 import { WalletPickerMode } from 'screens/SelectAccount/components/AccountPicker/types';
-import { useRecoilState } from 'recoil';
+import { useRecoilValue } from 'recoil';
 import { useSelectAccount } from 'hooks/useSelectAccount';
+import importAccountAppState from '@recoil/importAccountState';
 import useStyles from './useStyles';
 
 declare type NavProps = StackScreenProps<
@@ -24,7 +25,7 @@ declare type NavProps = StackScreenProps<
 >;
 
 const ImportAccountFromMnemonic: FC<NavProps> = (props) => {
-  const [importAccountState] = useRecoilState(importAccountState);
+  const importAccountState = useRecoilValue(importAccountAppState);
   const { ignoreHdPaths, selectedChain, onSuccess } = importAccountState!;
   const styles = useStyles();
   const { t } = useTranslation();

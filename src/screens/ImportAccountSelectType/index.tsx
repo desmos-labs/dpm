@@ -11,13 +11,14 @@ import { WalletType } from 'types/wallet';
 import { FlatList, ListRenderItemInfo } from 'react-native';
 import useOnBackAction from 'hooks/useOnBackAction';
 import { useRecoilState } from 'recoil';
+import importAccountAppState from '@recoil/importAccountState';
 import useStyles from './useStyles';
 import ImageButton from './components/ImageButton';
 
 type NavProps = StackScreenProps<RootNavigatorParamList, ROUTES.IMPORT_ACCOUNT_SELECT_TYPE>;
 
 const ImportAccountSelectType: React.FC<NavProps> = ({ navigation, route }) => {
-  const [importAccountState, setImportAccountState] = useRecoilState(importAccountState);
+  const [importAccountState, setImportAccountState] = useRecoilState(importAccountAppState);
   const { onCancel, chains, supportedImportMode } = importAccountState!;
   const { t } = useTranslation();
   const styles = useStyles();

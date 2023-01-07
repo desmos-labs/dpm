@@ -16,12 +16,13 @@ import { CryptoDotOrgChain, DesmosChain } from 'config/LinkableChains';
 import { useConnectToLedger } from 'hooks/useConnectToLedger';
 import { useSelectAccount } from 'hooks/useSelectAccount';
 import { WalletPickerMode } from 'screens/SelectAccount/components/AccountPicker/types';
+import importAccountAppState from '@recoil/importAccountState';
 import useStyles from './useStyles';
 
 type NavProps = StackScreenProps<RootNavigatorParamList, ROUTES.IMPORT_ACCOUNT_SELECT_LEDGER_APP>;
 
 const ImportAccountSelectLedgerApp: React.FC<NavProps> = ({ navigation }) => {
-  const [importAccountState] = useRecoilState(importAccountState);
+  const [importAccountState] = useRecoilState(importAccountAppState);
   const { ignoreHdPaths, selectedChain, onSuccess } = importAccountState!;
   const { connectToLedger } = useConnectToLedger();
   const { selectAccount } = useSelectAccount();

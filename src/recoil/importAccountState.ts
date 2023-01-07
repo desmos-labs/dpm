@@ -44,9 +44,9 @@ export interface ImportAccountState {
 /**
  * Atom that contains the import account state.
  */
-const importAccountState = atom<ImportAccountState | undefined>({
+const importAccountAppState = atom<ImportAccountState | undefined>({
   key: 'importAccountState',
   default: undefined,
 });
 
-export default importAccountState;
+export default importAccountAppState;
