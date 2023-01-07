@@ -17,7 +17,7 @@ import useStyles from './useStyles';
 
 export type NavProps = StackScreenProps<RootNavigatorParamList, ROUTES.IMPORT_ACCOUNT_SELECT_CHAIN>;
 
-const ImportAccountSelectChain: React.FC<NavProps> = ({ navigation, route }) => {
+const ImportAccountSelectChain: React.FC<NavProps> = ({ navigation }) => {
   const [importAccountState, setImportAccountState] = useRecoilState(importAccountAppState)!;
   const { chains, onCancel } = importAccountState!;
   const { t } = useTranslation();
