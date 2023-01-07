@@ -11,7 +11,6 @@ const useStyles = makeStyle((theme) => ({
     alignItems: 'center',
   },
   bioText: {
-    marginTop: theme.spacing.s,
     overflow: 'hidden',
     fontStyle: 'italic',
   },

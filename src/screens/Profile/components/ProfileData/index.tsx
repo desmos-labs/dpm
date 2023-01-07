@@ -3,6 +3,7 @@ import ProfileHeader from 'components/ProfileHeader';
 import { View } from 'react-native';
 import Typography from 'components/Typography';
 import { DesmosProfile } from 'types/desmosTypes';
+import Spacer from 'components/Spacer';
 import useQueries from './useQueries';
 import NonExistingProfile from '../NonExistingProfile';
 import ChainLinks from '../ChainLinksList';
@@ -31,6 +32,8 @@ const ProfileData = (props: ProfileDataProps) => {
       {/* Header */}
       <ProfileHeader profile={profile} />
 
+      <Spacer paddingVertical={8} />
+
       {/* Biography */}
       {profile?.bio && (
         <View style={styles.bioContainer}>
@@ -39,6 +42,8 @@ const ProfileData = (props: ProfileDataProps) => {
           </Typography.Body1>
         </View>
       )}
+
+      <Spacer paddingVertical={8} />
 
       {/* Main content */}
       <View style={styles.content}>

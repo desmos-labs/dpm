@@ -8,7 +8,6 @@ import Button from 'components/Button';
 import ListItemSeparator from 'components/ListItemSeparator';
 import { ChainLink } from 'types/chains';
 import { DPMImages } from 'types/images';
-import Spacer from 'components/Spacer';
 import ChainLinkItem from '../ChainLinkItem';
 import useStyles from './useStyles';
 import useConnectChain from './useHooks';
@@ -67,7 +66,6 @@ const ChainLinksList: React.FC<ChainConnectionsProps> = (props: ChainConnections
       {/* Chain links list */}
       {!loading && (
         <View style={styles.connectionsContainer}>
-          <Spacer paddingVertical={14} />
           {hasConnections && <Typography.Body1>{t('connected chains')}</Typography.Body1>}
           <FlatList
             style={styles.connectionsList}
