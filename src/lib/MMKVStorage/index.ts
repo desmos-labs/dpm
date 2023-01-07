@@ -4,6 +4,8 @@ export enum MMKVKEYS {
   APP_SETTINGS = 'APP_SETTINGS',
   ACTIVE_ACCOUNT_ADDRESS = 'ACTIVE_ACCOUNT_ADDRESS',
   ACCOUNTS = 'ACCOUNTS',
+
+  PROFILES_PARAMS = 'PROFILES_PARAMS',
   PROFILES = 'PROFILES',
 }
 
@@ -30,7 +32,8 @@ export const getMMKV = <T>(key: MMKVKEYS): T | undefined => {
 /**
  * Stringifies a value and writes it to a given MMKV key
  */
-export const setMMKV = (key: MMKVKEYS, value: any) => MMKVStorage.set(key, JSON.stringify(value));
+export const setMMKV = (key: MMKVKEYS, value: any) =>
+  MMKVStorage.set(key, value ? JSON.stringify(value) : value);
 
 /**
  * Clear the whole MMKV storage

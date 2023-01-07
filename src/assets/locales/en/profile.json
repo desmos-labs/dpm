@@ -1,0 +1,13 @@
+{
+  "edit profile": "Edit profile",
+  "create profile": "Create profile",
+  "nickname": "Nickname",
+  "dtag": "DTag",
+  "bio": "Bio",
+  "invalid dtag": "Invalid DTag value",
+  "dtag too short": "DTag value too short",
+  "dtag too long": "DTag value too long",
+  "nickname too short": "Nickname too short",
+  "nickname too long": "Nickname too long",
+  "bio too long": "Bio too long"
+}

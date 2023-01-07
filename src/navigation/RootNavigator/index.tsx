@@ -22,6 +22,7 @@ import UnlockWallet, { UnlockWalletParams } from 'screens/UnlockWallet';
 import SendTokens from 'screens/SendTokens';
 import BroadcastTx, { BroadcastTxParams } from 'screens/BroadcastTx';
 import ModalScreen, { ModalScreenParams } from 'modals/ModalScreen';
+import EditProfile, { EditProfileParas } from 'screens/EditProfile';
 import HomeTabs from 'navigation/RootNavigator/HomeTabs';
 
 export type RootNavigatorParamList = {
@@ -42,7 +43,8 @@ export type RootNavigatorParamList = {
   [ROUTES.HOME_TABS]: undefined;
   [ROUTES.HOME]: undefined;
 
-  [ROUTES.PROFILE]: ProfileParams;
+  [ROUTES.PROFILE]: ProfileParams | undefined;
+  [ROUTES.EDIT_PROFILE]: EditProfileParas;
   [ROUTES.SEND_TOKENS]: undefined;
   [ROUTES.CHAIN_LINK_DETAILS]: ChainLinkDetailsProps;
   [ROUTES.UNLOCK_WALLET]: UnlockWalletParams;
@@ -88,6 +90,7 @@ const RootNavigator = () => {
       <Stack.Screen name={ROUTES.HOME_TABS} component={HomeTabs} />
 
       <Stack.Screen name={ROUTES.PROFILE} component={Profile} />
+      <Stack.Screen name={ROUTES.EDIT_PROFILE} component={EditProfile} />
       <Stack.Screen name={ROUTES.SEND_TOKENS} component={SendTokens} />
       <Stack.Screen name={ROUTES.CHAIN_LINK_DETAILS} component={ChainLinkDetails} />
       <Stack.Screen name={ROUTES.BROADCAST_TX} component={BroadcastTx} />

@@ -1,3 +1,24 @@
+export interface NicknameParams {
+  readonly minLength: number;
+  readonly maxLength: number;
+}
+
+export interface DTagParams {
+  readonly regEx: string;
+  readonly minLength: number;
+  readonly maxLength: number;
+}
+
+export interface BioParams {
+  readonly maxLength: number;
+}
+
+export interface ProfileParams {
+  readonly nickname: NicknameParams;
+  readonly dTag: DTagParams;
+  readonly bio: BioParams;
+}
+
 export interface DesmosProfile {
   /** The user's address */
   address: string;

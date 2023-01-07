@@ -91,6 +91,10 @@ enum ROUTES {
    */
   PROFILE = 'PROFILE',
   /**
+   * Screen that allows the user to edit their profile's data.
+   */
+  EDIT_PROFILE = 'EDIT_PROFILE',
+  /**
    * Screen that allows sending tokens to another user.
    */
   SEND_TOKENS = 'SEND_TOKENS',

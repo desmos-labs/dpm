@@ -18,7 +18,7 @@ const AccountProfilePic = (props: AccountProfilePicProps) => {
   const { profile } = props;
 
   const openProfileDetails = useCallback(() => {
-    navigation.navigate(ROUTES.PROFILE, {});
+    navigation.navigate(ROUTES.PROFILE);
   }, [navigation]);
 
   const imageSource = profile?.profilePicture

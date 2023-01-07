@@ -1,129 +1,138 @@
-import { CompositeScreenProps } from '@react-navigation/native';
+import { useNavigation, useRoute } from '@react-navigation/native';
 import { StackScreenProps } from '@react-navigation/stack';
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { ScrollView } from 'react-native';
-import { launchImageLibrary } from 'react-native-image-picker';
-import { ImagePickerResponse } from 'react-native-image-picker/src/types';
+import { ScrollView, View } from 'react-native';
 import { DesmosProfile } from 'types/desmosTypes';
-import { AccountScreensStackParams, RootStackParams } from 'types/navigation';
 import StyledSafeAreaView from 'components/StyledSafeAreaView';
 import TopBar from 'components/TopBar';
 import ProfileHeader from 'components/ProfileHeader';
 import Divider from 'components/Divider';
-import Button from 'components/Button';
-import useProfileValidators from 'hooks/useProfileValidators';
-import InlineLabeledValue from './components/InlineLabeledValue';
+import { RootNavigatorParamList } from 'navigation/RootNavigator';
+import ROUTES from 'navigation/routes';
+import { useProfileParams } from '@recoil/profileParams';
+import { IconButton, useTheme } from 'react-native-paper';
+import { useSaveProfile, useValidationHooks } from './useHooks';
 import InlineInput from './components/InlineInput';
 import useStyles from './useStyles';
 
-type Props = CompositeScreenProps<
-  StackScreenProps<AccountScreensStackParams, 'EditProfile'>,
-  StackScreenProps<RootStackParams>
->;
+export type NavProps = StackScreenProps<RootNavigatorParamList, ROUTES.EDIT_PROFILE>;
 
-const EditProfile: React.FC<Props> = (props) => {
-  const {
-    navigation,
-    route: {
-      params: { account, profile, bio, goBackTo, feeGranter },
-    },
-  } = props;
+export interface EditProfileParas {
+  profile: DesmosProfile | undefined;
+}
+
+const EditProfile = () => {
   const styles = useStyles();
-  const { t } = useTranslation();
-  const [dtag, setDtag] = useState(profile?.dtag ?? '');
-  const [dtagError, setDtagError] = useState<string | undefined>(undefined);
-  const [nickname, setNickname] = useState(profile?.nickname);
+  const theme = useTheme();
+  const navigation = useNavigation<NavProps['navigation']>();
+  const { params } = useRoute<NavProps['route']>();
+  const { t } = useTranslation('profile');
+
+  const { profile } = params;
+
+  const { params: profileParams, refetch: refetchProfileParams } = useProfileParams();
+  const { validateDTag, validateNickname, validateBiography } = useValidationHooks(profileParams);
+
+  const [dTag, setDTag] = useState<string | undefined>(profile?.dtag);
+  const [dTagError, setDTagError] = useState<string | undefined>(undefined);
+  const [nickname, setNickname] = useState<string | undefined>(profile?.nickname);
   const [nicknameError, setNicknameError] = useState<string | undefined>(undefined);
-  const [biography, setBiography] = useState(profile?.bio);
+  const [biography, setBiography] = useState<string | undefined>(profile?.bio);
+  const [biographyError, setBiographyError] = useState<string | undefined>(undefined);
   const [selectedProfilePicture, setProfilePicture] = useState<string | undefined>(undefined);
   const [selectedCoverPicture, setCoverPicture] = useState<string | undefined>(undefined);
-  const { validateDtag, validateNickname } = useProfileValidators();
 
-  useEffect(() => {
-    if (bio === null || bio !== undefined) {
-      setBiography(bio === null ? undefined : bio);
-    }
-  }, [bio]);
-
-  const onSavePressed = () => {
-    if (account) {
-      navigation.navigate({
-        name: 'ConfirmProfileEdit',
-        params: {
-          account,
-          oldProfile: {
-            ...profile,
-          },
-          profile: {
-            ...profile,
-            address: account.address,
-            dtag,
-            nickname,
-            bio: biography,
-          } as DesmosProfile,
-          localCoverPictureUri: selectedCoverPicture,
-          localProfilePictureUri: selectedProfilePicture,
-          goBackTo,
-          feeGranter,
-        },
-      });
-    }
-  };
-
-  const pickPicture = useCallback((setter: (value: string | undefined) => void) => {
-    launchImageLibrary(
-      {
-        quality: 1,
-        mediaType: 'photo',
-        selectionLimit: 1,
-        includeBase64: false,
-      },
-      (response: ImagePickerResponse) => {
-        const assets = response.assets ?? [];
-        if (assets.length > 0) {
-          setter(assets[0].uri);
-        }
-      },
-    );
-  }, []);
-
-  const onEditCoverPicture = useCallback(() => {
-    pickPicture(setCoverPicture);
-  }, [pickPicture]);
-
-  const onEditProfilePicture = useCallback(() => {
-    pickPicture(setProfilePicture);
-  }, [pickPicture]);
-
-  const openBiographyEditor = useCallback(() => {
-    navigation.navigate({
-      name: 'BiographyEditor',
-      params: {
-        bio: biography,
-      },
-    });
-  }, [biography, navigation]);
-
-  const dtagChanged = useCallback(
-    (changedDtag: string) => {
-      setDtagError(validateDtag(changedDtag));
-      setDtag(changedDtag);
-    },
-    [validateDtag],
+  const canSave = useMemo(
+    () =>
+      (dTag || nickname || biography || selectedProfilePicture || selectedCoverPicture) &&
+      !dTagError &&
+      !nicknameError,
+    [
+      biography,
+      dTag,
+      dTagError,
+      nickname,
+      nicknameError,
+      selectedCoverPicture,
+      selectedProfilePicture,
+    ],
   );
 
-  const nicknameChanged = useCallback(
+  React.useEffect(() => {
+    // Get the profile params
+    refetchProfileParams();
+  }, [refetchProfileParams]);
+
+  const onSaveSuccess = useCallback(() => {
+    navigation.goBack();
+  }, [navigation]);
+
+  const { saveProfile } = useSaveProfile({ onSuccess: onSaveSuccess });
+
+  const onSavePressed = useCallback(async () => {
+    await saveProfile(profile, {
+      dTag,
+      biography,
+      nickname,
+      profilePic: selectedProfilePicture,
+      coverPic: selectedCoverPicture,
+    });
+  }, [
+    biography,
+    dTag,
+    nickname,
+    profile,
+    saveProfile,
+    selectedCoverPicture,
+    selectedProfilePicture,
+  ]);
+
+  const DoneButton = useMemo(
+    () => (
+      <IconButton
+        style={styles.saveBtn}
+        icon="check"
+        color={canSave ? theme.colors.primary : theme.colors.disabled}
+        onPress={onSavePressed}
+        disabled={!canSave}
+      />
+    ),
+    [canSave, onSavePressed, styles, theme],
+  );
+
+  const onDTagChanged = useCallback(
+    (newDTag: string) => {
+      setDTag(newDTag);
+      setDTagError(validateDTag(newDTag));
+    },
+    [validateDTag],
+  );
+
+  const onNicknameChanged = useCallback(
     (changedNickname: string) => {
       if (changedNickname.length === 0) {
+        setNickname('');
         setNicknameError(undefined);
-        setNickname(undefined);
       } else {
-        setNicknameError(validateNickname(changedNickname));
         setNickname(changedNickname);
+        setNicknameError(validateNickname(changedNickname));
       }
     },
     [validateNickname],
+  );
+
+  const onBiographyChanged = useCallback(
+    (changedBiography: string) => {
+      if (changedBiography.length === 0) {
+        setBiography('');
+        setBiographyError(undefined);
+      } else {
+        setBiography(changedBiography);
+        setBiographyError(validateBiography(changedBiography));
+      }
+    },
+    [validateBiography],
   );
 
   return (
@@ -131,44 +140,57 @@ const EditProfile: React.FC<Props> = (props) => {
       padding={0}
       topBar={
         <TopBar
-          stackProps={props}
+          stackProps={{ navigation }}
+          rightElement={DoneButton}
           title={profile !== null ? t('edit profile') : t('create profile')}
         />
       }
     >
-      <ProfileHeader
-        coverPictureUri={selectedCoverPicture ?? profile?.coverPicture}
-        profilePictureUri={selectedProfilePicture ?? profile?.profilePicture}
-        onEditCoverPicture={onEditCoverPicture}
-        onEditProfilePicture={onEditProfilePicture}
-      />
       <ScrollView style={styles.content}>
-        <InlineInput
-          label={t('nickname')}
-          placeholder={t('nickname')}
-          value={nickname}
-          onChangeText={nicknameChanged}
-          error={nicknameError}
+        {/* Header */}
+        <ProfileHeader
+          canEdit={true}
+          profile={profile}
+          onEditCoverPicture={setCoverPicture}
+          onEditProfilePicture={setProfilePicture}
         />
-        <Divider />
-        <InlineInput
-          label="DTag"
-          placeholder="DTag"
-          value={dtag}
-          error={dtagError}
-          onChangeText={dtagChanged}
-        />
-        <Divider />
-        <InlineLabeledValue label={t('bio')} value={biography} onPress={openBiographyEditor} />
+
+        <View style={styles.input}>
+          {/* Nickname */}
+          <InlineInput
+            label={t('nickname')}
+            placeholder={t('nickname')}
+            value={nickname}
+            onChangeText={onNicknameChanged}
+            error={nicknameError}
+          />
+
+          <Divider />
+
+          {/* DTag */}
+          <InlineInput
+            label={t('dtag')}
+            placeholder={t('dtag')}
+            value={dTag}
+            error={dTagError}
+            onChangeText={onDTagChanged}
+          />
+
+          <Divider />
+
+          {/* Biography */}
+          <InlineInput
+            style={styles.bioEditor}
+            label={t('bio')}
+            placeholder={t('bio')}
+            value={biography}
+            error={biographyError}
+            onChangeText={onBiographyChanged}
+            numberOfLines={5}
+            multiline={true}
+          />
+        </View>
       </ScrollView>
-      <Button
-        style={styles.saveBtn}
-        mode="contained"
-        onPress={onSavePressed}
-        disabled={dtag.length === 0 || dtagError !== undefined || nicknameError !== undefined}
-      >
-        {t('next')}
-      </Button>
     </StyledSafeAreaView>
   );
 };

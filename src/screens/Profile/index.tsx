@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import React from 'react';
 import { StackScreenProps } from '@react-navigation/stack';
 import { ActivityIndicator, useTheme } from 'react-native-paper';
 import StyledSafeAreaView from 'components/StyledSafeAreaView';
@@ -7,7 +7,6 @@ import { RootNavigatorParamList } from 'navigation/RootNavigator';
 import ROUTES from 'navigation/routes';
 import useProfileDataQueries from 'screens/Profile/useProfileDataQueries';
 import { useNavigation, useRoute } from '@react-navigation/native';
-import { useActiveAccount } from '@recoil/activeAccountState';
 import EditProfileButton from 'screens/Profile/components/EditProfileButton';
 import ProfileData from './components/ProfileData';
 import useStyles from './useStyles';
@@ -29,16 +28,13 @@ const Profile = () => {
   const theme = useTheme();
 
   const visitingProfile = params?.visitingProfile;
-  const activeAccount = useActiveAccount();
-  const profileAddress = useMemo(() => {
-    if (visitingProfile) {
-      return visitingProfile;
-    }
-    return activeAccount?.address!;
-  }, [visitingProfile, activeAccount]);
-  const canEdit = useMemo(() => !visitingProfile, [visitingProfile]);
+  const canEdit = !visitingProfile;
 
-  const { profile, loadingProfile } = useProfileDataQueries(profileAddress);
+  const { profile, refetchProfile, loadingProfile } = useProfileDataQueries(visitingProfile);
+
+  React.useEffect(() => {
+    refetchProfile();
+  });
 
   const EditProfileBtn = React.useMemo(
     () => (canEdit ? <EditProfileButton profile={profile} /> : undefined),
@@ -59,11 +55,7 @@ const Profile = () => {
 
   return (
     <StyledSafeAreaView padding={0} topBar={ProfileTopBar}>
-      {loadingProfile ? (
-        <ActivityIndicator />
-      ) : (
-        <ProfileData profile={profile} canEdit={!params?.visitingProfile} />
-      )}
+      {loadingProfile ? <ActivityIndicator /> : <ProfileData profile={profile} canEdit={canEdit} />}
     </StyledSafeAreaView>
   );
 };
