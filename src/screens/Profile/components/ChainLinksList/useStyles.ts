@@ -22,6 +22,9 @@ const useStyles = makeStyle((theme) => ({
     flexGrow: 1,
     flexDirection: 'column',
   },
+  connectionsListTitle: {
+    fontWeight: 'bold',
+  },
   connectionsList: {
     marginTop: 8,
   },

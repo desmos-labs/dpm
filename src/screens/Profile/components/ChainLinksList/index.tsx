@@ -66,7 +66,11 @@ const ChainLinksList: React.FC<ChainConnectionsProps> = (props: ChainConnections
       {/* Chain links list */}
       {!loading && (
         <View style={styles.connectionsContainer}>
-          {hasConnections && <Typography.Body1>{t('connected chains')}</Typography.Body1>}
+          {hasConnections && (
+            <Typography.Body1 style={styles.connectionsListTitle}>
+              {t('connected chains')}
+            </Typography.Body1>
+          )}
           <FlatList
             style={styles.connectionsList}
             data={chainLinks}
