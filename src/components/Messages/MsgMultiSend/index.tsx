@@ -1,10 +1,10 @@
-import {ChainInfo, convertCoin} from '@desmoslabs/desmjs';
-import React, {useMemo} from 'react';
-import {useTranslation} from 'react-i18next';
-import {View} from 'react-native';
-import {Input} from 'cosmjs-types/cosmos/bank/v1beta1/bank';
-import useCurrentChainInfo from 'hooks/desmosclient/useCurrentChainInfo';
-import {MsgMultiSendEncodeObject} from 'types/encodeobject';
+import { ChainInfo, convertCoin } from '@desmoslabs/desmjs';
+import React, { useMemo } from 'react';
+import { useTranslation } from 'react-i18next';
+import { View } from 'react-native';
+import { Input } from 'cosmjs-types/cosmos/bank/v1beta1/bank';
+import { MsgMultiSendEncodeObject } from 'types/encodeobject';
+import { useCurrentChainInfo } from '@recoil/settings';
 import BaseMessage from '../BaseMessage';
 import Typography from '../../Typography';
 
@@ -19,11 +19,13 @@ export type ListItemProps = {
 
 function serializeInputs(inputs: Input[], chainInfo: ChainInfo, separator: string) {
   return inputs
-    .map((input) => input.coins
-      .map((c) => convertCoin(c, 6, chainInfo.currencies))
-      .filter((c) => c !== null)
-      .map((c) => `${c?.amount} ${c?.denom?.toUpperCase()}`)
-      .join(separator))
+    .map((input) =>
+      input.coins
+        .map((c) => convertCoin(c, 6, chainInfo.currencies))
+        .filter((c) => c !== null)
+        .map((c) => `${c?.amount} ${c?.denom?.toUpperCase()}`)
+        .join(separator),
+    )
     .join(', ');
 }
 
@@ -32,8 +34,8 @@ namespace MsgMultiSend {
    * Displays the short details of a MsgMultiSend within a list.
    * @constructor
    */
-  export const ListItem: React.FC<ListItemProps> = ({message, date}) => {
-    const {t} = useTranslation();
+  export const ListItem: React.FC<ListItemProps> = ({ message, date }) => {
+    const { t } = useTranslation();
     const chainInfo = useCurrentChainInfo();
 
     const tokenSent = useMemo(
@@ -71,8 +73,8 @@ namespace MsgMultiSend {
    * Displays the full details of a MsgMultiSend
    * @constructor
    */
-  export const Details: React.FC<DetailsProps> = ({message}) => {
-    const {t} = useTranslation();
+  export const Details: React.FC<DetailsProps> = ({ message }) => {
+    const { t } = useTranslation();
     const chainInfo = useCurrentChainInfo();
 
     const amounts = useMemo(
@@ -106,11 +108,7 @@ namespace MsgMultiSend {
           },
         ])
         .reduce((oldValue, sum) => [...oldValue, ...sum], []);
-    }, [
-      chainInfo.currencies,
-      message?.outputs,
-      t,
-    ]);
+    }, [chainInfo.currencies, message?.outputs, t]);
 
     return (
       <BaseMessage.Details

@@ -1,9 +1,9 @@
-import { AminoMsg } from '@cosmjs/amino/build/signdoc';
+import { AminoMsg } from '@cosmjs/amino';
 import { toHex } from '@cosmjs/encoding';
 import { EncodeObject } from '@cosmjs/proto-signing';
 import { Any } from 'cosmjs-types/google/protobuf/any';
 import React, { useMemo } from 'react';
-import MsgTypes from 'types/msgtypes';
+import { MsgLinkChainAccountTypeUrl, MsgUnlinkChainAccountTypeUrl } from '@desmoslabs/desmjs';
 import MsgDelegate from './MsgDelegate';
 import MsgLinkChainAccount from './MsgLinkChainAccount';
 import MsgMultiSend from './MsgMultiSend';
@@ -38,28 +38,28 @@ export const MessageDetails: React.FC<Props> = ({ message }) => {
     return undefined;
   }, [msg]);
 
-  if (msg.typeUrl === MsgTypes.MsgSaveProfile) {
+  if (msg.typeUrl === '') {
     return <MsgSaveProfile.Details message={encodeObject?.value} />;
   }
-  if (msg.typeUrl === MsgTypes.MsgSend) {
+  if (msg.typeUrl === '') {
     return <MsgSend.Details message={encodeObject?.value} />;
   }
-  if (msg.typeUrl === MsgTypes.MsgMultiSend) {
+  if (msg.typeUrl === '') {
     return <MsgMultiSend.Details message={encodeObject?.value} />;
   }
-  if (msg.typeUrl === MsgTypes.MsgVote) {
+  if (msg.typeUrl === '') {
     return <MsgVote.Details message={encodeObject?.value} />;
   }
-  if (msg.typeUrl === MsgTypes.MsgDelegate) {
+  if (msg.typeUrl === '') {
     return <MsgDelegate.Details message={encodeObject?.value} />;
   }
-  if (msg.typeUrl === MsgTypes.MsgWithdrawDelegatorReward) {
+  if (msg.typeUrl === '') {
     return <MsgWithdrawDelegatorRewards.Details message={encodeObject?.value} />;
   }
-  if (msg.typeUrl === MsgTypes.MsgLinkChainAccount) {
+  if (msg.typeUrl === MsgLinkChainAccountTypeUrl) {
     return <MsgLinkChainAccount.Details message={encodeObject?.value} />;
   }
-  if (msg.typeUrl === MsgTypes.MsgUnlinkChainAccount) {
+  if (msg.typeUrl === MsgUnlinkChainAccountTypeUrl) {
     return <MsgUnlinkChainAccount.Details message={encodeObject?.value} />;
   }
   return (

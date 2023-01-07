@@ -2,16 +2,9 @@ import { StdFee } from '@cosmjs/amino';
 import { EncodeObject } from '@cosmjs/proto-signing';
 import BluetoothTransport from '@ledgerhq/react-native-hw-transport-ble';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import {
-  CommonActions,
-  NavigationAction,
-  NavigatorScreenParams,
-  Route,
-} from '@react-navigation/native';
+import { CommonActions, NavigatorScreenParams, Route } from '@react-navigation/native';
 import { StackNavigationState } from '@react-navigation/routers/lib/typescript/src/StackRouter';
 import { createStackNavigator } from '@react-navigation/stack';
-import { StackNavigationProp } from '@react-navigation/stack/lib/typescript/src/types';
-import React, { MutableRefObject } from 'react';
 import { Account } from 'types/account';
 import { DesmosProfile } from './desmosTypes';
 import { LedgerApp } from './ledger';
@@ -93,14 +86,6 @@ export type AccountScreensStackParams = {
     sessionRequestDetails: SessionRequestDetails;
   };
   SendToken: undefined;
-  ConfirmTx: {
-    messages: EncodeObject[];
-    fee: StdFee;
-    memo?: string;
-    feeGranter?: string;
-    backAction?: ((state: StackNavigationState<any>) => NavigationAction) | NavigationAction;
-    successAction?: () => void;
-  };
   TxDetails: {
     hash: string;
     messages: EncodeObject[];
@@ -133,13 +118,6 @@ export type AuthorizeOperationResolveParams = {
   authorized: boolean;
   wallet: any | null;
 };
-
-export type ModalComponentProps<T> = {
-  navigation: StackNavigationProp<RootStackParams>;
-  params: T;
-};
-
-export type ModalComponent<T> = React.FC<ModalComponentProps<T>>;
 
 export type RootStackParams = {
   SplashScreen: undefined;
@@ -176,11 +154,6 @@ export type RootStackParams = {
      */
     autoClose?: boolean;
     onCancel?: () => void;
-  };
-  ModalScreen: {
-    component: ModalComponent<any>;
-    navigationRef: MutableRefObject<StackNavigationProp<RootStackParams> | undefined>;
-    params?: any;
   };
 };
 

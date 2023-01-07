@@ -1,9 +1,9 @@
 import { MsgUnlinkChainAccountEncodeObject } from '@desmoslabs/desmjs';
-import React, { useMemo } from 'react';
+import React, { useCallback, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Image, StyleSheet, View } from 'react-native';
-import useGetLinkableChainInfoByName from 'hooks/chainlinks/useGetLinkableChainInfoByName';
 import Typography from 'components/Typography';
+import SupportedChains from 'config/LinkableChains';
 import BaseMessage from '../BaseMessage';
 import useStyles from './useStyles';
 
@@ -64,7 +64,10 @@ namespace MsgUnlinkChainAccount {
     });
 
     const { t } = useTranslation();
-    const getLinkableChainInfoByName = useGetLinkableChainInfoByName();
+    const getLinkableChainInfoByName = useCallback(
+      (chainName: string) => SupportedChains.find((chain) => chainName === chain.chainConfig.name),
+      [],
+    );
 
     const { chainName } = message;
     const chainIcon = useMemo(() => {
@@ -73,7 +76,7 @@ namespace MsgUnlinkChainAccount {
         return chain.icon;
       }
       return require('assets/images/chains/cosmos.png');
-    }, [chainName]);
+    }, [chainName, getLinkableChainInfoByName]);
 
     return (
       <BaseMessage.Details

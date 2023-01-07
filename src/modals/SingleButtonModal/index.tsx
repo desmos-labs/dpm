@@ -1,11 +1,10 @@
-import { StackNavigationProp } from '@react-navigation/stack/lib/typescript/src/types';
 import React, { useCallback } from 'react';
 import { ImageSourcePropType, View } from 'react-native';
 import Typography from 'components/Typography';
-import { ModalComponentProps, RootStackParams } from 'types/navigation';
-import {DPMImages} from 'types/images';
+import { DPMImages } from 'types/images';
 import DpmImage from 'components/DPMImage';
 import Button from 'components/Button';
+import { ModalComponentProps } from 'modals/ModalScreen';
 import useStyles from './useStyles';
 
 export type SingleButtonModalParams = {
@@ -29,23 +28,18 @@ export type SingleButtonModalParams = {
   /**
    * Function called when the user clicks on the button.
    */
-  action?: (navigation: StackNavigationProp<RootStackParams>) => void;
+  action?: () => void;
 };
 
-const SingleButtonModal: React.FC<ModalComponentProps<SingleButtonModalParams>> = (
-  props,
-) => {
-  const { params, navigation } = props;
+const SingleButtonModal: React.FC<ModalComponentProps<SingleButtonModalParams>> = (props) => {
+  const { params } = props;
   const styles = useStyles();
 
   const btnAction = useCallback(() => {
     if (params.action) {
-      navigation.goBack();
-      params.action(navigation);
-    } else {
-      navigation.goBack();
+      params.action();
     }
-  }, [params, navigation]);
+  }, [params]);
 
   return (
     <View style={styles.root}>

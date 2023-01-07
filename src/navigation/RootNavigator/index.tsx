@@ -21,6 +21,8 @@ import ImportAccountSelectType from 'screens/ImportAccountSelectType';
 import ImportAccountSelectLedgerApp from 'screens/ImportAccountSelectLedgerApp';
 import UnlockWallet, { UnlockWalletParams } from 'screens/UnlockWallet';
 import SendTokens from 'screens/SendTokens';
+import BroadcastTx, { BroadcastTxParams } from 'screens/BroadcastTx';
+import ModalScreen, { ModalScreenParams } from 'modals/ModalScreen';
 
 export type RootNavigatorParamList = {
   [ROUTES.DEV_SCREEN]: undefined;
@@ -43,6 +45,8 @@ export type RootNavigatorParamList = {
   [ROUTES.SEND_TOKENS]: undefined;
   [ROUTES.CHAIN_LINK_DETAILS]: ChainLinkDetailsProps;
   [ROUTES.UNLOCK_WALLET]: UnlockWalletParams;
+  [ROUTES.BROADCAST_TX]: BroadcastTxParams;
+  [ROUTES.MODAL]: ModalScreenParams;
 };
 
 const Stack = createStackNavigator<RootNavigatorParamList>();
@@ -85,6 +89,8 @@ const RootNavigator = () => {
       <Stack.Screen name={ROUTES.PROFILE} component={Profile} />
       <Stack.Screen name={ROUTES.SEND_TOKENS} component={SendTokens} />
       <Stack.Screen name={ROUTES.CHAIN_LINK_DETAILS} component={ChainLinkDetails} />
+      <Stack.Screen name={ROUTES.BROADCAST_TX} component={BroadcastTx} />
+      <Stack.Screen name={ROUTES.MODAL} component={ModalScreen} />
     </Stack.Navigator>
   );
 };

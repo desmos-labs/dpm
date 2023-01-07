@@ -1,10 +1,10 @@
 import { Bech32Address } from '@desmoslabs/desmjs-types/desmos/profiles/v3/models_chain_links';
 import { MsgLinkChainAccountEncodeObject } from '@desmoslabs/desmjs';
-import React, { useMemo } from 'react';
+import React, { useCallback, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Image, StyleSheet, View } from 'react-native';
 import Typography from 'components/Typography';
-import useGetLinkableChainInfoByName from 'hooks/chainlinks/useGetLinkableChainInfoByName';
+import SupportedChains from 'config/LinkableChains';
 import BaseMessage from '../BaseMessage';
 import useStyles from './useStyles';
 
@@ -76,7 +76,10 @@ namespace MsgLinkChainAccount {
     });
 
     const { t } = useTranslation();
-    const getLinkableChainInfoByName = useGetLinkableChainInfoByName();
+    const getLinkableChainInfoByName = useCallback(
+      (chainName: string) => SupportedChains.find((chain) => chainName === chain.chainConfig.name),
+      [],
+    );
 
     const bech32Address = useMemo(() => {
       const chainAddress = message?.chainAddress;
@@ -93,7 +96,7 @@ namespace MsgLinkChainAccount {
         return chain.icon;
       }
       return require('assets/images/chains/cosmos.png');
-    }, [chainName]);
+    }, [chainName, getLinkableChainInfoByName]);
 
     return (
       <BaseMessage.Details

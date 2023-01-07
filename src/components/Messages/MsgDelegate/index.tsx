@@ -2,9 +2,9 @@ import { convertCoin } from '@desmoslabs/desmjs';
 import { MsgDelegateEncodeObject } from '@cosmjs/stargate';
 import React, { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
-import {View} from 'react-native';
-import useCurrentChainInfo from 'hooks/desmosclient/useCurrentChainInfo';
+import { View } from 'react-native';
 import Typography from 'components/Typography';
+import { useCurrentChainInfo } from '@recoil/settings';
 import BaseMessage from '../BaseMessage';
 import useStyles from './useStyles';
 
@@ -62,7 +62,7 @@ namespace MsgDelegate {
    * Displays the full details of a MsgDelegate
    * @constructor
    */
-  export const Details: React.FC<DetailsProps> = ({message}) => {
+  export const Details: React.FC<DetailsProps> = ({ message }) => {
     const { t } = useTranslation();
     const chainInfo = useCurrentChainInfo();
 

@@ -2,10 +2,10 @@ import { MsgSendEncodeObject } from '@cosmjs/stargate';
 import React, { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { convertCoin } from '@desmoslabs/desmjs';
-import {View} from 'react-native';
-import useCurrentChainInfo from 'hooks/desmosclient/useCurrentChainInfo';
+import { View } from 'react-native';
 import Typography from 'components/Typography';
-import {formatCoins} from 'lib/FormatUtils';
+import { formatCoins } from 'lib/FormatUtils';
+import { useCurrentChainInfo } from '@recoil/settings';
 import BaseMessage from '../BaseMessage';
 import useStyles from './useStyles';
 
@@ -80,10 +80,13 @@ namespace MsgSend {
    * Displays the full details of a MsgSend.
    * @constructor
    */
-  export const Details: React.FC<DetailsProps> = ({message}) => {
-    const {t} = useTranslation();
+  export const Details: React.FC<DetailsProps> = ({ message }) => {
+    const { t } = useTranslation();
     const chainInfo = useCurrentChainInfo();
-    const convertedAmount = useMemo(() => formatCoins(chainInfo, message.amount), [message.amount, chainInfo]);
+    const convertedAmount = useMemo(
+      () => formatCoins(chainInfo, message.amount),
+      [message.amount, chainInfo],
+    );
 
     return (
       <BaseMessage.Details

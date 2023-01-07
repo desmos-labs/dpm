@@ -90,6 +90,15 @@ enum ROUTES {
    * Screen that allow the user to unlock the wallet.
    */
   UNLOCK_WALLET = 'UNLOCK_WALLET',
+  /**
+   * Screen that show a preview of a transaction and allow the user
+   * to broadcast it.
+   */
+  BROADCAST_TX = 'BROADCAST_TX',
+  /**
+   *
+   */
+  MODAL = 'MODAL',
 }
 
 export default ROUTES;

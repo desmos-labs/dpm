@@ -5,12 +5,12 @@ import Long from 'long';
 import React, { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Pressable, ScrollView, StyleProp, View, ViewStyle } from 'react-native';
-import {StdFee} from '@cosmjs/amino';
-import useCurrentChainInfo from 'hooks/desmosclient/useCurrentChainInfo';
+import { StdFee } from '@cosmjs/amino';
 import { MessageDetails } from 'components/Messages/MessageDetails';
 import Divider from 'components/Divider';
 import LabeledValue from 'components/LabeledValue';
 import useStyles from './useStyles';
+import { useCurrentChainInfo } from '@recoil/settings';
 
 export type TransactionDetailsProps = {
   messages: readonly EncodeObject[];
@@ -24,7 +24,7 @@ export type TransactionDetailsProps = {
 const TransactionDetails: React.FC<TransactionDetailsProps> = (props) => {
   const { memo, messages, fee, success, dateTime, style } = props;
   const { t } = useTranslation();
-  const chainInfo = useCurrentChainInfo();
+  const chainInfo = useCurrentChainInfo()!;
   const styles = useStyles();
 
   const txFex = useMemo(() => {

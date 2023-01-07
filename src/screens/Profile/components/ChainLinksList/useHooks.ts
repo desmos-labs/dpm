@@ -1,4 +1,4 @@
-import { AccountWithWallet } from 'types/account';
+import { Account, AccountWithWallet } from 'types/account';
 import { useCallback } from 'react';
 import { useImportAccount } from 'hooks/useImportAccount';
 import LinkableChains from 'config/LinkableChains';
@@ -14,6 +14,7 @@ import { Any } from 'cosmjs-types/google/protobuf/any';
 import { PubKey } from 'cosmjs-types/cosmos/crypto/secp256k1/keys';
 import {
   DesmosClient,
+  getPubKeyRawBytes,
   getSignatureBytes,
   getSignedBytes,
   MsgLinkChainAccountEncodeObject,
@@ -22,10 +23,10 @@ import {
 } from '@desmoslabs/desmjs';
 import { SignerData } from '@cosmjs/stargate';
 import { SupportedChain } from 'types/chains';
-import { getPubKeyBytes } from '@desmoslabs/desmjs/build/signatureresult';
 import { singleSignatureToAny } from '@desmoslabs/desmjs/build/aminomessages/profiles';
 import { getAddress } from 'lib/ChainsUtils';
 import useBroadcastTx from 'hooks/useBroadcastTx';
+import { useActiveAccount } from '@recoil/activeAccountState';
 
 const useSaveChainLinkAccount = () =>
   useCallback(async (chain: SupportedChain, account: AccountWithWallet) => {
@@ -37,10 +38,14 @@ const useSaveChainLinkAccount = () =>
  * Hook used to generate the proof used to link an external wallet to a Desmos Profile.
  */
 const useGenerateProof = () =>
-  useCallback(async (chain: SupportedChain, account: AccountWithWallet) => {
-    const client = await DesmosClient.connectWithSigner('', account.wallet.signer, {
-      prefix: chain.prefix,
-    });
+  useCallback(async (desmosAccount: Account, chain: SupportedChain, account: AccountWithWallet) => {
+    const client = await DesmosClient.connectWithSigner(
+      'https://rpc.mainnet.desmos.network',
+      account.wallet.signer,
+      {
+        prefix: chain.prefix,
+      },
+    );
 
     const msgs: EncodeObject[] = [];
     const fee: StdFee = {
@@ -56,11 +61,11 @@ const useGenerateProof = () =>
       account.account.address,
       msgs,
       fee,
-      'DPM chain link',
+      desmosAccount.address,
       signerData,
     );
 
-    const pubKeyBytes = getPubKeyBytes(result);
+    const pubKeyBytes = getPubKeyRawBytes(result);
     const signatureBytes = getSignatureBytes(result);
     const signedBytes = getSignedBytes(result);
 
@@ -95,20 +100,28 @@ const useGenerateProof = () =>
  */
 const useGenerateMsgLinkChainAccount = () => {
   const generateProof = useGenerateProof();
+  const activeAccount = useActiveAccount();
 
-  return useCallback(async (chain: SupportedChain, account: AccountWithWallet) => {
-    const address = getAddress(chain, account);
-    const proof = await generateProof(chain, account);
-    return {
-      typeUrl: MsgLinkChainAccountTypeUrl,
-      value: {
-        proof,
-        chainConfig: chain.chainConfig,
-        signer: account.account.address,
-        chainAddress: address,
-      },
-    } as MsgLinkChainAccountEncodeObject;
-  }, []);
+  return useCallback(
+    async (chain: SupportedChain, account: AccountWithWallet) => {
+      if (!activeAccount) {
+        return undefined;
+      }
+
+      const address = getAddress(chain, account);
+      const proof = await generateProof(activeAccount, chain, account);
+      return {
+        typeUrl: MsgLinkChainAccountTypeUrl,
+        value: {
+          proof,
+          chainConfig: chain.chainConfig,
+          signer: activeAccount.address,
+          chainAddress: address,
+        },
+      } as MsgLinkChainAccountEncodeObject;
+    },
+    [generateProof, activeAccount],
+  );
 };
 
 /**
@@ -130,13 +143,17 @@ const useConnectChain = (onSuccess: () => void) => {
     const { account, chain } = accountWithChain;
 
     const message = await generateMsgChainLink(chain, account);
+    if (!message) {
+      return;
+    }
+
     broadcastTx([message], {
       onSuccess: () => {
         saveChainLinkAccount(chain, account);
         onSuccess();
       },
     });
-  }, []);
+  }, [broadcastTx, generateMsgChainLink, importAccount, onSuccess, saveChainLinkAccount]);
 
   return {
     connectChain,

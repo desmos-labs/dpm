@@ -9,6 +9,7 @@ import Typography from 'components/Typography';
 import { FlatList, Text, TouchableOpacity } from 'react-native';
 import Spacer from 'components/Spacer';
 import { useUnlockWallet } from 'hooks/useUnlockWallet';
+import { useCurrentChainInfo } from '@recoil/settings';
 import useStyles from './useStyles';
 
 const routesToRender = [ROUTES.LANDING, ROUTES.CREATE_NEW_MNEMONIC, ROUTES.PROFILE, ROUTES.HOME];
@@ -21,6 +22,7 @@ const DevScreen: FC<NavProps> = ({ navigation }) => {
 
   const accounts = getAccounts();
   const unlockWallet = useUnlockWallet();
+  const chainInfo = useCurrentChainInfo();
 
   const itemSeparator = React.useCallback(() => <Spacer paddingVertical={4} />, []);
 
@@ -39,12 +41,14 @@ const DevScreen: FC<NavProps> = ({ navigation }) => {
     </TouchableOpacity>
   );
 
-  const navigateToProfile = (address: string) =>
-    useCallback(() => {
+  const navigateToProfile = useCallback(
+    (address: string) => {
       navigate(ROUTES.PROFILE, {
         visitingProfile: address,
       });
-    }, []);
+    },
+    [navigate],
+  );
 
   const navigateToLandingPage = useCallback(() => {
     navigation.navigate({
@@ -110,7 +114,7 @@ const DevScreen: FC<NavProps> = ({ navigation }) => {
         Unlock wallet
       </Button>
       <Spacer paddingVertical={4} />
-      <Typography.H1>Account: {Object.keys(accounts).length}</Typography.H1>
+      <Typography.Caption>Account: {Object.keys(accounts).length}</Typography.Caption>
     </StyledSafeAreaView>
   );
 };

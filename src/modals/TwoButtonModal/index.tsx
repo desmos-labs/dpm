@@ -1,8 +1,8 @@
 import React, { useCallback } from 'react';
 import { View } from 'react-native';
 import Typography from 'components/Typography';
-import { ModalComponentProps } from 'types/navigation';
 import Button from 'components/Button';
+import { ModalComponentProps } from 'modals/ModalScreen';
 import useStyles from './useStyles';
 
 export type TwoButtonModalParams = {
@@ -33,26 +33,20 @@ export type TwoButtonModalParams = {
 };
 
 const TwoButtonModal: React.FC<ModalComponentProps<TwoButtonModalParams>> = (props) => {
-  const { params, navigation } = props;
+  const { params } = props;
   const styles = useStyles();
 
   const positiveAction = useCallback(() => {
     if (params.positiveAction !== undefined) {
       params.positiveAction();
     }
-    if (navigation.canGoBack()) {
-      navigation.goBack();
-    }
-  }, [params, navigation]);
+  }, [params]);
 
   const negativeAction = useCallback(() => {
     if (params.negativeAction !== undefined) {
       params.negativeAction();
     }
-    if (navigation.canGoBack()) {
-      navigation.goBack();
-    }
-  }, [params, navigation]);
+  }, [params]);
 
   return (
     <View style={styles.root}>
