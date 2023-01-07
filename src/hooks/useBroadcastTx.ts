@@ -4,7 +4,6 @@ import { StackNavigationProp } from '@react-navigation/stack';
 import { useCallback } from 'react';
 import ROUTES from 'navigation/routes';
 import { RootNavigatorParamList } from 'navigation/RootNavigator';
-import { useReturnToCurrentScreen } from 'hooks/useReturnToCurrentScreen';
 
 export interface BroadcastTxCallbacks {
   onSuccess?: () => void;
@@ -21,7 +20,6 @@ export interface BroadcastTxOptions extends BroadcastTxCallbacks {
  */
 const useBroadcastTx = (): ((msgs: EncodeObject[], options?: BroadcastTxOptions) => void) => {
   const navigation = useNavigation<StackNavigationProp<RootNavigatorParamList>>();
-  const { returnToCurrentScreen } = useReturnToCurrentScreen();
 
   return useCallback(
     (msgs: EncodeObject[], options?: BroadcastTxOptions) => {
@@ -30,28 +28,13 @@ const useBroadcastTx = (): ((msgs: EncodeObject[], options?: BroadcastTxOptions)
         params: {
           messages: msgs,
           memo: options?.memo,
-          onSuccess: () => {
-            returnToCurrentScreen();
-            if (options?.onSuccess !== undefined) {
-              options.onSuccess();
-            }
-          },
-          onCancel: () => {
-            returnToCurrentScreen();
-            if (options?.onCancel !== undefined) {
-              options.onCancel();
-            }
-          },
-          onError: () => {
-            returnToCurrentScreen();
-            if (options?.onError !== undefined) {
-              options.onError();
-            }
-          },
+          onSuccess: options?.onSuccess,
+          onCancel: options?.onCancel,
+          onError: options?.onError,
         },
       });
     },
-    [navigation, returnToCurrentScreen],
+    [navigation],
   );
 };
 

@@ -32,14 +32,15 @@ export type SingleButtonModalParams = {
 };
 
 const SingleButtonModal: React.FC<ModalComponentProps<SingleButtonModalParams>> = (props) => {
-  const { params } = props;
+  const { params, closeModal } = props;
   const styles = useStyles();
 
   const btnAction = useCallback(() => {
+    closeModal();
     if (params.action) {
       params.action();
     }
-  }, [params]);
+  }, [params, closeModal]);
 
   return (
     <View style={styles.root}>

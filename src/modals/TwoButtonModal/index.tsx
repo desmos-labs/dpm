@@ -33,20 +33,22 @@ export type TwoButtonModalParams = {
 };
 
 const TwoButtonModal: React.FC<ModalComponentProps<TwoButtonModalParams>> = (props) => {
-  const { params } = props;
+  const { params, closeModal } = props;
   const styles = useStyles();
 
   const positiveAction = useCallback(() => {
+    closeModal();
     if (params.positiveAction !== undefined) {
       params.positiveAction();
     }
-  }, [params]);
+  }, [params, closeModal]);
 
   const negativeAction = useCallback(() => {
+    closeModal();
     if (params.negativeAction !== undefined) {
       params.negativeAction();
     }
-  }, [params]);
+  }, [params, closeModal]);
 
   return (
     <View style={styles.root}>

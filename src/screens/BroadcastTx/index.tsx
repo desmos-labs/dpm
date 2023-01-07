@@ -13,12 +13,35 @@ import { EncodeObject } from '@cosmjs/proto-signing';
 import { useBroadcastTx } from 'screens/BroadcastTx/useHooks';
 import { DPMImages } from 'types/images';
 import useOnBackAction from 'hooks/useOnBackAction';
+import { DeliverTxResponse } from '@desmoslabs/desmjs';
 import useStyles from './useStyles';
+
+enum BroadcastStatus {
+  Cancel,
+  Success,
+  Fail,
+}
+
+interface CancelledBroadcastTx {
+  readonly status: BroadcastStatus.Cancel;
+}
+
+interface SuccessBroadcastTx {
+  readonly status: BroadcastStatus.Success;
+  readonly deliveredTx: DeliverTxResponse;
+}
+
+interface FailedBroadcastTx {
+  readonly status: BroadcastStatus.Fail;
+  readonly error: string;
+}
+
+type BroadcastTxStatus = CancelledBroadcastTx | SuccessBroadcastTx | FailedBroadcastTx;
 
 export interface BroadcastTxParams {
   messages: EncodeObject[];
   memo?: string;
-  onSuccess?: () => any;
+  onSuccess?: (tx: DeliverTxResponse) => any;
   onCancel?: () => any;
   onError?: () => any;
 }
@@ -33,24 +56,39 @@ const BroadcastTx: React.FC<NavProps> = (props) => {
   const broadcastTx = useBroadcastTx();
   const showModal = useShowModal();
   const [broadcastingTx, setBroadcastingTx] = useState(false);
+  const [broadcastTxStatus, setBroadcastTxStatus] = useState<BroadcastTxStatus>({
+    status: BroadcastStatus.Cancel,
+  });
 
-  useOnBackAction(() => onCancel !== undefined && onCancel(), [onCancel]);
+  useOnBackAction(() => {
+    switch (broadcastTxStatus.status) {
+      case BroadcastStatus.Success:
+        if (onSuccess) {
+          onSuccess(broadcastTxStatus.deliveredTx);
+        }
+        break;
+      case BroadcastStatus.Cancel:
+        if (onCancel) {
+          onCancel();
+        }
+        break;
+      default:
+        if (onError) {
+          onError();
+        }
+        break;
+    }
+  }, [broadcastTxStatus, onCancel, onError, onSuccess]);
 
   const showSuccessModal = useCallback(() => {
-    const modalAction = () => {
-      if (onSuccess) {
-        onSuccess();
-      }
-      navigation.goBack();
-    };
     showModal(SingleButtonModal, {
       image: DPMImages.Success,
       title: t('success'),
       message: `${t('tx sent successfully')}!`,
       actionLabel: t('continue'),
-      action: modalAction,
+      action: () => navigation.goBack(),
     });
-  }, [showModal, t, onSuccess, navigation]);
+  }, [showModal, t, navigation]);
 
   const showErrorModal = useCallback(
     (error: string) => {
@@ -59,14 +97,10 @@ const BroadcastTx: React.FC<NavProps> = (props) => {
         title: t('failure'),
         message: error,
         actionLabel: t('continue'),
-        action: () => {
-          if (onError) {
-            onError();
-          }
-        },
+        action: () => navigation.goBack(),
       });
     },
-    [navigation, onError, showModal, t],
+    [showModal, t, navigation],
   );
 
   const confirmBroadcast = useCallback(async () => {
@@ -74,9 +108,13 @@ const BroadcastTx: React.FC<NavProps> = (props) => {
     try {
       const result = await broadcastTx(messages, memo);
       if (result !== undefined) {
+        setBroadcastTxStatus({ status: BroadcastStatus.Success, deliveredTx: result });
         showSuccessModal();
+      } else {
+        setBroadcastTxStatus({ status: BroadcastStatus.Cancel });
       }
     } catch (e) {
+      setBroadcastTxStatus({ status: BroadcastStatus.Fail, error: e.message });
       showErrorModal(e.message);
     }
     setBroadcastingTx(false);

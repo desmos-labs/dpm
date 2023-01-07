@@ -3,6 +3,7 @@ import { View } from 'react-native';
 import Typography from 'components/Typography';
 import { ModalComponentProps } from 'types/navigation';
 import ThemedLottieView from 'components/ThemedLottieView';
+import { DPMAnimations } from 'types/images';
 import useStyles from './useStyles';
 
 export type SingleButtonModalParams = {
@@ -20,7 +21,7 @@ const LoadingModal: React.FC<ModalComponentProps<SingleButtonModalParams>> = (pr
     <View>
       <ThemedLottieView
         style={styles.image}
-        source="broadcast-tx"
+        source={DPMAnimations.Loading}
         autoPlay
         loop
         autoSize
@@ -31,4 +32,4 @@ const LoadingModal: React.FC<ModalComponentProps<SingleButtonModalParams>> = (pr
   );
 };
 
-export  default LoadingModal;
+export default LoadingModal;
