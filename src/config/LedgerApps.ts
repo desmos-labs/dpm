@@ -28,4 +28,9 @@ export const TerraLedgerApp: LedgerApp = {
   minVersion: '1.0.0',
 };
 
-export const LedgerApps: LedgerApp[] = [CosmosLedgerApp, CryptoOrgLedgerApp, TerraLedgerApp];
+export const LedgerApps: LedgerApp[] = [
+  DesmosLedgerApp,
+  CosmosLedgerApp,
+  CryptoOrgLedgerApp,
+  TerraLedgerApp,
+];
