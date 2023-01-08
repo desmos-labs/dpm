@@ -1,7 +1,7 @@
-import { DependencyList, useCallback, useEffect } from 'react';
+import { DependencyList, useCallback, useEffect, useMemo } from 'react';
 import { EventArg, useNavigation } from '@react-navigation/native';
 
-type CallbackArg = EventArg<'beforeRemove', true, { action: { type: string } }>;
+type CallbackArg = EventArg<'beforeRemove', true, { action: { type: string; source?: string } }>;
 type BackCallback = (event: CallbackArg) => any | (() => any);
 
 /**
@@ -11,13 +11,23 @@ type BackCallback = (event: CallbackArg) => any | (() => any);
  */
 const useOnBackAction = (onBack: BackCallback, deps: DependencyList) => {
   const navigation = useNavigation();
+  const memoizedBackCallback = useCallback(onBack, deps);
+
+  const currentScreen = useMemo(() => {
+    const { routes } = navigation.getState();
+    return routes[routes.length - 1];
+  }, [navigation]);
+
   const beforeRemoveListener = useCallback(
     (e: CallbackArg) => {
-      if (e.data.action.type === 'GO_BACK') {
-        onBack(e);
+      // Call the back action only when the go back action source is the current screen,
+      // this is to prevent executing the callback when is another screen that
+      // originated the event.
+      if (e.data.action.type === 'GO_BACK' && e.data.action.source === currentScreen.key) {
+        memoizedBackCallback(e);
       }
     },
-    [onBack, ...deps],
+    [currentScreen, memoizedBackCallback],
   );
 
   useEffect(() => {
