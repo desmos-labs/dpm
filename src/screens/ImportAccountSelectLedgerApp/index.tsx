@@ -37,7 +37,7 @@ const ImportAccountSelectLedgerApp: React.FC<NavProps> = ({ navigation }) => {
       return [DesmosLedgerApp, CosmosLedgerApp];
     }
     return [CosmosLedgerApp];
-  }, []);
+  }, [selectedChain]);
 
   const onLedgerAppSelected = useCallback(
     async (ledgerApp: LedgerApp) => {
@@ -52,14 +52,14 @@ const ImportAccountSelectLedgerApp: React.FC<NavProps> = ({ navigation }) => {
         ledgerApp,
         transport,
         addressPrefix: selectedChain!.prefix,
-        masterHdPath: selectedChain!.masterHDPath,
+        masterHdPath: ledgerApp.masterHdPath,
       });
 
       if (account !== undefined) {
         onSuccess({ account, chain: selectedChain! });
       }
     },
-    [connectToLedger, selectAccount, onSuccess],
+    [connectToLedger, selectAccount, ignoreHdPaths, selectedChain, onSuccess],
   );
 
   const renderLedgerApp = useCallback(

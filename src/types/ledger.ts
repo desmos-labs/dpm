@@ -1,4 +1,5 @@
 import { ImageSourcePropType } from 'react-native';
+import { HdPath } from '@cosmjs/crypto';
 
 export type Subscription = {
   unsubscribe: () => void;
@@ -19,18 +20,22 @@ export type LedgerApp = {
   /**
    * Ledger application name.
    */
-  name: string;
+  readonly name: string;
   /**
    * Application icon to be displayed to the user.
    */
-  icon: ImageSourcePropType;
+  readonly icon: ImageSourcePropType;
   /**
    * Name to be displayed to the user.
    */
-  uiName: string;
+  readonly uiName: string;
   /**
    * Min ledger application version.
    */
-  minVersion: string;
-}
-
+  readonly minVersion: string;
+  /**
+   * hd path to use with this application to derive
+   * the user's private key
+   */
+  readonly masterHdPath: HdPath;
+};
