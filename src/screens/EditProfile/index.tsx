@@ -45,10 +45,15 @@ const EditProfile = () => {
 
   const canSave = useMemo(
     () =>
-      (dTag || nickname || biography || selectedProfilePicture || selectedCoverPicture) &&
+      (dTag !== profile?.dtag ||
+        nickname !== profile?.nickname ||
+        biography !== profile?.bio ||
+        selectedProfilePicture ||
+        selectedCoverPicture) &&
       !dTagError &&
       !nicknameError,
     [
+      profile,
       biography,
       dTag,
       dTagError,
