@@ -31,7 +31,7 @@ import { useActiveAccount } from '@recoil/activeAccountState';
 const useSaveChainLinkAccount = () =>
   useCallback(async (chain: SupportedChain, account: AccountWithWallet) => {
     // TODO: Implement this
-    console.log(account);
+    console.log('Implement useSaveChainLinkAccount', account);
   }, []);
 
 /**
