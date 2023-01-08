@@ -2,7 +2,6 @@ import { Account, AccountWithWallet } from 'types/account';
 import { useCallback } from 'react';
 import { useImportAccount } from 'hooks/useImportAccount';
 import LinkableChains from 'config/LinkableChains';
-import { EncodeObject } from '@cosmjs/proto-signing';
 import { toHex } from '@cosmjs/encoding';
 import { StdFee } from '@cosmjs/amino';
 import {
@@ -13,7 +12,6 @@ import {
 import { Any } from 'cosmjs-types/google/protobuf/any';
 import { PubKey } from 'cosmjs-types/cosmos/crypto/secp256k1/keys';
 import {
-  DesmosClient,
   getPubKeyRawBytes,
   getSignatureBytes,
   getSignedBytes,
@@ -27,6 +25,7 @@ import { singleSignatureToAny } from '@desmoslabs/desmjs/build/aminomessages/pro
 import { getAddress } from 'lib/ChainsUtils';
 import useBroadcastTx from 'hooks/useBroadcastTx';
 import { useActiveAccount } from '@recoil/activeAccountState';
+import useSignTx, { OfflineSignResult, SignMode } from 'hooks/useSignTx';
 
 const useSaveChainLinkAccount = () =>
   useCallback(async (chain: SupportedChain, account: AccountWithWallet) => {
@@ -37,63 +36,61 @@ const useSaveChainLinkAccount = () =>
 /**
  * Hook used to generate the proof used to link an external wallet to a Desmos Profile.
  */
-const useGenerateProof = () =>
-  useCallback(async (desmosAccount: Account, chain: SupportedChain, account: AccountWithWallet) => {
-    const client = await DesmosClient.connectWithSigner(
-      'https://rpc.mainnet.desmos.network',
-      account.wallet.signer,
-      {
-        prefix: chain.prefix,
-      },
-    );
+const useGenerateProof = () => {
+  const signTx = useSignTx();
 
-    const msgs: EncodeObject[] = [];
-    const fee: StdFee = {
-      gas: '0',
-      amount: [],
-    };
-    const signerData: SignerData = {
-      accountNumber: 0,
-      chainId: chain.name,
-      sequence: 0,
-    };
-    const result = await client.signTx(
-      account.account.address,
-      msgs,
-      fee,
-      desmosAccount.address,
-      signerData,
-    );
+  return useCallback(
+    async (desmosAccount: Account, chain: SupportedChain, account: AccountWithWallet) => {
+      const fees: StdFee = {
+        gas: '0',
+        amount: [],
+      };
+      const signerData: SignerData = {
+        accountNumber: 0,
+        chainId: chain.name,
+        sequence: 0,
+      };
 
-    const pubKeyBytes = getPubKeyRawBytes(result);
-    const signatureBytes = getSignatureBytes(result);
-    const signedBytes = getSignedBytes(result);
+      const { signatureResult } = <OfflineSignResult>await signTx(account.wallet, {
+        mode: SignMode.Offline,
+        messages: [],
+        fees,
+        signerData,
+        memo: desmosAccount.address,
+      });
 
-    const proofPlainText = toHex(signedBytes);
-    const proofSignature = singleSignatureToAny(
-      SingleSignature.fromPartial({
-        valueType:
-          account.wallet.signer.signingMode === SigningMode.DIRECT
-            ? SignatureValueType.SIGNATURE_VALUE_TYPE_COSMOS_DIRECT
-            : SignatureValueType.SIGNATURE_VALUE_TYPE_COSMOS_AMINO,
-        signature: signatureBytes,
-      }),
-    );
-    const proofPubKey = Any.fromPartial({
-      typeUrl: '/cosmos.crypto.secp256k1.PubKey',
-      value: PubKey.encode(
-        PubKey.fromPartial({
-          key: pubKeyBytes,
+      const pubKeyBytes = getPubKeyRawBytes(signatureResult);
+      const signatureBytes = getSignatureBytes(signatureResult);
+      const signedBytes = getSignedBytes(signatureResult);
+
+      const proofPlainText = toHex(signedBytes);
+      const proofSignature = singleSignatureToAny(
+        SingleSignature.fromPartial({
+          valueType:
+            account.wallet.signer.signingMode === SigningMode.DIRECT
+              ? SignatureValueType.SIGNATURE_VALUE_TYPE_COSMOS_DIRECT
+              : SignatureValueType.SIGNATURE_VALUE_TYPE_COSMOS_AMINO,
+          signature: signatureBytes,
         }),
-      ).finish(),
-    });
+      );
+      const proofPubKey = Any.fromPartial({
+        typeUrl: '/cosmos.crypto.secp256k1.PubKey',
+        value: PubKey.encode(
+          PubKey.fromPartial({
+            key: pubKeyBytes,
+          }),
+        ).finish(),
+      });
 
-    return Proof.fromPartial({
-      signature: proofSignature,
-      plainText: proofPlainText,
-      pubKey: proofPubKey,
-    });
-  }, []);
+      return Proof.fromPartial({
+        signature: proofSignature,
+        plainText: proofPlainText,
+        pubKey: proofPubKey,
+      });
+    },
+    [signTx],
+  );
+};
 
 /**
  * Hook used to generate a MsgLinkChainAccount message used to link an external chain to a Desmos Profile.

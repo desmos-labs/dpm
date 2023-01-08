@@ -2,8 +2,8 @@ import { EncodeObject } from '@cosmjs/proto-signing';
 import { useUnlockWallet } from 'hooks/useUnlockWallet';
 import { useActiveAccount } from '@recoil/activeAccountState';
 import { useCallback } from 'react';
-import { DeliverTxResponse, DesmosClient } from '@desmoslabs/desmjs';
-import { useCurrentChainGasPrice, useCurrentChainInfo } from '@recoil/settings';
+import { DeliverTxResponse } from '@desmoslabs/desmjs';
+import useSignTx, { SignAndBroadcastResult, SignMode } from 'hooks/useSignTx';
 
 /**
  * Hook that provide a function to broadcast a list of messages
@@ -14,8 +14,7 @@ import { useCurrentChainGasPrice, useCurrentChainInfo } from '@recoil/settings';
 export const useBroadcastTx = () => {
   const activeAccount = useActiveAccount();
   const unlockWallet = useUnlockWallet(activeAccount!.address);
-  const chainInfo = useCurrentChainInfo();
-  const gasPrice = useCurrentChainGasPrice();
+  const signTx = useSignTx();
 
   return useCallback(
     async (messages: EncodeObject[], memo?: string): Promise<DeliverTxResponse | undefined> => {
@@ -25,16 +24,14 @@ export const useBroadcastTx = () => {
         return undefined;
       }
 
-      const client = await DesmosClient.connectWithSigner(chainInfo!.rpcUrl, wallet.signer, {
-        gasPrice,
+      const result = <SignAndBroadcastResult>await signTx(wallet, {
+        mode: SignMode.SignAndBroadcast,
+        messages,
+        memo,
       });
-      try {
-        return await client.signAndBroadcast(activeAccount!.address, messages, 'auto', memo);
-      } catch (e) {
-        client.disconnect();
-        throw e;
-      }
+
+      return result.deliverTxResponse;
     },
-    [activeAccount, chainInfo, gasPrice, unlockWallet],
+    [signTx, unlockWallet],
   );
 };
