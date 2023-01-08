@@ -1,106 +1,173 @@
-import { encodeSecp256k1Pubkey, OfflineAminoSigner, StdSignDoc } from '@cosmjs/amino';
-import { fromBase64, toHex } from '@cosmjs/encoding';
-import {
-  encodePubkey,
-  isOfflineDirectSigner,
-  makeAuthInfoBytes,
-  OfflineDirectSigner,
-  OfflineSigner,
-} from '@cosmjs/proto-signing';
-import { SignMode } from 'cosmjs-types/cosmos/tx/signing/v1beta1/signing';
-import { AuthInfo, SignDoc, TxBody } from 'cosmjs-types/cosmos/tx/v1beta1/tx';
+import { StdFee } from '@cosmjs/amino';
+import { EncodeObject } from '@cosmjs/proto-signing';
 import { useCallback } from 'react';
-import { CosmosTx, SignedCosmosTx, TxType } from 'types/cosmos';
-import { CosmosSignDocDirect } from 'types/walletConnect';
+import { Wallet, WalletType } from 'types/wallet';
+import { DeliverTxResponse, DesmosClient, SignatureResult } from '@desmoslabs/desmjs';
+import { useCurrentChainGasPrice, useCurrentChainInfo } from '@recoil/settings';
+import { useModal } from 'hooks/useModal';
+import LoadingModal from 'modals/LoadingModal';
+import { useTranslation } from 'react-i18next';
+import { SignerData } from '@cosmjs/stargate';
 
-async function signDirectTx(
-  signDoc: CosmosSignDocDirect,
-  signer: OfflineSigner,
-): Promise<SignedCosmosTx> {
-  if (!isOfflineDirectSigner(signer)) {
-    throw new Error("Can't sign, method direct is not supported from the wallet");
-  }
-  const directSigner: OfflineDirectSigner = signer;
-  const account = (await directSigner.getAccounts())[0];
-
-  // Parse the auth info
-  const { authInfo } = signDoc;
-  // Generate the direct pubkey
-  const cosmosPubKey = encodePubkey(encodeSecp256k1Pubkey(account.pubkey));
-  // Generate the auth info
-  const authInfoBytesWithSigner = makeAuthInfoBytes(
-    [
-      {
-        pubkey: cosmosPubKey,
-        sequence: authInfo.signerInfos[0].sequence.toNumber(),
-      },
-    ],
-    authInfo.fee?.amount!,
-    authInfo.fee?.gasLimit?.toNumber() || 200_000,
-    undefined,
-    undefined,
-    SignMode.SIGN_MODE_DIRECT,
-  );
-
-  const bodyBytes = TxBody.encode(signDoc.body).finish();
-
-  // Create the SignDoc that will be signed
-  const finalSignDoc = SignDoc.fromPartial({
-    chainId: signDoc.chainId,
-    accountNumber: signDoc.accountNumber,
-    bodyBytes,
-    authInfoBytes: authInfoBytesWithSigner,
-  });
-
-  // Sign the document
-  const signature = await directSigner.signDirect(account.address, finalSignDoc);
-  return {
-    method: TxType.SignDirect,
-    tx: {
-      body: signDoc.body,
-      chainId: signDoc.chainId,
-      accountNumber: signDoc.accountNumber,
-      authInfo: AuthInfo.decode(authInfoBytesWithSigner),
-    },
-    signature: toHex(fromBase64(signature.signature.signature)),
-  };
-}
-
-async function signAminoTx(signDoc: StdSignDoc, signer: OfflineSigner): Promise<SignedCosmosTx> {
-  const aminoSigner: OfflineAminoSigner = signer as OfflineAminoSigner;
-
-  if (aminoSigner.signAmino === undefined) {
-    throw new Error("Can't sign, method amino is not supported from the wallet");
-  }
-
-  const account = (await aminoSigner.getAccounts())[0];
-  const signResult = await aminoSigner.signAmino(account.address, signDoc);
-
-  return {
-    method: TxType.SignAmino,
-    tx: signDoc,
-    signature: signResult.signature.signature,
-    pubKey: signResult.signature.pub_key,
-  };
+/**
+ * Type of signature result.
+ */
+export enum SignMode {
+  /**
+   * Signature made offline without querying the chain for the
+   * account sequence number and fee estimation.
+   */
+  Offline,
+  /**
+   * Sig
+   */
+  SignAndBroadcast,
 }
 
 /**
- * Hook to sign a Cosmos transaction
- * Returns a stateful variable that provides the signing status and a function to initiate the signing procedure.
+ * Parameters required to perform an offline signature.
  */
-export default function useSignTx(): (
-  wallet: OfflineSigner,
-  tx: CosmosTx
-) => Promise<SignedCosmosTx> {
-  return useCallback(async (wallet: OfflineSigner, tx: CosmosTx) => {
-    switch (tx.method) {
-      case TxType.SignAmino:
-        return signAminoTx(tx.tx, wallet);
+export interface OfflineSignParams {
+  readonly mode: SignMode.Offline;
+  readonly messages: EncodeObject[];
+  readonly fees: StdFee;
+  readonly signerData: SignerData;
+  readonly memo?: string;
+}
 
-      case TxType.SignDirect:
-        return signDirectTx(tx.tx, wallet);
-      default:
-        return {} as never;
-    }
-  }, []);
+/**
+ * Parameters required to perform an offline signature.
+ */
+export interface SignAndBroadcastParams {
+  readonly mode: SignMode.SignAndBroadcast;
+  readonly messages: EncodeObject[];
+  readonly fees?: StdFee | 'auto';
+  readonly memo?: string;
+}
+
+export type SignParams = OfflineSignParams | SignAndBroadcastParams;
+
+export interface OfflineSignResult {
+  readonly mode: SignMode.Offline;
+  readonly signatureResult: SignatureResult;
+}
+
+export interface SignAndBroadcastResult {
+  readonly mode: SignMode.SignAndBroadcast;
+  readonly deliverTxResponse: DeliverTxResponse;
+}
+
+export type SignResult = OfflineSignResult | SignAndBroadcastResult;
+
+function useGetClientFromSignMode() {
+  const { rpcUrl } = useCurrentChainInfo();
+  const gasPrice = useCurrentChainGasPrice();
+
+  return useCallback(
+    async (signMode: SignMode, { signer, addressPrefix }: Wallet) => {
+      switch (signMode) {
+        case SignMode.Offline:
+          return DesmosClient.offline(signer, {
+            prefix: addressPrefix,
+          });
+        case SignMode.SignAndBroadcast:
+          return DesmosClient.connectWithSigner(rpcUrl, signer, {
+            prefix: addressPrefix,
+            gasPrice,
+          });
+        default:
+          throw new Error(`can't build client for sign mode ${signMode}`);
+      }
+    },
+    [rpcUrl, gasPrice],
+  );
+}
+
+const useSignOfflineTx = () =>
+  useCallback(
+    async (
+      client: DesmosClient,
+      wallet: Wallet,
+      signParams: OfflineSignParams,
+    ): Promise<SignResult> =>
+      client
+        .signTx(
+          wallet.address,
+          signParams.messages,
+          signParams.fees,
+          signParams.memo,
+          signParams.signerData,
+        )
+        .then((signatureResult) => ({
+          mode: SignMode.Offline,
+          signatureResult,
+        })),
+    [],
+  );
+
+const useSignAndBroadcastTx = () =>
+  useCallback(
+    async (
+      client: DesmosClient,
+      wallet: Wallet,
+      signParams: SignAndBroadcastParams,
+    ): Promise<SignResult> =>
+      client
+        .signAndBroadcast(
+          wallet.address,
+          signParams.messages,
+          signParams.fees ?? 'auto',
+          signParams.memo,
+        )
+        .then((deliverTxResponse) => ({
+          mode: SignMode.SignAndBroadcast,
+          deliverTxResponse,
+        })),
+    [],
+  );
+
+/**
+ * Hook that provides a function to sign a transaction.
+ */
+export default function useSignTx() {
+  const getClientFromSignMode = useGetClientFromSignMode();
+  const { t } = useTranslation();
+  const { showModal, hideModal } = useModal();
+  const signAndBroadcastTx = useSignAndBroadcastTx();
+  const signOfflineTx = useSignOfflineTx();
+
+  return useCallback(
+    async (wallet: Wallet, signParams: SignParams) => {
+      const client = await getClientFromSignMode(signParams.mode, wallet);
+
+      if (wallet.type === WalletType.Ledger) {
+        showModal(LoadingModal, {
+          text: t('waiting ledger confirmation'),
+        });
+      }
+
+      let signPromise;
+
+      switch (signParams.mode) {
+        case SignMode.SignAndBroadcast:
+          signPromise = signAndBroadcastTx(client, wallet, signParams);
+          break;
+        case SignMode.Offline:
+          signPromise = signOfflineTx(client, wallet, signParams);
+          break;
+        default:
+          // @ts-ignore
+          signPromise = Promise.reject(new Error(`unknown signMode ${signParams.mode}`));
+          break;
+      }
+
+      return signPromise.finally(() => {
+        client.disconnect();
+        if (wallet.type === WalletType.Ledger) {
+          hideModal();
+        }
+      });
+    },
+    [getClientFromSignMode, hideModal, showModal, signAndBroadcastTx, signOfflineTx, t],
+  );
 }
