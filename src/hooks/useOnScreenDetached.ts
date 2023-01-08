@@ -1,4 +1,4 @@
-import { DependencyList, useCallback, useEffect, useState } from 'react';
+import { DependencyList, useCallback, useEffect, useRef } from 'react';
 import { useIsFocused } from '@react-navigation/native';
 import useOnBackAction from './useOnBackAction';
 
@@ -8,21 +8,21 @@ import useOnBackAction from './useOnBackAction';
  * @param deps - Deps that are used inside the {@param onDetach} callback.
  */
 const useOnScreenDetached = (onDetach: () => any, deps: DependencyList) => {
-  const [backActionReceived, setBackActionReceived] = useState(false);
+  const backActionStateRef = useRef(false);
   const isFocused = useIsFocused();
   const memoizedDetachCallback = useCallback(onDetach, deps);
 
   useOnBackAction(() => {
-    setBackActionReceived(true);
-  }, []);
+    backActionStateRef.current = true;
+  }, [backActionStateRef]);
 
   useEffect(
     () => () => {
-      if (!isFocused && backActionReceived) {
+      if (!isFocused && backActionStateRef.current) {
         memoizedDetachCallback();
       }
     },
-    [isFocused, backActionReceived, memoizedDetachCallback],
+    [isFocused, backActionStateRef, memoizedDetachCallback],
   );
 };
 
