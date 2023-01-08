@@ -13,7 +13,6 @@ import SaveGeneratedAccount, { SaveGeneratedAccountParams } from 'screens/SaveGe
 import ConnectToLedgerStack, {
   ConnectToLedgerStackParams,
 } from 'navigation/RootNavigator/ConnectToLedgerStack';
-import Home from 'screens/Home';
 import Profile, { ProfileParams } from 'screens/Profile';
 import ChainLinkDetails, { ChainLinkDetailsProps } from 'screens/ChainLinkDetails';
 import ImportAccountSelectChain from 'screens/ImportAccountSelectChain';
@@ -23,6 +22,7 @@ import UnlockWallet, { UnlockWalletParams } from 'screens/UnlockWallet';
 import SendTokens from 'screens/SendTokens';
 import BroadcastTx, { BroadcastTxParams } from 'screens/BroadcastTx';
 import ModalScreen, { ModalScreenParams } from 'modals/ModalScreen';
+import HomeTabs from 'navigation/RootNavigator/HomeTabs';
 
 export type RootNavigatorParamList = {
   [ROUTES.DEV_SCREEN]: undefined;
@@ -39,6 +39,7 @@ export type RootNavigatorParamList = {
   [ROUTES.SAVE_GENERATED_ACCOUNT]: SaveGeneratedAccountParams;
 
   [ROUTES.CONNECT_TO_LEDGER_STACK]: ConnectToLedgerStackParams;
+  [ROUTES.HOME_TABS]: undefined;
   [ROUTES.HOME]: undefined;
 
   [ROUTES.PROFILE]: ProfileParams;
@@ -84,7 +85,7 @@ const RootNavigator = () => {
       <Stack.Screen name={ROUTES.CONNECT_TO_LEDGER_STACK} component={ConnectToLedgerStack} />
       <Stack.Screen name={ROUTES.UNLOCK_WALLET} component={UnlockWallet} />
 
-      <Stack.Screen name={ROUTES.HOME} component={Home} />
+      <Stack.Screen name={ROUTES.HOME_TABS} component={HomeTabs} />
 
       <Stack.Screen name={ROUTES.PROFILE} component={Profile} />
       <Stack.Screen name={ROUTES.SEND_TOKENS} component={SendTokens} />

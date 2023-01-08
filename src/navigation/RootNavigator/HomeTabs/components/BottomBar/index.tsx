@@ -1,11 +1,11 @@
 import { BottomTabBarProps } from '@react-navigation/bottom-tabs';
 import { TabActions } from '@react-navigation/native';
-import React from 'react';
+import React, { FC } from 'react';
 import { Text, TouchableOpacity, View } from 'react-native';
 import { useTheme } from 'react-native-paper';
 import useStyles from './useStyles';
 
-const BottomBar: React.FC<BottomTabBarProps> = (props) => {
+const BottomBar: FC<BottomTabBarProps> = (props) => {
   const { navigation, descriptors, state } = props;
   const styles = useStyles();
   const theme = useTheme();

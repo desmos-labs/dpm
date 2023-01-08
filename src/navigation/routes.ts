@@ -71,9 +71,21 @@ enum ROUTES {
    */
   CONNECT_TO_LEDGER = 'CONNECT_TO_LEDGER',
   /**
+   * Route to the home drawer screen.
+   */
+  HOME_TABS = 'HOME_TABS',
+  /**
    * Home screen.
    */
   HOME = 'HOME',
+  /**
+   * Home screen.
+   */
+  SCAN_QR_CODE = 'SCAN_QR_CODE',
+  /**
+   * Home screen.
+   */
+  AUTHORIZATIONS = 'AUTHORIZATIONS',
   /**
    * Screen that shows the user the data of the Desmos Profile associated to the current profile wallet.
    */

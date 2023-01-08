@@ -45,12 +45,12 @@ const SaveGeneratedAccount = (props: NavProps) => {
 
   useEffect(() => {
     generateAccount().then(() => {});
-  }, []);
+  }, [generateAccount]);
 
   const onContinuePressed = useCallback(() => {
     navigation.reset({
       index: 0,
-      routes: [{ name: ROUTES.HOME }],
+      routes: [{ name: ROUTES.HOME_TABS }],
     });
   }, [navigation]);
 

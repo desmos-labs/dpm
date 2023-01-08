@@ -11,7 +11,12 @@ import Spacer from 'components/Spacer';
 import { useActiveAccountAddress } from '@recoil/activeAccountState';
 import useStyles from './useStyles';
 
-const routesToRender = [ROUTES.LANDING, ROUTES.CREATE_NEW_MNEMONIC, ROUTES.PROFILE, ROUTES.HOME];
+const routesToRender = [
+  ROUTES.LANDING,
+  ROUTES.CREATE_NEW_MNEMONIC,
+  ROUTES.PROFILE,
+  ROUTES.HOME_TABS,
+];
 
 type NavProps = StackScreenProps<RootNavigatorParamList, ROUTES.DEV_SCREEN>;
 
