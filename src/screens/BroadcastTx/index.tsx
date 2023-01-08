@@ -12,8 +12,8 @@ import ROUTES from 'navigation/routes';
 import { EncodeObject } from '@cosmjs/proto-signing';
 import { useBroadcastTx } from 'screens/BroadcastTx/useHooks';
 import { DPMImages } from 'types/images';
-import useOnBackAction from 'hooks/useOnBackAction';
 import { DeliverTxResponse } from '@desmoslabs/desmjs';
+import useOnScreenDetached from 'hooks/useOnScreenDetached';
 import useStyles from './useStyles';
 
 enum BroadcastStatus {
@@ -60,7 +60,7 @@ const BroadcastTx: React.FC<NavProps> = (props) => {
     status: BroadcastStatus.Cancel,
   });
 
-  useOnBackAction(() => {
+  useOnScreenDetached(() => {
     switch (broadcastTxStatus.status) {
       case BroadcastStatus.Success:
         if (onSuccess) {
