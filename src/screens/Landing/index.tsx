@@ -61,7 +61,7 @@ const Landing = ({ navigation }: NavProps) => {
     if (importedAccount !== undefined) {
       saveAccount(importedAccount.account);
     }
-  }, [importAccount]);
+  }, [importAccount, saveAccount]);
 
   const goBack = useCallback(() => {
     navigation.goBack();
