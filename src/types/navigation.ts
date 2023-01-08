@@ -85,7 +85,6 @@ export type AccountScreensStackParams = {
   AuthorizeSession: {
     sessionRequestDetails: SessionRequestDetails;
   };
-  SendToken: undefined;
   TxDetails: {
     hash: string;
     messages: EncodeObject[];
