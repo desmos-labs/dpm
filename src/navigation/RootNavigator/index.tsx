@@ -90,7 +90,13 @@ const RootNavigator = () => {
       <Stack.Screen name={ROUTES.SEND_TOKENS} component={SendTokens} />
       <Stack.Screen name={ROUTES.CHAIN_LINK_DETAILS} component={ChainLinkDetails} />
       <Stack.Screen name={ROUTES.BROADCAST_TX} component={BroadcastTx} />
-      <Stack.Screen name={ROUTES.MODAL} component={ModalScreen} />
+      <Stack.Screen
+        name={ROUTES.MODAL}
+        component={ModalScreen}
+        options={{
+          presentation: 'transparentModal',
+        }}
+      />
     </Stack.Navigator>
   );
 };
