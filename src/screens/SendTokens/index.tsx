@@ -73,7 +73,8 @@ const SendTokens = () => {
     setAddress('');
     setAmount('');
     setMemo('');
-  }, []);
+    navigation.goBack();
+  }, [navigation]);
 
   const sendTokens = useSendTokens({ onSuccess: onSendSuccess });
   const onNextPressed = useCallback(async () => {
