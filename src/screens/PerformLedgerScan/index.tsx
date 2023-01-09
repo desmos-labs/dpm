@@ -1,6 +1,6 @@
 import { StackScreenProps } from '@react-navigation/stack';
-import React, { useCallback, useEffect } from 'react';
-import { useTranslation } from 'react-i18next';
+import React, { useCallback, useEffect, useMemo } from 'react';
+import { Trans, useTranslation } from 'react-i18next';
 import { FlatList, ListRenderItemInfo, TouchableOpacity } from 'react-native';
 import { BLELedger } from 'types/ledger';
 import Typography from 'components/Typography';
@@ -13,7 +13,8 @@ import Button from 'components/Button';
 import ROUTES from 'navigation/routes';
 import { DPMAnimations, DPMImages } from 'types/images';
 import { ConnectToLedgerStackParamList } from 'navigation/RootNavigator/ConnectToLedgerStack';
-import { useStartBleScan } from './useHooks';
+import useOnBackAction from 'hooks/useOnBackAction';
+import { ScanErrorType, useBleScan } from './useHooks';
 import useStyles from './useStyles';
 
 export type NavProps = StackScreenProps<ConnectToLedgerStackParamList, ROUTES.PERFORM_LEDGER_SCAN>;
@@ -21,22 +22,20 @@ export type NavProps = StackScreenProps<ConnectToLedgerStackParamList, ROUTES.PE
 const PerformLedgerScan: React.FC<NavProps> = ({ navigation, route }) => {
   const { ledgerApp, onConnect, onCancel } = route.params;
   const styles = useStyles();
-  const { t } = useTranslation();
-  const { scanning, scan, devices, scanError } = useStartBleScan();
+  const { t } = useTranslation('ledgerScan');
+  const { requestPermissions, requestEnableBt, scan, scanning, devices, scanError } = useBleScan();
+
+  useOnBackAction(() => {
+    if (onCancel !== undefined) {
+      onCancel();
+    }
+  }, [onCancel]);
 
   useEffect(() => {
     scan().then(() => {});
-  }, []);
 
-  useEffect(
-    () =>
-      navigation.addListener('beforeRemove', (e) => {
-        if (e.data.action.type === 'GO_BACK' && onCancel !== undefined) {
-          onCancel();
-        }
-      }),
-    [navigation, onCancel],
-  );
+    // eslint-disable-next-line
+  }, []);
 
   const onLedgerItemSelected = useCallback(
     ({ item }: ListRenderItemInfo<BLELedger>) => {
@@ -49,8 +48,23 @@ const PerformLedgerScan: React.FC<NavProps> = ({ navigation, route }) => {
         },
       });
     },
-    [navigation, ledgerApp, onCancel],
+    [navigation, ledgerApp, onConnect],
   );
+
+  const errorMessage = useMemo(() => {
+    if (scanError?.type === ScanErrorType.Unknown) {
+      return scanError.message;
+    }
+
+    switch (scanError?.type) {
+      case ScanErrorType.BtOff:
+        return t('error bluetooth off');
+      case ScanErrorType.Unauthorized:
+        return t('error missing permissions');
+      default:
+        return undefined;
+    }
+  }, [t, scanError]);
 
   const renderLedgerDevice = useCallback(
     (info: ListRenderItemInfo<BLELedger>) => (
@@ -62,9 +76,45 @@ const PerformLedgerScan: React.FC<NavProps> = ({ navigation, route }) => {
     [onLedgerItemSelected, styles.ledgerListItem, styles.ledgerName],
   );
 
-  const onRetryPressed = useCallback(() => {
-    scan().then(() => {});
-  }, [scan]);
+  const actionButton = useMemo(() => {
+    if (scanError === undefined) {
+      return (
+        <Button mode={'contained'} loading={scanning} disabled={scanning} onPress={() => scan()}>
+          {scanning ? t('looking for devices') : t('start scan')}
+        </Button>
+      );
+    }
+
+    switch (scanError.type) {
+      case ScanErrorType.BtOff:
+        return (
+          <Button
+            mode={'contained'}
+            onPress={async () => {
+              const result = await requestEnableBt();
+              if (result) {
+                await scan();
+              }
+            }}
+          >
+            {t('turn on bluetooth')}
+          </Button>
+        );
+      case ScanErrorType.Unauthorized:
+        return (
+          <Button
+            mode={'contained'}
+            onPress={async () => {
+              await requestPermissions();
+            }}
+          >
+            {t('grant permissions')}
+          </Button>
+        );
+      default:
+        return null;
+    }
+  }, [requestEnableBt, requestPermissions, scan, scanError, scanning, t]);
 
   return (
     <StyledSafeAreaView topBar={<TopBar stackProps={{ navigation }} />} style={styles.root}>
@@ -79,9 +129,20 @@ const PerformLedgerScan: React.FC<NavProps> = ({ navigation, route }) => {
       />
       <Typography.Subtitle style={styles.title}>{t('looking for devices')}</Typography.Subtitle>
 
-      <Typography.Body style={styles.advice}>{t('nano x unlock bluetooth check')}</Typography.Body>
+      <Typography.Body style={styles.advice}>
+        <Trans
+          t={t}
+          i18nKey="nano x unlock bluetooth check"
+          values={{
+            app: ledgerApp.name,
+          }}
+          components={{
+            bold: <Typography.Subtitle />,
+          }}
+        />
+      </Typography.Body>
 
-      {scanning || devices.length > 0 ? (
+      {errorMessage === undefined ? (
         <FlatList
           style={styles.deviceList}
           data={devices}
@@ -90,19 +151,10 @@ const PerformLedgerScan: React.FC<NavProps> = ({ navigation, route }) => {
           ItemSeparatorComponent={ListItemSeparator}
         />
       ) : (
-        <Typography.Subtitle style={styles.noDeviceError}>
-          {scanError?.message ?? t('no device found')}
-        </Typography.Subtitle>
+        <Typography.Subtitle style={styles.noDeviceError}>{errorMessage}</Typography.Subtitle>
       )}
 
-      <Button
-        style={styles.retryScan}
-        mode="contained"
-        onPress={onRetryPressed}
-        disabled={scanning}
-      >
-        {t('retry')}
-      </Button>
+      {actionButton}
     </StyledSafeAreaView>
   );
 };

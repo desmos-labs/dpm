@@ -9666,10 +9666,10 @@ react-native-ble-plx@2.0.3, react-native-ble-plx@^2.0.3:
   resolved "https://registry.yarnpkg.com/react-native-ble-plx/-/react-native-ble-plx-2.0.3.tgz#b0a746f33389dbf7fd7b158513330d487d5d0fbb"
   integrity sha512-62LRDBPf/03K7sge+qq2ZuF8PWCGB782G+SBrpgNm5fA5Hs3FCY1ExTJZ1G0tB5ZhBPYEXcKRxPLuFegcDFrqA==
 
-react-native-bluetooth-state-manager@^1.3.2:
-  version "1.3.3"
-  resolved "https://registry.yarnpkg.com/react-native-bluetooth-state-manager/-/react-native-bluetooth-state-manager-1.3.3.tgz#c998ceb078a8671be8eb14ba802af8fa8f064f6b"
-  integrity sha512-hE4oG6/jFFIQMz9p0gitV90k61MAddJ0Ri86x9BvytMbdfreeeOU29eJwJWrM+PsNJWUH0w7ycbisj9i4RXp0A==
+react-native-bluetooth-state-manager@^1.3.4:
+  version "1.3.4"
+  resolved "https://registry.npmjs.org/react-native-bluetooth-state-manager/-/react-native-bluetooth-state-manager-1.3.4.tgz#3e3fd2bd7e453f9b3995fda1ea50e1841b0ec148"
+  integrity sha512-aPSoNYoz1lRC5UorRajzAzME8UUanrEIIbvzdnPFrMDrKiJNCdjwcsyEZlNBKPdDAUrSSWyGaCZ4jHVGnd4bwA==
 
 react-native-camera@4.0.1:
   version "4.0.1"
@@ -9820,10 +9820,10 @@ react-native-permissions@^2.0.2:
   resolved "https://registry.yarnpkg.com/react-native-permissions/-/react-native-permissions-2.2.2.tgz#3d2a63f6b7d6be52fc86e30f77412a9566283028"
   integrity sha512-ihf4shQDSX5Oo9ChQXb9kr13mmyyNem5MaEvOpr3dCjhBOBWyEMztXm9/uPK1Qg5PsNpaYLa1KpcPZDCw87LXg==
 
-react-native-permissions@^3.1.0:
-  version "3.3.1"
-  resolved "https://registry.yarnpkg.com/react-native-permissions/-/react-native-permissions-3.3.1.tgz#8a359d9c0531afcde2f642a459b48c4c1e3e8f2d"
-  integrity sha512-Ap9nVWBWJ7lyU6Ye3Qltm2V+Ut6XjDcs+6ZBmK1UUxcCoSSGx/mQg2GbMJLjlnoVtUgVHR3IhyZ0mN9DlMPRFQ==
+react-native-permissions@^3.6.1:
+  version "3.6.1"
+  resolved "https://registry.npmjs.org/react-native-permissions/-/react-native-permissions-3.6.1.tgz#73adcc1cef8cd57a9ef167b4507405f4ff5749c4"
+  integrity sha512-fzPpPQXeD34inUccqtoResSwYubfrwUguP4qrVUUv8+KSMjYSaHGoS5HaIJLZHlN9gO+TvLJZ2L5ZljTsb6qnQ==
 
 react-native-qrcode-scanner@1.5.4:
   version "1.5.4"
