@@ -31,7 +31,7 @@ const SaveGeneratedAccount = (props: NavProps) => {
   const generateAccount = useCallback(async () => {
     await saveAccount(account, password);
     setActiveAccountAddress(account.account.address);
-  }, [account, password, setActiveAccountAddress]);
+  }, [account, password, saveAccount, setActiveAccountAddress]);
 
   useEffect(
     () =>
@@ -45,7 +45,11 @@ const SaveGeneratedAccount = (props: NavProps) => {
 
   useEffect(() => {
     generateAccount().then(() => {});
-  }, [generateAccount]);
+
+    // Fine to ignore the hook deps since we just need to lunch
+    // generate account when opening this screen.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const onContinuePressed = useCallback(() => {
     navigation.reset({
