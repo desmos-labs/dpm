@@ -66,7 +66,7 @@ export const formatCoin = (amount: Coin): string => {
  * Formats the given coins and returns a string representing the overall amount.
  * @param amount - Amount to be formatted.
  */
-export const formatCoins = (amount: Coin[] | undefined): string =>
+export const formatCoins = (amount: readonly Coin[] | undefined): string =>
   (amount || []).map(formatCoin).join('\n');
 
 /**

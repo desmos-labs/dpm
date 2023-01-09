@@ -1,5 +1,6 @@
 import React from 'react';
 import { View } from 'react-native';
+import { ActivityIndicator } from 'react-native-paper';
 import Typography from '../Typography';
 import useStyles from './useStyles';
 
@@ -12,16 +13,20 @@ export type LabeledValueProps = {
    * The value to display to the user.
    */
   value?: string;
+  /**
+   * Tels if the value is being loaded.
+   */
+  loading?: boolean;
 };
 
 const LabeledValue: React.FC<LabeledValueProps> = (props) => {
-  const { label, value } = props;
+  const { label, value, loading } = props;
   const styles = useStyles();
 
   return (
     <View style={styles.root}>
       <Typography.Subtitle>{label}</Typography.Subtitle>
-      <Typography.Body>{value}</Typography.Body>
+      {loading === true ? <ActivityIndicator /> : <Typography.Body>{value}</Typography.Body>}
     </View>
   );
 };

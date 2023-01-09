@@ -1,5 +1,5 @@
 import { StackScreenProps } from '@react-navigation/stack';
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import SingleButtonModal from 'modals/SingleButtonModal';
 import TransactionDetails from 'components/TransactionDetails';
@@ -10,7 +10,7 @@ import Button from 'components/Button';
 import { RootNavigatorParamList } from 'navigation/RootNavigator';
 import ROUTES from 'navigation/routes';
 import { EncodeObject } from '@cosmjs/proto-signing';
-import { useBroadcastTx } from 'screens/BroadcastTx/useHooks';
+import { useBroadcastTx, useEstimateFees } from 'screens/BroadcastTx/useHooks';
 import { DPMImages } from 'types/images';
 import { DeliverTxResponse } from '@desmoslabs/desmjs';
 import useOnScreenDetached from 'hooks/useOnScreenDetached';
@@ -59,6 +59,11 @@ const BroadcastTx: React.FC<NavProps> = (props) => {
   const [broadcastTxStatus, setBroadcastTxStatus] = useState<BroadcastTxStatus>({
     status: BroadcastStatus.Cancel,
   });
+  const { estimateFees, estimatingFees, estimatedFees } = useEstimateFees();
+
+  useEffect(() => {
+    estimateFees(messages, memo);
+  }, [estimateFees, memo, messages]);
 
   useOnScreenDetached(() => {
     switch (broadcastTxStatus.status) {
@@ -106,7 +111,7 @@ const BroadcastTx: React.FC<NavProps> = (props) => {
   const confirmBroadcast = useCallback(async () => {
     setBroadcastingTx(true);
     try {
-      const result = await broadcastTx(messages, memo);
+      const result = await broadcastTx(messages, estimatedFees, memo);
       if (result !== undefined) {
         setBroadcastTxStatus({ status: BroadcastStatus.Success, deliveredTx: result });
         showSuccessModal();
@@ -118,17 +123,22 @@ const BroadcastTx: React.FC<NavProps> = (props) => {
       showErrorModal(e.message);
     }
     setBroadcastingTx(false);
-  }, [broadcastTx, memo, messages, showErrorModal, showSuccessModal]);
+  }, [broadcastTx, estimatedFees, memo, messages, showErrorModal, showSuccessModal]);
 
   return (
     <StyledSafeAreaView topBar={<TopBar stackProps={props} title={t('tx details')} />}>
-      <TransactionDetails messages={messages} memo={memo} />
+      <TransactionDetails
+        messages={messages}
+        memo={memo}
+        estimatingFee={estimatingFees}
+        fee={estimatedFees}
+      />
       <Button
         style={styles.nextBtn}
         mode="contained"
         onPress={confirmBroadcast}
         loading={broadcastingTx}
-        disabled={broadcastingTx}
+        disabled={broadcastingTx || estimatingFees}
       >
         {!broadcastingTx ? t('confirm') : t('broadcasting tx')}
       </Button>

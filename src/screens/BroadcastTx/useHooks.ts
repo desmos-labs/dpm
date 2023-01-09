@@ -1,9 +1,65 @@
 import { EncodeObject } from '@cosmjs/proto-signing';
 import { useUnlockWallet } from 'hooks/useUnlockWallet';
 import { useActiveAccount } from '@recoil/activeAccountState';
-import { useCallback } from 'react';
-import { DeliverTxResponse } from '@desmoslabs/desmjs';
+import { useCallback, useState } from 'react';
+import { DeliverTxResponse, DesmosClient, OfflineSignerAdapter } from '@desmoslabs/desmjs';
 import useSignTx, { SignAndBroadcastResult, SignMode } from 'hooks/useSignTx';
+import { AccountData, StdFee } from '@cosmjs/amino';
+import { useCurrentChainGasPrice, useCurrentChainInfo } from '@recoil/settings';
+import { Account } from 'types/account';
+
+const dummyOfflineSigner = (account: Account): OfflineSignerAdapter =>
+  new OfflineSignerAdapter({
+    getAccounts(): Promise<readonly AccountData[]> {
+      return Promise.resolve([
+        {
+          address: account.address,
+          algo: account.algo,
+          pubkey: account.pubKey,
+        },
+      ]);
+    },
+    signDirect: () => Promise.reject(new Error('not implemented')),
+  });
+
+export const useEstimateFees = () => {
+  const [estimatingFees, setEstimatingFees] = useState(false);
+  const [estimatedFees, setEstimatedFees] = useState<StdFee>();
+  const activeAccount = useActiveAccount()!;
+  const chainInfo = useCurrentChainInfo();
+  const gasPrice = useCurrentChainGasPrice();
+
+  const estimateFees = useCallback(
+    async (messages: EncodeObject[], memo: string = '') => {
+      setEstimatingFees(true);
+      setEstimatedFees(undefined);
+      let client: DesmosClient | undefined;
+
+      try {
+        client = await DesmosClient.connectWithSigner(
+          chainInfo.rpcUrl,
+          dummyOfflineSigner(activeAccount),
+          {
+            gasPrice,
+          },
+        );
+
+        const fees = await client.estimateTxFee(activeAccount.address, messages, memo);
+        setEstimatedFees(fees);
+      } finally {
+        client?.disconnect();
+        setEstimatingFees(false);
+      }
+    },
+    [activeAccount, chainInfo.rpcUrl, gasPrice],
+  );
+
+  return {
+    estimateFees,
+    estimatingFees,
+    estimatedFees,
+  };
+};
 
 /**
  * Hook that provide a function to broadcast a list of messages
@@ -17,7 +73,11 @@ export const useBroadcastTx = () => {
   const signTx = useSignTx();
 
   return useCallback(
-    async (messages: EncodeObject[], memo?: string): Promise<DeliverTxResponse | undefined> => {
+    async (
+      messages: EncodeObject[],
+      fees?: StdFee | 'auto',
+      memo?: string,
+    ): Promise<DeliverTxResponse | undefined> => {
       const wallet = await unlockWallet();
 
       if (wallet === undefined) {
@@ -28,6 +88,7 @@ export const useBroadcastTx = () => {
         mode: SignMode.SignAndBroadcast,
         messages,
         memo,
+        fees,
       });
 
       return result.deliverTxResponse;

@@ -1,7 +1,5 @@
 import { EncodeObject } from '@cosmjs/proto-signing';
-import { convertCoin } from '@desmoslabs/desmjs';
 import { format } from 'date-fns';
-import Long from 'long';
 import React, { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Pressable, ScrollView, StyleProp, View, ViewStyle } from 'react-native';
@@ -9,11 +7,12 @@ import { StdFee } from '@cosmjs/amino';
 import { MessageDetails } from 'components/Messages/MessageDetails';
 import Divider from 'components/Divider';
 import LabeledValue from 'components/LabeledValue';
+import { formatCoins } from 'lib/FormatUtils';
 import useStyles from './useStyles';
-import { useCurrentChainInfo } from '@recoil/settings';
 
 export type TransactionDetailsProps = {
   messages: readonly EncodeObject[];
+  estimatingFee?: boolean;
   fee?: StdFee;
   memo?: string;
   success?: boolean;
@@ -22,34 +21,11 @@ export type TransactionDetailsProps = {
 };
 
 const TransactionDetails: React.FC<TransactionDetailsProps> = (props) => {
-  const { memo, messages, fee, success, dateTime, style } = props;
+  const { memo, messages, fee, success, dateTime, style, estimatingFee } = props;
   const { t } = useTranslation();
-  const chainInfo = useCurrentChainInfo()!;
   const styles = useStyles();
 
-  const txFex = useMemo(() => {
-    if (fee !== undefined && fee.amount.length > 0) {
-      const feeAmount = fee.amount
-        .filter((coin) => coin.denom === chainInfo.stakeCurrency.coinDenom)
-        .map((coin) => Long.fromString(coin.amount))
-        .reduce((previousValue, currentValue) => previousValue.add(currentValue), Long.ZERO);
-
-      const convertedFee = convertCoin(
-        {
-          denom: chainInfo.stakeCurrency.coinDenom,
-          amount: feeAmount.toString(),
-        },
-        6,
-        chainInfo.currencies,
-      );
-
-      if (convertedFee === null) {
-        return `${feeAmount.toString(10)} ${chainInfo.stakeCurrency.coinDenom}`;
-      }
-      return `${convertedFee.amount} ${convertedFee.denom.toUpperCase()}`;
-    }
-    return '0';
-  }, [chainInfo.stakeCurrency.coinDenom, chainInfo.currencies, fee]);
+  const txFex = useMemo(() => formatCoins(fee?.amount), [fee]);
 
   return (
     <View style={styles.root}>
@@ -61,7 +37,7 @@ const TransactionDetails: React.FC<TransactionDetailsProps> = (props) => {
               <Divider key={`divider_${i * 2}`} />
             </View>
           ))}
-          <LabeledValue label={t('fee')} value={txFex} />
+          <LabeledValue label={t('fee')} value={txFex} loading={estimatingFee} />
           <Divider />
           {dateTime && (
             <>
@@ -75,7 +51,7 @@ const TransactionDetails: React.FC<TransactionDetailsProps> = (props) => {
               <Divider />
             </>
           )}
-          <LabeledValue label={t('memo')} value={(memo?.length ?? 0) > 0 ? memo : 'N/A'} />
+          <LabeledValue label={t('memo')} value={(memo?.length ?? 0) > 0 ? memo : ''} />
           <Divider />
         </Pressable>
       </ScrollView>
