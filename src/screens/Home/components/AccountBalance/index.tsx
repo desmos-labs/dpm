@@ -6,7 +6,7 @@ import Typography from 'components/Typography';
 import { useSettingsState } from '@recoil/settings';
 import CopyButton from 'components/CopyButton';
 import { Account } from 'types/account';
-import { DesmosProfile } from 'types/desmosTypes';
+import { DesmosProfile } from 'types/desmos';
 import { formatCoins, formatHiddenValue } from 'lib/FormatUtils';
 import { ActivityIndicator } from 'react-native-paper';
 import { useNavigation } from '@react-navigation/native';

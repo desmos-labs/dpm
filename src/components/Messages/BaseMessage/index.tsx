@@ -1,10 +1,11 @@
 import React from 'react';
 import { Image, ImageProps, View } from 'react-native';
-import {format} from 'date-fns';
+import { format } from 'date-fns';
 import { makeStyle } from 'config/theme';
 import Divider from 'components/Divider';
 import Typography from 'components/Typography';
 import LabeledValue from 'components/LabeledValue';
+import useStyles from './useStyles';
 
 export type DetailsProps = {
   icon?: ImageProps['source'];
@@ -26,6 +27,7 @@ namespace BaseMessage {
         display: 'flex',
         flexDirection: 'row',
         backgroundColor: theme.colors.surface2,
+        padding: 8,
       },
       image: {
         marginTop: 6,
@@ -37,7 +39,6 @@ namespace BaseMessage {
         marginLeft: 12,
       },
       date: {
-        marginTop: 11,
         color: theme.colors.font['3'],
       },
     }));
@@ -52,37 +53,23 @@ namespace BaseMessage {
         </View>
         <View style={styles.content}>
           {renderContent()}
-          <Typography.Caption style={styles.date}>{format(date, 'dd MMM, HH:mm')}</Typography.Caption>
+          <Typography.Caption style={styles.date}>
+            {format(date, 'dd MMM, HH:mm')}
+          </Typography.Caption>
         </View>
       </View>
     );
   };
 
   export const Details: React.FC<DetailsProps> = (props) => {
-    const useStyles = makeStyle((_) => ({
-      txHeader: {
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-        paddingVertical: 24,
-      },
-      txIcon: {
-        width: 34,
-        height: 34,
-      },
-      headerAmount: {
-        marginTop: 10,
-      },
-    }));
-
-    const {icon, customIconView, iconSubtitle, fields} = props;
+    const { icon, customIconView, iconSubtitle, fields } = props;
     const styles = useStyles();
     const customIcon = customIconView !== undefined ? customIconView : null;
     return (
       <View>
         <View style={styles.txHeader}>
           {icon !== undefined ? (
-            <Image style={styles.txIcon} source={icon} resizeMode="contain"/>
+            <Image style={styles.txIcon} source={icon} resizeMode="contain" />
           ) : (
             customIcon
           )}
@@ -90,8 +77,8 @@ namespace BaseMessage {
         </View>
         {fields?.map((field, index) => (
           <View key={`field-${index * 2}`}>
-            <Divider/>
-            <LabeledValue label={field.label} value={field.value}/>
+            <Divider />
+            <LabeledValue label={field.label} value={field.value} />
           </View>
         ))}
       </View>

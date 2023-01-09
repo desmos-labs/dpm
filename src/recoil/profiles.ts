@@ -1,7 +1,7 @@
 import React from 'react';
 import { atom, useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
 import { getMMKV, MMKVKEYS, setMMKV } from 'lib/MMKVStorage';
-import { DesmosProfile } from 'types/desmosTypes';
+import { DesmosProfile } from 'types/desmos';
 
 /**
  * An atom that holds all the profiles stored inside the application.

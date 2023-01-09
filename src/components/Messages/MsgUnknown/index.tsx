@@ -1,10 +1,11 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { View } from 'react-native';
-import {EncodeObject} from '@cosmjs/proto-signing';
+import { EncodeObject } from '@cosmjs/proto-signing';
 import Divider from 'components/Divider';
 import LabeledValue from 'components/LabeledValue';
 import Typography from 'components/Typography';
+import { msgUnknownIcon } from 'assets/images';
 import BaseMessage from '../BaseMessage';
 
 export type DetailsProps = {
@@ -35,17 +36,21 @@ namespace MsgUnknown {
     );
   };
 
-  export const ListItem: React.FC<ListItemProps> = ({ message, date }) => (
-    <BaseMessage.ListItem
-      icon={require('assets/images/messages/unknown.png')}
-      date={date}
-      renderContent={() => (
-        <View>
-          <Typography.Caption>{message.typeUrl}</Typography.Caption>
-        </View>
-      )}
-    />
-  );
+  export const ListItem: React.FC<ListItemProps> = ({ message, date }) => {
+    const msgPosition = message.typeUrl.indexOf('.Msg');
+    const typeUrl = message.typeUrl.slice(msgPosition + 1);
+    return (
+      <BaseMessage.ListItem
+        icon={msgUnknownIcon}
+        date={date}
+        renderContent={() => (
+          <View>
+            <Typography.Body>{typeUrl}</Typography.Body>
+          </View>
+        )}
+      />
+    );
+  };
 }
 
 export default MsgUnknown;

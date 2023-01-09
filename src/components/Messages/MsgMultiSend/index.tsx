@@ -5,6 +5,7 @@ import { View } from 'react-native';
 import { Input } from 'cosmjs-types/cosmos/bank/v1beta1/bank';
 import { MsgMultiSendEncodeObject } from 'types/encodeobject';
 import { useCurrentChainInfo } from '@recoil/settings';
+import { msgSendIcon } from 'assets/images';
 import BaseMessage from '../BaseMessage';
 import Typography from '../../Typography';
 
@@ -44,7 +45,7 @@ namespace MsgMultiSend {
     );
 
     const outputAddresses = useMemo(
-      () => message.outputs.map((output) => output.address),
+      () => message.outputs.map((output: { address: string }) => output.address),
       [message.outputs],
     );
 
@@ -110,13 +111,7 @@ namespace MsgMultiSend {
         .reduce((oldValue, sum) => [...oldValue, ...sum], []);
     }, [chainInfo.currencies, message?.outputs, t]);
 
-    return (
-      <BaseMessage.Details
-        icon={require('assets/images/messages/send.png')}
-        iconSubtitle={amounts}
-        fields={[...outputs]}
-      />
-    );
+    return <BaseMessage.Details icon={msgSendIcon} iconSubtitle={amounts} fields={[...outputs]} />;
   };
 }
 

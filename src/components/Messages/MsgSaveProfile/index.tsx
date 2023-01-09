@@ -6,6 +6,7 @@ import Divider from 'components/Divider';
 import LabeledValue from 'components/LabeledValue';
 import ProfileHeader from 'components/ProfileHeader';
 import Typography from 'components/Typography';
+import { msgGeneralIcon } from 'assets/images';
 import BaseMessage from '../BaseMessage';
 
 export type DetailsProps = {
@@ -22,11 +23,11 @@ namespace MsgSaveProfile {
    * Displays the short details of a MsgSaveProfile within a list.
    * @constructor
    */
-  export const ListItem: React.FC<ListItemProps> = ({date}) => {
+  export const ListItem: React.FC<ListItemProps> = ({ date }) => {
     const { t } = useTranslation();
     return (
       <BaseMessage.ListItem
-        icon={require('assets/images/messages/general.png')}
+        icon={msgGeneralIcon}
         date={date}
         renderContent={() => (
           <View>
@@ -41,12 +42,15 @@ namespace MsgSaveProfile {
    * Displays the full details of a MsgSaveProfile
    * @constructor
    */
-  export const Details: React.FC<DetailsProps> = ({message}) => {
+  export const Details: React.FC<DetailsProps> = ({ message }) => {
     const { t } = useTranslation();
 
     const profilePicture = useMemo(() => {
       const profilePictureObject = message.profilePicture;
-      if (profilePictureObject?.startsWith('http://') || profilePictureObject?.startsWith('https://')) {
+      if (
+        profilePictureObject?.startsWith('http://') ||
+        profilePictureObject?.startsWith('https://')
+      ) {
         return profilePictureObject;
       }
       return undefined;
@@ -63,20 +67,11 @@ namespace MsgSaveProfile {
     return (
       <View>
         <ProfileHeader profilePictureUri={profilePicture} coverPictureUri={coverPicture} />
-        <LabeledValue
-          label={t('dtag')}
-          value={message?.dtag}
-        />
+        <LabeledValue label={t('dtag')} value={message?.dtag} />
         <Divider />
-        <LabeledValue
-          label={t('nickname')}
-          value={message?.nickname}
-        />
+        <LabeledValue label={t('nickname')} value={message?.nickname} />
         <Divider />
-        <LabeledValue
-          label={t('bio')}
-          value={message?.bio}
-        />
+        <LabeledValue label={t('bio')} value={message?.bio} />
       </View>
     );
   };

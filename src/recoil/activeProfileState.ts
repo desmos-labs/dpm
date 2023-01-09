@@ -2,7 +2,7 @@ import React from 'react';
 import { useLazyQuery } from '@apollo/client';
 import { selector, useRecoilValue } from 'recoil';
 import GetProfileForAddress from 'services/graphql/queries/GetProfileForAddress';
-import { DesmosProfile } from 'types/desmosTypes';
+import { DesmosProfile } from 'types/desmos';
 import { activeAccountAddressAppState, useActiveAccountAddress } from '@recoil/activeAccountState';
 import { profilesAppState, useStoreProfile } from '@recoil/profiles';
 

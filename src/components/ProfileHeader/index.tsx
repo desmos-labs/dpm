@@ -5,7 +5,7 @@ import { useTheme } from 'react-native-paper';
 import AvatarImage from 'components/AvatarImage';
 import IconButton from 'components/IconButton';
 import Typography from 'components/Typography';
-import { DesmosProfile } from 'types/desmosTypes';
+import { DesmosProfile } from 'types/desmos';
 import { defaultProfileCover, defaultProfilePicture } from 'assets/images';
 import CopyButton from 'components/CopyButton';
 import usePickPicture from 'components/ProfileHeader/useHooks';

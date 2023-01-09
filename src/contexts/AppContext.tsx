@@ -1,7 +1,7 @@
 import { ApolloProvider } from '@apollo/client';
 import { Coin } from 'cosmjs-types/cosmos/base/v1beta1/coin';
 import React, { useMemo, useState } from 'react';
-import { DesmosProfile } from 'types/desmosTypes';
+import { DesmosProfile } from 'types/desmos';
 import buildGraphQlClient from 'services/graphql/client';
 import { DesmosClientProvider } from './DesmosClientContext';
 

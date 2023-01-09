@@ -1,5 +1,5 @@
 import React from 'react';
-import { ProfileParams } from 'types/desmosTypes';
+import { ProfileParams } from 'types/desmos';
 import { atom, useRecoilState } from 'recoil';
 import { getMMKV, MMKVKEYS, setMMKV } from 'lib/MMKVStorage';
 import { useLazyQuery } from '@apollo/client';

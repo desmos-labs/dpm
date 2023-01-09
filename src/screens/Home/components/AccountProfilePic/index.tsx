@@ -1,5 +1,5 @@
 import React, { useCallback } from 'react';
-import { DesmosProfile } from 'types/desmosTypes';
+import { DesmosProfile } from 'types/desmos';
 import AvatarImage from 'components/AvatarImage';
 import { useNavigation } from '@react-navigation/native';
 import { StackNavigationProp } from '@react-navigation/stack';

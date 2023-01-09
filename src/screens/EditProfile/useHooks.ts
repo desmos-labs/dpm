@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { DesmosProfile, ProfileParams } from 'types/desmosTypes';
+import { DesmosProfile, ProfileParams } from 'types/desmos';
 import { useTranslation } from 'react-i18next';
 import useBroadcastTx, { BroadcastTxOptions } from 'hooks/useBroadcastTx';
 import useUploadPicture from 'hooks/useUploadPicture';

@@ -6,7 +6,7 @@ import { CommonActions, NavigatorScreenParams, Route } from '@react-navigation/n
 import { StackNavigationState } from '@react-navigation/routers/lib/typescript/src/StackRouter';
 import { createStackNavigator } from '@react-navigation/stack';
 import { Account } from 'types/account';
-import { DesmosProfile } from './desmosTypes';
+import { DesmosProfile } from './desmos';
 import { LedgerApp } from './ledger';
 import { Wallet } from './wallet';
 import { SessionRequestDetails } from './walletConnect';

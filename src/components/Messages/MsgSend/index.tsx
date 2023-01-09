@@ -6,6 +6,7 @@ import { View } from 'react-native';
 import Typography from 'components/Typography';
 import { formatCoins } from 'lib/FormatUtils';
 import { useCurrentChainInfo } from '@recoil/settings';
+import { msgSendIcon } from 'assets/images';
 import BaseMessage from '../BaseMessage';
 import useStyles from './useStyles';
 
@@ -58,7 +59,7 @@ namespace MsgSend {
 
     return (
       <BaseMessage.ListItem
-        icon={require('assets/images/messages/send.png')}
+        icon={msgSendIcon}
         date={date}
         renderContent={() => (
           <View>
@@ -66,7 +67,7 @@ namespace MsgSend {
               {t('send')} {tokenSent}
             </Typography.Body1>
             <View style={styles.toAddress}>
-              <Typography.Caption>
+              <Typography.Caption numberOfLines={1} ellipsizeMode="middle">
                 {t('to')} {message.toAddress}
               </Typography.Caption>
             </View>

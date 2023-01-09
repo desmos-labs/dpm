@@ -5,6 +5,7 @@ import { useTranslation } from 'react-i18next';
 import { View } from 'react-native';
 import Typography from 'components/Typography';
 import { useCurrentChainInfo } from '@recoil/settings';
+import { msgDelegateIcon } from 'assets/images';
 import BaseMessage from '../BaseMessage';
 import useStyles from './useStyles';
 
@@ -80,7 +81,7 @@ namespace MsgDelegate {
 
     return (
       <BaseMessage.Details
-        icon={require('assets/images/messages/delegate.png')}
+        icon={msgDelegateIcon}
         iconSubtitle={`${t('delegate')} ${amount}`}
         fields={[
           {

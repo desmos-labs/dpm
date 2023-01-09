@@ -4,6 +4,7 @@ import { useTranslation } from 'react-i18next';
 import { Image, StyleSheet, View } from 'react-native';
 import Typography from 'components/Typography';
 import SupportedChains from 'config/LinkableChains';
+import { cosmosIcon, desmosIcon, disconnectIcon, msgGeneralIcon } from 'assets/images';
 import BaseMessage from '../BaseMessage';
 import useStyles from './useStyles';
 
@@ -27,7 +28,7 @@ namespace MsgUnlinkChainAccount {
 
     return (
       <BaseMessage.ListItem
-        icon={require('assets/images/messages/general.png')}
+        icon={msgGeneralIcon}
         date={date}
         renderContent={() => (
           <View>
@@ -75,18 +76,15 @@ namespace MsgUnlinkChainAccount {
       if (chain !== undefined) {
         return chain.icon;
       }
-      return require('assets/images/chains/cosmos.png');
+      return cosmosIcon;
     }, [chainName, getLinkableChainInfoByName]);
 
     return (
       <BaseMessage.Details
         customIconView={
           <View style={styles.customIconView}>
-            <Image
-              style={styles.chainLinkIcon}
-              source={require('assets/images/chains/desmos.png')}
-            />
-            <Image style={styles.disconnectIcon} source={require('assets/images/disconnect.png')} />
+            <Image style={styles.chainLinkIcon} source={desmosIcon} />
+            <Image style={styles.disconnectIcon} source={disconnectIcon} />
             <Image style={styles.chainLinkIcon} source={chainIcon} />
           </View>
         }

@@ -2,7 +2,8 @@ import { MsgVoteEncodeObject } from '@cosmjs/stargate';
 import { VoteOption } from 'cosmjs-types/cosmos/gov/v1beta1/gov';
 import React, { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
-import {View} from 'react-native';
+import { View } from 'react-native';
+import { msgVoteIcon } from 'assets/images';
 import BaseMessage from '../BaseMessage';
 import Typography from '../../Typography';
 
@@ -44,7 +45,7 @@ namespace MsgVote {
 
     return (
       <BaseMessage.ListItem
-        icon={require('assets/images/messages/vote.png')}
+        icon={msgVoteIcon}
         date={date}
         renderContent={() => (
           <View>
@@ -64,8 +65,8 @@ namespace MsgVote {
    * Displays the full details of a MsgVote
    * @constructor
    */
-  export const Details: React.FC<DetailsProps> = ({message}) => {
-    const {t} = useTranslation();
+  export const Details: React.FC<DetailsProps> = ({ message }) => {
+    const { t } = useTranslation();
 
     const voteValue = useMemo(() => {
       switch (message.option) {
@@ -89,7 +90,7 @@ namespace MsgVote {
     const proposalId = useMemo(() => message?.proposalId?.toString() ?? '??', [message]);
     return (
       <BaseMessage.Details
-        icon={require('assets/images/messages/vote.png')}
+        icon={msgVoteIcon}
         iconSubtitle={t('vote proposal number with vote', {
           number: proposalId,
           vote: voteValue,

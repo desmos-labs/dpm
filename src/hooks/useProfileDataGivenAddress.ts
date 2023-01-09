@@ -1,7 +1,7 @@
 import { useQuery } from '@apollo/client';
 import { useMemo } from 'react';
 import GetProfileForAddress from 'services/graphql/queries/GetProfileForAddress';
-import { defaultDesmosProfile } from 'types/desmosTypes';
+import { defaultDesmosProfile } from 'types/desmos';
 
 /**
  * Hook to retrieve the selected address profile data.

@@ -1,6 +1,6 @@
 import React, { useCallback } from 'react';
 import { IconButton } from 'react-native-paper';
-import { DesmosProfile } from 'types/desmosTypes';
+import { DesmosProfile } from 'types/desmos';
 import { useNavigation } from '@react-navigation/native';
 import { StackNavigationProp } from '@react-navigation/stack';
 import ROUTES from 'navigation/routes';

@@ -1,9 +1,10 @@
 import { makeStyle } from 'config/theme';
 
 const useStyles = makeStyle((theme) => ({
-  divider: {
-    height: 1,
-    backgroundColor: theme.colors.line,
+  header: {
+    paddingBottom: 8,
+    color: theme.colors.font['2'],
+    textTransform: 'capitalize',
   },
 }));
 

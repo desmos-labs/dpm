@@ -5,6 +5,7 @@ import { useTranslation } from 'react-i18next';
 import { Image, StyleSheet, View } from 'react-native';
 import Typography from 'components/Typography';
 import SupportedChains from 'config/LinkableChains';
+import { msgGeneralIcon } from 'assets/images';
 import BaseMessage from '../BaseMessage';
 import useStyles from './useStyles';
 
@@ -37,13 +38,13 @@ namespace MsgLinkChainAccount {
 
     return (
       <BaseMessage.ListItem
-        icon={require('assets/images/messages/general.png')}
+        icon={msgGeneralIcon}
         date={date}
         renderContent={() => (
           <View>
             <Typography.Body1>{t('tx type link chain account')}</Typography.Body1>
             <View style={styles.chainAccount}>
-              <Typography.Caption>
+              <Typography.Caption numberOfLines={1} ellipsizeMode="middle">
                 {t('to')} {chainAccount}
               </Typography.Caption>
             </View>

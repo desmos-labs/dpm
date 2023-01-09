@@ -2,7 +2,7 @@ import React from 'react';
 import ProfileHeader from 'components/ProfileHeader';
 import { View } from 'react-native';
 import Typography from 'components/Typography';
-import { DesmosProfile } from 'types/desmosTypes';
+import { DesmosProfile } from 'types/desmos';
 import Spacer from 'components/Spacer';
 import useQueries from './useQueries';
 import NonExistingProfile from '../NonExistingProfile';

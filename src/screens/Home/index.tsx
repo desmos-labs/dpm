@@ -20,6 +20,7 @@ import { BottomTabScreenProps } from '@react-navigation/bottom-tabs';
 import { HomeTabsParamList } from 'navigation/RootNavigator/HomeTabs';
 import useDrawerContext from 'lib/AppDrawer/context';
 import AppDrawer from 'lib/AppDrawer';
+import AccountTransactions from 'screens/Home/components/AccountTransactions';
 import useStyles from './useStyles';
 import AccountBalance from './components/AccountBalance';
 import AppDrawerContent from './components/AppDrawer';
@@ -83,6 +84,7 @@ const Home: React.FC<NavProps> = (props) => {
       {/* Transactions list */}
       <View style={styles.transactionsContainer}>
         <Typography.Subtitle>{t('transactions')}</Typography.Subtitle>
+        <AccountTransactions account={account} />
       </View>
     </StyledSafeAreaView>
   );

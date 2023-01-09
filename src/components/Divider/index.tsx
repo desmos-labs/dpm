@@ -6,7 +6,7 @@ export type DividerProps = {
   style?: StyleProp<ViewStyle>;
 };
 
-const Divider: (props: DividerProps) => JSX.Element | null = (props) => {
+const Divider = (props: DividerProps) => {
   const { style } = props;
   const styles = useStyles();
 

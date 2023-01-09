@@ -3,6 +3,7 @@ import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { View } from 'react-native';
 import Typography from 'components/Typography';
+import { msgWithdrawIcon } from 'assets/images';
 import BaseMessage from '../BaseMessage';
 import useStyles from './useStyles';
 
@@ -26,7 +27,7 @@ namespace MsgWithdrawDelegatorRewards {
 
     return (
       <BaseMessage.ListItem
-        icon={require('assets/images/messages/withdraw.png')}
+        icon={msgWithdrawIcon}
         date={date}
         renderContent={() => (
           <View>
@@ -46,12 +47,12 @@ namespace MsgWithdrawDelegatorRewards {
    * Displays the full details of a MsgWithdrawDelegatorRewards.
    * @constructor
    */
-  export const Details: React.FC<DetailsProps> = ({message}) => {
+  export const Details: React.FC<DetailsProps> = ({ message }) => {
     const { t } = useTranslation();
 
     return (
       <BaseMessage.Details
-        icon={require('assets/images/messages/withdraw.png')}
+        icon={msgWithdrawIcon}
         iconSubtitle={t('withdraw rewards')}
         fields={[
           {
