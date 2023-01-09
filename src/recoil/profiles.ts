@@ -1,5 +1,5 @@
 import React from 'react';
-import { atom, useRecoilState } from 'recoil';
+import { atom, useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
 import { getMMKV, MMKVKEYS, setMMKV } from 'lib/MMKVStorage';
 import { DesmosProfile } from 'types/desmosTypes';
 
@@ -36,3 +36,13 @@ export const useStoreProfile = () => {
     [setProfiles],
   );
 };
+
+/**
+ * Hook that allows to get the profiles stored on the device.
+ */
+export const useGetProfiles = () => useRecoilValue(profilesAppState);
+
+/**
+ * Hook that allows to update the profiles stored on the device.
+ */
+export const useSetProfiles = () => useSetRecoilState(profilesAppState);

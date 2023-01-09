@@ -17,8 +17,8 @@ import { Coin } from '@cosmjs/amino';
 import useStyles from './useStyles';
 
 export type AccountBalanceProps = {
-  account: Account;
-  profile: DesmosProfile | undefined;
+  account?: Account;
+  profile?: DesmosProfile;
   balance: Coin[];
   loading: boolean;
   style?: StyleProp<ViewStyle>;
@@ -32,7 +32,7 @@ const AccountBalance: React.FC<AccountBalanceProps> = (props) => {
   const [settings, setSettings] = useSettingsState();
 
   const nickname = profile?.nickname;
-  const address = profile?.address || account.address;
+  const address = profile?.address ?? account?.address ?? '';
 
   const balanceValue = useMemo(() => {
     const value = formatCoins(balance);

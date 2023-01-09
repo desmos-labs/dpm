@@ -1,5 +1,4 @@
-import React from 'react';
-import { atom, selector, useRecoilState, useRecoilValue } from 'recoil';
+import { atom, selector, useRecoilValue, useSetRecoilState } from 'recoil';
 import { getMMKV, MMKVKEYS, setMMKV } from 'lib/MMKVStorage';
 import { Account } from 'types/account';
 import { accountsAppState } from '@recoil/accounts';
@@ -13,7 +12,7 @@ export const activeAccountAddressAppState = atom<string | undefined>({
   effects: [
     ({ onSet }) => {
       onSet((newAddress) => {
-        setMMKV(MMKVKEYS.ACTIVE_ACCOUNT_ADDRESS, newAddress);
+        setMMKV(MMKVKEYS.ACTIVE_ACCOUNT_ADDRESS, newAddress ?? '');
       });
     },
   ],
@@ -27,15 +26,7 @@ export const useActiveAccountAddress = () => useRecoilValue(activeAccountAddress
 /**
  * Hook that allows to set the active account address.
  */
-export const useSetActiveAccountAddress = () => {
-  const [, setActiveAccountAddress] = useRecoilState(activeAccountAddressAppState);
-  return React.useCallback(
-    (address: string) => {
-      setActiveAccountAddress(address);
-    },
-    [setActiveAccountAddress],
-  );
-};
+export const useSetActiveAccountAddress = () => useSetRecoilState(activeAccountAddressAppState);
 
 /**
  * Selector that provides the current selected account.

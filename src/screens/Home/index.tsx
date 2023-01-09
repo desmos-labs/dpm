@@ -15,20 +15,26 @@ import useActiveProfile from '@recoil/activeProfileState';
 import AccountProfilePic from 'screens/Home/components/AccountProfilePic';
 import { useActiveAccount } from '@recoil/activeAccountState';
 import useActiveAccountBalance from 'hooks/useActiveAccountBalance';
+import { CompositeScreenProps } from '@react-navigation/native';
+import { BottomTabScreenProps } from '@react-navigation/bottom-tabs';
+import { HomeTabsParamList } from 'navigation/RootNavigator/HomeTabs';
+import useDrawerContext from 'lib/AppDrawer/context';
+import AppDrawer from 'lib/AppDrawer';
 import useStyles from './useStyles';
 import AccountBalance from './components/AccountBalance';
+import AppDrawerContent from './components/AppDrawer';
 
-export type NavProps = StackScreenProps<RootNavigatorParamList, ROUTES.HOME>;
+export type NavProps = CompositeScreenProps<
+  StackScreenProps<RootNavigatorParamList>,
+  BottomTabScreenProps<HomeTabsParamList, ROUTES.HOME>
+>;
 
 const Home: React.FC<NavProps> = (props) => {
   const { navigation } = props;
   const { t } = useTranslation();
   const theme = useTheme();
   const styles = useStyles();
-
-  const openDrawer = () => {
-    console.log('Home - implement openDrawer');
-  };
+  const { openDrawer } = useDrawerContext();
 
   const settings = useSettings();
 
@@ -81,4 +87,13 @@ const Home: React.FC<NavProps> = (props) => {
   );
 };
 
-export default Home;
+const HomeWithDrawer: React.FC<NavProps> = (props) => (
+  <AppDrawer
+    renderContent={() => <AppDrawerContent navigation={props.navigation} />}
+    drawerType="slide"
+  >
+    <Home {...props} />
+  </AppDrawer>
+);
+
+export default HomeWithDrawer;

@@ -23,15 +23,12 @@ const useBroadcastTx = (): ((msgs: EncodeObject[], options?: BroadcastTxOptions)
 
   return useCallback(
     (msgs: EncodeObject[], options?: BroadcastTxOptions) => {
-      navigation.navigate({
-        name: ROUTES.BROADCAST_TX,
-        params: {
-          messages: msgs,
-          memo: options?.memo,
-          onSuccess: options?.onSuccess,
-          onCancel: options?.onCancel,
-          onError: options?.onError,
-        },
+      navigation.navigate(ROUTES.BROADCAST_TX, {
+        messages: msgs,
+        memo: options?.memo,
+        onSuccess: options?.onSuccess,
+        onCancel: options?.onCancel,
+        onError: options?.onError,
       });
     },
     [navigation],

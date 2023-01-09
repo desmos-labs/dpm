@@ -8,7 +8,7 @@ import SingleButtonModal from 'modals/SingleButtonModal';
 import TwoButtonModal from 'modals/TwoButtonModal';
 import { DAppPermissions, DAppSession } from 'types/dapp';
 import { AccountScreensStackParams, HomeScreensBottomTabsParams } from 'types/navigation';
-import useDrawerContext from 'contexts/AppDrawerContex';
+import useDrawerContext from 'lib/AppDrawer/context';
 import useAuthorizeOperation from 'hooks/useAuthorizeOperation';
 import useProfiles from 'hooks/useProfiles';
 import useShowModal from 'hooks/useShowModal';
@@ -41,12 +41,7 @@ const Authorization: React.FC<Props> = (props) => {
   const [revokeStatus, walletConnectTerminate] = useWalletConnectTerminate();
   const authorizeOperation = useAuthorizeOperation();
 
-  const openProfileDetails = useCallback(() => {
-    navigation.navigate({
-      name: 'Profile',
-      params: undefined,
-    });
-  }, [navigation]);
+  const openProfileDetails = useCallback(() => {}, []);
 
   const profilePicture = useMemo(() => {
     const userProfile = profiles[currentAccount.address];

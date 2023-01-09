@@ -1,5 +1,5 @@
 import React from 'react';
-import { atom, selector, useRecoilState, useRecoilValue } from 'recoil';
+import { atom, selector, useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
 import { getMMKV, MMKVKEYS, setMMKV } from 'lib/MMKVStorage';
 import { Account } from 'types/account';
 import { HdPath } from '@cosmjs/crypto';
@@ -71,3 +71,8 @@ export const useStoreAccount = () => {
  * Hook that allows to get the accounts stored on the device.
  */
 export const useGetAccounts = () => useRecoilValue(accountsAppState);
+
+/**
+ * Hook that allows to update the accounts stored on the device.
+ */
+export const useSetAccounts = () => useSetRecoilState(accountsAppState);

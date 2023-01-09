@@ -1,4 +1,4 @@
-import {makeStyle} from 'config/theme';
+import { makeStyle } from 'config/theme';
 
 const useStyles = makeStyle((_) => ({
   root: {
