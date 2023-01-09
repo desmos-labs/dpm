@@ -11,7 +11,7 @@ const useActiveAccountBalance = () => {
   const address = useActiveAccountAddress();
   const { data, loading, refetch } = useQuery(GetAccountBalance, {
     variables: { address: address || 'undefined' },
-    fetchPolicy: 'no-cache',
+    fetchPolicy: 'cache-and-network',
   });
 
   const balance = useMemo((): Coin[] => data?.accountBalance?.coins || [], [data]);

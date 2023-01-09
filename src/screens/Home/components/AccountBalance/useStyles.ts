@@ -1,4 +1,4 @@
-import {makeStyle} from 'config/theme';
+import { makeStyle } from 'config/theme';
 
 const useStyles = makeStyle((theme) => ({
   root: {},
@@ -20,12 +20,12 @@ const useStyles = makeStyle((theme) => ({
     padding: theme.spacing.m,
     display: 'flex',
     flexDirection: 'row',
-    alignItems: 'center',
   },
   balanceTextContainer: {
     display: 'flex',
     flexDirection: 'column',
     flex: 1,
+    alignItems: 'flex-start',
   },
   balanceText: {
     color: theme.dark ? theme.colors.background : theme.colors.text,

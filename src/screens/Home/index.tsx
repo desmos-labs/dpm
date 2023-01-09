@@ -40,11 +40,12 @@ const Home: React.FC<NavProps> = (props) => {
 
   const account = useActiveAccount()!;
   const { profile, refetch: updateProfile } = useActiveProfile();
-  const { balance, loading: balanceLoading } = useActiveAccountBalance();
+  const { balance, loading: balanceLoading, refetch: updateBalance } = useActiveAccountBalance();
 
   React.useEffect(() => {
     updateProfile();
-  }, [updateProfile]);
+    updateBalance();
+  }, [updateProfile, updateBalance]);
 
   return (
     <StyledSafeAreaView padding={0} noIosPadding>
@@ -88,10 +89,7 @@ const Home: React.FC<NavProps> = (props) => {
 };
 
 const HomeWithDrawer: React.FC<NavProps> = (props) => (
-  <AppDrawer
-    renderContent={() => <AppDrawerContent navigation={props.navigation} />}
-    drawerType="slide"
-  >
+  <AppDrawer renderContent={() => <AppDrawerContent />} drawerType="slide">
     <Home {...props} />
   </AppDrawer>
 );
