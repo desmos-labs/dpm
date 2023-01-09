@@ -8,7 +8,7 @@ import { DesmosProfile } from 'types/desmosTypes';
  */
 export const profilesAppState = atom<Record<string, DesmosProfile>>({
   key: 'profiles',
-  default: getMMKV(MMKVKEYS.PROFILES),
+  default: getMMKV(MMKVKEYS.PROFILES) || {},
   effects: [
     ({ onSet }) => {
       onSet((newProfiles) => {
