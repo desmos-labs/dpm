@@ -1,4 +1,4 @@
-import { CompositeNavigationProp, useNavigation } from '@react-navigation/native';
+import { useNavigation } from '@react-navigation/native';
 import React, { useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Image, View } from 'react-native';
@@ -10,19 +10,10 @@ import Typography from 'components/Typography';
 import { RootNavigatorParamList } from 'navigation/RootNavigator';
 import ROUTES from 'navigation/routes';
 import { StackNavigationProp } from '@react-navigation/stack';
-import { BottomTabNavigationProp } from '@react-navigation/bottom-tabs';
-import { HomeTabsParamList } from 'navigation/RootNavigator/HomeTabs';
 import { ProfileList } from 'screens/Home/components/AppDrawer/ProfileList';
 import useStyles from './useStyles';
 
-export type AppDrawerContentProps = {
-  navigation: CompositeNavigationProp<
-    StackNavigationProp<RootNavigatorParamList>,
-    BottomTabNavigationProp<HomeTabsParamList, ROUTES.HOME>
-  >;
-};
-
-export const AppDrawerContent: React.FC<AppDrawerContentProps> = (props) => {
+const AppDrawerContent = () => {
   const { closeDrawer } = useDrawerContext();
   const { t } = useTranslation();
   const styles = useStyles();
