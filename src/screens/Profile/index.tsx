@@ -34,7 +34,11 @@ const Profile = () => {
 
   React.useEffect(() => {
     refetchProfile();
-  });
+
+    // Ok to ignore this, we wan't just to fetch the profile the first time that
+    // we enther this screen.
+    // eslint-disable-next-line
+  }, []);
 
   const EditProfileBtn = React.useMemo(
     () => (canEdit ? <EditProfileButton profile={profile} /> : undefined),
