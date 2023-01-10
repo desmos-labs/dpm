@@ -1,5 +1,5 @@
 import { useCallback } from 'react';
-import useAppContext from 'contexts/AppContext';
+import useAppContext from 'contexts/GraphQLClientProvider';
 import ProfileSourceSingleton from 'sources/ProfileSource';
 import { DesmosProfile } from 'types/desmos';
 

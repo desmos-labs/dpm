@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import useAppContext, { InitState } from 'contexts/AppContext';
+import useAppContext, { InitState } from 'contexts/GraphQLClientProvider';
 import AccountSource from 'sources/AccountSource';
 import { LocalWalletsSource } from 'sources/LocalWalletsSource';
 import ProfileSource from 'sources/ProfileSource';

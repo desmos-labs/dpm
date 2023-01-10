@@ -38,3 +38,41 @@ export const defaultDesmosProfile = (address: string): DesmosProfile =>
   ({
     address,
   } as DesmosProfile);
+
+export type ChainLink = {
+  /**
+   * Name of the linked chain like osmosis, cosmos.
+   */
+  chainName: string;
+  /**
+   * Desmos address of the user.
+   */
+  userAddress: string;
+  /**
+   * User address on the linked chain.
+   */
+  externalAddress: string;
+  /**
+   * Proof that was used to prove the ownership of the external account;
+   */
+  proof: ChainLinkProof;
+  /**
+   * Time when the chain link has been created.
+   */
+  creationTime: Date;
+};
+
+/**
+ * Type that represents the information need to
+ * prove the ownership of a different chain account.
+ */
+export type ChainLinkProof = {
+  /**
+   * Plain text that was signed to prove the ownership of the external account.
+   */
+  plainText: string;
+  /**
+   * Signature that was produced to prove the ownerhip of the external account.
+   */
+  signature: string;
+};

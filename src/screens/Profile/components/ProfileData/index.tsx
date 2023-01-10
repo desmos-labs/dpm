@@ -1,10 +1,11 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import ProfileHeader from 'components/ProfileHeader';
 import { View } from 'react-native';
 import Typography from 'components/Typography';
 import { DesmosProfile } from 'types/desmos';
 import Spacer from 'components/Spacer';
-import useQueries from './useQueries';
+import useChainLinksGivenAddress from 'hooks/useChainLinksGivenAddress';
+import { useFocusEffect } from '@react-navigation/native';
 import NonExistingProfile from '../NonExistingProfile';
 import ChainLinks from '../ChainLinksList';
 import useStyles from './useStyles';
@@ -25,7 +26,18 @@ const ProfileData = (props: ProfileDataProps) => {
   const { profile, canEdit } = props;
   const styles = useStyles();
 
-  const { chainLinks, loadingChainLinks } = useQueries(profile?.address);
+  const {
+    chainLinks,
+    loading,
+    refetch: updateChainLinks,
+  } = useChainLinksGivenAddress(profile?.address);
+
+  useFocusEffect(
+    useCallback(() => {
+      // Refresh the chain links
+      updateChainLinks();
+    }, [updateChainLinks]),
+  );
 
   return (
     <View style={styles.root}>
@@ -48,7 +60,7 @@ const ProfileData = (props: ProfileDataProps) => {
       {/* Main content */}
       <View style={styles.content}>
         {profile ? (
-          <ChainLinks loading={loadingChainLinks} chainLinks={chainLinks} canEdit={canEdit} />
+          <ChainLinks loading={loading} chainLinks={chainLinks} canEdit={canEdit} />
         ) : (
           <NonExistingProfile canCreate={canEdit} />
         )}

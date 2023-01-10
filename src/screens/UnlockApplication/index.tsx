@@ -16,7 +16,7 @@ import Padding from 'components/Flexible/Padding';
 import SecureTextInput from 'components/SecureTextInput';
 import TwoButtonModal from 'modals/TwoButtonModal';
 import Typography from 'components/Typography';
-import useAppContext from 'contexts/AppContext';
+import useAppContext from 'contexts/GraphQLClientProvider';
 import useSetSettings from 'hooks/settings/useSetSettings';
 import useNavigateToHomeScreen from 'hooks/useNavigateToHomeScreen';
 import useShowModal from 'hooks/useShowModal';

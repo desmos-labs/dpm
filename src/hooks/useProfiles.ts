@@ -1,4 +1,4 @@
-import useAppContext from 'contexts/AppContext';
+import useAppContext from 'contexts/GraphQLClientProvider';
 import { DesmosProfile } from 'types/desmos';
 
 /**

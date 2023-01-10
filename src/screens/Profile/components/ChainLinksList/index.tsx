@@ -21,8 +21,8 @@ export interface ChainConnectionsProps {
   loading: boolean;
 }
 
-const ChainLinksList: React.FC<ChainConnectionsProps> = (props: ChainConnectionsProps) => {
-  const { t } = useTranslation();
+const ChainLinksList = (props: ChainConnectionsProps) => {
+  const { t } = useTranslation('chainLinks');
   const navigation = useNavigation();
   const { canEdit, chainLinks, loading } = props;
   const hasConnections = chainLinks.length !== 0;
@@ -46,7 +46,7 @@ const ChainLinksList: React.FC<ChainConnectionsProps> = (props: ChainConnections
 
   const renderItem = (info: ListRenderItemInfo<ChainLink>) => {
     const { item } = info;
-    return <ChainLinkItem chainLink={item} />;
+    return <ChainLinkItem chainLink={item} canEdit={canEdit} />;
   };
 
   const ListEmptyComponent = useCallback(() => {

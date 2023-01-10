@@ -12,18 +12,20 @@ import useStyles from './useStyles';
 
 export interface ChainLinkItemProps {
   chainLink: ChainLink;
+  canEdit: boolean;
 }
 
 const ChainLinkItem = (props: ChainLinkItemProps) => {
   const navigation = useNavigation<StackNavigationProp<RootNavigatorParamList>>();
   const styles = useStyles();
-  const { chainLink } = props;
+  const { chainLink, canEdit } = props;
 
   const onShowChainLinkInfo = useCallback(() => {
     navigation.navigate(ROUTES.CHAIN_LINK_DETAILS, {
       chainLink,
+      canEdit,
     });
-  }, [chainLink]);
+  }, [canEdit, chainLink, navigation]);
 
   const chainInfo = getLinkableChainInfoByName(chainLink.chainName);
   const chainIcon = chainInfo?.icon ?? cosmosIcon;

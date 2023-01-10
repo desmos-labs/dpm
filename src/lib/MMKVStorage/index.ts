@@ -7,6 +7,7 @@ export enum MMKVKEYS {
 
   PROFILES_PARAMS = 'PROFILES_PARAMS',
   PROFILES = 'PROFILES',
+  CHAIN_LINKS = 'CHAIN_LINKS',
 }
 
 const MMKVStorage = new MMKV({

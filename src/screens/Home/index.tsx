@@ -1,5 +1,5 @@
 import { StackScreenProps } from '@react-navigation/stack';
-import React from 'react';
+import React, { useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Image, Text, View } from 'react-native';
 import { useTheme } from 'react-native-paper';
@@ -15,7 +15,7 @@ import useActiveProfile from '@recoil/activeProfileState';
 import AccountProfilePic from 'screens/Home/components/AccountProfilePic';
 import { useActiveAccount } from '@recoil/activeAccountState';
 import useActiveAccountBalance from 'hooks/useActiveAccountBalance';
-import { CompositeScreenProps } from '@react-navigation/native';
+import { CompositeScreenProps, useFocusEffect } from '@react-navigation/native';
 import { BottomTabScreenProps } from '@react-navigation/bottom-tabs';
 import { HomeTabsParamList } from 'navigation/RootNavigator/HomeTabs';
 import useDrawerContext from 'lib/AppDrawer/context';
@@ -43,10 +43,12 @@ const Home: React.FC<NavProps> = (props) => {
   const { profile, refetch: updateProfile } = useActiveProfile();
   const { balance, loading: balanceLoading, refetch: updateBalance } = useActiveAccountBalance();
 
-  React.useEffect(() => {
-    updateProfile();
-    updateBalance();
-  }, [updateProfile, updateBalance]);
+  useFocusEffect(
+    useCallback(() => {
+      updateProfile();
+      updateBalance();
+    }, [updateProfile, updateBalance]),
+  );
 
   return (
     <StyledSafeAreaView padding={0} noIosPadding>

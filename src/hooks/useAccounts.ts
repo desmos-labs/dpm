@@ -1,4 +1,4 @@
-import useAppContext from 'contexts/AppContext';
+import useAppContext from 'contexts/GraphQLClientProvider';
 
 /**
  * Hooks that provides a stateful variable that contains
