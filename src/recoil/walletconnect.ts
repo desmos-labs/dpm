@@ -1,14 +1,10 @@
-import { atom, selector, useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
+import { atom, selector, useRecoilValue, useSetRecoilState } from 'recoil';
 import {
   WalletConnectClient,
   WalletConnectRequest,
-  WalletConnectSession,
   WalletConnectSessionProposal,
 } from 'types/walletConnect';
-import {
-  convertWalletConnectSession,
-  convertWalletConnectSessionProposal,
-} from 'lib/WalletConnectUtils';
+import { convertWalletConnectSessionProposal } from 'lib/WalletConnectUtils';
 
 /**
  * Atom that contains the WalletConnect client.
@@ -19,16 +15,9 @@ const walletConnectClientAppState = atom<WalletConnectClient | undefined>({
   default: undefined,
 });
 
-/**
- * Selector that provides the WalletConnect sessions.
- */
-const walletConnectSessionsAppState = selector<WalletConnectSession[]>({
-  key: 'walletConnectSessionsAppState',
-  get: ({ get }) => {
-    const client = get(walletConnectClientAppState);
-    return client?.client.session.values.map(convertWalletConnectSession) ?? [];
-  },
-});
+export const useWalletConnectClient = () => useRecoilValue(walletConnectClientAppState);
+
+export const useSetWalletConnectClient = () => useSetRecoilState(walletConnectClientAppState);
 
 /**
  * Selector that provides the WalletConnect session proposals.
@@ -41,6 +30,9 @@ const walletConnectSessionProposalsAppState = selector<WalletConnectSessionPropo
   },
 });
 
+export const useWalletConnectSessionProposals = () =>
+  useRecoilValue(walletConnectSessionProposalsAppState);
+
 /**
  * Atom that holds the requests received from WalletConnect
  * that need to be handled.
@@ -50,22 +42,8 @@ const walletConnectSessionRequestsAppState = atom<WalletConnectRequest[]>({
   default: [],
 });
 
-export const useWalletConnectClient = () => useRecoilValue(walletConnectClientAppState);
-
-export const useSetWalletConnectClient = () => useSetRecoilState(walletConnectClientAppState);
-
-export const useWalletConnectClientState = () => useRecoilState(walletConnectClientAppState);
-
-export const useWalletConnectSessions = () => useRecoilValue(walletConnectSessionsAppState);
-
-export const useWalletConnectSessionProposals = () =>
-  useRecoilValue(walletConnectSessionProposalsAppState);
-
 export const useWalletConnectSessionRequests = () =>
   useRecoilValue(walletConnectSessionRequestsAppState);
 
 export const useSetWalletConnectSessionRequests = () =>
   useSetRecoilState(walletConnectSessionRequestsAppState);
-
-export const useWalletConnectSessionRequestsState = () =>
-  useRecoilState(walletConnectSessionRequestsAppState);
