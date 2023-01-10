@@ -1,15 +1,13 @@
 module.exports = {
   env: {
     production: {
-      plugins: [
-        'react-native-paper/babel',
-        'react-native-reanimated/plugin',
-      ],
+      plugins: ['react-native-paper/babel', 'react-native-reanimated/plugin'],
     },
   },
   presets: ['module:metro-react-native-babel-preset'],
   plugins: [
     'react-native-reanimated/plugin',
+    'module:react-native-dotenv',
     [
       'module-resolver',
       {
