@@ -9,6 +9,7 @@ import Typography from 'components/Typography';
 import { FlatList, Text, TouchableOpacity } from 'react-native';
 import Spacer from 'components/Spacer';
 import { useActiveAccountAddress } from '@recoil/activeAccountState';
+import * as WCMMKV from 'lib/MMKVStorage/walletconnect';
 import useStyles from './useStyles';
 
 const routesToRender = [
@@ -51,6 +52,10 @@ const DevScreen: FC<NavProps> = ({ navigation }) => {
     });
   }, [navigation]);
 
+  const clearWalletConnectMMKV = useCallback(() => {
+    WCMMKV.clearAll();
+  }, []);
+
   return (
     <StyledSafeAreaView>
       <FlatList
@@ -65,6 +70,12 @@ const DevScreen: FC<NavProps> = ({ navigation }) => {
 
       <Button mode="contained" onPress={navigateToLandingPage}>
         Go to landing page
+      </Button>
+
+      <Spacer paddingVertical={4} />
+
+      <Button mode="contained" onPress={clearWalletConnectMMKV}>
+        Clear WC MMKV
       </Button>
 
       <Spacer paddingVertical={4} />
