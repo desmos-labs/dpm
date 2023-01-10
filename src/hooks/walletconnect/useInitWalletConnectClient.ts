@@ -31,23 +31,27 @@ const useInitWalletConnectClient = () => {
   }, []);
 
   return useCallback(async () => {
-    const signClient = await SignClient.init({
-      projectId: WALLET_CONNECT_PROJECT_ID,
-      metadata: {
-        name: 'Desmos Profile Manager',
-        description: 'Desmos Profile Manager',
-        url: 'https://dpm.desmos.network',
-        icons: [],
-      },
-      storage: WalletConnectMMKV,
-    });
+    try {
+      const signClient = await SignClient.init({
+        projectId: WALLET_CONNECT_PROJECT_ID,
+        metadata: {
+          name: 'Desmos Profile Manager',
+          description: 'Desmos Profile Manager',
+          url: 'https://dpm.desmos.network',
+          icons: [],
+        },
+        storage: WalletConnectMMKV,
+      });
 
-    signClient.on('session_proposal', onSessionProposal);
-    signClient.on('session_event', onSessionEvent);
-    signClient.on('session_request', onSessionRequest);
-    signClient.on('session_delete', onSessionDelete);
+      signClient.on('session_proposal', onSessionProposal);
+      signClient.on('session_event', onSessionEvent);
+      signClient.on('session_request', onSessionRequest);
+      signClient.on('session_delete', onSessionDelete);
 
-    setWalletConnectClient({ client: signClient });
+      setWalletConnectClient({ client: signClient });
+    } catch (e) {
+      console.warn('Error initializing Wallet connect', e);
+    }
   }, [
     onSessionDelete,
     onSessionEvent,

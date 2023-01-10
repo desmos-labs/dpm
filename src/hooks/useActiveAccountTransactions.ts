@@ -144,11 +144,6 @@ const useActiveAccountTransactions = () => {
     fetchTransactions(true);
   }, [fetchTransactions]);
 
-  // Fetch the first page
-  React.useEffect(() => {
-    fetchTransactions();
-  }, [fetchTransactions]);
-
   return {
     loading,
     transactions,

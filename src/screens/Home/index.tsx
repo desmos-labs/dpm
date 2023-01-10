@@ -21,6 +21,7 @@ import { HomeTabsParamList } from 'navigation/RootNavigator/HomeTabs';
 import useDrawerContext from 'lib/AppDrawer/context';
 import AppDrawer from 'lib/AppDrawer';
 import AccountTransactions from 'screens/Home/components/AccountTransactions';
+import useActiveAccountTransactions from 'hooks/useActiveAccountTransactions';
 import useStyles from './useStyles';
 import AccountBalance from './components/AccountBalance';
 import AppDrawerContent from './components/AppDrawer';
@@ -42,13 +43,29 @@ const Home: React.FC<NavProps> = (props) => {
   const account = useActiveAccount()!;
   const { profile, refetch: updateProfile } = useActiveProfile();
   const { balance, loading: balanceLoading, refetch: updateBalance } = useActiveAccountBalance();
+  const {
+    transactions,
+    loading: transactionsLoading,
+    refetch: reloadTransactions,
+    fetchMore: fetchMoreTransactions,
+  } = useActiveAccountTransactions();
 
+  // Load the initial data
   useFocusEffect(
     useCallback(() => {
       updateProfile();
       updateBalance();
-    }, [updateProfile, updateBalance]),
+      reloadTransactions();
+    }, [updateProfile, updateBalance, reloadTransactions]),
   );
+
+  const onFetchMoreTxs = useCallback(() => {
+    fetchMoreTransactions();
+  }, [fetchMoreTransactions]);
+
+  const onReloadTxs = useCallback(() => {
+    reloadTransactions();
+  }, [reloadTransactions]);
 
   return (
     <StyledSafeAreaView padding={0} noIosPadding>
@@ -86,7 +103,12 @@ const Home: React.FC<NavProps> = (props) => {
       {/* Transactions list */}
       <View style={styles.transactionsContainer}>
         <Typography.Subtitle>{t('transactions')}</Typography.Subtitle>
-        <AccountTransactions account={account} />
+        <AccountTransactions
+          transactions={transactions}
+          loading={transactionsLoading}
+          onFetchMore={onFetchMoreTxs}
+          onReload={onReloadTxs}
+        />
       </View>
     </StyledSafeAreaView>
   );

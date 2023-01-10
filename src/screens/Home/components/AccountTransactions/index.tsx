@@ -3,37 +3,32 @@ import { useTranslation } from 'react-i18next';
 import { StyleProp, View, ViewStyle } from 'react-native';
 import DpmImage from 'components/DPMImage';
 import Typography from 'components/Typography';
-import useActiveAccountTransactions from 'hooks/useActiveAccountTransactions';
-import { Account } from 'types/account';
 import TransactionsList from 'screens/Home/components/TransactionsList';
 import { DPMImages } from 'types/images';
+import { GroupedTransactions } from 'types/transactions';
 import useStyles from './useStyles';
 
 export type AccountTransactionsProps = {
-  account: Account;
-  style?: StyleProp<ViewStyle>;
+  readonly transactions: GroupedTransactions[];
+  readonly loading: boolean;
+  readonly onReload: () => void;
+  readonly onFetchMore: () => void;
+  readonly style?: StyleProp<ViewStyle>;
 };
 
 const AccountTransactions = (props: AccountTransactionsProps) => {
-  const { style } = props;
+  const { transactions, loading, onReload, onFetchMore, style } = props;
   const { t } = useTranslation();
   const styles = useStyles();
 
-  const { loading, transactions, refetch, fetchMore } = useActiveAccountTransactions();
-
-  const onFetchMore = useCallback(() => {
-    fetchMore();
-  }, [fetchMore]);
-
-  const reloadFromChain = useCallback(() => {
-    refetch();
-  }, [refetch]);
+  const fetchMore = useCallback(onFetchMore, [onFetchMore]);
+  const reloadFromChain = useCallback(onReload, [onReload]);
 
   return transactions.length > 0 || loading ? (
     <TransactionsList
       loading={loading}
       transactions={transactions}
-      onFetchMore={onFetchMore}
+      onFetchMore={fetchMore}
       onRefresh={reloadFromChain}
       style={style}
     />
