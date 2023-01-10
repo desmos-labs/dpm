@@ -1,0 +1,8 @@
+{
+  "no authorization present": "You have not authorized any WalletConnect session yet. Start now by clicking the button below",
+  "authorize": "Authorize",
+  "revoke": "Revoke",
+  "authorization date": "Authorization date:",
+  "broadcast transaction": "Broadcast Transaction",
+  "sign transaction": "Sign transaction"
+}

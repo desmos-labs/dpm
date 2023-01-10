@@ -1,7 +1,10 @@
-import {makeStyle} from 'config/theme';
+import { makeStyle } from 'config/theme';
 
 const useStyles = makeStyle((theme) => ({
-  background: {
+  topBar: {
+    backgroundColor: theme.colors.primary,
+  },
+  root: {
     backgroundColor: theme.colors.background2,
   },
   avatarImage: {
@@ -9,6 +12,7 @@ const useStyles = makeStyle((theme) => ({
   },
   dAppSessions: {
     flex: 1,
+    backgroundColor: 'red',
   },
   noDAppContainer: {
     display: 'flex',

@@ -19,12 +19,10 @@ import { CompositeScreenProps, useFocusEffect } from '@react-navigation/native';
 import { BottomTabScreenProps } from '@react-navigation/bottom-tabs';
 import { HomeTabsParamList } from 'navigation/RootNavigator/HomeTabs';
 import useDrawerContext from 'lib/AppDrawer/context';
-import AppDrawer from 'lib/AppDrawer';
 import AccountTransactions from 'screens/Home/components/AccountTransactions';
 import useActiveAccountTransactions from 'hooks/useActiveAccountTransactions';
 import useStyles from './useStyles';
 import AccountBalance from './components/AccountBalance';
-import AppDrawerContent from './components/AppDrawer';
 
 export type NavProps = CompositeScreenProps<
   StackScreenProps<RootNavigatorParamList>,
@@ -114,10 +112,4 @@ const Home: React.FC<NavProps> = (props) => {
   );
 };
 
-const HomeWithDrawer: React.FC<NavProps> = (props) => (
-  <AppDrawer renderContent={() => <AppDrawerContent />} drawerType="slide">
-    <Home {...props} />
-  </AppDrawer>
-);
-
-export default HomeWithDrawer;
+export default Home;

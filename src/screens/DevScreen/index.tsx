@@ -10,6 +10,8 @@ import { FlatList, Text, TouchableOpacity } from 'react-native';
 import Spacer from 'components/Spacer';
 import { useActiveAccountAddress } from '@recoil/activeAccountState';
 import * as WCMMKV from 'lib/MMKVStorage/walletconnect';
+import { useStoreWalletConnectSession } from '@recoil/walletConnectSessions';
+import { WalletConnectPermission, WalletConnectSession } from 'types/walletConnect';
 import useStyles from './useStyles';
 
 const routesToRender = [
@@ -56,6 +58,20 @@ const DevScreen: FC<NavProps> = ({ navigation }) => {
     WCMMKV.clearAll();
   }, []);
 
+  const storeWalletConnectSession = useStoreWalletConnectSession();
+  const addWalletConnectSession = useCallback(() => {
+    storeWalletConnectSession(activeAccountAddress!, {
+      id: 'test',
+      icon: 'https://upload.wikimedia.org/wikipedia/commons/thumb/c/c6/Sign-check-icon.png/768px-Sign-check-icon.png',
+      creationDate: new Date(),
+      name: 'Go-Find.me',
+      description:
+        'Go-find.me allows to create your Desmos profile and find other users on the platform',
+      url: 'https://go-find.me',
+      permissions: [WalletConnectPermission.SIGN_TX, WalletConnectPermission.BROADCAST_TX],
+    } as WalletConnectSession);
+  }, [activeAccountAddress, storeWalletConnectSession]);
+
   return (
     <StyledSafeAreaView>
       <FlatList
@@ -74,8 +90,14 @@ const DevScreen: FC<NavProps> = ({ navigation }) => {
 
       <Spacer paddingVertical={4} />
 
+      <Button mode="contained" onPress={addWalletConnectSession}>
+        Add WalletConnect session
+      </Button>
+
+      <Spacer paddingVertical={4} />
+
       <Button mode="contained" onPress={clearWalletConnectMMKV}>
-        Clear WC MMKV
+        Clear WalletConnect MMKV
       </Button>
 
       <Spacer paddingVertical={4} />

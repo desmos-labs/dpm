@@ -5,6 +5,8 @@ import { accountsAppState } from '@recoil/accounts';
 
 /**
  * An atom that holds the current selected account address.
+ * This should not be confused with the accounts' atom, which contains data
+ * for ALL the accounts stored on the user's device
  */
 export const activeAccountAddressAppState = atom<string | undefined>({
   key: 'activeAccountAddress',

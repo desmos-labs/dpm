@@ -18,7 +18,7 @@ import useStyles from './useStyles';
 
 export type NavProps = StackScreenProps<RootNavigatorParamList, ROUTES.EDIT_PROFILE>;
 
-export interface EditProfileParas {
+export interface EditProfileParams {
   profile: DesmosProfile | undefined;
 }
 

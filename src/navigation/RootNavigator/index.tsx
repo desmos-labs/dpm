@@ -22,7 +22,7 @@ import UnlockWallet, { UnlockWalletParams } from 'screens/UnlockWallet';
 import SendTokens from 'screens/SendTokens';
 import BroadcastTx, { BroadcastTxParams } from 'screens/BroadcastTx';
 import ModalScreen, { ModalScreenParams } from 'modals/ModalScreen';
-import EditProfile, { EditProfileParas } from 'screens/EditProfile';
+import EditProfile, { EditProfileParams } from 'screens/EditProfile';
 import HomeTabs from 'navigation/RootNavigator/HomeTabs';
 import useInitWalletConnectClient from 'hooks/walletconnect/useInitWalletConnectClient';
 
@@ -43,9 +43,11 @@ export type RootNavigatorParamList = {
   [ROUTES.CONNECT_TO_LEDGER_STACK]: ConnectToLedgerStackParams;
   [ROUTES.HOME_TABS]: undefined;
   [ROUTES.HOME]: undefined;
+  [ROUTES.SCAN_QR_CODE]: undefined;
+  [ROUTES.WALLET_CONNECT_SESSIONS]: undefined;
 
   [ROUTES.PROFILE]: ProfileParams | undefined;
-  [ROUTES.EDIT_PROFILE]: EditProfileParas;
+  [ROUTES.EDIT_PROFILE]: EditProfileParams;
   [ROUTES.SEND_TOKENS]: undefined;
   [ROUTES.CHAIN_LINK_DETAILS]: ChainLinkDetailsProps;
   [ROUTES.UNLOCK_WALLET]: UnlockWalletParams;

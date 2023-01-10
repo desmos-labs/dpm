@@ -79,6 +79,10 @@ enum ROUTES {
    */
   HOME = 'HOME',
   /**
+   * Screen that shows the currently active Wallet Connect sessions of the user.
+   */
+  WALLET_CONNECT_SESSIONS = 'WALLET_CONNECT_SESSIONS',
+  /**
    * Home screen.
    */
   SCAN_QR_CODE = 'SCAN_QR_CODE',

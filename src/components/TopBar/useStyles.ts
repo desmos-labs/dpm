@@ -25,6 +25,7 @@ const useStyles = makeStyleWithProps((props: TopBarProps, theme) => ({
   title: {
     textTransform: props.capitalizeTitle === false ? 'none' : 'capitalize',
     textAlign: 'center',
+    color: 'white',
   },
   containerRight: {
     alignItems: 'flex-end',
