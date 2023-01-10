@@ -52,7 +52,7 @@ const Home: React.FC<NavProps> = (props) => {
 
   // Load the initial data
   useFocusEffect(
-    useCallback(() => {
+    React.useCallback(() => {
       updateProfile();
       updateBalance();
       reloadTransactions();

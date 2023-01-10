@@ -113,7 +113,7 @@ const useActiveAccountTransactions = () => {
   const account = useActiveAccount()!;
 
   const [transactions, setTransactions] = useState<GroupedTransactions[]>([]);
-  const [page, setPage] = useState(0);
+  const [, setPage] = useState(0);
 
   const [, { loading, refetch }] = useLazyQuery(GetTransactionsByAddress, {
     pollInterval: 1000,
@@ -122,8 +122,8 @@ const useActiveAccountTransactions = () => {
   });
 
   const fetchTransactions = React.useCallback(
-    async (isRefetch: boolean = false) => {
-      const { data } = await refetch(getQueryVariables(account.address, page));
+    async (fetchPage: number, isRefetch: boolean = false) => {
+      const { data } = await refetch(getQueryVariables(account.address, fetchPage));
       if (!data) return;
 
       const fetched = convertGQLTxsResponse(data.messages);
@@ -131,17 +131,22 @@ const useActiveAccountTransactions = () => {
         isRefetch ? fetched : mergeGroupedTransactions(currentTxs, fetched),
       );
     },
-    [account, page, refetch],
+    [account, refetch],
   );
 
   const fetchMore = React.useCallback(async () => {
-    setPage(page + 1);
-    fetchTransactions();
-  }, [fetchTransactions, page]);
+    setPage((curValue) => {
+      // This trick is used to avoid having the fetchTransactions function depend on the value of the page.
+      // If we did that, we would trigger the re-creation on that function each time the page changes,
+      // which would trigger any callback that depends on this function (i.e. inside the Home page)
+      fetchTransactions(curValue + 1);
+      return curValue + 1;
+    });
+  }, [fetchTransactions]);
 
   const refetchTransactions = React.useCallback(() => {
     setPage(0);
-    fetchTransactions(true);
+    fetchTransactions(0, true);
   }, [fetchTransactions]);
 
   return {
