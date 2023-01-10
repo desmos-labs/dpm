@@ -1,121 +1,41 @@
-import { StdSignDoc } from '@cosmjs/amino';
-import Long from 'long';
-import {AuthInfo, TxBody} from 'cosmjs-types/cosmos/tx/v1beta1/tx';
+import SignClient from '@walletconnect/sign-client';
+import { ProposalTypes, SessionTypes, SignClientTypes } from '@walletconnect/types';
 
-export enum Events {
-  OnConnect = 'connect',
-  OnDisconnect = 'disconnect',
-  OnSessionRequest = 'session_request',
-  OnSessionUpdate = 'session_update',
-  OnCallRequest = 'call_request',
-}
-
-export type Session = {
-  id: string;
-  creationDate: Date;
-  accounts: string[];
-  chainId: number;
-  peerMeta?: PeerMeta;
-};
-
-export type PeerMeta = {
-  description: string;
-  url: string;
-  icons: string[];
-  name: string;
-};
-export type ConnectedEvent = {
-  sessionId: string;
-  error: Error | null;
-};
-
-export type DisconnectedEvent = {
-  sessionId: string;
-  error: Error | null;
-};
-
-export type SessionRequestDetails = {
-  sessionId: string;
-  chainId: number | null;
-  networkId: number | null;
-  addresses: string[] | null;
-  peerMeta?: PeerMeta;
-};
-
-export type SessionRequestEvent = {
-  error: Error | null;
-  sessionDetails?: SessionRequestDetails;
-};
-
-export type SessionUpdateEvent = {
-  error: Error | null;
-  session?: Session;
-};
-
-export type CallRequest = {
-  id: number;
-  sessionId: string;
-  method: string;
-  params: any[];
-};
-
-export type CallRequestEvent = {
-  sessionId: string;
-  error: Error | null;
-  request?: CallRequest;
-};
-
+/**
+ * Requests that can be received from WalletConnect.
+ */
 export enum CallRequestType {
   GetAccounts = 'cosmos_getAccounts',
   SignDirect = 'cosmos_signDirect',
   SignAmino = 'cosmos_signAmino',
 }
 
-export enum CosmosMethod {
-  SignDirect = 'cosmos_signDirect',
-  SignAmino = 'cosmos_signAmino',
+/**
+ * Interface that represents a WalletConnect client.
+ */
+export interface WalletConnectClient {
+  readonly client: SignClient;
 }
 
-export type CosmosSignDocDirect = {
-  chainId: string;
-  accountNumber: Long;
-  authInfo: AuthInfo;
-  body: TxBody;
-};
+/**
+ * Interface that represents a WalletConnect session.
+ */
+export interface WalletConnectSession {
+  readonly session: SessionTypes.Struct;
+}
 
-export type CosmosSignDirectParams = {
-  signerAddress: string;
-  signDoc: CosmosSignDocDirect;
-};
+/**
+ * Interface that represents a WalletConnect request
+ * to establish a new session.
+ */
+export interface WalletConnectSessionProposal {
+  readonly proposal: ProposalTypes.Struct;
+}
 
-export type CosmosSignAminoParams = {
-  signerAddress: string;
-  signDoc: StdSignDoc;
-};
-
-export type ParsedCosmosGetAccountRequest = {
-  type: CallRequestType.GetAccounts;
-  sessionId: string;
-  requestId: number;
-};
-
-export type ParsedCosmosSignDirectCallRequest = {
-  type: CallRequestType.SignDirect;
-  sessionId: string;
-  requestId: number;
-  signerAddress: string;
-  signDoc: CosmosSignDocDirect;
-};
-
-export type ParsedCosmosSignAminoCallRequest = {
-  type: CallRequestType.SignAmino;
-  sessionId: string;
-  requestId: number;
-  signerAddress: string;
-  signDoc: StdSignDoc;
-};
-
-export type ParsedCallRequest =
-  | ParsedCosmosGetAccountRequest
-  | ParsedCosmosSignDirectCallRequest
-  | ParsedCosmosSignAminoCallRequest;
+/**
+ * Interface that represents a WalletConnect request
+ * to exec an operation.
+ */
+export interface WalletConnectRequest {
+  readonly request: SignClientTypes.EventArguments['session_request'];
+}
