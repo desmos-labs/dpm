@@ -1,6 +1,6 @@
 import { createStackNavigator } from '@react-navigation/stack';
 import ROUTES from 'navigation/routes';
-import React, { useMemo } from 'react';
+import React, { useEffect, useMemo } from 'react';
 import DevScreen from 'screens/DevScreen';
 import Landing from 'screens/Landing';
 import CreateNewMnemonic from 'screens/CreateNewMnemonic';
@@ -24,6 +24,7 @@ import BroadcastTx, { BroadcastTxParams } from 'screens/BroadcastTx';
 import ModalScreen, { ModalScreenParams } from 'modals/ModalScreen';
 import EditProfile, { EditProfileParas } from 'screens/EditProfile';
 import HomeTabs from 'navigation/RootNavigator/HomeTabs';
+import useInitWalletConnectClient from 'hooks/walletconnect/useInitWalletConnectClient';
 
 export type RootNavigatorParamList = {
   [ROUTES.DEV_SCREEN]: undefined;
@@ -56,6 +57,15 @@ const Stack = createStackNavigator<RootNavigatorParamList>();
 
 const RootNavigator = () => {
   const initialRouteName = useMemo(() => ROUTES.DEV_SCREEN, []);
+  const initWalletConnect = useInitWalletConnectClient();
+
+  useEffect(() => {
+    initWalletConnect().then(() => {
+      if (__DEV__) {
+        console.log('wallet connect client initialized');
+      }
+    });
+  }, [initWalletConnect]);
 
   return (
     <Stack.Navigator
