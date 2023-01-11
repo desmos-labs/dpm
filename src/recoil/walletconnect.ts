@@ -13,6 +13,7 @@ import { convertWalletConnectSessionProposal } from 'lib/WalletConnectUtils';
 const walletConnectClientAppState = atom<WalletConnectClient | undefined>({
   key: 'walletConnectClientAppState',
   default: undefined,
+  dangerouslyAllowMutability: true,
 });
 
 export const useWalletConnectClient = () => useRecoilValue(walletConnectClientAppState);
