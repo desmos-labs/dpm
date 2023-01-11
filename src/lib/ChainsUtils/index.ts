@@ -1,4 +1,4 @@
-import { ChainLink, SupportedChain } from 'types/chains';
+import { SupportedChain } from 'types/chains';
 import SupportedChains from 'config/LinkableChains';
 import { WalletType } from 'types/wallet';
 import { AccountWithWallet } from 'types/account';
@@ -22,23 +22,6 @@ export const getLinkableChainInfoByName = (chainName: string): SupportedChain | 
     return lowerCase.indexOf(name) >= 0;
   });
 };
-
-/**
- * Format an incoming chain link data from the server into a format that is easier to parse by the app.
- * @param {any} chainLink - Chain link data retrieved from the server.
- * @returns {ChainLink[]} - An array of formatted ChainLink objects
- */
-export const convertGraphQLChainLink = (chainLink: any) =>
-  ({
-    chainName: chainLink.chainConfig.name,
-    externalAddress: chainLink.externalAddress,
-    userAddress: chainLink.userAddress,
-    proof: {
-      plainText: chainLink.proof.plainText,
-      signature: chainLink.proof.signature,
-    },
-    creationTime: new Date(`${chainLink.creationTime}Z`),
-  } as ChainLink);
 
 /**
  * Gets the address data to be used when linking an exteranl chain, based on the given

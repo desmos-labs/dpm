@@ -6,6 +6,8 @@ import { DesmosProfile } from 'types/desmos';
 import Spacer from 'components/Spacer';
 import useChainLinksGivenAddress from 'hooks/useChainLinksGivenAddress';
 import { useFocusEffect } from '@react-navigation/native';
+import ApplicationLinks from 'screens/Profile/components/ApplicationLinks';
+import useApplicationLinksGivenAddress from 'hooks/useApplicationLinksGivenAddress';
 import NonExistingProfile from '../NonExistingProfile';
 import ChainLinks from '../ChainLinksList';
 import useStyles from './useStyles';
@@ -28,15 +30,22 @@ const ProfileData = (props: ProfileDataProps) => {
 
   const {
     chainLinks,
-    loading,
+    loading: areChainLinksLoading,
     refetch: updateChainLinks,
   } = useChainLinksGivenAddress(profile?.address);
 
+  const {
+    applicationLinks,
+    loading: areApplicationLinksLoading,
+    refetch: updateApplicationLinks,
+  } = useApplicationLinksGivenAddress(profile?.address);
+
   useFocusEffect(
     useCallback(() => {
-      // Refresh the chain links
+      // Refresh the data
       updateChainLinks();
-    }, [updateChainLinks]),
+      updateApplicationLinks();
+    }, [updateApplicationLinks, updateChainLinks]),
   );
 
   return (
@@ -44,23 +53,28 @@ const ProfileData = (props: ProfileDataProps) => {
       {/* Header */}
       <ProfileHeader profile={profile} />
 
-      <Spacer paddingVertical={8} />
-
       {/* Biography */}
       {profile?.bio && (
         <View style={styles.bioContainer}>
-          <Typography.Body1 style={styles.bioText} numberOfLines={2}>
+          <Typography.Caption style={styles.bioText} numberOfLines={2}>
             {profile.bio}
-          </Typography.Body1>
+          </Typography.Caption>
         </View>
       )}
-
-      <Spacer paddingVertical={8} />
 
       {/* Main content */}
       <View style={styles.content}>
         {profile ? (
-          <ChainLinks loading={loading} chainLinks={chainLinks} canEdit={canEdit} />
+          <View style={styles.linksContainer}>
+            {applicationLinks.length > 0 && <Spacer paddingVertical={4} />}
+            <ApplicationLinks
+              loading={areApplicationLinksLoading}
+              applicationLinks={applicationLinks}
+              canEdit={canEdit}
+            />
+            <Spacer paddingVertical={8} />
+            <ChainLinks loading={areChainLinksLoading} chainLinks={chainLinks} canEdit={canEdit} />
+          </View>
         ) : (
           <NonExistingProfile canCreate={canEdit} />
         )}

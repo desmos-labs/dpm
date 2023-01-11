@@ -8,7 +8,6 @@ const useStyles = makeStyle((theme) => ({
   },
   bioContainer: {
     paddingHorizontal: theme.spacing.m,
-    alignItems: 'center',
   },
   bioText: {
     overflow: 'hidden',
@@ -17,9 +16,14 @@ const useStyles = makeStyle((theme) => ({
   content: {
     display: 'flex',
     flexDirection: 'column',
-    alignItems: 'center',
-    paddingHorizontal: theme.spacing.m,
+    flex: 1,
     flexGrow: 1,
+    alignItems: 'flex-start',
+    paddingHorizontal: theme.spacing.m,
+  },
+  linksContainer: {
+    flex: 1,
+    width: '100%',
   },
 }));
 

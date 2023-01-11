@@ -14,12 +14,7 @@ import { useStoreWalletConnectSession } from '@recoil/walletConnectSessions';
 import { WalletConnectPermission, WalletConnectSession } from 'types/walletConnect';
 import useStyles from './useStyles';
 
-const routesToRender = [
-  ROUTES.LANDING,
-  ROUTES.CREATE_NEW_MNEMONIC,
-  ROUTES.PROFILE,
-  ROUTES.HOME_TABS,
-];
+const routesToRender = [ROUTES.CREATE_NEW_MNEMONIC, ROUTES.PROFILE, ROUTES.HOME_TABS];
 
 type NavProps = StackScreenProps<RootNavigatorParamList, ROUTES.DEV_SCREEN>;
 
@@ -48,9 +43,12 @@ const DevScreen: FC<NavProps> = ({ navigation }) => {
   );
 
   const navigateToLandingPage = useCallback(() => {
-    navigation.navigate({
-      name: ROUTES.LANDING,
-      params: undefined,
+    navigation.navigate(ROUTES.LANDING);
+  }, [navigation]);
+
+  const goToExternalProfile = useCallback(() => {
+    navigation.navigate(ROUTES.PROFILE, {
+      visitingProfile: 'desmos1flzmju7m2lh0znhvkwwapkz9e7f39yjgcae2qz',
     });
   }, [navigation]);
 
@@ -81,6 +79,12 @@ const DevScreen: FC<NavProps> = ({ navigation }) => {
         renderItem={renderItem}
         ItemSeparatorComponent={itemSeparator}
       />
+
+      <Spacer paddingVertical={4} />
+
+      <Button mode="contained" onPress={goToExternalProfile} color="green">
+        Visit external profile
+      </Button>
 
       <Spacer paddingVertical={4} />
 
