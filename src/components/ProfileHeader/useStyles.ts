@@ -39,7 +39,6 @@ const useStyles = makeStyle((theme) => ({
     marginStart: theme.spacing.m,
   },
   profilePictureContainer: {
-    marginStart: theme.spacing.m,
     width: 100,
     height: 100,
     borderRadius: 50,
