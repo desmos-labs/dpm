@@ -2,15 +2,6 @@ import SignClient from '@walletconnect/sign-client';
 import { ProposalTypes, SessionTypes, SignClientTypes } from '@walletconnect/types';
 
 /**
- * Requests that can be received from WalletConnect.
- */
-export enum CallRequestType {
-  GetAccounts = 'cosmos_getAccounts',
-  SignDirect = 'cosmos_signDirect',
-  SignAmino = 'cosmos_signAmino',
-}
-
-/**
  * Interface that represents a WalletConnect client.
  */
 export interface WalletConnectClient {
