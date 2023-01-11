@@ -4,10 +4,11 @@ import { useTranslation } from 'react-i18next';
 import { View } from 'react-native';
 import Typography from 'components/Typography';
 import Button from 'components/Button';
-import { WalletConnectPermission, WalletConnectSession } from 'types/walletConnect';
+import { WalletConnectSession } from 'types/walletConnect';
 import { desmosIconOrange } from 'assets/images';
 import FastImage from 'react-native-fast-image';
 import Spacer from 'components/Spacer';
+import useWalletConnectCloseSession from 'hooks/walletconnect/useWalletConnectRevokeSession';
 import useStyles from './useStyles';
 
 export type DAppSessionViewProps = {
@@ -18,35 +19,21 @@ const SessionListItem = (props: DAppSessionViewProps) => {
   const { session } = props;
   const { t } = useTranslation('walletConnect');
   const styles = useStyles();
+  const closeSession = useWalletConnectCloseSession();
 
   const appIcon = useMemo(
     () => (session.icon ? { uri: session.icon } : desmosIconOrange),
     [session],
   );
 
-  const date = useMemo(() => format(session.creationDate, 'PPP'), [session]);
-
-  const permissionToString = useCallback(
-    (permission: WalletConnectPermission): string => {
-      switch (permission) {
-        case WalletConnectPermission.SIGN_TX:
-          return t('sign transaction');
-        case WalletConnectPermission.BROADCAST_TX:
-          return t('broadcast transaction');
-        default:
-          return '';
-      }
-    },
-    [t],
-  );
-  const permissions = useMemo(
-    () => session.permissions.map(permissionToString),
-    [permissionToString, session.permissions],
-  );
+  const date = useMemo(() => {
+    const creationDate = new Date(session.creationDate);
+    return format(creationDate, 'PPP');
+  }, [session]);
 
   const onRevokePressed = useCallback(() => {
-    console.log('SessionListItem - onRevokePressed', session.name);
-  }, [session.name]);
+    closeSession(session);
+  }, [closeSession, session]);
 
   return (
     <View style={styles.root}>
@@ -60,11 +47,8 @@ const SessionListItem = (props: DAppSessionViewProps) => {
 
         <Spacer paddingVertical={4} />
 
-        {/* Permissions and creation date */}
+        {/* Creation date */}
         <View style={styles.texts}>
-          {permissions.map((permission) => (
-            <Typography.Body style={styles.permissions}>{permission}</Typography.Body>
-          ))}
           <Typography.Body style={styles.date}>{date}</Typography.Body>
         </View>
       </View>

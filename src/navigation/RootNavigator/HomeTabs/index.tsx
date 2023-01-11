@@ -10,11 +10,11 @@ import BottomBar from 'navigation/RootNavigator/HomeTabs/components/BottomBar';
 import WalletConnectSessions from 'screens/WalletConnectSessions';
 import AppDrawerContent from 'screens/Home/components/AppDrawer';
 import AppDrawer from 'lib/AppDrawer';
+import ScanQr from 'screens/ScanQr';
 
 export type HomeTabsParamList = {
   [ROUTES.HOME]: undefined;
   [ROUTES.SCAN_QR_CODE]: undefined;
-  [ROUTES.AUTHORIZATIONS]: undefined;
   [ROUTES.WALLET_CONNECT_SESSIONS]: undefined;
 };
 
@@ -52,7 +52,7 @@ const HomeTabs: FC<NavProps> = () => {
         />
         <HomeBottomTabs.Screen
           name={ROUTES.SCAN_QR_CODE}
-          component={Home}
+          component={ScanQr}
           options={{
             tabBarIcon: TabIcons.ScanQr,
           }}

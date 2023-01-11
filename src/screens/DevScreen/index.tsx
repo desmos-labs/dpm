@@ -59,7 +59,7 @@ const DevScreen: FC<NavProps> = ({ navigation }) => {
   const storeWalletConnectSession = useStoreWalletConnectSession();
   const addWalletConnectSession = useCallback(() => {
     storeWalletConnectSession(activeAccountAddress!, {
-      id: 'test',
+      topic: 'test',
       icon: 'https://upload.wikimedia.org/wikipedia/commons/thumb/c/c6/Sign-check-icon.png/768px-Sign-check-icon.png',
       creationDate: new Date(),
       name: 'Go-Find.me',
