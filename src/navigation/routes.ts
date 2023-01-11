@@ -89,10 +89,6 @@ enum ROUTES {
    */
   SCAN_QR_CODE = 'SCAN_QR_CODE',
   /**
-   * Home screen.
-   */
-  AUTHORIZATIONS = 'AUTHORIZATIONS',
-  /**
    * Screen that shows the user the data of the Desmos Profile associated to the current profile wallet.
    */
   PROFILE = 'PROFILE',
@@ -121,6 +117,18 @@ enum ROUTES {
    * Screen that displays a modal to the user.
    */
   MODAL = 'MODAL',
+  /**
+   * Screen that allows editing the application's settings.
+   */
+  SETTINGS = 'SETTING',
+
+  // Following a list of settings screens.
+  SETTINGS_DISPLAY_MODE = 'SETTINGS_DISPLAY_MODE',
+  SETTINGS_SWITCH_CHAIN = 'SETTINGS_SWITCH_CHAIN',
+  SETTINGS_CHANGE_APPLICATION_PASSWORD = 'SETTINGS_CHANGE_APPLICATION_PASSWORD',
+  SETTINGS_JOIN_COMMUNITY = 'SETTINGS_JOIN_COMMUNITY',
+  SETTINGS_ABOUT_DPM = 'SETTINGS_ABOUT_DPM',
+  SETTINGS_PRIVACY_POLICY = 'SETTINGS_PRIVACY_POLICY',
 }
 
 export default ROUTES;

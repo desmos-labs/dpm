@@ -2,18 +2,18 @@ import React, { useCallback, useEffect, useState } from 'react';
 import { Appearance, NativeEventSubscription } from 'react-native';
 import { Provider as PaperProvider } from 'react-native-paper';
 import { Settings } from 'react-native-paper/lib/typescript/core/settings';
-import useSetting from 'hooks/settings/useSetting';
 import useDebouncingColorScheme from 'hooks/useDebouncingColorScheme';
 import DesmosIcon from 'components/DesmosIcon';
 import LightTheme from 'config/theme/LightTheme';
 import DarkTheme from 'config/theme/DarkTheme';
+import { useSettings } from '@recoil/settings';
 
 const PaperProviderSettings: Settings = {
   icon: (props) => <DesmosIcon {...props} />,
 };
 
 const ThemeProvider: React.FC = ({ children }) => {
-  const theme = useSetting('theme');
+  const settings = useSettings();
   const [appTheme, setAppTheme] = useState(LightTheme);
   const colorScheme = useDebouncingColorScheme();
 
@@ -23,14 +23,14 @@ const ThemeProvider: React.FC = ({ children }) => {
 
   useEffect(() => {
     let appearanceSubscription: NativeEventSubscription | undefined;
-    if (theme === 'auto') {
+    if (settings.theme === 'auto') {
       handleAppearanceChange();
       appearanceSubscription = Appearance.addChangeListener(handleAppearanceChange);
       return () => {
         appearanceSubscription?.remove();
       };
     }
-    if (theme === 'dark') {
+    if (settings.theme === 'dark') {
       setAppTheme(DarkTheme);
     } else {
       setAppTheme(LightTheme);
@@ -38,7 +38,7 @@ const ThemeProvider: React.FC = ({ children }) => {
     return () => {
       appearanceSubscription?.remove();
     };
-  }, [handleAppearanceChange, theme]);
+  }, [handleAppearanceChange, settings.theme]);
 
   return (
     <PaperProvider theme={appTheme} settings={PaperProviderSettings}>

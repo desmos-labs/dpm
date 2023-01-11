@@ -1,80 +1,29 @@
-import { CompositeScreenProps } from '@react-navigation/native';
 import { StackScreenProps } from '@react-navigation/stack';
 import React, { useCallback, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Linking, Platform } from 'react-native';
+import { Linking } from 'react-native';
 import DeviceInfo from 'react-native-device-info';
 import Keychain from 'react-native-keychain';
 import Flexible from 'components/Flexible';
-import useSetSettings from 'hooks/settings/useSetSettings';
-import { RootStackParams, SettingsScreensStackParams } from 'types/navigation';
 import * as SecureStorage from 'lib/SecureStorage';
 import StyledSafeAreaView from 'components/StyledSafeAreaView';
+import { RootNavigatorParamList } from 'navigation/RootNavigator';
+import ROUTES from 'navigation/routes';
+import { useSetSettings, useSettings } from '@recoil/settings';
 import TopBar from 'components/TopBar';
-import { useRecoilValue } from 'recoil';
-import appSettingsState from '@recoil/settings';
+import OpenSettingScreenButton from 'screens/Settings/components/OpenSettingScreenButton';
 import useStyles from './useStyles';
 
-declare type Props = CompositeScreenProps<
-  StackScreenProps<SettingsScreensStackParams>,
-  StackScreenProps<RootStackParams>
->;
+export type NavProps = StackScreenProps<RootNavigatorParamList, ROUTES.SETTINGS>;
 
-const Settings: React.FC<Props> = (props) => {
+const Settings = (props: NavProps) => {
   const { navigation } = props;
-  const { t } = useTranslation();
+  const { t } = useTranslation('settings');
   const styles = useStyles();
-  const settings = useRecoilValue(appSettingsState);
+
+  const settings = useSettings();
   const setSettings = useSetSettings();
   const [biometricsSupported, setBiometricsSupported] = React.useState<boolean>(false);
-
-  const openPrivacyPolicy = useCallback(async () => {
-    navigation.navigate({
-      name: 'MarkdownText',
-      params: {
-        title: t('privacy policy'),
-        asset: Platform.OS === 'android' ? 'custom/privacy.md' : '/privacy.md',
-      },
-    });
-  }, [navigation, t]);
-
-  const openAbout = useCallback(async () => {
-    navigation.navigate({
-      name: 'MarkdownText',
-      params: {
-        title: t('about dpm'),
-        asset: Platform.OS === 'android' ? 'custom/about.md' : '/about.md',
-      },
-    });
-  }, [navigation, t]);
-
-  const navigateToDisplayMode = useCallback(async () => {
-    navigation.navigate({
-      name: 'DisplayMode',
-      params: undefined,
-    });
-  }, [navigation]);
-
-  const navigateToSwitchChain = useCallback(async () => {
-    navigation.navigate({
-      name: 'SwitchChain',
-      params: undefined,
-    });
-  }, [navigation]);
-
-  const navigateToJoinCommunity = useCallback(async () => {
-    navigation.navigate({
-      name: 'JoinCommunity',
-      params: undefined,
-    });
-  }, [navigation]);
-
-  const navigateToChangePassword = useCallback(async () => {
-    navigation.navigate({
-      name: 'CheckOldPassword',
-      params: undefined,
-    });
-  }, [navigation]);
 
   const sendFeedback = useCallback(async () => {
     Linking.openURL('mailto:development@forbole.com').catch((err) =>
@@ -90,10 +39,10 @@ const Settings: React.FC<Props> = (props) => {
 
   const navigateHandleBiometrics = useCallback(
     async (biometricsType: 'biometricsLogin' | 'biometricsSignature') => {
-      navigation.navigate({
-        name: 'HandleBiometrics',
-        params: { biometricsType },
-      });
+      // navigation.navigate({
+      //   name: 'HandleBiometrics',
+      //   params: { biometricsType },
+      // });
     },
     [navigation],
   );
@@ -109,7 +58,7 @@ const Settings: React.FC<Props> = (props) => {
         });
         if (stringToCheck === 'dpm_global_password') {
           await SecureStorage.deleteItem(biometricsType);
-          setSettings({ biometrics: !settings.biometrics });
+          // setSettings({ biometrics: !settings.biometrics });
         }
       }
     },
@@ -119,9 +68,7 @@ const Settings: React.FC<Props> = (props) => {
   const areBiometricsSupported = useCallback(async () => {
     try {
       const supported = await Keychain.getSupportedBiometryType();
-      if (supported) {
-        setBiometricsSupported(true);
-      }
+      setBiometricsSupported(supported != null);
     } catch (e) {
       console.error(e);
     }
@@ -132,19 +79,26 @@ const Settings: React.FC<Props> = (props) => {
   }, [areBiometricsSupported]);
 
   return (
-    <StyledSafeAreaView
-      style={styles.background}
-      scrollable
-      topBar={<TopBar style={styles.background} stackProps={props} title={t('settings')} />}
-    >
+    <StyledSafeAreaView style={styles.background} scrollable>
+      {/* Top bar */}
+      <TopBar
+        style={styles.topBar}
+        titleStyle={styles.topBarTitle}
+        stackProps={{ navigation }}
+        title={t('settings')}
+      />
+
+      {/* General section */}
       <Flexible.Section title={t('general')}>
-        <Flexible.SectionButton label={t('display mode')} onPress={navigateToDisplayMode} />
-        <Flexible.SectionButton label={t('switch chain')} onPress={navigateToSwitchChain} />
+        <OpenSettingScreenButton title={t('display mode')} route={ROUTES.SETTINGS_DISPLAY_MODE} />
+        <OpenSettingScreenButton title={t('switch chain')} route={ROUTES.SETTINGS_SWITCH_CHAIN} />
       </Flexible.Section>
+
+      {/* Security section */}
       <Flexible.Section style={styles.sectionMargin} title={t('security')}>
-        <Flexible.SectionButton
-          label={t('change application password')}
-          onPress={navigateToChangePassword}
+        <OpenSettingScreenButton
+          title={t('change application password')}
+          route={ROUTES.SETTINGS_CHANGE_APPLICATION_PASSWORD}
         />
         <Flexible.SectionSwitch
           label={t('enable face id for signature')}
@@ -167,16 +121,23 @@ const Settings: React.FC<Props> = (props) => {
           }
         />
       </Flexible.Section>
+
+      {/* Support section */}
       <Flexible.Section style={styles.sectionMargin} title={t('support')}>
         <Flexible.SectionButton label={t('feedback')} onPress={sendFeedback} />
-        <Flexible.SectionButton
-          label={t('join community')}
-          onPress={navigateToJoinCommunity}
+        <OpenSettingScreenButton
+          title={t('join community')}
+          route={ROUTES.SETTINGS_JOIN_COMMUNITY}
         />
       </Flexible.Section>
+
+      {/* About section */}
       <Flexible.Section style={styles.sectionMargin} title={t('about')}>
-        <Flexible.SectionButton label={t('about dpm')} onPress={openAbout} />
-        <Flexible.SectionButton label={t('privacy policy')} onPress={openPrivacyPolicy} />
+        <OpenSettingScreenButton title={t('about dpm')} route={ROUTES.SETTINGS_ABOUT_DPM} />
+        <OpenSettingScreenButton
+          title={t('privacy policy')}
+          route={ROUTES.SETTINGS_PRIVACY_POLICY}
+        />
         <Flexible.SectionButton label={t('open source')} onPress={navigateToGithub} />
         <Flexible.SectionText label={t('version')} value={DeviceInfo.getVersion()} />
       </Flexible.Section>

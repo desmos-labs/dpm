@@ -25,6 +25,9 @@ import ModalScreen, { ModalScreenParams } from 'modals/ModalScreen';
 import EditProfile, { EditProfileParams } from 'screens/EditProfile';
 import HomeTabs from 'navigation/RootNavigator/HomeTabs';
 import useInitWalletConnectClient from 'hooks/walletconnect/useInitWalletConnectClient';
+import Settings from 'screens/Settings';
+import SettingsDisplayMode from 'screens/SettingsDisplayMode';
+import SettingsSwitchChain from 'screens/SettingsSwitchChain';
 
 export type RootNavigatorParamList = {
   [ROUTES.DEV_SCREEN]: undefined;
@@ -53,6 +56,15 @@ export type RootNavigatorParamList = {
   [ROUTES.UNLOCK_WALLET]: UnlockWalletParams;
   [ROUTES.BROADCAST_TX]: BroadcastTxParams;
   [ROUTES.MODAL]: ModalScreenParams;
+
+  [ROUTES.SETTINGS]: undefined;
+  [ROUTES.SETTINGS_DISPLAY_MODE]: undefined;
+  [ROUTES.SETTINGS_SWITCH_CHAIN]: undefined;
+  [ROUTES.SETTINGS_CHANGE_APPLICATION_PASSWORD]: undefined;
+  [ROUTES.SETTINGS_FEEDBACK]: undefined;
+  [ROUTES.SETTINGS_JOIN_COMMUNITY]: undefined;
+  [ROUTES.SETTINGS_ABOUT_DPM]: undefined;
+  [ROUTES.SETTINGS_PRIVACY_POLICY]: undefined;
 };
 
 const Stack = createStackNavigator<RootNavigatorParamList>();
@@ -113,6 +125,10 @@ const RootNavigator = () => {
           presentation: 'transparentModal',
         }}
       />
+
+      <Stack.Screen name={ROUTES.SETTINGS} component={Settings} />
+      <Stack.Screen name={ROUTES.SETTINGS_DISPLAY_MODE} component={SettingsDisplayMode} />
+      <Stack.Screen name={ROUTES.SETTINGS_SWITCH_CHAIN} component={SettingsSwitchChain} />
     </Stack.Navigator>
   );
 };

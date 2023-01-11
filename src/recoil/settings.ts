@@ -1,9 +1,9 @@
+import React, { useMemo } from 'react';
 import { getMMKV, MMKVKEYS, setMMKV } from 'lib/MMKVStorage';
-import { atom, useRecoilState, useRecoilValue } from 'recoil';
+import { atom, useRecoilValue, useSetRecoilState } from 'recoil';
 import { AppSettings } from 'types/settings';
 import { findChainInfoByName } from 'lib/ChainsUtils';
 import { DesmosMainnet, DesmosTestnet, GasPrice } from '@desmoslabs/desmjs';
-import { useMemo } from 'react';
 
 /**
  * Default application settings
@@ -21,7 +21,7 @@ export const DefaultAppSettings: AppSettings = {
 /**
  * Recoil atom for the application settings
  */
-const appSettingsState = atom<AppSettings>({
+const settingsAppState = atom<AppSettings>({
   key: 'appSettings',
   default: (() => {
     const savedSettings = getMMKV<AppSettings>(MMKVKEYS.APP_SETTINGS);
@@ -52,8 +52,31 @@ export const useCurrentChainGasPrice = () => {
   }, [currentChainInfo]);
 };
 
-export const useSettingsState = () => useRecoilState(appSettingsState);
+export const useSettings = () => useRecoilValue(settingsAppState);
 
-export const useSettings = () => useRecoilValue(appSettingsState);
+export const useSetting = <K extends keyof AppSettings>(settingKey: K) => {
+  const settings = useRecoilValue(settingsAppState);
+  return settings[settingKey];
+};
 
-export default appSettingsState;
+/**
+ * Hook that provides a function to update the value of a setting.
+ * @param settingKey - Key of the setting of interest.
+ */
+export const useSetSetting = <K extends keyof AppSettings>(settingKey: K) => {
+  const setSettings = useSetSettings();
+  return React.useCallback(
+    (setting: AppSettings[K]) => {
+      setSettings((currentValue) => {
+        const settings: AppSettings = {
+          ...currentValue,
+        };
+        settings[settingKey] = setting;
+        return settings;
+      });
+    },
+    [settingKey, setSettings],
+  );
+};
+
+export const useSetSettings = () => useSetRecoilState(settingsAppState);
