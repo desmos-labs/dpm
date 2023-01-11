@@ -3,7 +3,7 @@ import { FlatList, ListRenderItemInfo } from 'react-native';
 import React, { useCallback, useMemo } from 'react';
 import { useGetAccounts } from '@recoil/accounts';
 import { useGetProfiles } from '@recoil/profiles';
-import { useActiveAccount } from '@recoil/activeAccountState';
+import { useActiveAccount } from '@recoil/activeAccount';
 import { Account } from 'types/account';
 import useStyles from './useStyles';
 import ProfileListItem from './Item';

@@ -2,7 +2,7 @@ import { useQuery } from '@apollo/client';
 import GetAccountBalance from 'services/graphql/queries/GetAccountBalance';
 import { useMemo } from 'react';
 import { Coin } from '@cosmjs/amino';
-import { useActiveAccountAddress } from '@recoil/activeAccountState';
+import { useActiveAccountAddress } from '@recoil/activeAccount';
 
 /**
  * Hook that allows to get the account balance for the currently active account.

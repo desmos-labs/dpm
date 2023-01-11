@@ -2,7 +2,7 @@ import { useCallback } from 'react';
 import { MsgSendEncodeObject } from '@cosmjs/stargate';
 import { useCurrentChainInfo } from '@recoil/settings';
 import useBroadcastTx, { BroadcastTxCallbacks } from 'hooks/useBroadcastTx';
-import { useActiveAccount } from '@recoil/activeAccountState';
+import { useActiveAccount } from '@recoil/activeAccount';
 
 const useSendTokens = (callbacks: BroadcastTxCallbacks) => {
   const chainInfo = useCurrentChainInfo();

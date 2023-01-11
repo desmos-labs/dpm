@@ -8,10 +8,10 @@ import TopBar from 'components/TopBar';
 import AccountProfilePic from 'screens/Home/components/AccountProfilePic';
 import { useTheme } from 'react-native-paper';
 import useDrawerContext from 'lib/AppDrawer/context';
-import useActiveProfile from '@recoil/activeProfileState';
+import useActiveProfile from '@recoil/activeProfile';
 import EmptySessions from 'screens/WalletConnectSessions/components/EmptySessions';
 import SessionsList from 'screens/WalletConnectSessions/components/SessionsList';
-import { useActiveAccountWalletConnectSessions } from '@recoil/activeAccountWalletConnectSessionsState';
+import { useActiveAccountWalletConnectSessions } from '@recoil/activeAccountWalletConnectSessions';
 import useStyles from './useStyles';
 
 export type NavProps = StackScreenProps<RootNavigatorParamList, ROUTES.WALLET_CONNECT_SESSIONS>;

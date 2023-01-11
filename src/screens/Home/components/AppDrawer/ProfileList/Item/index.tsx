@@ -4,7 +4,7 @@ import AvatarImage from 'components/AvatarImage';
 import Typography from 'components/Typography';
 import { Account } from 'types/account';
 import { DesmosProfile } from 'types/desmos';
-import { useSetActiveAccountAddress } from '@recoil/activeAccountState';
+import { useSetActiveAccountAddress } from '@recoil/activeAccount';
 import useDrawerContext from 'lib/AppDrawer/context';
 import useStyles from './useStyles';
 import ItemMenu from '../ItemMenu';

@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useLazyQuery } from '@apollo/client';
 import GetTransactionsByAddress from 'services/graphql/queries/GetTransactionsByAddress';
-import { useActiveAccount } from '@recoil/activeAccountState';
+import { useActiveAccount } from '@recoil/activeAccount';
 import { GroupedTransactions, Message, Transaction } from 'types/transactions';
 import convertGQLTxsResponse from 'lib/TransactionUtils';
 

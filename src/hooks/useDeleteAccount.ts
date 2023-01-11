@@ -5,7 +5,7 @@ import { useNavigation } from '@react-navigation/native';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { RootNavigatorParamList } from 'navigation/RootNavigator';
 import ROUTES from 'navigation/routes';
-import { useActiveAccountAddress, useSetActiveAccountAddress } from '@recoil/activeAccountState';
+import { useActiveAccountAddress, useSetActiveAccountAddress } from '@recoil/activeAccount';
 
 export default function useDeleteAccount() {
   const accounts = useGetAccounts();

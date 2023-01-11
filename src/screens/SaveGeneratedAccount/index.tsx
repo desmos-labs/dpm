@@ -10,7 +10,7 @@ import ROUTES from 'navigation/routes';
 import { AccountWithWallet } from 'types/account';
 import { useSaveAccount } from 'screens/SaveGeneratedAccount/useHooks';
 import { DPMImages } from 'types/images';
-import { useSetActiveAccountAddress } from '@recoil/activeAccountState';
+import { useSetActiveAccountAddress } from '@recoil/activeAccount';
 import useStyles from './useStyles';
 
 export type SaveGeneratedAccountParams = {

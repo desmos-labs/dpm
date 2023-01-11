@@ -1,6 +1,6 @@
 import { selector, useRecoilValue } from 'recoil';
 import { WalletConnectSession } from 'types/walletConnect';
-import { activeAccountAddressAppState } from '@recoil/activeAccountState';
+import { activeAccountAddressAppState } from '@recoil/activeAccount';
 import { walletConnectSessionsAppState } from '@recoil/walletConnectSessions';
 
 /**

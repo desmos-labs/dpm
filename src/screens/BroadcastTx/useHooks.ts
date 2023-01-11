@@ -1,6 +1,6 @@
 import { EncodeObject } from '@cosmjs/proto-signing';
 import { useUnlockWallet } from 'hooks/useUnlockWallet';
-import { useActiveAccount } from '@recoil/activeAccountState';
+import { useActiveAccount } from '@recoil/activeAccount';
 import { useCallback, useState } from 'react';
 import { DeliverTxResponse, DesmosClient, OfflineSignerAdapter } from '@desmoslabs/desmjs';
 import useSignTx, { SignAndBroadcastResult, SignMode } from 'hooks/useSignTx';

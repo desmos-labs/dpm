@@ -8,7 +8,7 @@ import { useGetAccounts } from '@recoil/accounts';
 import Typography from 'components/Typography';
 import { FlatList, Text, TouchableOpacity } from 'react-native';
 import Spacer from 'components/Spacer';
-import { useActiveAccountAddress } from '@recoil/activeAccountState';
+import { useActiveAccountAddress } from '@recoil/activeAccount';
 import * as WCMMKV from 'lib/MMKVStorage/walletconnect';
 import { useStoreWalletConnectSession } from '@recoil/walletConnectSessions';
 import { WalletConnectPermission, WalletConnectSession } from 'types/walletConnect';

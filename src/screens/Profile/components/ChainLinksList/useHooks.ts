@@ -24,7 +24,7 @@ import { SupportedChain } from 'types/chains';
 import { singleSignatureToAny } from '@desmoslabs/desmjs/build/aminomessages/profiles';
 import { getAddress } from 'lib/ChainsUtils';
 import useBroadcastTx from 'hooks/useBroadcastTx';
-import { useActiveAccount } from '@recoil/activeAccountState';
+import { useActiveAccount } from '@recoil/activeAccount';
 import useSignTx, { OfflineSignResult, SignMode } from 'hooks/useSignTx';
 
 const useSaveChainLinkAccount = () =>

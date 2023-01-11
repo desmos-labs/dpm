@@ -5,7 +5,7 @@ import { RootNavigatorParamList } from 'navigation/RootNavigator';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { Wallet } from 'types/wallet';
 import ROUTES from 'navigation/routes';
-import { useActiveAccount } from '@recoil/activeAccountState';
+import { useActiveAccount } from '@recoil/activeAccount';
 
 /**
  * Hooks that provides a function to unlock and access the user wallet.

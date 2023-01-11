@@ -1,4 +1,4 @@
-import useActiveProfile from '@recoil/activeProfileState';
+import useActiveProfile from '@recoil/activeProfile';
 import useProfileDataGivenAddress from 'hooks/useProfileDataGivenAddress';
 
 const useProfileDataQueries = (visitingProfileAddress?: string) => {

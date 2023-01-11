@@ -3,7 +3,7 @@ import React, { useMemo } from 'react';
 import GetAccountChainLinks from 'services/graphql/queries/GetAccountChainLinks';
 import { convertGraphQLChainLink } from 'lib/ChainsUtils';
 import { useStoredChainLinks, useStoreUserChainLinks } from '@recoil/chainLinks';
-import { useActiveAccountAddress } from '@recoil/activeAccountState';
+import { useActiveAccountAddress } from '@recoil/activeAccount';
 
 /**
  * Hook to retrieve the selected address profile data.

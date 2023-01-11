@@ -4,7 +4,7 @@ import { useTranslation } from 'react-i18next';
 import useBroadcastTx, { BroadcastTxOptions } from 'hooks/useBroadcastTx';
 import useUploadPicture from 'hooks/useUploadPicture';
 import { MsgSaveProfileEncodeObject, MsgSaveProfileTypeUrl } from '@desmoslabs/desmjs';
-import { useActiveAccount } from '@recoil/activeAccountState';
+import { useActiveAccount } from '@recoil/activeAccount';
 
 export const useValidationHooks = (params: ProfileParams | undefined) => {
   const { t } = useTranslation('profile');
