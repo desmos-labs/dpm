@@ -1,3 +1,4 @@
+export * from './applications';
 export * from './chains';
 export * from './community';
 export * from './messages';

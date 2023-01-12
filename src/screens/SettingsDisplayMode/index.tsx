@@ -1,19 +1,22 @@
 import { StackScreenProps } from '@react-navigation/stack';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-import useSetSetting from 'hooks/settings/useSetSetting';
-import useSetting from 'hooks/settings/useSetting';
-import { AccountScreensStackParams } from 'types/navigation';
-import RadioGroup, {RadioValue} from 'components/RadioGroup';
+import RadioGroup, { RadioValue } from 'components/RadioGroup';
 import StyledSafeAreaView from 'components/StyledSafeAreaView';
 import TopBar from 'components/TopBar';
+import { useSetSetting, useSetting } from '@recoil/settings';
+import Typography from 'components/Typography';
+import Spacer from 'components/Spacer';
+import { RootNavigatorParamList } from 'navigation/RootNavigator';
+import ROUTES from 'navigation/routes';
 import useStyles from './useStyles';
 
-type Props = StackScreenProps<AccountScreensStackParams, 'SettingsScreens'>;
+export type NavProps = StackScreenProps<RootNavigatorParamList, ROUTES.SETTINGS_DISPLAY_MODE>;
 
-const DisplayMode: React.FC<Props> = (props) => {
-  const { t } = useTranslation();
+const SettingsDisplayMode = (props: NavProps) => {
+  const { t } = useTranslation('settings');
   const styles = useStyles();
+
   const theme = useSetting('theme');
   const setTheme = useSetSetting('theme');
 
@@ -39,13 +42,21 @@ const DisplayMode: React.FC<Props> = (props) => {
   ];
 
   return (
-    <StyledSafeAreaView
-      style={styles.background}
-      topBar={<TopBar style={styles.background} stackProps={props} title={t('display')} />}
-    >
+    <StyledSafeAreaView style={styles.background}>
+      {/* Top bar */}
+      <TopBar
+        style={styles.background}
+        titleStyle={styles.topBarTitle}
+        stackProps={props}
+        title={t('display mode')}
+      />
+
+      {/* Content */}
+      <Typography.Body>{t('display mode description')}</Typography.Body>
+      <Spacer paddingVertical={4} />
       <RadioGroup values={values} />
     </StyledSafeAreaView>
   );
 };
 
-export default DisplayMode;
+export default SettingsDisplayMode;

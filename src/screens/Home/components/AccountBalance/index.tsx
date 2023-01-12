@@ -3,7 +3,7 @@ import { useTranslation } from 'react-i18next';
 import { StyleProp, TouchableOpacity, View, ViewStyle } from 'react-native';
 import IconButton from 'components/IconButton';
 import Typography from 'components/Typography';
-import { useSettingsState } from '@recoil/settings';
+import { useSetSettings, useSettings } from '@recoil/settings';
 import CopyButton from 'components/CopyButton';
 import { Account } from 'types/account';
 import { DesmosProfile } from 'types/desmos';
@@ -29,7 +29,9 @@ const AccountBalance: React.FC<AccountBalanceProps> = (props) => {
   const { t } = useTranslation('common');
   const styles = useStyles();
   const navigation = useNavigation<StackNavigationProp<RootNavigatorParamList>>();
-  const [settings, setSettings] = useSettingsState();
+
+  const settings = useSettings();
+  const setSettings = useSetSettings();
 
   const nickname = profile?.nickname;
   const address = profile?.address ?? account?.address ?? '';

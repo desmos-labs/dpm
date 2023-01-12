@@ -1,20 +1,8 @@
-import { ProposalTypes, SessionTypes, SignClientTypes } from '@walletconnect/types';
-import {
-  WalletConnectRequest,
-  WalletConnectSession,
-  WalletConnectSessionProposal,
-} from 'types/walletConnect';
-
-/**
- * Function that converts a WalletConnect session to ours
- * representation.
- * @param session - The session to convert.
- */
-export const convertWalletConnectSession = (
-  session: SessionTypes.Struct,
-): WalletConnectSession => ({
-  session,
-});
+import { ProposalTypes, SignClientTypes } from '@walletconnect/types';
+import { WalletConnectRequest, WalletConnectSessionProposal } from 'types/walletConnect';
+import { Account } from 'types/account';
+import { WalletType } from 'types/wallet';
+import { CosmosRPCMethods } from '@desmoslabs/desmjs-walletconnect-v2';
 
 /**
  * Function that converts a WalletConnect session proposal to ours
@@ -37,3 +25,25 @@ export const convertWalletConnectRequest = (
 ): WalletConnectRequest => ({
   request,
 });
+
+export const getAccountSupportedMethods = (account: Account): string[] => {
+  const walletMethods: string[] = [];
+
+  switch (account.walletType) {
+    case WalletType.Ledger:
+      walletMethods.push(CosmosRPCMethods.GetAccounts, CosmosRPCMethods.SignAmino);
+      break;
+    case WalletType.Mnemonic:
+    case WalletType.Web3Auth:
+      walletMethods.push(
+        CosmosRPCMethods.GetAccounts,
+        CosmosRPCMethods.SignAmino,
+        CosmosRPCMethods.SignDirect,
+      );
+      break;
+    default:
+      break;
+  }
+
+  return walletMethods;
+};

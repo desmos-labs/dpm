@@ -1,4 +1,4 @@
-import {makeStyle} from 'config/theme';
+import { makeStyle } from 'config/theme';
 
 const useStyles = makeStyle((theme) => ({
   background: {
@@ -6,6 +6,9 @@ const useStyles = makeStyle((theme) => ({
   },
   sectionMargin: {
     marginTop: theme.spacing.l,
+  },
+  topBarTitle: {
+    color: theme.colors.text,
   },
 }));
 

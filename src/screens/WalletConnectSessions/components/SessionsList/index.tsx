@@ -17,7 +17,7 @@ const SessionsList = (props: SessionsListProps) => {
       style={styles.root}
       data={sessions}
       renderItem={({ item }) => <SessionListItem session={item} />}
-      keyExtractor={(item) => item.id}
+      keyExtractor={(item) => item.topic}
       ItemSeparatorComponent={ListItemSeparator}
     />
   );

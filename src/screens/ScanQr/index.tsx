@@ -1,38 +1,33 @@
-import { BottomTabScreenProps } from '@react-navigation/bottom-tabs';
-import { CompositeScreenProps } from '@react-navigation/native';
 import { StackScreenProps } from '@react-navigation/stack';
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { BarCodeReadEvent } from 'react-native-camera';
-import QRCodeScanner from 'react-native-qrcode-scanner';
 import SingleButtonModal from 'modals/SingleButtonModal';
 import useShowModal from 'hooks/useShowModal';
-import useWalletConnectPair from 'hooks/useWalletConnectPair';
-import { AccountScreensStackParams, HomeScreensBottomTabsParams } from 'types/navigation';
-import StyledSafeAreaView from 'components/StyledSafeAreaView';
+import useWalletConnectPair from 'hooks/walletconnect/useWalletConnectPair';
+import useWalletConnectApproveSessionRequest from 'hooks/walletconnect/useWalletConnectApproveSessionRequest';
 import IconButton from 'components/IconButton';
+import ROUTES from 'navigation/routes';
+import { HomeTabsParamList } from 'navigation/RootNavigator/HomeTabs';
+import { Barcode } from 'vision-camera-code-scanner';
+import StyledSafeAreaView from 'components/StyledSafeAreaView';
 import TextInput from 'components/TextInput';
 import useStyles from './useStyles';
+import QrCodeScanner from './components/QrCodeScanner';
 
-export type Props = CompositeScreenProps<
-  BottomTabScreenProps<HomeScreensBottomTabsParams, 'ScanQr'>,
-  StackScreenProps<AccountScreensStackParams>
->;
+type NavProps = StackScreenProps<HomeTabsParamList, ROUTES.SCAN_QR_CODE>;
 
-const ScanQr: React.FC<Props> = ({ navigation }) => {
+const ScanQr: React.FC<NavProps> = ({ navigation }) => {
   const styles = useStyles();
   const { t } = useTranslation();
+  const [stopRecognizeQrCodes, setStopRecognizeQrCodes] = useState(false);
   const [devUri, setDevUri] = useState('');
-  const [pairingStatus, pair] = useWalletConnectPair();
+  const pair = useWalletConnectPair();
+  const approveSessionRequest = useWalletConnectApproveSessionRequest();
   const openModal = useShowModal();
 
   const goBack = useCallback(() => {
     navigation.goBack();
   }, [navigation]);
-
-  const onDevUriSubmitted = useCallback(() => {
-    pair(devUri).catch(console.error);
-  }, [devUri, pair]);
 
   const openErrorModal = useCallback(
     (message: string) => {
@@ -45,42 +40,40 @@ const ScanQr: React.FC<Props> = ({ navigation }) => {
     [openModal, t],
   );
 
-  const onQrCoreRead = useCallback(
-    async (event: BarCodeReadEvent) => {
+  const startPairProcedure = useCallback(
+    async (uri: string) => {
       try {
-        await pair(event.data);
+        const sessionRequest = await pair(uri);
+        await approveSessionRequest(sessionRequest);
+        setDevUri('');
+        navigation.navigate(ROUTES.WALLET_CONNECT_SESSIONS);
       } catch (e) {
-        openErrorModal(t('invalid qr code'));
+        openErrorModal(e.message);
       }
     },
-    [pair, openErrorModal, t],
+    [approveSessionRequest, navigation, openErrorModal, pair],
   );
 
-  useEffect(() => {
-    if (!pairingStatus.pairing) {
-      if (pairingStatus.requestDetails) {
-        navigation.navigate({
-          name: 'AuthorizeSession',
-          params: {
-            sessionRequestDetails: pairingStatus.requestDetails,
-          },
-        });
-      } else if (pairingStatus.error) {
-        openErrorModal(pairingStatus.error);
+  const onDevUriSubmitted = useCallback(() => {
+    startPairProcedure(devUri);
+  }, [startPairProcedure, devUri]);
+
+  const onQrCodeDetected = useCallback(
+    async (barCode: Barcode) => {
+      if (barCode.rawValue === undefined) {
+        openErrorModal(t('invalid qr code'));
+      } else {
+        setStopRecognizeQrCodes(true);
+        startPairProcedure(barCode.rawValue);
       }
-    }
-  }, [navigation, pairingStatus, openErrorModal]);
+    },
+    [openErrorModal, startPairProcedure, t],
+  );
 
   return (
     <StyledSafeAreaView style={styles.root} padding={0}>
       <IconButton style={styles.backButton} icon="close" size={18} onPress={goBack} />
-      <QRCodeScanner
-        cameraStyle={styles.camera}
-        onRead={onQrCoreRead}
-        showMarker
-        reactivate
-        reactivateTimeout={5000}
-      />
+      <QrCodeScanner onQrCodeDetected={onQrCodeDetected} stopRecognition={stopRecognizeQrCodes} />
       {__DEV__ && (
         <TextInput
           style={styles.debugUri}

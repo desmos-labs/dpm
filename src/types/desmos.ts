@@ -1,3 +1,5 @@
+import { ApplicationLinkState } from '@desmoslabs/desmjs-types/desmos/profiles/v3/models_app_links';
+
 export interface NicknameParams {
   readonly minLength: number;
   readonly maxLength: number;
@@ -76,3 +78,22 @@ export type ChainLinkProof = {
    */
   signature: string;
 };
+
+export interface ApplicationLink {
+  /**
+   * Name of the application that has been connected.
+   */
+  readonly application: string;
+  /**
+   * Username of the connected account.
+   */
+  readonly username: string;
+  /**
+   * State of the application link.
+   */
+  readonly state: ApplicationLinkState;
+  /**
+   * Creation date of the application link.
+   */
+  readonly creationTime: Date;
+}

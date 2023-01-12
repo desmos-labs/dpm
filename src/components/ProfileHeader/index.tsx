@@ -82,37 +82,39 @@ const ProfileHeader: React.FC<ProfileHeaderProps> = (props) => {
         )}
       </View>
 
-      {/* Profile picture */}
-      <View style={styles.profilePictureContainer}>
-        <AvatarImage size={100} source={profilePicture} />
-        {canEdit && (
-          <IconButton
-            icon="camera"
-            size={20}
-            color={theme.colors.icon['5']}
-            onPress={pickProfilePicture}
-            style={styles.editProfilePictureBtn}
-          />
+      <View style={styles.profileDataContainer}>
+        {/* Profile picture */}
+        <View style={styles.profilePictureContainer}>
+          <AvatarImage size={100} source={profilePicture} />
+          {canEdit && (
+            <IconButton
+              icon="camera"
+              size={20}
+              color={theme.colors.icon['5']}
+              onPress={pickProfilePicture}
+              style={styles.editProfilePictureBtn}
+            />
+          )}
+        </View>
+
+        {/* Nickname */}
+        {profile?.nickname && (
+          <Typography.Body style={styles.nickName}>{profile.nickname}</Typography.Body>
+        )}
+
+        {/* DTag */}
+        {profile?.dtag && <Typography.Caption>@{profile.dtag}</Typography.Caption>}
+
+        {/* Address */}
+        {profile?.address && (
+          <View style={styles.addressContainer}>
+            <Typography.Caption ellipsizeMode="middle" numberOfLines={1}>
+              {profile.address}
+            </Typography.Caption>
+            <CopyButton value={profile.address} color="#c4c4c4" />
+          </View>
         )}
       </View>
-
-      {/* Nickname */}
-      {profile?.nickname && (
-        <Typography.H4 style={styles.nickName}>{profile.nickname}</Typography.H4>
-      )}
-
-      {/* DTag */}
-      {profile?.dtag && <Typography.Body style={styles.dtag}>@{profile.dtag}</Typography.Body>}
-
-      {/* Address */}
-      {profile?.address && (
-        <View style={styles.addressContainer}>
-          <Typography.Caption ellipsizeMode="middle" numberOfLines={1}>
-            {profile.address}
-          </Typography.Caption>
-          <CopyButton value={profile.address} color="#c4c4c4" />
-        </View>
-      )}
     </View>
   );
 };

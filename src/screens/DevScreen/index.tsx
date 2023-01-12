@@ -11,14 +11,14 @@ import Spacer from 'components/Spacer';
 import { useActiveAccountAddress } from '@recoil/activeAccount';
 import * as WCMMKV from 'lib/MMKVStorage/walletconnect';
 import { useStoreWalletConnectSession } from '@recoil/walletConnectSessions';
-import { WalletConnectPermission, WalletConnectSession } from 'types/walletConnect';
+import { WalletConnectSession } from 'types/walletConnect';
 import useStyles from './useStyles';
 
 const routesToRender = [
-  ROUTES.LANDING,
   ROUTES.CREATE_NEW_MNEMONIC,
   ROUTES.PROFILE,
   ROUTES.HOME_TABS,
+  ROUTES.SETTINGS,
 ];
 
 type NavProps = StackScreenProps<RootNavigatorParamList, ROUTES.DEV_SCREEN>;
@@ -48,9 +48,12 @@ const DevScreen: FC<NavProps> = ({ navigation }) => {
   );
 
   const navigateToLandingPage = useCallback(() => {
-    navigation.navigate({
-      name: ROUTES.LANDING,
-      params: undefined,
+    navigation.navigate(ROUTES.LANDING);
+  }, [navigation]);
+
+  const goToExternalProfile = useCallback(() => {
+    navigation.navigate(ROUTES.PROFILE, {
+      visitingProfile: 'desmos1flzmju7m2lh0znhvkwwapkz9e7f39yjgcae2qz',
     });
   }, [navigation]);
 
@@ -61,14 +64,13 @@ const DevScreen: FC<NavProps> = ({ navigation }) => {
   const storeWalletConnectSession = useStoreWalletConnectSession();
   const addWalletConnectSession = useCallback(() => {
     storeWalletConnectSession(activeAccountAddress!, {
-      id: 'test',
+      topic: 'test',
       icon: 'https://upload.wikimedia.org/wikipedia/commons/thumb/c/c6/Sign-check-icon.png/768px-Sign-check-icon.png',
-      creationDate: new Date(),
+      creationDate: new Date().toISOString(),
       name: 'Go-Find.me',
       description:
         'Go-find.me allows to create your Desmos profile and find other users on the platform',
       url: 'https://go-find.me',
-      permissions: [WalletConnectPermission.SIGN_TX, WalletConnectPermission.BROADCAST_TX],
     } as WalletConnectSession);
   }, [activeAccountAddress, storeWalletConnectSession]);
 
@@ -81,6 +83,12 @@ const DevScreen: FC<NavProps> = ({ navigation }) => {
         renderItem={renderItem}
         ItemSeparatorComponent={itemSeparator}
       />
+
+      <Spacer paddingVertical={4} />
+
+      <Button mode="contained" onPress={goToExternalProfile} color="green">
+        Visit external profile
+      </Button>
 
       <Spacer paddingVertical={4} />
 

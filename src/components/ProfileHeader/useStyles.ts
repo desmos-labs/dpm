@@ -5,8 +5,7 @@ const useStyles = makeStyle((theme) => ({
     display: 'flex',
     flexDirection: 'column',
     justifyContent: 'center',
-    alignItems: 'center',
-    padding: 0,
+    alignItems: 'flex-start',
     margin: 0,
   },
   topRight: {
@@ -35,8 +34,11 @@ const useStyles = makeStyle((theme) => ({
     backgroundColor: 'rgba(0, 0, 0, 0.6)',
     padding: 2,
   },
-  profilePictureContainer: {
+  profileDataContainer: {
     marginTop: -70,
+    marginStart: theme.spacing.m,
+  },
+  profilePictureContainer: {
     width: 100,
     height: 100,
     borderRadius: 50,
@@ -49,20 +51,17 @@ const useStyles = makeStyle((theme) => ({
     padding: 2,
   },
   nickName: {
-    fontWeight: '500',
+    fontWeight: 'bold',
     fontSize: 22,
     lineHeight: 26,
     letterSpacing: 0.0015,
     color: theme.colors.primary,
     marginTop: 16,
   },
-  dtag: {
-    marginTop: 6,
-  },
   addressContainer: {
+    width: 100,
     display: 'flex',
     flexDirection: 'row',
-    marginHorizontal: 32,
     alignItems: 'center',
   },
 }));

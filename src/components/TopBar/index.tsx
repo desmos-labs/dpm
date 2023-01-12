@@ -1,5 +1,5 @@
 import React, { ReactElement } from 'react';
-import { StyleProp, View, ViewStyle } from 'react-native';
+import { StyleProp, TextStyle, View, ViewStyle } from 'react-native';
 import { useTheme } from 'react-native-paper';
 import IconButton from 'components/IconButton';
 import Typography from 'components/Typography';
@@ -36,10 +36,11 @@ export type TopBarProps = {
    */
   leftIconColor?: string;
   style?: StyleProp<ViewStyle>;
+  titleStyle?: StyleProp<TextStyle>;
 };
 
 const TopBar: React.FC<TopBarProps> = (props) => {
-  const { stackProps, title, rightElement, leftIconColor, style } = props;
+  const { stackProps, title, rightElement, leftIconColor, style, titleStyle } = props;
   const theme = useTheme();
   const styles = useStyles(props);
   const { navigation } = stackProps;
@@ -66,7 +67,7 @@ const TopBar: React.FC<TopBarProps> = (props) => {
         )}
       </View>
       <View style={[styles.container, styles.containerCenter]}>
-        <Typography.Subtitle style={styles.title}>{title}</Typography.Subtitle>
+        <Typography.Subtitle style={[styles.title, titleStyle]}>{title}</Typography.Subtitle>
       </View>
       <View style={[styles.container, styles.containerRight]}>{rightElement}</View>
     </View>

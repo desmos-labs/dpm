@@ -1,5 +1,5 @@
 import SignClient from '@walletconnect/sign-client';
-import { ProposalTypes, SessionTypes, SignClientTypes } from '@walletconnect/types';
+import { ProposalTypes, SignClientTypes } from '@walletconnect/types';
 
 /**
  * Interface that represents a WalletConnect client.
@@ -17,15 +17,15 @@ export enum WalletConnectPermission {
  * Interface that represents a WalletConnect session.
  */
 export interface WalletConnectSession {
-  readonly session?: SessionTypes.Struct;
-
-  readonly id: string;
+  // Address of the account that had create this session
+  readonly accountAddress: string;
+  readonly topic: string;
   readonly icon: string | undefined;
   readonly name: string;
   readonly description: string | undefined;
   readonly url: string;
-  readonly creationDate: Date;
-  readonly permissions: WalletConnectPermission[];
+  // RFC 3339 date
+  readonly creationDate: string;
 }
 
 /**

@@ -1,5 +1,5 @@
-import React from 'react';
-import { atom, useRecoilState } from 'recoil';
+import React, { useCallback } from 'react';
+import { atom, useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
 import { WalletConnectSession } from 'types/walletConnect';
 import { getMMKV, MMKVKEYS, setMMKV } from 'lib/MMKVStorage';
 
@@ -19,6 +19,11 @@ export const walletConnectSessionsAppState = atom<Record<string, WalletConnectSe
 });
 
 /**
+ * Hook that provides the current wallet connect sessions.
+ */
+export const useWalletConnectSessions = () => useRecoilValue(walletConnectSessionsAppState);
+
+/**
  * Hook that allows to store a new WalletConnect session.
  */
 export const useStoreWalletConnectSession = () => {
@@ -28,7 +33,9 @@ export const useStoreWalletConnectSession = () => {
       setWalletConnectSessions((currentSessions) => {
         // Merge the new sessions with the existing user sessions
         const currentUserSessions = currentSessions[user] || [];
-        const userSessions = currentUserSessions.filter((existing) => existing.id !== session.id);
+        const userSessions = currentUserSessions.filter(
+          (existing) => existing.topic !== session.topic,
+        );
         userSessions.push(session);
 
         // Merge the updated user sessions into the overall sessions state
@@ -37,6 +44,37 @@ export const useStoreWalletConnectSession = () => {
         };
         updatedSessions[user] = userSessions;
         return updatedSessions;
+      });
+    },
+    [setWalletConnectSessions],
+  );
+};
+
+/**
+ * Hook that provides a function to delete a session by its
+ * topic.
+ */
+export const useRemoveSessionByTopic = () => {
+  const setWalletConnectSessions = useSetRecoilState(walletConnectSessionsAppState);
+
+  return useCallback(
+    (topic: string) => {
+      setWalletConnectSessions((currentSessions) => {
+        const session = Object.values(currentSessions)
+          .flatMap((v) => v)
+          .find((s) => s.topic === topic);
+
+        if (session === undefined) {
+          return currentSessions;
+        }
+
+        const newSessions = currentSessions[session.accountAddress].filter(
+          (s) => s.topic !== topic,
+        );
+        return {
+          ...currentSessions,
+          [session.accountAddress]: newSessions,
+        };
       });
     },
     [setWalletConnectSessions],

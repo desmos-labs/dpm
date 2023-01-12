@@ -25,10 +25,9 @@ const AppDrawerContent = () => {
   }, [closeDrawer, navigator]);
 
   const openSettings = useCallback(() => {
-    // TODO: Implement open settings logic
-    console.warn('Implement - open settings');
     closeDrawer();
-  }, [closeDrawer]);
+    navigator.navigate(ROUTES.SETTINGS);
+  }, [closeDrawer, navigator]);
 
   return (
     <StyledSafeAreaView>
