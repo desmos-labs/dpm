@@ -1,9 +1,9 @@
 import { useWalletConnectClient } from '@recoil/walletconnect';
 import { useCallback } from 'react';
 import { useActiveAccount } from '@recoil/activeAccount';
-import { SignClientTypes } from '@walletconnect/types';
 import { getAccountSupportedMethods } from 'lib/WalletConnectUtils';
 import { useStoreWalletConnectSession } from '@recoil/walletConnectSessions';
+import { WalletConnectSessionProposal } from 'types/walletConnect';
 
 /**
  * Hook that provides a function to accept a session request.
@@ -14,7 +14,7 @@ export default function useWalletConnectApproveSessionRequest() {
   const storeSession = useStoreWalletConnectSession();
 
   return useCallback(
-    async (proposal: SignClientTypes.EventArguments['session_proposal']) => {
+    async (proposal: WalletConnectSessionProposal) => {
       if (wcClient === undefined) {
         throw new Error('wallet connect client not initialized');
       }
@@ -24,7 +24,7 @@ export default function useWalletConnectApproveSessionRequest() {
       }
 
       const { client } = wcClient;
-      const desmosNamespace = proposal.params.requiredNamespaces.desmos;
+      const desmosNamespace = proposal.proposal.requiredNamespaces.desmos;
 
       const methods = getAccountSupportedMethods(activeAccount);
       const accounts = desmosNamespace.chains.map((chain) => `${chain}:${activeAccount!.address}`);
