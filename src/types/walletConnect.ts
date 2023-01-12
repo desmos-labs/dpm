@@ -33,6 +33,7 @@ export interface WalletConnectSession {
  * to establish a new session.
  */
 export interface WalletConnectSessionProposal {
+  readonly id: number;
   readonly proposal: ProposalTypes.Struct;
 }
 

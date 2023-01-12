@@ -4,6 +4,7 @@ import { getSdkError } from '@walletconnect/utils';
 import { useActiveAccount } from '@recoil/activeAccount';
 import { SignClientTypes } from '@walletconnect/types';
 import { getAccountSupportedMethods } from 'lib/WalletConnectUtils';
+import { WalletConnectSessionProposal } from 'types/walletConnect';
 
 const useValidateSessionRequest = () => {
   const activeAccount = useActiveAccount();
@@ -53,34 +54,37 @@ export default function useWalletConnectPair() {
       const { client } = wcClient;
 
       // Create the promise that resolves the session proposal.
-      const sessionProposalPromise = new Promise<
-        SignClientTypes.EventArguments['session_proposal']
-      >((resolve, reject) => {
-        const timoutTimer = setTimeout(() => {
-          reject(new Error('pair request timeout'));
-        }, 5000);
+      const sessionProposalPromise = new Promise<WalletConnectSessionProposal>(
+        (resolve, reject) => {
+          const timoutTimer = setTimeout(() => {
+            reject(new Error('pair request timeout'));
+          }, 5000);
 
-        client.on('session_proposal', (proposal) => {
-          clearTimeout(timoutTimer);
+          client.on('session_proposal', (proposal) => {
+            clearTimeout(timoutTimer);
 
-          console.log('proposal', proposal);
+            console.log('proposal', proposal);
 
-          const validationResul = validateSessionRequest(proposal);
+            const validationResul = validateSessionRequest(proposal);
 
-          console.log('validationResult', validationResul);
+            console.log('validationResult', validationResul);
 
-          if (validationResul !== undefined) {
-            client.reject({
-              id: proposal.id,
-              reason: validationResul,
-            });
+            if (validationResul !== undefined) {
+              client.reject({
+                id: proposal.id,
+                reason: validationResul,
+              });
 
-            reject(new Error(validationResul.message));
-          } else {
-            resolve(proposal);
-          }
-        });
-      });
+              reject(new Error(validationResul.message));
+            } else {
+              resolve({
+                id: proposal.id,
+                proposal: proposal.params,
+              });
+            }
+          });
+        },
+      );
 
       // Start the pairing procedure.
       await client.pair({
