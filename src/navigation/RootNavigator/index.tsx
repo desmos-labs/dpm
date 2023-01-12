@@ -29,6 +29,7 @@ import Settings from 'screens/Settings';
 import SettingsDisplayMode from 'screens/SettingsDisplayMode';
 import SettingsSwitchChain from 'screens/SettingsSwitchChain';
 import SettingsChangeWalletPassword from 'screens/SettingsChangeWalletPassword';
+import SettingsJoinCommunity from 'screens/SettingsJoinCommunity';
 
 export type RootNavigatorParamList = {
   [ROUTES.DEV_SCREEN]: undefined;
@@ -109,7 +110,9 @@ const RootNavigator = () => {
       <Stack.Screen name={ROUTES.SAVE_GENERATED_ACCOUNT} component={SaveGeneratedAccount} />
 
       <Stack.Screen name={ROUTES.CONNECT_TO_LEDGER_STACK} component={ConnectToLedgerStack} />
+
       <Stack.Screen name={ROUTES.UNLOCK_WALLET} component={UnlockWallet} />
+      <Stack.Screen name={ROUTES.BROADCAST_TX} component={BroadcastTx} />
 
       <Stack.Screen name={ROUTES.HOME_TABS} component={HomeTabs} />
 
@@ -117,7 +120,7 @@ const RootNavigator = () => {
       <Stack.Screen name={ROUTES.EDIT_PROFILE} component={EditProfile} />
       <Stack.Screen name={ROUTES.SEND_TOKENS} component={SendTokens} />
       <Stack.Screen name={ROUTES.CHAIN_LINK_DETAILS} component={ChainLinkDetails} />
-      <Stack.Screen name={ROUTES.BROADCAST_TX} component={BroadcastTx} />
+
       <Stack.Screen
         name={ROUTES.MODAL}
         component={ModalScreen}
@@ -129,6 +132,7 @@ const RootNavigator = () => {
       <Stack.Screen name={ROUTES.SETTINGS} component={Settings} />
       <Stack.Screen name={ROUTES.SETTINGS_DISPLAY_MODE} component={SettingsDisplayMode} />
       <Stack.Screen name={ROUTES.SETTINGS_SWITCH_CHAIN} component={SettingsSwitchChain} />
+      <Stack.Screen name={ROUTES.SETTINGS_JOIN_COMMUNITY} component={SettingsJoinCommunity} />
       <Stack.Screen
         name={ROUTES.SETTINGS_CHANGE_APPLICATION_PASSWORD}
         component={SettingsChangeWalletPassword}

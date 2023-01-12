@@ -18,7 +18,7 @@ type NavProps = StackScreenProps<
   ROUTES.SETTINGS_CHANGE_APPLICATION_PASSWORD
 >;
 
-const ChangeWalletPassword = (props: NavProps) => {
+const SettingsChangeWalletPassword = (props: NavProps) => {
   const { navigation } = props;
   const { t } = useTranslation('settings');
   const styles = useStyles();
@@ -115,4 +115,4 @@ const ChangeWalletPassword = (props: NavProps) => {
   );
 };
 
-export default ChangeWalletPassword;
+export default SettingsChangeWalletPassword;
