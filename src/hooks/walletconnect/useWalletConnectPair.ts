@@ -3,7 +3,10 @@ import { useWalletConnectClient } from '@recoil/walletconnect';
 import { getSdkError } from '@walletconnect/utils';
 import { useActiveAccount } from '@recoil/activeAccount';
 import { SignClientTypes } from '@walletconnect/types';
-import { getAccountSupportedMethods } from 'lib/WalletConnectUtils';
+import {
+  convertWalletConnectSessionProposal,
+  getAccountSupportedMethods,
+} from 'lib/WalletConnectUtils';
 import { WalletConnectSessionProposal } from 'types/walletConnect';
 
 const useValidateSessionRequest = () => {
@@ -77,13 +80,7 @@ export default function useWalletConnectPair() {
 
               reject(new Error(validationResul.message));
             } else {
-              resolve({
-                id: proposal.id,
-                proposal: proposal.params,
-                name: proposal.params.proposer.metadata.name,
-                description: proposal.params.proposer.metadata.description,
-                iconUri: proposal.params.proposer.metadata.icons[0],
-              });
+              resolve(convertWalletConnectSessionProposal(proposal));
             }
           });
         },
