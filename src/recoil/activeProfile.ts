@@ -42,7 +42,7 @@ const useActiveProfile = () => {
 
     const { profile } = data;
     const [firstProfile] = profile;
-    storeProfile(firstProfile);
+    storeProfile(activeAddress, firstProfile);
   }, [activeAddress, refetch, storeProfile]);
 
   return {

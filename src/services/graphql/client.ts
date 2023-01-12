@@ -1,15 +1,8 @@
-import {
-  ApolloClient,
-  ApolloLink,
-  createHttpLink,
-  InMemoryCache,
-  NormalizedCacheObject,
-} from '@apollo/client';
+import { ApolloClient, ApolloLink, createHttpLink, InMemoryCache } from '@apollo/client';
 import { MultiAPILink } from '@habx/apollo-multi-endpoint-link';
 import { DefaultEndpoints } from '@habx/apollo-multi-endpoint-link/dist/typings/interface';
 import { WebSocketLink } from '@apollo/client/link/ws';
 import { useSettings } from '@recoil/settings';
-import React, { useState } from 'react';
 import { DesmosMainnet, DesmosTestnet } from '@desmoslabs/desmjs';
 
 const gqlEndpoints = new Map<string, DefaultEndpoints>([
@@ -60,16 +53,7 @@ const buildGraphQlClient = (chainName: string) =>
 
 const useGraphQLClient = () => {
   const { chainName } = useSettings();
-
-  const defaultClient = buildGraphQlClient(DesmosTestnet.chainName);
-  const [client, setClient] = useState<ApolloClient<NormalizedCacheObject>>(defaultClient);
-
-  React.useEffect(() => {
-    const graphQLClient = buildGraphQlClient(chainName);
-    setClient(graphQLClient);
-  }, [chainName]);
-
-  return client;
+  return buildGraphQlClient(chainName);
 };
 
 export default useGraphQLClient;

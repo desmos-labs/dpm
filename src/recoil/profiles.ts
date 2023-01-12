@@ -24,13 +24,24 @@ export const profilesAppState = atom<Record<string, DesmosProfile>>({
 export const useStoreProfile = () => {
   const [, setProfiles] = useRecoilState(profilesAppState);
   return React.useCallback(
-    (profile: DesmosProfile) => {
-      setProfiles((currVal) => {
-        const newValue: Record<string, DesmosProfile> = {
-          ...currVal,
+    (address: string, profile: DesmosProfile | undefined) => {
+      setProfiles((exitingProfiles) => {
+        const profiles: Record<string, DesmosProfile> = {
+          ...exitingProfiles,
         };
-        newValue[profile.address] = profile;
-        return newValue;
+
+        switch (profile) {
+          case undefined:
+            // If the given profile is undefined, delete the profile from the stored profiles map
+            delete profiles[address];
+            break;
+          default:
+            // If the profile is not undefined, store it inside the cache
+            profiles[profile.address] = profile;
+            break;
+        }
+
+        return profiles;
       });
     },
     [setProfiles],
