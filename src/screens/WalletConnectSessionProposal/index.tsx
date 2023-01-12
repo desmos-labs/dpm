@@ -14,6 +14,7 @@ import { WalletConnectSessionProposal as Proposal } from 'types/walletConnect';
 import useWalletConnectApproveSessionRequest from 'hooks/walletconnect/useWalletConnectApproveSessionRequest';
 import useWalletConnectRejectSessionRequest from 'hooks/walletconnect/useWalletConnectRejectSessionRequest';
 import { DPMImages } from 'types/images';
+import { walletConnectIconUriToImageSource } from 'lib/WalletConnectUtils';
 import useStyles from './useStyles';
 
 export interface WalletConnectSessionProposalParams {
@@ -35,23 +36,7 @@ const WalletConnectSessionProposal: FC<NavProps> = (props) => {
 
   const appName = useMemo(() => proposal.name, [proposal]);
 
-  const dAppIcon = useMemo(() => {
-    const { iconUri } = proposal;
-    if (iconUri !== undefined) {
-      try {
-        const url = new URL(iconUri);
-        if (url.protocol.indexOf('http') === 0 && url.hostname !== 'localhost') {
-          return {
-            uri: iconUri,
-          };
-        }
-        return require('assets/images/desmosIcon-orange.png');
-      } catch (e) {
-        return require('assets/images/desmosIcon-orange.png');
-      }
-    }
-    return require('assets/images/desmosIcon-orange.png');
-  }, [proposal]);
+  const dAppIcon = useMemo(() => walletConnectIconUriToImageSource(proposal.iconUri), [proposal]);
 
   const showSuccessModal = useCallback(() => {
     openModal(SingleButtonModal, {

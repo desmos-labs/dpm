@@ -3,6 +3,7 @@ import { WalletConnectRequest, WalletConnectSessionProposal } from 'types/wallet
 import { Account } from 'types/account';
 import { WalletType } from 'types/wallet';
 import { CosmosRPCMethods } from '@desmoslabs/desmjs-walletconnect-v2';
+import { desmosIconOrange } from 'assets/images';
 
 /**
  * Function that converts a WalletConnect session proposal to ours
@@ -13,6 +14,10 @@ export const convertWalletConnectSessionProposal = (
   proposal: ProposalTypes.Struct,
 ): WalletConnectSessionProposal => ({
   proposal,
+  id: proposal.id,
+  name: proposal.proposer.metadata.name,
+  description: proposal.proposer.metadata.description,
+  iconUri: proposal.proposer.metadata.icons[0],
 });
 
 /**
@@ -46,4 +51,24 @@ export const getAccountSupportedMethods = (account: Account): string[] => {
   }
 
   return walletMethods;
+};
+
+/**
+ * Converts a wallet connect session icon uri to a [ImageSource] that can
+ * be used to display the DApp icon in a [Image] component.
+ * @param iconUri - WalletConnect session icon uri.
+ */
+export const walletConnectIconUriToImageSource = (iconUri: string | undefined) => {
+  if (iconUri === undefined) {
+    return desmosIconOrange;
+  }
+  try {
+    const url = new URL(iconUri);
+    if (url.protocol.indexOf('http') === 0 && url.hostname !== 'localhost') {
+      return { uri: iconUri };
+    }
+    return desmosIconOrange;
+  } catch (e) {
+    return desmosIconOrange;
+  }
 };

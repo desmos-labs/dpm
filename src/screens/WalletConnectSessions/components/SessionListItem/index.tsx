@@ -5,10 +5,10 @@ import { View } from 'react-native';
 import Typography from 'components/Typography';
 import Button from 'components/Button';
 import { WalletConnectSession } from 'types/walletConnect';
-import { desmosIconOrange } from 'assets/images';
 import FastImage from 'react-native-fast-image';
 import Spacer from 'components/Spacer';
 import useWalletConnectCloseSession from 'hooks/walletconnect/useWalletConnectRevokeSession';
+import { walletConnectIconUriToImageSource } from 'lib/WalletConnectUtils';
 import useStyles from './useStyles';
 
 export type DAppSessionViewProps = {
@@ -21,10 +21,7 @@ const SessionListItem = (props: DAppSessionViewProps) => {
   const styles = useStyles();
   const closeSession = useWalletConnectCloseSession();
 
-  const appIcon = useMemo(
-    () => (session.icon ? { uri: session.icon } : desmosIconOrange),
-    [session],
-  );
+  const appIcon = useMemo(() => walletConnectIconUriToImageSource(session.icon), [session]);
 
   const date = useMemo(() => {
     const creationDate = new Date(session.creationDate);
