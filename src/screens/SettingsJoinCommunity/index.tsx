@@ -44,15 +44,10 @@ const SettingsJoinCommunity = (props: NavProps) => {
   }, []);
 
   return (
-    <StyledSafeAreaView style={styles.background}>
-      {/* Top bar */}
-      <TopBar
-        style={styles.background}
-        titleStyle={styles.topBarTitle}
-        stackProps={props}
-        title={t('join community')}
-      />
-
+    <StyledSafeAreaView
+      style={styles.background}
+      topBar={<TopBar style={styles.background} stackProps={props} title={t('join community')} />}
+    >
       <Typography.Body>{t('join community description')}</Typography.Body>
 
       <Spacer paddingVertical={8} />

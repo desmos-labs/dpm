@@ -45,20 +45,18 @@ const Profile = () => {
     [profile, canEdit],
   );
 
-  const ProfileTopBar = React.useMemo(
-    () => (
-      <TopBar
-        style={styles.topBar}
-        leftIconColor={theme.colors.icon['5']}
-        stackProps={{ navigation }}
-        rightElement={EditProfileBtn}
-      />
-    ),
-    [EditProfileBtn, navigation, styles, theme],
-  );
-
   return (
-    <StyledSafeAreaView padding={0} topBar={ProfileTopBar}>
+    <StyledSafeAreaView
+      padding={0}
+      topBar={
+        <TopBar
+          style={styles.topBar}
+          leftIconColor={theme.colors.icon['5']}
+          stackProps={{ navigation }}
+          rightElement={EditProfileBtn}
+        />
+      }
+    >
       {loadingProfile ? <ActivityIndicator /> : <ProfileData profile={profile} canEdit={canEdit} />}
     </StyledSafeAreaView>
   );

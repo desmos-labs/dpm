@@ -8,12 +8,12 @@ import StyledSafeAreaView from 'components/StyledSafeAreaView';
 import Button from 'components/Button';
 import { RootNavigatorParamList } from 'navigation/RootNavigator';
 import ROUTES from 'navigation/routes';
-import { ChainLink } from 'types/chains';
 import { useNavigation, useRoute } from '@react-navigation/native';
 import { getLinkableChainInfoByName } from 'lib/ChainsUtils';
 import { cosmosIcon } from 'assets/images';
 import TopBar from 'components/TopBar';
 import Spacer from 'components/Spacer';
+import { ChainLink } from 'types/desmos';
 import useStyles from './useStyles';
 import { useDisconnectChainLink } from './useHooks';
 
@@ -50,9 +50,10 @@ const ChainLinkDetails = () => {
   }, [disconnectChainLink]);
 
   return (
-    <StyledSafeAreaView style={styles.root}>
-      <TopBar stackProps={{ navigation }} />
-
+    <StyledSafeAreaView
+      style={styles.root}
+      topBar={<TopBar stackProps={{ navigation }} title={t('chain link')} />}
+    >
       {/* Chain data */}
       <View style={styles.chainDetails}>
         <Image style={styles.chainLinkIcon} source={chainIcon} />

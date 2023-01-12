@@ -44,10 +44,7 @@ const MarkdownText = (props: NavProps) => {
   }, [fileName, isAndroid, renderAsset]);
 
   return (
-    <StyledSafeAreaView
-      scrollable
-      topBar={<TopBar stackProps={props} titleStyle={styles.topBarTitle} title={title} />}
-    >
+    <StyledSafeAreaView scrollable topBar={<TopBar stackProps={props} title={title} />}>
       <View onStartShouldSetResponder={() => true} style={styles.content}>
         <ScrollView>
           <Markdown

@@ -42,16 +42,10 @@ const SettingsDisplayMode = (props: NavProps) => {
   ];
 
   return (
-    <StyledSafeAreaView style={styles.background}>
-      {/* Top bar */}
-      <TopBar
-        style={styles.background}
-        titleStyle={styles.topBarTitle}
-        stackProps={props}
-        title={t('display mode')}
-      />
-
-      {/* Content */}
+    <StyledSafeAreaView
+      style={styles.background}
+      topBar={<TopBar style={styles.background} stackProps={props} title={t('display mode')} />}
+    >
       <Typography.Body>{t('display mode description')}</Typography.Body>
       <Spacer paddingVertical={4} />
       <RadioGroup values={values} />

@@ -7,9 +7,6 @@ const useStyles = makeStyle((theme) => ({
   topBar: {
     backgroundColor: theme.colors.background2,
   },
-  topBarTitle: {
-    color: theme.colors.text,
-  },
   sectionMargin: {
     marginTop: theme.spacing.l,
   },

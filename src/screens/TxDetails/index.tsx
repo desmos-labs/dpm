@@ -3,11 +3,12 @@ import React, { useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Linking } from 'react-native';
 import TransactionDetails from 'components/TransactionDetails';
-import useCurrentChainInfo from 'hooks/desmosclient/useCurrentChainInfo';
 import { AccountScreensStackParams } from 'types/navigation';
 import StyledSafeAreaView from 'components/StyledSafeAreaView';
 import TopBar from 'components/TopBar';
 import Button from 'components/Button';
+import { DesmosMainnet } from '@desmoslabs/desmjs';
+import { useCurrentChainInfo } from '@recoil/settings';
 
 export type Props = StackScreenProps<AccountScreensStackParams, 'TxDetails'>;
 
@@ -22,7 +23,7 @@ const TxDetails: React.FC<Props> = (props) => {
 
   const openExplorer = useCallback(() => {
     let txUrl: string;
-    if (chainInfo.stakeCurrency.coinDenom === 'udsm') {
+    if (chainInfo.stakeCurrency.coinDenom === DesmosMainnet.stakeCurrency.coinDenom) {
       txUrl = `https://explorer.desmos.network/transactions/${hash}`;
     } else {
       txUrl = `https://morpheus.desmos.network/transactions/${hash}`;

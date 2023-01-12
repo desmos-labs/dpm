@@ -41,16 +41,11 @@ const SettingsSwitchChain = (props: NavProps) => {
   ];
 
   return (
-    <StyledSafeAreaView style={styles.background} scrollable>
-      {/* Top bar */}
-      <TopBar
-        style={styles.background}
-        titleStyle={styles.topBarTitle}
-        stackProps={props}
-        title={t('switch chain')}
-      />
-
-      {/* Content */}
+    <StyledSafeAreaView
+      scrollable
+      style={styles.background}
+      topBar={<TopBar style={styles.background} stackProps={props} title={t('switch chain')} />}
+    >
       <Typography.Body>{t('switch chain description')}</Typography.Body>
       <Spacer paddingVertical={4} />
       <RadioGroup values={values} />

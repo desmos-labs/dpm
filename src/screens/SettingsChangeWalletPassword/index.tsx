@@ -61,15 +61,16 @@ const SettingsChangeWalletPassword = (props: NavProps) => {
   }, [navigation, newPassword, oldPassword, t]);
 
   return (
-    <StyledSafeAreaView style={styles.root}>
-      {/* Top bar */}
-      <TopBar stackProps={props} titleStyle={styles.topBarTitle} title={t('change password')} />
-
+    <StyledSafeAreaView
+      style={styles.root}
+      topBar={<TopBar stackProps={props} title={t('change password')} />}
+    >
       {/* Description */}
       <Typography.Body>{t('change application password description')}</Typography.Body>
 
       <Spacer paddingVertical={8} />
 
+      {/* Inputs */}
       <View style={styles.inputContainer}>
         <View>
           {/* Old password input */}

@@ -27,17 +27,21 @@ const WalletConnectSessions = (props: NavProps) => {
   const sessions = useActiveAccountWalletConnectSessions();
 
   return (
-    <StyledSafeAreaView style={styles.root} padding={0} noIosPadding>
-      {/* Top bar */}
-      <TopBar
-        style={styles.topBar}
-        leftIconColor={theme.colors.icon['5']}
-        stackProps={{ ...props, navigation: { ...navigation, openDrawer } }}
-        rightElement={<AccountProfilePic profile={profile} />}
-        title={t('authorizations')}
-      />
-
-      {/* / Sessions list */}
+    <StyledSafeAreaView
+      padding={0}
+      noIosPadding
+      style={styles.root}
+      topBar={
+        <TopBar
+          style={styles.topBar}
+          titleStyle={styles.topBarTitle}
+          leftIconColor={theme.colors.icon['5']}
+          stackProps={{ ...props, navigation: { ...navigation, openDrawer } }}
+          rightElement={<AccountProfilePic profile={profile} />}
+          title={t('authorizations')}
+        />
+      }
+    >
       {sessions.length !== 0 ? <SessionsList sessions={sessions} /> : <EmptySessions />}
     </StyledSafeAreaView>
   );

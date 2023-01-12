@@ -96,14 +96,7 @@ const Settings = (props: NavProps) => {
     <StyledSafeAreaView
       scrollable
       style={styles.background}
-      topBar={
-        <TopBar
-          style={styles.topBar}
-          titleStyle={styles.topBarTitle}
-          stackProps={{ navigation }}
-          title={t('settings')}
-        />
-      }
+      topBar={<TopBar style={styles.topBar} stackProps={{ navigation }} title={t('settings')} />}
     >
       {/* General section */}
       <Flexible.Section title={t('general')}>

@@ -4,9 +4,6 @@ const useStyles = makeStyle((theme) => ({
   root: {
     paddingTop: 0,
   },
-  topBarTitle: {
-    color: theme.colors.text,
-  },
   inputContainer: {
     flexGrow: 1,
   },

@@ -17,18 +17,17 @@ import { useSaveAccount } from 'hooks/useSaveAccount';
 import { useSelectAccount } from 'hooks/useSelectAccount';
 import useStyles from './useStyles';
 
+declare type NavProps = StackScreenProps<RootNavigatorParamList, ROUTES.CHECK_MNEMONIC>;
+
 export type CheckMnemonicParams = {
   mnemonic: string;
 };
-
-declare type NavProps = StackScreenProps<RootNavigatorParamList, ROUTES.CHECK_MNEMONIC>;
 
 const CheckMnemonic: FC<NavProps> = (props) => {
   const {
     route: {
       params: { mnemonic },
     },
-    navigation,
   } = props;
   const styles = useStyles();
   const { t } = useTranslation();
