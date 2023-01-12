@@ -1,21 +1,24 @@
 import { StackScreenProps } from '@react-navigation/stack';
-import React, { useCallback, useEffect, useMemo } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { Trans, useTranslation } from 'react-i18next';
-import { FlatList, ListRenderItemInfo, TouchableOpacity } from 'react-native';
-import { BLELedger } from 'types/ledger';
+import { Platform } from 'react-native';
 import Typography from 'components/Typography';
-import DpmImage from 'components/DPMImage';
 import StyledSafeAreaView from 'components/StyledSafeAreaView';
 import TopBar from 'components/TopBar';
 import ThemedLottieView from 'components/ThemedLottieView';
-import ListItemSeparator from 'components/ListItemSeparator';
 import Button from 'components/Button';
 import ROUTES from 'navigation/routes';
-import { DPMAnimations, DPMImages } from 'types/images';
+import { DPMAnimations } from 'types/images';
 import { ConnectToLedgerStackParamList } from 'navigation/RootNavigator/ConnectToLedgerStack';
 import useOnBackAction from 'hooks/useOnBackAction';
-import { ScanErrorType, useBleScan } from './useHooks';
+import {
+  useCheckBluetoothPermission,
+  useRequestBluetoothPermissions,
+} from 'hooks/permissions/useBluetoothPermissions';
+import { AppPermissionStatus } from 'types/permissions';
+import LedgerDeviceList from 'screens/PerformLedgerScan/components/LedgerDeviceList';
 import useStyles from './useStyles';
+import { ScanErrorType, useBleScan, useRequestEnableBt } from './useHooks';
 
 export type NavProps = StackScreenProps<ConnectToLedgerStackParamList, ROUTES.PERFORM_LEDGER_SCAN>;
 
@@ -23,7 +26,12 @@ const PerformLedgerScan: React.FC<NavProps> = ({ navigation, route }) => {
   const { ledgerApp, onConnect, onCancel } = route.params;
   const styles = useStyles();
   const { t } = useTranslation('ledgerScan');
-  const { requestPermissions, requestEnableBt, scan, scanning, devices, scanError } = useBleScan();
+  const { scan, scanning, devices, scanError } = useBleScan();
+  const [authorized, setAuthorized] = useState(false);
+  const [doFirstScan, setDoFirstScan] = useState(true);
+  const requestEnableBt = useRequestEnableBt();
+  const checkBtPermissions = useCheckBluetoothPermission();
+  const requestBluetoothPermissions = useRequestBluetoothPermissions();
 
   useOnBackAction(() => {
     if (onCancel !== undefined) {
@@ -32,26 +40,32 @@ const PerformLedgerScan: React.FC<NavProps> = ({ navigation, route }) => {
   }, [onCancel]);
 
   useEffect(() => {
-    scan().then(() => {});
+    if (doFirstScan && authorized) {
+      setDoFirstScan(false);
+      scan().then(() => {});
+    }
+  }, [doFirstScan, authorized, scan]);
 
-    // eslint-disable-next-line
+  useEffect(() => {
+    (async () => {
+      let checkResult = await checkBtPermissions();
+      if (checkResult === AppPermissionStatus.Denied) {
+        checkResult = await requestBluetoothPermissions();
+      }
+
+      setAuthorized(checkResult === AppPermissionStatus.Granted);
+    })();
+
+    // Fine to ignore since we need to check the permissions only the first time
+    // we open this screen.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const onLedgerItemSelected = useCallback(
-    ({ item }: ListRenderItemInfo<BLELedger>) => {
-      navigation.navigate({
-        name: ROUTES.CONNECT_TO_LEDGER,
-        params: {
-          bleLedger: item,
-          ledgerApp,
-          onConnect,
-        },
-      });
-    },
-    [navigation, ledgerApp, onConnect],
-  );
-
   const errorMessage = useMemo(() => {
+    if (!authorized) {
+      return Platform.OS === 'ios' ? t('grant permissions ios') : t('grant permissions android');
+    }
+
     if (scanError?.type === ScanErrorType.Unknown) {
       return scanError.message;
     }
@@ -59,24 +73,28 @@ const PerformLedgerScan: React.FC<NavProps> = ({ navigation, route }) => {
     switch (scanError?.type) {
       case ScanErrorType.BtOff:
         return t('error bluetooth off');
-      case ScanErrorType.Unauthorized:
-        return t('error missing permissions');
       default:
         return undefined;
     }
-  }, [t, scanError]);
-
-  const renderLedgerDevice = useCallback(
-    (info: ListRenderItemInfo<BLELedger>) => (
-      <TouchableOpacity style={styles.ledgerListItem} onPress={() => onLedgerItemSelected(info)}>
-        <DpmImage source={DPMImages.Ledger} />
-        <Typography.Subtitle style={styles.ledgerName}>{info.item.name}</Typography.Subtitle>
-      </TouchableOpacity>
-    ),
-    [onLedgerItemSelected, styles.ledgerListItem, styles.ledgerName],
-  );
+  }, [authorized, scanError, t]);
 
   const actionButton = useMemo(() => {
+    if (!authorized) {
+      return (
+        <Button
+          mode={'contained'}
+          onPress={async () => {
+            const permissions = await requestBluetoothPermissions();
+            if (permissions === AppPermissionStatus.Granted) {
+              setAuthorized(true);
+            }
+          }}
+        >
+          {t('grant permissions')}
+        </Button>
+      );
+    }
+
     if (scanError === undefined) {
       return (
         <Button mode={'contained'} loading={scanning} disabled={scanning} onPress={() => scan()}>
@@ -100,21 +118,10 @@ const PerformLedgerScan: React.FC<NavProps> = ({ navigation, route }) => {
             {t('turn on bluetooth')}
           </Button>
         );
-      case ScanErrorType.Unauthorized:
-        return (
-          <Button
-            mode={'contained'}
-            onPress={async () => {
-              await requestPermissions();
-            }}
-          >
-            {t('grant permissions')}
-          </Button>
-        );
       default:
         return null;
     }
-  }, [requestEnableBt, requestPermissions, scan, scanError, scanning, t]);
+  }, [t, authorized, scanError, requestBluetoothPermissions, scanning, scan, requestEnableBt]);
 
   return (
     <StyledSafeAreaView topBar={<TopBar stackProps={{ navigation }} />} style={styles.root}>
@@ -142,14 +149,8 @@ const PerformLedgerScan: React.FC<NavProps> = ({ navigation, route }) => {
         />
       </Typography.Body>
 
-      {errorMessage === undefined ? (
-        <FlatList
-          style={styles.deviceList}
-          data={devices}
-          renderItem={renderLedgerDevice}
-          keyExtractor={(item) => item.id}
-          ItemSeparatorComponent={ListItemSeparator}
-        />
+      {errorMessage === undefined && authorized ? (
+        <LedgerDeviceList ledgerApp={ledgerApp} devices={devices} onConnect={onConnect} />
       ) : (
         <Typography.Subtitle style={styles.noDeviceError}>{errorMessage}</Typography.Subtitle>
       )}
