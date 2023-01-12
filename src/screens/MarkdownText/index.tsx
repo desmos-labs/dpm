@@ -1,63 +1,74 @@
 import { StackScreenProps } from '@react-navigation/stack';
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { Platform, ScrollView, View } from 'react-native';
-import RNFS from 'react-native-fs';
 import Markdown from 'react-native-markdown-display';
 import { useTheme } from 'react-native-paper';
-import { RootStackParams } from 'types/navigation';
 import StyledSafeAreaView from 'components/StyledSafeAreaView';
+import { RootNavigatorParamList } from 'navigation/RootNavigator';
+import ROUTES from 'navigation/routes';
+import { readAsset } from 'lib/FileUtils';
 import TopBar from 'components/TopBar';
 import useStyles from './useStyles';
 
-export type Props = StackScreenProps<RootStackParams, 'MarkdownText'>;
+export type NavProps = StackScreenProps<RootNavigatorParamList, ROUTES.MARKDOWN_TEXT>;
 
-const MarkdownText: React.FC<Props> = (props) => {
-  const {
-    route: {
-      params: { text, title, asset },
-    },
-  } = props;
-  const [content, setContent] = useState(text ?? '');
+export interface MarkdownTextProps {
+  readonly title: string;
+  readonly text?: string;
+  readonly fileName?: string;
+}
+
+const MarkdownText = (props: NavProps) => {
+  const { route } = props;
+  const { params } = route;
+  const { title, text, fileName } = params;
+
   const theme = useTheme();
   const styles = useStyles();
 
-  useEffect(() => {
-    if (asset !== undefined) {
-      (async () => {
-        const textToRender =
-          Platform.OS === 'android'
-            ? await RNFS.readFileAssets(asset).catch((e) => console.error(e))
-            : await RNFS.readFile(`${RNFS.MainBundlePath}${asset}`).catch((e) => console.error(e));
-        if (textToRender) {
-          setContent(textToRender);
-        }
-      })();
+  const isAndroid = Platform.OS === 'android';
+  const [content, setContent] = useState(text || '');
+
+  const renderAsset = useCallback(async (asset: string) => {
+    const textToRender = await readAsset(asset);
+    if (textToRender) {
+      setContent(textToRender);
     }
-  }, [asset]);
+  }, []);
+
+  useEffect(() => {
+    if (fileName !== undefined) {
+      const assetName = isAndroid ? `custom/${fileName}` : `/${fileName}`;
+      renderAsset(assetName);
+    }
+  }, [fileName, isAndroid, renderAsset]);
 
   return (
     <StyledSafeAreaView
-      topBar={<TopBar stackProps={props} capitalizeTitle={false} title={title} />}
       scrollable
+      topBar={<TopBar stackProps={props} titleStyle={styles.topBarTitle} title={title} />}
     >
       <View onStartShouldSetResponder={() => true} style={styles.content}>
         <ScrollView>
           <Markdown
             style={{
               body: {
-                fontFamily: 'Poppins-Regular',
+                fontFamily: theme.fonts.regular.fontFamily,
                 fontSize: 16,
                 fontStyle: 'normal',
-                fontWeight: '400',
-                color: theme.colors.font['1'],
+                fontWeight: theme.fonts.regular.fontWeight,
+                color: theme.colors.text,
               },
-              heading1: { fontFamily: 'Poppins-Bold', fontSize: 22 },
+              heading1: {
+                fontFamily: theme.fonts.regular.fontFamily,
+                fontSize: 22,
+              },
               heading2: {
-                fontFamily: 'Poppins-Bold',
+                fontFamily: theme.fonts.medium.fontFamily,
                 fontSize: 18,
                 fontStyle: 'normal',
-                fontWeight: '500',
-                color: theme.colors.font['1'],
+                fontWeight: theme.fonts.medium.fontWeight,
+                color: theme.colors.text,
               },
             }}
           >

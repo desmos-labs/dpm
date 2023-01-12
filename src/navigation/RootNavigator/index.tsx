@@ -30,6 +30,7 @@ import SettingsDisplayMode from 'screens/SettingsDisplayMode';
 import SettingsSwitchChain from 'screens/SettingsSwitchChain';
 import SettingsChangeWalletPassword from 'screens/SettingsChangeWalletPassword';
 import SettingsJoinCommunity from 'screens/SettingsJoinCommunity';
+import MarkdownText, { MarkdownTextProps } from 'screens/MarkdownText';
 
 export type RootNavigatorParamList = {
   [ROUTES.DEV_SCREEN]: undefined;
@@ -64,8 +65,8 @@ export type RootNavigatorParamList = {
   [ROUTES.SETTINGS_SWITCH_CHAIN]: undefined;
   [ROUTES.SETTINGS_CHANGE_APPLICATION_PASSWORD]: undefined;
   [ROUTES.SETTINGS_JOIN_COMMUNITY]: undefined;
-  [ROUTES.SETTINGS_ABOUT_DPM]: undefined;
-  [ROUTES.SETTINGS_PRIVACY_POLICY]: undefined;
+
+  [ROUTES.MARKDOWN_TEXT]: MarkdownTextProps;
 };
 
 const Stack = createStackNavigator<RootNavigatorParamList>();
@@ -137,6 +138,8 @@ const RootNavigator = () => {
         name={ROUTES.SETTINGS_CHANGE_APPLICATION_PASSWORD}
         component={SettingsChangeWalletPassword}
       />
+
+      <Stack.Screen name={ROUTES.MARKDOWN_TEXT} component={MarkdownText} />
     </Stack.Navigator>
   );
 };

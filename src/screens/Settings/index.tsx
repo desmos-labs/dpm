@@ -31,6 +31,20 @@ const Settings = (props: NavProps) => {
     );
   }, []);
 
+  const openAbout = useCallback(async () => {
+    navigation.navigate(ROUTES.MARKDOWN_TEXT, {
+      title: t('about dpm'),
+      fileName: 'about.md',
+    });
+  }, [navigation, t]);
+
+  const openPrivacy = useCallback(async () => {
+    navigation.navigate(ROUTES.MARKDOWN_TEXT, {
+      title: t('privacy policy'),
+      fileName: 'privacy.md',
+    });
+  }, [navigation, t]);
+
   const navigateToGithub = useCallback(() => {
     Linking.openURL('https://github.com/desmos-labs/dpm').catch((err) =>
       console.error("Couldn't load page", err),
@@ -79,15 +93,18 @@ const Settings = (props: NavProps) => {
   }, [areBiometricsSupported]);
 
   return (
-    <StyledSafeAreaView style={styles.background} scrollable>
-      {/* Top bar */}
-      <TopBar
-        style={styles.topBar}
-        titleStyle={styles.topBarTitle}
-        stackProps={{ navigation }}
-        title={t('settings')}
-      />
-
+    <StyledSafeAreaView
+      scrollable
+      style={styles.background}
+      topBar={
+        <TopBar
+          style={styles.topBar}
+          titleStyle={styles.topBarTitle}
+          stackProps={{ navigation }}
+          title={t('settings')}
+        />
+      }
+    >
       {/* General section */}
       <Flexible.Section title={t('general')}>
         <OpenSettingScreenButton title={t('display mode')} route={ROUTES.SETTINGS_DISPLAY_MODE} />
@@ -133,11 +150,8 @@ const Settings = (props: NavProps) => {
 
       {/* About section */}
       <Flexible.Section style={styles.sectionMargin} title={t('about')}>
-        <OpenSettingScreenButton title={t('about dpm')} route={ROUTES.SETTINGS_ABOUT_DPM} />
-        <OpenSettingScreenButton
-          title={t('privacy policy')}
-          route={ROUTES.SETTINGS_PRIVACY_POLICY}
-        />
+        <Flexible.SectionButton label={t('about dpm')} onPress={openAbout} />
+        <Flexible.SectionButton label={t('privacy policy')} onPress={openPrivacy} />
         <Flexible.SectionButton label={t('open source')} onPress={navigateToGithub} />
         <Flexible.SectionText label={t('version')} value={DeviceInfo.getVersion()} />
       </Flexible.Section>
