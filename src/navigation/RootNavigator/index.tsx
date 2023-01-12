@@ -55,6 +55,8 @@ export type RootNavigatorParamList = {
   [ROUTES.SCAN_QR_CODE]: undefined;
   [ROUTES.WALLET_CONNECT_SESSIONS]: undefined;
   [ROUTES.WALLET_CONNECT_SESSION_PROPOSAL]: WalletConnectSessionProposalParams;
+  [ROUTES.WALLET_CONNECT_REQUEST_LIST]: undefined;
+  [ROUTES.WALLET_CONNECT_REQUEST]: undefined;
 
   [ROUTES.PROFILE]: ProfileParams | undefined;
   [ROUTES.EDIT_PROFILE]: EditProfileParams;
