@@ -4,7 +4,6 @@ import { useTranslation } from 'react-i18next';
 import SingleButtonModal from 'modals/SingleButtonModal';
 import useShowModal from 'hooks/useShowModal';
 import useWalletConnectPair from 'hooks/walletconnect/useWalletConnectPair';
-import useWalletConnectApproveSessionRequest from 'hooks/walletconnect/useWalletConnectApproveSessionRequest';
 import IconButton from 'components/IconButton';
 import ROUTES from 'navigation/routes';
 import { HomeTabsParamList } from 'navigation/RootNavigator/HomeTabs';
@@ -12,10 +11,15 @@ import { Barcode } from 'vision-camera-code-scanner';
 import StyledSafeAreaView from 'components/StyledSafeAreaView';
 import TextInput from 'components/TextInput';
 import { Vibration } from 'react-native';
+import { CompositeScreenProps } from '@react-navigation/native';
+import { RootNavigatorParamList } from 'navigation/RootNavigator';
 import useStyles from './useStyles';
 import QrCodeScanner from './components/QrCodeScanner';
 
-type NavProps = StackScreenProps<HomeTabsParamList, ROUTES.SCAN_QR_CODE>;
+type NavProps = CompositeScreenProps<
+  StackScreenProps<RootNavigatorParamList>,
+  StackScreenProps<HomeTabsParamList, ROUTES.SCAN_QR_CODE>
+>;
 
 const ScanQr: React.FC<NavProps> = ({ navigation }) => {
   const styles = useStyles();
@@ -23,7 +27,6 @@ const ScanQr: React.FC<NavProps> = ({ navigation }) => {
   const [pairing, setPairing] = useState(false);
   const [devUri, setDevUri] = useState('');
   const pair = useWalletConnectPair();
-  const approveSessionRequest = useWalletConnectApproveSessionRequest();
   const openModal = useShowModal();
 
   const goBack = useCallback(() => {
@@ -46,16 +49,17 @@ const ScanQr: React.FC<NavProps> = ({ navigation }) => {
       try {
         setPairing(true);
         setDevUri('');
-        const sessionRequest = await pair(uri);
-        await approveSessionRequest(sessionRequest);
-        navigation.navigate(ROUTES.WALLET_CONNECT_SESSIONS);
+        const proposal = await pair(uri);
+        navigation.navigate(ROUTES.WALLET_CONNECT_SESSION_PROPOSAL, {
+          proposal,
+        });
       } catch (e) {
         openErrorModal(e.message);
       } finally {
         setPairing(false);
       }
     },
-    [approveSessionRequest, navigation, openErrorModal, pair],
+    [navigation, openErrorModal, pair],
   );
 
   const onDevUriSubmitted = useCallback(() => {

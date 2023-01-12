@@ -83,6 +83,11 @@ enum ROUTES {
    */
   WALLET_CONNECT_SESSIONS = 'WALLET_CONNECT_SESSIONS',
   /**
+   * Screen that allow the user to approve or reject a WalletConnect
+   * session proposal.
+   */
+  WALLET_CONNECT_SESSION_PROPOSAL = 'WALLET_CONNECT_SESSION_PROPOSAL',
+  /**
    * Home screen.
    * Screen that allow the user to scan a WalletConnect qr code
    * to initialize a session.

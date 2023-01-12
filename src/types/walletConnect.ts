@@ -8,11 +8,6 @@ export interface WalletConnectClient {
   readonly client: SignClient;
 }
 
-export enum WalletConnectPermission {
-  SIGN_TX,
-  BROADCAST_TX,
-}
-
 /**
  * Interface that represents a WalletConnect session.
  */
@@ -35,6 +30,9 @@ export interface WalletConnectSession {
 export interface WalletConnectSessionProposal {
   readonly id: number;
   readonly proposal: ProposalTypes.Struct;
+  readonly name: string;
+  readonly description: string;
+  readonly iconUri?: string;
 }
 
 /**

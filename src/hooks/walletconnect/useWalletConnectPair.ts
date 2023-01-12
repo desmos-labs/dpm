@@ -80,6 +80,9 @@ export default function useWalletConnectPair() {
               resolve({
                 id: proposal.id,
                 proposal: proposal.params,
+                name: proposal.params.proposer.metadata.name,
+                description: proposal.params.proposer.metadata.description,
+                iconUri: proposal.params.proposer.metadata.icons[0],
               });
             }
           });

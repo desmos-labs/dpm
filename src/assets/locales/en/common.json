@@ -1,5 +1,4 @@
 {
-  "ability to revoke authorizations": "You will be able to revoke such authorizations inside your Authorization page",
   "abstain": "Abstain",
   "accept": "accept",
   "account created": "Account created",
@@ -16,7 +15,6 @@
   "airdrop requirement - create desmos profile": "Create a Desmos Profile",
   "an error occurred": "An error occurred",
   "app authorized": "{{app}} authorized",
-  "app requires authorizations": "{{app}} requires the following authorizations to be granted in order to work properly",
   "application password": "Application password",
   "approve": "Approve",
   "authenticating": "Authenticating",
@@ -70,7 +68,6 @@
   "dapps": "DAPPs",
   "delegate": "Delegate",
   "delete account": "Delete account",
-  "deny": "Deny",
   "disconnect chain account confirmation": "Are you sure you want to disconnect this {{chain}} account?",
   "disconnect": "Disconnect",
   "disconnecting": "Disconnecting...",

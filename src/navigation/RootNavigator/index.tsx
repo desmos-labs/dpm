@@ -29,6 +29,9 @@ import Settings from 'screens/Settings';
 import SettingsDisplayMode from 'screens/SettingsDisplayMode';
 import SettingsSwitchChain from 'screens/SettingsSwitchChain';
 import SettingsChangeWalletPassword from 'screens/SettingsChangeWalletPassword';
+import WalletConnectSessionProposal, {
+  WalletConnectSessionProposalParams,
+} from 'screens/WalletConnectSessionProposal';
 import SettingsJoinCommunity from 'screens/SettingsJoinCommunity';
 import MarkdownText, { MarkdownTextProps } from 'screens/MarkdownText';
 
@@ -51,6 +54,7 @@ export type RootNavigatorParamList = {
   [ROUTES.HOME]: undefined;
   [ROUTES.SCAN_QR_CODE]: undefined;
   [ROUTES.WALLET_CONNECT_SESSIONS]: undefined;
+  [ROUTES.WALLET_CONNECT_SESSION_PROPOSAL]: WalletConnectSessionProposalParams;
 
   [ROUTES.PROFILE]: ProfileParams | undefined;
   [ROUTES.EDIT_PROFILE]: EditProfileParams;
@@ -116,6 +120,11 @@ const RootNavigator = () => {
       <Stack.Screen name={ROUTES.BROADCAST_TX} component={BroadcastTx} />
 
       <Stack.Screen name={ROUTES.HOME_TABS} component={HomeTabs} />
+
+      <Stack.Screen
+        name={ROUTES.WALLET_CONNECT_SESSION_PROPOSAL}
+        component={WalletConnectSessionProposal}
+      />
 
       <Stack.Screen name={ROUTES.PROFILE} component={Profile} />
       <Stack.Screen name={ROUTES.EDIT_PROFILE} component={EditProfile} />

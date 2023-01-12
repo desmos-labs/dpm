@@ -1,4 +1,4 @@
-import {makeStyle} from 'config/theme';
+import { makeStyle } from 'config/theme';
 
 const useStyles = makeStyle((theme) => ({
   root: {
@@ -21,23 +21,6 @@ const useStyles = makeStyle((theme) => ({
   permissionMessage: {
     marginTop: theme.spacing.m,
     textAlign: 'center',
-  },
-  permissionList: {
-    marginTop: theme.spacing.m,
-    alignSelf: 'flex-start',
-    width: '100%',
-  },
-  borderTop: {
-    borderTopLeftRadius: 8,
-    borderTopRightRadius: 8,
-  },
-  borderBot: {
-    borderBottomLeftRadius: 8,
-    borderBottomRightRadius: 8,
-  },
-  permissionItem: {
-    backgroundColor: theme.colors.background,
-    padding: theme.spacing.s,
   },
   bottomMessage: {
     textAlign: 'center',
