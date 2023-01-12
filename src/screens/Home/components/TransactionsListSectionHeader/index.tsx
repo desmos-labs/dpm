@@ -2,6 +2,7 @@ import Typography from 'components/Typography';
 import { formatDistanceToNow } from 'date-fns';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
+import { View } from 'react-native';
 import useStyles from './useStyles';
 
 export interface TransactionsListSectionHeaderProps {
@@ -12,7 +13,6 @@ const TransactionsListSectionHeader = (props: TransactionsListSectionHeaderProps
   const { t } = useTranslation();
   const { date } = props;
   const styles = useStyles();
-
   const sectionDate = new Date(date);
   const currentDate = new Date();
   const isToday =
@@ -21,9 +21,11 @@ const TransactionsListSectionHeader = (props: TransactionsListSectionHeaderProps
     currentDate.getUTCFullYear() === sectionDate.getUTCFullYear();
 
   return (
-    <Typography.Body style={styles.header}>
-      {isToday ? t('today') : formatDistanceToNow(sectionDate, { addSuffix: true })}
-    </Typography.Body>
+    <View style={styles.headerContainer}>
+      <Typography.Body style={styles.header}>
+        {isToday ? t('today') : formatDistanceToNow(sectionDate, { addSuffix: true })}
+      </Typography.Body>
+    </View>
   );
 };
 

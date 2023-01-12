@@ -24,7 +24,7 @@ const AccountTransactions = (props: AccountTransactionsProps) => {
   const fetchMore = useCallback(onFetchMore, [onFetchMore]);
   const reloadFromChain = useCallback(onReload, [onReload]);
 
-  return transactions.length > 0 || loading ? (
+  return transactions?.length > 0 || loading ? (
     <TransactionsList
       loading={loading}
       transactions={transactions}

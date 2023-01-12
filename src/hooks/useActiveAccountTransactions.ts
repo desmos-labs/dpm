@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useLazyQuery } from '@apollo/client';
+import { useQuery } from '@apollo/client';
 import GetTransactionsByAddress from 'services/graphql/queries/GetTransactionsByAddress';
 import { useActiveAccount } from '@recoil/activeAccount';
 import { GroupedTransactions, Message, Transaction } from 'types/transactions';
@@ -112,48 +112,44 @@ const mergeGroupedTransactions = (
 const useActiveAccountTransactions = () => {
   const account = useActiveAccount()!;
 
-  const [transactions, setTransactions] = useState<GroupedTransactions[]>([]);
   const [, setPage] = useState(0);
 
-  const [, { loading, refetch }] = useLazyQuery(GetTransactionsByAddress, {
-    pollInterval: 1000,
-    fetchPolicy: 'no-cache',
+  const { data, loading, fetchMore, refetch } = useQuery(GetTransactionsByAddress, {
     variables: getQueryVariables(account.address, 0),
   });
 
-  const fetchTransactions = React.useCallback(
-    async (fetchPage: number, isRefetch: boolean = false) => {
-      const { data } = await refetch(getQueryVariables(account.address, fetchPage));
-      if (!data) return;
-
-      const fetched = convertGQLTxsResponse(data.messages);
-      setTransactions((currentTxs) =>
-        isRefetch ? fetched : mergeGroupedTransactions(currentTxs, fetched),
-      );
-    },
-    [account, refetch],
+  const results: GroupedTransactions[] | undefined = React.useMemo(
+    () => (data ? convertGQLTxsResponse(data.messages) : []),
+    [data],
   );
 
-  const fetchMore = React.useCallback(async () => {
+  const fetchMoreTransactions = React.useCallback(async () => {
     setPage((curValue) => {
       // This trick is used to avoid having the fetchTransactions function depend on the value of the page.
       // If we did that, we would trigger the re-creation on that function each time the page changes,
       // which would trigger any callback that depends on this function (i.e. inside the Home page)
-      fetchTransactions(curValue + 1);
+      fetchMore({
+        variables: getQueryVariables(account.address, curValue + 1),
+
+        updateQuery: (prev, { fetchMoreResult }) => {
+          if (!fetchMoreResult) {
+            return prev;
+          }
+          return {
+            ...prev,
+            messages: [...prev.messages, ...fetchMoreResult.messages],
+          };
+        },
+      });
       return curValue + 1;
     });
-  }, [fetchTransactions]);
-
-  const refetchTransactions = React.useCallback(() => {
-    setPage(0);
-    fetchTransactions(0, true);
-  }, [fetchTransactions]);
+  }, [account.address, fetchMore]);
 
   return {
     loading,
-    transactions,
-    fetchMore,
-    refetch: refetchTransactions,
+    transactions: results,
+    fetchMore: fetchMoreTransactions,
+    refetch,
   };
 };
 

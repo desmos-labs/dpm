@@ -2,9 +2,13 @@ import { makeStyle } from 'config/theme';
 
 const useStyles = makeStyle((theme) => ({
   header: {
-    paddingBottom: 8,
     color: theme.colors.font['2'],
     textTransform: 'capitalize',
+  },
+  headerContainer: {
+    flex: 1,
+    backgroundColor: theme.colors.background,
+    padding: theme.spacing.s,
   },
 }));
 
