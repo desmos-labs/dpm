@@ -16,9 +16,9 @@ import useStyles from './useStyles';
 export interface CheckWalletPasswordParams {
   account: AccountWithWallet;
   /**
-   * Optional password that the user should write.
-   * If this is undefined will be used the password challenge
-   * stored in the secure storage to validate the user's password.
+   * Optional password that should be used to validate the inserted password.
+   * If this is undefined, the password challenge stored in the secure storage
+   * will be used instead.
    */
   password?: string;
 }
@@ -41,23 +41,20 @@ const CheckWalletPassword = (props: NavProps) => {
     let isPasswordCorrect: boolean;
 
     if (route.params.password === undefined) {
-      isPasswordCorrect = await checkUserPassword(password).catch((_) => false);
+      isPasswordCorrect = await checkUserPassword(password).catch(() => false);
     } else {
       isPasswordCorrect = route.params.password === password;
     }
 
     if (isPasswordCorrect) {
-      navigation.navigate({
-        name: ROUTES.SAVE_GENERATED_ACCOUNT,
-        params: {
-          account: route.params.account,
-          password,
-        },
+      navigation.navigate(ROUTES.SAVE_GENERATED_ACCOUNT, {
+        account: route.params.account,
+        password,
       });
     } else {
       setErrorMessage(t('wrong confirmation password'));
     }
-  }, [password]);
+  }, [navigation, password, route, t]);
 
   return (
     <StyledSafeAreaView style={styles.root} topBar={<TopBar stackProps={props} />}>

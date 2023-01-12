@@ -3,9 +3,9 @@ import { AccountWithWallet } from 'types/account';
 import {
   deleteItem,
   deleteWallet,
-  savePasswordChallenge,
   saveWallet,
   SECURE_STORAGE_KEYS,
+  setUserPassword,
 } from 'lib/SecureStorage';
 import { useGetAccounts, useStoreAccount } from '@recoil/accounts';
 
@@ -24,7 +24,7 @@ export const useSaveAccount = () => {
 
         await saveWallet(wallet, password);
         if (savingFirstAccount) {
-          await savePasswordChallenge(password);
+          await setUserPassword(password);
         }
         storeAccount(account);
       } catch (e) {

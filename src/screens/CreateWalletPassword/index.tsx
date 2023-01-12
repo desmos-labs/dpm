@@ -14,11 +14,11 @@ import ROUTES from 'navigation/routes';
 import { AccountWithWallet } from 'types/account';
 import useStyles from './useStyles';
 
+export type NavProps = StackScreenProps<RootNavigatorParamList, ROUTES.CREATE_WALLET_PASSWORD>;
+
 export interface CreateWalletPasswordParams {
   account: AccountWithWallet;
 }
-
-export type NavProps = StackScreenProps<RootNavigatorParamList, ROUTES.CREATE_WALLET_PASSWORD>;
 
 const CreateWalletPassword = (props: NavProps) => {
   const { navigation, route } = props;
@@ -33,14 +33,11 @@ const CreateWalletPassword = (props: NavProps) => {
   };
 
   const onContinuePressed = useCallback(async () => {
-    navigation.navigate({
-      name: ROUTES.CHECK_WALLET_PASSWORD,
-      params: {
-        password,
-        account: route.params.account,
-      },
+    navigation.navigate(ROUTES.CHECK_WALLET_PASSWORD, {
+      password,
+      account: route.params.account,
     });
-  }, [password]);
+  }, [navigation, password, route.params.account]);
 
   return (
     <StyledSafeAreaView style={styles.root} topBar={<TopBar stackProps={props} />}>

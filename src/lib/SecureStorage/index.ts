@@ -11,7 +11,7 @@ export enum SECURE_STORAGE_KEYS {
   PASSWORD_CHALLENGE = 'PASSWORD_CHALLENGE',
 }
 
-const passwordChalleng = 'dpm-password-challenge';
+const passwordChallenge = 'dpm-password-challenge';
 
 const defaultOptions: Keychain.Options = {
   authenticationPrompt: {
@@ -165,8 +165,14 @@ export const getWallet = async (address: string, password: string): Promise<Seri
   return deserializeWallet(loadedValue);
 };
 
-export const savePasswordChallenge = async (password: string) => {
-  const result = await setItem<string>(SECURE_STORAGE_KEYS.PASSWORD_CHALLENGE, passwordChalleng, {
+/**
+ * Sets the given password as the password that the user will use in order to
+ * confirm transactions and unlock their wallet.
+ * @param password {string} - Value of the password to be set.
+ * @throws Error if for some reason the encryption operations fail.
+ */
+export const setUserPassword = async (password: string) => {
+  const result = await setItem<string>(SECURE_STORAGE_KEYS.PASSWORD_CHALLENGE, passwordChallenge, {
     password,
   });
 
@@ -175,14 +181,25 @@ export const savePasswordChallenge = async (password: string) => {
   }
 };
 
+/**
+ * Checks whether the given password is the same that was set by the user in order to unlock the wallet.
+ * @param password {string} - Password to be checked.
+ * @return {true} if the password matches the previous one, or {false} otherwise.
+ * @throws Error if for some reason the decryption operations fail.
+ */
 export const checkUserPassword = async (password: string) => {
-  const value = await getItem<string>(SECURE_STORAGE_KEYS.PASSWORD_CHALLENGE, {
-    password,
-  });
+  let value: string | null;
+  try {
+    value = await getItem<string>(SECURE_STORAGE_KEYS.PASSWORD_CHALLENGE, {
+      password,
+    });
+  } catch (e) {
+    return false;
+  }
 
   if (value === null) {
     throw new Error('error while loading the password challenge from storage');
   }
 
-  return value === passwordChalleng;
+  return value === passwordChallenge;
 };

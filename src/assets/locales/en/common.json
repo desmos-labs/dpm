@@ -86,8 +86,6 @@
   "enter recovery passphrase": "Please enter your recovery passphrase (12 or 24 words) in order and make sure each word it's written correctly",
   "enter security password": "Enter security password",
   "enter wallet password": "Please enter you wallet password",
-  "enter your new password": "Enter your new password",
-  "enter your old password": "Enter your old password",
   "error generating account": "An error occurred while generating the account",
   "error": "Error",
   "expires on": "Expires on",

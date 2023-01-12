@@ -1,8 +1,14 @@
-import {makeStyle} from 'config/theme';
+import { makeStyle } from 'config/theme';
 
 const useStyles = makeStyle((theme) => ({
   root: {
     paddingTop: 0,
+  },
+  topBarTitle: {
+    color: theme.colors.text,
+  },
+  inputContainer: {
+    flexGrow: 1,
   },
   passwordLabel: {
     display: 'flex',
