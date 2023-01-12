@@ -1,10 +1,21 @@
-import React, { FC, useCallback, useEffect, useState } from 'react';
+import React, { FC, useCallback, useEffect, useMemo, useState } from 'react';
 import { Barcode, BarcodeFormat, scanBarcodes } from 'vision-camera-code-scanner';
 import { useIsFocused } from '@react-navigation/native';
 import { Camera, useCameraDevices, useFrameProcessor } from 'react-native-vision-camera';
 import { runOnJS } from 'react-native-reanimated';
-import { StyleSheet } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 import { ActivityIndicator } from 'react-native-paper';
+import DpmImage from 'components/DPMImage';
+import { DPMImages } from 'types/images';
+import Typography from 'components/Typography';
+import Button from 'components/Button';
+import Spacer from 'components/Spacer';
+import {
+  useCheckCameraPermission,
+  useRequestCameraPermission,
+} from 'hooks/permissions/useCameraPermissions';
+import { AppPermissionStatus } from 'types/permissions';
+import useStyles from './useStyles';
 
 export interface QrCodeScannerProps {
   /**
@@ -18,19 +29,33 @@ export interface QrCodeScannerProps {
 }
 
 const QrCodeScanner: FC<QrCodeScannerProps> = ({ onQrCodeDetected, stopRecognition }) => {
+  const styles = useStyles();
   const [hasPermission, setHasPermission] = useState(false);
   const isFocused = useIsFocused();
   const devices = useCameraDevices();
-  const device = devices.back;
+  const backCameraDevice = devices.back;
+  const checkCameraPermission = useCheckCameraPermission();
+  const requestCameraPermission = useRequestCameraPermission();
 
   const requestPermission = useCallback(async () => {
-    const status = await Camera.requestCameraPermission();
-    setHasPermission(status === 'authorized');
-  }, []);
+    const cameraPermissions = await requestCameraPermission();
+    setHasPermission(cameraPermissions === AppPermissionStatus.Granted);
+  }, [requestCameraPermission]);
 
   useEffect(() => {
-    requestPermission();
-  }, [requestPermission]);
+    (async () => {
+      let cameraPermissions = await checkCameraPermission();
+      if (cameraPermissions === AppPermissionStatus.Denied) {
+        cameraPermissions = await requestCameraPermission();
+      }
+
+      setHasPermission(cameraPermissions === AppPermissionStatus.Granted);
+    })();
+
+    // Fine to ignore the dependencies here since we need to check the
+    // permissions only the first time that we open this screen
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const frameProcessor = useFrameProcessor(
     (frame) => {
@@ -47,21 +72,40 @@ const QrCodeScanner: FC<QrCodeScannerProps> = ({ onQrCodeDetected, stopRecogniti
     [onQrCodeDetected],
   );
 
-  return (
-    <>
-      {device !== undefined && hasPermission ? (
-        <Camera
-          style={StyleSheet.absoluteFill}
-          device={device}
-          isActive={isFocused}
-          frameProcessor={stopRecognition !== true ? frameProcessor : undefined}
-          frameProcessorFps={5}
-        />
-      ) : (
-        <ActivityIndicator />
-      )}
-    </>
-  );
+  return useMemo(() => {
+    if (!hasPermission) {
+      return (
+        <View style={styles.noPermissionsContainer}>
+          <DpmImage source={DPMImages.Fail} />
+          <Typography.Body>Pleas grant camera permissions</Typography.Body>
+          <Spacer paddingVertical={5} />
+          <Button mode={'contained'} onPress={requestPermission}>
+            Grant permission
+          </Button>
+        </View>
+      );
+    }
+    if (backCameraDevice === undefined) {
+      return <ActivityIndicator />;
+    }
+    return (
+      <Camera
+        style={StyleSheet.absoluteFill}
+        device={backCameraDevice}
+        isActive={isFocused}
+        frameProcessor={stopRecognition !== true ? frameProcessor : undefined}
+        frameProcessorFps={5}
+      />
+    );
+  }, [
+    hasPermission,
+    backCameraDevice,
+    isFocused,
+    stopRecognition,
+    frameProcessor,
+    styles.noPermissionsContainer,
+    requestPermission,
+  ]);
 };
 
 export default QrCodeScanner;
