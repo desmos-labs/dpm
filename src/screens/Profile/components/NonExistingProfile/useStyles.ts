@@ -5,6 +5,7 @@ const useStyles = makeStyle((theme) => ({
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
+    width: '100%',
   },
   noProfileImage: {
     marginTop: 42,
