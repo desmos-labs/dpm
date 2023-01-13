@@ -113,7 +113,7 @@ const SettingsChangeWalletPassword = (props: NavProps) => {
         <Button
           mode="contained"
           onPress={onContinue}
-          disabled={!canContinue}
+          disabled={!canContinue || changingPassword}
           loading={changingPassword}
         >
           {t('common:confirm')}
