@@ -22,7 +22,10 @@ import { LedgerSigner } from '@cosmjs/ledger-amino';
  */
 const useInitMnemonicWallet = () => {
   const initMnemonicWallet = useCallback(
-    async (serializedWallet: SerializableMnemonicWallet): Promise<MnemonicWallet> => {
+    async (
+      serializedWallet: SerializableMnemonicWallet,
+      signingMode?: SigningMode,
+    ): Promise<MnemonicWallet> => {
       const privateKey = fromHex(serializedWallet.privateKey);
       const hdPath = stringToPath(serializedWallet.hdPath);
 
@@ -32,7 +35,7 @@ const useInitMnemonicWallet = () => {
         privateKey,
         hdPath,
         addressPrefix: serializedWallet.addressPrefix,
-        signer: PrivateKeySigner.fromSecp256k1(privateKey, SigningMode.DIRECT, {
+        signer: PrivateKeySigner.fromSecp256k1(privateKey, signingMode ?? SigningMode.DIRECT, {
           prefix: serializedWallet.addressPrefix,
         }),
       };
@@ -94,7 +97,10 @@ const useInitLedgerWallet = () => {
  */
 const useInitWeb3AuthWallet = () => {
   const initWeb3AuthWallet = useCallback(
-    async (serializedWallet: SerializableWeb3AuthWallet): Promise<Web3AuthWallet> => {
+    async (
+      serializedWallet: SerializableWeb3AuthWallet,
+      signingMode?: SigningMode,
+    ): Promise<Web3AuthWallet> => {
       const privateKey = fromHex(serializedWallet.privateKey);
 
       return {
@@ -103,7 +109,7 @@ const useInitWeb3AuthWallet = () => {
         privateKey,
         addressPrefix: serializedWallet.addressPrefix,
         loginProvider: serializedWallet.loginProvider,
-        signer: PrivateKeySigner.fromSecp256k1(privateKey, SigningMode.DIRECT, {
+        signer: PrivateKeySigner.fromSecp256k1(privateKey, signingMode ?? SigningMode.DIRECT, {
           prefix: serializedWallet.addressPrefix,
         }),
       };
@@ -125,16 +131,20 @@ export const useUnlockWalletWithPassword = () => {
   const { initWeb3AuthWallet } = useInitWeb3AuthWallet();
 
   return useCallback(
-    async (address: string, password: string): Promise<Wallet | undefined> => {
+    async (
+      address: string,
+      password: string,
+      signingMode?: SigningMode,
+    ): Promise<Wallet | undefined> => {
       const serializedWallet = await getWallet(address, password);
 
       switch (serializedWallet.type) {
         case WalletType.Mnemonic:
-          return initMnemonicWallet(serializedWallet);
+          return initMnemonicWallet(serializedWallet, signingMode);
         case WalletType.Ledger:
           return initLedgerWallet(serializedWallet);
         case WalletType.Web3Auth:
-          return initWeb3AuthWallet(serializedWallet);
+          return initWeb3AuthWallet(serializedWallet, signingMode);
         default:
           // @ts-ignore
           throw new Error(`unsupported wallet type ${serializedWallet.type}`);

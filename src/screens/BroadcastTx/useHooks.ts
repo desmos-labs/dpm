@@ -69,7 +69,7 @@ export const useEstimateFees = () => {
  */
 export const useBroadcastTx = () => {
   const activeAccount = useActiveAccount();
-  const unlockWallet = useUnlockWallet(activeAccount!.address);
+  const unlockWallet = useUnlockWallet();
   const signTx = useSignTx();
 
   return useCallback(
@@ -78,7 +78,7 @@ export const useBroadcastTx = () => {
       fees?: StdFee | 'auto',
       memo?: string,
     ): Promise<DeliverTxResponse | undefined> => {
-      const wallet = await unlockWallet();
+      const wallet = await unlockWallet(activeAccount!.address);
 
       if (wallet === undefined) {
         return undefined;
@@ -93,6 +93,6 @@ export const useBroadcastTx = () => {
 
       return result.deliverTxResponse;
     },
-    [signTx, unlockWallet],
+    [activeAccount, signTx, unlockWallet],
   );
 };

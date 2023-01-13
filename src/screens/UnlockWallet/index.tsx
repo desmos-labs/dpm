@@ -14,6 +14,7 @@ import ROUTES from 'navigation/routes';
 import { Wallet } from 'types/wallet';
 import useOnBackAction from 'hooks/useOnBackAction';
 import { useUnlockWalletWithPassword } from 'screens/UnlockWallet/useHooks';
+import { SigningMode } from '@desmoslabs/desmjs';
 import useStyles from './useStyles';
 
 export interface UnlockWalletParams {
@@ -22,10 +23,13 @@ export interface UnlockWalletParams {
    */
   readonly onSuccess: (wallet: Wallet) => any;
   /**
-   * Optional address of the wallet to unlock.
-   * If undefined will be used the current active account address.
+   * Address of the wallet to unlock.
    */
   readonly address: string;
+  /**
+   * Wallet signing mode
+   */
+  readonly signingMode?: SigningMode;
   /**
    * Callback called if the user cancel the procedure.
    */
@@ -35,7 +39,7 @@ export interface UnlockWalletParams {
 type Props = StackScreenProps<RootNavigatorParamList, ROUTES.UNLOCK_WALLET>;
 
 const UnlockWallet: React.FC<Props> = (props) => {
-  const { onSuccess, address, onCancel } = props.route.params;
+  const { onSuccess, address, onCancel, signingMode } = props.route.params;
   const styles = useStyles();
   const { t } = useTranslation();
   const [loading, setLoading] = useState(false);
@@ -51,7 +55,7 @@ const UnlockWallet: React.FC<Props> = (props) => {
     try {
       setLoading(true);
       setError(undefined);
-      const wallet = await unlockWalletWithPassword(address, password);
+      const wallet = await unlockWalletWithPassword(address, password, signingMode);
 
       if (wallet !== undefined) {
         await wallet.signer.connect();
@@ -66,7 +70,7 @@ const UnlockWallet: React.FC<Props> = (props) => {
     } finally {
       setLoading(false);
     }
-  }, [unlockWalletWithPassword, address, password, onSuccess, t]);
+  }, [unlockWalletWithPassword, address, password, signingMode, onSuccess, t]);
 
   return (
     <View style={styles.root}>
