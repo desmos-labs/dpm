@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react';
+import React, { useCallback, useMemo } from 'react';
 import { atom, useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
 import { WalletConnectSession } from 'types/walletConnect';
 import { getMMKV, MMKVKEYS, setMMKV } from 'lib/MMKVStorage';
@@ -78,5 +78,18 @@ export const useRemoveSessionByTopic = () => {
       });
     },
     [setWalletConnectSessions],
+  );
+};
+
+/**
+ * Hook that provide a function to get a WalletConnectSession by its topic.
+ */
+export const useGetSessionByTopic = () => {
+  const sessions = useWalletConnectSessions();
+  const flattenSessions = useMemo(() => Object.values(sessions).flatMap((v) => v), [sessions]);
+
+  return useCallback(
+    (topic: string) => flattenSessions.find((s) => s.topic === topic),
+    [flattenSessions],
   );
 };

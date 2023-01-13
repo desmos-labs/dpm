@@ -11,8 +11,8 @@ import Button from 'components/Button';
 import { RootNavigatorParamList } from 'navigation/RootNavigator';
 import ROUTES from 'navigation/routes';
 import { WalletConnectSessionProposal as Proposal } from 'types/walletConnect';
-import useWalletConnectApproveSessionRequest from 'hooks/walletconnect/useWalletConnectApproveSessionRequest';
-import useWalletConnectRejectSessionRequest from 'hooks/walletconnect/useWalletConnectRejectSessionRequest';
+import useWalletConnectApproveSessionProposal from 'hooks/walletconnect/useWalletConnectApproveSessionProposal';
+import useWalletConnectRejectSessionProposal from 'hooks/walletconnect/useWalletConnectRejectSessionProposal';
 import { DPMImages } from 'types/images';
 import { walletConnectIconUriToImageSource } from 'lib/WalletConnectUtils';
 import useStyles from './useStyles';
@@ -29,8 +29,8 @@ const WalletConnectSessionProposal: FC<NavProps> = (props) => {
   const { t } = useTranslation();
   const styles = useStyles();
   const openModal = useShowModal();
-  const approveSession = useWalletConnectApproveSessionRequest();
-  const rejectSession = useWalletConnectRejectSessionRequest();
+  const approveSession = useWalletConnectApproveSessionProposal();
+  const rejectSession = useWalletConnectRejectSessionProposal();
   const [authorizing, setAuthorizing] = useState(false);
   const [rejecting, setRejecting] = useState(false);
 

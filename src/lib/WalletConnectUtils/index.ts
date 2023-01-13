@@ -1,10 +1,9 @@
-import { ProposalTypes, SignClientTypes } from '@walletconnect/types';
-import { WalletConnectRequest, WalletConnectSessionProposal } from 'types/walletConnect';
+import { SignClientTypes } from '@walletconnect/types';
+import { WalletConnectSessionProposal } from 'types/walletConnect';
 import { Account } from 'types/account';
 import { WalletType } from 'types/wallet';
 import { CosmosRPCMethods } from '@desmoslabs/desmjs-walletconnect-v2';
 import { desmosIconOrange } from 'assets/images';
-import BaseEventArgs = SignClientTypes.BaseEventArgs;
 
 /**
  * Function that converts a WalletConnect session proposal to ours
@@ -12,24 +11,13 @@ import BaseEventArgs = SignClientTypes.BaseEventArgs;
  * @param proposal - The proposal to convert.
  */
 export const convertWalletConnectSessionProposal = (
-  proposal: Omit<BaseEventArgs<ProposalTypes.Struct>, 'topic'>,
+  proposal: SignClientTypes.EventArguments['session_proposal'],
 ): WalletConnectSessionProposal => ({
   proposal: proposal.params,
   id: proposal.id,
   name: proposal.params.proposer.metadata.name,
   description: proposal.params.proposer.metadata.description,
   iconUri: proposal.params.proposer.metadata.icons[0],
-});
-
-/**
- * Function that converts a WalletConnect request to ours
- * representation.
- * @param request - The request to convert.
- */
-export const convertWalletConnectRequest = (
-  request: SignClientTypes.EventArguments['session_request'],
-): WalletConnectRequest => ({
-  request,
 });
 
 export const getAccountSupportedMethods = (account: Account): string[] => {

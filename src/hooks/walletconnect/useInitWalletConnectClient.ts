@@ -1,22 +1,38 @@
-import { useSetWalletConnectClient, useWalletConnectClient } from '@recoil/walletconnect';
-import { useCallback, useEffect, useMemo } from 'react';
+import {
+  useSetWalletConnectClient,
+  useStoreWalletConnectSessionRequest,
+  useWalletConnectClient,
+} from '@recoil/walletconnect';
+import { useCallback, useEffect } from 'react';
 import SignClient from '@walletconnect/sign-client';
 import { WALLET_CONNECT_PROJECT_ID } from '@env';
 import { SignClientTypes } from '@walletconnect/types';
 import * as WalletConnectMMKV from 'lib/MMKVStorage/walletconnect';
-import { useRemoveSessionByTopic, useWalletConnectSessions } from '@recoil/walletConnectSessions';
+import {
+  useGetSessionByTopic,
+  useRemoveSessionByTopic,
+  useWalletConnectSessions,
+} from '@recoil/walletConnectSessions';
 import { useGetAccounts } from '@recoil/accounts';
 import { getSdkError } from '@walletconnect/utils';
 import { getAccountSupportedMethods } from 'lib/WalletConnectUtils';
 import {
   CosmosRPCMethods,
+  decodeAminoSignRpcRequestParams,
+  decodeSessionRequest,
   encodeGetAccountsRpcResponse,
 } from '@desmoslabs/desmjs-walletconnect-v2';
+import { WalletConnectRequest } from 'types/walletConnect';
+import { useNavigation } from '@react-navigation/native';
+import { StackNavigationProp } from '@react-navigation/stack';
+import { RootNavigatorParamList } from 'navigation/RootNavigator';
+import ROUTES from 'navigation/routes';
 
 const useOnSessionRequest = (signClient: SignClient | undefined) => {
   const accounts = useGetAccounts();
-  const sessions = useWalletConnectSessions();
-  const flatSessions = useMemo(() => Object.values(sessions).flatMap((v) => v), [sessions]);
+  const getSessionByTopic = useGetSessionByTopic();
+  const storeSessionRequest = useStoreWalletConnectSessionRequest();
+  const navigation = useNavigation<StackNavigationProp<RootNavigatorParamList>>();
 
   return useCallback(
     (args: SignClientTypes.EventArguments['session_request']) => {
@@ -24,10 +40,8 @@ const useOnSessionRequest = (signClient: SignClient | undefined) => {
         return;
       }
 
-      console.log('session_request', args);
-
       // Find the session from the app state sessions.
-      const session = flatSessions.find((s) => s.topic === args.topic);
+      const session = getSessionByTopic(args.topic);
 
       if (session === undefined) {
         console.error("can't find session with topic", args.topic);
@@ -57,9 +71,36 @@ const useOnSessionRequest = (signClient: SignClient | undefined) => {
       }
 
       const supportedMethods = getAccountSupportedMethods(account);
-      const { method, params } = args.params.request;
-      if (supportedMethods.indexOf(method) === -1) {
-        console.error(`account ${account.address} don't support`, method);
+
+      if (args.params.request.method === CosmosRPCMethods.SignAmino) {
+        const { signDoc } = decodeAminoSignRpcRequestParams(args.params.request.params).value;
+        console.log(signDoc.msgs);
+      }
+
+      const decodeResult = decodeSessionRequest(args).map<WalletConnectRequest>((request) => ({
+        ...request,
+        accountAddress: session.accountAddress,
+      }));
+
+      if (decodeResult.isError()) {
+        console.error(`decode request error ${decodeResult.error}`);
+        signClient.respond({
+          topic: args.topic,
+          response: {
+            id: args.id,
+            jsonrpc: '2.0',
+            error: {
+              message: decodeResult.error,
+              code: 1,
+            },
+          },
+        });
+        return;
+      }
+
+      const decodedRequest = decodeResult.value;
+      if (supportedMethods.indexOf(decodedRequest.method) === -1) {
+        console.error(`account ${account.address} don't support`, decodedRequest.method);
         signClient.respond({
           topic: args.topic,
           response: {
@@ -71,12 +112,12 @@ const useOnSessionRequest = (signClient: SignClient | undefined) => {
         return;
       }
 
-      switch (method) {
+      switch (decodedRequest.method) {
         case CosmosRPCMethods.GetAccounts:
           signClient.respond({
-            topic: args.topic,
+            topic: decodedRequest.topic,
             response: {
-              id: args.id,
+              id: decodedRequest.id,
               jsonrpc: '2.0',
               result: encodeGetAccountsRpcResponse([
                 {
@@ -89,29 +130,13 @@ const useOnSessionRequest = (signClient: SignClient | undefined) => {
           });
           break;
         case CosmosRPCMethods.SignAmino:
-          // TODO: handle SignAmino request
-          signClient.respond({
-            topic: args.topic,
-            response: {
-              id: args.id,
-              jsonrpc: '2.0',
-              error: getSdkError('UNSUPPORTED_METHODS'),
-            },
-          });
-          break;
         case CosmosRPCMethods.SignDirect:
-          // TODO: handle SignDirect request
-          signClient.respond({
-            topic: args.topic,
-            response: {
-              id: args.id,
-              jsonrpc: '2.0',
-              error: getSdkError('UNSUPPORTED_METHODS'),
-            },
-          });
+          storeSessionRequest(decodedRequest);
+          navigation.navigate(ROUTES.WALLET_CONNECT_REQUEST);
           break;
         default:
-          console.error('invalid wallet connect method', method);
+          // @ts-ignore
+          console.error('unsupported method', decodedRequest.method);
           signClient.respond({
             topic: args.topic,
             response: {
@@ -123,11 +148,11 @@ const useOnSessionRequest = (signClient: SignClient | undefined) => {
           break;
       }
     },
-    [accounts, flatSessions, signClient],
+    [accounts, getSessionByTopic, navigation, signClient, storeSessionRequest],
   );
 };
 
-const useOnSessionDelete = (signClient: SignClient | undefined) => {
+const useOnSessionDelete = () => {
   const removeSessionByTopic = useRemoveSessionByTopic();
 
   return useCallback(
@@ -139,17 +164,11 @@ const useOnSessionDelete = (signClient: SignClient | undefined) => {
   );
 };
 
-const useOnSessionEvent = (signClient: SignClient | undefined) =>
-  useCallback((args: SignClientTypes.EventArguments['session_event']) => {
-    console.log('session_event', args);
-  }, []);
-
 const useInitWalletConnectClient = () => {
   const setWalletConnectClient = useSetWalletConnectClient();
   const client = useWalletConnectClient();
   const onSessionRequest = useOnSessionRequest(client?.client);
-  const onSessionDelete = useOnSessionDelete(client?.client);
-  const onSessionEvent = useOnSessionEvent(client?.client);
+  const onSessionDelete = useOnSessionDelete();
   const deleteSessionByTopic = useRemoveSessionByTopic();
   const savedSessions = useWalletConnectSessions();
 
@@ -160,14 +179,6 @@ const useInitWalletConnectClient = () => {
       client?.client.off('session_request', onSessionRequest);
     };
   }, [onSessionRequest, client]);
-
-  // Effect to subscribe and unsubscribe to session_event
-  useEffect(() => {
-    client?.client.on('session_event', onSessionEvent);
-    return () => {
-      client?.client.off('session_event', onSessionEvent);
-    };
-  }, [onSessionEvent, client]);
 
   // Effect to subscribe and unsubscribe to session_delete
   useEffect(() => {
@@ -180,7 +191,6 @@ const useInitWalletConnectClient = () => {
   return useCallback(async () => {
     try {
       const signClient = await SignClient.init({
-        // logger: __DEV__ ? 'debug' : undefined,
         projectId: WALLET_CONNECT_PROJECT_ID,
         metadata: {
           name: 'Desmos Profile Manager',

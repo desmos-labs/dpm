@@ -8,7 +8,7 @@ import { WalletConnectSessionProposal } from 'types/walletConnect';
 /**
  * Hook that provides a function to accept a session request.
  */
-export default function useWalletConnectApproveSessionRequest() {
+export default function useWalletConnectApproveSessionProposal() {
   const wcClient = useWalletConnectClient();
   const activeAccount = useActiveAccount();
   const storeSession = useStoreWalletConnectSession();

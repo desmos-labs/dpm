@@ -1,5 +1,10 @@
 import SignClient from '@walletconnect/sign-client';
-import { ProposalTypes, SignClientTypes } from '@walletconnect/types';
+import { ProposalTypes } from '@walletconnect/types';
+import {
+  WalletConnectGetAccountsRequest as GetAccountsRequest,
+  WalletConnectSignAminoRequest as SignAminoRequest,
+  WalletConnectSignDirectRequest as SignDirectRequest,
+} from '@desmoslabs/desmjs-walletconnect-v2';
 
 /**
  * Interface that represents a WalletConnect client.
@@ -35,10 +40,15 @@ export interface WalletConnectSessionProposal {
   readonly iconUri?: string;
 }
 
-/**
- * Interface that represents a WalletConnect request
- * to exec an operation.
- */
-export interface WalletConnectRequest {
-  readonly request: SignClientTypes.EventArguments['session_request'];
+interface RequestExtraField {
+  accountAddress: string;
 }
+
+export type WalletConnectGetAccountsRequest = GetAccountsRequest & RequestExtraField;
+export type WalletConnectSignAminoRequest = SignAminoRequest & RequestExtraField;
+export type WalletConnectSignDirectRequest = SignDirectRequest & RequestExtraField;
+
+export type WalletConnectRequest =
+  | WalletConnectGetAccountsRequest
+  | WalletConnectSignAminoRequest
+  | WalletConnectSignDirectRequest;

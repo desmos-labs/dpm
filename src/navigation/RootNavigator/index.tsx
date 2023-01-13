@@ -34,6 +34,7 @@ import WalletConnectSessionProposal, {
 } from 'screens/WalletConnectSessionProposal';
 import SettingsJoinCommunity from 'screens/SettingsJoinCommunity';
 import MarkdownText, { MarkdownTextProps } from 'screens/MarkdownText';
+import WalletConnectRequest from 'screens/WalletConnectRequest';
 
 export type RootNavigatorParamList = {
   [ROUTES.DEV_SCREEN]: undefined;
@@ -55,7 +56,6 @@ export type RootNavigatorParamList = {
   [ROUTES.SCAN_QR_CODE]: undefined;
   [ROUTES.WALLET_CONNECT_SESSIONS]: undefined;
   [ROUTES.WALLET_CONNECT_SESSION_PROPOSAL]: WalletConnectSessionProposalParams;
-  [ROUTES.WALLET_CONNECT_REQUEST_LIST]: undefined;
   [ROUTES.WALLET_CONNECT_REQUEST]: undefined;
 
   [ROUTES.PROFILE]: ProfileParams | undefined;
@@ -127,6 +127,7 @@ const RootNavigator = () => {
         name={ROUTES.WALLET_CONNECT_SESSION_PROPOSAL}
         component={WalletConnectSessionProposal}
       />
+      <Stack.Screen name={ROUTES.WALLET_CONNECT_REQUEST} component={WalletConnectRequest} />
 
       <Stack.Screen name={ROUTES.PROFILE} component={Profile} />
       <Stack.Screen name={ROUTES.EDIT_PROFILE} component={EditProfile} />
