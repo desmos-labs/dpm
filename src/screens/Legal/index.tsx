@@ -1,4 +1,3 @@
-import BluetoothTransport from '@ledgerhq/react-native-hw-transport-ble';
 import { CompositeScreenProps } from '@react-navigation/native';
 import { StackScreenProps } from '@react-navigation/stack';
 import React, { useCallback } from 'react';
@@ -6,7 +5,6 @@ import { useTranslation } from 'react-i18next';
 import Padding from 'components/Flexible/Padding';
 import Flexible from 'components/Flexible';
 import Typography from 'components/Typography';
-import { DesmosLedgerApp } from 'config/LedgerApps';
 import { AccountCreationStackParams, RootStackParams } from 'types/navigation';
 import StyledSafeAreaView from 'components/StyledSafeAreaView';
 import TopBar from 'components/TopBar';
@@ -60,20 +58,6 @@ const Legal: React.FC<Props> = (props) => {
         params: undefined,
       });
     } else if (mode === 'ledger') {
-      navigation.navigate({
-        name: 'ConnectToLedgerScreens',
-        params: {
-          ledgerApp: DesmosLedgerApp,
-          onConnectionEstablished: (transport: BluetoothTransport) => {
-            navigation.navigate({
-              name: 'PickDerivationPath',
-              params: {
-                ledgerTransport: transport,
-              },
-            });
-          },
-        },
-      });
     }
   }, [navigation, mode]);
 

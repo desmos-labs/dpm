@@ -1,15 +1,11 @@
-import { StackScreenProps } from '@react-navigation/stack';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { TouchableOpacity } from 'react-native';
 import Typography from 'components/Typography';
-import { AccountScreensStackParams } from 'types/navigation';
 import StyledSafeAreaView from 'components/StyledSafeAreaView';
 import TopBar from 'components/TopBar';
 import VerticalInput from './components/VerticalInput';
 import useStyles from './useStyles';
-
-type Props = StackScreenProps<AccountScreensStackParams, 'SettingsScreens'>;
 
 /**
  This component is unfinished and not used
@@ -49,6 +45,5 @@ const Feedback: React.FC<Props> = (props) => {
     </StyledSafeAreaView>
   );
 };
-
 
 export default Feedback;

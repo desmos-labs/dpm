@@ -1,16 +1,12 @@
-import { StackScreenProps } from '@react-navigation/stack';
 import React, { useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Linking } from 'react-native';
 import TransactionDetails from 'components/TransactionDetails';
-import { AccountScreensStackParams } from 'types/navigation';
 import StyledSafeAreaView from 'components/StyledSafeAreaView';
 import TopBar from 'components/TopBar';
 import Button from 'components/Button';
 import { DesmosMainnet } from '@desmoslabs/desmjs';
 import { useCurrentChainInfo } from '@recoil/settings';
-
-export type Props = StackScreenProps<AccountScreensStackParams, 'TxDetails'>;
 
 const TxDetails: React.FC<Props> = (props) => {
   const {

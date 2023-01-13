@@ -1,172 +1,29 @@
-import { StdFee } from '@cosmjs/amino';
-import { EncodeObject } from '@cosmjs/proto-signing';
-import BluetoothTransport from '@ledgerhq/react-native-hw-transport-ble';
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { CommonActions, NavigatorScreenParams, Route } from '@react-navigation/native';
-import { StackNavigationState } from '@react-navigation/routers/lib/typescript/src/StackRouter';
-import { createStackNavigator } from '@react-navigation/stack';
-import { Account } from 'types/account';
-import { DesmosProfile } from './desmos';
-import { LedgerApp } from './ledger';
-import { Wallet } from './wallet';
-import { SessionRequestDetails } from './walletConnect';
+import { Route } from '@react-navigation/native';
 
 export type AccountCreationStackParams = {
-  Login: undefined;
   Legal: {
     mode: 'create' | 'import' | 'ledger';
   };
-  GenerateNewMnemonic: undefined;
-  ImportRecoveryPassphrase: undefined;
-  CheckMnemonic: {
-    mnemonic: string;
-  };
-  PickDerivationPath: {
-    mnemonic?: string;
-    ledgerTransport?: BluetoothTransport;
-  };
-  ChangeWalletPassword: {
-    password: string;
-    wallet: Wallet;
-  };
-  GenerateAccount: {
-    password: string;
-    wallet: Wallet;
-  };
 };
-
-export type HomeScreensBottomTabsParams = {
-  Home: undefined;
-  Authorization: undefined;
-  ScanQr: undefined;
-};
-
-export const HomeScreensBottomTabs = createBottomTabNavigator<HomeScreensBottomTabsParams>();
 
 export type AccountScreensStackParams = {
-  HomeScreens: NavigatorScreenParams<HomeScreensBottomTabsParams>;
-  EditProfile: {
-    account?: Account;
-    profile?: DesmosProfile | null;
-    bio?: string | null;
-    goBackTo?: string;
-    feeGranter?: string;
-  };
-  BiographyEditor: {
-    bio?: string;
-  };
-  ConfirmProfileEdit: {
-    account: Account;
-    /**
-     * The profile before modifications.
-     */
-    oldProfile: Partial<DesmosProfile>;
-    /**
-     * The profile created from the user.
-     */
-    profile: DesmosProfile;
-    /**
-     * Local URI to the new cover picture.
-     */
-    localCoverPictureUri?: string;
-    /**
-     * Local URI to the new profile picture.
-     */
-    localProfilePictureUri?: string;
-    /**
-     * Name of the route to go back to.
-     */
-    goBackTo?: string;
-    /**
-     * Address of the account that will pay for the transaction.
-     */
-    feeGranter?: string;
-  };
-  AuthorizeSession: {
-    sessionRequestDetails: SessionRequestDetails;
-  };
-  TxDetails: {
-    hash: string;
-    messages: EncodeObject[];
-    fee: StdFee;
-    success: boolean;
-    dateTime: Date;
-    memo?: string;
-  };
   WalletConnectCallRequest: undefined;
-  SettingsScreens: NavigatorScreenParams<SettingsScreensStackParams>;
 };
 
 export type SettingsScreensStackParams = {
-  Settings: undefined;
-  DisplayMode: undefined;
-  SwitchChain: undefined;
-  JoinCommunity: undefined;
-  CheckOldPassword: undefined;
   HandleBiometrics: {
     biometricsType: 'biometricsLogin' | 'biometricsSignature';
   };
-  CreateNewPassword: {
-    wallet?: any;
-  };
 };
-
-export const SettingsScreensStack = createStackNavigator<SettingsScreensStackParams>();
 
 export type AuthorizeOperationResolveParams = {
   authorized: boolean;
-  wallet: any | null;
 };
 
 export type RootStackParams = {
-  SplashScreen: undefined;
   AccountCreationScreens: undefined;
   UnlockApplication: {
     oldRoute: Route<string> | undefined;
     oldState: any;
   };
-  AccountScreens: NavigatorScreenParams<AccountScreensStackParams>;
-  MarkdownText: {
-    /**
-     * Title that will be displayed on top of the page
-     */
-    title: string;
-    /**
-     * The text that will be displayed.
-     * If both asset and text are defined will displayed
-     * the asset content.
-     */
-    text?: string;
-    /**
-     * Path to the asset to display.
-     * If both asset and text are defined will displayed
-     * the asset content.
-     */
-    asset?: string;
-  };
-  ConnectToLedgerScreens: {
-    ledgerApp: LedgerApp;
-    onConnectionEstablished: (transport: BluetoothTransport) => void;
-    /**
-     * If true closes the screen after connecting
-     * to the ledger.
-     */
-    autoClose?: boolean;
-    onCancel?: () => void;
-  };
-};
-
-export const resetTo = (routeName: string) => (state: StackNavigationState<any>) => {
-  const routeIndex = state.routes.findIndex((item) => item.name === routeName);
-
-  if (routeIndex >= 0) {
-    const routes = state.routes.slice(0, routeIndex + 1);
-    return CommonActions.reset({
-      ...state,
-      routes,
-      index: routes.length - 1,
-    });
-  }
-  console.error(`Can't find route with name: ${routeName}`);
-  return CommonActions.navigate({ name: routeName });
 };
