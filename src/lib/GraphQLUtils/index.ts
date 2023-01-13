@@ -1,4 +1,4 @@
-import { ApplicationLink, ChainLink } from 'types/desmos';
+import { ApplicationLink, ChainLink, DesmosProfile } from 'types/desmos';
 import { applicationLinkStateFromJSON } from '@desmoslabs/desmjs-types/desmos/profiles/v3/models_app_links';
 
 /**
@@ -30,3 +30,5 @@ export const convertGraphQLApplicationLink = (applicationLink: any) =>
     state: applicationLinkStateFromJSON(applicationLink.state),
     username: applicationLink.username,
   } as ApplicationLink);
+
+export const convertGraphQLProfile = (profile: any) => profile as DesmosProfile;

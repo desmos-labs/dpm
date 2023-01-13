@@ -1,5 +1,5 @@
-import React from 'react';
-import { useLazyQuery } from '@apollo/client';
+import { useEffect } from 'react';
+import { useQuery } from '@apollo/client';
 import { selector, useRecoilValue } from 'recoil';
 import GetProfileForAddress from 'services/graphql/queries/GetProfileForAddress';
 import { DesmosProfile } from 'types/desmos';
@@ -21,21 +21,15 @@ const activeProfileAppState = selector<DesmosProfile | undefined>({
 });
 
 const useActiveProfile = () => {
-  const activeAddress = useActiveAccountAddress();
+  const activeAddress = useActiveAccountAddress()!;
   const storeProfile = useStoreProfile();
   const activeProfile = useRecoilValue(activeProfileAppState);
 
-  const [, { loading, refetch }] = useLazyQuery(GetProfileForAddress, {
+  const { data, loading, refetch } = useQuery(GetProfileForAddress, {
     variables: { address: activeAddress },
-    fetchPolicy: 'no-cache',
   });
 
-  const fetchActiveProfile = React.useCallback(async () => {
-    if (!activeAddress) {
-      return;
-    }
-
-    const { data } = await refetch({ address: activeAddress });
+  useEffect(() => {
     if (!data) {
       return;
     }
@@ -43,12 +37,12 @@ const useActiveProfile = () => {
     const { profile } = data;
     const [firstProfile] = profile;
     storeProfile(activeAddress, firstProfile);
-  }, [activeAddress, refetch, storeProfile]);
+  }, [activeAddress, data, storeProfile]);
 
   return {
     profile: activeProfile,
     loading,
-    refetch: fetchActiveProfile,
+    refetch,
   };
 };
 
