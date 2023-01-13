@@ -21,7 +21,7 @@ const activeProfileAppState = selector<DesmosProfile | undefined>({
 });
 
 const useActiveProfile = () => {
-  const activeAddress = useActiveAccountAddress()!;
+  const activeAddress = useActiveAccountAddress();
   const storeProfile = useStoreProfile();
   const activeProfile = useRecoilValue(activeProfileAppState);
 
@@ -30,7 +30,7 @@ const useActiveProfile = () => {
   });
 
   useEffect(() => {
-    if (!data) {
+    if (!data || !activeAddress) {
       return;
     }
 

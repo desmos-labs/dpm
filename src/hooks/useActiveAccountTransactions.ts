@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useQuery } from '@apollo/client';
 import GetTransactionsByAddress from 'services/graphql/queries/GetTransactionsByAddress';
-import { useActiveAccount } from '@recoil/activeAccount';
+import { useActiveAccountAddress } from '@recoil/activeAccount';
 import { GroupedTransactions } from 'types/transactions';
 import convertGQLTxsResponse from 'lib/TransactionUtils';
 
@@ -10,7 +10,7 @@ import convertGQLTxsResponse from 'lib/TransactionUtils';
  * @param address - Address of the user for which to query the transactions.
  * @param page - Number of transactions page to be queried.
  */
-const getQueryVariables = (address: string, page: number) => ({
+const getQueryVariables = (address: string | undefined, page: number) => ({
   address: `{${address}}`,
   limit: 20,
   offset: 20 * page,
@@ -21,12 +21,11 @@ const getQueryVariables = (address: string, page: number) => ({
  * Hook that allows to get the active account transactions from the chain.
  */
 const useActiveAccountTransactions = () => {
-  const account = useActiveAccount()!;
-
+  const address = useActiveAccountAddress();
   const [, setPage] = useState(0);
 
   const { data, loading, fetchMore, refetch } = useQuery(GetTransactionsByAddress, {
-    variables: getQueryVariables(account.address, 0),
+    variables: getQueryVariables(address, 0),
   });
 
   const transactions: GroupedTransactions[] | undefined = React.useMemo(
@@ -40,7 +39,7 @@ const useActiveAccountTransactions = () => {
       // If we did that, we would trigger the re-creation on that function each time the page changes,
       // which would trigger any callback that depends on this function (i.e. inside the Home page)
       fetchMore({
-        variables: getQueryVariables(account.address, curValue + 1),
+        variables: getQueryVariables(address, curValue + 1),
         updateQuery: (prev, { fetchMoreResult }) => {
           if (!fetchMoreResult) {
             return prev;
@@ -53,7 +52,7 @@ const useActiveAccountTransactions = () => {
       });
       return curValue + 1;
     });
-  }, [account.address, fetchMore]);
+  }, [address, fetchMore]);
 
   return {
     loading,

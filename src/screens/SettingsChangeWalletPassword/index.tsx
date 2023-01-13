@@ -9,8 +9,9 @@ import Button from 'components/Button';
 import { RootNavigatorParamList } from 'navigation/RootNavigator';
 import ROUTES from 'navigation/routes';
 import { useTranslation } from 'react-i18next';
-import { checkUserPassword, setUserPassword } from 'lib/SecureStorage';
+import { setUserPassword } from 'lib/SecureStorage';
 import Spacer from 'components/Spacer';
+import { useChangeUserPassword } from 'screens/SettingsChangeWalletPassword/useHooks';
 import useStyles from './useStyles';
 
 type NavProps = StackScreenProps<
@@ -22,6 +23,8 @@ const SettingsChangeWalletPassword = (props: NavProps) => {
   const { navigation } = props;
   const { t } = useTranslation('settings');
   const styles = useStyles();
+
+  const { loading: changingPassword, changePassword } = useChangeUserPassword();
 
   const [oldPassword, setOldPassword] = useState<string | undefined>(undefined);
   const [oldPasswordError, setOldPasswordError] = useState<string | undefined>(undefined);
@@ -45,8 +48,8 @@ const SettingsChangeWalletPassword = (props: NavProps) => {
   );
 
   const onContinue = useCallback(async () => {
-    const isOldPasswordValid = await checkUserPassword(oldPassword || '');
-    if (!isOldPasswordValid) {
+    const success = await changePassword(oldPassword, newPassword);
+    if (!success) {
       setOldPasswordError(t('common:invalid password'));
       return;
     }
@@ -58,7 +61,7 @@ const SettingsChangeWalletPassword = (props: NavProps) => {
     // Set the new password and go back
     await setUserPassword(newPassword);
     navigation.goBack();
-  }, [navigation, newPassword, oldPassword, t]);
+  }, [changePassword, navigation, newPassword, oldPassword, t]);
 
   return (
     <StyledSafeAreaView
@@ -97,7 +100,6 @@ const SettingsChangeWalletPassword = (props: NavProps) => {
             value={newPassword}
             onChangeText={onNewPasswordChange}
             onSubmitEditing={onContinue}
-            autoFocus
           />
           <Typography.Body style={styles.errorParagraph}>{/* {errorMessage} */}</Typography.Body>
         </View>
@@ -108,7 +110,12 @@ const SettingsChangeWalletPassword = (props: NavProps) => {
         keyboardVerticalOffset={Platform.OS === 'ios' ? 110 : 0}
         {...(Platform.OS === 'ios' ? { behavior: 'padding' } : {})}
       >
-        <Button mode="contained" onPress={onContinue} disabled={!canContinue}>
+        <Button
+          mode="contained"
+          onPress={onContinue}
+          disabled={!canContinue}
+          loading={changingPassword}
+        >
           {t('common:confirm')}
         </Button>
       </KeyboardAvoidingView>

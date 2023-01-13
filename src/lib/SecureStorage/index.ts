@@ -117,6 +117,16 @@ export async function resetSecureStorage(): Promise<void> {
   await Promise.all(keys.map(async (key) => resetGenericPassword({ service: key })));
 }
 
+async function storeWallet(wallet: SerializableWallet, password: string) {
+  const result = await setItem(`${wallet.address}${SECURE_STORAGE_KEYS.WALLET_SUFFIX}`, wallet, {
+    password,
+  });
+
+  if (!result) {
+    throw new Error(`error while saving wallet ${wallet.address}`);
+  }
+}
+
 /**
  * Saves a wallet into the device storage.
  * @param wallet - Wallet instance to save.
@@ -124,18 +134,7 @@ export async function resetSecureStorage(): Promise<void> {
  */
 export const saveWallet = async (wallet: Wallet, password: string) => {
   const serializableWallet = serializeWallet(wallet);
-
-  const result = await setItem(
-    `${wallet.address}${SECURE_STORAGE_KEYS.WALLET_SUFFIX}`,
-    serializableWallet,
-    {
-      password,
-    },
-  );
-
-  if (!result) {
-    throw new Error(`error while saving wallet ${wallet.address}`);
-  }
+  await storeWallet(serializableWallet, password);
 };
 
 /**
@@ -202,4 +201,33 @@ export const checkUserPassword = async (password: string) => {
   }
 
   return value === passwordChallenge;
+};
+
+/**
+ * Allows to change the password that is used in order to encrypt the wallets of the user.
+ * @param oldPassword {String} - Old password currently used to encrypt the wallet.
+ * @param newPassword {String} - New password that will be used to encrypt the wallet.
+ * @return `true` if all the operations are performed successfully, `false` otherwise.
+ * If `false` is returned, it means the input password is incorrect.
+ * @throws {Error} if for some reason the decryption of encryption fails.
+ */
+export const changeWalletsPassword = async (oldPassword: string, newPassword: string) => {
+  const isPasswordValid = await checkUserPassword(oldPassword);
+  if (!isPasswordValid) {
+    return false;
+  }
+
+  // Get all the wallet addresses
+  const services = await Keychain.getAllGenericPasswordServices();
+  const walletAddresses = services
+    .filter((key) => key.endsWith(SECURE_STORAGE_KEYS.WALLET_SUFFIX))
+    .map((key) => key.replace(SECURE_STORAGE_KEYS.WALLET_SUFFIX, ''));
+
+  // Decrypt and re-encrypt all the wallets with the new password
+  const wallets = await Promise.all(walletAddresses.map((key) => getWallet(key, oldPassword)));
+  await Promise.all(wallets.map((wallet) => storeWallet(wallet, newPassword)));
+
+  // Update the global password challenge
+  await setUserPassword(newPassword);
+  return true;
 };

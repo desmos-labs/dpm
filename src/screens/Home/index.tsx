@@ -38,7 +38,7 @@ const Home: React.FC<NavProps> = (props) => {
 
   const settings = useSettings();
 
-  const account = useActiveAccount()!;
+  const account = useActiveAccount();
   const { profile, refetch: updateProfile } = useActiveProfile();
   const { balance, loading: balanceLoading, refetch: updateBalance } = useActiveAccountBalance();
   const {
