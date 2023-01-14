@@ -1,8 +1,12 @@
 import { SignClientTypes } from '@walletconnect/types';
-import { WalletConnectSessionProposal } from 'types/walletConnect';
+import { WalletConnectRequest, WalletConnectSessionProposal } from 'types/walletConnect';
 import { Account } from 'types/account';
 import { WalletType } from 'types/wallet';
-import { CosmosRPCMethods } from '@desmoslabs/desmjs-walletconnect-v2';
+import {
+  CosmosRPCMethods,
+  DecodeResult,
+  decodeSessionRequest as decodeRequest,
+} from '@desmoslabs/desmjs-walletconnect-v2';
 import { desmosIconOrange } from 'assets/images';
 
 /**
@@ -61,3 +65,12 @@ export const walletConnectIconUriToImageSource = (iconUri: string | undefined) =
     return desmosIconOrange;
   }
 };
+
+export const decodeSessionRequest = (
+  request: SignClientTypes.EventArguments['session_request'],
+  accountAddress: string,
+): DecodeResult<WalletConnectRequest> =>
+  decodeRequest(request).map<WalletConnectRequest>((r) => ({
+    ...r,
+    accountAddress,
+  }));
