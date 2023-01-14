@@ -1,7 +1,5 @@
-import {
-  useRemoveWalletConnectSessionRequest,
-  useWalletConnectClient,
-} from '@recoil/walletconnect';
+import { useWalletConnectClient } from '@recoil/walletconnect';
+import { useRemoveWalletConnectSessionRequest } from '@recoil/walletConnectRequests';
 import { useCallback } from 'react';
 import { WalletConnectRequest } from 'types/walletConnect';
 

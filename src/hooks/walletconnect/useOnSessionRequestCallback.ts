@@ -1,7 +1,7 @@
 import SignClient from '@walletconnect/sign-client';
 import { useGetAccounts } from '@recoil/accounts';
 import { useGetSessionByTopic, useRemoveSessionByTopic } from '@recoil/walletConnectSessions';
-import { useStoreWalletConnectSessionRequest } from '@recoil/walletconnect';
+import { useStoreWalletConnectSessionRequest } from '@recoil/walletConnectRequests';
 import { useNavigation } from '@react-navigation/native';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { RootNavigatorParamList } from 'navigation/RootNavigator';

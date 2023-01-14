@@ -10,7 +10,7 @@ import TopBar from 'components/TopBar';
 import Button from 'components/Button';
 import { RootNavigatorParamList } from 'navigation/RootNavigator';
 import ROUTES from 'navigation/routes';
-import { useAllWalletConnectSessionsRequests } from '@recoil/walletconnect';
+import { useAllWalletConnectSessionsRequests } from '@recoil/walletConnectRequests';
 import {
   WalletConnectRequest as Request,
   WalletConnectSignAminoRequest,
