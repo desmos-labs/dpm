@@ -6,6 +6,7 @@ import { StackNavigationProp } from '@react-navigation/stack';
 import { RootNavigatorParamList } from 'navigation/RootNavigator';
 import ROUTES from 'navigation/routes';
 import { useActiveAccountAddress, useSetActiveAccountAddress } from '@recoil/activeAccount';
+import useWalletConnectCloseAccountSessions from 'hooks/walletconnect/useWalletConnectCloseAccountSessions';
 
 export default function useDeleteAccount() {
   const accounts = useGetAccounts();
@@ -13,6 +14,7 @@ export default function useDeleteAccount() {
   const setProfiles = useSetProfiles();
   const activeAccountAddress = useActiveAccountAddress();
   const setActiveAccountAddress = useSetActiveAccountAddress();
+  const closeAccountSessions = useWalletConnectCloseAccountSessions();
   const navigator = useNavigation<StackNavigationProp<RootNavigatorParamList>>();
 
   const deleteAccountAndProfileByAddress = useCallback(
@@ -37,6 +39,7 @@ export default function useDeleteAccount() {
 
   return useCallback(
     (accountAddress: string) => {
+      closeAccountSessions(accountAddress);
       const accountsCount = Object.keys(accounts).length;
       if (accountsCount === 1 && accounts[accountAddress] !== undefined) {
         navigator.reset({

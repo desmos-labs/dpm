@@ -7,7 +7,7 @@ import Button from 'components/Button';
 import { WalletConnectSession } from 'types/walletConnect';
 import FastImage from 'react-native-fast-image';
 import Spacer from 'components/Spacer';
-import useWalletConnectCloseSession from 'hooks/walletconnect/useWalletConnectRevokeSession';
+import useWalletConnectCloseSession from 'hooks/walletconnect/useWalletConnectCloseSession';
 import { walletConnectIconUriToImageSource } from 'lib/WalletConnectUtils';
 import useStyles from './useStyles';
 

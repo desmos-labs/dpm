@@ -93,3 +93,22 @@ export const useGetSessionByTopic = () => {
     [flattenSessions],
   );
 };
+
+/**
+ * Hook that provides a function to remove all the wallet connect sessions
+ * of a user from the app state.
+ */
+export const useWalletConnectClearAccountSessions = () => {
+  const setSessions = useSetRecoilState(walletConnectSessionsAppState);
+
+  return useCallback(
+    (accountAddress: string) => {
+      setSessions((currentSessions) => {
+        const newSessions = { ...currentSessions };
+        delete newSessions[accountAddress];
+        return newSessions;
+      });
+    },
+    [setSessions],
+  );
+};
