@@ -1,21 +1,13 @@
-import { StdFee } from '@cosmjs/amino';
 import { StackScreenProps } from '@react-navigation/stack';
-import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { View } from 'react-native';
-import { EncodeObject } from '@cosmjs/proto-signing';
 import TransactionDetails from 'components/TransactionDetails';
 import StyledSafeAreaView from 'components/StyledSafeAreaView';
 import TopBar from 'components/TopBar';
 import Button from 'components/Button';
 import { RootNavigatorParamList } from 'navigation/RootNavigator';
 import ROUTES from 'navigation/routes';
-import { useAllWalletConnectSessionsRequests } from '@recoil/walletConnectRequests';
-import {
-  WalletConnectRequest as Request,
-  WalletConnectSignAminoRequest,
-  WalletConnectSignDirectRequest,
-} from 'types/walletConnect';
 import {
   CosmosRPCMethods,
   encodeAminoSignRpcResponse,
@@ -28,6 +20,7 @@ import { useUnlockWallet } from 'hooks/useUnlockWallet';
 import { SigningMode } from '@desmoslabs/desmjs';
 import SingleButtonModal from 'modals/SingleButtonModal';
 import useShowModal from 'hooks/useShowModal';
+import { useRequestFields } from 'screens/WalletConnectRequest/useHooks';
 import useStyles from './useStyles';
 
 type NavProps = StackScreenProps<RootNavigatorParamList, ROUTES.WALLET_CONNECT_REQUEST>;
@@ -37,20 +30,14 @@ const WalletConnectRequest: React.FC<NavProps> = (props) => {
   const { t } = useTranslation();
   const styles = useStyles();
   const [signing, setSigning] = useState(false);
-  const requests = useAllWalletConnectSessionsRequests();
   const unlockWallet = useUnlockWallet();
   const walletConnectResponse = useWalletConnectRequestRespond();
   const walletConnectReject = useWalletConnectRequestReject();
   const showModal = useShowModal();
-
-  const request: Request | undefined = useMemo(() => {
-    if (requests.length > 0) {
-      return requests[0];
-    }
-    return undefined;
-  }, [requests]);
+  const { request, memo, stdFee, messages } = useRequestFields();
 
   useEffect(() => {
+    // Close the screen when we have processed all the requests.
     if (request === undefined) {
       navigation.goBack();
     }
@@ -66,36 +53,6 @@ const WalletConnectRequest: React.FC<NavProps> = (props) => {
     },
     [showModal, t],
   );
-
-  const stdFee: StdFee | undefined = useMemo(() => {
-    if (request?.method === CosmosRPCMethods.SignAmino) {
-      return (request as WalletConnectSignAminoRequest).fee;
-    }
-    if (request?.method === CosmosRPCMethods.SignDirect) {
-      return (request as WalletConnectSignDirectRequest).fee;
-    }
-    return undefined;
-  }, [request]);
-
-  const memo = useMemo(() => {
-    if (request?.method === CosmosRPCMethods.SignAmino) {
-      return (request as WalletConnectSignAminoRequest).memo;
-    }
-    if (request?.method === CosmosRPCMethods.SignDirect) {
-      return (request as WalletConnectSignDirectRequest).memo;
-    }
-    return undefined;
-  }, [request]);
-
-  const messages: EncodeObject[] = useMemo(() => {
-    if (request?.method === CosmosRPCMethods.SignAmino) {
-      return (request as WalletConnectSignAminoRequest).msgs;
-    }
-    if (request?.method === CosmosRPCMethods.SignDirect) {
-      return (request as WalletConnectSignDirectRequest).msgs;
-    }
-    return [];
-  }, [request]);
 
   const onReject = useCallback(async () => {
     if (request !== undefined) {
