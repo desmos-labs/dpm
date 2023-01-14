@@ -1,6 +1,6 @@
 import SignClient from '@walletconnect/sign-client';
 import { useGetAccounts } from '@recoil/accounts';
-import { useGetSessionByTopic, useRemoveSessionByTopic } from '@recoil/walletConnectSessions';
+import { useGetSessionByTopic } from '@recoil/walletConnectSessions';
 import { useStoreWalletConnectSessionRequest } from '@recoil/walletConnectRequests';
 import { useNavigation } from '@react-navigation/native';
 import { StackNavigationProp } from '@react-navigation/stack';
@@ -19,50 +19,23 @@ const useOnSessionRequest = (signClient: SignClient | undefined) => {
   const accounts = useGetAccounts();
   const getSessionByTopic = useGetSessionByTopic();
   const storeSessionRequest = useStoreWalletConnectSessionRequest();
-  const removeSessionByTopic = useRemoveSessionByTopic();
   const navigation = useNavigation<StackNavigationProp<RootNavigatorParamList>>();
 
   return useCallback(
-    (args: SignClientTypes.EventArguments['session_request']) => {
+    (args: SignClientTypes.EventArguments['session_request'], showRequest?: boolean) => {
       if (signClient === undefined) {
         return;
       }
 
       // Find the session from the app state sessions.
       const session = getSessionByTopic(args.topic);
-
       if (session === undefined) {
-        console.error("can't find session with topic", args.topic);
-        signClient.respond({
-          topic: args.topic,
-          response: {
-            id: args.id,
-            jsonrpc: '2.0',
-            error: getSdkError('USER_DISCONNECTED'),
-          },
-        });
+        // @ts-ignore
+        signClient.pendingRequest.delete(args.topic, getSdkError('USER_DISCONNECTED'));
         return;
       }
 
       const account = accounts[session.accountAddress];
-      if (account === undefined) {
-        console.error("can't find account with address", session.accountAddress);
-        signClient.respond({
-          topic: args.topic,
-          response: {
-            id: args.id,
-            jsonrpc: '2.0',
-            error: getSdkError('USER_DISCONNECTED'),
-          },
-        });
-        signClient.disconnect({
-          topic: session.topic,
-          reason: getSdkError('USER_DISCONNECTED'),
-        });
-        removeSessionByTopic(session.topic);
-        return;
-      }
-
       const supportedMethods = getAccountSupportedMethods(account);
       if (supportedMethods.indexOf(args.params.request.method) === -1) {
         console.error(`account ${account.address} don't support`, args.params.request.method);
@@ -115,7 +88,9 @@ const useOnSessionRequest = (signClient: SignClient | undefined) => {
         case CosmosRPCMethods.SignAmino:
         case CosmosRPCMethods.SignDirect:
           storeSessionRequest(decodedRequest);
-          navigation.navigate(ROUTES.WALLET_CONNECT_REQUEST);
+          if (showRequest !== false) {
+            navigation.navigate(ROUTES.WALLET_CONNECT_REQUEST);
+          }
           break;
         default:
           // @ts-ignore
@@ -131,14 +106,7 @@ const useOnSessionRequest = (signClient: SignClient | undefined) => {
           break;
       }
     },
-    [
-      accounts,
-      getSessionByTopic,
-      navigation,
-      removeSessionByTopic,
-      signClient,
-      storeSessionRequest,
-    ],
+    [accounts, getSessionByTopic, navigation, signClient, storeSessionRequest],
   );
 };
 

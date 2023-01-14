@@ -3,15 +3,8 @@ import { useCallback, useEffect } from 'react';
 import SignClient from '@walletconnect/sign-client';
 import { WALLET_CONNECT_PROJECT_ID } from '@env';
 import * as WalletConnectMMKV from 'lib/MMKVStorage/walletconnect';
-import {
-  useGetSessionByTopic,
-  useRemoveSessionByTopic,
-  useWalletConnectSessions,
-} from '@recoil/walletConnectSessions';
+import { useRemoveSessionByTopic, useWalletConnectSessions } from '@recoil/walletConnectSessions';
 import useOnSessionRequestCallback from 'hooks/walletconnect/useOnSessionRequestCallback';
-import { decodeSessionRequest } from 'lib/WalletConnectUtils';
-import { getSdkError } from '@walletconnect/utils';
-import { useStoreWalletConnectSessionRequest } from '@recoil/walletConnectRequests';
 import useOnSessionDeleteCallback from './useOnSessionDeleteCallback';
 
 const useInitWalletConnectClient = () => {
@@ -21,8 +14,6 @@ const useInitWalletConnectClient = () => {
   const onSessionDelete = useOnSessionDeleteCallback();
   const deleteSessionByTopic = useRemoveSessionByTopic();
   const savedSessions = useWalletConnectSessions();
-  const getSessionByTopic = useGetSessionByTopic();
-  const storeSessionRequest = useStoreWalletConnectSessionRequest();
 
   // Effect to subscribe and unsubscribe to session_request
   useEffect(() => {
@@ -62,44 +53,13 @@ const useInitWalletConnectClient = () => {
         .filter((s) => !activeSessions.find((as) => as.topic === s.topic))
         .forEach(({ topic }) => deleteSessionByTopic(topic));
 
-      signClient.pendingRequest.values.forEach((pendingRequest) => {
-        const session = getSessionByTopic(pendingRequest.topic);
-        if (session === undefined) {
-          signClient.respond({
-            topic: pendingRequest.topic,
-            response: {
-              id: pendingRequest.id,
-              jsonrpc: '2.0',
-              error: getSdkError('USER_DISCONNECTED'),
-            },
-          });
-          return;
-        }
-
-        const decoded = decodeSessionRequest(pendingRequest, session.accountAddress);
-        if (decoded.isError()) {
-          signClient.respond({
-            topic: pendingRequest.topic,
-            response: {
-              id: pendingRequest.id,
-              jsonrpc: '2.0',
-              error: getSdkError('INVALID_METHOD'),
-            },
-          });
-        } else {
-          storeSessionRequest(decoded.value);
-        }
+      signClient.pendingRequest.values.forEach((pendingRequest, index, array) => {
+        onSessionRequest(pendingRequest, array.length - 1 === index);
       });
     } catch (e) {
       console.warn('Error initializing Wallet connect', e);
     }
-  }, [
-    deleteSessionByTopic,
-    getSessionByTopic,
-    savedSessions,
-    setWalletConnectClient,
-    storeSessionRequest,
-  ]);
+  }, [deleteSessionByTopic, onSessionRequest, savedSessions, setWalletConnectClient]);
 };
 
 export default useInitWalletConnectClient;

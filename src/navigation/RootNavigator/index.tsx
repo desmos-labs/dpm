@@ -87,7 +87,7 @@ const RootNavigator = () => {
         console.log('wallet connect client initialized');
       }
     });
-  }, [initWalletConnect]);
+  }, []);
 
   return (
     <Stack.Navigator
