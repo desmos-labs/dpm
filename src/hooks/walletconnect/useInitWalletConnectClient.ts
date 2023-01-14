@@ -18,7 +18,6 @@ import { getSdkError } from '@walletconnect/utils';
 import { getAccountSupportedMethods } from 'lib/WalletConnectUtils';
 import {
   CosmosRPCMethods,
-  decodeAminoSignRpcRequestParams,
   decodeSessionRequest,
   encodeGetAccountsRpcResponse,
 } from '@desmoslabs/desmjs-walletconnect-v2';
@@ -32,6 +31,7 @@ const useOnSessionRequest = (signClient: SignClient | undefined) => {
   const accounts = useGetAccounts();
   const getSessionByTopic = useGetSessionByTopic();
   const storeSessionRequest = useStoreWalletConnectSessionRequest();
+  const removeSessionByTopic = useRemoveSessionByTopic();
   const navigation = useNavigation<StackNavigationProp<RootNavigatorParamList>>();
 
   return useCallback(
@@ -67,21 +67,32 @@ const useOnSessionRequest = (signClient: SignClient | undefined) => {
             error: getSdkError('USER_DISCONNECTED'),
           },
         });
+        signClient.disconnect({
+          topic: session.topic,
+          reason: getSdkError('USER_DISCONNECTED'),
+        });
+        removeSessionByTopic(session.topic);
         return;
       }
 
       const supportedMethods = getAccountSupportedMethods(account);
-
-      if (args.params.request.method === CosmosRPCMethods.SignAmino) {
-        const { signDoc } = decodeAminoSignRpcRequestParams(args.params.request.params).value;
-        console.log(signDoc.msgs);
+      if (supportedMethods.indexOf(args.params.request.method) === -1) {
+        console.error(`account ${account.address} don't support`, args.params.request.method);
+        signClient.respond({
+          topic: args.topic,
+          response: {
+            id: args.id,
+            jsonrpc: '2.0',
+            error: getSdkError('INVALID_METHOD'),
+          },
+        });
+        return;
       }
 
       const decodeResult = decodeSessionRequest(args).map<WalletConnectRequest>((request) => ({
         ...request,
         accountAddress: session.accountAddress,
       }));
-
       if (decodeResult.isError()) {
         console.error(`decode request error ${decodeResult.error}`);
         signClient.respond({
@@ -99,19 +110,6 @@ const useOnSessionRequest = (signClient: SignClient | undefined) => {
       }
 
       const decodedRequest = decodeResult.value;
-      if (supportedMethods.indexOf(decodedRequest.method) === -1) {
-        console.error(`account ${account.address} don't support`, decodedRequest.method);
-        signClient.respond({
-          topic: args.topic,
-          response: {
-            id: args.id,
-            jsonrpc: '2.0',
-            error: getSdkError('INVALID_METHOD'),
-          },
-        });
-        return;
-      }
-
       switch (decodedRequest.method) {
         case CosmosRPCMethods.GetAccounts:
           signClient.respond({
@@ -148,7 +146,14 @@ const useOnSessionRequest = (signClient: SignClient | undefined) => {
           break;
       }
     },
-    [accounts, getSessionByTopic, navigation, signClient, storeSessionRequest],
+    [
+      accounts,
+      getSessionByTopic,
+      navigation,
+      removeSessionByTopic,
+      signClient,
+      storeSessionRequest,
+    ],
   );
 };
 
