@@ -10,7 +10,10 @@ import Button from 'components/Button';
 import { RootNavigatorParamList } from 'navigation/RootNavigator';
 import ROUTES from 'navigation/routes';
 import { AccountWithWallet } from 'types/account';
-import { checkUserPassword } from 'lib/SecureStorage';
+import { checkUserPassword, getBiometricPassword } from 'lib/SecureStorage';
+import { useSettings } from '@recoil/settings';
+import { BiometricAuthorizations } from 'types/settings';
+import { useFocusEffect } from '@react-navigation/native';
 import useStyles from './useStyles';
 
 export interface CheckWalletPasswordParams {
@@ -31,6 +34,7 @@ const CheckWalletPassword = (props: NavProps) => {
   const styles = useStyles();
   const [password, setPassword] = useState('');
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
+  const appSettings = useSettings();
 
   const onPasswordChange = (text: string) => {
     setPassword(text);
@@ -55,6 +59,26 @@ const CheckWalletPassword = (props: NavProps) => {
       setErrorMessage(t('wrong confirmation password'));
     }
   }, [navigation, password, route, t]);
+
+  const continueWithBiometrics = useCallback(async () => {
+    const biometricPassword = await getBiometricPassword(BiometricAuthorizations.UnlockWallet);
+    if (biometricPassword) {
+      navigation.navigate(ROUTES.SAVE_GENERATED_ACCOUNT, {
+        account: route.params.account,
+        password,
+      });
+    }
+  }, [navigation, password, route.params.account]);
+
+  useFocusEffect(
+    useCallback(() => {
+      if (appSettings.unlockWalletWithBiometrics) {
+        setTimeout(continueWithBiometrics, 500);
+      }
+
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []),
+  );
 
   return (
     <StyledSafeAreaView style={styles.root} topBar={<TopBar stackProps={props} />}>

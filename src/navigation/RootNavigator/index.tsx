@@ -37,6 +37,9 @@ import MarkdownText, { MarkdownTextProps } from 'screens/MarkdownText';
 import WalletConnectRequest from 'screens/WalletConnectRequest';
 import { useActiveAccount } from '@recoil/activeAccount';
 import TxDetails, { TransactionDetailsParams } from 'screens/TxDetails';
+import SettingsEnableBiometricsAuthorization, {
+  EnableBiometricsAuthorizationParams,
+} from 'screens/SettingsEnableBiometricsAuthorization';
 
 export type RootNavigatorParamList = {
   [ROUTES.DEV_SCREEN]: undefined;
@@ -72,6 +75,7 @@ export type RootNavigatorParamList = {
   [ROUTES.SETTINGS]: undefined;
   [ROUTES.SETTINGS_DISPLAY_MODE]: undefined;
   [ROUTES.SETTINGS_SWITCH_CHAIN]: undefined;
+  [ROUTES.SETTINGS_ENABLE_BIOMETRICS_AUTHORIZATION]: EnableBiometricsAuthorizationParams;
   [ROUTES.SETTINGS_CHANGE_APPLICATION_PASSWORD]: undefined;
   [ROUTES.SETTINGS_JOIN_COMMUNITY]: undefined;
 
@@ -165,6 +169,10 @@ const RootNavigator = () => {
       <Stack.Screen name={ROUTES.SETTINGS} component={Settings} />
       <Stack.Screen name={ROUTES.SETTINGS_DISPLAY_MODE} component={SettingsDisplayMode} />
       <Stack.Screen name={ROUTES.SETTINGS_SWITCH_CHAIN} component={SettingsSwitchChain} />
+      <Stack.Screen
+        name={ROUTES.SETTINGS_ENABLE_BIOMETRICS_AUTHORIZATION}
+        component={SettingsEnableBiometricsAuthorization}
+      />
       <Stack.Screen name={ROUTES.SETTINGS_JOIN_COMMUNITY} component={SettingsJoinCommunity} />
       <Stack.Screen
         name={ROUTES.SETTINGS_CHANGE_APPLICATION_PASSWORD}

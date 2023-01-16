@@ -4,9 +4,14 @@ import { decryptData, encryptData, EncryptedData } from 'lib/EncryptionUtils';
 import { SerializableWallet, Wallet } from 'types/wallet';
 import { serializeWallet } from 'lib/WalletUtils/serialize';
 import { deserializeWallet } from 'lib/WalletUtils/deserialize';
+import { BiometricAuthorizations } from 'types/settings';
 
 export enum SECURE_STORAGE_KEYS {
-  WALLET_PASSWORD = 'WALLET_PASSWORD',
+  /**
+   * Key used to store the user password encrypted with the
+   * user biometrics.
+   */
+  BIOMETRIC_AUTHORIZATION_SUFFIX = '_BIOMETRIC_AUTHORIZATION',
   WALLET_SUFFIX = '_WALLET',
   PASSWORD_CHALLENGE = 'PASSWORD_CHALLENGE',
 }
@@ -230,4 +235,54 @@ export const changeWalletsPassword = async (oldPassword: string, newPassword: st
   // Update the global password challenge
   await setUserPassword(newPassword);
   return true;
+};
+
+export const storeBiometricAuthorization = async (
+  authorizationType: BiometricAuthorizations,
+  password: string,
+) => {
+  const isPasswordValid = await checkUserPassword(password);
+  if (!isPasswordValid) {
+    throw new Error('invalid user password');
+  }
+
+  await setItem(
+    `${authorizationType}${SECURE_STORAGE_KEYS.BIOMETRIC_AUTHORIZATION_SUFFIX}`,
+    password,
+    {
+      biometrics: true,
+    },
+  );
+};
+
+/**
+ * Delete the password protected with biometric for the provided [BiometricAuthorizations].
+ */
+export const deleteBiometricAuthorization = async (authorizationType: BiometricAuthorizations) => {
+  const key = `${authorizationType}${SECURE_STORAGE_KEYS.BIOMETRIC_AUTHORIZATION_SUFFIX}`;
+  try {
+    // Get the item first to force the user to authenticate before delete.
+    await getItem(key, {
+      biometrics: true,
+    });
+    await deleteItem(key);
+    return true;
+  } catch (e) {
+    return false;
+  }
+};
+
+export const getBiometricPassword = async (authorizationType: BiometricAuthorizations) => {
+  try {
+    const password = await getItem<string>(
+      `${authorizationType}${SECURE_STORAGE_KEYS.BIOMETRIC_AUTHORIZATION_SUFFIX}`,
+      {
+        biometrics: true,
+      },
+    );
+
+    return password ?? undefined;
+  } catch (e) {
+    return undefined;
+  }
 };

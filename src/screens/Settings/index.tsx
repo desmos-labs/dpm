@@ -5,13 +5,14 @@ import { Linking } from 'react-native';
 import DeviceInfo from 'react-native-device-info';
 import Keychain from 'react-native-keychain';
 import Flexible from 'components/Flexible';
-import * as SecureStorage from 'lib/SecureStorage';
 import StyledSafeAreaView from 'components/StyledSafeAreaView';
 import { RootNavigatorParamList } from 'navigation/RootNavigator';
 import ROUTES from 'navigation/routes';
 import { useSetSettings, useSettings } from '@recoil/settings';
 import TopBar from 'components/TopBar';
 import OpenSettingScreenButton from 'screens/Settings/components/OpenSettingScreenButton';
+import { BiometricAuthorizations } from 'types/settings';
+import * as SecureStorage from 'lib/SecureStorage';
 import useStyles from './useStyles';
 
 export type NavProps = StackScreenProps<RootNavigatorParamList, ROUTES.SETTINGS>;
@@ -23,7 +24,7 @@ const Settings = (props: NavProps) => {
 
   const settings = useSettings();
   const setSettings = useSetSettings();
-  const [biometricsSupported, setBiometricsSupported] = React.useState<boolean>(false);
+  const [biometricsSupported, setBiometricsSupported] = React.useState(false);
 
   const sendFeedback = useCallback(async () => {
     Linking.openURL('mailto:development@forbole.com').catch((err) =>
@@ -52,31 +53,36 @@ const Settings = (props: NavProps) => {
   }, []);
 
   const navigateHandleBiometrics = useCallback(
-    async (biometricsType: 'biometricsLogin' | 'biometricsSignature') => {
-      // navigation.navigate({
-      //   name: 'HandleBiometrics',
-      //   params: { biometricsType },
-      // });
+    async (biometricsType: BiometricAuthorizations) => {
+      navigation.navigate(ROUTES.SETTINGS_ENABLE_BIOMETRICS_AUTHORIZATION, {
+        biometricsType,
+      });
     },
     [navigation],
   );
 
   const turnOffBiometrics = useCallback(
-    async (biometricsType: 'biometricsLogin' | 'biometricsSignature') => {
-      const savedPassword = await SecureStorage.getItem<string>(biometricsType, {
-        biometrics: true,
-      });
-      if (savedPassword) {
-        const stringToCheck = await SecureStorage.getItem<string>('dpm_global_password', {
-          password: savedPassword,
+    async (biometricsType: BiometricAuthorizations) => {
+      const biometricsDisabled = await SecureStorage.deleteBiometricAuthorization(biometricsType);
+      if (biometricsDisabled) {
+        setSettings((currentSettings) => {
+          if (biometricsType === BiometricAuthorizations.Login) {
+            return {
+              ...currentSettings,
+              loginWithBiometrics: false,
+            };
+          }
+          if (biometricsType === BiometricAuthorizations.UnlockWallet) {
+            return {
+              ...currentSettings,
+              unlockWalletWithBiometrics: false,
+            };
+          }
+          return currentSettings;
         });
-        if (stringToCheck === 'dpm_global_password') {
-          await SecureStorage.deleteItem(biometricsType);
-          // setSettings({ biometrics: !settings.biometrics });
-        }
       }
     },
-    [setSettings, settings.biometrics],
+    [setSettings],
   );
 
   const areBiometricsSupported = useCallback(async () => {
@@ -112,22 +118,22 @@ const Settings = (props: NavProps) => {
         />
         <Flexible.SectionSwitch
           label={t('enable face id for signature')}
-          value={settings.biometrics}
+          value={settings.unlockWalletWithBiometrics}
           isDisabled={!biometricsSupported}
           onPress={
-            settings.biometrics
-              ? () => turnOffBiometrics('biometricsSignature')
-              : () => navigateHandleBiometrics('biometricsSignature')
+            settings.unlockWalletWithBiometrics
+              ? () => turnOffBiometrics(BiometricAuthorizations.UnlockWallet)
+              : () => navigateHandleBiometrics(BiometricAuthorizations.UnlockWallet)
           }
         />
         <Flexible.SectionSwitch
           label={t('enable face id for login')}
-          value={settings.biometrics}
+          value={settings.loginWithBiometrics}
           isDisabled={!biometricsSupported}
           onPress={
-            settings.biometrics
-              ? () => turnOffBiometrics('biometricsLogin')
-              : () => navigateHandleBiometrics('biometricsLogin')
+            settings.loginWithBiometrics
+              ? () => turnOffBiometrics(BiometricAuthorizations.Login)
+              : () => navigateHandleBiometrics(BiometricAuthorizations.Login)
           }
         />
       </Flexible.Section>
