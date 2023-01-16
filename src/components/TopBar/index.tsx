@@ -37,20 +37,22 @@ export type TopBarProps = {
   leftIconColor?: string;
   style?: StyleProp<ViewStyle>;
   titleStyle?: StyleProp<TextStyle>;
+  hideGoBack?: boolean;
 };
 
 const TopBar: React.FC<TopBarProps> = (props) => {
-  const { stackProps, title, rightElement, leftIconColor, style, titleStyle } = props;
+  const { stackProps, title, rightElement, leftIconColor, style, titleStyle, hideGoBack } = props;
   const theme = useTheme();
   const styles = useStyles(props);
   const { navigation } = stackProps;
-  const navigationGoBack = navigation.canGoBack() ? (
-    <IconButton
-      color={leftIconColor ?? theme.colors.icon['1']}
-      icon="back"
-      onPress={navigation.goBack}
-    />
-  ) : null;
+  const navigationGoBack =
+    hideGoBack !== true && navigation.canGoBack() ? (
+      <IconButton
+        color={leftIconColor ?? theme.colors.icon['1']}
+        icon="back"
+        onPress={navigation.goBack}
+      />
+    ) : null;
 
   return (
     <View style={[styles.root, style]}>

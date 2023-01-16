@@ -18,6 +18,7 @@ const useStyles = makeStyleWithProps((props: TopBarProps, theme) => ({
     alignItems: 'flex-start',
     justifyContent: 'flex-start',
     zIndex: 1,
+    minHeight: 60,
   },
   containerCenter: {
     flex: 2,
