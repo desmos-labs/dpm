@@ -35,6 +35,7 @@ import WalletConnectSessionProposal, {
 import SettingsJoinCommunity from 'screens/SettingsJoinCommunity';
 import MarkdownText, { MarkdownTextProps } from 'screens/MarkdownText';
 import WalletConnectRequest from 'screens/WalletConnectRequest';
+import { useActiveAccount } from '@recoil/activeAccount';
 
 export type RootNavigatorParamList = {
   [ROUTES.DEV_SCREEN]: undefined;
@@ -78,15 +79,31 @@ export type RootNavigatorParamList = {
 const Stack = createStackNavigator<RootNavigatorParamList>();
 
 const RootNavigator = () => {
-  const initialRouteName = useMemo(() => ROUTES.DEV_SCREEN, []);
+  const activeAccount = useActiveAccount();
   const initWalletConnect = useInitWalletConnectClient();
 
+  const initialRouteName = useMemo(() => {
+    if (__DEV__) {
+      return ROUTES.DEV_SCREEN;
+    }
+
+    if (activeAccount === undefined) {
+      return ROUTES.LANDING;
+    }
+
+    return ROUTES.HOME_TABS;
+
+    // Safe to ignore the activeAccount deps since we need to check
+    // just if exists when the apps opens.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   useEffect(() => {
-    initWalletConnect().then(() => {
-      if (__DEV__) {
-        console.log('wallet connect client initialized');
-      }
-    });
+    initWalletConnect();
+
+    // Safe to ignore the deps since we need to initialize the
+    // wallet connect client when the app opens.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
