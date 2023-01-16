@@ -58,6 +58,7 @@ export default function useDeleteAccount() {
     [
       accounts,
       activeAccountAddress,
+      closeAccountSessions,
       deleteAccountAndProfileByAddress,
       navigator,
       setActiveAccountAddress,

@@ -1,4 +1,4 @@
-import {PasswordComplexity} from 'types/password';
+import { PasswordComplexity } from 'types/password';
 
 const useEvaluatePasswordComplexity = (password: string) => {
   const specialChars = '\\|!"£$%&/()=?^\'[]*+@#{}<>';
