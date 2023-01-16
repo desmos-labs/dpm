@@ -12,6 +12,11 @@ import { useActiveAccountAddress } from '@recoil/activeAccount';
 import * as WCMMKV from 'lib/MMKVStorage/walletconnect';
 import { useStoreWalletConnectSession } from '@recoil/walletConnectSessions';
 import { WalletConnectSession } from 'types/walletConnect';
+import { useStoreWalletConnectSessionRequest } from '@recoil/walletConnectRequests';
+import { CosmosRPCMethods } from '@desmoslabs/desmjs-walletconnect-v2';
+import { EncodeObject } from '@cosmjs/proto-signing';
+import { StdFee, StdSignDoc } from '@cosmjs/amino';
+import { SignClientTypes } from '@walletconnect/types';
 import useStyles from './useStyles';
 
 const routesToRender = [
@@ -62,6 +67,7 @@ const DevScreen: FC<NavProps> = ({ navigation }) => {
   }, []);
 
   const storeWalletConnectSession = useStoreWalletConnectSession();
+  const storeWalletConnectRequest = useStoreWalletConnectSessionRequest();
   const addWalletConnectSession = useCallback(() => {
     storeWalletConnectSession(activeAccountAddress!, {
       topic: 'test',
@@ -72,7 +78,34 @@ const DevScreen: FC<NavProps> = ({ navigation }) => {
         'Go-find.me allows to create your Desmos profile and find other users on the platform',
       url: 'https://go-find.me',
     } as WalletConnectSession);
-  }, [activeAccountAddress, storeWalletConnectSession]);
+    // Add 2 fake requests
+    for (let i = 0; i < 2; i += 1) {
+      storeWalletConnectRequest({
+        method: CosmosRPCMethods.SignAmino,
+        request: {} as SignClientTypes.EventArguments['session_request'],
+        id: i,
+        topic: 'test',
+        signerAddress: activeAccountAddress!,
+        fee: { amount: [{ denom: 'udaric', amount: '1000' }], gas: '20000' } as StdFee,
+        memo: '',
+        msgs: [
+          {
+            typeUrl: '/desmos.profiles.v3.MsgSaveProfile',
+            value: {
+              bio: 'test',
+              creator: activeAccountAddress!,
+              dtag: 'test-dtag',
+              nickname: 'test-nickname',
+              coverPicture: '',
+              profilePicture: '',
+            },
+          },
+        ] as EncodeObject[],
+        signDoc: {} as StdSignDoc,
+        accountAddress: activeAccountAddress!,
+      });
+    }
+  }, [activeAccountAddress, storeWalletConnectRequest, storeWalletConnectSession]);
 
   return (
     <StyledSafeAreaView>
@@ -99,7 +132,7 @@ const DevScreen: FC<NavProps> = ({ navigation }) => {
       <Spacer paddingVertical={4} />
 
       <Button mode="contained" onPress={addWalletConnectSession}>
-        Add WalletConnect session
+        Add WalletConnect session and requests
       </Button>
 
       <Spacer paddingVertical={4} />

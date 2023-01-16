@@ -31,6 +31,10 @@ const useStyles = makeStyle((theme) => ({
   authorizeButton: {
     marginTop: theme.spacing.l,
   },
+  showRequestsButtons: {
+    alignSelf: 'center',
+    margin: theme.spacing.s,
+  },
 }));
 
 export default useStyles;

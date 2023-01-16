@@ -7,5 +7,6 @@
   "authorize app": "Do you want to authorize {{app}}?",
   "ability to revoke authorizations": "You will be able to revoke such authorizations inside your Authorization page",
   "deny": "Deny",
-  "authorize": "Authorize"
+  "authorize": "Authorize",
+  "show pending requests": "Show pending requests"
 }

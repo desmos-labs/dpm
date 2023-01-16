@@ -1,5 +1,5 @@
 import { StackScreenProps } from '@react-navigation/stack';
-import React from 'react';
+import React, { useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
 import StyledSafeAreaView from 'components/StyledSafeAreaView';
 import { RootNavigatorParamList } from 'navigation/RootNavigator';
@@ -12,6 +12,8 @@ import useActiveProfile from '@recoil/activeProfile';
 import EmptySessions from 'screens/WalletConnectSessions/components/EmptySessions';
 import SessionsList from 'screens/WalletConnectSessions/components/SessionsList';
 import { useActiveAccountWalletConnectSessions } from '@recoil/activeAccountWalletConnectSessions';
+import { useAllWalletConnectSessionsRequests } from '@recoil/walletConnectRequests';
+import Button from 'components/Button';
 import useStyles from './useStyles';
 
 export type NavProps = StackScreenProps<RootNavigatorParamList, ROUTES.WALLET_CONNECT_SESSIONS>;
@@ -22,9 +24,13 @@ const WalletConnectSessions = (props: NavProps) => {
   const theme = useTheme();
   const styles = useStyles();
   const { openDrawer } = useDrawerContext();
-
   const { profile } = useActiveProfile();
   const sessions = useActiveAccountWalletConnectSessions();
+  const requests = useAllWalletConnectSessionsRequests();
+
+  const showPendingRequests = useCallback(() => {
+    navigation.navigate(ROUTES.WALLET_CONNECT_REQUEST);
+  }, [navigation]);
 
   return (
     <StyledSafeAreaView
@@ -43,6 +49,11 @@ const WalletConnectSessions = (props: NavProps) => {
       }
     >
       {sessions.length !== 0 ? <SessionsList sessions={sessions} /> : <EmptySessions />}
+      {requests.length > 0 && (
+        <Button mode="contained" style={styles.showRequestsButtons} onPress={showPendingRequests}>
+          {t('walletConnect:show pending requests')}
+        </Button>
+      )}
     </StyledSafeAreaView>
   );
 };

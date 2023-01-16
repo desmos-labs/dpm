@@ -68,9 +68,8 @@ export const useRemoveSessionByTopic = () => {
           return currentSessions;
         }
 
-        const newSessions = currentSessions[session.accountAddress].filter(
-          (s) => s.topic !== topic,
-        );
+        const accountSessions = currentSessions[session.accountAddress] ?? [];
+        const newSessions = accountSessions.filter((s) => s.topic !== topic);
         return {
           ...currentSessions,
           [session.accountAddress]: newSessions,
