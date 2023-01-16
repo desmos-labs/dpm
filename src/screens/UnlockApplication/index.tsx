@@ -95,7 +95,6 @@ const UnlockApplication: React.FC<NavProps> = (props) => {
   }, [inputPassword, unlockApplication]);
 
   useEffect(() => {
-    console.log('loginWithBiometrics', settings.loginWithBiometrics);
     if (settings.loginWithBiometrics) {
       setLoading(true);
       setTimeout(unlockWithBiometrics, 500);
