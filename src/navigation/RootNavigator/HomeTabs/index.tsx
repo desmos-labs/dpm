@@ -1,4 +1,4 @@
-import React, { FC } from 'react';
+import React, { FC, useMemo } from 'react';
 import ROUTES from 'navigation/routes';
 import { StackScreenProps } from '@react-navigation/stack';
 import { RootNavigatorParamList } from 'navigation/RootNavigator';
@@ -11,6 +11,7 @@ import WalletConnectSessions from 'screens/WalletConnectSessions';
 import AppDrawerContent from 'screens/Home/components/AppDrawer';
 import AppDrawer from 'lib/AppDrawer';
 import ScanQr from 'screens/ScanQr';
+import { useAllWalletConnectSessionsRequests } from '@recoil/walletConnectRequests';
 
 export type HomeTabsParamList = {
   [ROUTES.HOME]: undefined;
@@ -24,6 +25,13 @@ const HomeBottomTabs = createBottomTabNavigator<HomeTabsParamList>();
 
 const HomeTabs: FC<NavProps> = () => {
   const { t } = useTranslation();
+  const requests = useAllWalletConnectSessionsRequests();
+  const requestsCount = useMemo(() => {
+    if (requests.length === 0) {
+      return undefined;
+    }
+    return requests.length;
+  }, [requests]);
 
   const tabBar = (tabBarProps: BottomTabBarProps) => {
     const currentRoute = tabBarProps.state.routes[tabBarProps.state.index];
@@ -63,6 +71,7 @@ const HomeTabs: FC<NavProps> = () => {
           options={{
             title: t('authorizations'),
             tabBarIcon: TabIcons.Authorization,
+            tabBarBadge: requestsCount,
           }}
         />
       </HomeBottomTabs.Navigator>

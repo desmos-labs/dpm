@@ -1,5 +1,5 @@
-import {makeStyle} from 'config/theme';
-import {Platform} from 'react-native';
+import { makeStyle } from 'config/theme';
+import { Platform } from 'react-native';
 
 const useStyles = makeStyle((theme) => ({
   root: {
@@ -24,6 +24,18 @@ const useStyles = makeStyle((theme) => ({
   },
   btnTextSelected: {
     color: theme.colors.primary,
+  },
+  tabBarBadge: {
+    backgroundColor: theme.colors.primary,
+    textAlign: 'center',
+    textAlignVertical: 'center',
+    color: theme.colors.font['5'],
+    width: 20,
+    height: 20,
+    borderRadius: 12,
+    position: 'absolute',
+    right: '28%',
+    bottom: '65%',
   },
 }));
 

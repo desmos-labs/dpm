@@ -1,5 +1,6 @@
 import { BottomTabBarProps } from '@react-navigation/bottom-tabs';
 import { TabActions } from '@react-navigation/native';
+import Typography from 'components/Typography';
 import React, { FC } from 'react';
 import { Text, TouchableOpacity, View } from 'react-native';
 import { useTheme } from 'react-native-paper';
@@ -25,6 +26,11 @@ const BottomBar: FC<BottomTabBarProps> = (props) => {
         };
         return (
           <TouchableOpacity key={route.key} style={styles.btn} onPress={onPress}>
+            {options.tabBarBadge && (
+              <Typography.Caption style={styles.tabBarBadge}>
+                {options.tabBarBadge}
+              </Typography.Caption>
+            )}
             {options.tabBarIcon &&
               options.tabBarIcon({
                 focused,
