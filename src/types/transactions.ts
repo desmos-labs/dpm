@@ -1,4 +1,5 @@
 import { EncodeObject } from '@cosmjs/proto-signing';
+import { Fee } from 'cosmjs-types/cosmos/tx/v1beta1/tx';
 
 export interface Message extends EncodeObject {
   readonly index: number;
@@ -12,6 +13,8 @@ export interface Transaction {
   readonly success: boolean;
   readonly timestamp: string;
   readonly messages: Message[];
+  readonly memo?: string;
+  readonly fee?: Fee;
 }
 
 /**

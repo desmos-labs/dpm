@@ -1,5 +1,7 @@
 import { GroupedTransactions, Transaction } from 'types/transactions';
 import decodeQueriedMessage from 'lib/TransactionUtils/decoders';
+import { Fee } from 'cosmjs-types/cosmos/tx/v1beta1/tx';
+import Long from 'long';
 import { QueriedMessage } from './types';
 
 /**
@@ -11,6 +13,8 @@ const convertGQLMessage = (message: any): QueriedMessage => ({
     hash: message.transaction.hash,
     success: message.transaction.success,
     timestamp: message.transaction.block.timestamp,
+    fee: message.transaction.fee,
+    memo: message.transaction.memo,
   },
   index: message.index,
   type: message.type,
@@ -51,11 +55,21 @@ const convertTxsResponse = (messages: any[]): GroupedTransactions[] => {
   const transactions = Array.from(groupedMessages.entries()).map(([, transactionMessages]) => {
     const [firstMessage] = transactionMessages;
     const encodeObjects = transactionMessages.map(decodeQueriedMessage);
+    const { fee } = firstMessage.tx;
     return {
       hash: firstMessage.tx.hash,
       success: firstMessage.tx.success,
       timestamp: firstMessage.tx.timestamp,
       messages: encodeObjects,
+      memo: firstMessage.tx.memo,
+      fee: fee
+        ? ({
+            amount: fee.amount,
+            payer: fee.payer,
+            granter: fee.granter,
+            gasLimit: Long.fromString(fee.gas_limit),
+          } as Fee)
+        : undefined,
     } as Transaction;
   });
 

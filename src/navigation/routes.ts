@@ -123,6 +123,10 @@ enum ROUTES {
    */
   BROADCAST_TX = 'BROADCAST_TX',
   /**
+   * Screen that displays the details of a transaction.
+   */
+  TRANSACTION_DETAILS = 'TRANSACTION_DETAILS',
+  /**
    * Screen that displays a modal to the user.
    */
   MODAL = 'MODAL',

@@ -19,7 +19,7 @@ import { useDisconnectChainLink } from './useHooks';
 
 export type NavProps = StackScreenProps<RootNavigatorParamList, ROUTES.CHAIN_LINK_DETAILS>;
 
-export interface ChainLinkDetailsProps {
+export interface ChainLinkDetailsParams {
   chainLink: ChainLink;
   canEdit: boolean;
 }

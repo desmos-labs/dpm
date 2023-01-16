@@ -8,14 +8,33 @@ import { MessageDetails } from 'components/Messages/MessageDetails';
 import Divider from 'components/Divider';
 import LabeledValue from 'components/LabeledValue';
 import { formatCoins } from 'lib/FormatUtils';
+import { Fee } from 'cosmjs-types/cosmos/tx/v1beta1/tx';
 import useStyles from './useStyles';
 
 export type TransactionDetailsProps = {
+  /**
+   * Messages to be displayed to the user.
+   */
   messages: readonly EncodeObject[];
+  /**
+   * True if the fees are still being estimaded.
+   */
   estimatingFee?: boolean;
-  fee?: StdFee;
+  /**
+   * Fees to be shown to the user.
+   */
+  fee?: StdFee | Fee;
+  /**
+   * Memo associated with the transaction.
+   */
   memo?: string;
+  /**
+   * Whether the transaction was broadcast successfully or not.
+   */
   success?: boolean;
+  /**
+   * Date at which the transaction was broadcast.
+   */
   dateTime?: Date;
   style?: StyleProp<ViewStyle>;
 };

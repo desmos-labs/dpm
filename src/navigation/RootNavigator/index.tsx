@@ -14,7 +14,7 @@ import ConnectToLedgerStack, {
   ConnectToLedgerStackParams,
 } from 'navigation/RootNavigator/ConnectToLedgerStack';
 import Profile, { ProfileParams } from 'screens/Profile';
-import ChainLinkDetails, { ChainLinkDetailsProps } from 'screens/ChainLinkDetails';
+import ChainLinkDetails, { ChainLinkDetailsParams } from 'screens/ChainLinkDetails';
 import ImportAccountSelectChain from 'screens/ImportAccountSelectChain';
 import ImportAccountSelectType from 'screens/ImportAccountSelectType';
 import ImportAccountSelectLedgerApp from 'screens/ImportAccountSelectLedgerApp';
@@ -36,6 +36,7 @@ import SettingsJoinCommunity from 'screens/SettingsJoinCommunity';
 import MarkdownText, { MarkdownTextProps } from 'screens/MarkdownText';
 import WalletConnectRequest from 'screens/WalletConnectRequest';
 import { useActiveAccount } from '@recoil/activeAccount';
+import TxDetails, { TransactionDetailsParams } from 'screens/TxDetails';
 
 export type RootNavigatorParamList = {
   [ROUTES.DEV_SCREEN]: undefined;
@@ -62,9 +63,10 @@ export type RootNavigatorParamList = {
   [ROUTES.PROFILE]: ProfileParams | undefined;
   [ROUTES.EDIT_PROFILE]: EditProfileParams;
   [ROUTES.SEND_TOKENS]: undefined;
-  [ROUTES.CHAIN_LINK_DETAILS]: ChainLinkDetailsProps;
+  [ROUTES.CHAIN_LINK_DETAILS]: ChainLinkDetailsParams;
   [ROUTES.UNLOCK_WALLET]: UnlockWalletParams;
   [ROUTES.BROADCAST_TX]: BroadcastTxParams;
+  [ROUTES.TRANSACTION_DETAILS]: TransactionDetailsParams;
   [ROUTES.MODAL]: ModalScreenParams;
 
   [ROUTES.SETTINGS]: undefined;
@@ -137,6 +139,7 @@ const RootNavigator = () => {
 
       <Stack.Screen name={ROUTES.UNLOCK_WALLET} component={UnlockWallet} />
       <Stack.Screen name={ROUTES.BROADCAST_TX} component={BroadcastTx} />
+      <Stack.Screen name={ROUTES.TRANSACTION_DETAILS} component={TxDetails} />
 
       <Stack.Screen name={ROUTES.HOME_TABS} component={HomeTabs} />
 

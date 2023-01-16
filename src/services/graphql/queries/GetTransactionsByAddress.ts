@@ -27,6 +27,8 @@ const GetTransactionsByAddress = gql`
       transaction {
         hash
         success
+        memo
+        fee
         block {
           timestamp
         }

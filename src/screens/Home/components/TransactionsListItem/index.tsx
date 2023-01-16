@@ -1,8 +1,12 @@
 import { TouchableOpacity, View } from 'react-native';
 import MessageListItem from 'components/Messages/MessageListItem';
 import Divider from 'components/Divider';
-import React from 'react';
+import React, { useCallback } from 'react';
 import { Transaction } from 'types/transactions';
+import { useNavigation } from '@react-navigation/native';
+import { RootNavigatorParamList } from 'navigation/RootNavigator';
+import { StackNavigationProp } from '@react-navigation/stack';
+import ROUTES from 'navigation/routes';
 import useStyles from './useStyles';
 
 export interface TransactionsListItemProps {
@@ -12,20 +16,23 @@ export interface TransactionsListItemProps {
 }
 
 const TransactionsListItem = (props: TransactionsListItemProps) => {
+  const navigation = useNavigation<StackNavigationProp<RootNavigatorParamList>>();
   const { index, transaction, sectionLength } = props;
   const styles = useStyles(index === 0, index === sectionLength - 1);
 
   const txDate = new Date(transaction.timestamp);
-  const onPress = (msgIndex: number) => () => {
-    console.log('Transaction pressed', transaction.hash, msgIndex);
-  };
+  const onPress = useCallback(() => {
+    navigation.navigate(ROUTES.TRANSACTION_DETAILS, {
+      transaction,
+    });
+  }, [navigation, transaction]);
 
   return (
     <View style={styles.root}>
       {transaction.messages.map((encodeObject, msgIndex, list) => {
         const showDivider = msgIndex < list.length - 1;
         return (
-          <TouchableOpacity key={`msg-${index}-${msgIndex * 2}`} onPress={onPress(msgIndex)}>
+          <TouchableOpacity key={`msg-${index}-${msgIndex * 2}`} onPress={onPress}>
             <MessageListItem encodeObject={encodeObject} date={txDate} />
             {showDivider ? <Divider /> : null}
           </TouchableOpacity>
