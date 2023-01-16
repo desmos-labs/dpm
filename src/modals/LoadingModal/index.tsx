@@ -1,9 +1,9 @@
 import React from 'react';
 import { View } from 'react-native';
 import Typography from 'components/Typography';
-import { ModalComponentProps } from 'types/navigation';
 import ThemedLottieView from 'components/ThemedLottieView';
 import { DPMAnimations } from 'types/images';
+import { ModalComponentProps } from 'modals/ModalScreen';
 import useStyles from './useStyles';
 
 export type SingleButtonModalParams = {
