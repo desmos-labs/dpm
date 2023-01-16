@@ -1430,8 +1430,10 @@
     long "^4.0.0"
     protobufjs "^7.1.2"
 
-"@desmoslabs/desmjs-walletconnect-v2@file:../desmjs/packages/walletconnect-v2":
-  version "4.7.2"
+"@desmoslabs/desmjs-walletconnect-v2@^4.7.3":
+  version "4.7.3"
+  resolved "https://registry.yarnpkg.com/@desmoslabs/desmjs-walletconnect-v2/-/desmjs-walletconnect-v2-4.7.3.tgz#81aa10b33656e80a8d39803f049719fe6d2533df"
+  integrity sha512-Y7Nb2A9BuXOSedT59LWqjIe80gl9qv45L18U4O1aU/4ckWbdS3oVHiEO8h59B5sGLyc9hLWmrSDF8TnWasLjqg==
   dependencies:
     "@cosmjs/amino" "^0.29.5"
     "@cosmjs/encoding" "^0.29.5"

@@ -24,7 +24,7 @@
     "@cosmjs/stargate": "^0.29.5",
     "@desmoslabs/desmjs": "^4.7.3",
     "@desmoslabs/desmjs-types": "^4.7.3",
-    "@desmoslabs/desmjs-walletconnect-v2": "file://home/manu/Documents/forbole/desmjs/packages/walletconnect-v2",
+    "@desmoslabs/desmjs-walletconnect-v2": "^4.7.3",
     "@habx/apollo-multi-endpoint-link": "^2.7.0",
     "@json-rpc-tools/types": "^2.0.0-beta.12",
     "@json-rpc-tools/utils": "^2.0.0-beta.12",
