@@ -1,19 +1,29 @@
 import React from 'react';
-import { StatusBar } from 'react-native';
 import { RecoilRoot } from 'recoil';
-import { NavigationContainer } from '@react-navigation/native';
-import RootNavigator from 'navigation/RootNavigator';
+import { NavigationContainer, NavigationContainerRef } from '@react-navigation/native';
+import RootNavigator, { RootNavigatorParamList } from 'navigation/RootNavigator';
 import ThemeProvider from 'contexts/ThemeProvider';
 import GraphQLClientProvider from 'contexts/GraphQLClientProvider';
+import { StatusBar } from 'react-native';
+import useLockApplicationOnBlur from 'hooks/useLockApplicationOnBlur';
+
+const Navigation = () => {
+  const navigationRef = React.createRef<NavigationContainerRef<RootNavigatorParamList>>();
+  useLockApplicationOnBlur(navigationRef);
+
+  return (
+    <NavigationContainer ref={navigationRef}>
+      <RootNavigator />
+    </NavigationContainer>
+  );
+};
 
 const App = () => (
   <RecoilRoot>
     <GraphQLClientProvider>
       <ThemeProvider>
         <StatusBar translucent backgroundColor="transparent" barStyle="dark-content" />
-        <NavigationContainer>
-          <RootNavigator />
-        </NavigationContainer>
+        <Navigation />
       </ThemeProvider>
     </GraphQLClientProvider>
   </RecoilRoot>

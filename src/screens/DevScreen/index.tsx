@@ -24,6 +24,7 @@ const routesToRender = [
   ROUTES.PROFILE,
   ROUTES.HOME_TABS,
   ROUTES.SETTINGS,
+  ROUTES.UNLOCK_APPLICATION,
 ];
 
 type NavProps = StackScreenProps<RootNavigatorParamList, ROUTES.DEV_SCREEN>;

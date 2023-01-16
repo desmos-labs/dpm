@@ -33,4 +33,9 @@ export type AppSettings = {
   notifications: boolean;
   dataInitialized: false;
   currentTimezone: '';
+  /**
+   * Amount of seconds after which the app will be locked
+   * if not on focus.
+   */
+  appInactivityLockSeconds: number;
 };

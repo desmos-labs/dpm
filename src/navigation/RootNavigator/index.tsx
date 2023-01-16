@@ -40,6 +40,7 @@ import TxDetails, { TransactionDetailsParams } from 'screens/TxDetails';
 import SettingsEnableBiometricsAuthorization, {
   EnableBiometricsAuthorizationParams,
 } from 'screens/SettingsEnableBiometricsAuthorization';
+import UnlockApplication from 'screens/UnlockApplication';
 
 export type RootNavigatorParamList = {
   [ROUTES.DEV_SCREEN]: undefined;
@@ -80,6 +81,8 @@ export type RootNavigatorParamList = {
   [ROUTES.SETTINGS_JOIN_COMMUNITY]: undefined;
 
   [ROUTES.MARKDOWN_TEXT]: MarkdownTextProps;
+
+  [ROUTES.UNLOCK_APPLICATION]: undefined;
 };
 
 const Stack = createStackNavigator<RootNavigatorParamList>();
@@ -97,7 +100,7 @@ const RootNavigator = () => {
       return ROUTES.LANDING;
     }
 
-    return ROUTES.HOME_TABS;
+    return ROUTES.UNLOCK_APPLICATION;
 
     // Safe to ignore the activeAccount deps since we need to check
     // just if exists when the apps opens.
@@ -178,6 +181,8 @@ const RootNavigator = () => {
         name={ROUTES.SETTINGS_CHANGE_APPLICATION_PASSWORD}
         component={SettingsChangeWalletPassword}
       />
+
+      <Stack.Screen name={ROUTES.UNLOCK_APPLICATION} component={UnlockApplication} />
 
       <Stack.Screen name={ROUTES.MARKDOWN_TEXT} component={MarkdownText} />
     </Stack.Navigator>

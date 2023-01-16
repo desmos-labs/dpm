@@ -17,6 +17,7 @@ export const DefaultAppSettings: AppSettings = {
   notifications: false,
   dataInitialized: false,
   currentTimezone: '',
+  appInactivityLockSeconds: 15,
 };
 
 /**

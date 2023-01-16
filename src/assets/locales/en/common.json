@@ -214,5 +214,6 @@
   "wrong confirmation password": "Confirmation password doesn't match",
   "wrong password": "Password doesn't match",
   "yes": "Yes",
-  "your allocation is": "Your allocation is"
+  "your allocation is": "Your allocation is",
+  "unlock application": "Unlock application"
 }

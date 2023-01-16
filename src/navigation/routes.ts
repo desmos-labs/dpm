@@ -146,6 +146,12 @@ enum ROUTES {
    * Screen that allows rendering a Markdown text.
    */
   MARKDOWN_TEXT = 'MARKDOWN_TEXT',
+
+  /**
+   * Screen that allow the user to unlock the application and navigate to the home
+   * screen.
+   */
+  UNLOCK_APPLICATION = 'UNLOCK_APPLICATION',
 }
 
 export default ROUTES;
