@@ -39,12 +39,8 @@ export default function useWalletConnectApproveSessionProposal() {
           },
         },
       });
-      console.log('approve topic', approveResponse.topic);
 
-      console.log('wait for acknowledge..,');
       const session = await approveResponse.acknowledged();
-
-      console.log('session acknowledged', session, session.peer.metadata);
       storeSession(activeAccount.address, {
         accountAddress: activeAccount.address,
         topic: session.topic,

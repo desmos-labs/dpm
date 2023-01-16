@@ -65,13 +65,7 @@ export default function useWalletConnectPair() {
 
           client.on('session_proposal', (proposal) => {
             clearTimeout(timoutTimer);
-
-            console.log('proposal', proposal);
-
             const validationResul = validateSessionRequest(proposal);
-
-            console.log('validationResult', validationResul);
-
             if (validationResul !== undefined) {
               client.reject({
                 id: proposal.id,
