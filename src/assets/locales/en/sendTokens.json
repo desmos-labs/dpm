@@ -5,5 +5,7 @@
   "insert amount": "Insert amount",
   "max": "Max",
   "tx note": "Note (memo)",
-  "tx description": "Description (optional)"
+  "tx description": "Description (optional)",
+  "to": "To",
+  "from": "From",
 }

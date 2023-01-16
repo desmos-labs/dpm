@@ -3,6 +3,7 @@ import { convertCoin, Currency } from '@desmoslabs/desmjs';
 import { Slip10RawIndex } from '@cosmjs/crypto';
 import SupportedChains from 'config/LinkableChains';
 import numbro from 'numbro';
+import { Input } from 'cosmjs-types/cosmos/bank/v1beta1/bank';
 
 /**
  * Gets the decimal separator used on the provided locale.
@@ -65,9 +66,20 @@ export const formatCoin = (amount: Coin): string => {
 /**
  * Formats the given coins and returns a string representing the overall amount.
  * @param amount - Amount to be formatted.
+ * @param separator - Optional separator to be used.
  */
-export const formatCoins = (amount: readonly Coin[] | undefined): string =>
-  (amount || []).map(formatCoin).join('\n');
+export const formatCoins = (
+  amount: readonly Coin[] | undefined,
+  separator: string = '\n',
+): string => (amount || []).map(formatCoin).join(separator);
+
+/**
+ * Formats the given inputs and returns a string representing the overall amount
+ * @param inputs - Amount to be formatted.
+ * @param separator - Optional separator to be used when separating each input's value.
+ */
+export const formatMultiSendInput = (inputs: Input[], separator: string = '\n'): string =>
+  inputs.map((input) => formatCoins(input.coins, separator)).join('\n');
 
 /**
  * Perform the sanitization to a seed phrase.

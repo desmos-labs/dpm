@@ -29,11 +29,11 @@ const TransactionsListItem = (props: TransactionsListItemProps) => {
 
   return (
     <View style={styles.root}>
-      {transaction.messages.map((encodeObject, msgIndex, list) => {
+      {transaction.messages.map((message, msgIndex, list) => {
         const showDivider = msgIndex < list.length - 1;
         return (
           <TouchableOpacity key={`msg-${index}-${msgIndex * 2}`} onPress={onPress}>
-            <MessageListItem encodeObject={encodeObject} date={txDate} />
+            <MessageListItem message={message} date={txDate} />
             {showDivider ? <Divider /> : null}
           </TouchableOpacity>
         );

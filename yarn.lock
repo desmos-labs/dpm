@@ -1414,10 +1414,10 @@
   resolved "https://registry.yarnpkg.com/@cosmjs/utils/-/utils-0.29.5.tgz#3fed1b3528ae8c5f1eb5d29b68755bebfd3294ee"
   integrity sha512-m7h+RXDUxOzEOGt4P+3OVPX7PuakZT3GBmaM/Y2u+abN3xZkziykD/NvedYFvvCCdQo714XcGl33bwifS9FZPQ==
 
-"@desmoslabs/desmjs-types@^4.7.3":
-  version "4.7.3"
-  resolved "https://registry.npmjs.org/@desmoslabs/desmjs-types/-/desmjs-types-4.7.3.tgz#0530294b58243947280aeae93d19279f96547786"
-  integrity sha512-otBpJBsq/hkC66B8hKVxM6MouxAUYNuZNfxMgbk/3S0t0FT2vhIbDGt1WdHDSB6Uao3v1thhznNv5MENkYxL3A==
+"@desmoslabs/desmjs-types@^4.7.4":
+  version "4.7.4"
+  resolved "https://registry.yarnpkg.com/@desmoslabs/desmjs-types/-/desmjs-types-4.7.4.tgz#8c124fe2f26ce535f214c99ea47ad3bc0711da89"
+  integrity sha512-pMX+0o5aaoEhEz1oSKSH417NUJAzmrErlrevY/c90gO9leefuYR1N1ee1YZ/Hc8d4Jz/m+Ajg90FNA7rK8AyTA==
   dependencies:
     long "^4.0.0"
     protobufjs "^7.1.2"
@@ -1430,10 +1430,10 @@
     long "^4.0.0"
     protobufjs "^7.1.2"
 
-"@desmoslabs/desmjs-walletconnect-v2@^4.7.3":
-  version "4.7.3"
-  resolved "https://registry.yarnpkg.com/@desmoslabs/desmjs-walletconnect-v2/-/desmjs-walletconnect-v2-4.7.3.tgz#81aa10b33656e80a8d39803f049719fe6d2533df"
-  integrity sha512-Y7Nb2A9BuXOSedT59LWqjIe80gl9qv45L18U4O1aU/4ckWbdS3oVHiEO8h59B5sGLyc9hLWmrSDF8TnWasLjqg==
+"@desmoslabs/desmjs-walletconnect-v2@^4.7.4":
+  version "4.7.4"
+  resolved "https://registry.yarnpkg.com/@desmoslabs/desmjs-walletconnect-v2/-/desmjs-walletconnect-v2-4.7.4.tgz#e5face2dbcb1b822d41973100eaf92b0eb51d896"
+  integrity sha512-LHjgsMzemJsSTlc1o8fYtQ+bER6Cl3Xv+zU9K9yaVKh8i3gKxwMXD6TEPNdlEyZVsDFQLlC8M2pi9XEYtFxaBA==
   dependencies:
     "@cosmjs/amino" "^0.29.5"
     "@cosmjs/encoding" "^0.29.5"
@@ -1448,10 +1448,10 @@
     cosmjs-types "^0.5.2"
     long "^4.0.0"
 
-"@desmoslabs/desmjs@^4.7.3":
-  version "4.7.3"
-  resolved "https://registry.npmjs.org/@desmoslabs/desmjs/-/desmjs-4.7.3.tgz#e17b3462b2a1a2c6c8e2b4a32afe775bdacd3b29"
-  integrity sha512-MLRHPvs4T8jXv+El/7Na+RZujfjpN4sFYcmQA5vJZB+qI4+JH0mo7UXHe4G3srvYmGA5x6hYPQnLEaM0iew5ag==
+"@desmoslabs/desmjs@^4.7.4":
+  version "4.7.4"
+  resolved "https://registry.yarnpkg.com/@desmoslabs/desmjs/-/desmjs-4.7.4.tgz#2ed0935e1d6c2f14d519318d3db28e782af6e65a"
+  integrity sha512-EhuJmKDbzazrQxq/lwrNQNdIahyYfMPKvZSTEGeHGuJAU3J5scV0eY8VePcCSB5iXA4eT+0xDoCiz79PX3eKvg==
   dependencies:
     "@cosmjs/amino" "^0.29.5"
     "@cosmjs/cosmwasm-stargate" "^0.29.5"

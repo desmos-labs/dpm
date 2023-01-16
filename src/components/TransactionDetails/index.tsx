@@ -4,11 +4,11 @@ import React, { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Pressable, ScrollView, StyleProp, View, ViewStyle } from 'react-native';
 import { StdFee } from '@cosmjs/amino';
-import { MessageDetails } from 'components/Messages/MessageDetails';
 import Divider from 'components/Divider';
 import LabeledValue from 'components/LabeledValue';
 import { formatCoins } from 'lib/FormatUtils';
 import { Fee } from 'cosmjs-types/cosmos/tx/v1beta1/tx';
+import MessageDetails from 'components/Messages/MessageDetails';
 import useStyles from './useStyles';
 
 export type TransactionDetailsProps = {

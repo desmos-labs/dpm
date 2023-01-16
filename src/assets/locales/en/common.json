@@ -94,7 +94,6 @@
   "fee": "Fee",
   "field regex": "{{field}} must match this regular expression {{regex}}",
   "forgot password": "Forgot password",
-  "from": "From",
   "gas": "Gas",
   "generating account": "Generating account",
   "generating address": "Generating address",
@@ -182,8 +181,7 @@
   "status": "Status",
   "success": "Success",
   "terms of service": "Terms of Service",
-  "time": "Time",
-  "to": "To",
+  "time": "Time"
   "today": "Today",
   "transactions": "Transactions",
   "try again": "Try again",
