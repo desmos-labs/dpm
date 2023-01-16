@@ -1,8 +1,7 @@
 import React, { ReactElement } from 'react';
-import { ImageBackground, ScrollView, View, ViewProps } from 'react-native';
+import { ImageBackground, ScrollView, StatusBar, View, ViewProps } from 'react-native';
 import { useTheme } from 'react-native-paper';
 import Divider from 'components/Divider';
-import StatusBar from 'components/StatusBar';
 import useStyles from './useStyles';
 
 export type StyledSafeAreaViewProps = ViewProps & {
@@ -38,10 +37,11 @@ const StyledSafeAreaView: React.FC<StyledSafeAreaViewProps> = (props) => {
   const { scrollable, topBar, divider, background, children, style } = props;
   const styles = useStyles(props);
   const theme = useTheme();
+  const statusBarVariant = theme.dark ? 'light-content' : 'dark-content';
 
   return (
     <View style={styles.root}>
-      <StatusBar />
+      <StatusBar barStyle={statusBarVariant} backgroundColor="transparent" />
       {background !== undefined && (
         <ImageBackground style={styles.background} source={background} />
       )}
