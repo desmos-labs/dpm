@@ -84,7 +84,6 @@ const UnlockWallet: React.FC<Props> = (props) => {
     const biometricPassword = await SecureStorage.getBiometricPassword(
       BiometricAuthorizations.UnlockWallet,
     );
-    console.log('biometricPassword', biometricPassword);
     await unlockWallet(biometricPassword);
   }, [unlockWallet]);
 
