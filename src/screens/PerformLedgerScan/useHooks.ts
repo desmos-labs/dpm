@@ -112,6 +112,10 @@ export function useBleScan() {
       if (!btOn) {
         let btEnableResult;
         if (Platform.OS === 'ios') {
+          // Don't request the bluetooth enable in iOS since
+          // can be enabled only from the settings, just fail
+          // and show an error that tells the user to enable
+          // the bluetooth
           btEnableResult = false;
         } else {
           btEnableResult = await requestEnableBt().catch(() => false);
