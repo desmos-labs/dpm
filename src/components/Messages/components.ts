@@ -1,7 +1,12 @@
 import {
+  MsgDelegateTypeUrl,
   MsgLinkChainAccountTypeUrl,
+  MsgMultiSendTypeUrl,
   MsgSaveProfileTypeUrl,
+  MsgSendTypeUrl,
   MsgUnlinkChainAccountTypeUrl,
+  MsgVoteTypeUrl,
+  MsgWithdrawDelegatorRewardTypeUrl,
 } from '@desmoslabs/desmjs';
 import MsgSendComponents from 'components/Messages/MsgSend';
 import MsgMultiSendComponents from 'components/Messages/MsgMultiSend';
@@ -14,14 +19,20 @@ import MsgUnlinkChainAccountComponents from 'components/Messages/MsgUnlinkChainA
 import { MessageComponents } from './BaseMessage';
 
 export const messageDetailsComponents: Record<string, MessageComponents<any>> = {
-  // Cosmos messages
-  '/cosmos.bank.v1beta1.MsgSend': MsgSendComponents,
-  '/cosmos.bank.v1beta1.MsgMultiSend': MsgMultiSendComponents,
-  '/cosmos.gov.v1beta1.MsgVote': MsgVoteComponents,
-  '/cosmos.staking.v1beta1.MsgDelegate': MsgDelegateComponents,
-  '/cosmos.staking.v1beta1.MsgWithdrawDelegatorRewards': MsgWithdrawDelegatorRewardsComponents,
+  // x/bank
+  [MsgSendTypeUrl]: MsgSendComponents,
+  [MsgMultiSendTypeUrl]: MsgMultiSendComponents,
 
-  // Desmos messages
+  // x/distribution
+  [MsgWithdrawDelegatorRewardTypeUrl]: MsgWithdrawDelegatorRewardsComponents,
+
+  // x/gov
+  [MsgVoteTypeUrl]: MsgVoteComponents,
+
+  // x/staking
+  [MsgDelegateTypeUrl]: MsgDelegateComponents,
+
+  // x/profiles
   [MsgSaveProfileTypeUrl]: MsgSaveProfileComponents,
   [MsgLinkChainAccountTypeUrl]: MsgLinkChainAccountComponents,
   [MsgUnlinkChainAccountTypeUrl]: MsgUnlinkChainAccountComponents,
