@@ -4,8 +4,7 @@ import { BleError } from 'react-native-ble-plx';
 import BluetoothStateManager from 'react-native-bluetooth-state-manager';
 import { BLELedger, Subscription } from 'types/ledger';
 import { AppState, Linking, Platform } from 'react-native';
-import { AppPermissionStatus } from 'types/permissions';
-import * as Permissions from 'react-native-permissions';
+import { useSetAppState } from '@recoil/appState';
 
 /**
  * Enum that define the possible cause of scan failure.
@@ -57,14 +56,23 @@ export const iOSOpenSettingsAndCheckBtStatus = async () => {
  * Hook that provide a function to enable the bluetooth adapter.
  */
 export function useRequestEnableBt() {
+  const setAppState = useSetAppState();
+
   return useCallback(() => {
     if (Platform.OS === 'ios') {
       return iOSOpenSettingsAndCheckBtStatus();
     }
+
+    // Don't block the app after showing the turn on bluetooth
+    // dialog
+    setAppState((currentState) => ({
+      ...currentState,
+      noLockOnBackground: true,
+    }));
     return BluetoothStateManager.requestToEnable()
       .then(() => true)
       .catch(() => false);
-  }, []);
+  }, [setAppState]);
 }
 
 /**

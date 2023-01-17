@@ -11,11 +11,8 @@ import ROUTES from 'navigation/routes';
 import { DPMAnimations } from 'types/images';
 import { ConnectToLedgerStackParamList } from 'navigation/RootNavigator/ConnectToLedgerStack';
 import useOnBackAction from 'hooks/useOnBackAction';
-import {
-  useCheckBluetoothPermission,
-  useRequestBluetoothPermissions,
-} from 'hooks/permissions/useBluetoothPermissions';
-import { AppPermissionStatus } from 'types/permissions';
+import { usePermissions } from 'hooks/permissions/usePermissions';
+import { AppPermissions, AppPermissionStatus } from 'types/permissions';
 import LedgerDeviceList from 'screens/PerformLedgerScan/components/LedgerDeviceList';
 import useStyles from './useStyles';
 import { ScanErrorType, useBleScan, useRequestEnableBt } from './useHooks';
@@ -30,8 +27,8 @@ const PerformLedgerScan: React.FC<NavProps> = ({ navigation, route }) => {
   const [authorized, setAuthorized] = useState(false);
   const [doFirstScan, setDoFirstScan] = useState(true);
   const requestEnableBt = useRequestEnableBt();
-  const checkBtPermissions = useCheckBluetoothPermission();
-  const requestBluetoothPermissions = useRequestBluetoothPermissions();
+  const { checkPermission: checkBtPermissions, requestPermission: requestBluetoothPermissions } =
+    usePermissions(AppPermissions.Bluetooth);
 
   useOnBackAction(() => {
     if (onCancel !== undefined) {

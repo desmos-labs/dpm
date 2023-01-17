@@ -10,11 +10,8 @@ import { DPMImages } from 'types/images';
 import Typography from 'components/Typography';
 import Button from 'components/Button';
 import Spacer from 'components/Spacer';
-import {
-  useCheckCameraPermission,
-  useRequestCameraPermission,
-} from 'hooks/permissions/useCameraPermissions';
-import { AppPermissionStatus } from 'types/permissions';
+import { usePermissions } from 'hooks/permissions/usePermissions';
+import { AppPermissions, AppPermissionStatus } from 'types/permissions';
 import useStyles from './useStyles';
 
 export interface QrCodeScannerProps {
@@ -34,8 +31,8 @@ const QrCodeScanner: FC<QrCodeScannerProps> = ({ onQrCodeDetected, stopRecogniti
   const isFocused = useIsFocused();
   const devices = useCameraDevices();
   const backCameraDevice = devices.back;
-  const checkCameraPermission = useCheckCameraPermission();
-  const requestCameraPermission = useRequestCameraPermission();
+  const { checkPermission: checkCameraPermission, requestPermission: requestCameraPermission } =
+    usePermissions(AppPermissions.Camera);
 
   const requestPermission = useCallback(async () => {
     const cameraPermissions = await requestCameraPermission();
