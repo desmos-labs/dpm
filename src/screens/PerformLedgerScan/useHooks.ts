@@ -3,6 +3,9 @@ import { useCallback, useEffect, useState } from 'react';
 import { BleError } from 'react-native-ble-plx';
 import BluetoothStateManager from 'react-native-bluetooth-state-manager';
 import { BLELedger, Subscription } from 'types/ledger';
+import { AppState, Platform } from 'react-native';
+import { AppPermissionStatus } from 'types/permissions';
+import * as Permissions from 'react-native-permissions';
 
 /**
  * Enum that define the possible cause of scan failure.
@@ -32,17 +35,36 @@ export interface ScanErrorUnknown {
 
 export type ScanError = ScanErrorBtOff | ScanErrorUnknown;
 
+export const openSettingsAndCheckBtStatus = async () => {
+  // Prepare the promise that will check the settings after the application
+  // come back to focus.
+  const promise = new Promise<boolean>((resolve) => {
+    const subscription = AppState.addEventListener('change', async (state) => {
+      if (state === 'active') {
+        subscription.remove();
+        const btState = await BluetoothStateManager.getState();
+        resolve(btState === 'PoweredOn');
+      }
+    });
+  });
+
+  // Open the settings
+  await BluetoothStateManager.openSettings();
+  return promise;
+};
+
 /**
  * Hook that provide a function to enable the bluetooth adapter.
  */
 export function useRequestEnableBt() {
-  return useCallback(
-    () =>
-      BluetoothStateManager.requestToEnable()
-        .then(() => true)
-        .catch(() => false),
-    [],
-  );
+  return useCallback(() => {
+    if (Platform.OS === 'ios') {
+      return openSettingsAndCheckBtStatus();
+    }
+    return BluetoothStateManager.requestToEnable()
+      .then(() => true)
+      .catch(() => false);
+  }, []);
 }
 
 /**
