@@ -9,6 +9,11 @@ import { AndroidBtScanPermissions, IosBtScanPermissions } from 'types/bluetooth'
 import { AppPermissionStatus } from 'types/permissions';
 import { openSettingsAndCheckPermissions } from 'lib/PermissionsUtils';
 
+const maxAllowedRequests = Platform.select({
+  ios: 1,
+  android: 2,
+})!;
+
 function isMultipleRejected(permissions: Record<any, Permissions.PermissionStatus>): boolean {
   return (
     Object.values(permissions).find(
@@ -30,7 +35,7 @@ export const useCheckBluetoothPermission = () => {
     const requestCount = requestsCount.bluetooth ?? 0;
 
     if (permissionsDenied) {
-      return requestCount >= 2 ? AppPermissionStatus.Blocked : AppPermissionStatus.Denied;
+      return requestCount >= maxAllowedRequests ? AppPermissionStatus.Blocked : AppPermissionStatus.Denied;
     }
     return AppPermissionStatus.Granted;
   }, [requestsCount]);
@@ -50,7 +55,7 @@ export const useRequestBluetoothPermissions = () => {
     };
     const permissions = Platform.OS === 'android' ? AndroidBtScanPermissions : IosBtScanPermissions;
 
-    if (updatedCount.bluetooth <= 2) {
+    if (updatedCount.bluetooth <= maxAllowedRequests) {
       const permissionsRejected = await Permissions.requestMultiple(permissions).then(
         isMultipleRejected,
       );
