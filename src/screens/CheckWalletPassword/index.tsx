@@ -10,10 +10,11 @@ import Button from 'components/Button';
 import { RootNavigatorParamList } from 'navigation/RootNavigator';
 import ROUTES from 'navigation/routes';
 import { AccountWithWallet } from 'types/account';
-import { checkUserPassword, getBiometricPassword } from 'lib/SecureStorage';
+import { checkUserPassword } from 'lib/SecureStorage';
 import { useSettings } from '@recoil/settings';
 import { BiometricAuthorizations } from 'types/settings';
 import { useFocusEffect } from '@react-navigation/native';
+import useGetPasswordFromBiometrics from 'hooks/useGetPasswordFromBiometrics';
 import useStyles from './useStyles';
 
 export interface CheckWalletPasswordParams {
@@ -35,6 +36,9 @@ const CheckWalletPassword = (props: NavProps) => {
   const [password, setPassword] = useState('');
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const appSettings = useSettings();
+  const getPasswordFromBiometrics = useGetPasswordFromBiometrics(
+    BiometricAuthorizations.UnlockWallet,
+  );
 
   const onPasswordChange = (text: string) => {
     setPassword(text);
@@ -61,7 +65,7 @@ const CheckWalletPassword = (props: NavProps) => {
   }, [navigation, password, route, t]);
 
   const continueWithBiometrics = useCallback(async () => {
-    const biometricPassword = await getBiometricPassword(BiometricAuthorizations.UnlockWallet);
+    const biometricPassword = await getPasswordFromBiometrics();
     if (biometricPassword) {
       const isPasswordCorrect = await checkUserPassword(biometricPassword).catch(() => false);
       if (isPasswordCorrect) {
@@ -73,7 +77,7 @@ const CheckWalletPassword = (props: NavProps) => {
         setErrorMessage(t('wrong confirmation password'));
       }
     }
-  }, [navigation, password, route.params.account]);
+  }, [getPasswordFromBiometrics, navigation, route.params.account, t]);
 
   useFocusEffect(
     useCallback(() => {
@@ -97,7 +101,7 @@ const CheckWalletPassword = (props: NavProps) => {
         value={password}
         onChangeText={onPasswordChange}
         onSubmitEditing={onContinuePressed}
-        autoFocus
+        autoFocus={!appSettings.unlockWalletWithBiometrics}
       />
       <Typography.Body style={styles.errorParagraph}>{errorMessage}</Typography.Body>
       <KeyboardAvoidingView

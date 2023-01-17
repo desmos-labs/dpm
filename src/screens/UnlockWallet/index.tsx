@@ -16,8 +16,8 @@ import useOnBackAction from 'hooks/useOnBackAction';
 import { useUnlockWalletWithPassword } from 'screens/UnlockWallet/useHooks';
 import { SigningMode } from '@desmoslabs/desmjs';
 import { useSettings } from '@recoil/settings';
-import * as SecureStorage from 'lib/SecureStorage';
 import { BiometricAuthorizations } from 'types/settings';
+import useGetPasswordFromBiometrics from 'hooks/useGetPasswordFromBiometrics';
 import useStyles from './useStyles';
 
 export interface UnlockWalletParams {
@@ -51,6 +51,9 @@ const UnlockWallet: React.FC<Props> = (props) => {
   const [inputPassword, setInputInputPassword] = useState('');
   const unlockWalletWithPassword = useUnlockWalletWithPassword();
   const appSettings = useSettings();
+  const getPasswordFromBiometrics = useGetPasswordFromBiometrics(
+    BiometricAuthorizations.UnlockWallet,
+  );
 
   // Cancel if the user close this screen.
   useOnBackAction(() => onCancel !== undefined && onCancel(), [onCancel]);
@@ -81,9 +84,7 @@ const UnlockWallet: React.FC<Props> = (props) => {
   );
 
   const unlockWalletWithBiometrics = useCallback(async () => {
-    const biometricPassword = await SecureStorage.getBiometricPassword(
-      BiometricAuthorizations.UnlockWallet,
-    );
+    const biometricPassword = await getPasswordFromBiometrics();
     await unlockWallet(biometricPassword);
   }, [unlockWallet]);
 

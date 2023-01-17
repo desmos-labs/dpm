@@ -11,10 +11,11 @@ import Button from 'components/Button';
 import { RootNavigatorParamList } from 'navigation/RootNavigator';
 import ROUTES from 'navigation/routes';
 import { useSettings } from '@recoil/settings';
-import { checkUserPassword, getBiometricPassword } from 'lib/SecureStorage';
+import { checkUserPassword } from 'lib/SecureStorage';
 import { BiometricAuthorizations } from 'types/settings';
 import { useSetAppState } from '@recoil/appState';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import useGetPasswordFromBiometrics from 'hooks/useGetPasswordFromBiometrics';
 import useStyles from './useStyles';
 
 type NavProps = StackScreenProps<RootNavigatorParamList, ROUTES.UNLOCK_APPLICATION>;
@@ -30,6 +31,7 @@ const UnlockApplication: React.FC<NavProps> = (props) => {
   const settings = useSettings();
   const setAppState = useSetAppState();
   const { bottom } = useSafeAreaInsets();
+  const getPasswordFromBiometrics = useGetPasswordFromBiometrics(BiometricAuthorizations.Login);
 
   // Prevent to exit from this screen.
   useEffect(() => {
@@ -40,6 +42,7 @@ const UnlockApplication: React.FC<NavProps> = (props) => {
         // Unlock the application
         setAppState({
           locked: false,
+          noLockOnBackground: false,
         });
       }
     };
@@ -88,9 +91,9 @@ const UnlockApplication: React.FC<NavProps> = (props) => {
   );
 
   const unlockWithBiometrics = useCallback(async () => {
-    const biometricPassword = await getBiometricPassword(BiometricAuthorizations.Login);
+    const biometricPassword = await getPasswordFromBiometrics();
     unlockApplication(biometricPassword);
-  }, [unlockApplication]);
+  }, [getPasswordFromBiometrics, unlockApplication]);
 
   const unlockWithPassword = useCallback(() => {
     unlockApplication(inputPassword);

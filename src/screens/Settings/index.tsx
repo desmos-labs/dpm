@@ -12,7 +12,7 @@ import { useSetSettings, useSettings } from '@recoil/settings';
 import TopBar from 'components/TopBar';
 import OpenSettingScreenButton from 'screens/Settings/components/OpenSettingScreenButton';
 import { BiometricAuthorizations } from 'types/settings';
-import * as SecureStorage from 'lib/SecureStorage';
+import useDeletePasswordFromBiometrics from 'hooks/useDelletPasswordFromBiometrics';
 import useStyles from './useStyles';
 
 export type NavProps = StackScreenProps<RootNavigatorParamList, ROUTES.SETTINGS>;
@@ -25,6 +25,7 @@ const Settings = (props: NavProps) => {
   const settings = useSettings();
   const setSettings = useSetSettings();
   const [biometricsSupported, setBiometricsSupported] = React.useState(false);
+  const deletePasswordFromBiometrics = useDeletePasswordFromBiometrics();
 
   const sendFeedback = useCallback(async () => {
     Linking.openURL('mailto:development@forbole.com').catch((err) =>
@@ -63,7 +64,7 @@ const Settings = (props: NavProps) => {
 
   const turnOffBiometrics = useCallback(
     async (biometricsType: BiometricAuthorizations) => {
-      const biometricsDisabled = await SecureStorage.deleteBiometricAuthorization(biometricsType);
+      const biometricsDisabled = await deletePasswordFromBiometrics(biometricsType);
       if (biometricsDisabled) {
         setSettings((currentSettings) => {
           if (biometricsType === BiometricAuthorizations.Login) {
@@ -82,7 +83,7 @@ const Settings = (props: NavProps) => {
         });
       }
     },
-    [setSettings],
+    [deletePasswordFromBiometrics, setSettings],
   );
 
   const areBiometricsSupported = useCallback(async () => {
