@@ -7,5 +7,5 @@
   "tx note": "Note (memo)",
   "tx description": "Description (optional)",
   "to": "To",
-  "from": "From",
+  "from": "From"
 }
