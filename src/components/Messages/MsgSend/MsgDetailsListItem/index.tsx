@@ -6,7 +6,7 @@ import BaseMessageDetails from 'components/Messages/BaseMessage/BaseMessageDetai
 import { msgSendIcon } from 'assets/images';
 
 export type MsgSendDetailsProps = {
-  message: MsgSendEncodeObject['value'];
+  message: MsgSendEncodeObject;
 };
 
 /**
@@ -15,7 +15,8 @@ export type MsgSendDetailsProps = {
 const MsgSendDetails = (props: MsgSendDetailsProps) => {
   const { t } = useTranslation('sendTokens');
   const { message } = props;
-  const convertedAmount = useMemo(() => formatCoins(message.amount), [message.amount]);
+  const { value } = message;
+  const convertedAmount = useMemo(() => formatCoins(value.amount), [value.amount]);
 
   return (
     <BaseMessageDetails
@@ -24,11 +25,11 @@ const MsgSendDetails = (props: MsgSendDetailsProps) => {
       fields={[
         {
           label: t('from'),
-          value: message.fromAddress ?? '',
+          value: value.fromAddress ?? '',
         },
         {
           label: t('to'),
-          value: message.toAddress ?? '',
+          value: value.toAddress ?? '',
         },
         {
           label: t('amount'),

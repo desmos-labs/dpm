@@ -8,7 +8,7 @@ import BaseMessageDetails from 'components/Messages/BaseMessage/BaseMessageDetai
 import useStyles from './useStyles';
 
 export type MsgUnlinkChainAccountDetailsProps = {
-  message: MsgUnlinkChainAccountEncodeObject['value'];
+  message: MsgUnlinkChainAccountEncodeObject;
 };
 
 /**
@@ -19,12 +19,13 @@ const MsgUnlinkChainAccountDetails = (props: MsgUnlinkChainAccountDetailsProps) 
   const { t } = useTranslation();
   const styles = useStyles();
   const { message } = props;
+  const { value } = message;
   const getLinkableChainInfoByName = useCallback(
     (chainName: string) => SupportedChains.find((chain) => chainName === chain.chainConfig.name),
     [],
   );
 
-  const { chainName } = message;
+  const { chainName } = value;
   const chainIcon = useMemo(() => {
     const chain = chainName !== undefined ? getLinkableChainInfoByName(chainName) : undefined;
     if (chain !== undefined) {
@@ -45,7 +46,7 @@ const MsgUnlinkChainAccountDetails = (props: MsgUnlinkChainAccountDetailsProps) 
       fields={[
         {
           label: t('unlinked account'),
-          value: message.target,
+          value: value.target,
         },
       ]}
     />

@@ -28,7 +28,7 @@ const BaseMessageDetails = (props: BaseMessageDetailsProps) => {
       </View>
       {fields?.map((field, index) => (
         <View key={`field-${index * 2}`}>
-          <Divider />
+          {index > 0 && <Divider />}
           <LabeledValue label={field.label} value={field.value} />
         </View>
       ))}

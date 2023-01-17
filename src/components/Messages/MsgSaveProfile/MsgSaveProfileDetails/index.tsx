@@ -5,7 +5,7 @@ import BaseMessageDetails from 'components/Messages/BaseMessage/BaseMessageDetai
 import { msgGeneralIcon } from 'assets/images';
 
 export type MsgSaveProfileDetailsProps = {
-  message: MsgSaveProfileEncodeObject['value'];
+  message: MsgSaveProfileEncodeObject;
 };
 
 /**
@@ -13,8 +13,9 @@ export type MsgSaveProfileDetailsProps = {
  * @constructor
  */
 const MsgSaveProfileDetails = (props: MsgSaveProfileDetailsProps) => {
-  const { t } = useTranslation();
+  const { t } = useTranslation('profile');
   const { message } = props;
+  const { value } = message;
 
   return (
     <BaseMessageDetails
@@ -22,23 +23,23 @@ const MsgSaveProfileDetails = (props: MsgSaveProfileDetailsProps) => {
       fields={[
         {
           label: t('dtag'),
-          value: message.dtag,
+          value: value.dtag,
         },
         {
           label: t('nickname'),
-          value: message.nickname,
+          value: value.nickname,
         },
         {
           label: t('bio'),
-          value: message.bio,
+          value: value.bio,
         },
         {
           label: t('profile picture'),
-          value: message.profilePicture,
+          value: value.profilePicture,
         },
         {
           label: t('cover picture'),
-          value: message.coverPicture,
+          value: value.coverPicture,
         },
       ]}
     />

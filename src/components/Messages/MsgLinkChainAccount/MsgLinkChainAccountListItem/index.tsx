@@ -9,7 +9,7 @@ import BaseMessageListItem from 'components/Messages/BaseMessage/BaseMessageList
 import useStyles from './useStyles';
 
 export type MsgLinkChainAccountListItemProps = {
-  message: MsgLinkChainAccountEncodeObject['value'];
+  message: MsgLinkChainAccountEncodeObject;
   date: Date;
 };
 
@@ -22,7 +22,9 @@ const MsgLinkChainAccountListItem = (props: MsgLinkChainAccountListItemProps) =>
   const styles = useStyles();
 
   const { message, date } = props;
-  const { chainAddress } = message;
+  const { value } = message;
+  const { chainAddress } = value;
+
   const chainAccount = useMemo(() => {
     if (chainAddress !== undefined) {
       const bech32Address = Bech32Address.decode(chainAddress.value);

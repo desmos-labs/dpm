@@ -8,7 +8,7 @@ import Typography from 'components/Typography';
 import BaseMessageListItem from 'components/Messages/BaseMessage/BaseMessageListItem';
 
 export type MsgWithdrawDelegatorRewardsListItemProps = {
-  message: MsgWithdrawDelegatorRewardEncodeObject['value'];
+  message: MsgWithdrawDelegatorRewardEncodeObject;
   date: Date;
 };
 
@@ -20,6 +20,7 @@ const MsgWithdrawDelegatorRewardsListItem = (props: MsgWithdrawDelegatorRewardsL
   const { t } = useTranslation();
   const styles = useStyles();
   const { message, date } = props;
+  const { value } = message;
 
   return (
     <BaseMessageListItem
@@ -30,7 +31,7 @@ const MsgWithdrawDelegatorRewardsListItem = (props: MsgWithdrawDelegatorRewardsL
           <Typography.Body1>{t('withdraw rewards')}</Typography.Body1>
           <View style={styles.validatorAddress}>
             <Typography.Caption>
-              {t('from')} {message.validatorAddress}
+              {t('from')} {value.validatorAddress}
             </Typography.Caption>
           </View>
         </View>

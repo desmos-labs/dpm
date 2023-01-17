@@ -10,7 +10,7 @@ import { msgDelegateIcon } from 'assets/images';
 import useStyles from './useStyles';
 
 export type MsgDelegateListItemProps = {
-  message: MsgDelegateEncodeObject['value'];
+  message: MsgDelegateEncodeObject;
   date: Date;
 };
 
@@ -24,16 +24,18 @@ const MsgDelegateListItem = (props: MsgDelegateListItemProps) => {
   const styles = useStyles();
 
   const { message, date } = props;
+  const { value } = message;
+
   const delegateAmount = useMemo(() => {
-    if (message.amount) {
-      const converted = convertCoin(message.amount, 6, chainInfo.currencies);
+    if (value.amount) {
+      const converted = convertCoin(value.amount, 6, chainInfo.currencies);
       if (converted !== null) {
         return `${converted.amount} ${converted.denom.toUpperCase()}`;
       }
     }
 
     return '0';
-  }, [message.amount, chainInfo]);
+  }, [value.amount, chainInfo]);
 
   return (
     <BaseMessageListItem
@@ -46,7 +48,7 @@ const MsgDelegateListItem = (props: MsgDelegateListItemProps) => {
           </Typography.Body1>
           <View style={styles.validatorAddress}>
             <Typography.Caption>
-              {t('to')} {message.validatorAddress}
+              {t('to')} {value.validatorAddress}
             </Typography.Caption>
           </View>
         </View>

@@ -8,7 +8,7 @@ import Typography from 'components/Typography';
 import BaseMessageListItem from 'components/Messages/BaseMessage/BaseMessageListItem';
 
 export type MsgVoteListItemProps = {
-  message: MsgVoteEncodeObject['value'];
+  message: MsgVoteEncodeObject;
   date: Date;
 };
 
@@ -19,9 +19,10 @@ export type MsgVoteListItemProps = {
 const MsgVoteListItem = (props: MsgVoteListItemProps) => {
   const { t } = useTranslation();
   const { message, date } = props;
+  const { value } = message;
 
   const voteString = useMemo(() => {
-    switch (message.option) {
+    switch (value.option) {
       case VoteOption.VOTE_OPTION_YES:
         return t('yes');
 
@@ -37,7 +38,7 @@ const MsgVoteListItem = (props: MsgVoteListItemProps) => {
       default:
         return 'undefined';
     }
-  }, [message.option, t]);
+  }, [value.option, t]);
 
   return (
     <BaseMessageListItem
@@ -47,7 +48,7 @@ const MsgVoteListItem = (props: MsgVoteListItemProps) => {
         <View>
           <Typography.Body1>
             {t('vote proposal number with vote', {
-              number: message.proposalId?.toString() ?? '?',
+              number: value.proposalId?.toString() ?? '?',
               vote: voteString,
             })}
           </Typography.Body1>

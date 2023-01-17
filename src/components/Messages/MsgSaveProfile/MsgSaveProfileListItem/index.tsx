@@ -7,7 +7,7 @@ import Typography from 'components/Typography';
 import BaseMessageListItem from 'components/Messages/BaseMessage/BaseMessageListItem';
 
 export type MsgSaveProfileListItemProps = {
-  message: MsgSaveProfileEncodeObject['value'];
+  message: MsgSaveProfileEncodeObject;
   date: Date;
 };
 

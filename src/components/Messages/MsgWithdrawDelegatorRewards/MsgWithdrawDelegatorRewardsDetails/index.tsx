@@ -5,7 +5,7 @@ import BaseMessageDetails from 'components/Messages/BaseMessage/BaseMessageDetai
 import { msgWithdrawIcon } from 'assets/images';
 
 export type MsgWithdrawDelegatorRewardsDetailsProps = {
-  message: MsgWithdrawDelegatorRewardEncodeObject['value'];
+  message: MsgWithdrawDelegatorRewardEncodeObject;
 };
 
 /**
@@ -15,6 +15,7 @@ export type MsgWithdrawDelegatorRewardsDetailsProps = {
 const MsgWithdrawDelegatorRewardsDetails = (props: MsgWithdrawDelegatorRewardsDetailsProps) => {
   const { t } = useTranslation();
   const { message } = props;
+  const { value } = message;
 
   return (
     <BaseMessageDetails
@@ -23,7 +24,7 @@ const MsgWithdrawDelegatorRewardsDetails = (props: MsgWithdrawDelegatorRewardsDe
       fields={[
         {
           label: t('from'),
-          value: message.validatorAddress,
+          value: value.validatorAddress,
         },
       ]}
     />

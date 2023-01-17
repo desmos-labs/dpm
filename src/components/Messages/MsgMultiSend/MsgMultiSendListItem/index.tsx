@@ -8,7 +8,7 @@ import { formatMultiSendInput } from 'lib/FormatUtils';
 import { MsgMultiSendEncodeObject } from '@desmoslabs/desmjs';
 
 export type MsgMultiSendListItemProps = {
-  message: MsgMultiSendEncodeObject['value'];
+  message: MsgMultiSendEncodeObject;
   date: Date;
 };
 
@@ -20,15 +20,16 @@ const MsgMultiSendListItem = (props: MsgMultiSendListItemProps) => {
   const { t } = useTranslation();
   const chainInfo = useCurrentChainInfo();
   const { message, date } = props;
+  const { value } = message;
 
   const tokenSent = useMemo(
-    () => formatMultiSendInput(message.inputs, ', '),
-    [message.inputs, chainInfo],
+    () => formatMultiSendInput(value.inputs, ', '),
+    [value.inputs, chainInfo],
   );
 
   const outputAddresses = useMemo(
-    () => message.outputs.map((output: { address: string }) => output.address),
-    [message.outputs],
+    () => value.outputs.map((output: { address: string }) => output.address),
+    [value.outputs],
   );
 
   return (

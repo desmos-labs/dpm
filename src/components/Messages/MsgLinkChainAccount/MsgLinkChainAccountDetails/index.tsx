@@ -8,7 +8,7 @@ import BaseMessageDetails from 'components/Messages/BaseMessage/BaseMessageDetai
 import useStyles from './useStyles';
 
 export type MsgLinkChainAccountDetailsProps = {
-  message: MsgLinkChainAccountEncodeObject['value'];
+  message: MsgLinkChainAccountEncodeObject;
 };
 
 /**
@@ -19,20 +19,21 @@ const MsgLinkChainAccountDetails = (props: MsgLinkChainAccountDetailsProps) => {
   const { t } = useTranslation();
   const styles = useStyles();
   const { message } = props;
+  const { value } = message;
   const getLinkableChainInfoByName = useCallback(
     (chainName: string) => SupportedChains.find((chain) => chainName === chain.chainConfig.name),
     [],
   );
 
   const bech32Address = useMemo(() => {
-    const chainAddress = message?.chainAddress;
+    const { chainAddress } = value;
     if (chainAddress !== undefined) {
       return Bech32Address.decode(chainAddress.value);
     }
     return undefined;
-  }, [message]);
+  }, [value]);
 
-  const chainName = message?.chainConfig?.name;
+  const chainName = value.chainConfig?.name;
   const chainIcon = useMemo(() => {
     const chain = chainName !== undefined ? getLinkableChainInfoByName(chainName) : undefined;
     if (chain !== undefined) {
@@ -53,7 +54,7 @@ const MsgLinkChainAccountDetails = (props: MsgLinkChainAccountDetailsProps) => {
       fields={[
         {
           label: t('from'),
-          value: message.signer,
+          value: value.signer,
         },
         {
           label: t('connect to'),

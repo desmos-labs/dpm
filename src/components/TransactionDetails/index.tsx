@@ -71,7 +71,6 @@ const TransactionDetails: React.FC<TransactionDetailsProps> = (props) => {
             </>
           )}
           <LabeledValue label={t('memo')} value={(memo?.length ?? 0) > 0 ? memo : ''} />
-          <Divider />
         </Pressable>
       </ScrollView>
     </View>

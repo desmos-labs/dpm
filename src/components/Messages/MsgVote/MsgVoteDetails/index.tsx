@@ -6,7 +6,7 @@ import BaseMessageDetails from 'components/Messages/BaseMessage/BaseMessageDetai
 import { msgVoteIcon } from 'assets/images';
 
 export type MsgVoteDetailsProps = {
-  message: MsgVoteEncodeObject['value'];
+  message: MsgVoteEncodeObject;
 };
 
 /**
@@ -16,9 +16,10 @@ export type MsgVoteDetailsProps = {
 const MsgVoteDetails = (props: MsgVoteDetailsProps) => {
   const { t } = useTranslation();
   const { message } = props;
+  const { value } = message;
 
   const voteValue = useMemo(() => {
-    switch (message.option) {
+    switch (value.option) {
       case VoteOption.VOTE_OPTION_YES:
         return t('yes');
 
@@ -34,9 +35,9 @@ const MsgVoteDetails = (props: MsgVoteDetailsProps) => {
       default:
         return 'undefined';
     }
-  }, [t, message]);
+  }, [value, t]);
 
-  const proposalId = useMemo(() => message?.proposalId?.toString() ?? '??', [message]);
+  const proposalId = useMemo(() => value.proposalId?.toString() ?? '??', [value]);
   return (
     <BaseMessageDetails
       icon={msgVoteIcon}

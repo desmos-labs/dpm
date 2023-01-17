@@ -6,7 +6,7 @@ import { MsgMultiSendEncodeObject } from '@desmoslabs/desmjs';
 import BaseMessageDetails from '../../BaseMessage/BaseMessageDetails';
 
 export type MsgMultiSendDetailsProps = {
-  message: MsgMultiSendEncodeObject['value'];
+  message: MsgMultiSendEncodeObject;
 };
 
 /**
@@ -16,10 +16,11 @@ export type MsgMultiSendDetailsProps = {
 const MsgMultiSendDetails = (props: MsgMultiSendDetailsProps) => {
   const { t } = useTranslation();
   const { message } = props;
-  const amounts = useMemo(() => formatMultiSendInput(message.inputs), [message.inputs]);
+  const { value } = message;
+  const amounts = useMemo(() => formatMultiSendInput(value.inputs), [value.inputs]);
 
   const outputs = useMemo(() => {
-    const multiOutputs = message?.outputs ?? [];
+    const multiOutputs = value.outputs ?? [];
     return multiOutputs
       .map((output) => {
         const serializedCoins = formatCoins(output.coins);
@@ -39,7 +40,7 @@ const MsgMultiSendDetails = (props: MsgMultiSendDetailsProps) => {
         },
       ])
       .reduce((oldValue, sum) => [...oldValue, ...sum], []);
-  }, [message?.outputs, t]);
+  }, [value.outputs, t]);
 
   return <BaseMessageDetails icon={msgSendIcon} iconSubtitle={amounts} fields={[...outputs]} />;
 };

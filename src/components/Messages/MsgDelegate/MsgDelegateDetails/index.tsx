@@ -7,7 +7,7 @@ import { msgDelegateIcon } from 'assets/images';
 import BaseMessageDetails from '../../BaseMessage/BaseMessageDetails';
 
 export type MsgDelegateDetailsProps = {
-  message: MsgDelegateEncodeObject['value'];
+  message: MsgDelegateEncodeObject;
 };
 
 /**
@@ -17,10 +17,11 @@ export type MsgDelegateDetailsProps = {
 const MsgDelegateDetails = (props: MsgDelegateDetailsProps) => {
   const { t } = useTranslation();
   const chainInfo = useCurrentChainInfo();
-
   const { message } = props;
+  const { value } = message;
+
   const amount = useMemo(() => {
-    const totalAmount = message?.amount;
+    const totalAmount = value.amount;
     if (totalAmount !== undefined) {
       const converted = convertCoin(totalAmount, 6, chainInfo.currencies);
       if (converted !== null) {
@@ -29,7 +30,7 @@ const MsgDelegateDetails = (props: MsgDelegateDetailsProps) => {
       return '';
     }
     return '';
-  }, [message?.amount, chainInfo.currencies]);
+  }, [value.amount, chainInfo.currencies]);
 
   return (
     <BaseMessageDetails
@@ -42,11 +43,11 @@ const MsgDelegateDetails = (props: MsgDelegateDetailsProps) => {
         },
         {
           label: t('from'),
-          value: message?.delegatorAddress ?? '',
+          value: value.delegatorAddress ?? '',
         },
         {
           label: t('to'),
-          value: message?.validatorAddress ?? '',
+          value: value.validatorAddress ?? '',
         },
       ]}
     />

@@ -8,7 +8,7 @@ import BaseMessageListItem from 'components/Messages/BaseMessage/BaseMessageList
 import useStyles from './useStyles';
 
 export type MsgUnlinkChainAccountListItemProps = {
-  message: MsgUnlinkChainAccountEncodeObject['value'];
+  message: MsgUnlinkChainAccountEncodeObject;
   date: Date;
 };
 
@@ -20,6 +20,7 @@ const MsgUnlinkChainAccountListItem = (props: MsgUnlinkChainAccountListItemProps
   const { t } = useTranslation();
   const styles = useStyles();
   const { message, date } = props;
+  const { value } = message;
 
   return (
     <BaseMessageListItem
@@ -29,7 +30,7 @@ const MsgUnlinkChainAccountListItem = (props: MsgUnlinkChainAccountListItemProps
         <View>
           <Typography.Body1>{t('tx type unlink chain account')}</Typography.Body1>
           <View style={styles.target}>
-            <Typography.Caption>{message.target}</Typography.Caption>
+            <Typography.Caption>{value.target}</Typography.Caption>
           </View>
         </View>
       )}

@@ -9,7 +9,7 @@ import Typography from 'components/Typography';
 import BaseMessageListItem from 'components/Messages/BaseMessage/BaseMessageListItem';
 
 export type MsgSendListItemProps = {
-  message: MsgSendEncodeObject['value'];
+  message: MsgSendEncodeObject;
   date: Date;
 };
 
@@ -20,8 +20,9 @@ const MsgSendListItem = (props: MsgSendListItemProps) => {
   const { t } = useTranslation('sendTokens');
   const styles = useStyles();
   const { message, date } = props;
+  const { value } = message;
 
-  const tokenSent = useMemo(() => formatCoins(message.amount), [message.amount]);
+  const tokenSent = useMemo(() => formatCoins(value.amount), [value.amount]);
   return (
     <BaseMessageListItem
       icon={msgSendIcon}
@@ -33,7 +34,7 @@ const MsgSendListItem = (props: MsgSendListItemProps) => {
           </Typography.Body1>
           <View style={styles.toAddress}>
             <Typography.Caption numberOfLines={1} ellipsizeMode="middle">
-              {t('to')} {message.toAddress}
+              {t('to')} {value.toAddress}
             </Typography.Caption>
           </View>
         </View>

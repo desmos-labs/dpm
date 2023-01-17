@@ -5,7 +5,7 @@ const useStyles = makeStyle((_) => ({
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
-    paddingVertical: 24,
+    paddingBottom: 12,
   },
   txIcon: {
     width: 34,
