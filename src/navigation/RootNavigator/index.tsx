@@ -65,7 +65,7 @@ export type RootNavigatorParamList = {
   [ROUTES.WALLET_CONNECT_REQUEST]: undefined;
 
   [ROUTES.PROFILE]: ProfileParams | undefined;
-  [ROUTES.EDIT_PROFILE]: EditProfileParams;
+  [ROUTES.EDIT_PROFILE]: EditProfileParams | undefined;
   [ROUTES.SEND_TOKENS]: undefined;
   [ROUTES.CHAIN_LINK_DETAILS]: ChainLinkDetailsParams;
   [ROUTES.UNLOCK_WALLET]: UnlockWalletParams;

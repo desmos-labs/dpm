@@ -41,7 +41,7 @@ const Profile = () => {
   }, []);
 
   const EditProfileBtn = React.useMemo(
-    () => (canEdit ? <EditProfileButton profile={profile} /> : undefined),
+    () => (canEdit && profile ? <EditProfileButton profile={profile} /> : undefined),
     [profile, canEdit],
   );
 

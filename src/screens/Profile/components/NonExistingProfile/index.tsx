@@ -5,6 +5,10 @@ import Typography from 'components/Typography';
 import Button from 'components/Button';
 import { View } from 'react-native';
 import { useTranslation } from 'react-i18next';
+import { useNavigation } from '@react-navigation/native';
+import { RootNavigatorParamList } from 'navigation/RootNavigator';
+import ROUTES from 'navigation/routes';
+import { StackNavigationProp } from '@react-navigation/stack/lib/typescript/src/types';
 import useStyles from './useStyles';
 
 export interface NonExitingProfileProps {
@@ -18,17 +22,11 @@ const NonExistingProfile = (props: NonExitingProfileProps) => {
   const styles = useStyles();
   const { t } = useTranslation();
   const { canCreate } = props;
+  const navigation = useNavigation<StackNavigationProp<RootNavigatorParamList>>();
 
   const onCreateProfile = useCallback(() => {
-    // TODO: Implement this
-    // navigation.navigate({
-    //   name: 'EditProfile',
-    //   params: {
-    //     account,
-    //     profile: null,
-    //   },
-    // });
-  }, []);
+    navigation.navigate(ROUTES.EDIT_PROFILE);
+  }, [navigation]);
 
   return (
     <View style={styles.root}>

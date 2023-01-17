@@ -29,7 +29,7 @@ const EditProfile = () => {
   const { params } = useRoute<NavProps['route']>();
   const { t } = useTranslation('profile');
 
-  const { profile } = params;
+  const profile = params?.profile;
 
   const { params: profileParams, refetch: refetchProfileParams } = useProfileParams();
   const { validateDTag, validateNickname, validateBiography } = useValidationHooks(profileParams);
@@ -147,7 +147,7 @@ const EditProfile = () => {
         <TopBar
           stackProps={{ navigation }}
           rightElement={DoneButton}
-          title={profile !== null ? t('edit profile') : t('create profile')}
+          title={profile ? t('edit profile') : t('create profile')}
         />
       }
     >
