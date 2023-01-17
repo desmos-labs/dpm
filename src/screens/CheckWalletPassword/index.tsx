@@ -63,10 +63,15 @@ const CheckWalletPassword = (props: NavProps) => {
   const continueWithBiometrics = useCallback(async () => {
     const biometricPassword = await getBiometricPassword(BiometricAuthorizations.UnlockWallet);
     if (biometricPassword) {
-      navigation.navigate(ROUTES.SAVE_GENERATED_ACCOUNT, {
-        account: route.params.account,
-        password,
-      });
+      const isPasswordCorrect = await checkUserPassword(biometricPassword).catch(() => false);
+      if (isPasswordCorrect) {
+        navigation.navigate(ROUTES.SAVE_GENERATED_ACCOUNT, {
+          account: route.params.account,
+          password: biometricPassword,
+        });
+      } else {
+        setErrorMessage(t('wrong confirmation password'));
+      }
     }
   }, [navigation, password, route.params.account]);
 
