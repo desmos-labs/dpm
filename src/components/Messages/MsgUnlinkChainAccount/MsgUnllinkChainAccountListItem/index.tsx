@@ -30,7 +30,9 @@ const MsgUnlinkChainAccountListItem = (props: MsgUnlinkChainAccountListItemProps
         <View>
           <Typography.Body1>{t('tx type unlink chain account')}</Typography.Body1>
           <View style={styles.target}>
-            <Typography.Caption>{value.target}</Typography.Caption>
+            <Typography.Caption numberOfLines={1} ellipsizeMode="middle">
+              {value.target}
+            </Typography.Caption>
           </View>
         </View>
       )}
