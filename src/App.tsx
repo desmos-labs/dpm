@@ -5,11 +5,10 @@ import RootNavigator, { RootNavigatorParamList } from 'navigation/RootNavigator'
 import ThemeProvider from 'contexts/ThemeProvider';
 import GraphQLClientProvider from 'contexts/GraphQLClientProvider';
 import { StatusBar } from 'react-native';
-import useLockApplicationOnBlur from 'hooks/useLockApplicationOnBlur';
 
 const Navigation = () => {
   const navigationRef = React.createRef<NavigationContainerRef<RootNavigatorParamList>>();
-  useLockApplicationOnBlur(navigationRef);
+  // useLockApplicationOnBlur(navigationRef);
 
   return (
     <NavigationContainer ref={navigationRef}>
