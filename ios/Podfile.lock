@@ -148,6 +148,8 @@ PODS:
   - nanopb/decode (2.30909.0)
   - nanopb/encode (2.30909.0)
   - OpenSSL-Universal (1.1.1100)
+  - Permission-BluetoothPeripheral (3.6.1):
+    - RNPermissions
   - Permission-Camera (3.6.1):
     - RNPermissions
   - PromisesObjC (2.1.1)
@@ -484,7 +486,7 @@ PODS:
     - React
   - RNPermissions (3.6.1):
     - React-Core
-  - RNReanimated (2.13.0):
+  - RNReanimated (2.14.1):
     - DoubleConversion
     - FBLazyVector
     - FBReactNativeSpec
@@ -567,6 +569,7 @@ DEPENDENCIES:
   - lottie-ios (from `../node_modules/lottie-ios`)
   - lottie-react-native (from `../node_modules/lottie-react-native`)
   - OpenSSL-Universal (= 1.1.1100)
+  - Permission-BluetoothPeripheral (from `../node_modules/react-native-permissions/ios/BluetoothPeripheral`)
   - Permission-Camera (from `../node_modules/react-native-permissions/ios/Camera`)
   - RCT-Folly (from `../node_modules/react-native/third-party-podspecs/RCT-Folly.podspec`)
   - RCTRequired (from `../node_modules/react-native/Libraries/RCTRequired`)
@@ -678,6 +681,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/lottie-ios"
   lottie-react-native:
     :path: "../node_modules/lottie-react-native"
+  Permission-BluetoothPeripheral:
+    :path: "../node_modules/react-native-permissions/ios/BluetoothPeripheral"
   Permission-Camera:
     :path: "../node_modules/react-native-permissions/ios/Camera"
   RCT-Folly:
@@ -820,6 +825,7 @@ SPEC CHECKSUMS:
   MultiplatformBleAdapter: 5a6a897b006764392f9cef785e4360f54fb9477d
   nanopb: b552cce312b6c8484180ef47159bc0f65a1f0431
   OpenSSL-Universal: ebc357f1e6bc71fa463ccb2fe676756aff50e88c
+  Permission-BluetoothPeripheral: 67708853584bb9208c76d36d0e0ea4eafb97ea5b
   Permission-Camera: bf6791b17c7f614b6826019fcfdcc286d3a107f6
   PromisesObjC: ab77feca74fa2823e7af4249b8326368e61014cb
   Protobuf: 120350fc38646e2dedc26f49ecba778184ea1de2
@@ -868,7 +874,7 @@ SPEC CHECKSUMS:
   RNKeychain: 4f63aada75ebafd26f4bc2c670199461eab85d94
   RNOS: 6f2f9a70895bbbfbdad7196abd952e7b01d45027
   RNPermissions: dcdb7b99796bbeda6975a6e79ad519c41b251b1c
-  RNReanimated: ce445c233a6ff5600223484a88ad5704945d972a
+  RNReanimated: 8125b2324ba03108136ab5dd506fc49b2454da24
   RNScreens: 34cc502acf1b916c582c60003dc3089fa01dc66d
   RNVectorIcons: fcc2f6cb32f5735b586e66d14103a74ce6ad61f8
   SDWebImage: a7f831e1a65eb5e285e3fb046a23fcfbf08e696d
@@ -880,6 +886,6 @@ SPEC CHECKSUMS:
   Yoga: 99caf8d5ab45e9d637ee6e0174ec16fbbb01bcfc
   YogaKit: f782866e155069a2cca2517aafea43200b01fd5a
 
-PODFILE CHECKSUM: 039e85c86b2b9ff925b07dee31a9dddd4b3a8d8b
+PODFILE CHECKSUM: 5dd5a287f3d2f7b228ddf0c22940915b7656eab0
 
 COCOAPODS: 1.11.3

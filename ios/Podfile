@@ -31,7 +31,7 @@ target 'DesmosProfileManager' do
 
   permissions_path = '../node_modules/react-native-permissions/ios'
   pod 'Permission-Camera', :path => "#{permissions_path}/Camera"
-
+  pod 'Permission-BluetoothPeripheral', :path => "#{permissions_path}/BluetoothPeripheral"
 
   target 'DesmosProfileManagerTests' do
     inherit! :complete

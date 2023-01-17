@@ -14,6 +14,7 @@ import { useSettings } from '@recoil/settings';
 import { checkUserPassword, getBiometricPassword } from 'lib/SecureStorage';
 import { BiometricAuthorizations } from 'types/settings';
 import { useSetAppState } from '@recoil/appState';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import useStyles from './useStyles';
 
 type NavProps = StackScreenProps<RootNavigatorParamList, ROUTES.UNLOCK_APPLICATION>;
@@ -28,6 +29,7 @@ const UnlockApplication: React.FC<NavProps> = (props) => {
   const [error, setError] = useState<string>();
   const settings = useSettings();
   const setAppState = useSetAppState();
+  const { bottom } = useSafeAreaInsets();
 
   // Prevent to exit from this screen.
   useEffect(() => {
@@ -118,7 +120,7 @@ const UnlockApplication: React.FC<NavProps> = (props) => {
       <Typography.Body style={styles.errorMsg}>{error}</Typography.Body>
       <Padding flex={1} />
       <KeyboardAvoidingView
-        keyboardVerticalOffset={Platform.OS === 'ios' ? 70 : 0}
+        keyboardVerticalOffset={Platform.OS === 'ios' ? bottom + 80 : 0}
         {...(Platform.OS === 'ios' ? { behavior: 'padding' } : {})}
       >
         <Button mode="contained" onPress={unlockWithPassword} loading={loading} disabled={loading}>
