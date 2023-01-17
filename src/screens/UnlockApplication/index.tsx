@@ -119,6 +119,7 @@ const UnlockApplication: React.FC<NavProps> = (props) => {
         onChangeText={setInputPassword}
         onSubmitEditing={unlockWithPassword}
         placeholder={t('password')}
+        autoFocus={!settings.loginWithBiometrics}
       />
       <Typography.Body style={styles.errorMsg}>{error}</Typography.Body>
       <Padding flex={1} />
