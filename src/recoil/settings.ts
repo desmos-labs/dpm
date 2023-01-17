@@ -1,6 +1,6 @@
 import React, { useMemo } from 'react';
 import { getMMKV, MMKVKEYS, setMMKV } from 'lib/MMKVStorage';
-import { atom, useRecoilValue, useSetRecoilState } from 'recoil';
+import { atom, selectorFamily, useRecoilValue, useSetRecoilState } from 'recoil';
 import { AppSettings } from 'types/settings';
 import { findChainInfoByName } from 'lib/ChainsUtils';
 import { DesmosMainnet, DesmosTestnet, GasPrice } from '@desmoslabs/desmjs';
@@ -56,10 +56,26 @@ export const useCurrentChainGasPrice = () => {
 
 export const useSettings = () => useRecoilValue(settingsAppState);
 
-export const useSetting = <K extends keyof AppSettings>(settingKey: K) => {
-  const settings = useRecoilValue(settingsAppState);
-  return settings[settingKey];
-};
+/**
+ * Recoil that allows to select a single setting value.
+ */
+const settingState = selectorFamily({
+  key: 'setting',
+  get:
+    (key: keyof AppSettings) =>
+    ({ get }) => {
+      const settings = get(settingsAppState);
+      return settings[key];
+    },
+});
+
+/**
+ * Hook that allows to observe only a single setting value.
+ * @param settingKey - Key associated to the setting that needs to be retrieved.
+ * @return The value of the setting associated with the given key.
+ */
+export const useSetting = <K extends keyof AppSettings>(settingKey: K) =>
+  useRecoilValue(settingState(settingKey)) as AppSettings[K];
 
 /**
  * Hook that provides a function to update the value of a setting.

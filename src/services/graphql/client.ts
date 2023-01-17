@@ -2,7 +2,7 @@ import { ApolloClient, ApolloLink, createHttpLink, InMemoryCache } from '@apollo
 import { MultiAPILink } from '@habx/apollo-multi-endpoint-link';
 import { DefaultEndpoints } from '@habx/apollo-multi-endpoint-link/dist/typings/interface';
 import { WebSocketLink } from '@apollo/client/link/ws';
-import { useSettings } from '@recoil/settings';
+import { useSetting } from '@recoil/settings';
 import { DesmosMainnet, DesmosTestnet } from '@desmoslabs/desmjs';
 
 const gqlEndpoints = new Map<string, DefaultEndpoints>([
@@ -52,7 +52,7 @@ const buildGraphQlClient = (chainName: string) =>
   });
 
 const useGraphQLClient = () => {
-  const { chainName } = useSettings();
+  const chainName = useSetting('chainName');
   return buildGraphQlClient(chainName);
 };
 

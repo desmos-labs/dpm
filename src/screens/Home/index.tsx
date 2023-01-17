@@ -6,7 +6,7 @@ import { useTheme } from 'react-native-paper';
 import Typography from 'components/Typography';
 import StyledSafeAreaView from 'components/StyledSafeAreaView';
 import TopBar from 'components/TopBar';
-import { useSettings } from '@recoil/settings';
+import { useSetting } from '@recoil/settings';
 import { RootNavigatorParamList } from 'navigation/RootNavigator';
 import ROUTES from 'navigation/routes';
 import { DesmosMainnet } from '@desmoslabs/desmjs';
@@ -36,7 +36,7 @@ const Home: React.FC<NavProps> = (props) => {
   const styles = useStyles();
   const { openDrawer } = useDrawerContext();
 
-  const settings = useSettings();
+  const chainName = useSetting('chainName');
 
   const account = useActiveAccount();
   const { profile, refetch: updateProfile } = useActiveProfile();
@@ -68,7 +68,7 @@ const Home: React.FC<NavProps> = (props) => {
   return (
     <StyledSafeAreaView padding={0} noIosPadding>
       {/* Testnet chain badge */}
-      {settings.chainName !== DesmosMainnet.chainName && (
+      {chainName !== DesmosMainnet.chainName && (
         <View style={styles.testnetBadge}>
           <Text style={styles.testnetText}>TESTNET</Text>
         </View>

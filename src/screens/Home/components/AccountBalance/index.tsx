@@ -3,7 +3,7 @@ import { useTranslation } from 'react-i18next';
 import { StyleProp, TouchableOpacity, View, ViewStyle } from 'react-native';
 import IconButton from 'components/IconButton';
 import Typography from 'components/Typography';
-import { useSetSettings, useSettings } from '@recoil/settings';
+import { useSetSetting, useSetting } from '@recoil/settings';
 import CopyButton from 'components/CopyButton';
 import { Account } from 'types/account';
 import { DesmosProfile } from 'types/desmos';
@@ -30,23 +30,20 @@ const AccountBalance: React.FC<AccountBalanceProps> = (props) => {
   const styles = useStyles();
   const navigation = useNavigation<StackNavigationProp<RootNavigatorParamList>>();
 
-  const settings = useSettings();
-  const setSettings = useSetSettings();
+  const balanceHidden = useSetting('balanceHidden');
+  const setBalanceHidden = useSetSetting('balanceHidden');
 
   const nickname = profile?.nickname;
   const address = profile?.address ?? account?.address ?? '';
 
   const balanceValue = useMemo(() => {
     const value = formatCoins(balance);
-    return settings.balanceHidden ? formatHiddenValue(value) : value;
-  }, [settings, balance]);
+    return balanceHidden ? formatHiddenValue(value) : value;
+  }, [balanceHidden, balance]);
 
   const onHidePressed = useCallback(() => {
-    setSettings({
-      ...settings,
-      balanceHidden: !settings.balanceHidden,
-    });
-  }, [setSettings, settings]);
+    setBalanceHidden(!balanceHidden);
+  }, [setBalanceHidden, balanceHidden]);
 
   const onSendPressed = useCallback(() => {
     navigation.navigate(ROUTES.SEND_TOKENS);
@@ -69,7 +66,7 @@ const AccountBalance: React.FC<AccountBalanceProps> = (props) => {
         <CopyButton value={address} />
         <IconButton
           color="#ffffff"
-          icon={settings.balanceHidden ? 'eye' : 'eye-off'}
+          icon={balanceHidden ? 'eye' : 'eye-off'}
           size={16}
           onPress={onHidePressed}
         />
