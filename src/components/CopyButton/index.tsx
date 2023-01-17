@@ -16,7 +16,7 @@ const CopyButton = (props: CopyButtonProps) => {
   const { t } = useTranslation();
   const { value } = props;
 
-  const [showHint, setShowHint] = useState<boolean>(true);
+  const [showHint, setShowHint] = useState<boolean>(false);
 
   const onCopyPressed = useCallback(() => {
     Clipboard.setString(value);
