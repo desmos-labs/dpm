@@ -14,9 +14,11 @@ export const openSettingsAndCheckPermissions = async (
   // Prepare the promise that will check the settings after the application
   // come back to focus.
   const promise = new Promise<AppPermissionStatus>((resolve, reject) => {
-    const subscription = AppState.addEventListener('focus', async () => {
-      subscription.remove();
-      permissionsCheck().then(resolve).catch(reject);
+    const subscription = AppState.addEventListener('change', async (state) => {
+      if (state === 'active') {
+        subscription.remove();
+        permissionsCheck().then(resolve).catch(reject);
+      }
     });
   });
 

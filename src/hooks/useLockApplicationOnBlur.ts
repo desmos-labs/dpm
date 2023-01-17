@@ -14,32 +14,32 @@ const useLockApplicationOnBlur = (
   const setAppState = useSetAppState();
 
   useEffect(() => {
-    const blurSubscription = AppState.addEventListener('blur', () => {
-      setAppState((currentState) => ({
-        ...currentState,
-        lastObBlur: new Date(),
-      }));
-    });
-
-    const focusSubscription = AppState.addEventListener('focus', () => {
-      setAppState((currentState) => {
-        // App is back on focus, check if the app should be locked.
-        if (currentState.lastObBlur !== undefined) {
-          const deltaSeconds = Math.abs(currentState.lastObBlur - new Date()) / 1000;
-          if (deltaSeconds >= settings.appInactivityLockSeconds) {
-            return {
-              ...currentState,
-              locked: true,
-            };
+    const onChangeSubscription = AppState.addEventListener('change', (state) => {
+      console.log('app state change', state);
+      if (state === 'active') {
+        setAppState((currentState) => {
+          // App is back on focus, check if the app should be locked.
+          if (currentState.lastObBlur !== undefined) {
+            const deltaSeconds = Math.abs(currentState.lastObBlur - new Date()) / 1000;
+            if (deltaSeconds >= settings.appInactivityLockSeconds) {
+              return {
+                ...currentState,
+                locked: true,
+              };
+            }
           }
-        }
-        return currentState;
-      });
+          return currentState;
+        });
+      } else if (state === 'background') {
+        setAppState((currentState) => ({
+          ...currentState,
+          lastObBlur: new Date(),
+        }));
+      }
     });
 
     return () => {
-      blurSubscription.remove();
-      focusSubscription.remove();
+      onChangeSubscription.remove();
     };
   }, [setAppState, settings.appInactivityLockSeconds]);
 
