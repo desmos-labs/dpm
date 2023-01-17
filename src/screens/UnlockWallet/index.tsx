@@ -86,7 +86,7 @@ const UnlockWallet: React.FC<Props> = (props) => {
   const unlockWalletWithBiometrics = useCallback(async () => {
     const biometricPassword = await getPasswordFromBiometrics();
     await unlockWallet(biometricPassword);
-  }, [unlockWallet]);
+  }, [getPasswordFromBiometrics, unlockWallet]);
 
   const unlockWalletWithWithPassword = useCallback(async () => {
     await unlockWallet(inputPassword);
