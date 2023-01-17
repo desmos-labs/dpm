@@ -3,7 +3,7 @@ import { useCallback, useEffect, useState } from 'react';
 import { BleError } from 'react-native-ble-plx';
 import BluetoothStateManager from 'react-native-bluetooth-state-manager';
 import { BLELedger, Subscription } from 'types/ledger';
-import { AppState, Platform } from 'react-native';
+import { AppState, Linking, Platform } from 'react-native';
 import { AppPermissionStatus } from 'types/permissions';
 import * as Permissions from 'react-native-permissions';
 
@@ -49,7 +49,7 @@ export const openSettingsAndCheckBtStatus = async () => {
   });
 
   // Open the settings
-  await BluetoothStateManager.openSettings();
+  await Linking.openURL('App-Prefs:Bluetooth');
   return promise;
 };
 
@@ -110,7 +110,13 @@ export function useBleScan() {
     async (durationMs = 10000) => {
       const btOn = (await BluetoothStateManager.getState()) === 'PoweredOn';
       if (!btOn) {
-        const btEnableResult = await requestEnableBt().catch(() => false);
+        let btEnableResult;
+        if (Platform.OS === 'ios') {
+          btEnableResult = false;
+        } else {
+          btEnableResult = await requestEnableBt().catch(() => false);
+        }
+
         if (!btEnableResult) {
           setScanError({ type: ScanErrorType.BtOff });
           return;
