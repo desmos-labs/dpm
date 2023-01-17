@@ -1,5 +1,5 @@
 import { StackScreenProps } from '@react-navigation/stack';
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { KeyboardAvoidingView, Platform, View } from 'react-native';
 import BiometricsLoadingIndicator from 'components/BiometricsLoadingIndicator';
@@ -18,7 +18,6 @@ import { SigningMode } from '@desmoslabs/desmjs';
 import { useSettings } from '@recoil/settings';
 import * as SecureStorage from 'lib/SecureStorage';
 import { BiometricAuthorizations } from 'types/settings';
-import { useFocusEffect } from '@react-navigation/native';
 import useStyles from './useStyles';
 
 export interface UnlockWalletParams {
@@ -85,6 +84,7 @@ const UnlockWallet: React.FC<Props> = (props) => {
     const biometricPassword = await SecureStorage.getBiometricPassword(
       BiometricAuthorizations.UnlockWallet,
     );
+    console.log('biometricPassword', biometricPassword);
     await unlockWallet(biometricPassword);
   }, [unlockWallet]);
 
@@ -92,18 +92,16 @@ const UnlockWallet: React.FC<Props> = (props) => {
     await unlockWallet(inputPassword);
   }, [unlockWallet, inputPassword]);
 
-  useFocusEffect(
-    useCallback(() => {
-      if (appSettings.unlockWalletWithBiometrics) {
-        setLoading(true);
-        // Use a timeout to allow the application to show the screen
-        // before displaying the os biometrics modal.
-        setTimeout(unlockWalletWithBiometrics, 500);
-      }
+  useEffect(() => {
+    if (appSettings.unlockWalletWithBiometrics) {
+      setLoading(true);
+      // Use a timeout to allow the application to show the screen
+      // before displaying the os biometrics modal.
+      setTimeout(unlockWalletWithBiometrics, 500);
+    }
 
-      // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []),
-  );
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
     <View style={styles.root}>
