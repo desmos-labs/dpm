@@ -6,10 +6,14 @@ import { useCallback } from 'react';
 import { Camera } from 'react-native-vision-camera';
 import { AppPermissionStatus } from 'types/permissions';
 import { openSettingsAndCheckPermissions } from 'lib/PermissionsUtils';
+import { Platform } from 'react-native';
 
 // How many times we can ask the camera permissions before the system
 // automatically tells us that the user have rejected the permission request.
-const MAX_ALLOWED_CAMERA_REQUESTS = 2;
+const MAX_ALLOWED_CAMERA_REQUESTS = Platform.select({
+  ios: 1,
+  android: 2,
+})!;
 
 export const useCheckCameraPermission = () => {
   const requestsCount = usePermissionsRequestCount();
