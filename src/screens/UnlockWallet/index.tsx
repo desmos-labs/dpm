@@ -113,7 +113,7 @@ const UnlockWallet: React.FC<Props> = (props) => {
           value={inputPassword}
           onChangeText={setInputInputPassword}
           placeholder={t('password')}
-          autoFocus
+          autoFocus={!appSettings.unlockWalletWithBiometrics}
           onSubmitEditing={unlockWalletWithWithPassword}
         />
         <Typography.Body style={styles.errorMsg}>{error}</Typography.Body>
