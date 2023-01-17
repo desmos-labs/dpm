@@ -35,7 +35,7 @@ export interface ScanErrorUnknown {
 
 export type ScanError = ScanErrorBtOff | ScanErrorUnknown;
 
-export const openSettingsAndCheckBtStatus = async () => {
+export const iOSOpenSettingsAndCheckBtStatus = async () => {
   // Prepare the promise that will check the settings after the application
   // come back to focus.
   const promise = new Promise<boolean>((resolve) => {
@@ -59,7 +59,7 @@ export const openSettingsAndCheckBtStatus = async () => {
 export function useRequestEnableBt() {
   return useCallback(() => {
     if (Platform.OS === 'ios') {
-      return openSettingsAndCheckBtStatus();
+      return iOSOpenSettingsAndCheckBtStatus();
     }
     return BluetoothStateManager.requestToEnable()
       .then(() => true)
