@@ -9,7 +9,6 @@ import ListItemSeparator from 'components/ListItemSeparator';
 import { DPMImages } from 'types/images';
 import useShowModal from 'hooks/useShowModal';
 import SingleButtonModal from 'modals/SingleButtonModal';
-import { useNavigation } from '@react-navigation/native';
 import { ChainLink } from 'types/desmos';
 import ChainLinkItem from '../ChainLinkItem';
 import useStyles from './useStyles';
@@ -23,7 +22,6 @@ export interface ChainConnectionsProps {
 
 const ChainLinksList = (props: ChainConnectionsProps) => {
   const { t } = useTranslation('chainLinks');
-  const navigation = useNavigation();
   const { canEdit, chainLinks, loading } = props;
   const hasConnections = chainLinks.length !== 0;
   const styles = useStyles();
@@ -34,13 +32,10 @@ const ChainLinksList = (props: ChainConnectionsProps) => {
     showModal(SingleButtonModal, {
       title: t('chain linked'),
       message: t('chain link created successfully'),
-      action: () => {
-        navigation.goBack();
-      },
       actionLabel: t('ok'),
       image: DPMImages.Success,
     });
-  }, [navigation, showModal, t]);
+  }, [showModal, t]);
 
   const connectChain = useConnectChain(onChainConnected, chainLinks);
 

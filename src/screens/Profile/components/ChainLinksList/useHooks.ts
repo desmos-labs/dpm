@@ -5,6 +5,7 @@ import LinkableChains from 'config/LinkableChains';
 import { toHex } from '@cosmjs/encoding';
 import { StdFee } from '@cosmjs/amino';
 import {
+  Bech32Address,
   Proof,
   SignatureValueType,
   SingleSignature,
@@ -24,15 +25,39 @@ import { SupportedChain } from 'types/chains';
 import { singleSignatureToAny } from '@desmoslabs/desmjs/build/aminomessages/profiles';
 import { getAddress } from 'lib/ChainsUtils';
 import useBroadcastTx from 'hooks/useBroadcastTx';
-import { useActiveAccount } from '@recoil/activeAccount';
+import { useActiveAccount, useActiveAccountAddress } from '@recoil/activeAccount';
 import useSignTx, { OfflineSignResult, SignMode } from 'hooks/useSignTx';
 import { ChainLink } from 'types/desmos';
+import { useStoreUserChainLinks } from '@recoil/chainLinks';
 
-const useSaveChainLinkAccount = () =>
-  useCallback(async (chain: SupportedChain, account: AccountWithWallet) => {
-    // TODO: Implement this
-    console.log('Implement useSaveChainLinkAccount', account);
-  }, []);
+const useSaveChainLinkAccount = () => {
+  const activeAccountAddress = useActiveAccountAddress();
+  const storeChainLinks = useStoreUserChainLinks();
+  return useCallback(
+    async (message: MsgLinkChainAccountEncodeObject) => {
+      if (!activeAccountAddress) {
+        return;
+      }
+
+      const address = Bech32Address.decode(message.value.chainAddress!.value);
+      const signature = SingleSignature.decode(message.value.proof!.signature!.value);
+
+      const chainLinks: ChainLink = {
+        userAddress: activeAccountAddress,
+        chainName: message.value.chainConfig!.name,
+        externalAddress: address.value,
+        proof: {
+          signature: toHex(signature.signature),
+          plainText: message.value.proof!.plainText,
+        },
+        creationTime: new Date(Date.now()),
+      };
+
+      storeChainLinks(activeAccountAddress, [chainLinks]);
+    },
+    [activeAccountAddress, storeChainLinks],
+  );
+};
 
 /**
  * Hook used to generate the proof used to link an external wallet to a Desmos Profile.
@@ -151,7 +176,7 @@ const useConnectChain = (onSuccess: () => void, userChainLinks: ChainLink[]) => 
 
     broadcastTx([message], {
       onSuccess: () => {
-        saveChainLinkAccount(chain, account);
+        saveChainLinkAccount(message);
         onSuccess();
       },
     });
