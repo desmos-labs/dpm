@@ -21,6 +21,12 @@ const useStyles = makeStyle(() => ({
     bottom: 0,
     left: 0,
   },
+  pairingIndicator: {
+    position: 'absolute',
+    width: '100%',
+    height: '100%',
+    backgroundColor: 'rgba(200, 200, 200, 0.8)',
+  },
 }));
 
 export default useStyles;

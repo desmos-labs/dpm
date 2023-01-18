@@ -49,7 +49,7 @@ const useWalletConnectPair = () => {
   const validateSessionRequest = useValidateSessionRequest();
 
   return useCallback(
-    async (uri: string) => {
+    (uri: string) => {
       if (wcClient === undefined) {
         throw new Error('wallet connect client not connected');
       }
@@ -64,15 +64,17 @@ const useWalletConnectPair = () => {
           }, 5000);
 
           client.on('session_proposal', (proposal) => {
+            console.log('session_proposal', proposal);
             clearTimeout(timoutTimer);
             const validationResul = validateSessionRequest(proposal);
             if (validationResul !== undefined) {
-              client.reject({
-                id: proposal.id,
-                reason: validationResul,
-              });
-
-              reject(new Error(validationResul.message));
+              client
+                .reject({
+                  id: proposal.id,
+                  reason: validationResul,
+                })
+                .then(() => reject(new Error(validationResul.message)))
+                .catch(reject);
             } else {
               resolve(convertWalletConnectSessionProposal(proposal));
             }
@@ -81,7 +83,8 @@ const useWalletConnectPair = () => {
       );
 
       // Start the pairing procedure.
-      await client.pair({
+      // Don't await since on failure this promise don't resolve.
+      client.pair({
         uri,
       });
 

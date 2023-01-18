@@ -13,6 +13,7 @@ import TextInput from 'components/TextInput';
 import { Vibration } from 'react-native';
 import { CompositeScreenProps } from '@react-navigation/native';
 import { RootNavigatorParamList } from 'navigation/RootNavigator';
+import { ActivityIndicator } from 'react-native-paper';
 import useStyles from './useStyles';
 import QrCodeScanner from './components/QrCodeScanner';
 
@@ -62,8 +63,8 @@ const ScanQr: React.FC<NavProps> = ({ navigation }) => {
     [navigation, openErrorModal, pair],
   );
 
-  const onDevUriSubmitted = useCallback(() => {
-    startPairProcedure(devUri);
+  const onDevUriSubmitted = useCallback(async () => {
+    await startPairProcedure(devUri);
   }, [startPairProcedure, devUri]);
 
   const onQrCodeDetected = useCallback(
@@ -74,7 +75,8 @@ const ScanQr: React.FC<NavProps> = ({ navigation }) => {
       if (barCode.rawValue === undefined) {
         openErrorModal(t('invalid qr code'));
       } else {
-        startPairProcedure(barCode.rawValue);
+        console.log(barCode.rawValue);
+        await startPairProcedure(barCode.rawValue);
       }
     },
     [openErrorModal, startPairProcedure, t],
@@ -91,6 +93,7 @@ const ScanQr: React.FC<NavProps> = ({ navigation }) => {
           onSubmitEditing={onDevUriSubmitted}
         />
       )}
+      {pairing && <ActivityIndicator style={styles.pairingIndicator} />}
     </StyledSafeAreaView>
   );
 };
