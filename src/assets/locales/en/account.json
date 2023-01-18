@@ -42,5 +42,6 @@
   "wallet password": "Wallet password",
   "words": "Words",
   "confirm password": "Confirm password",
-  "wrong confirmation password": "Confirmation password doesn't match"
+  "wrong confirmation password": "Confirmation password doesn't match",
+  "password complexity hint": "Min length: 6 characters. It's recommended to mix alphanumeric and special characters"
 }

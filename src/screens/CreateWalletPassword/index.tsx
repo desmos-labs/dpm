@@ -50,7 +50,7 @@ const CreateWalletPassword = (props: NavProps) => {
         <PasswordComplexityScore score={evaluatePasswordComplexity(password)} />
       </View>
       <SecureTextInput
-        placeholder={t('password')}
+        placeholder={t('common:password')}
         style={styles.password}
         value={password}
         onChangeText={onPasswordChange}
@@ -66,7 +66,7 @@ const CreateWalletPassword = (props: NavProps) => {
         {...(Platform.OS === 'ios' ? { behavior: 'padding' } : {})}
       >
         <Button style={styles.continueButton} mode="contained" onPress={onContinuePressed}>
-          {t('next')}
+          {t('common:next')}
         </Button>
       </KeyboardAvoidingView>
     </StyledSafeAreaView>
