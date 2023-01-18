@@ -667,8 +667,8 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
 				CLANG_ENABLE_MODULES = YES;
-				CODE_SIGN_IDENTITY = "iPhone Distribution";
-				CODE_SIGN_STYLE = Manual;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 0.1.3;
 				DEVELOPMENT_TEAM = S7CFLM85H9;
 				INFOPLIST_FILE = DesmosProfileManager/Info.plist;
@@ -685,7 +685,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = network.desmos.dpm;
 				PRODUCT_NAME = DesmosProfileManager;
-				PROVISIONING_PROFILE_SPECIFIER = "match AppStore network.desmos.dpm";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "DesmosProfileManager-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
 				VERSIONING_SYSTEM = "apple-generic";
