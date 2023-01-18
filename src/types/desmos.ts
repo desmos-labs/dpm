@@ -36,11 +36,6 @@ export interface DesmosProfile {
   coverPicture?: string;
 }
 
-export const defaultDesmosProfile = (address: string): DesmosProfile =>
-  ({
-    address,
-  } as DesmosProfile);
-
 export type ChainLink = {
   /**
    * Name of the linked chain like osmosis, cosmos.

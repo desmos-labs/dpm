@@ -11,10 +11,10 @@ import Button from 'components/Button';
 import { RootNavigatorParamList } from 'navigation/RootNavigator';
 import ROUTES from 'navigation/routes';
 import { WalletPickerMode } from 'screens/SelectAccount/components/AccountPicker/types';
-import { DesmosHdPath } from 'types/chainsHdPaths';
 import { useGetAccountsAddresses } from '@recoil/accounts';
 import useSaveAccount from 'hooks/useSaveAccount';
 import useSelectAccount from 'hooks/useSelectAccount';
+import { DesmosHdPath } from 'config/HdPaths';
 import useStyles from './useStyles';
 
 declare type NavProps = StackScreenProps<RootNavigatorParamList, ROUTES.CHECK_MNEMONIC>;

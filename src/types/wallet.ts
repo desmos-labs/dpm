@@ -57,7 +57,7 @@ export interface MnemonicWallet extends BaseWallet {
    */
   readonly hdPath: HdPath;
   /**
-   * secp256k1 private key derived from the mnemonic with the hdPath.
+   * Secp256k1 private key derived from the mnemonic with the hdPath.
    */
   readonly privateKey: Uint8Array;
 }
@@ -119,7 +119,7 @@ export interface Web3AuthWallet extends BaseWallet {
    */
   readonly loginProvider: string;
   /**
-   * secp256k1 private key obtained from Web3Auth.
+   * Secp256k1 private key obtained from Web3Auth.
    */
   readonly privateKey: Uint8Array;
 }

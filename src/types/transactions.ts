@@ -1,12 +1,15 @@
 import { EncodeObject } from '@cosmjs/proto-signing';
 import { Fee } from 'cosmjs-types/cosmos/tx/v1beta1/tx';
 
+/**
+ * Generic message contained inside a transaction.
+ */
 export interface Message extends EncodeObject {
   readonly index: number;
 }
 
 /**
- * Generic message that has been broadcast previously and fetched from the chain.
+ * Transaction that has been previously broadcast.
  */
 export interface Transaction {
   readonly hash: string;

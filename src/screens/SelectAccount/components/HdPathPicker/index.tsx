@@ -3,8 +3,8 @@ import { StyleProp, StyleSheet, Text, View, ViewStyle } from 'react-native';
 import Typography from 'components/Typography';
 import TextInput from 'components/TextInput';
 import { HdPath, Slip10RawIndex } from '@cosmjs/crypto';
-import { DesmosHdPath } from 'types/chainsHdPaths';
 import { safeParseInt, slip10IndexToString } from 'lib/FormatUtils';
+import { DesmosHdPath } from 'config/HdPaths';
 import useStyles from './useStyles';
 
 type HdPathValues = 'coinType' | 'account' | 'change' | 'addressIndex';

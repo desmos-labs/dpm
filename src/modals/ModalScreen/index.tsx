@@ -3,7 +3,7 @@ import React from 'react';
 import { View } from 'react-native';
 import { RootNavigatorParamList } from 'navigation/RootNavigator';
 import ROUTES from 'navigation/routes';
-import { useCloseModal } from 'modals/ModalScreen/hooks';
+import { useCloseModal } from './useHooks';
 import useStyles from './useStyles';
 
 export type ModalComponentProps<T> = {

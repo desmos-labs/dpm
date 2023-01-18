@@ -1,13 +1,5 @@
 import { ChainConfig } from '@desmoslabs/desmjs-types/desmos/profiles/v3/models_chain_links';
 import { SupportedChain } from 'types/chains';
-import {
-  BandHdPath,
-  CosmosHdPath,
-  CroHdPath,
-  DesmosHdPath,
-  KavaHdPath,
-  LunaHdPath,
-} from 'types/chainsHdPaths';
 import { DesmosMainnet, DesmosTestnet } from '@desmoslabs/desmjs';
 import {
   akashIcon,
@@ -23,6 +15,14 @@ import {
   regenIcon,
   terraIcon,
 } from 'assets/images';
+import {
+  BandHdPath,
+  CosmosHdPath,
+  CroHdPath,
+  DesmosHdPath,
+  KavaHdPath,
+  LunaHdPath,
+} from './HdPaths';
 
 export const DesmosChain: SupportedChain = {
   name: 'Desmos',

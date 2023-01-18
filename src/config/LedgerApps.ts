@@ -1,6 +1,6 @@
 import { LedgerApp } from 'types/ledger';
-import { CosmosHdPath, DesmosHdPath } from 'types/chainsHdPaths';
 import { cosmosIcon, cryptoOrgIcon, desmosIcon } from 'assets/images';
+import { CosmosHdPath, DesmosHdPath } from './HdPaths';
 
 export const DesmosLedgerApp: LedgerApp = {
   name: 'Desmos',
