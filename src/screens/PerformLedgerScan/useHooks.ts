@@ -69,6 +69,7 @@ export function useRequestEnableBt() {
       ...currentState,
       noLockOnBackground: true,
     }));
+
     return BluetoothStateManager.requestToEnable()
       .then(() => true)
       .catch(() => false);
