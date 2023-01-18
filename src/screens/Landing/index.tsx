@@ -10,8 +10,8 @@ import ROUTES from 'navigation/routes';
 import { useSaveAccount } from 'hooks/useSaveAccount';
 import { useImportAccount } from 'hooks/useImportAccount';
 import { DesmosChain } from 'config/LinkableChains';
-import { useGetAccountsHDPaths } from '@recoil/accounts';
 import { desmosLogoWhite, homeBackgroundLight } from 'assets/images';
+import { useGetAccountsAddresses } from '@recoil/accounts';
 import useStyles from './useStyles';
 
 export type NavProps = StackScreenProps<RootNavigatorParamList, ROUTES.LANDING>;
@@ -20,8 +20,8 @@ const Landing = ({ navigation }: NavProps) => {
   const { t } = useTranslation('landing');
   const styles = useStyles();
 
-  const accountsHdPaths = useGetAccountsHDPaths();
-  const { importAccount } = useImportAccount([DesmosChain], accountsHdPaths);
+  const accountsAddresses = useGetAccountsAddresses();
+  const { importAccount } = useImportAccount([DesmosChain], accountsAddresses);
   const { saveAccount } = useSaveAccount();
 
   const animate = !navigation.canGoBack();
