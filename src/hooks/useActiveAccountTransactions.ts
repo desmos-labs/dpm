@@ -54,11 +54,16 @@ const useActiveAccountTransactions = () => {
     });
   }, [address, fetchMore]);
 
+  const refetchTransactions = React.useCallback(async () => {
+    setPage(0);
+    await refetch();
+  }, [refetch]);
+
   return {
     loading,
     transactions,
     fetchMore: fetchMoreTransactions,
-    refetch,
+    refetch: refetchTransactions,
   };
 };
 
