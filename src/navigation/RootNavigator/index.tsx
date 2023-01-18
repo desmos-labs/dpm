@@ -1,4 +1,4 @@
-import { createStackNavigator } from '@react-navigation/stack';
+import { CardStyleInterpolators, createStackNavigator } from '@react-navigation/stack';
 import ROUTES from 'navigation/routes';
 import React, { useEffect, useMemo } from 'react';
 import DevScreen from 'screens/DevScreen';
@@ -41,9 +41,11 @@ import SettingsEnableBiometricsAuthorization, {
   EnableBiometricsAuthorizationParams,
 } from 'screens/SettingsEnableBiometricsAuthorization';
 import UnlockApplication from 'screens/UnlockApplication';
+import SplashScreen from 'screens/SplashScreen';
 
 export type RootNavigatorParamList = {
   [ROUTES.DEV_SCREEN]: undefined;
+  [ROUTES.SPLASH_SCREEN]: undefined;
   [ROUTES.LANDING]: undefined;
   [ROUTES.CREATE_NEW_MNEMONIC]: undefined;
   [ROUTES.IMPORT_ACCOUNT_SELECT_CHAIN]: undefined;
@@ -121,6 +123,13 @@ const RootNavigator = () => {
       screenOptions={{ headerShown: false }}
     >
       {__DEV__ && <Stack.Screen name={ROUTES.DEV_SCREEN} component={DevScreen} />}
+      <Stack.Screen
+        name={ROUTES.SPLASH_SCREEN}
+        component={SplashScreen}
+        options={{
+          cardStyleInterpolator: CardStyleInterpolators.forFadeFromCenter,
+        }}
+      />
       <Stack.Screen name={ROUTES.LANDING} component={Landing} />
       <Stack.Screen name={ROUTES.CREATE_NEW_MNEMONIC} component={CreateNewMnemonic} />
       <Stack.Screen

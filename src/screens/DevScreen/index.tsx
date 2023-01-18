@@ -20,6 +20,7 @@ import { SignClientTypes } from '@walletconnect/types';
 import useStyles from './useStyles';
 
 const routesToRender = [
+  ROUTES.SPLASH_SCREEN,
   ROUTES.CREATE_NEW_MNEMONIC,
   ROUTES.PROFILE,
   ROUTES.HOME_TABS,

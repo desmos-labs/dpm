@@ -1,8 +1,7 @@
 import { RootNavigatorParamList } from 'navigation/RootNavigator';
-import { useSettings } from '@recoil/settings';
 import { useAppState, useSetAppState } from '@recoil/appState';
 import { useEffect } from 'react';
-import { AppState } from 'react-native';
+import { AppState, Platform } from 'react-native';
 import ROUTES from 'navigation/routes';
 import { useNavigation } from '@react-navigation/native';
 import { StackNavigationProp } from '@react-navigation/stack/lib/typescript/src/types';
@@ -10,7 +9,6 @@ import { useGetAccounts } from '@recoil/accounts';
 
 const useLockApplicationOnBlur = () => {
   const navigation = useNavigation<StackNavigationProp<RootNavigatorParamList>>();
-  const settings = useSettings();
   const appState = useAppState();
   const setAppState = useSetAppState();
   const accounts = useGetAccounts();
@@ -25,6 +23,16 @@ const useLockApplicationOnBlur = () => {
       }
 
       if (state === 'active') {
+        const navigationState = navigation.getState();
+        if (navigationState !== undefined) {
+          const routesCount = navigationState.routes.length;
+          if (routesCount > 0) {
+            const lastRoute = navigationState.routes[routesCount - 1];
+            if (lastRoute.name === ROUTES.SPLASH_SCREEN) {
+              navigation.goBack();
+            }
+          }
+        }
         setAppState((currentState) => {
           // App is back on focus, check if the app should be locked.
           if (currentState.lastObBlur !== undefined) {
@@ -42,19 +50,29 @@ const useLockApplicationOnBlur = () => {
           ...currentState,
           lastObBlur: new Date(),
         }));
+      } else if (state === 'inactive' && Platform.OS === 'ios') {
+        setAppState((currentState) => {
+          if (!currentState.noSplashOnInactive) {
+            navigation.navigate(ROUTES.SPLASH_SCREEN);
+          }
+          return {
+            ...currentState,
+            noSplashOnInactive: false,
+          };
+        });
       }
-    }); // ;
+    });
 
     return () => {
       onChangeSubscription.remove();
     };
-  }, [accounts, setAppState, settings.appInactivityLockSeconds]);
+  }, [accounts, navigation, setAppState, appState]);
 
   useEffect(() => {
     if (appState.locked) {
       navigation.navigate(ROUTES.UNLOCK_APPLICATION);
     }
-  }, [appState, navigation]);
+  }, [appState, navigation, setAppState]);
 };
 
 export default useLockApplicationOnBlur;

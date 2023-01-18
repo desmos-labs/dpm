@@ -4,6 +4,10 @@ enum ROUTES {
    */
   DEV_SCREEN = 'DEV_SCREEN',
   /**
+   * Show the application splash screen.
+   */
+  SPLASH_SCREEN = 'SPLASH_SCREEN',
+  /**
    * Screen that is show to the user when don't have an account or want's
    * to create a new account.
    */

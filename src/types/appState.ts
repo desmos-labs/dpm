@@ -15,6 +15,11 @@ export interface AppState {
    */
   readonly noLockOnBackground: boolean;
   /**
+   * Tells if the application shouldn't lock when receiving the next on
+   * background AppState event.
+   */
+  readonly noSplashOnInactive: boolean;
+  /**
    * Last time the application went on blur state.
    */
   readonly lastObBlur?: Date;

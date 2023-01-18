@@ -9,7 +9,7 @@ const useGetPasswordFromBiometrics = (biometricAuthorization: BiometricAuthoriza
 
   return useCallback(() => {
     if (Platform.OS === 'ios') {
-      setAppState((currentState) => ({ ...currentState, noLockOnBackground: true }));
+      setAppState((currentState) => ({ ...currentState, noSplashOnInactive: true }));
     }
     return getBiometricPassword(biometricAuthorization);
   }, [biometricAuthorization, setAppState]);

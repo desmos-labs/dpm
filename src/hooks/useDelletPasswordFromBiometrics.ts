@@ -10,7 +10,7 @@ const useDeletePasswordFromBiometrics = () => {
   return useCallback(
     (biometricAuthorization: BiometricAuthorizations) => {
       if (Platform.OS === 'ios') {
-        setAppState((currentState) => ({ ...currentState, noLockOnBackground: true }));
+        setAppState((currentState) => ({ ...currentState, noSplashOnInactive: true }));
       }
 
       return deleteBiometricAuthorization(biometricAuthorization);
