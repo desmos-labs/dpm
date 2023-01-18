@@ -20,7 +20,9 @@ export default function useWalletConnectCloseAccountSessions() {
         throw new Error('wallet connect client not initialized');
       }
 
-      const promises = sessions[account].map((session) =>
+      const userSessions = sessions[account] ?? [];
+
+      const promises = userSessions.map((session) =>
         wcClient.client.disconnect({
           topic: session.topic,
           reason: getSdkError('USER_DISCONNECTED'),
