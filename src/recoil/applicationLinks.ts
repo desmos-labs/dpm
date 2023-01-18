@@ -23,6 +23,16 @@ const applicationLinksAppState = atom<Record<string, ApplicationLink[]>>({
  */
 export const useStoredApplicationLinks = () => useRecoilValue(applicationLinksAppState);
 
+const mergeApplicationLinks = (
+  first: ApplicationLink[],
+  second: ApplicationLink[],
+): ApplicationLink[] => {
+  const applicationLinksSet: Set<string> = new Set<string>();
+  first.map((link) => JSON.stringify(link)).forEach((value) => applicationLinksSet.add(value));
+  second.map((link) => JSON.stringify(link)).forEach((value) => applicationLinksSet.add(value));
+  return Array.from(applicationLinksSet).map((value) => JSON.parse(value) as ApplicationLink);
+};
+
 /**
  * Hook that allows storing a list of application links associated with the same user inside the applications links state.
  */
@@ -31,10 +41,14 @@ export const useStoreUserApplicationLinks = () => {
   return React.useCallback(
     (user: string, applicationLinks: ApplicationLink[]) => {
       setApplicationsLinks((currentApplicationLinks) => {
+        // Merge the new links with the existing ones
+        const exitingApplicationLinks = currentApplicationLinks[user] ?? [];
+        const mergedLinks = mergeApplicationLinks(exitingApplicationLinks, applicationLinks);
+
         const newApplicationLinks: Record<string, ApplicationLink[]> = {
           ...currentApplicationLinks,
         };
-        newApplicationLinks[user] = applicationLinks;
+        newApplicationLinks[user] = mergedLinks;
         return newApplicationLinks;
       });
     },

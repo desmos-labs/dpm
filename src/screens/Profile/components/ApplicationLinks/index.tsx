@@ -3,6 +3,7 @@ import { ApplicationLink } from 'types/desmos';
 import { View } from 'react-native';
 import ApplicationLinkItem from 'screens/Profile/components/ApplicationLinkItem';
 import { isApplicationSupported } from 'lib/ApplicationLinksUtils';
+import Spacer from 'components/Spacer';
 import useStyles from './useStyles';
 
 export interface ApplicationLinksProps {
@@ -27,8 +28,11 @@ const ApplicationLinks = (props: ApplicationLinksProps) => {
   return (
     <View style={styles.root}>
       <View style={styles.applicationLinksContainer}>
-        {supportedApplicationLinks.map((link) => (
-          <ApplicationLinkItem link={link} key={link.application + link.username} />
+        {supportedApplicationLinks.map((link, index) => (
+          <View style={styles.applicationLinkContainer} key={link.application + link.username}>
+            <ApplicationLinkItem link={link} key={link.application + link.username} />
+            {index < supportedApplicationLinks.length - 1 && <Spacer paddingHorizontal={4} />}
+          </View>
         ))}
       </View>
     </View>

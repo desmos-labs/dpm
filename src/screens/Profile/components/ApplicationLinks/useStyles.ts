@@ -8,6 +8,11 @@ const useStyles = makeStyle(() => ({
   applicationLinksContainer: {
     display: 'flex',
     flexDirection: 'row',
+    alignItems: 'flex-start',
+  },
+  applicationLinkContainer: {
+    display: 'flex',
+    flexDirection: 'row',
   },
 }));
 
