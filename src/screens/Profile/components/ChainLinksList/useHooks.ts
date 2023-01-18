@@ -1,5 +1,5 @@
 import { Account, AccountWithWallet } from 'types/account';
-import { useCallback } from 'react';
+import { useCallback, useMemo } from 'react';
 import { useImportAccount } from 'hooks/useImportAccount';
 import LinkableChains from 'config/LinkableChains';
 import { toHex } from '@cosmjs/encoding';
@@ -26,6 +26,7 @@ import { getAddress } from 'lib/ChainsUtils';
 import useBroadcastTx from 'hooks/useBroadcastTx';
 import { useActiveAccount } from '@recoil/activeAccount';
 import useSignTx, { OfflineSignResult, SignMode } from 'hooks/useSignTx';
+import { ChainLink } from 'types/desmos';
 
 const useSaveChainLinkAccount = () =>
   useCallback(async (chain: SupportedChain, account: AccountWithWallet) => {
@@ -124,9 +125,14 @@ const useGenerateMsgLinkChainAccount = () => {
 /**
  * Hook used to start the connection to an external chain.
  * @param onSuccess - Callback used when the entire process end successfully.
+ * @param userChainLinks - Current user's chain links.
  */
-const useConnectChain = (onSuccess: () => void) => {
-  const { importAccount } = useImportAccount(LinkableChains);
+const useConnectChain = (onSuccess: () => void, userChainLinks: ChainLink[]) => {
+  const ignoreAddresses = useMemo(
+    () => userChainLinks.map(({ externalAddress }) => externalAddress),
+    [userChainLinks],
+  );
+  const { importAccount } = useImportAccount(LinkableChains, ignoreAddresses);
   const generateMsgChainLink = useGenerateMsgLinkChainAccount();
   const broadcastTx = useBroadcastTx();
   const saveChainLinkAccount = useSaveChainLinkAccount();
