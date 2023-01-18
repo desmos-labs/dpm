@@ -30,7 +30,7 @@ const ChainLinkDetails = () => {
 
   const styles = useStyles();
   const { chainLink, canEdit } = params;
-  const { t } = useTranslation();
+  const { t } = useTranslation('chainLinks');
 
   const { chainIcon, chainName } = useMemo(() => {
     const chainInfo = getLinkableChainInfoByName(chainLink.chainName);

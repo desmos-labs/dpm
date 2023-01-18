@@ -14,8 +14,8 @@ export type MsgUnknownDetailsProps = {
  * @constructor
  */
 export const MsgUnknownDetails = (props: MsgUnknownDetailsProps) => {
+  const { t } = useTranslation('messages.unknown');
   const { message } = props;
-  const { t } = useTranslation();
 
   return (
     <View>

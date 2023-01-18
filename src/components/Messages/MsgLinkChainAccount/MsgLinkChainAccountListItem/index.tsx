@@ -18,7 +18,7 @@ export type MsgLinkChainAccountListItemProps = {
  * @constructor
  */
 const MsgLinkChainAccountListItem = (props: MsgLinkChainAccountListItemProps) => {
-  const { t } = useTranslation();
+  const { t } = useTranslation('messages.profiles');
   const styles = useStyles();
 
   const { message, date } = props;

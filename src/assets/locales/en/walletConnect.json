@@ -8,5 +8,8 @@
   "ability to revoke authorizations": "You will be able to revoke such authorizations inside your Authorization page",
   "deny": "Deny",
   "authorize": "Authorize",
-  "show pending requests": "Show pending requests"
+  "show pending requests": "Show pending requests",
+  "approve": "Approve",
+  "reject": "Reject",
+  "authorization": "Authorization"
 }

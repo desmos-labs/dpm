@@ -17,7 +17,7 @@ export type MsgSendListItemProps = {
  * Displays the short details of a MsgSend within a list.
  */
 const MsgSendListItem = (props: MsgSendListItemProps) => {
-  const { t } = useTranslation('sendTokens');
+  const { t } = useTranslation('messages.bank');
   const styles = useStyles();
   const { message, date } = props;
   const { value } = message;
@@ -34,7 +34,7 @@ const MsgSendListItem = (props: MsgSendListItemProps) => {
           </Typography.Body1>
           <View style={styles.toAddress}>
             <Typography.Caption numberOfLines={1} ellipsizeMode="middle">
-              {t('to')} {value.toAddress}
+              {t('common:to')} {value.toAddress}
             </Typography.Caption>
           </View>
         </View>

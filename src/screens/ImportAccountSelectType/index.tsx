@@ -17,10 +17,10 @@ import ImageButton from './components/ImageButton';
 
 type NavProps = StackScreenProps<RootNavigatorParamList, ROUTES.IMPORT_ACCOUNT_SELECT_TYPE>;
 
-const ImportAccountSelectType: React.FC<NavProps> = ({ navigation, route }) => {
+const ImportAccountSelectType: React.FC<NavProps> = ({ navigation }) => {
   const [importAccountState, setImportAccountState] = useRecoilState(importAccountAppState);
   const { onCancel, chains, supportedImportMode } = importAccountState!;
-  const { t } = useTranslation();
+  const { t } = useTranslation('account');
   const styles = useStyles();
 
   useOnBackAction(() => {
@@ -88,7 +88,6 @@ const ImportAccountSelectType: React.FC<NavProps> = ({ navigation, route }) => {
       }
     >
       <Typography.Body>{t('select connection method')}</Typography.Body>
-
       <FlatList data={supportedImportMode!} renderItem={renderWalletTypeItem} />
     </StyledSafeAreaView>
   );

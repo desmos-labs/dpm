@@ -60,7 +60,7 @@ const ItemMenu: FC<ItemMenuProps> = ({ account }) => {
     >
       <MenuItem icon="edit" text={t('profile:edit profile')} onPress={onEditProfile} />
       <Divider style={styles.menuDivider} />
-      <MenuItem icon="delete" text={t('delete account')} onPress={onDeleteAccount} />
+      <MenuItem icon="delete" text={t('account:delete account')} onPress={onDeleteAccount} />
     </Menu>
   );
 };

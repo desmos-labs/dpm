@@ -1,5 +1,5 @@
-import {makeStyleWithProps} from 'config/theme';
-import {ButtonProps} from 'components/Button/index';
+import { makeStyleWithProps } from 'config/theme';
+import { ButtonProps } from 'components/Button/index';
 
 const useStyles = makeStyleWithProps((props: ButtonProps, theme) => {
   const accent = props.accent ? theme.colors.accent : theme.colors.primary;

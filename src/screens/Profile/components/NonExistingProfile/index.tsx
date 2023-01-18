@@ -20,7 +20,7 @@ export interface NonExitingProfileProps {
 
 const NonExistingProfile = (props: NonExitingProfileProps) => {
   const styles = useStyles();
-  const { t } = useTranslation();
+  const { t } = useTranslation('profile');
   const { canCreate } = props;
   const navigation = useNavigation<StackNavigationProp<RootNavigatorParamList>>();
 

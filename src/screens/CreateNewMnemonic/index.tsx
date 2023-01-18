@@ -19,7 +19,8 @@ declare type NavProps = StackScreenProps<RootNavigatorParamList, ROUTES.CREATE_N
 const CreateNewMnemonic: FC<NavProps> = (props) => {
   const { navigation } = props;
   const styles = useStyles();
-  const { t } = useTranslation();
+  const { t } = useTranslation('account');
+
   const [mnemonic, setMnemonic] = useState<string | null>(null);
   const [mnemonicLength, setMnemonicLength] = useState<12 | 24>(24);
   const [generationDelay, setGenerationDelay] = useState(1500);
@@ -53,15 +54,12 @@ const CreateNewMnemonic: FC<NavProps> = (props) => {
   // Hook to launch the generation when the user enter on the screen
   useEffect(() => {
     generateMnemonic(mnemonicLength).then(setMnemonic);
-  }, []);
+  }, [generateMnemonic, mnemonicLength]);
 
   const onOkPressed = useCallback(() => {
     if (mnemonic !== null) {
-      navigation.navigate({
-        name: ROUTES.CHECK_MNEMONIC,
-        params: {
-          mnemonic,
-        },
+      navigation.navigate(ROUTES.CHECK_MNEMONIC, {
+        mnemonic,
       });
     }
   }, [navigation, mnemonic]);

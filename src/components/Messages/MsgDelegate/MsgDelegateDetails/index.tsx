@@ -15,7 +15,7 @@ export type MsgDelegateDetailsProps = {
  * @constructor
  */
 const MsgDelegateDetails = (props: MsgDelegateDetailsProps) => {
-  const { t } = useTranslation();
+  const { t } = useTranslation('messages.staking');
   const chainInfo = useCurrentChainInfo();
   const { message } = props;
   const { value } = message;
@@ -38,15 +38,15 @@ const MsgDelegateDetails = (props: MsgDelegateDetailsProps) => {
       iconSubtitle={`${t('delegate')} ${amount}`}
       fields={[
         {
-          label: t('amount'),
+          label: t('sendTokens:amount'),
           value: amount,
         },
         {
-          label: t('from'),
+          label: t('transaction:from'),
           value: value.delegatorAddress ?? '',
         },
         {
-          label: t('to'),
+          label: t('transaction:to'),
           value: value.validatorAddress ?? '',
         },
       ]}

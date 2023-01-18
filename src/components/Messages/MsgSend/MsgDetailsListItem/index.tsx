@@ -13,7 +13,7 @@ export type MsgSendDetailsProps = {
  * Displays the full details of a MsgSend.
  */
 const MsgSendDetails = (props: MsgSendDetailsProps) => {
-  const { t } = useTranslation('sendTokens');
+  const { t } = useTranslation('messages.bank');
   const { message } = props;
   const { value } = message;
   const convertedAmount = useMemo(() => formatCoins(value.amount), [value.amount]);
@@ -24,15 +24,15 @@ const MsgSendDetails = (props: MsgSendDetailsProps) => {
       iconSubtitle={convertedAmount}
       fields={[
         {
-          label: t('from'),
+          label: t('transaction:from'),
           value: value.fromAddress ?? '',
         },
         {
-          label: t('to'),
+          label: t('transaction:to'),
           value: value.toAddress ?? '',
         },
         {
-          label: t('amount'),
+          label: t('sendTokens:amount'),
           value: convertedAmount,
         },
       ]}

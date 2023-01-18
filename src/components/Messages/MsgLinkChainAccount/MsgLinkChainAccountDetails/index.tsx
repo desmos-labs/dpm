@@ -5,6 +5,7 @@ import { useTranslation } from 'react-i18next';
 import SupportedChains from 'config/LinkableChains';
 import { Bech32Address } from '@desmoslabs/desmjs-types/desmos/profiles/v3/models_chain_links';
 import BaseMessageDetails from 'components/Messages/BaseMessage/BaseMessageDetails';
+import { cosmosIcon, desmosIcon, disconnectIcon } from 'assets/images';
 import useStyles from './useStyles';
 
 export type MsgLinkChainAccountDetailsProps = {
@@ -16,8 +17,9 @@ export type MsgLinkChainAccountDetailsProps = {
  * @constructor
  */
 const MsgLinkChainAccountDetails = (props: MsgLinkChainAccountDetailsProps) => {
-  const { t } = useTranslation();
   const styles = useStyles();
+  const { t } = useTranslation('messages.profiles');
+
   const { message } = props;
   const { value } = message;
   const getLinkableChainInfoByName = useCallback(
@@ -39,21 +41,21 @@ const MsgLinkChainAccountDetails = (props: MsgLinkChainAccountDetailsProps) => {
     if (chain !== undefined) {
       return chain.icon;
     }
-    return require('assets/images/chains/cosmos.png');
+    return cosmosIcon;
   }, [chainName, getLinkableChainInfoByName]);
 
   return (
     <BaseMessageDetails
       customIconView={
         <View style={styles.customIconView}>
-          <Image style={styles.chainLinkIcon} source={require('assets/images/chains/desmos.png')} />
-          <Image style={styles.disconnectIcon} source={require('assets/images/disconnect.png')} />
+          <Image style={styles.chainLinkIcon} source={desmosIcon} />
+          <Image style={styles.disconnectIcon} source={disconnectIcon} />
           <Image style={styles.chainLinkIcon} source={chainIcon} />
         </View>
       }
       fields={[
         {
-          label: t('from'),
+          label: t('transaction:from'),
           value: value.signer,
         },
         {

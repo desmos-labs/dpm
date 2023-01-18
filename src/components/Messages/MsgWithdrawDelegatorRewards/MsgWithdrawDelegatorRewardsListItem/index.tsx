@@ -17,7 +17,7 @@ export type MsgWithdrawDelegatorRewardsListItemProps = {
  * @constructor
  */
 const MsgWithdrawDelegatorRewardsListItem = (props: MsgWithdrawDelegatorRewardsListItemProps) => {
-  const { t } = useTranslation();
+  const { t } = useTranslation('mesasges.staking');
   const styles = useStyles();
   const { message, date } = props;
   const { value } = message;
@@ -31,7 +31,7 @@ const MsgWithdrawDelegatorRewardsListItem = (props: MsgWithdrawDelegatorRewardsL
           <Typography.Body1>{t('withdraw rewards')}</Typography.Body1>
           <View style={styles.validatorAddress}>
             <Typography.Caption>
-              {t('from')} {value.validatorAddress}
+              {t('transaction:from')} {value.validatorAddress}
             </Typography.Caption>
           </View>
         </View>

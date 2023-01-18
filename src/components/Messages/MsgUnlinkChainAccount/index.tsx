@@ -3,9 +3,7 @@ import { MessageComponents } from 'components/Messages/BaseMessage';
 import MsgUnlinkChainAccountDetails from './MsgUnlinkChainAccountDetails';
 import MsgUnlinkChainAccountListItem from './MsgUnllinkChainAccountListItem';
 
-const MsgUnlinkChainAccountComponents: MessageComponents<
-  MsgUnlinkChainAccountEncodeObject['value']
-> = {
+const MsgUnlinkChainAccountComponents: MessageComponents<MsgUnlinkChainAccountEncodeObject> = {
   details: MsgUnlinkChainAccountDetails,
   listItem: MsgUnlinkChainAccountListItem,
 };

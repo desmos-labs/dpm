@@ -27,7 +27,7 @@ type NavProps = StackScreenProps<RootNavigatorParamList, ROUTES.WALLET_CONNECT_R
 
 const WalletConnectRequest: React.FC<NavProps> = (props) => {
   const { navigation } = props;
-  const { t } = useTranslation();
+  const { t } = useTranslation('walletConnect');
   const styles = useStyles();
   const [signing, setSigning] = useState(false);
   const unlockWallet = useUnlockWallet();
@@ -101,7 +101,7 @@ const WalletConnectRequest: React.FC<NavProps> = (props) => {
 
   return request !== null ? (
     <StyledSafeAreaView
-      topBar={<TopBar stackProps={props} title={t('tx details')} />}
+      topBar={<TopBar stackProps={props} title={t('common:tx details')} />}
       divider
       padding={0}
     >

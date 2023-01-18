@@ -19,7 +19,7 @@ export type MsgDelegateListItemProps = {
  * @constructor
  */
 const MsgDelegateListItem = (props: MsgDelegateListItemProps) => {
-  const { t } = useTranslation();
+  const { t } = useTranslation('messages.staking');
   const chainInfo = useCurrentChainInfo();
   const styles = useStyles();
 
@@ -48,7 +48,7 @@ const MsgDelegateListItem = (props: MsgDelegateListItemProps) => {
           </Typography.Body1>
           <View style={styles.validatorAddress}>
             <Typography.Caption>
-              {t('to')} {value.validatorAddress}
+              {t('transaction:to')} {value.validatorAddress}
             </Typography.Caption>
           </View>
         </View>

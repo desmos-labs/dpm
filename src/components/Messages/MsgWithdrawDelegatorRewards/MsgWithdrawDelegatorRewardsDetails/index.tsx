@@ -13,7 +13,7 @@ export type MsgWithdrawDelegatorRewardsDetailsProps = {
  * @constructor
  */
 const MsgWithdrawDelegatorRewardsDetails = (props: MsgWithdrawDelegatorRewardsDetailsProps) => {
-  const { t } = useTranslation();
+  const { t } = useTranslation('messages.staking');
   const { message } = props;
   const { value } = message;
 
@@ -23,7 +23,7 @@ const MsgWithdrawDelegatorRewardsDetails = (props: MsgWithdrawDelegatorRewardsDe
       iconSubtitle={t('withdraw rewards')}
       fields={[
         {
-          label: t('from'),
+          label: t('transaction:from'),
           value: value.validatorAddress,
         },
       ]}

@@ -30,12 +30,16 @@ const CheckMnemonic: FC<NavProps> = (props) => {
     },
   } = props;
   const styles = useStyles();
-  const { t } = useTranslation();
+  const { t } = useTranslation('account');
+
   const receivedMnemonic = mnemonic;
-  const [errorMessage, setErrorMessage] = useState<string | null>(null);
+
   const words = useMemo(() => _.shuffle(receivedMnemonic.split(' ')), [receivedMnemonic]);
+
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const [selectedWords, setSelectedWords] = useState<string[]>([]);
   const [availableWords, setAvailableWords] = useState<string[]>([...words]);
+
   const accountsAddresses = useGetAccountsAddresses();
   const { saveAccount } = useSaveAccount();
   const { selectAccount } = useSelectAccount();

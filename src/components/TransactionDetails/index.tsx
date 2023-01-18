@@ -40,9 +40,10 @@ export type TransactionDetailsProps = {
 };
 
 const TransactionDetails: React.FC<TransactionDetailsProps> = (props) => {
-  const { memo, messages, fee, success, dateTime, style, estimatingFee } = props;
-  const { t } = useTranslation();
+  const { t } = useTranslation('transaction');
   const styles = useStyles();
+
+  const { memo, messages, fee, success, dateTime, style, estimatingFee } = props;
 
   const txFex = useMemo(() => formatCoins(fee?.amount), [fee]);
 
@@ -66,7 +67,7 @@ const TransactionDetails: React.FC<TransactionDetailsProps> = (props) => {
           )}
           {success !== undefined && (
             <>
-              <LabeledValue label={t('status')} value={success ? t('success') : t('fail')} />
+              <LabeledValue label={t('status')} value={success ? t('common:success') : t('fail')} />
               <Divider />
             </>
           )}

@@ -21,7 +21,7 @@ import useSendTokens from './useHooks';
 export type NavProps = StackScreenProps<RootNavigatorParamList, ROUTES.SEND_TOKENS>;
 
 const SendTokens = () => {
-  const { t } = useTranslation(['sendTokens', 'common']);
+  const { t } = useTranslation('sendTokens');
   const styles = useStyles();
   const navigation = useNavigation();
 
@@ -109,7 +109,7 @@ const SendTokens = () => {
 
       {/* Spendable amount */}
       <View style={styles.spendableContainer}>
-        <Typography.Body>{t('available', { ns: 'common' })}:</Typography.Body>
+        <Typography.Body>{t('common:available')}:</Typography.Body>
         {!loading && spendable && (
           <Typography.Body style={styles.spendableAmountValue}>
             {formatCoin(spendable)}
@@ -121,7 +121,7 @@ const SendTokens = () => {
       <Typography.Subtitle style={styles.topMarginMedium}>{t('tx note')}</Typography.Subtitle>
       <TextInput
         style={[styles.topMarginSmall, styles.memoInput]}
-        placeholder={t('tx description')}
+        placeholder={t('transaction:tx description')}
         value={memo}
         onChangeText={onMemoChange}
         numberOfLines={4}
@@ -134,7 +134,7 @@ const SendTokens = () => {
 
       {/* Send button */}
       <Button mode="contained" disabled={!sendEnabled} onPress={onNextPressed}>
-        {t('next', { ns: 'common' })}
+        {t('common:next')}
       </Button>
     </StyledSafeAreaView>
   );

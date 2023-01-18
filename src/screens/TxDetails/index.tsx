@@ -21,9 +21,10 @@ export interface TransactionDetailsParams {
 }
 
 const TxDetails = (props: NavProps) => {
+  const { t } = useTranslation('transaction');
+
   const { route } = props;
   const { transaction } = route.params;
-  const { t } = useTranslation();
 
   const getTransactionExplorerUrl = useGetTransactionExplorerUrl();
 

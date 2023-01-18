@@ -17,9 +17,9 @@ export type AccountTransactionsProps = {
 };
 
 const AccountTransactions = (props: AccountTransactionsProps) => {
-  const { transactions, loading, onReload, onFetchMore, style } = props;
-  const { t } = useTranslation();
+  const { t } = useTranslation('account');
   const styles = useStyles();
+  const { transactions, loading, onReload, onFetchMore, style } = props;
 
   const fetchMore = useCallback(onFetchMore, [onFetchMore]);
   const reloadFromChain = useCallback(onReload, [onReload]);

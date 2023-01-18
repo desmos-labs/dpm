@@ -25,13 +25,16 @@ declare type NavProps = StackScreenProps<
 >;
 
 const ImportAccountFromMnemonic: FC<NavProps> = (props) => {
+  const styles = useStyles();
+  const { t } = useTranslation('account');
+
+  const { selectAccount } = useSelectAccount();
+
   const importAccountState = useRecoilValue(importAccountAppState);
   const { ignoreAddresses, selectedChain, onSuccess } = importAccountState!;
-  const styles = useStyles();
-  const { t } = useTranslation();
+
   const [mnemonic, setMnemonic] = useState<string>('');
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
-  const { selectAccount } = useSelectAccount();
 
   const onMnemonicChange = (changedMnemonic: string) => {
     const sanitizedMnemonic = sanitizeMnemonic(changedMnemonic);

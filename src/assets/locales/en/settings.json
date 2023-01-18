@@ -23,7 +23,13 @@
   "join community description": "Following you can find a list of links in order to join our community. If you need any help, you can also email us at support@desmos.network",
   "about": "About",
   "about dpm": "About DPM",
-  "privacy policy": "Privacy Policy",
   "open source": "Open Source (GitHub)",
-  "version": "Version"
+  "version": "Version",
+  "block explorer": "Block Explorer",
+  "enable biometrics for login": "Enable biometric authentication for login",
+  "enable biometrics for signature": "Enable biometric authentication for signature",
+  "enable": "Enable",
+  "insert your password to enable biometrics": "Insert your password to enable biometric authentication",
+  "wrong password": "Password doesn't match",
+  "unlock application": "Unlock application"
 }

@@ -10,17 +10,20 @@ import ROUTES from 'navigation/routes';
 import { useSaveAccount } from 'hooks/useSaveAccount';
 import { useImportAccount } from 'hooks/useImportAccount';
 import { DesmosChain } from 'config/LinkableChains';
-import { useGetAccountsAddresses } from '@recoil/accounts';
+import { useGetAccountsHDPaths } from '@recoil/accounts';
+import { desmosLogoWhite, homeBackgroundLight } from 'assets/images';
 import useStyles from './useStyles';
 
 export type NavProps = StackScreenProps<RootNavigatorParamList, ROUTES.LANDING>;
 
 const Landing = ({ navigation }: NavProps) => {
-  const accountsAddresses = useGetAccountsAddresses();
-  const { importAccount } = useImportAccount([DesmosChain], accountsAddresses);
-  const { saveAccount } = useSaveAccount();
-  const { t } = useTranslation();
+  const { t } = useTranslation('landing');
   const styles = useStyles();
+
+  const accountsHdPaths = useGetAccountsHDPaths();
+  const { importAccount } = useImportAccount([DesmosChain], accountsHdPaths);
+  const { saveAccount } = useSaveAccount();
+
   const animate = !navigation.canGoBack();
   const initialOpacity = animate ? 0 : 1;
   const iconOpacity = useRef(new Animated.Value(initialOpacity)).current;
@@ -69,11 +72,7 @@ const Landing = ({ navigation }: NavProps) => {
 
   return (
     <StyledSafeAreaView style={styles.root} noIosPadding>
-      <ImageBackground
-        source={require('assets/images/homeBackground-light.png')}
-        resizeMode="stretch"
-        style={styles.background}
-      >
+      <ImageBackground source={homeBackgroundLight} resizeMode="stretch" style={styles.background}>
         {navigation.canGoBack() ? (
           <IconButton style={styles.backArrow} icon="back" onPress={goBack} color="#ffffff" />
         ) : null}
@@ -84,11 +83,7 @@ const Landing = ({ navigation }: NavProps) => {
             opacity: iconOpacity,
           }}
         >
-          <Image
-            style={styles.icon}
-            source={require('assets/images/desmosLogo-white.png')}
-            resizeMode="contain"
-          />
+          <Image style={styles.icon} source={desmosLogoWhite} resizeMode="contain" />
         </Animated.View>
         <Animated.View
           style={{
@@ -118,7 +113,7 @@ const Landing = ({ navigation }: NavProps) => {
             color="#ffffff"
             onPress={onImportAccount}
           >
-            {t('import account')}
+            {t('account:import account')}
           </Button>
         </Animated.View>
       </ImageBackground>

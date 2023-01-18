@@ -47,13 +47,16 @@ const AccountPicker: React.FC<AccountPickerProps> = ({
   style,
 }) => {
   const styles = useStyles();
-  const { t } = useTranslation();
+  const { t } = useTranslation('account');
+
   const [selectedHdPath, setSelectedHdPath] = useState<HdPath>(params.masterHdPath);
   const [selectedAccount, setSelectedAccount] = useState<AccountWithWallet | null>(null);
   const [addressPickerVisible, setAddressPickerVisible] = useState(false);
   const [generatingAddresses] = useState(false);
+
   const { generateWalletAccountFromHdPath } = useGenerateAccountWithWalletFromHdPath();
   const { fetchWallets } = useFetchWallets(params);
+
   const allowCoinTypeEdit = useMemo(() => {
     if (params.mode === WalletPickerMode.Mnemonic) {
       return params.allowCoinTypeEdit ?? false;

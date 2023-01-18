@@ -75,7 +75,7 @@ const SettingsJoinCommunity = (props: NavProps) => {
           onPress={() => navigateToExternalSite('https://medium.com/desmosnetwork')}
         />
         <Flexible.SectionButton
-          label={t('common:block explorer')}
+          label={t('block explorer')}
           icon={theme.dark ? bigDipperIconDark : bigDipperIconLight}
           onPress={() => navigateToExternalSite('https://explorer.desmos.network/')}
         />

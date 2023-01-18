@@ -1,6 +1,5 @@
 import React, { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useCurrentChainInfo } from '@recoil/settings';
 import { View } from 'react-native';
 import Typography from 'components/Typography';
 import BaseMessageListItem from 'components/Messages/BaseMessage/BaseMessageListItem';
@@ -17,16 +16,12 @@ export type MsgMultiSendListItemProps = {
  * @constructor
  */
 const MsgMultiSendListItem = (props: MsgMultiSendListItemProps) => {
-  const { t } = useTranslation();
-  const chainInfo = useCurrentChainInfo();
+  const { t } = useTranslation('messages.bank');
+
   const { message, date } = props;
   const { value } = message;
 
-  const tokenSent = useMemo(
-    () => formatMultiSendInput(value.inputs, ', '),
-    [value.inputs, chainInfo],
-  );
-
+  const tokenSent = useMemo(() => formatMultiSendInput(value.inputs, ', '), [value.inputs]);
   const outputAddresses = useMemo(
     () => value.outputs.map((output: { address: string }) => output.address),
     [value.outputs],
@@ -41,7 +36,7 @@ const MsgMultiSendListItem = (props: MsgMultiSendListItemProps) => {
           <Typography.Body1>
             {t('multi send')} {tokenSent}
           </Typography.Body1>
-          <Typography.Caption>{t('to')}</Typography.Caption>
+          <Typography.Caption>{t('transaction:to')}</Typography.Caption>
           {outputAddresses.map((address, index) => (
             <Typography.Caption key={`w${index * 2}`} numberOfLines={1} ellipsizeMode="middle">
               {address}

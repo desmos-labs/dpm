@@ -21,10 +21,12 @@ export type SaveGeneratedAccountParams = {
 declare type NavProps = StackScreenProps<RootNavigatorParamList, ROUTES.SAVE_GENERATED_ACCOUNT>;
 
 const SaveGeneratedAccount = (props: NavProps) => {
+  const { t } = useTranslation('account');
+  const styles = useStyles();
+
   const { navigation } = props;
   const { account, password } = props.route.params;
-  const { t } = useTranslation();
-  const styles = useStyles();
+
   const setActiveAccountAddress = useSetActiveAccountAddress();
   const { savingAccount, saveAccount, saveAccountError } = useSaveAccount();
 
@@ -63,7 +65,7 @@ const SaveGeneratedAccount = (props: NavProps) => {
       <>
         <DpmImage style={styles.icon} source={DPMImages.Success} resizeMode="contain" />
 
-        <Typography.Title>{t('success')}</Typography.Title>
+        <Typography.Title>{t('common:success')}</Typography.Title>
         <Typography.Body1>{t('account created')}</Typography.Body1>
 
         <Button style={styles.continueButton} mode="contained" onPress={onContinuePressed}>

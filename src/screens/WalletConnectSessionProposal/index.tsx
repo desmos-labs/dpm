@@ -41,7 +41,7 @@ const WalletConnectSessionProposal: FC<NavProps> = (props) => {
   const showSuccessModal = useCallback(() => {
     openModal(SingleButtonModal, {
       image: DPMImages.Success,
-      title: t('success'),
+      title: t('common:success'),
       message: t('app authorized', { app: appName }),
       actionLabel: t('go to authorization'),
       action: () =>

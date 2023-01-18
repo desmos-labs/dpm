@@ -16,8 +16,9 @@ export type MsgUnlinkChainAccountDetailsProps = {
  * @constructor
  */
 const MsgUnlinkChainAccountDetails = (props: MsgUnlinkChainAccountDetailsProps) => {
-  const { t } = useTranslation();
+  const { t } = useTranslation('messages.profiles');
   const styles = useStyles();
+
   const { message } = props;
   const { value } = message;
   const getLinkableChainInfoByName = useCallback(

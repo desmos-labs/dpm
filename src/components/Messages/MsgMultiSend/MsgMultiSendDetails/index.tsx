@@ -14,7 +14,7 @@ export type MsgMultiSendDetailsProps = {
  * @constructor
  */
 const MsgMultiSendDetails = (props: MsgMultiSendDetailsProps) => {
-  const { t } = useTranslation();
+  const { t } = useTranslation('messages.bank');
   const { message } = props;
   const { value } = message;
   const amounts = useMemo(() => formatMultiSendInput(value.inputs), [value.inputs]);
@@ -31,11 +31,11 @@ const MsgMultiSendDetails = (props: MsgMultiSendDetailsProps) => {
       })
       .map((serializedOutput) => [
         {
-          label: t('to'),
+          label: t('transaction:to'),
           value: serializedOutput.to,
         },
         {
-          label: t('amount'),
+          label: t('sendTokens:amount'),
           value: serializedOutput.amount,
         },
       ])

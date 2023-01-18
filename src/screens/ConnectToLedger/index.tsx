@@ -25,9 +25,10 @@ export interface ConnectToLedgerParams {
 export type Props = StackScreenProps<ConnectToLedgerStackParamList, ROUTES.CONNECT_TO_LEDGER>;
 
 const ConnectToLedger: React.FC<Props> = ({ navigation, route }) => {
-  const { bleLedger, ledgerApp, onConnect } = route.params;
-  const { t } = useTranslation();
+  const { t } = useTranslation('common');
   const styles = useStyles();
+
+  const { bleLedger, ledgerApp, onConnect } = route.params;
   const { connecting, connected, connectionError, transport, retry } = useConnectToLedger(
     bleLedger,
     ledgerApp,

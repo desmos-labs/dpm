@@ -11,6 +11,7 @@ import { RootNavigatorParamList } from 'navigation/RootNavigator';
 import ROUTES from 'navigation/routes';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { ProfileList } from 'screens/Home/components/AppDrawer/ProfileList';
+import { desmosLogoOrange } from 'assets/images';
 import useStyles from './useStyles';
 
 const AppDrawerContent = () => {
@@ -32,20 +33,15 @@ const AppDrawerContent = () => {
   return (
     <StyledSafeAreaView>
       <IconButton style={styles.settingsBtn} icon="settings" onPress={openSettings} size={24} />
-      <Image
-        style={styles.desmosIcon}
-        source={require('assets/images/desmosLogo-orange.png')}
-        resizeMode="contain"
-      />
+      <Image style={styles.desmosIcon} source={desmosLogoOrange} resizeMode="contain" />
 
       <View style={styles.accountsContainer}>
-        <Typography.Subtitle>{t('accounts')}</Typography.Subtitle>
-
+        <Typography.Subtitle>{t('account:accounts')}</Typography.Subtitle>
         <ProfileList />
       </View>
 
       <Button style={styles.addAccountBtn} mode="outlined" onPress={addAccount}>
-        {t('add account')}
+        {t('account:add account')}
       </Button>
     </StyledSafeAreaView>
   );

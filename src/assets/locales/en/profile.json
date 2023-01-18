@@ -11,5 +11,7 @@
   "dtag too long": "DTag value too long",
   "nickname too short": "Nickname too short",
   "nickname too long": "Nickname too long",
-  "bio too long": "Bio too long"
+  "bio too long": "Bio too long",
+  "create first desmos profile": "Create your first Desmos Profile now",
+  "user does not have profile": "This user does not yet have a Desmos profile"
 }

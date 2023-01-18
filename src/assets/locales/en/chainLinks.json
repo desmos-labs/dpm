@@ -1,6 +1,13 @@
 {
+  "chain link": "Chain link",
   "connected chains": "Connected chains",
   "connect chain": "Connect chain",
   "chain connected": "Chain connected",
-  "chain link created successfully": "The chain link has been created successfully"
+  "chain link created successfully": "The chain link has been created successfully",
+  "connect your chain account": "Connect your chain account",
+  "connected on": "Connected on",
+  "external address": "External address",
+  "plain text": "Plain text",
+  "signature": "Signature",
+  "disconnect": "Disconnect"
 }

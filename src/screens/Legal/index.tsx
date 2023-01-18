@@ -9,6 +9,7 @@ import { AccountCreationStackParams, RootStackParams } from 'types/navigation';
 import StyledSafeAreaView from 'components/StyledSafeAreaView';
 import TopBar from 'components/TopBar';
 import Button from 'components/Button';
+import ROUTES from 'navigation/routes';
 import useStyles from './useStyles';
 
 type Props = CompositeScreenProps<
@@ -23,41 +24,30 @@ const Legal: React.FC<Props> = (props) => {
       params: { mode },
     },
   } = props;
-  const { t } = useTranslation();
+  const { t } = useTranslation('legal');
   const styles = useStyles();
 
   const openTermsOfService = useCallback(async () => {
-    navigation.navigate({
-      name: 'MarkdownText',
-      params: {
-        title: t('terms of service'),
-        asset: 'terms-of-service.md',
-      },
+    navigation.navigate(ROUTES.MARKDOWN_TEXT, {
+      title: t('terms of service'),
+      asset: 'terms-of-service.md',
     });
   }, [navigation, t]);
 
   const openPrivacyPolicy = useCallback(async () => {
-    navigation.navigate({
-      name: 'MarkdownText',
-      params: {
-        title: t('privacy policy'),
-        asset: 'custom/privacy.md',
-      },
+    navigation.navigate(ROUTES.MARKDOWN_TEXT, {
+      title: t('privacy policy'),
+      asset: 'custom/privacy.md',
     });
   }, [navigation, t]);
 
   const onAccepted = useCallback(() => {
     if (mode === 'create') {
-      navigation.navigate({
-        name: 'GenerateNewMnemonic',
-        params: undefined,
-      });
+      navigation.navigate(ROUTES.CREATE_NEW_MNEMONIC);
     } else if (mode === 'import') {
-      navigation.navigate({
-        name: 'ImportRecoveryPassphrase',
-        params: undefined,
-      });
+      navigation.navigate(ROUTES.IMPORT_ACCOUNT_FROM_MNEMONIC);
     } else if (mode === 'ledger') {
+      navigation.navigate(ROUTES.IMPORT_ACCOUNT_SELECT_LEDGER_APP);
     }
   }, [navigation, mode]);
 

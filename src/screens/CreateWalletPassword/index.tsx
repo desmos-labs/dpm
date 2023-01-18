@@ -21,9 +21,11 @@ export interface CreateWalletPasswordParams {
 }
 
 const CreateWalletPassword = (props: NavProps) => {
-  const { navigation, route } = props;
-  const { t } = useTranslation();
+  const { t } = useTranslation('account');
   const styles = useStyles();
+
+  const { navigation, route } = props;
+
   const [password, setPassword] = useState('');
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
 

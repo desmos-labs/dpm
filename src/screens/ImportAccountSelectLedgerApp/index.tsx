@@ -22,12 +22,13 @@ import useStyles from './useStyles';
 type NavProps = StackScreenProps<RootNavigatorParamList, ROUTES.IMPORT_ACCOUNT_SELECT_LEDGER_APP>;
 
 const ImportAccountSelectLedgerApp: React.FC<NavProps> = ({ navigation }) => {
+  const { t } = useTranslation('account');
+  const styles = useStyles();
+
   const [importAccountState] = useRecoilState(importAccountAppState);
   const { ignoreAddresses, selectedChain, onSuccess } = importAccountState!;
   const { connectToLedger } = useConnectToLedger();
   const { selectAccount } = useSelectAccount();
-  const { t } = useTranslation();
-  const styles = useStyles();
 
   const ledgerApplications = useMemo(() => {
     if (selectedChain!.name === CryptoDotOrgChain.name) {
@@ -80,7 +81,7 @@ const ImportAccountSelectLedgerApp: React.FC<NavProps> = ({ navigation }) => {
         <TopBar style={styles.background} stackProps={{ navigation }} title={t('select app')} />
       }
     >
-      <Typography.Body>{t('select app to connect')}</Typography.Body>
+      <Typography.Body>{t('select app to use')}</Typography.Body>
 
       <FlatList
         style={styles.appList}

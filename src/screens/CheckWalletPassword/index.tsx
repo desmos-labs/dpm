@@ -31,11 +31,13 @@ export type NavProps = StackScreenProps<RootNavigatorParamList, ROUTES.CHECK_WAL
 
 const CheckWalletPassword = (props: NavProps) => {
   const { navigation, route } = props;
-  const { t } = useTranslation();
+  const { t } = useTranslation('account');
   const styles = useStyles();
+
+  const appSettings = useSettings();
+
   const [password, setPassword] = useState('');
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
-  const appSettings = useSettings();
   const getPasswordFromBiometrics = useGetPasswordFromBiometrics(
     BiometricAuthorizations.UnlockWallet,
   );
@@ -96,7 +98,7 @@ const CheckWalletPassword = (props: NavProps) => {
         <Typography.Body>{t('enter security password')}</Typography.Body>
       </View>
       <SecureTextInput
-        placeholder={t('password')}
+        placeholder={t('common:password')}
         style={styles.password}
         value={password}
         onChangeText={onPasswordChange}
@@ -109,7 +111,7 @@ const CheckWalletPassword = (props: NavProps) => {
         {...(Platform.OS === 'ios' ? { behavior: 'padding' } : {})}
       >
         <Button style={styles.continueButton} mode="contained" onPress={onContinuePressed}>
-          {t('next')}
+          {t('common:next')}
         </Button>
       </KeyboardAvoidingView>
     </StyledSafeAreaView>

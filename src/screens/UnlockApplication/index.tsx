@@ -22,16 +22,19 @@ type NavProps = StackScreenProps<RootNavigatorParamList, ROUTES.UNLOCK_APPLICATI
 const ALLOWED_NAVIGATION_ACTIONS = ['RESET', 'NAVIGATE'];
 
 const UnlockApplication: React.FC<NavProps> = (props) => {
-  const { navigation } = props;
   const styles = useStyles();
-  const { t } = useTranslation();
+  const { t } = useTranslation('account');
+
+  const { navigation } = props;
+
+  const setAppState = useSetAppState();
+  const { bottom } = useSafeAreaInsets();
+  const getPasswordFromBiometrics = useGetPasswordFromBiometrics(BiometricAuthorizations.Login);
+
   const [loading, setLoading] = useState(false);
   const [inputPassword, setInputPassword] = useState('');
   const [error, setError] = useState<string>();
   const settings = useSettings();
-  const setAppState = useSetAppState();
-  const { bottom } = useSafeAreaInsets();
-  const getPasswordFromBiometrics = useGetPasswordFromBiometrics(BiometricAuthorizations.Login);
 
   // Prevent to exit from this screen.
   useEffect(() => {
@@ -118,7 +121,7 @@ const UnlockApplication: React.FC<NavProps> = (props) => {
         value={inputPassword}
         onChangeText={setInputPassword}
         onSubmitEditing={unlockWithPassword}
-        placeholder={t('password')}
+        placeholder={t('common:password')}
         autoFocus={!settings.loginWithBiometrics}
       />
       <Typography.Body style={styles.errorMsg}>{error}</Typography.Body>
@@ -128,7 +131,7 @@ const UnlockApplication: React.FC<NavProps> = (props) => {
         {...(Platform.OS === 'ios' ? { behavior: 'padding' } : {})}
       >
         <Button mode="contained" onPress={unlockWithPassword} loading={loading} disabled={loading}>
-          {loading ? t('loading') : t('confirm')}
+          {loading ? t('common:loading') : t('common:confirm')}
         </Button>
       </KeyboardAvoidingView>
     </StyledSafeAreaView>

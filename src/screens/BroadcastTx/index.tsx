@@ -51,15 +51,17 @@ type NavProps = StackScreenProps<RootNavigatorParamList, ROUTES.BROADCAST_TX>;
 const BroadcastTx: React.FC<NavProps> = (props) => {
   const { navigation, route } = props;
   const { messages, memo, onSuccess, onCancel, onError } = route.params;
-  const { t } = useTranslation();
+  const { t } = useTranslation('transaction');
   const styles = useStyles();
+
   const broadcastTx = useBroadcastTx();
   const showModal = useShowModal();
+  const { estimateFees, estimatingFees, estimatedFees } = useEstimateFees();
+
   const [broadcastingTx, setBroadcastingTx] = useState(false);
   const [broadcastTxStatus, setBroadcastTxStatus] = useState<BroadcastTxStatus>({
     status: BroadcastStatus.Cancel,
   });
-  const { estimateFees, estimatingFees, estimatedFees } = useEstimateFees();
 
   useEffect(() => {
     estimateFees(messages, memo);
@@ -88,9 +90,9 @@ const BroadcastTx: React.FC<NavProps> = (props) => {
   const showSuccessModal = useCallback(() => {
     showModal(SingleButtonModal, {
       image: DPMImages.Success,
-      title: t('success'),
+      title: t('common:success'),
       message: `${t('tx sent successfully')}!`,
-      actionLabel: t('continue'),
+      actionLabel: t('common:continue'),
       action: () => navigation.goBack(),
     });
   }, [showModal, t, navigation]);
@@ -99,9 +101,9 @@ const BroadcastTx: React.FC<NavProps> = (props) => {
     (error: string) => {
       showModal(SingleButtonModal, {
         image: DPMImages.Fail,
-        title: t('failure'),
+        title: t('common:failure'),
         message: error,
-        actionLabel: t('continue'),
+        actionLabel: t('common:continue'),
         action: () => navigation.goBack(),
       });
     },
@@ -140,7 +142,7 @@ const BroadcastTx: React.FC<NavProps> = (props) => {
         loading={broadcastingTx}
         disabled={broadcastingTx || estimatingFees}
       >
-        {!broadcastingTx ? t('confirm') : t('broadcasting tx')}
+        {!broadcastingTx ? t('common:confirm') : t('broadcasting tx')}
       </Button>
     </StyledSafeAreaView>
   );

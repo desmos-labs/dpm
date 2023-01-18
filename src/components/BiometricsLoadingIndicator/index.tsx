@@ -4,11 +4,12 @@ import { View } from 'react-native';
 import Animated, { FadeIn, FadeOut } from 'react-native-reanimated';
 import ThemedLottieView from 'components/ThemedLottieView';
 import Typography from 'components/Typography';
+import { DPMAnimations } from 'types/images';
 import useStyles from './useStyles';
 
 const BiometricsLoadingIndicator: React.FC = () => {
   const styles = useStyles();
-  const { t } = useTranslation();
+  const { t } = useTranslation('account');
 
   return (
     <Animated.View
@@ -18,7 +19,7 @@ const BiometricsLoadingIndicator: React.FC = () => {
     >
       <ThemedLottieView
         style={styles.image}
-        source="loading"
+        source={DPMAnimations.Loading}
         autoPlay
         loop
         autoSize

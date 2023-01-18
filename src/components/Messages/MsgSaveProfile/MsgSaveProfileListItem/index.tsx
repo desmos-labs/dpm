@@ -16,7 +16,7 @@ export type MsgSaveProfileListItemProps = {
  * @constructor
  */
 const MsgSaveProfileListItem = (props: MsgSaveProfileListItemProps) => {
-  const { t } = useTranslation();
+  const { t } = useTranslation('messages.profiles');
   const { date } = props;
 
   return (

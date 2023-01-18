@@ -17,7 +17,7 @@ export type MsgVoteListItemProps = {
  * @constructor
  */
 const MsgVoteListItem = (props: MsgVoteListItemProps) => {
-  const { t } = useTranslation();
+  const { t } = useTranslation('messages:gov');
   const { message, date } = props;
   const { value } = message;
 

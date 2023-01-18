@@ -42,7 +42,7 @@ const Settings = (props: NavProps) => {
 
   const openPrivacy = useCallback(async () => {
     navigation.navigate(ROUTES.MARKDOWN_TEXT, {
-      title: t('privacy policy'),
+      title: t('legal:privacy policy'),
       fileName: 'privacy.md',
     });
   }, [navigation, t]);
@@ -151,7 +151,7 @@ const Settings = (props: NavProps) => {
       {/* About section */}
       <Flexible.Section style={styles.sectionMargin} title={t('about')}>
         <Flexible.SectionButton label={t('about dpm')} onPress={openAbout} />
-        <Flexible.SectionButton label={t('privacy policy')} onPress={openPrivacy} />
+        <Flexible.SectionButton label={t('legal:privacy policy')} onPress={openPrivacy} />
         <Flexible.SectionButton label={t('open source')} onPress={navigateToGithub} />
         <Flexible.SectionText label={t('version')} value={DeviceInfo.getVersion()} />
       </Flexible.Section>
