@@ -4,10 +4,7 @@ import { useTranslation } from 'react-i18next';
 import { ListRenderItemInfo, StyleProp, TouchableOpacity, View, ViewStyle } from 'react-native';
 import { WalletType } from 'types/wallet';
 import Typography from 'components/Typography';
-import AddressListItem from 'components/AddressListItem';
-import HdPathPicker from 'components/HdPathPicker';
 import Divider from 'components/Divider';
-import PaginatedFlatList from 'components/PaginatedFlatList';
 import ListItemSeparator from 'components/ListItemSeparator';
 import { HdPath } from '@cosmjs/crypto';
 import {
@@ -16,6 +13,9 @@ import {
 } from 'screens/SelectAccount/components/AccountPicker/useHooks';
 import { slip10IndexToBaseNumber } from 'lib/FormatUtils';
 import { AccountWithWallet } from 'types/account';
+import PaginatedFlatList from '../PaginatedFlatList';
+import HdPathPicker from '../HdPathPicker';
+import AddressListItem from '../AddressListItem';
 import useStyles from './useStyles';
 import { AccountPickerParams, WalletPickerMode } from './types';
 

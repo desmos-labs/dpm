@@ -7,11 +7,11 @@ import Typography from 'components/Typography';
 import evaluatePasswordComplexity from 'hooks/useEvaluatePasswordComplexity';
 import StyledSafeAreaView from 'components/StyledSafeAreaView';
 import TopBar from 'components/TopBar';
-import PasswordComplexityScore from 'components/PasswordComplexityScore';
 import Button from 'components/Button';
 import { RootNavigatorParamList } from 'navigation/RootNavigator';
 import ROUTES from 'navigation/routes';
 import { AccountWithWallet } from 'types/account';
+import PasswordComplexityScore from './components/PasswordComplexityScore';
 import useStyles from './useStyles';
 
 export type NavProps = StackScreenProps<RootNavigatorParamList, ROUTES.CREATE_WALLET_PASSWORD>;

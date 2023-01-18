@@ -2,7 +2,6 @@ import { StackScreenProps } from '@react-navigation/stack';
 import React, { useCallback, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { KeyboardAvoidingView, Platform, View } from 'react-native';
-import BiometricsLoadingIndicator from 'components/BiometricsLoadingIndicator';
 import Padding from 'components/Flexible/Padding';
 import SecureTextInput from 'components/SecureTextInput';
 import Typography from 'components/Typography';
@@ -18,6 +17,7 @@ import { SigningMode } from '@desmoslabs/desmjs';
 import { useSettings } from '@recoil/settings';
 import { BiometricAuthorizations } from 'types/settings';
 import useGetPasswordFromBiometrics from 'hooks/useGetPasswordFromBiometrics';
+import BiometricsLoadingIndicator from './components/BiometricsLoadingIndicator';
 import useStyles from './useStyles';
 
 export interface UnlockWalletParams {

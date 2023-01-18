@@ -5,12 +5,12 @@ import { View } from 'react-native';
 import { ActivityIndicator } from 'react-native-paper';
 import { randomMnemonic } from 'lib/WalletUtils/mnemonic';
 import Typography from 'components/Typography';
-import MnemonicGrid from 'components/MnemonicGrid';
 import Button from 'components/Button';
 import StyledSafeAreaView from 'components/StyledSafeAreaView';
 import TopBar from 'components/TopBar';
 import { RootNavigatorParamList } from 'navigation/RootNavigator';
 import ROUTES from 'navigation/routes';
+import MnemonicGrid from './components/MnemonicGrid';
 import InlineButton from './components/InlineButton';
 import useStyles from './useStyles';
 

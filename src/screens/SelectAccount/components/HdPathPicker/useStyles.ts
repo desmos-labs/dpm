@@ -1,5 +1,5 @@
-import {makeStyleWithProps} from 'config/theme';
-import {HdPathPickerProps} from 'components/HdPathPicker/index';
+import { makeStyleWithProps } from 'config/theme';
+import { HdPathPickerProps } from 'screens/SelectAccount/components/HdPathPicker/index';
 
 const useStyle = makeStyleWithProps((props: HdPathPickerProps, theme) => ({
   root: {
