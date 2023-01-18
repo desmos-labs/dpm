@@ -8,13 +8,6 @@ export const usePickPicture = () => {
 
   return useCallback(
     (callback: (value: string | undefined) => void) => {
-      // Don't block the app when returning after picking the
-      // image
-      setAppState((currentState) => ({
-        ...currentState,
-        noLockOnBackground: true,
-      }));
-
       launchImageLibrary(
         {
           quality: 1,
