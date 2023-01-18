@@ -1,5 +1,5 @@
 import { getWallet } from 'lib/SecureStorage';
-import { useConnectToLedger } from 'hooks/useConnectToLedger';
+import useConnectToLedger from 'hooks/useConnectToLedger';
 import {
   LedgerWallet,
   MnemonicWallet,
@@ -52,7 +52,7 @@ const useInitMnemonicWallet = () => {
  * Hook that provides a function to initialize a Ledger wallet.
  */
 const useInitLedgerWallet = () => {
-  const { connectToLedger } = useConnectToLedger();
+  const connectToLedger = useConnectToLedger();
 
   const initLedgerWallet = useCallback(
     async (serializedWallet: SerializableLedgerWallet): Promise<LedgerWallet | undefined> => {

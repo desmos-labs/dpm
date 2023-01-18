@@ -9,7 +9,7 @@ import { getSdkError } from '@walletconnect/utils';
 /**
  * Hook that provides a function to accept a session request.
  */
-export default function useWalletConnectCloseAccountSessions() {
+const useWalletConnectCloseAccountSessions = () => {
   const wcClient = useWalletConnectClient();
   const sessions = useWalletConnectSessions();
   const clearAccountSessions = useWalletConnectClearAccountSessions();
@@ -34,4 +34,6 @@ export default function useWalletConnectCloseAccountSessions() {
     },
     [clearAccountSessions, sessions, wcClient],
   );
-}
+};
+
+export default useWalletConnectCloseAccountSessions;

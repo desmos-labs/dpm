@@ -8,9 +8,8 @@ import { ModalComponent } from 'modals/ModalScreen';
 /**
  * Hook that provide a function to display a ModalComponent.
  */
-export default function useShowModal() {
+const useShowModal = () => {
   const navigation = useNavigation<StackNavigationProp<RootNavigatorParamList>>();
-
   return useCallback(
     <P>(modal: ModalComponent<P>, params: P) => {
       navigation.navigate({
@@ -23,4 +22,6 @@ export default function useShowModal() {
     },
     [navigation],
   );
-}
+};
+
+export default useShowModal;

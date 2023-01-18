@@ -3,15 +3,15 @@ import { StackNavigationProp } from '@react-navigation/stack/lib/typescript/src/
 import { RootNavigatorParamList } from 'navigation/RootNavigator';
 import ROUTES from 'navigation/routes';
 import { useCallback } from 'react';
-import { useReturnToCurrentScreen } from 'hooks/useReturnToCurrentScreen';
+import useReturnToCurrentScreen from 'hooks/useReturnToCurrentScreen';
 import { AccountPickerParams } from 'screens/SelectAccount/components/AccountPicker/types';
 import { AccountWithWallet } from 'types/account';
 
-export const useSelectAccount = () => {
+const useSelectAccount = () => {
   const navigator = useNavigation<StackNavigationProp<RootNavigatorParamList>>();
-  const { returnToCurrentScreen } = useReturnToCurrentScreen();
+  const returnToCurrentScreen = useReturnToCurrentScreen();
 
-  const selectAccount = useCallback(
+  return useCallback(
     (accountPickerParams: AccountPickerParams): Promise<AccountWithWallet | undefined> =>
       new Promise<AccountWithWallet | undefined>((resolve) => {
         navigator.navigate({
@@ -29,10 +29,8 @@ export const useSelectAccount = () => {
           },
         });
       }),
-    [navigator],
+    [navigator, returnToCurrentScreen],
   );
-
-  return {
-    selectAccount,
-  };
 };
+
+export default useSelectAccount;

@@ -15,7 +15,7 @@ import { RootNavigatorParamList } from 'navigation/RootNavigator';
 import ROUTES from 'navigation/routes';
 import { WalletPickerMode } from 'screens/SelectAccount/components/AccountPicker/types';
 import { useRecoilValue } from 'recoil';
-import { useSelectAccount } from 'hooks/useSelectAccount';
+import useSelectAccount from 'hooks/useSelectAccount';
 import importAccountAppState from '@recoil/importAccountState';
 import useStyles from './useStyles';
 
@@ -28,7 +28,7 @@ const ImportAccountFromMnemonic: FC<NavProps> = (props) => {
   const styles = useStyles();
   const { t } = useTranslation('account');
 
-  const { selectAccount } = useSelectAccount();
+  const selectAccount = useSelectAccount();
 
   const importAccountState = useRecoilValue(importAccountAppState);
   const { ignoreAddresses, selectedChain, onSuccess } = importAccountState!;

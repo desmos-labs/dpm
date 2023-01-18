@@ -13,8 +13,8 @@ import ROUTES from 'navigation/routes';
 import { useRecoilState } from 'recoil';
 import { CosmosLedgerApp, CryptoOrgLedgerApp, DesmosLedgerApp } from 'config/LedgerApps';
 import { CryptoDotOrgChain, DesmosChain } from 'config/LinkableChains';
-import { useConnectToLedger } from 'hooks/useConnectToLedger';
-import { useSelectAccount } from 'hooks/useSelectAccount';
+import useConnectToLedger from 'hooks/useConnectToLedger';
+import useSelectAccount from 'hooks/useSelectAccount';
 import { WalletPickerMode } from 'screens/SelectAccount/components/AccountPicker/types';
 import importAccountAppState from '@recoil/importAccountState';
 import useStyles from './useStyles';
@@ -27,8 +27,8 @@ const ImportAccountSelectLedgerApp: React.FC<NavProps> = ({ navigation }) => {
 
   const [importAccountState] = useRecoilState(importAccountAppState);
   const { ignoreAddresses, selectedChain, onSuccess } = importAccountState!;
-  const { connectToLedger } = useConnectToLedger();
-  const { selectAccount } = useSelectAccount();
+  const connectToLedger = useConnectToLedger();
+  const selectAccount = useSelectAccount();
 
   const ledgerApplications = useMemo(() => {
     if (selectedChain!.name === CryptoDotOrgChain.name) {

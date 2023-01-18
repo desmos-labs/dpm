@@ -6,13 +6,13 @@ import { useCallback } from 'react';
 import { ConnectToLedgerStackParams } from 'navigation/RootNavigator/ConnectToLedgerStack';
 import BluetoothTransport from '@ledgerhq/react-native-hw-transport-ble';
 import { LedgerApp } from 'types/ledger';
-import { useReturnToCurrentScreen } from 'hooks/useReturnToCurrentScreen';
+import useReturnToCurrentScreen from 'hooks/useReturnToCurrentScreen';
 
-export const useConnectToLedger = () => {
+const useConnectToLedger = () => {
   const navigator = useNavigation<StackNavigationProp<RootNavigatorParamList>>();
-  const { returnToCurrentScreen } = useReturnToCurrentScreen();
+  const returnToCurrentScreen = useReturnToCurrentScreen();
 
-  const connectToLedger = useCallback(
+  return useCallback(
     (ledgerApp: LedgerApp) =>
       new Promise<BluetoothTransport | undefined>((resolve) => {
         navigator.navigate({
@@ -30,10 +30,8 @@ export const useConnectToLedger = () => {
           } as ConnectToLedgerStackParams,
         });
       }),
-    [navigator],
+    [navigator, returnToCurrentScreen],
   );
-
-  return {
-    connectToLedger,
-  };
 };
+
+export default useConnectToLedger;

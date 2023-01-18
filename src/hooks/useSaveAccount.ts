@@ -6,12 +6,12 @@ import { useGetAccounts } from '@recoil/accounts';
 import { AccountWithWallet } from 'types/account';
 import ROUTES from 'navigation/routes';
 
-export const useSaveAccount = () => {
+const useSaveAccount = () => {
   const navigator = useNavigation<StackNavigationProp<RootNavigatorParamList>>();
   const accounts = useGetAccounts();
   const createWalletPassword = useMemo(() => Object.keys(accounts).length === 0, [accounts]);
 
-  const saveAccount = useCallback(
+  return useCallback(
     (account: AccountWithWallet) => {
       if (createWalletPassword) {
         navigator.navigate({
@@ -31,8 +31,6 @@ export const useSaveAccount = () => {
     },
     [navigator, createWalletPassword],
   );
-
-  return {
-    saveAccount,
-  };
 };
+
+export default useSaveAccount;

@@ -1,4 +1,4 @@
-import { useReturnToCurrentScreen } from 'hooks/useReturnToCurrentScreen';
+import useReturnToCurrentScreen from 'hooks/useReturnToCurrentScreen';
 import { useCallback } from 'react';
 import { useNavigation } from '@react-navigation/native';
 import { RootNavigatorParamList } from 'navigation/RootNavigator';
@@ -11,8 +11,8 @@ import { SigningMode } from '@desmoslabs/desmjs';
 /**
  * Hooks that provides a function to unlock and access a user wallet.
  */
-export const useUnlockWallet = () => {
-  const { returnToCurrentScreen } = useReturnToCurrentScreen();
+const useUnlockWallet = () => {
+  const returnToCurrentScreen = useReturnToCurrentScreen();
   const navigator = useNavigation<StackNavigationProp<RootNavigatorParamList>>();
   const activeAccount = useActiveAccount();
 
@@ -42,3 +42,5 @@ export const useUnlockWallet = () => {
     [activeAccount, navigator, returnToCurrentScreen],
   );
 };
+
+export default useUnlockWallet;

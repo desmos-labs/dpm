@@ -11,9 +11,9 @@ import ROUTES from 'navigation/routes';
 import { DPMAnimations } from 'types/images';
 import { ConnectToLedgerStackParamList } from 'navigation/RootNavigator/ConnectToLedgerStack';
 import useOnBackAction from 'hooks/useOnBackAction';
-import { usePermissions } from 'hooks/permissions/usePermissions';
 import { AppPermissions, AppPermissionStatus } from 'types/permissions';
 import LedgerDeviceList from 'screens/PerformLedgerScan/components/LedgerDeviceList';
+import usePermissions from 'hooks/usePermissions';
 import useStyles from './useStyles';
 import { ScanErrorType, useBleScan, useRequestEnableBt } from './useHooks';
 

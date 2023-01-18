@@ -10,7 +10,7 @@ import useOnBackAction from './useOnBackAction';
 const useOnScreenDetached = (onDetach: () => any, deps: DependencyList) => {
   const backActionStateRef = useRef(false);
   const isFocused = useIsFocused();
-  const memoizedDetachCallback = useCallback(onDetach, deps);
+  const memoizedDetachCallback = useCallback(onDetach, [...deps, onDetach]);
 
   useOnBackAction(() => {
     backActionStateRef.current = true;

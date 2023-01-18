@@ -10,8 +10,8 @@ import { DPMImages } from 'types/images';
 import Typography from 'components/Typography';
 import Button from 'components/Button';
 import Spacer from 'components/Spacer';
-import { usePermissions } from 'hooks/permissions/usePermissions';
 import { AppPermissions, AppPermissionStatus } from 'types/permissions';
+import usePermissions from 'hooks/usePermissions';
 import useStyles from './useStyles';
 
 export interface QrCodeScannerProps {

@@ -42,7 +42,7 @@ const ChainLinksList = (props: ChainConnectionsProps) => {
     });
   }, [navigation, showModal, t]);
 
-  const { connectChain } = useConnectChain(onChainConnected, chainLinks);
+  const connectChain = useConnectChain(onChainConnected, chainLinks);
 
   const renderItem = (info: ListRenderItemInfo<ChainLink>) => {
     const { item } = info;

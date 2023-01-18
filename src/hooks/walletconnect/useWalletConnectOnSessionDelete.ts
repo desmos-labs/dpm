@@ -2,7 +2,7 @@ import { useRemoveSessionByTopic } from '@recoil/walletConnectSessions';
 import { useCallback } from 'react';
 import { SignClientTypes } from '@walletconnect/types';
 
-const useOnSessionDelete = () => {
+const useWalletConnectOnSessionDelete = () => {
   const removeSessionByTopic = useRemoveSessionByTopic();
   return useCallback(
     (args: SignClientTypes.EventArguments['session_delete']) => {
@@ -12,4 +12,4 @@ const useOnSessionDelete = () => {
   );
 };
 
-export default useOnSessionDelete;
+export default useWalletConnectOnSessionDelete;

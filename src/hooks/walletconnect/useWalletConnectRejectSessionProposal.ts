@@ -6,7 +6,7 @@ import { getSdkError } from '@walletconnect/utils';
 /**
  * Hook that provides a function to accept a session request.
  */
-export default function useWalletConnectRejectSessionProposal() {
+const useWalletConnectRejectSessionProposal = () => {
   const wcClient = useWalletConnectClient();
 
   return useCallback(
@@ -23,4 +23,6 @@ export default function useWalletConnectRejectSessionProposal() {
     },
     [wcClient],
   );
-}
+};
+
+export default useWalletConnectRejectSessionProposal;

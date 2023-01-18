@@ -11,7 +11,7 @@ type BackCallback = (event: CallbackArg) => any | (() => any);
  */
 const useOnBackAction = (onBack: BackCallback, deps: DependencyList) => {
   const navigation = useNavigation();
-  const memoizedBackCallback = useCallback(onBack, deps);
+  const memoizedBackCallback = useCallback(onBack, [...deps, onBack]);
 
   const currentScreen = useMemo(() => {
     const { routes } = navigation.getState();

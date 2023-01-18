@@ -16,7 +16,7 @@ import {
 import useWalletConnectRequestRespond from 'hooks/walletconnect/useWalletConnectRequestRespond';
 import useWalletConnectRequestReject from 'hooks/walletconnect/useWalletConnectRequestReject';
 import { getSdkError } from '@walletconnect/utils';
-import { useUnlockWallet } from 'hooks/useUnlockWallet';
+import useUnlockWallet from 'hooks/useUnlockWallet';
 import { SigningMode } from '@desmoslabs/desmjs';
 import SingleButtonModal from 'modals/SingleButtonModal';
 import useShowModal from 'hooks/useShowModal';

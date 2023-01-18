@@ -3,7 +3,7 @@ import { useNavigation } from '@react-navigation/native';
 import { StackNavigationProp } from '@react-navigation/stack/lib/typescript/src/types';
 import { RootNavigatorParamList } from 'navigation/RootNavigator';
 
-export const useReturnToCurrentScreen = () => {
+const useReturnToCurrentScreen = () => {
   const navigator = useNavigation<StackNavigationProp<RootNavigatorParamList>>();
 
   const startingScreenNavigateParams = useMemo(() => {
@@ -12,11 +12,9 @@ export const useReturnToCurrentScreen = () => {
     return { key: currentRoute.key, params: currentRoute.params };
   }, [navigator]);
 
-  const returnToCurrentScreen = useCallback(() => {
+  return useCallback(() => {
     navigator.navigate(startingScreenNavigateParams);
   }, [navigator, startingScreenNavigateParams]);
-
-  return {
-    returnToCurrentScreen,
-  };
 };
+
+export default useReturnToCurrentScreen;

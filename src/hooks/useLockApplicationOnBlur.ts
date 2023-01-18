@@ -15,10 +15,7 @@ const useLockApplicationOnBlur = () => {
 
   useEffect(() => {
     const onChangeSubscription = AppState.addEventListener('change', (state) => {
-      console.log('AppState change', state);
-
       if (Object.keys(accounts).length === 0) {
-        console.log('ignore app state change, no accounts');
         return;
       }
 

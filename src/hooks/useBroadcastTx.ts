@@ -20,7 +20,6 @@ export interface BroadcastTxOptions extends BroadcastTxCallbacks {
  */
 const useBroadcastTx = (): ((msgs: EncodeObject[], options?: BroadcastTxOptions) => void) => {
   const navigation = useNavigation<StackNavigationProp<RootNavigatorParamList>>();
-
   return useCallback(
     (msgs: EncodeObject[], options?: BroadcastTxOptions) => {
       navigation.navigate(ROUTES.BROADCAST_TX, {

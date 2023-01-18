@@ -8,7 +8,7 @@ import { SupportedChain } from 'types/chains';
 import { useRecoilState } from 'recoil';
 import importAccountAppState from '@recoil/importAccountState';
 import { getChainSupportedWalletTypes } from 'lib/ChainsUtils';
-import { useReturnToCurrentScreen } from 'hooks/useReturnToCurrentScreen';
+import useReturnToCurrentScreen from 'hooks/useReturnToCurrentScreen';
 
 type AccountWithWalletAndChain = {
   account: AccountWithWallet;
@@ -23,12 +23,12 @@ type AccountWithWalletAndChain = {
  * <b>Note</b>: If the {@param chains} list only contains one item, the screen allowing to select the chain
  * to be imported will be skipped.
  */
-export const useImportAccount = (chains: SupportedChain[], ignoreAddresses?: string[]) => {
+const useImportAccount = (chains: SupportedChain[], ignoreAddresses?: string[]) => {
   const navigation = useNavigation<StackNavigationProp<RootNavigatorParamList>>();
   const [, setImportAccountState] = useRecoilState(importAccountAppState);
-  const { returnToCurrentScreen } = useReturnToCurrentScreen();
+  const returnToCurrentScreen = useReturnToCurrentScreen();
 
-  const importAccount = useCallback(async (): Promise<AccountWithWalletAndChain | undefined> => {
+  return useCallback(async (): Promise<AccountWithWalletAndChain | undefined> => {
     const data = await new Promise<AccountWithWalletAndChain | undefined>((resolve) => {
       const selectedChain: SupportedChain | undefined = chains.length === 1 ? chains[0] : undefined;
 
@@ -59,8 +59,6 @@ export const useImportAccount = (chains: SupportedChain[], ignoreAddresses?: str
     // setImportAccountState(undefined);
     return data;
   }, [chains, ignoreAddresses, navigation, returnToCurrentScreen, setImportAccountState]);
-
-  return {
-    importAccount,
-  };
 };
+
+export default useImportAccount;

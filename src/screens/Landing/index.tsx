@@ -7,8 +7,8 @@ import IconButton from 'components/IconButton';
 import Button from 'components/Button';
 import { RootNavigatorParamList } from 'navigation/RootNavigator';
 import ROUTES from 'navigation/routes';
-import { useSaveAccount } from 'hooks/useSaveAccount';
-import { useImportAccount } from 'hooks/useImportAccount';
+import useSaveAccount from 'hooks/useSaveAccount';
+import useImportAccount from 'hooks/useImportAccount';
 import { DesmosChain } from 'config/LinkableChains';
 import { desmosLogoWhite, homeBackgroundLight } from 'assets/images';
 import { useGetAccountsAddresses } from '@recoil/accounts';
@@ -21,8 +21,8 @@ const Landing = ({ navigation }: NavProps) => {
   const styles = useStyles();
 
   const accountsAddresses = useGetAccountsAddresses();
-  const { importAccount } = useImportAccount([DesmosChain], accountsAddresses);
-  const { saveAccount } = useSaveAccount();
+  const importAccount = useImportAccount([DesmosChain], accountsAddresses);
+  const saveAccount = useSaveAccount();
 
   const animate = !navigation.canGoBack();
   const initialOpacity = animate ? 0 : 1;

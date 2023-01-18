@@ -9,13 +9,10 @@ import {
 } from '@recoil/permissionsRequestCount';
 import { useSetAppState } from '@recoil/appState';
 
-function isMultipleRejected(permissions: Record<any, Permissions.PermissionStatus>): boolean {
-  return (
-    Object.values(permissions).find(
-      (permissionResult) => permissionResult === 'denied' || permissionResult === 'blocked',
-    ) !== undefined
-  );
-}
+const isMultipleRejected = (permissions: Record<any, Permissions.PermissionStatus>): boolean =>
+  Object.values(permissions).find(
+    (permissionResult) => permissionResult === 'denied' || permissionResult === 'blocked',
+  ) !== undefined;
 
 /**
  * Function that opens the application settings to ask the user
@@ -42,7 +39,7 @@ const openSettingsAndCheckPermissions = async (
   return promise;
 };
 
-export const usePermissions = (permission: AppPermissions) => {
+const usePermissions = (permission: AppPermissions) => {
   const requestsCount = usePermissionsRequestCount();
   const setRequestsCount = useSetPermissionsRequestCount();
   const setAppState = useSetAppState();
@@ -134,3 +131,5 @@ export const usePermissions = (permission: AppPermissions) => {
     checkPermission,
   };
 };
+
+export default usePermissions;

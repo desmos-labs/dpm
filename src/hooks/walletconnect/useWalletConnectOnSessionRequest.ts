@@ -15,7 +15,7 @@ import {
 } from '@desmoslabs/desmjs-walletconnect-v2';
 import ROUTES from 'navigation/routes';
 
-const useOnSessionRequest = (signClient: SignClient | undefined) => {
+const useWalletConnectOnSessionRequest = (signClient: SignClient | undefined) => {
   const accounts = useGetAccounts();
   const getSessionByTopic = useGetSessionByTopic();
   const storeSessionRequest = useStoreWalletConnectSessionRequest();
@@ -110,4 +110,4 @@ const useOnSessionRequest = (signClient: SignClient | undefined) => {
   );
 };
 
-export default useOnSessionRequest;
+export default useWalletConnectOnSessionRequest;

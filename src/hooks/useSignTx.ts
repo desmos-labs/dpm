@@ -4,7 +4,7 @@ import { useCallback } from 'react';
 import { Wallet, WalletType } from 'types/wallet';
 import { DeliverTxResponse, DesmosClient, SignatureResult } from '@desmoslabs/desmjs';
 import { useCurrentChainGasPrice, useCurrentChainInfo } from '@recoil/settings';
-import { useModal } from 'hooks/useModal';
+import useModal from 'hooks/useModal';
 import LoadingModal from 'modals/LoadingModal';
 import { useTranslation } from 'react-i18next';
 import { SignerData } from '@cosmjs/stargate';
@@ -59,7 +59,7 @@ export interface SignAndBroadcastResult {
 
 export type SignResult = OfflineSignResult | SignAndBroadcastResult;
 
-function useGetClientFromSignMode() {
+const useGetClientFromSignMode = () => {
   const { rpcUrl } = useCurrentChainInfo();
   const gasPrice = useCurrentChainGasPrice();
 
@@ -81,7 +81,7 @@ function useGetClientFromSignMode() {
     },
     [rpcUrl, gasPrice],
   );
-}
+};
 
 const useSignOfflineTx = () =>
   useCallback(

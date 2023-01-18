@@ -1,6 +1,6 @@
 import { Account, AccountWithWallet } from 'types/account';
 import { useCallback, useMemo } from 'react';
-import { useImportAccount } from 'hooks/useImportAccount';
+import useImportAccount from 'hooks/useImportAccount';
 import LinkableChains from 'config/LinkableChains';
 import { toHex } from '@cosmjs/encoding';
 import { StdFee } from '@cosmjs/amino';
@@ -132,12 +132,12 @@ const useConnectChain = (onSuccess: () => void, userChainLinks: ChainLink[]) => 
     () => userChainLinks.map(({ externalAddress }) => externalAddress),
     [userChainLinks],
   );
-  const { importAccount } = useImportAccount(LinkableChains, ignoreAddresses);
+  const importAccount = useImportAccount(LinkableChains, ignoreAddresses);
   const generateMsgChainLink = useGenerateMsgLinkChainAccount();
   const broadcastTx = useBroadcastTx();
   const saveChainLinkAccount = useSaveChainLinkAccount();
 
-  const connectChain = useCallback(async () => {
+  return useCallback(async () => {
     const accountWithChain = await importAccount();
     if (accountWithChain === undefined) {
       return;
@@ -157,10 +157,6 @@ const useConnectChain = (onSuccess: () => void, userChainLinks: ChainLink[]) => 
       },
     });
   }, [broadcastTx, generateMsgChainLink, importAccount, onSuccess, saveChainLinkAccount]);
-
-  return {
-    connectChain,
-  };
 };
 
 export default useConnectChain;

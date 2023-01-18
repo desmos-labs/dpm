@@ -4,14 +4,14 @@ import SignClient from '@walletconnect/sign-client';
 import { WALLET_CONNECT_PROJECT_ID } from '@env';
 import * as WalletConnectMMKV from 'lib/MMKVStorage/walletconnect';
 import { useRemoveSessionByTopic, useWalletConnectSessions } from '@recoil/walletConnectSessions';
-import useOnSessionRequestCallback from 'hooks/walletconnect/useOnSessionRequestCallback';
-import useOnSessionDeleteCallback from './useOnSessionDeleteCallback';
+import useWalletConnectOnSessionRequest from './useWalletConnectOnSessionRequest';
+import useWalletConnectOnSessionDelete from './useWalletConnectOnSessionDelete';
 
 const useInitWalletConnectClient = () => {
   const setWalletConnectClient = useSetWalletConnectClient();
   const client = useWalletConnectClient();
-  const onSessionRequest = useOnSessionRequestCallback(client?.client);
-  const onSessionDelete = useOnSessionDeleteCallback();
+  const onSessionRequest = useWalletConnectOnSessionRequest(client?.client);
+  const onSessionDelete = useWalletConnectOnSessionDelete();
   const deleteSessionByTopic = useRemoveSessionByTopic();
   const savedSessions = useWalletConnectSessions();
 

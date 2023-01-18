@@ -44,7 +44,7 @@ const useValidateSessionRequest = () => {
  * Hook that provides a function to initiate the pairing procedure with a
  * DApp that use WalletConnect.
  */
-export default function useWalletConnectPair() {
+const useWalletConnectPair = () => {
   const wcClient = useWalletConnectClient();
   const validateSessionRequest = useValidateSessionRequest();
 
@@ -89,4 +89,6 @@ export default function useWalletConnectPair() {
     },
     [wcClient, validateSessionRequest],
   );
-}
+};
+
+export default useWalletConnectPair;

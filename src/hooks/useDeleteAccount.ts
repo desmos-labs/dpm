@@ -8,7 +8,7 @@ import ROUTES from 'navigation/routes';
 import { useActiveAccountAddress, useSetActiveAccountAddress } from '@recoil/activeAccount';
 import useWalletConnectCloseAccountSessions from 'hooks/walletconnect/useWalletConnectCloseAccountSessions';
 
-export default function useDeleteAccount() {
+const useDeleteAccount = () => {
   const accounts = useGetAccounts();
   const setAccounts = useSetAccounts();
   const setProfiles = useSetProfiles();
@@ -64,4 +64,6 @@ export default function useDeleteAccount() {
       setActiveAccountAddress,
     ],
   );
-}
+};
+
+export default useDeleteAccount;
