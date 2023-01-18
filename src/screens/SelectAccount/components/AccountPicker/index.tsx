@@ -2,7 +2,7 @@ import { debounce } from 'lodash';
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { ListRenderItemInfo, StyleProp, TouchableOpacity, View, ViewStyle } from 'react-native';
-import { Wallet, WalletType } from 'types/wallet';
+import { WalletType } from 'types/wallet';
 import Typography from 'components/Typography';
 import AddressListItem from 'components/AddressListItem';
 import HdPathPicker from 'components/HdPathPicker';
@@ -122,7 +122,7 @@ const AccountPicker: React.FC<AccountPickerProps> = ({
     [selectedAccount, setSelectedAccount],
   );
 
-  const listKeyExtractor = useCallback((item: Wallet) => item.address, []);
+  const listKeyExtractor = useCallback((item: AccountWithWallet) => item.account.address, []);
 
   const debouncedGenerateWallet = useCallback(
     debounce(async (hdPath: HdPath) => {

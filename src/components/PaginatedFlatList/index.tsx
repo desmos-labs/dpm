@@ -47,12 +47,6 @@ const PaginatedFlatList = (props: PaginatedFlatListProps<any>) => {
     setLoading(false);
   }, [currentOffset, loadPage, itemsPerPage]);
 
-  useEffect(() => {
-    if (currentOffset === 0) {
-      fetchNextPage().then(() => {});
-    }
-  }, []);
-
   const onPageEndReached = useCallback(
     (info: { distanceFromEnd: number }) => {
       if (!loading) {
@@ -62,8 +56,18 @@ const PaginatedFlatList = (props: PaginatedFlatListProps<any>) => {
         onEndReached(info);
       }
     },
-    [loading, fetchNextPage, props],
+    [loading, onEndReached, fetchNextPage],
   );
+
+  useEffect(() => {
+    if (currentOffset === 0) {
+      fetchNextPage().then(() => {});
+    }
+
+    // Safe to ignore, since we need to fetch the first page when the component
+    // is ready.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
     <FlatList
