@@ -17,7 +17,7 @@ export type MsgWithdrawDelegatorRewardsListItemProps = {
  * @constructor
  */
 const MsgWithdrawDelegatorRewardsListItem = (props: MsgWithdrawDelegatorRewardsListItemProps) => {
-  const { t } = useTranslation('mesasges.staking');
+  const { t } = useTranslation('messages.staking');
   const styles = useStyles();
   const { message, date } = props;
   const { value } = message;

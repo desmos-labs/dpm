@@ -13,6 +13,7 @@ import { BiometricAuthorizations } from 'types/settings';
 import { RootNavigatorParamList } from 'navigation/RootNavigator';
 import ROUTES from 'navigation/routes';
 import * as SecureSettings from 'lib/SecureStorage';
+import Spacer from 'components/Spacer';
 import useStyles from './useStyles';
 
 export interface EnableBiometricsAuthorizationParams {
@@ -25,15 +26,17 @@ type Props = StackScreenProps<
 >;
 
 const SettingsEnableBiometricsAuthorization: React.FC<Props> = (props) => {
+  const { t } = useTranslation('settings');
+  const styles = useStyles();
+
   const { navigation, route } = props;
   const {
     params: { biometricsType },
   } = route;
+
   const [password, setPassword] = React.useState<string>('');
   const [error, setError] = React.useState<string | null>(null);
   const [loading, setLoading] = React.useState<boolean>(false);
-  const { t } = useTranslation();
-  const styles = useStyles();
   const setSettings = useSetSettings();
 
   const btnAction = useCallback(
@@ -62,7 +65,7 @@ const SettingsEnableBiometricsAuthorization: React.FC<Props> = (props) => {
         });
         navigation.goBack();
       } else {
-        setError(t('wrong confirmation password'));
+        setError(t('account:wrong confirmation password'));
       }
       setLoading(false);
     },
@@ -76,14 +79,20 @@ const SettingsEnableBiometricsAuthorization: React.FC<Props> = (props) => {
           ? t('enable biometrics for login')
           : t('enable biometrics for signature')}
       </Typography.Title>
+
+      <Spacer paddingVertical={8} />
+
       <Typography.Body>{t('insert your password to enable biometrics')}</Typography.Body>
+
+      <Spacer paddingVertical={8} />
+
       <SecureTextInput
         style={styles.password}
         value={password}
         onChangeText={setPassword}
         onSubmitEditing={() => btnAction(password)}
         onTextInput={() => setError(t(''))}
-        placeholder={t('password')}
+        placeholder={t('common:password')}
         autoFocus
       />
       <Typography.Body style={styles.errorMsg}>{error}</Typography.Body>
@@ -99,7 +108,7 @@ const SettingsEnableBiometricsAuthorization: React.FC<Props> = (props) => {
           disabled={loading}
           onPress={() => btnAction(password)}
         >
-          {loading ? t('loading') : t('enable')}
+          {loading ? t('common:loading') : t('settings:enable')}
         </Button>
       </KeyboardAvoidingView>
     </StyledSafeAreaView>
