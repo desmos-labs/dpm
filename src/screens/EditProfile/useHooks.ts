@@ -75,13 +75,27 @@ const DoNotModify = '[do-not-modify]';
  */
 const useUploadPicToIPS = () => {
   const uploadPicture = useUploadPicture();
-  return React.useCallback(
+  const [uploading, setUploading] = useState(false);
+  const [uploadError, setUploadError] = useState<string>();
+
+  const uploadPic = React.useCallback(
     async (imageURI: string) => {
-      const { url } = await uploadPicture(imageURI);
-      return url;
+      setUploading(true);
+      setUploadError(undefined);
+      try {
+        const { url } = await uploadPicture(imageURI);
+        setUploading(false);
+        return url;
+      } catch (e) {
+        setUploadError(e.message);
+        setUploading(false);
+        throw e;
+      }
     },
     [uploadPicture],
   );
+
+  return { uploadPic, uploading, uploadError };
 };
 
 /**
@@ -107,7 +121,16 @@ export interface SaveProfileParams {
 }
 
 export const useSaveProfile = (options?: BroadcastTxOptions) => {
-  const uploadPicture = useUploadPicToIPS();
+  const {
+    uploadPic: uploadCoverPic,
+    uploading: coverPicUploading,
+    uploadError: coverPicUploadError,
+  } = useUploadPicToIPS();
+  const {
+    uploadPic: uploadProfilePic,
+    uploading: profilePicUploading,
+    uploadError: profilePicUploadError,
+  } = useUploadPicToIPS();
   const activeAccount = useActiveAccount()!;
   const broadcastTx = useBroadcastTx();
   const [preparing, setPreparing] = useState<boolean>(false);
@@ -115,31 +138,40 @@ export const useSaveProfile = (options?: BroadcastTxOptions) => {
   const saveProfile = React.useCallback(
     async (profile: DesmosProfile | undefined, params: SaveProfileParams) => {
       setPreparing(true);
-      const coverPicUrl = params.coverPic ? await uploadPicture(params.coverPic) : DoNotModify;
-      const profilePicUrl = params.profilePic
-        ? await uploadPicture(params.profilePic)
-        : DoNotModify;
+      try {
+        const coverPicUrl = params.coverPic ? await uploadCoverPic(params.coverPic) : DoNotModify;
+        const profilePicUrl = params.profilePic
+          ? await uploadProfilePic(params.profilePic)
+          : DoNotModify;
 
-      const message: MsgSaveProfileEncodeObject = {
-        typeUrl: MsgSaveProfileTypeUrl,
-        value: {
-          dtag: compareValue(profile?.dtag, params.dTag),
-          nickname: compareValue(profile?.nickname, params.nickname),
-          bio: compareValue(profile?.bio, params.biography),
-          coverPicture: coverPicUrl,
-          profilePicture: profilePicUrl,
-          creator: activeAccount.address,
-        },
-      };
-      setPreparing(false);
+        const message: MsgSaveProfileEncodeObject = {
+          typeUrl: MsgSaveProfileTypeUrl,
+          value: {
+            dtag: compareValue(profile?.dtag, params.dTag),
+            nickname: compareValue(profile?.nickname, params.nickname),
+            bio: compareValue(profile?.bio, params.biography),
+            coverPicture: coverPicUrl,
+            profilePicture: profilePicUrl,
+            creator: activeAccount.address,
+          },
+        };
+        setPreparing(false);
 
-      await broadcastTx([message], options);
+        await broadcastTx([message], options);
+      } catch (e) {
+        setPreparing(false);
+        throw e;
+      }
     },
-    [uploadPicture, activeAccount, broadcastTx, options],
+    [uploadCoverPic, uploadProfilePic, activeAccount, broadcastTx, options],
   );
 
   return {
     saveProfile,
     preparing,
+    coverPicUploading,
+    coverPicUploadError,
+    profilePicUploading,
+    profilePicUploadError,
   };
 };

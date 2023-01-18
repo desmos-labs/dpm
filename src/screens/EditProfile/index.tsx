@@ -1,6 +1,6 @@
 import { useNavigation, useRoute } from '@react-navigation/native';
 import { StackScreenProps } from '@react-navigation/stack';
-import React, { useCallback, useMemo, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { ScrollView, View } from 'react-native';
 import { DesmosProfile } from 'types/desmos';
@@ -12,6 +12,9 @@ import { RootNavigatorParamList } from 'navigation/RootNavigator';
 import ROUTES from 'navigation/routes';
 import { useProfileParams } from '@recoil/profileParams';
 import { IconButton, useTheme } from 'react-native-paper';
+import useShowModal from 'hooks/useShowModal';
+import SingleButtonModal from 'modals/SingleButtonModal';
+import { DPMImages } from 'types/images';
 import { useSaveProfile, useValidationHooks } from './useHooks';
 import InlineInput from './components/InlineInput';
 import useStyles from './useStyles';
@@ -42,6 +45,19 @@ const EditProfile = () => {
   const [biographyError, setBiographyError] = useState<string | undefined>(undefined);
   const [selectedProfilePicture, setProfilePicture] = useState<string | undefined>(undefined);
   const [selectedCoverPicture, setCoverPicture] = useState<string | undefined>(undefined);
+  const showModal = useShowModal();
+
+  const showErrorModal = useCallback(
+    (title: string, message: string) => {
+      showModal(SingleButtonModal, {
+        title,
+        message,
+        image: DPMImages.Fail,
+        actionLabel: t('cancel error'),
+      });
+    },
+    [showModal, t],
+  );
 
   const canSave = useMemo(
     () =>
@@ -73,7 +89,22 @@ const EditProfile = () => {
     navigation.goBack();
   }, [navigation]);
 
-  const { saveProfile } = useSaveProfile({ onSuccess: onSaveSuccess });
+  const {
+    preparing,
+    saveProfile,
+    coverPicUploading,
+    coverPicUploadError,
+    profilePicUploading,
+    profilePicUploadError,
+  } = useSaveProfile({ onSuccess: onSaveSuccess });
+
+  useEffect(() => {
+    if (coverPicUploadError !== undefined) {
+      showErrorModal(t('cover picture upload failed'), coverPicUploadError);
+    } else if (profilePicUploadError !== undefined) {
+      showErrorModal(t('profile picture upload failed'), profilePicUploadError);
+    }
+  }, [coverPicUploadError, profilePicUploadError, showErrorModal, t]);
 
   const onSavePressed = useCallback(async () => {
     await saveProfile(profile, {
@@ -93,18 +124,18 @@ const EditProfile = () => {
     selectedProfilePicture,
   ]);
 
-  const DoneButton = useMemo(
-    () => (
+  const DoneButton = useMemo(() => {
+    const enabled = canSave && !preparing;
+    return (
       <IconButton
         style={styles.saveBtn}
         icon="check"
-        color={canSave ? theme.colors.primary : theme.colors.disabled}
+        color={enabled ? theme.colors.primary : theme.colors.disabled}
         onPress={onSavePressed}
-        disabled={!canSave}
+        disabled={!enabled}
       />
-    ),
-    [canSave, onSavePressed, styles, theme],
-  );
+    );
+  }, [preparing, canSave, onSavePressed, styles, theme]);
 
   const onDTagChanged = useCallback(
     (newDTag: string) => {
@@ -157,7 +188,9 @@ const EditProfile = () => {
           canEdit={true}
           profile={profile}
           onEditCoverPicture={setCoverPicture}
+          coverPictureLoading={coverPicUploading}
           onEditProfilePicture={setProfilePicture}
+          profilePictureLoading={profilePicUploading}
         />
 
         <View style={styles.input}>

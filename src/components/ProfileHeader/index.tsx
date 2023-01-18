@@ -1,7 +1,7 @@
 import React, { ReactNode, useCallback, useMemo, useState } from 'react';
 import { View } from 'react-native';
 import FastImage from 'react-native-fast-image';
-import { useTheme } from 'react-native-paper';
+import { ActivityIndicator, useTheme } from 'react-native-paper';
 import AvatarImage from 'components/AvatarImage';
 import IconButton from 'components/IconButton';
 import Typography from 'components/Typography';
@@ -17,7 +17,9 @@ export type ProfileHeaderProps = {
   topRightElement?: ReactNode | null;
   topLeftElement?: ReactNode | null;
   onEditCoverPicture?: (uri: string) => void;
+  coverPictureLoading?: boolean;
   onEditProfilePicture?: (uri: string) => void;
+  profilePictureLoading?: boolean;
 };
 
 const ProfileHeader: React.FC<ProfileHeaderProps> = (props) => {
@@ -27,7 +29,9 @@ const ProfileHeader: React.FC<ProfileHeaderProps> = (props) => {
     topRightElement,
     topLeftElement,
     onEditProfilePicture,
+    coverPictureLoading,
     onEditCoverPicture,
+    profilePictureLoading,
   } = props;
   const theme = useTheme();
   const styles = useStyles();
@@ -80,6 +84,9 @@ const ProfileHeader: React.FC<ProfileHeaderProps> = (props) => {
             style={styles.editCoverPictureBtn}
           />
         )}
+        {coverPictureLoading === true && (
+          <ActivityIndicator style={styles.coverPictureActivityIndicator} />
+        )}
       </View>
 
       <View style={styles.profileDataContainer}>
@@ -94,6 +101,9 @@ const ProfileHeader: React.FC<ProfileHeaderProps> = (props) => {
               onPress={pickProfilePicture}
               style={styles.editProfilePictureBtn}
             />
+          )}
+          {profilePictureLoading === true && (
+            <ActivityIndicator style={styles.profilePictureActivityIndicator} />
           )}
         </View>
 

@@ -13,5 +13,8 @@
   "nickname too long": "Nickname too long",
   "bio too long": "Bio too long",
   "create first desmos profile": "Create your first Desmos Profile now",
-  "user does not have profile": "This user does not yet have a Desmos profile"
+  "user does not have profile": "This user does not yet have a Desmos profile",
+  "cover picture upload failed": "Error while uploading cover picture",
+  "profile picture upload failed": "Error while uploading profile picture",
+  "cancel error": "Cancel"
 }
