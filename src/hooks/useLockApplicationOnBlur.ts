@@ -28,15 +28,12 @@ const useLockApplicationOnBlur = () => {
         setAppState((currentState) => {
           // App is back on focus, check if the app should be locked.
           if (currentState.lastObBlur !== undefined) {
-            const deltaSeconds = Math.abs(currentState.lastObBlur - new Date()) / 1000;
-            if (deltaSeconds >= 0) {
-              return {
-                ...currentState,
-                noLockOnBackground: false,
-                // Lock only if we shouldn't ignore the app state change.
-                locked: !currentState.noLockOnBackground,
-              };
-            }
+            return {
+              ...currentState,
+              noLockOnBackground: false,
+              // Lock only if we shouldn't ignore the app state change.
+              locked: !currentState.noLockOnBackground,
+            };
           }
           return currentState;
         });
