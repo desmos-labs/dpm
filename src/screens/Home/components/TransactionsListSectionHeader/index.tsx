@@ -1,5 +1,5 @@
 import Typography from 'components/Typography';
-import { formatDistanceToNow } from 'date-fns';
+import { differenceInDays, formatDistanceToNow } from 'date-fns';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { View } from 'react-native';
@@ -14,11 +14,7 @@ const TransactionsListSectionHeader = (props: TransactionsListSectionHeaderProps
   const { date } = props;
   const styles = useStyles();
   const sectionDate = new Date(date);
-  const currentDate = new Date();
-  const isToday =
-    currentDate.getUTCDay() === sectionDate.getUTCDay() &&
-    currentDate.getUTCMonth() === sectionDate.getUTCMonth() &&
-    currentDate.getUTCFullYear() === sectionDate.getUTCFullYear();
+  const isToday = differenceInDays(sectionDate, new Date()) === 0;
 
   return (
     <View style={styles.headerContainer}>

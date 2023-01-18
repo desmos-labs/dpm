@@ -38,7 +38,7 @@ const TxDetails = (props: NavProps) => {
         messages={transaction.messages}
         memo={transaction.memo}
         fee={transaction.fee}
-        dateTime={new Date(Date.parse(transaction.timestamp))}
+        dateTime={new Date(transaction.timestamp)}
         success={transaction.success}
       />
       <Button mode="text" onPress={openExplorer}>

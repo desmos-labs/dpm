@@ -59,7 +59,8 @@ const convertTxsResponse = (messages: any[]): GroupedTransactions[] => {
     return {
       hash: firstMessage.tx.hash,
       success: firstMessage.tx.success,
-      timestamp: firstMessage.tx.timestamp,
+      // Add a Z to signal that the timestamp is in UTC format.
+      timestamp: `${firstMessage.tx.timestamp}Z`,
       messages: encodeObjects,
       memo: firstMessage.tx.memo,
       fee: fee
