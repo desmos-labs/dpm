@@ -60,7 +60,8 @@ export const formatNumber = (value: number): string =>
 export const formatCoin = (amount: Coin): string => {
   const currencies = getChainCurrencies();
   const convertedAmount = convertCoin(amount, 6, currencies) || amount;
-  return `${convertedAmount.amount} ${convertedAmount.denom.toUpperCase()}`;
+  const humanReadableAmount = formatNumber(safePartFloat(convertedAmount.amount));
+  return `${humanReadableAmount} ${convertedAmount.denom.toUpperCase()}`;
 };
 
 /**
