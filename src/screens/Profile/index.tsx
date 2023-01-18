@@ -35,8 +35,7 @@ const Profile = () => {
   React.useEffect(() => {
     refetchProfile();
 
-    // Ok to ignore this, we wan't just to fetch the profile the first time that
-    // we enther this screen.
+    // Ok to ignore this, we want to fetch the profile only the first time we enter this screen.
     // eslint-disable-next-line
   }, []);
 
