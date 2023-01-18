@@ -12,9 +12,10 @@ export interface BaseWalletPickerParams {
   readonly masterHdPath: HdPath;
   readonly addressPrefix: string;
   /**
-   * HdPath to be ignored during the generation.
+   * List of addresses that shouldn't be displayed in the
+   * list.
    */
-  readonly ignorePaths?: HdPath[];
+  readonly ignoreAddresses?: string[];
 }
 
 export interface WalletPickerMnemonicParams extends BaseWalletPickerParams {

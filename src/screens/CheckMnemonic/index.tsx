@@ -12,7 +12,7 @@ import { RootNavigatorParamList } from 'navigation/RootNavigator';
 import ROUTES from 'navigation/routes';
 import { WalletPickerMode } from 'screens/SelectAccount/components/AccountPicker/types';
 import { DesmosHdPath } from 'types/chainsHdPaths';
-import { useGetAccountsHDPaths } from '@recoil/accounts';
+import { useGetAccountsAddresses } from '@recoil/accounts';
 import { useSaveAccount } from 'hooks/useSaveAccount';
 import { useSelectAccount } from 'hooks/useSelectAccount';
 import useStyles from './useStyles';
@@ -36,7 +36,7 @@ const CheckMnemonic: FC<NavProps> = (props) => {
   const words = useMemo(() => _.shuffle(receivedMnemonic.split(' ')), [receivedMnemonic]);
   const [selectedWords, setSelectedWords] = useState<string[]>([]);
   const [availableWords, setAvailableWords] = useState<string[]>([...words]);
-  const accountsHdPaths = useGetAccountsHDPaths();
+  const accountsAddresses = useGetAccountsAddresses();
   const { saveAccount } = useSaveAccount();
   const { selectAccount } = useSelectAccount();
 
@@ -77,7 +77,7 @@ const CheckMnemonic: FC<NavProps> = (props) => {
           masterHdPath: DesmosHdPath,
           addressPrefix: 'desmos',
           allowCoinTypeEdit: false,
-          ignorePaths: accountsHdPaths,
+          ignoreAddresses: accountsAddresses,
         });
 
         if (account !== undefined) {
@@ -88,12 +88,13 @@ const CheckMnemonic: FC<NavProps> = (props) => {
       }
     }
   }, [
-    receivedMnemonic,
     selectedWords,
     words.length,
-    mnemonic,
-    accountsHdPaths,
+    t,
+    receivedMnemonic,
     selectAccount,
+    mnemonic,
+    accountsAddresses,
     saveAccount,
   ]);
 

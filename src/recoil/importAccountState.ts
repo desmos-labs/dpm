@@ -3,7 +3,6 @@ import { AccountWithWallet } from 'types/account';
 import { SupportedChain } from 'types/chains';
 import { LedgerApp } from 'types/ledger';
 import { atom } from 'recoil';
-import { HdPath } from '@cosmjs/crypto';
 
 export interface ImportAccountState {
   /**
@@ -11,10 +10,10 @@ export interface ImportAccountState {
    */
   readonly chains: SupportedChain[];
   /**
-   * List of hd path that should be ignored while presenting the list of address
+   * List of addresses that should be ignored while presenting the list of address
    * to the user.
    */
-  readonly ignoreHdPaths: HdPath[];
+  readonly ignoreAddresses: string[];
   /**
    * Function called after the user have selected the account that want to import.
    */

@@ -26,7 +26,7 @@ declare type NavProps = StackScreenProps<
 
 const ImportAccountFromMnemonic: FC<NavProps> = (props) => {
   const importAccountState = useRecoilValue(importAccountAppState);
-  const { ignoreHdPaths, selectedChain, onSuccess } = importAccountState!;
+  const { ignoreAddresses, selectedChain, onSuccess } = importAccountState!;
   const styles = useStyles();
   const { t } = useTranslation();
   const [mnemonic, setMnemonic] = useState<string>('');
@@ -56,7 +56,7 @@ const ImportAccountFromMnemonic: FC<NavProps> = (props) => {
           mode: WalletPickerMode.Mnemonic,
           mnemonic: sanitizedMnemonic,
           masterHdPath: selectedChain!.masterHDPath,
-          ignorePaths: ignoreHdPaths!,
+          ignoreAddresses,
           addressPrefix: selectedChain!.prefix,
           allowCoinTypeEdit: false,
         });
@@ -77,7 +77,7 @@ const ImportAccountFromMnemonic: FC<NavProps> = (props) => {
         }
       }
     }
-  }, [mnemonic, selectedChain, ignoreHdPaths, onSuccess]);
+  }, [mnemonic, t, selectAccount, selectedChain, ignoreAddresses, onSuccess]);
 
   const useDebugMnemonic = () => {
     setMnemonic(

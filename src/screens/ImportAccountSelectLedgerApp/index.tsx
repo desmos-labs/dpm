@@ -23,7 +23,7 @@ type NavProps = StackScreenProps<RootNavigatorParamList, ROUTES.IMPORT_ACCOUNT_S
 
 const ImportAccountSelectLedgerApp: React.FC<NavProps> = ({ navigation }) => {
   const [importAccountState] = useRecoilState(importAccountAppState);
-  const { ignoreHdPaths, selectedChain, onSuccess } = importAccountState!;
+  const { ignoreAddresses, selectedChain, onSuccess } = importAccountState!;
   const { connectToLedger } = useConnectToLedger();
   const { selectAccount } = useSelectAccount();
   const { t } = useTranslation();
@@ -48,7 +48,7 @@ const ImportAccountSelectLedgerApp: React.FC<NavProps> = ({ navigation }) => {
 
       const account = await selectAccount({
         mode: WalletPickerMode.Ledger,
-        ignorePaths: ignoreHdPaths,
+        ignoreAddresses,
         ledgerApp,
         transport,
         addressPrefix: selectedChain!.prefix,
@@ -59,7 +59,7 @@ const ImportAccountSelectLedgerApp: React.FC<NavProps> = ({ navigation }) => {
         onSuccess({ account, chain: selectedChain! });
       }
     },
-    [connectToLedger, selectAccount, ignoreHdPaths, selectedChain, onSuccess],
+    [connectToLedger, selectAccount, ignoreAddresses, selectedChain, onSuccess],
   );
 
   const renderLedgerApp = useCallback(

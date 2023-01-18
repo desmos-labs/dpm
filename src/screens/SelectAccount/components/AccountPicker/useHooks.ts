@@ -69,7 +69,7 @@ export const useGenerateAccountWithWalletFromHdPath = () => {
 export const useFetchWallets = (params: AccountPickerParams) => {
   const fetchWallets = useCallback(
     async (start: number, end: number) => {
-      let paths = _.range(start, end)
+      const paths = _.range(start, end)
         .map(Slip10RawIndex.hardened)
         .map((accountIndex) => {
           const path = [...params.masterHdPath];
@@ -77,15 +77,17 @@ export const useFetchWallets = (params: AccountPickerParams) => {
           return path;
         });
 
-      // Filter ignore paths from the list.
-      if (params.ignorePaths !== undefined && params.ignorePaths.length > 0) {
-        const { ignorePaths } = params;
-        paths = paths.filter(
-          (path) => ignorePaths.find((ignorePath) => _.isEqual(ignorePath, path)) === undefined,
-        );
+      const accounts = await generateAccountWithWallets(
+        generationParamsToWalletGenerationData(params, paths),
+      );
+
+      if (params.ignoreAddresses === undefined || params.ignoreAddresses.length === 0) {
+        return accounts;
       }
 
-      return generateAccountWithWallets(generationParamsToWalletGenerationData(params, paths));
+      return accounts.filter(
+        ({ account }) => params.ignoreAddresses!.indexOf(account.address) === -1,
+      );
     },
     [params],
   );
