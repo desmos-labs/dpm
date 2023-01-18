@@ -1,5 +1,4 @@
-import {makeStyle} from 'config/theme';
-import Colors from 'constants/colors';
+import { makeStyle } from 'config/theme';
 
 const useStyles = makeStyle((theme) => ({
   root: {
@@ -14,7 +13,7 @@ const useStyles = makeStyle((theme) => ({
     marginTop: theme.spacing.s,
   },
   saveMnemonicAdviceSubtitle: {
-    color: Colors.DesmosOrange,
+    color: theme.colors.primary,
     fontFamily: 'Poppins-Bold',
     fontWeight: 'bold',
   },

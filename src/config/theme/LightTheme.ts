@@ -1,5 +1,4 @@
-import {DefaultTheme} from 'react-native-paper';
-import Colors from 'constants/colors';
+import { DefaultTheme } from 'react-native-paper';
 
 export const LightTheme: ReactNativePaper.Theme = {
   ...DefaultTheme,
@@ -13,8 +12,8 @@ export const LightTheme: ReactNativePaper.Theme = {
   roundness: 8,
   colors: {
     ...DefaultTheme.colors,
-    primary: Colors.DesmosOrange,
-    accent: Colors.DesmosBlue,
+    primary: '#ED6C53',
+    accent: '#379AFE',
     background: '#ffffff',
     background2: '#f9f9f9',
     background3: '#dfdfdf',
