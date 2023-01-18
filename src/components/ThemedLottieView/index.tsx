@@ -1,12 +1,14 @@
 import LottieView from 'lottie-react-native';
-import React, {useMemo} from 'react';
-import {useTheme} from 'react-native-paper';
-import {DPMAnimations} from 'types/images';
+import React, { useMemo } from 'react';
+import { useTheme } from 'react-native-paper';
+import { DPMAnimations } from 'types/images';
 import {
   broadcastTxDarkAnimation,
   broadcastTxLightAnimation,
   connectToLedgerDarkAnimation,
-  connectToLedgerLightAnimation, loadingDarkAnimation, loadingLightAnimation,
+  connectToLedgerLightAnimation,
+  loadingDarkAnimation,
+  loadingLightAnimation,
   lookingForDevicesDarkAnimation,
   lookingForDevicesLightAnimation,
 } from 'assets/animations';
@@ -28,6 +30,8 @@ const ThemedLottieView: React.FC<ThemedLottieViewProps> = (props) => {
         return theme.dark ? connectToLedgerDarkAnimation : connectToLedgerLightAnimation;
       case DPMAnimations.Loading:
         return theme.dark ? loadingDarkAnimation : loadingLightAnimation;
+      default:
+        throw new Error(`Invalid DPM animation value: ${source}`);
     }
   }, [theme, source]);
 

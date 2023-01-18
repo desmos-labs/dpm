@@ -1,3 +1,5 @@
+/* Disable the no-undef lint as the ReactNativePaper namespace will be provided at runtime */
+/* eslint-disable no-undef */
 import LightTheme from './LightTheme';
 
 const DarkTheme: ReactNativePaper.Theme = {

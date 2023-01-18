@@ -1,4 +1,4 @@
-import {ImageSourcePropType, StyleProp, TouchableOpacity, ViewStyle} from 'react-native';
+import { ImageSourcePropType, StyleProp, TouchableOpacity, ViewStyle } from 'react-native';
 import React from 'react';
 import Typography from 'components/Typography';
 import { DPMImages } from 'types/images';

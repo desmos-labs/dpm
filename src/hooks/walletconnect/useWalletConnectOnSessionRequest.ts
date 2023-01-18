@@ -38,7 +38,6 @@ const useWalletConnectOnSessionRequest = (signClient: SignClient | undefined) =>
       const account = accounts[session.accountAddress];
       const supportedMethods = getAccountSupportedMethods(account);
       if (supportedMethods.indexOf(args.params.request.method) === -1) {
-        console.error(`account ${account.address} don't support`, args.params.request.method);
         signClient.respond({
           topic: args.topic,
           response: {
@@ -52,7 +51,6 @@ const useWalletConnectOnSessionRequest = (signClient: SignClient | undefined) =>
 
       const decodeResult = decodeSessionRequest(args, session.accountAddress);
       if (decodeResult.isError()) {
-        console.error(`decode request error ${decodeResult.error}`);
         signClient.respond({
           topic: args.topic,
           response: {
@@ -93,8 +91,6 @@ const useWalletConnectOnSessionRequest = (signClient: SignClient | undefined) =>
           }
           break;
         default:
-          // @ts-ignore
-          console.error('unsupported method', decodedRequest.method);
           signClient.respond({
             topic: args.topic,
             response: {

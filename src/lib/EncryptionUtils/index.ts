@@ -1,4 +1,4 @@
-import {NativeModules} from 'react-native';
+import { NativeModules } from 'react-native';
 
 const { Aes } = NativeModules;
 
@@ -11,9 +11,8 @@ export interface EncryptedData {
  * Derive a safe password using the pbkdf2 algorithm.
  * @param password The password from which will be derived the safer password.
  */
-export const deriveSecurePassword = async (password: string): Promise<string> => {
-  return Aes.pbkdf2(password, password.normalize('NFKC'), 100000, 256);
-};
+export const deriveSecurePassword = async (password: string): Promise<string> =>
+  Aes.pbkdf2(password, password.normalize('NFKC'), 100000, 256);
 
 /**
  * Encrypts the provided text using the AES algorithm.

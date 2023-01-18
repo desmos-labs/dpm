@@ -13,39 +13,37 @@ import { WalletType } from 'types/wallet';
 import { pathToString } from '@cosmjs/crypto';
 import { toHex } from '@cosmjs/encoding';
 
-export const serializeMnemonicAccount = (account: MnemonicAccount): SerializableMnemonicAccount => {
-  return {
-    version: AccountSerializationVersion.Mnemonic,
-    walletType: WalletType.Mnemonic,
-    address: account.address,
-    algo: account.algo,
-    hdPath: pathToString(account.hdPath),
-    pubKey: toHex(account.pubKey),
-  };
-};
+export const serializeMnemonicAccount = (
+  account: MnemonicAccount,
+): SerializableMnemonicAccount => ({
+  version: AccountSerializationVersion.Mnemonic,
+  walletType: WalletType.Mnemonic,
+  address: account.address,
+  algo: account.algo,
+  hdPath: pathToString(account.hdPath),
+  pubKey: toHex(account.pubKey),
+});
 
-export const serializeLedgerAccount = (account: LedgerAccount): SerializableLedgerAccount => {
-  return {
-    version: AccountSerializationVersion.Ledger,
-    walletType: WalletType.Ledger,
-    address: account.address,
-    algo: account.algo,
-    hdPath: pathToString(account.hdPath),
-    pubKey: toHex(account.pubKey),
-    ledgerAppName: account.ledgerAppName,
-  };
-};
+export const serializeLedgerAccount = (account: LedgerAccount): SerializableLedgerAccount => ({
+  version: AccountSerializationVersion.Ledger,
+  walletType: WalletType.Ledger,
+  address: account.address,
+  algo: account.algo,
+  hdPath: pathToString(account.hdPath),
+  pubKey: toHex(account.pubKey),
+  ledgerAppName: account.ledgerAppName,
+});
 
-export const serializeWeb3AuthAccount = (account: Web3AuthAccount): SerializableWeb3AuthAccount => {
-  return {
-    version: AccountSerializationVersion.Web3Auth,
-    walletType: WalletType.Web3Auth,
-    address: account.address,
-    algo: account.algo,
-    pubKey: toHex(account.pubKey),
-    loginProvider: account.loginProvider,
-  };
-};
+export const serializeWeb3AuthAccount = (
+  account: Web3AuthAccount,
+): SerializableWeb3AuthAccount => ({
+  version: AccountSerializationVersion.Web3Auth,
+  walletType: WalletType.Web3Auth,
+  address: account.address,
+  algo: account.algo,
+  pubKey: toHex(account.pubKey),
+  loginProvider: account.loginProvider,
+});
 
 export const serializeAccount = (account: Account): SerializableAccount => {
   switch (account.walletType) {

@@ -39,7 +39,7 @@ export const getAddress = (chain: SupportedChain, account: AccountWithWallet) =>
  * Return the supported types of wallet that can be created for a chain.
  * @param chain - The chain of interest.
  */
-// eslint-disable-next-line no-unused-vars
+// eslint-disable-next-line no-unused-vars, @typescript-eslint/no-unused-vars
 export const getChainSupportedWalletTypes = (chain: SupportedChain): WalletType[] =>
   // Return all since at the moment all the chains support those methods.
   [WalletType.Mnemonic, WalletType.Ledger];

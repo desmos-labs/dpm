@@ -54,7 +54,7 @@ const ConnectToLedger: React.FC<Props> = ({ navigation, route }) => {
     } else {
       retry();
     }
-  }, [connected, navigation, onConnect, retry, transport]);
+  }, [connected, onConnect, retry, transport]);
 
   return (
     <StyledSafeAreaView topBar={<TopBar stackProps={{ navigation }} />}>

@@ -1,7 +1,7 @@
 import React, { useMemo } from 'react';
 import { StyleProp, StyleSheet, View, ViewStyle } from 'react-native';
 import { useTheme } from 'react-native-paper';
-import {PasswordComplexity} from 'types/password';
+import { PasswordComplexity } from 'types/password';
 import useStyles from './useStyles';
 
 export type PasswordComplexityProps = {

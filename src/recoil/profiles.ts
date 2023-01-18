@@ -51,7 +51,7 @@ export const useStoreProfile = () => {
 /**
  * Hook that allows to get the profiles stored on the device.
  */
-export const useGetProfiles = () => useRecoilValue(profilesAppState);
+export const useStoredProfiles = () => useRecoilValue(profilesAppState);
 
 /**
  * Hook that allows to update the profiles stored on the device.

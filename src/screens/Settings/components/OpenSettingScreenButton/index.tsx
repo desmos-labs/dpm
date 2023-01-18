@@ -14,7 +14,7 @@ const OpenSettingScreenButton = (props: OpenSettingScreenButtonProps) => {
 
   const onClick = useCallback(() => {
     navigation.navigate(route);
-  }, [route]);
+  }, [navigation, route]);
 
   return <Flexible.SectionButton label={title} onPress={onClick} />;
 };

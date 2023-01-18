@@ -43,8 +43,8 @@ const Switch: React.FC<SwitchProps> = (props) => {
       }}
     >
       <Animated.View style={styles.button}>
-        <Animated.View style={styles.square}/>
-        <Animated.View style={styles.line}/>
+        <Animated.View style={styles.square} />
+        <Animated.View style={styles.line} />
       </Animated.View>
     </TouchableOpacity>
   );

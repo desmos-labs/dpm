@@ -42,11 +42,13 @@ import SettingsEnableBiometricsAuthorization, {
 } from 'screens/SettingsEnableBiometricsAuthorization';
 import UnlockApplication from 'screens/UnlockApplication';
 import SplashScreen from 'screens/SplashScreen';
+import Legal, { LegalParams } from 'screens/Legal';
 
 export type RootNavigatorParamList = {
   [ROUTES.DEV_SCREEN]: undefined;
   [ROUTES.SPLASH_SCREEN]: undefined;
   [ROUTES.LANDING]: undefined;
+  [ROUTES.LEGAL]: LegalParams;
   [ROUTES.CREATE_NEW_MNEMONIC]: undefined;
   [ROUTES.IMPORT_ACCOUNT_SELECT_CHAIN]: undefined;
   [ROUTES.IMPORT_ACCOUNT_SELECT_TYPE]: undefined;
@@ -131,6 +133,7 @@ const RootNavigator = () => {
         }}
       />
       <Stack.Screen name={ROUTES.LANDING} component={Landing} />
+      <Stack.Screen name={ROUTES.LEGAL} component={Legal} />
       <Stack.Screen name={ROUTES.CREATE_NEW_MNEMONIC} component={CreateNewMnemonic} />
       <Stack.Screen
         name={ROUTES.IMPORT_ACCOUNT_SELECT_CHAIN}

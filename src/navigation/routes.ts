@@ -8,6 +8,10 @@ enum ROUTES {
    */
   SPLASH_SCREEN = 'SPLASH_SCREEN',
   /**
+   * Screen used to display legal disclaimers to the user.
+   */
+  LEGAL = 'LEGAL',
+  /**
    * Screen that is show to the user when don't have an account or want's
    * to create a new account.
    */

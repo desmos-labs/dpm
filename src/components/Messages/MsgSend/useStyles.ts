@@ -1,6 +1,6 @@
 import { makeStyle } from 'config/theme';
 
-const useStyles = makeStyle((_) => ({
+const useStyles = makeStyle(() => ({
   toAddress: {
     flexDirection: 'row',
     flexShrink: 1,

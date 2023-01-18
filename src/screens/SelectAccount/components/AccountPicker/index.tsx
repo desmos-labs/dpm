@@ -77,6 +77,9 @@ const AccountPicker: React.FC<AccountPickerProps> = ({
       const account = await generateWalletAccountFromHdPath(selectedHdPath, params);
       setSelectedAccount(account);
     })();
+
+    // Disable the next line warning as we want to run this effect only the first time the screen loads
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const toggleAddressPicker = useCallback(() => {
@@ -127,13 +130,10 @@ const AccountPicker: React.FC<AccountPickerProps> = ({
 
   const listKeyExtractor = useCallback((item: AccountWithWallet) => item.account.address, []);
 
-  const debouncedGenerateWallet = useCallback(
-    debounce(async (hdPath: HdPath) => {
-      const wallet = await generateWalletAccountFromHdPath(hdPath, params);
-      setSelectedAccount(wallet);
-    }, 2000),
-    [generateWalletAccountFromHdPath, params],
-  );
+  const debouncedGenerateWallet = debounce(async (hdPath: HdPath) => {
+    const wallet = await generateWalletAccountFromHdPath(hdPath, params);
+    setSelectedAccount(wallet);
+  }, 2000);
 
   const onHdPathChange = useCallback(
     (hdPath: HdPath) => {

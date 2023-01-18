@@ -41,4 +41,3 @@ const AddressListItem: React.FC<AddressListProps> = (props) => {
 };
 
 export default AddressListItem;
-

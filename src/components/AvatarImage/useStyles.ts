@@ -1,5 +1,5 @@
-import {makeStyleWithProps} from 'config/theme';
-import {AvatarImageProps} from 'components/AvatarImage/index';
+import { makeStyleWithProps } from 'config/theme';
+import AvatarImageProps from './props';
 
 const useStyles = makeStyleWithProps((props: AvatarImageProps, theme) => ({
   image: {

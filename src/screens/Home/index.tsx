@@ -11,7 +11,6 @@ import { RootNavigatorParamList } from 'navigation/RootNavigator';
 import ROUTES from 'navigation/routes';
 import { DesmosMainnet } from '@desmoslabs/desmjs';
 import { homeBackgroundDark, homeBackgroundLight } from 'assets/images';
-import useActiveProfile from '@recoil/activeProfile';
 import AccountProfilePic from 'screens/Home/components/AccountProfilePic';
 import { useActiveAccount } from '@recoil/activeAccount';
 import useActiveAccountBalance from 'hooks/useActiveAccountBalance';
@@ -21,6 +20,7 @@ import { HomeTabsParamList } from 'navigation/RootNavigator/HomeTabs';
 import useDrawerContext from 'lib/AppDrawer/context';
 import AccountTransactions from 'screens/Home/components/AccountTransactions';
 import useActiveAccountTransactions from 'hooks/useActiveAccountTransactions';
+import useProfileGivenAddress from 'hooks/useProfileGivenAddress';
 import useStyles from './useStyles';
 import AccountBalance from './components/AccountBalance';
 
@@ -39,7 +39,7 @@ const Home: React.FC<NavProps> = (props) => {
   const chainName = useSetting('chainName');
 
   const account = useActiveAccount();
-  const { profile, refetch: updateProfile } = useActiveProfile();
+  const { profile, refetch: updateProfile } = useProfileGivenAddress();
   const { balance, loading: balanceLoading, refetch: updateBalance } = useActiveAccountBalance();
   const {
     transactions,

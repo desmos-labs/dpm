@@ -2,6 +2,8 @@ import { Appearance, ColorSchemeName } from 'react-native';
 import { useEffect, useRef, useState } from 'react';
 
 const useDebouncingColorScheme = (delay = 500): NonNullable<ColorSchemeName> => {
+  // Suppress the next line line as the NodeJS namespace will be provided at runtime
+  // eslint-disable-next-line no-undef
   let timeout = useRef<NodeJS.Timeout | null>(null).current;
   const [colorScheme, setColorScheme] = useState(Appearance.getColorScheme());
 

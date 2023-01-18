@@ -1,5 +1,5 @@
-import {makeStyleWithProps} from 'config/theme';
-import {TextInputProps} from 'components/TextInput/index';
+import { makeStyleWithProps } from 'config/theme';
+import { TextInputProps } from 'components/TextInput/index';
 
 const useStyles = makeStyleWithProps((props: TextInputProps, theme) => ({
   container: {

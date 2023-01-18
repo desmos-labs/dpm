@@ -1,5 +1,4 @@
 import React, { useCallback } from 'react';
-import { ChainLink } from 'types/chains';
 import { getLinkableChainInfoByName } from 'lib/ChainsUtils';
 import { cosmosIcon } from 'assets/images';
 import { Image, TouchableOpacity, View } from 'react-native';
@@ -8,6 +7,7 @@ import { useNavigation } from '@react-navigation/native';
 import ROUTES from 'navigation/routes';
 import { RootNavigatorParamList } from 'navigation/RootNavigator';
 import { StackNavigationProp } from '@react-navigation/stack';
+import { ChainLink } from 'types/desmos';
 import useStyles from './useStyles';
 
 export interface ChainLinkItemProps {

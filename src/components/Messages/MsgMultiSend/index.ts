@@ -1,8 +1,9 @@
 import { MessageComponents } from 'components/Messages/BaseMessage';
-import MsgMultiSendDetails from 'components/Messages/MsgMultiSend/MsgMultiSendDetails';
-import MsgMultiSendListItem from 'components/Messages/MsgMultiSend/MsgMultiSendListItem';
+import { MsgMultiSendEncodeObject } from '@desmoslabs/desmjs';
+import MsgMultiSendDetails from './MsgMultiSendDetails';
+import MsgMultiSendListItem from './MsgMultiSendListItem';
 
-const MsgMultiSendComponents: MessageComponents<MsgMultiSendEncodeObject['value']> = {
+const MsgMultiSendComponents: MessageComponents<MsgMultiSendEncodeObject> = {
   details: MsgMultiSendDetails,
   listItem: MsgMultiSendListItem,
 };

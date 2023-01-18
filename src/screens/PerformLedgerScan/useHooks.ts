@@ -87,6 +87,9 @@ export function useBleScan() {
   const [devices, setDevices] = useState<BLELedger[]>([]);
   const [scanError, setScanError] = useState<ScanError>();
   const [subscription, setScanSubscription] = useState<Subscription | undefined>(undefined);
+
+  // Disable the next line warning as the NodeJS namespace will be provided by React
+  // eslint-disable-next-line no-undef
   const [stopScanTimeout, setStopStopScanTimeout] = useState<NodeJS.Timeout | undefined>(undefined);
   const requestEnableBt = useRequestEnableBt();
 

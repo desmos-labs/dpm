@@ -4,7 +4,7 @@ import {
   deleteItem,
   deleteWallet,
   saveWallet,
-  SECURE_STORAGE_KEYS,
+  SecureStorageKeys,
   setUserPassword,
 } from 'lib/SecureStorage';
 import { useGetAccounts, useStoreAccount } from '@recoil/accounts';
@@ -28,11 +28,9 @@ export const useSaveAccount = () => {
         }
         storeAccount(account);
       } catch (e) {
-        console.error(e);
-
         // Remove possible saved data
         if (savingFirstAccount) {
-          deleteItem(SECURE_STORAGE_KEYS.PASSWORD_CHALLENGE);
+          deleteItem(SecureStorageKeys.PASSWORD_CHALLENGE);
         }
         deleteWallet(wallet.address);
 

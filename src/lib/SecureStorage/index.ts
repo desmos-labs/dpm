@@ -6,7 +6,7 @@ import { serializeWallet } from 'lib/WalletUtils/serialize';
 import { deserializeWallet } from 'lib/WalletUtils/deserialize';
 import { BiometricAuthorizations } from 'types/settings';
 
-export enum SECURE_STORAGE_KEYS {
+export enum SecureStorageKeys {
   /**
    * Key used to store the user password encrypted with the
    * user biometrics.
@@ -123,7 +123,7 @@ export async function resetSecureStorage(): Promise<void> {
 }
 
 async function storeWallet(wallet: SerializableWallet, password: string) {
-  const result = await setItem(`${wallet.address}${SECURE_STORAGE_KEYS.WALLET_SUFFIX}`, wallet, {
+  const result = await setItem(`${wallet.address}${SecureStorageKeys.WALLET_SUFFIX}`, wallet, {
     password,
   });
 
@@ -147,7 +147,7 @@ export const saveWallet = async (wallet: Wallet, password: string) => {
  * @param address - Address of the wallet to delete.
  */
 export const deleteWallet = async (address: string) =>
-  deleteItem(`${address}${SECURE_STORAGE_KEYS.WALLET_SUFFIX}`);
+  deleteItem(`${address}${SecureStorageKeys.WALLET_SUFFIX}`);
 
 /**
  * Gets a wallet from the device storage.
@@ -156,7 +156,7 @@ export const deleteWallet = async (address: string) =>
  */
 export const getWallet = async (address: string, password: string): Promise<SerializableWallet> => {
   const loadedValue = await getItem<Partial<SerializableWallet>>(
-    `${address}${SECURE_STORAGE_KEYS.WALLET_SUFFIX}`,
+    `${address}${SecureStorageKeys.WALLET_SUFFIX}`,
     {
       password,
     },
@@ -176,7 +176,7 @@ export const getWallet = async (address: string, password: string): Promise<Seri
  * @throws Error if for some reason the encryption operations fail.
  */
 export const setUserPassword = async (password: string) => {
-  const result = await setItem<string>(SECURE_STORAGE_KEYS.PASSWORD_CHALLENGE, passwordChallenge, {
+  const result = await setItem<string>(SecureStorageKeys.PASSWORD_CHALLENGE, passwordChallenge, {
     password,
   });
 
@@ -194,7 +194,7 @@ export const setUserPassword = async (password: string) => {
 export const checkUserPassword = async (password: string) => {
   let value: string | null;
   try {
-    value = await getItem<string>(SECURE_STORAGE_KEYS.PASSWORD_CHALLENGE, {
+    value = await getItem<string>(SecureStorageKeys.PASSWORD_CHALLENGE, {
       password,
     });
   } catch (e) {
@@ -225,8 +225,8 @@ export const changeWalletsPassword = async (oldPassword: string, newPassword: st
   // Get all the wallet addresses
   const services = await Keychain.getAllGenericPasswordServices();
   const walletAddresses = services
-    .filter((key) => key.endsWith(SECURE_STORAGE_KEYS.WALLET_SUFFIX))
-    .map((key) => key.replace(SECURE_STORAGE_KEYS.WALLET_SUFFIX, ''));
+    .filter((key) => key.endsWith(SecureStorageKeys.WALLET_SUFFIX))
+    .map((key) => key.replace(SecureStorageKeys.WALLET_SUFFIX, ''));
 
   // Decrypt and re-encrypt all the wallets with the new password
   const wallets = await Promise.all(walletAddresses.map((key) => getWallet(key, oldPassword)));
@@ -247,7 +247,7 @@ export const storeBiometricAuthorization = async (
   }
 
   await setItem(
-    `${authorizationType}${SECURE_STORAGE_KEYS.BIOMETRIC_AUTHORIZATION_SUFFIX}`,
+    `${authorizationType}${SecureStorageKeys.BIOMETRIC_AUTHORIZATION_SUFFIX}`,
     password,
     {
       biometrics: true,
@@ -259,7 +259,7 @@ export const storeBiometricAuthorization = async (
  * Delete the password protected with biometric for the provided [BiometricAuthorizations].
  */
 export const deleteBiometricAuthorization = async (authorizationType: BiometricAuthorizations) => {
-  const key = `${authorizationType}${SECURE_STORAGE_KEYS.BIOMETRIC_AUTHORIZATION_SUFFIX}`;
+  const key = `${authorizationType}${SecureStorageKeys.BIOMETRIC_AUTHORIZATION_SUFFIX}`;
   try {
     // Get the item first to force the user to authenticate before delete.
     await getItem(key, {
@@ -275,7 +275,7 @@ export const deleteBiometricAuthorization = async (authorizationType: BiometricA
 export const getBiometricPassword = async (authorizationType: BiometricAuthorizations) => {
   try {
     const password = await getItem<string>(
-      `${authorizationType}${SECURE_STORAGE_KEYS.BIOMETRIC_AUTHORIZATION_SUFFIX}`,
+      `${authorizationType}${SecureStorageKeys.BIOMETRIC_AUTHORIZATION_SUFFIX}`,
       {
         biometrics: true,
       },

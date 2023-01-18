@@ -29,7 +29,13 @@ export type DesmosIconProps = {
   allowFontScaling?: boolean;
 };
 
-const DesmosIcon: React.FC<DesmosIconProps> = ({ name, color, size, direction, allowFontScaling }) => {
+const DesmosIcon: React.FC<DesmosIconProps> = ({
+  name,
+  color,
+  size,
+  direction,
+  allowFontScaling,
+}) => {
   if (desmosIcons.indexOf(name) >= 0) {
     return (
       <CustomIcon

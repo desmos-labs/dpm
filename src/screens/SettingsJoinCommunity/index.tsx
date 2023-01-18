@@ -32,14 +32,12 @@ const SettingsJoinCommunity = (props: NavProps) => {
   const theme = useTheme();
 
   const navigateToExternalSite = useCallback((url: string) => {
-    Linking.openURL(url).catch((err) => console.error("Couldn't load page", err));
+    Linking.openURL(url);
   }, []);
 
   const navigateToTwitterApp = useCallback(() => {
     Linking.openURL('twitter://user?screen_name=DesmosNetwork').catch(() => {
-      Linking.openURL('https://www.twitter.com/DesmosNetwork').catch((err) =>
-        console.error("Couldn't load page", err),
-      );
+      Linking.openURL('https://www.twitter.com/DesmosNetwork');
     });
   }, []);
 

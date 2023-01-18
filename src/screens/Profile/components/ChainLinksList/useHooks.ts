@@ -144,7 +144,6 @@ const useConnectChain = (onSuccess: () => void, userChainLinks: ChainLink[]) => 
     }
 
     const { account, chain } = accountWithChain;
-
     const message = await generateMsgChainLink(chain, account);
     if (!message) {
       return;

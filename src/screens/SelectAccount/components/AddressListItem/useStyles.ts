@@ -1,7 +1,7 @@
-import {makeStyle} from 'config/theme';
+import { makeStyle } from 'config/theme';
 
-const useStyles = (selected?: boolean) => {
-  return makeStyle((theme) => ({
+const useStyles = (selected?: boolean) =>
+  makeStyle((theme) => ({
     container: {
       display: 'flex',
       backgroundColor: selected ? theme.colors.primary : theme.colors.surface,
@@ -25,6 +25,5 @@ const useStyles = (selected?: boolean) => {
       marginLeft: 24,
     },
   }))();
-};
 
 export default useStyles;

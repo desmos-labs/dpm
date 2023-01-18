@@ -1,55 +1,46 @@
-import { CompositeScreenProps } from '@react-navigation/native';
 import { StackScreenProps } from '@react-navigation/stack';
 import React, { useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
 import Padding from 'components/Flexible/Padding';
 import Flexible from 'components/Flexible';
 import Typography from 'components/Typography';
-import { AccountCreationStackParams, RootStackParams } from 'types/navigation';
 import StyledSafeAreaView from 'components/StyledSafeAreaView';
 import TopBar from 'components/TopBar';
 import Button from 'components/Button';
 import ROUTES from 'navigation/routes';
+import { RootNavigatorParamList } from 'navigation/RootNavigator';
 import useStyles from './useStyles';
 
-type Props = CompositeScreenProps<
-  StackScreenProps<AccountCreationStackParams, 'Legal'>,
-  StackScreenProps<RootStackParams>
->;
+type NavProps = StackScreenProps<RootNavigatorParamList, ROUTES.LEGAL>;
 
-const Legal: React.FC<Props> = (props) => {
-  const {
-    navigation,
-    route: {
-      params: { mode },
-    },
-  } = props;
+export interface LegalParams {
+  next: ROUTES;
+}
+
+const Legal = (props: NavProps) => {
   const { t } = useTranslation('legal');
   const styles = useStyles();
+
+  const { navigation, route } = props;
+  const { next } = route.params;
 
   const openTermsOfService = useCallback(async () => {
     navigation.navigate(ROUTES.MARKDOWN_TEXT, {
       title: t('terms of service'),
-      asset: 'terms-of-service.md',
+      fileName: 'terms-of-service.md',
     });
   }, [navigation, t]);
 
   const openPrivacyPolicy = useCallback(async () => {
     navigation.navigate(ROUTES.MARKDOWN_TEXT, {
       title: t('privacy policy'),
-      asset: 'custom/privacy.md',
+      fileName: 'privacy.md',
     });
   }, [navigation, t]);
 
   const onAccepted = useCallback(() => {
-    if (mode === 'create') {
-      navigation.navigate(ROUTES.CREATE_NEW_MNEMONIC);
-    } else if (mode === 'import') {
-      navigation.navigate(ROUTES.IMPORT_ACCOUNT_FROM_MNEMONIC);
-    } else if (mode === 'ledger') {
-      navigation.navigate(ROUTES.IMPORT_ACCOUNT_SELECT_LEDGER_APP);
-    }
-  }, [navigation, mode]);
+    navigation.navigate<any>(next);
+  }, [navigation, next]);
 
   return (
     <StyledSafeAreaView

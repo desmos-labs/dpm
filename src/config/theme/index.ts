@@ -1,3 +1,5 @@
+/* Disable the no-undef lint as the ReactNativePaper namespace will be provided at runtime */
+/* eslint-disable no-undef */
 import { useMemo } from 'react';
 import { StyleSheet } from 'react-native';
 import { useTheme } from 'react-native-paper';

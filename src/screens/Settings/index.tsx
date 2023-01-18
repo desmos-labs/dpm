@@ -28,9 +28,7 @@ const Settings = (props: NavProps) => {
   const deletePasswordFromBiometrics = useDeletePasswordFromBiometrics();
 
   const sendFeedback = useCallback(async () => {
-    Linking.openURL('mailto:development@forbole.com').catch((err) =>
-      console.error("Couldn't open email application", err),
-    );
+    Linking.openURL('mailto:development@forbole.com');
   }, []);
 
   const openAbout = useCallback(async () => {
@@ -48,9 +46,7 @@ const Settings = (props: NavProps) => {
   }, [navigation, t]);
 
   const navigateToGithub = useCallback(() => {
-    Linking.openURL('https://github.com/desmos-labs/dpm').catch((err) =>
-      console.error("Couldn't load page", err),
-    );
+    Linking.openURL('https://github.com/desmos-labs/dpm');
   }, []);
 
   const navigateHandleBiometrics = useCallback(
@@ -91,7 +87,7 @@ const Settings = (props: NavProps) => {
       const supported = await Keychain.getSupportedBiometryType();
       setBiometricsSupported(supported != null);
     } catch (e) {
-      console.error(e);
+      setBiometricsSupported(false);
     }
   }, []);
 

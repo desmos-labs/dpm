@@ -1,11 +1,11 @@
-import {makeStyle} from 'config/theme';
+import { makeStyle } from 'config/theme';
 
-const useStyles = (disable: boolean, active: boolean, translation: any) => {
-  return makeStyle((theme) => ({
+const useStyles = (disable: boolean, active: boolean, translation: any) =>
+  makeStyle((theme) => ({
     opacity: {
       padding: 8,
       marginLeft: 6,
-      opacity: disable ?  0.3 : 1.0,
+      opacity: disable ? 0.3 : 1.0,
     },
     button: {
       alignItems: 'center',
@@ -26,6 +26,5 @@ const useStyles = (disable: boolean, active: boolean, translation: any) => {
       transform: [{ translateX: translation }],
     },
   }))();
-};
 
 export default useStyles;

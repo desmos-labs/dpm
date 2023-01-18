@@ -5,9 +5,9 @@ import StyledSafeAreaView from 'components/StyledSafeAreaView';
 import TopBar from 'components/TopBar';
 import { RootNavigatorParamList } from 'navigation/RootNavigator';
 import ROUTES from 'navigation/routes';
-import useProfileDataQueries from 'screens/Profile/useProfileDataQueries';
 import { useNavigation, useRoute } from '@react-navigation/native';
 import EditProfileButton from 'screens/Profile/components/EditProfileButton';
+import useProfileGivenAddress from 'hooks/useProfileGivenAddress';
 import ProfileData from './components/ProfileData';
 import useStyles from './useStyles';
 
@@ -30,14 +30,7 @@ const Profile = () => {
   const visitingProfile = params?.visitingProfile;
   const canEdit = !visitingProfile;
 
-  const { profile, refetchProfile, loadingProfile } = useProfileDataQueries(visitingProfile);
-
-  React.useEffect(() => {
-    refetchProfile();
-
-    // Ok to ignore this, we want to fetch the profile only the first time we enter this screen.
-    // eslint-disable-next-line
-  }, []);
+  const { profile, loading: loadingProfile } = useProfileGivenAddress(visitingProfile);
 
   const EditProfileBtn = React.useMemo(
     () => (canEdit && profile ? <EditProfileButton profile={profile} /> : undefined),

@@ -1,6 +1,6 @@
-import {makeStyleWithProps} from 'config/theme';
-import {Platform} from 'react-native';
-import {StyledSafeAreaViewProps} from 'components/StyledSafeAreaView/index';
+import { makeStyleWithProps } from 'config/theme';
+import { Platform } from 'react-native';
+import { StyledSafeAreaViewProps } from 'components/StyledSafeAreaView/index';
 
 const useStyles = makeStyleWithProps((props: StyledSafeAreaViewProps, theme) => ({
   root: {

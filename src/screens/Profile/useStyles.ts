@@ -1,6 +1,6 @@
 import { makeStyle } from 'config/theme';
 
-const useStyles = makeStyle((theme) => ({
+const useStyles = makeStyle(() => ({
   topBar: {
     backgroundColor: 'transparent',
     position: 'absolute',

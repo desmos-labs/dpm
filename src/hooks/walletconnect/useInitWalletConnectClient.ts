@@ -1,7 +1,11 @@
 import { useSetWalletConnectClient, useWalletConnectClient } from '@recoil/walletconnect';
-import { useCallback, useEffect } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import SignClient from '@walletconnect/sign-client';
+
+// Disable the next line lint as the @env namespace will be provided at runtime
+// eslint-disable-next-line import/no-unresolved
 import { WALLET_CONNECT_PROJECT_ID } from '@env';
+
 import * as WalletConnectMMKV from 'lib/MMKVStorage/walletconnect';
 import { useRemoveSessionByTopic, useWalletConnectSessions } from '@recoil/walletConnectSessions';
 import useWalletConnectOnSessionRequest from './useWalletConnectOnSessionRequest';
@@ -14,6 +18,8 @@ const useInitWalletConnectClient = () => {
   const onSessionDelete = useWalletConnectOnSessionDelete();
   const deleteSessionByTopic = useRemoveSessionByTopic();
   const savedSessions = useWalletConnectSessions();
+
+  const [, setError] = useState<string | undefined>();
 
   // Effect to subscribe and unsubscribe to session_request
   useEffect(() => {
@@ -57,7 +63,7 @@ const useInitWalletConnectClient = () => {
         onSessionRequest(pendingRequest, array.length - 1 === index);
       });
     } catch (e) {
-      console.warn('Error initializing Wallet connect', e);
+      setError(e);
     }
   }, [deleteSessionByTopic, onSessionRequest, savedSessions, setWalletConnectClient]);
 };

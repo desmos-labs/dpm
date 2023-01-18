@@ -43,11 +43,7 @@ const RadioGroup: React.FC<RadioGroupProps> = (props) => {
         </View>
       );
     });
-  }, [
-    values,
-    styles,
-    theme,
-  ]);
+  }, [values, styles, theme]);
 
   return (
     <View style={styles.root}>

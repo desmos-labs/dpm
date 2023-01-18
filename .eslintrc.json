@@ -3,6 +3,10 @@
     "es6": true,
     "jest": true
   },
+  "globals":{
+    // Used to disable warning about __DEV__ not being defined inside the code
+    "__DEV__": true
+  },
   "extends": [
     "airbnb-base",
     "airbnb-typescript/base",
@@ -39,6 +43,8 @@
     "prettier/prettier": "error",
     // Avoiding refactoring every image request, is fine to use (written also in the react-native doc)
     "global-require": 0,
+    // Disable no-cycle imports to avoid navigator errors
+    "import/no-cycle": 0,
     // Strange behavior with default imports
     "import/no-named-as-default": 0,
     // Typescript related warnings

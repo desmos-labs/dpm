@@ -1,6 +1,6 @@
 import { makeStyle } from 'config/theme';
 
-const useStyles = makeStyle((_) => ({
+const useStyles = makeStyle(() => ({
   chainLinkIcon: {
     height: 44,
     width: 44,

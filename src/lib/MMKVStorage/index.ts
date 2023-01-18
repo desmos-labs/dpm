@@ -29,7 +29,6 @@ export const getMMKV = <T>(key: MMKVKEYS): T | undefined => {
   try {
     return JSON.parse(mmkvValue);
   } catch (err: any) {
-    console.log(err);
     throw new Error(err.message);
   }
 };

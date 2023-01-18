@@ -1,5 +1,5 @@
-import {EnglishMnemonic} from '@cosmjs/crypto';
-import {fromBech32} from '@cosmjs/encoding';
+import { EnglishMnemonic } from '@cosmjs/crypto';
+import { fromBech32 } from '@cosmjs/encoding';
 
 /**
  * Validate a given mnemonic.

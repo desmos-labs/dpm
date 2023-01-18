@@ -1,23 +1,8 @@
 import React from 'react';
-import { StyleProp, TouchableWithoutFeedback } from 'react-native';
-import FastImage, { ImageStyle, Source } from 'react-native-fast-image';
+import { TouchableWithoutFeedback } from 'react-native';
+import FastImage from 'react-native-fast-image';
 import useStyles from './useStyles';
-
-export type AvatarImageProps = {
-  /**
-   * Image to display for the `Avatar`.
-   */
-  source: Source;
-  /**
-   * Size of the avatar.
-   */
-  size?: number;
-  /**
-   * Callback called when the user press on the avatar image.
-   */
-  onPress?: () => void;
-  style?: StyleProp<ImageStyle>;
-};
+import AvatarImageProps from './props';
 
 const AvatarImage: React.FC<AvatarImageProps> = (props) => {
   const { source, onPress, style } = props;

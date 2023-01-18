@@ -80,6 +80,8 @@ const HdPathPicker: React.FC<HdPathPickerProps> = (props) => {
           Slip10RawIndex.normal(safeParseInt(changedValue)),
         ];
         break;
+      default:
+        throw new Error('Unsupported change path value');
     }
     setHdPath(newHdPath);
     if (onChange !== undefined) {

@@ -52,7 +52,6 @@ export const useGenerateAccountWithWalletFromHdPath = () => {
 
         return wallets[0];
       } catch (e) {
-        console.error(e);
         setGenerationError(e.toString());
         return null;
       }

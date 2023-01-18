@@ -12,16 +12,17 @@ import ROUTES from 'navigation/routes';
 import useOnBackAction from 'hooks/useOnBackAction';
 import { useRecoilState } from 'recoil';
 import { getChainSupportedWalletTypes } from 'lib/ChainsUtils';
-import importAccountAppState from '@recoil/importAccountState';
+import importAccountAppState, { ImportAccountState } from '@recoil/importAccountState';
 import useStyles from './useStyles';
 
 export type NavProps = StackScreenProps<RootNavigatorParamList, ROUTES.IMPORT_ACCOUNT_SELECT_CHAIN>;
 
 const ImportAccountSelectChain: React.FC<NavProps> = ({ navigation }) => {
+  const { t } = useTranslation('account');
+  const styles = useStyles();
+
   const [importAccountState, setImportAccountState] = useRecoilState(importAccountAppState)!;
   const { chains, onCancel } = importAccountState!;
-  const { t } = useTranslation();
-  const styles = useStyles();
 
   useOnBackAction(() => {
     if (onCancel !== undefined) {
@@ -31,17 +32,17 @@ const ImportAccountSelectChain: React.FC<NavProps> = ({ navigation }) => {
 
   const onChainItemSelected = useCallback(
     (selectedChain: SupportedChain) => {
-      setImportAccountState({
-        ...importAccountState!,
-        selectedChain,
-        supportedImportMode: getChainSupportedWalletTypes(selectedChain),
-      });
-      navigation.navigate({
-        name: ROUTES.IMPORT_ACCOUNT_SELECT_TYPE,
-        params: undefined,
-      });
+      setImportAccountState(
+        (currentValue) =>
+          ({
+            ...currentValue,
+            selectedChain,
+            supportedImportMode: getChainSupportedWalletTypes(selectedChain),
+          } as ImportAccountState),
+      );
+      navigation.navigate(ROUTES.IMPORT_ACCOUNT_SELECT_TYPE);
     },
-    [setImportAccountState],
+    [navigation, setImportAccountState],
   );
 
   const renderListItem = useCallback(

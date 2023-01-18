@@ -11,7 +11,7 @@ import { useNavigation } from '@react-navigation/native';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { RootNavigatorParamList } from 'navigation/RootNavigator';
 import ROUTES from 'navigation/routes';
-import { useGetProfiles } from '@recoil/profiles';
+import { useStoredProfiles } from '@recoil/profiles';
 import useStyles from './useStyles';
 
 export interface ItemMenuProps {
@@ -26,7 +26,7 @@ const ItemMenu: FC<ItemMenuProps> = ({ account }) => {
   const [menuVisible, setMenuVisible] = useState(false);
   const { closeDrawer } = useDrawerContext();
   const deleteAccount = useDeleteAccount();
-  const profiles = useGetProfiles();
+  const profiles = useStoredProfiles();
 
   const onMenuOpen = useCallback(() => {
     setMenuVisible(true);

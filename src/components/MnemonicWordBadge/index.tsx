@@ -41,4 +41,3 @@ const MnemonicWordBadge: React.FC<MnemonicWordBadgeProps> = (props) => {
 };
 
 export default MnemonicWordBadge;
-

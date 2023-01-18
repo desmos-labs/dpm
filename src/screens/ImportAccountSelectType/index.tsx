@@ -18,10 +18,11 @@ import ImageButton from './components/ImageButton';
 type NavProps = StackScreenProps<RootNavigatorParamList, ROUTES.IMPORT_ACCOUNT_SELECT_TYPE>;
 
 const ImportAccountSelectType: React.FC<NavProps> = ({ navigation }) => {
-  const [importAccountState, setImportAccountState] = useRecoilState(importAccountAppState);
-  const { onCancel, chains, supportedImportMode } = importAccountState!;
   const { t } = useTranslation('account');
   const styles = useStyles();
+
+  const [importAccountState, setImportAccountState] = useRecoilState(importAccountAppState);
+  const { onCancel, chains, supportedImportMode } = importAccountState!;
 
   useOnBackAction(() => {
     if (onCancel !== undefined && chains.length === 1) {
@@ -64,7 +65,6 @@ const ImportAccountSelectType: React.FC<NavProps> = ({ navigation }) => {
           image = DPMImages.ConnectLedger;
           break;
         default:
-          console.error(`rendering an unsupported wallet type ${item.item}`);
           return null;
       }
 
@@ -77,7 +77,7 @@ const ImportAccountSelectType: React.FC<NavProps> = ({ navigation }) => {
         />
       );
     },
-    [t, onImportModeSelected],
+    [styles, t, onImportModeSelected],
   );
 
   return (

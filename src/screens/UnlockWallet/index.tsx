@@ -42,13 +42,16 @@ export interface UnlockWalletParams {
 type Props = StackScreenProps<RootNavigatorParamList, ROUTES.UNLOCK_WALLET>;
 
 const UnlockWallet: React.FC<Props> = (props) => {
-  const { onSuccess, address, onCancel, signingMode } = props.route.params;
   const styles = useStyles();
-  const { t } = useTranslation();
+  const { t } = useTranslation('account');
+
+  const { onSuccess, address, onCancel, signingMode } = props.route.params;
+
   const [loading, setLoading] = useState(false);
   const [loadingBiometrics] = useState(false);
   const [error, setError] = useState<string>();
   const [inputPassword, setInputInputPassword] = useState('');
+
   const unlockWalletWithPassword = useUnlockWalletWithPassword();
   const appSettings = useSettings();
   const getPasswordFromBiometrics = useGetPasswordFromBiometrics(
@@ -112,7 +115,7 @@ const UnlockWallet: React.FC<Props> = (props) => {
           style={styles.password}
           value={inputPassword}
           onChangeText={setInputInputPassword}
-          placeholder={t('password')}
+          placeholder={t('common:password')}
           autoFocus={!appSettings.unlockWalletWithBiometrics}
           onSubmitEditing={unlockWalletWithWithPassword}
         />
@@ -128,7 +131,7 @@ const UnlockWallet: React.FC<Props> = (props) => {
             disabled={loading}
             onPress={unlockWalletWithWithPassword}
           >
-            {loading ? t('unlocking') : t('confirm')}
+            {loading ? t('unlocking') : t('common:confirm')}
           </Button>
         </KeyboardAvoidingView>
       </StyledSafeAreaView>
