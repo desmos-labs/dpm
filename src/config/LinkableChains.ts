@@ -9,12 +9,26 @@ import {
   LunaHdPath,
 } from 'types/chainsHdPaths';
 import { DesmosMainnet, DesmosTestnet } from '@desmoslabs/desmjs';
+import {
+  akashIcon,
+  bandIcon,
+  cosmosIcon,
+  cryptoOrgIcon,
+  desmosIcon,
+  eMoneyIcon,
+  junoIcon,
+  kavaIcon,
+  likecoinIcon,
+  osmosisIcon,
+  regenIcon,
+  terraIcon,
+} from 'assets/images';
 
 export const DesmosChain: SupportedChain = {
   name: 'Desmos',
   prefix: 'desmos',
   masterHDPath: DesmosHdPath,
-  icon: require('../assets/images/chains/desmos.png'),
+  icon: desmosIcon,
   chainConfig: ChainConfig.fromPartial({
     name: 'desmos',
   }),
@@ -25,7 +39,7 @@ export const CryptoDotOrgChain: SupportedChain = {
   name: 'Crypto.org',
   prefix: 'cro',
   masterHDPath: CroHdPath,
-  icon: require('assets/images/chains/cryptoOrg.png'),
+  icon: cryptoOrgIcon,
   chainConfig: ChainConfig.fromPartial({
     name: 'crypto.org',
   }),
@@ -36,7 +50,7 @@ export const SupportedChains: SupportedChain[] = [
     name: 'Akash',
     prefix: 'akash',
     masterHDPath: CosmosHdPath,
-    icon: require('../assets/images/chains/akash.png'),
+    icon: akashIcon,
     chainConfig: ChainConfig.fromPartial({
       name: 'akash',
     }),
@@ -45,7 +59,7 @@ export const SupportedChains: SupportedChain[] = [
     name: 'Band',
     prefix: 'band',
     masterHDPath: BandHdPath,
-    icon: require('../assets/images/chains/band.png'),
+    icon: bandIcon,
     chainConfig: ChainConfig.fromPartial({
       name: 'band',
     }),
@@ -54,7 +68,7 @@ export const SupportedChains: SupportedChain[] = [
     name: 'Cosmos Hub',
     prefix: 'cosmos',
     masterHDPath: CosmosHdPath,
-    icon: require('../assets/images/chains/cosmos.png'),
+    icon: cosmosIcon,
     chainConfig: ChainConfig.fromPartial({
       name: 'cosmos',
     }),
@@ -65,7 +79,7 @@ export const SupportedChains: SupportedChain[] = [
     name: 'e-Money',
     prefix: 'emoney',
     masterHDPath: CosmosHdPath,
-    icon: require('assets/images/chains/eMoney.png'),
+    icon: eMoneyIcon,
     chainConfig: ChainConfig.fromPartial({
       name: 'emoney',
     }),
@@ -74,7 +88,7 @@ export const SupportedChains: SupportedChain[] = [
     name: 'Juno',
     prefix: 'juno',
     masterHDPath: CosmosHdPath,
-    icon: require('../assets/images/chains/juno.png'),
+    icon: junoIcon,
     chainConfig: ChainConfig.fromPartial({
       name: 'juno',
     }),
@@ -83,7 +97,7 @@ export const SupportedChains: SupportedChain[] = [
     name: 'Kava',
     prefix: 'kava',
     masterHDPath: KavaHdPath,
-    icon: require('../assets/images/chains/kava.png'),
+    icon: kavaIcon,
     chainConfig: ChainConfig.fromPartial({
       name: 'kava',
     }),
@@ -92,7 +106,7 @@ export const SupportedChains: SupportedChain[] = [
     name: 'Likecoin',
     prefix: 'cosmos',
     masterHDPath: CosmosHdPath,
-    icon: require('../assets/images/chains/likecoin.png'),
+    icon: likecoinIcon,
     chainConfig: ChainConfig.fromPartial({
       name: 'likecoin',
     }),
@@ -101,7 +115,7 @@ export const SupportedChains: SupportedChain[] = [
     name: 'Osmosis',
     prefix: 'osmo',
     masterHDPath: CosmosHdPath,
-    icon: require('../assets/images/chains/osmosis.png'),
+    icon: osmosisIcon,
     chainConfig: ChainConfig.fromPartial({
       name: 'osmosis',
     }),
@@ -110,7 +124,7 @@ export const SupportedChains: SupportedChain[] = [
     name: 'Regen',
     prefix: 'regen',
     masterHDPath: CosmosHdPath,
-    icon: require('../assets/images/chains/regen.png'),
+    icon: regenIcon,
     chainConfig: ChainConfig.fromPartial({
       name: 'regen',
     }),
@@ -119,7 +133,7 @@ export const SupportedChains: SupportedChain[] = [
     name: 'Terra',
     prefix: 'terra',
     masterHDPath: LunaHdPath,
-    icon: require('../assets/images/chains/terra.png'),
+    icon: terraIcon,
     chainConfig: ChainConfig.fromPartial({
       name: 'terra',
     }),
