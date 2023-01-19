@@ -1,7 +1,7 @@
 import React, { ReactNode, useCallback, useMemo, useState } from 'react';
-import { View } from 'react-native';
+import { ActivityIndicator, View } from 'react-native';
 import FastImage from 'react-native-fast-image';
-import { ActivityIndicator, useTheme } from 'react-native-paper';
+import { useTheme } from 'react-native-paper';
 import AvatarImage from 'components/AvatarImage';
 import IconButton from 'components/IconButton';
 import Typography from 'components/Typography';

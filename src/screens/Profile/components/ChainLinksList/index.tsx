@@ -1,7 +1,6 @@
 import React, { useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
-import { FlatList, ListRenderItemInfo, View } from 'react-native';
-import { ActivityIndicator } from 'react-native-paper';
+import { ActivityIndicator, FlatList, ListRenderItemInfo, View } from 'react-native';
 import Typography from 'components/Typography';
 import DpmImage from 'components/DPMImage';
 import Button from 'components/Button';

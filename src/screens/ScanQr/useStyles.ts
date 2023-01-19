@@ -25,7 +25,6 @@ const useStyles = makeStyle(() => ({
     position: 'absolute',
     width: '100%',
     height: '100%',
-    backgroundColor: 'rgba(200, 200, 200, 0.8)',
   },
 }));
 

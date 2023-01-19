@@ -51,7 +51,6 @@ const useStyles = makeStyle((theme) => ({
   },
   profilePictureActivityIndicator: {
     position: 'absolute',
-    backgroundColor: 'rgba(255, 255, 255, 0.6)',
     width: '100%',
     height: '100%',
     borderRadius: 50,

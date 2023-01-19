@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useState } from 'react';
-import { FlatList, FlatListProps } from 'react-native';
-import { ActivityIndicator, useTheme } from 'react-native-paper';
+import { ActivityIndicator, FlatList, FlatListProps } from 'react-native';
+import { useTheme } from 'react-native-paper';
 
 export type PaginatedFlatListProps<ItemT> = Omit<FlatListProps<ItemT>, 'data'> & {
   /**
@@ -74,14 +74,7 @@ const PaginatedFlatList = (props: PaginatedFlatListProps<any>) => {
       {...props}
       data={data}
       onEndReached={onPageEndReached}
-      ListFooterComponent={
-        <ActivityIndicator
-          animating={loading}
-          color={theme.colors.primary}
-          hidesWhenStopped
-          size="small"
-        />
-      }
+      ListFooterComponent={<ActivityIndicator animating={loading} hidesWhenStopped size="small" />}
     />
   );
 };

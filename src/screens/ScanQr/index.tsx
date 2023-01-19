@@ -10,10 +10,9 @@ import { HomeTabsParamList } from 'navigation/RootNavigator/HomeTabs';
 import { Barcode } from 'vision-camera-code-scanner';
 import StyledSafeAreaView from 'components/StyledSafeAreaView';
 import TextInput from 'components/TextInput';
-import { Vibration } from 'react-native';
+import { ActivityIndicator, Vibration } from 'react-native';
 import { CompositeScreenProps } from '@react-navigation/native';
 import { RootNavigatorParamList } from 'navigation/RootNavigator';
-import { ActivityIndicator } from 'react-native-paper';
 import useStyles from './useStyles';
 import QrCodeScanner from './components/QrCodeScanner';
 

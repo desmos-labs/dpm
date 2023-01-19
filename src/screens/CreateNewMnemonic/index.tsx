@@ -1,8 +1,7 @@
 import { StackScreenProps } from '@react-navigation/stack';
 import React, { FC, useCallback, useEffect, useState } from 'react';
 import { Trans, useTranslation } from 'react-i18next';
-import { View } from 'react-native';
-import { ActivityIndicator } from 'react-native-paper';
+import { ActivityIndicator, View } from 'react-native';
 import { randomMnemonic } from 'lib/WalletUtils/mnemonic';
 import Typography from 'components/Typography';
 import Button from 'components/Button';

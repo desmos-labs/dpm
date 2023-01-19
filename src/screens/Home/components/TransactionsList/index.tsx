@@ -58,15 +58,7 @@ const TransactionsList = (props: TransactionsListProps) => {
           }
         }}
         onEndReachedThreshold={0.5}
-        refreshControl={
-          <RefreshControl
-            enabled
-            refreshing={loading}
-            onRefresh={onRefresh}
-            colors={[theme.colors.primary]}
-            tintColor={theme.colors.primary}
-          />
-        }
+        refreshControl={<RefreshControl enabled refreshing={loading} onRefresh={onRefresh} />}
         showsVerticalScrollIndicator
         ItemSeparatorComponent={Divider}
       />

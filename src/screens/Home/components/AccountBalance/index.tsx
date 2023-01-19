@@ -1,6 +1,6 @@
 import React, { useCallback, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
-import { StyleProp, TouchableOpacity, View, ViewStyle } from 'react-native';
+import { ActivityIndicator, StyleProp, TouchableOpacity, View, ViewStyle } from 'react-native';
 import IconButton from 'components/IconButton';
 import Typography from 'components/Typography';
 import { useSetSetting, useSetting } from '@recoil/settings';
@@ -8,7 +8,6 @@ import CopyButton from 'components/CopyButton';
 import { Account } from 'types/account';
 import { DesmosProfile } from 'types/desmos';
 import { formatCoins, formatHiddenValue } from 'lib/FormatUtils';
-import { ActivityIndicator } from 'react-native-paper';
 import { useNavigation } from '@react-navigation/native';
 import { StackNavigationProp } from '@react-navigation/stack';
 import ROUTES from 'navigation/routes';
