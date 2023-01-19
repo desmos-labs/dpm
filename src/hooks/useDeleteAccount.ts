@@ -1,28 +1,69 @@
 import { useCallback } from 'react';
-import { useAppContext } from '../contexts/AppContext';
-import AccountSource from '../sources/AccountSource';
-import ProfileSourceSingleton from '../sources/ProfileSource';
-import { ChainAccount } from '../types/chain';
+import { useSetProfiles } from '@recoil/profiles';
+import { useGetAccounts, useSetAccounts } from '@recoil/accounts';
+import { useNavigation } from '@react-navigation/native';
+import { StackNavigationProp } from '@react-navigation/stack';
+import { RootNavigatorParamList } from 'navigation/RootNavigator';
+import ROUTES from 'navigation/routes';
+import { useActiveAccountAddress, useSetActiveAccountAddress } from '@recoil/activeAccount';
+import useWalletConnectCloseAccountSessions from 'hooks/walletconnect/useWalletConnectCloseAccountSessions';
 
-export default function useDeleteAccount(): (toDelete: ChainAccount) => Promise<ChainAccount[]> {
-  const { accounts, setAccounts, setProfiles } = useAppContext();
+const useDeleteAccount = () => {
+  const accounts = useGetAccounts();
+  const setAccounts = useSetAccounts();
+  const setProfiles = useSetProfiles();
+  const activeAccountAddress = useActiveAccountAddress();
+  const setActiveAccountAddress = useSetActiveAccountAddress();
+  const closeAccountSessions = useWalletConnectCloseAccountSessions();
+  const navigator = useNavigation<StackNavigationProp<RootNavigatorParamList>>();
+
+  const deleteAccountAndProfileByAddress = useCallback(
+    (accountAddress: string) => {
+      setAccounts((old) => {
+        const newValue = {
+          ...old,
+        };
+        delete newValue[accountAddress];
+        return newValue;
+      });
+      setProfiles((old) => {
+        const newValue = {
+          ...old,
+        };
+        delete newValue[accountAddress];
+        return newValue;
+      });
+    },
+    [setAccounts, setProfiles],
+  );
 
   return useCallback(
-    async (toDelete: ChainAccount) => {
-      const newAccounts = accounts.filter((a) => a.address !== toDelete.address);
-      setProfiles((old) => {
-        if (old[toDelete.address] !== undefined) {
-          const newProfiles = { ...old };
-          delete newProfiles[toDelete.address];
-          return newProfiles;
-        }
-        return old;
-      });
-      setAccounts(newAccounts);
-      await ProfileSourceSingleton.deleteProfile(toDelete.address);
-      await AccountSource.removeAccount(toDelete);
-      return newAccounts;
+    (accountAddress: string) => {
+      closeAccountSessions(accountAddress);
+      const accountsCount = Object.keys(accounts).length;
+      if (accountsCount === 1 && accounts[accountAddress] !== undefined) {
+        navigator.reset({
+          index: 0,
+          routes: [{ name: ROUTES.LANDING }],
+        });
+        setActiveAccountAddress(undefined);
+      } else if (accountAddress === activeAccountAddress) {
+        const newSelectedAccount = Object.keys(accounts).find(
+          (address) => address !== accountAddress,
+        );
+        setActiveAccountAddress(newSelectedAccount!);
+      }
+      deleteAccountAndProfileByAddress(accountAddress);
     },
-    [accounts, setAccounts, setProfiles]
+    [
+      accounts,
+      activeAccountAddress,
+      closeAccountSessions,
+      deleteAccountAndProfileByAddress,
+      navigator,
+      setActiveAccountAddress,
+    ],
   );
-}
+};
+
+export default useDeleteAccount;

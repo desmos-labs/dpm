@@ -1,61 +1,178 @@
-import { OfflineSigner } from '@cosmjs/proto-signing';
-import LocalWallet from '../wallet/LocalWallet';
-import { HdPath } from './hdpath';
+import { HdPath } from '@cosmjs/crypto';
+import { LedgerApp } from 'types/ledger';
+import BluetoothTransport from '@ledgerhq/react-native-hw-transport-ble';
+import { Signer } from '@desmoslabs/desmjs';
+
+export enum WalletSerializationVersion {
+  Mnemonic = 1,
+  Ledger = 1,
+  Web3Auth = 1,
+}
 
 /**
- * Enum that represents the type of a Wallet instance.
+ * Enum that represents the type of wallet that the app supports.
  */
 export enum WalletType {
   /**
    * Wallet generated from a mnemonic of witch the key pair is stored
    * encrypted in the device storage.
    */
-  Mnemonic,
+  Mnemonic = 'mnemonic',
   /**
    * Wallet imported from a Ledger device.
    */
-  Ledger,
+  Ledger = 'ledger',
+  /**
+   * Wallet imported using Web3Auth.
+   */
+  Web3Auth = 'web3auth',
 }
 
 /**
- * Interface to define the common fields of each wallet type.
+ * Interface holding the common fields between each wallet type.
  */
-interface IWallet {
+interface BaseWallet {
   /**
-   * The bech32 address.
+   * Bech32 Address prefix of this wallet.
    */
-  address: string;
+  readonly addressPrefix: string;
   /**
-   * Derivation path used to derive the private key.
+   * Wallet bech32 address.
    */
-  hdPath: HdPath;
+  readonly address: string;
   /**
-   * Base64 encoded public key;
+   * Signer that can be used with the DesmosClient to sign transactions.
    */
-  pubKey: string;
-  /**
-   * Algorithm used for signing
-   */
-  signAlgorithm: 'secp256k1' | 'ed25519' | 'sr25519';
-  /**
-   * cosmjs signer that can be used to sign and broadcast transactions.
-   */
-  signer: OfflineSigner;
+  readonly signer: Signer;
 }
 
 /**
- * Interface that represents a wallet generated from a mnemonic.
+ * Interface that represents a wallet created from a mnemonic.
  */
-export interface MnemonicWallet extends IWallet {
-  type: WalletType.Mnemonic;
-  localWallet: LocalWallet;
+export interface MnemonicWallet extends BaseWallet {
+  readonly type: WalletType.Mnemonic;
+  /**
+   * HD Derivation path used to generate the user
+   * private key.
+   */
+  readonly hdPath: HdPath;
+  /**
+   * Secp256k1 private key derived from the mnemonic with the hdPath.
+   */
+  readonly privateKey: Uint8Array;
 }
 
 /**
- * Interface that represents a Ledger wallet.
+ * [MnemonicWallet] that can be serialized to JSON.
  */
-export interface LedgerWallet extends IWallet {
-  type: WalletType.Ledger;
+export type SerializableMnemonicWallet = Omit<
+  MnemonicWallet,
+  'signer' | 'privateKey' | 'hdPath'
+> & {
+  readonly version: WalletSerializationVersion.Mnemonic;
+  /**
+   * HD Derivation path used to generate the user
+   * private key.
+   */
+  readonly hdPath: string;
+  /**
+   * Hex encoded private key.
+   */
+  readonly privateKey: string;
+};
+
+/**
+ * Interface representing a wallet imported through a Ledger device.
+ */
+export interface LedgerWallet extends BaseWallet {
+  readonly type: WalletType.Ledger;
+  /**
+   * HD Derivation path used to generate the user
+   * private key.
+   */
+  readonly hdPath: HdPath;
+  /**
+   * Name of the app used to generate this wallet.
+   */
+  readonly ledgerAppName: string;
 }
 
-export type Wallet = MnemonicWallet | LedgerWallet;
+/**
+ * [LedgerWallet] that can be serialized to JSON.
+ */
+export type SerializableLedgerWallet = Omit<LedgerWallet, 'signer' | 'hdPath'> & {
+  version: WalletSerializationVersion.Ledger;
+  /**
+   * HD Derivation path used to generate the user
+   * private key.
+   */
+  readonly hdPath: string;
+};
+
+/**
+ * Interface representing a wallet imported through Web3Auth.
+ */
+export interface Web3AuthWallet extends BaseWallet {
+  readonly type: WalletType.Web3Auth;
+  /**
+   * Login method used from the user.
+   */
+  readonly loginProvider: string;
+  /**
+   * Secp256k1 private key obtained from Web3Auth.
+   */
+  readonly privateKey: Uint8Array;
+}
+
+/**
+ * [Web3AuthWallet] that can be serialized to JSON.
+ */
+export type SerializableWeb3AuthWallet = Omit<Web3AuthWallet, 'signer' | 'privateKey'> & {
+  version: WalletSerializationVersion.Web3Auth;
+  /**
+   * Hex encoded private key.
+   */
+  privateKey: string;
+};
+
+/**
+ * Type representing all the supported wallets.
+ */
+export type Wallet = MnemonicWallet | LedgerWallet | Web3AuthWallet;
+
+/**
+ * Type representing a wallet that can be serialized to JSON and
+ * stored in the device storage.
+ */
+export type SerializableWallet =
+  | SerializableMnemonicWallet
+  | SerializableLedgerWallet
+  | SerializableWeb3AuthWallet;
+
+export interface BaseWalletGenerationData {
+  readonly accountPrefix: string;
+}
+
+export interface MnemonicGenerationData extends BaseWalletGenerationData {
+  readonly type: WalletType.Mnemonic;
+  readonly mnemonic: string;
+  readonly hdPaths: HdPath[];
+}
+
+export interface LedgerGenerationData extends BaseWalletGenerationData {
+  readonly type: WalletType.Ledger;
+  readonly app: LedgerApp;
+  readonly transport: BluetoothTransport;
+  readonly hdPaths: HdPath[];
+}
+
+export interface Web3AuthGenerationData extends BaseWalletGenerationData {
+  readonly type: WalletType.Web3Auth;
+  readonly privateKey: Uint8Array;
+  readonly loginProvider: string;
+}
+
+export type WalletGenerationData =
+  | MnemonicGenerationData
+  | LedgerGenerationData
+  | Web3AuthGenerationData;

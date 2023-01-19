@@ -1,0 +1,10 @@
+{
+  "nano x unlock bluetooth check": "Please make sure your Ledger Nano X is unlocked, has its Bluetooth enabled, and the <bold>{{app}}</bold> application is open",
+  "error missing permissions": "Please grant the permissions to perform the scan",
+  "grant permissions ios": "Please grant the access to Bluetooth",
+  "grant permissions android": "Please grant the access to Location and Nearby devices",
+  "error bluetooth off": "Please turn on the Bluetooth",
+  "turn on bluetooth": "Turn on bluetooth",
+  "start scan": "Start scan",
+  "looking for devices": "Looking for devices",
+}

@@ -1,5 +1,3 @@
-import { ChainId } from './chain';
-
 /**
  * Supported application themes.
  * - light: Light color schema.
@@ -9,29 +7,30 @@ import { ChainId } from './chain';
 export type AppTheme = 'light' | 'dark' | 'auto';
 
 /**
+ * Enum that represents the supported biometrics
+ * authorizations types.
+ */
+export enum BiometricAuthorizations {
+  /**
+   * Use biometrics to unlock the application at the first open.
+   */
+  Login = 'BiometricsLogin',
+  /**
+   * Use biometrics to unlock the user wallet.
+   */
+  UnlockWallet = 'BiometricsUnlockWallet',
+}
+
+/**
  * Type that represents the application settings.
  */
 export type AppSettings = {
   theme: AppTheme;
-  chainId: ChainId;
+  chainName: string;
   balanceHidden: boolean;
-  biometricSignature: boolean;
-  biometricLogin: boolean;
-};
-
-/**
- * Key used to identify the application
- * settings stored into the AsyncStorage.
- */
-export const AppSettingsStorageKey = 'dpm_app_settings';
-
-/**
- * Default application settings.
- */
-export const DefaultAppSettings: AppSettings = {
-  theme: 'auto',
-  chainId: 'testnet',
-  balanceHidden: false,
-  biometricSignature: false,
-  biometricLogin: false,
+  loginWithBiometrics: boolean;
+  unlockWalletWithBiometrics: boolean;
+  notifications: boolean;
+  dataInitialized: false;
+  currentTimezone: '';
 };

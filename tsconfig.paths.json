@@ -1,0 +1,103 @@
+{
+  "compilerOptions": {
+    "baseUrl": "./src",
+    "paths": {
+      "assets": [
+        "./assets"
+      ],
+      "assets/*": [
+        "./assets/*"
+      ],
+      "components": [
+        "./components"
+      ],
+      "components/*": [
+        "./components/*"
+      ],
+      "config": [
+        "./config"
+      ],
+      "config/*": [
+        "./config/*"
+      ],
+      "constants": [
+        "./constants"
+      ],
+      "constants/*": [
+        "./constants/*"
+      ],
+      "contexts": [
+        "./contexts"
+      ],
+      "contexts/*": [
+        "./contexts/*"
+      ],
+      "hooks": [
+        "./hooks"
+      ],
+      "hooks/*": [
+        "./hooks/*"
+      ],
+      "lib": [
+        "./lib"
+      ],
+      "lib/*": [
+        "./lib/*"
+      ],
+      "modals": [
+        "./modals"
+      ],
+      "modals/*": [
+        "./modals/*"
+      ],
+      "native": [
+        "./native"
+      ],
+      "native/*": [
+        "./native/*"
+      ],
+      "navigation": [
+        "./navigation"
+      ],
+      "navigation/*": [
+        "./navigation/*"
+      ],
+      "@recoil": [
+        "./recoil"
+      ],
+      "@recoil/*": [
+        "./recoil/*"
+      ],
+      "screens": [
+        "./screens"
+      ],
+      "screens/*": [
+        "./screens/*"
+      ],
+      "services": [
+        "./services"
+      ],
+      "services/*": [
+        "./services/*"
+      ],
+      "sources": [
+        "./sources"
+      ],
+      "sources/*": [
+        "./sources/*"
+      ],
+      "types": [
+        "./types"
+      ],
+      "types/*": [
+        "./types/*"
+      ],
+      "walletconnect": [
+        "./walletconnect"
+      ],
+      "walletconnect/*": [
+        "./walletconnect/*"
+      ]
+    }
+  }
+}

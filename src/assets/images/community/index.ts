@@ -1,0 +1,10 @@
+export const bigDipperIconLight = require('./bigdipper.png');
+export const bigDipperIconDark = require('./bigdipper-dark.png');
+export const desmosIconLight = require('./desmos.png');
+export const desmosIconDark = require('./desmos-dark.png');
+export const discordIconLight = require('./discord.png');
+export const discordIconDark = require('./discord-dark.png');
+export const mediumIconLight = require('./medium.png');
+export const mediumIconDark = require('./medium-dark.png');
+export const twitterIconLight = require('./twitter.png');
+export const twitterIconDark = require('./twitter-dark.png');

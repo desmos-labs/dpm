@@ -1,19 +1,34 @@
 import React from 'react';
+import { RecoilRoot } from 'recoil';
+import { NavigationContainer } from '@react-navigation/native';
+import RootNavigator from 'navigation/RootNavigator';
+import ThemeProvider from 'contexts/ThemeProvider';
+import GraphQLClientProvider from 'contexts/GraphQLClientProvider';
 import { StatusBar } from 'react-native';
-import { AppStateProvider } from './contexts/AppContext';
-import ThemeProvider from './contexts/ThemeContext';
-import { WalletContextProvider } from './contexts/WalletConnectContext';
-import RootStackScreens from './navigation/RootStackScreens';
+import useLockApplicationOnBlur from 'hooks/useLockApplicationOnBlur';
+import RNBootSplash from 'react-native-bootsplash';
 
-export default function App(): JSX.Element {
-  return (
-        <AppStateProvider>
-          <WalletContextProvider>
-            <ThemeProvider>
-              <StatusBar translucent backgroundColor="transparent" barStyle="dark-content" />
-              <RootStackScreens />
-            </ThemeProvider>
-          </WalletContextProvider>
-        </AppStateProvider>
-  );
-}
+const AppLockLogic = () => {
+  useLockApplicationOnBlur();
+  return <></>;
+};
+
+const Navigation = () => (
+  <NavigationContainer onReady={() => RNBootSplash.hide({ fade: true, duration: 500 })}>
+    <AppLockLogic />
+    <RootNavigator />
+  </NavigationContainer>
+);
+
+const App = () => (
+  <RecoilRoot>
+    <GraphQLClientProvider>
+      <ThemeProvider>
+        <StatusBar translucent backgroundColor="transparent" barStyle="dark-content" />
+        <Navigation />
+      </ThemeProvider>
+    </GraphQLClientProvider>
+  </RecoilRoot>
+);
+
+export default App;

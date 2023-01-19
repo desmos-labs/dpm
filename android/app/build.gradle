@@ -204,6 +204,12 @@ android {
             keyAlias 'androiddebugkey'
             keyPassword 'android'
         }
+        release {
+            storeFile file(DPM_RELEASE_STORE_FILE)
+            storePassword DPM_RELEASE_STORE_PASSWORD
+            keyAlias DPM_RELEASE_KEY_ALIAS
+            keyPassword DPM_RELEASE_KEY_PASSWORD
+        }
     }
     buildTypes {
         debug {
@@ -218,7 +224,7 @@ android {
         release {
             // Caution! In production, you need to generate your own keystore file.
             // see https://reactnative.dev/docs/signed-apk-android.
-            signingConfig signingConfigs.debug
+            signingConfig signingConfigs.release
             minifyEnabled enableProguardInReleaseBuilds
             proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"
         }
@@ -243,6 +249,7 @@ dependencies {
     implementation "com.facebook.react:react-native:+"  // From node_modules
 
     implementation "androidx.swiperefreshlayout:swiperefreshlayout:1.0.0"
+    implementation "androidx.core:core-splashscreen:1.0.0"
     implementation "org.web3j:crypto:4.5.17"
     implementation 'com.facebook.fresco:animated-gif:2.0.0'
     debugImplementation("com.facebook.flipper:flipper:${FLIPPER_VERSION}") {
@@ -265,7 +272,7 @@ dependencies {
     } else {
         implementation jscFlavor
     }
-    implementation "androidx.core:core-ktx:+"
+    implementation "androidx.core:core-ktx:1.8.0"
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
 
     testImplementation 'junit:junit:4.13.1'

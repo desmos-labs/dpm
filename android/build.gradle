@@ -4,10 +4,21 @@ buildscript {
     ext.kotlin_version = '1.6.0-M1'
     ext {
         buildToolsVersion = "30.0.3"
-        minSdkVersion = 21
+        minSdkVersion = 23
         compileSdkVersion = 33
         targetSdkVersion = 33
-        ndkVersion = "24.0.8215888"
+
+        if (System.properties['os.arch'] == "aarch64") {
+            // For M1 Users we need to use the NDK 24 which added support for aarch64
+            ndkVersion = "24.0.8215888"
+        } else {
+            // Otherwise we default to the side-by-side NDK version from AGP.
+            ndkVersion = "21.4.7075529"
+        }
+
+        VisionCameraCodeScanner_minSdkVersion = findProperty('android.minSdkVersion') ?: 21
+        VisionCameraCodeScanner_compileSdkVersion = findProperty('android.compileSdkVersion') ?: 33
+        VisionCameraCodeScanner_targetSdkVersion = findProperty('android.targetSdkVersion') ?: 33
     }
     repositories {
         google()

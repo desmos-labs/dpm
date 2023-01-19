@@ -1,0 +1,14 @@
+{
+  "fee": "Fee",
+  "gas": "Gas",
+  "memo": "Memo",
+  "today": "Today",
+  "tx details": "Transaction details",
+  "view on explorer": "View on Desmos explorer",
+  "tx sent successfully": "Transaction sent successfully",
+  "broadcasting tx": "Broadcasting transaction",
+  "time": "Time",
+  "status": "Status",
+  "to": "To",
+  "from": "From"
+}

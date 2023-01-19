@@ -16,7 +16,7 @@ if (typeof Buffer === 'undefined') global.Buffer = require('buffer').Buffer;
 
 // global.location = global.location || { port: 80 }
 const isDev = typeof __DEV__ === 'boolean' && __DEV__;
-process.env['NODE_ENV'] = isDev ? 'development' : 'production';
+Object.assign(process.env, { NODE_ENV: isDev ? 'development' : 'production' });
 if (typeof localStorage !== 'undefined') {
   localStorage.debug = isDev ? '*' : '';
 }
@@ -26,3 +26,12 @@ if (typeof localStorage !== 'undefined') {
 require('crypto');
 
 //if (typeof BigInt === 'undefined') global.BigInt = require('big-integer')
+
+// Wallet Shims
+import '@walletconnect/react-native-compat';
+// Wallet connect TextEncoding polyfill
+const TextEncodingPolyfill = require('text-encoding');
+Object.assign(global, {
+  TextEncoder: TextEncodingPolyfill.TextEncoder,
+  TextDecoder: TextEncodingPolyfill.TextDecoder,
+});

@@ -1,0 +1,15 @@
+{
+  "no authorization present": "You have not authorized any WalletConnect session yet. Start now by clicking the button below",
+  "revoke": "Revoke",
+  "authorization date": "Authorization date:",
+  "broadcast transaction": "Broadcast Transaction",
+  "sign transaction": "Sign transaction",
+  "authorize app": "Do you want to authorize {{app}}?",
+  "ability to revoke authorizations": "You will be able to revoke such authorizations inside your Authorization page",
+  "deny": "Deny",
+  "authorize": "Authorize",
+  "show pending requests": "Show pending requests",
+  "approve": "Approve",
+  "reject": "Reject",
+  "authorization": "Authorization"
+}

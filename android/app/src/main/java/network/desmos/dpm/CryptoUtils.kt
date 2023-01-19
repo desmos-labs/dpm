@@ -3,11 +3,12 @@ package network.desmos.dpm
 import org.bouncycastle.math.ec.ECPoint
 import org.web3j.crypto.Bip32ECKeyPair
 import org.web3j.crypto.MnemonicUtils
+import java.math.BigInteger
 
 object CryptoUtils {
 
-    private fun toHex(array: ByteArray): String {
-        return array.joinToString(separator = "") { byte -> "%02x".format(byte) }
+    private fun ByteArray.toHex(): String {
+        return this.joinToString(separator = "") { byte -> "%02x".format(byte) }
     }
 
     private fun pubKeyPointToArray(pubPoint: ECPoint): ByteArray {
@@ -21,6 +22,20 @@ object CryptoUtils {
         pubKeyY.copyInto(pubKey, 33)
 
         return pubKey
+    }
+
+    /**
+     * Converts a BigInteger into a 32 bytes length ByteArray.
+     */
+    private fun BigInteger.toBytes32(): ByteArray {
+        val src = this.toByteArray()
+        val dest = ByteArray(32)
+        val isFirstByteOnlyForSign = src[0].toInt() == 0
+        val length = if (isFirstByteOnlyForSign) src.size - 1 else src.size
+        val srcPos = if (isFirstByteOnlyForSign) 1 else 0
+        val destPos = 32 - length
+        System.arraycopy(src, srcPos, dest, destPos, length)
+        return dest
     }
 
     /**
@@ -38,10 +53,9 @@ object CryptoUtils {
         val masterKey = Bip32ECKeyPair.generateKeyPair(seed)
         val path = intArrayOf((44 or -0x80000000), (coinType or -0x80000000), (account or -0x80000000), change, index)
         val derivedKeyPair = Bip32ECKeyPair.deriveKeyPair(masterKey, path)
-        val privateKey = derivedKeyPair.privateKey.toByteArray()
+        val privateKey = derivedKeyPair.privateKey.toBytes32()
         val pubKey = pubKeyPointToArray(derivedKeyPair.publicKeyPoint)
 
-        return Pair(toHex(privateKey), toHex(pubKey))
+        return Pair(privateKey.toHex(), pubKey.toHex())
     }
-
 }

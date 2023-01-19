@@ -1,3 +1,5 @@
+/* Disable the no-undef lint as the ReactNativePaper namespace will be provided at runtime */
+/* eslint-disable no-undef */
 import React, { useMemo } from 'react';
 import { StyleProp, StyleSheet, Text, TextStyle } from 'react-native';
 import { useTheme } from 'react-native-paper';
@@ -5,10 +7,9 @@ import { useTheme } from 'react-native-paper';
 export type TypographyComponentProps = React.ComponentProps<typeof Text>;
 
 function createTextComponent(
-  styleProvider: (theme: ReactNativePaper.Theme) => StyleProp<TextStyle>
+  styleProvider: (theme: ReactNativePaper.Theme) => StyleProp<TextStyle>,
 ): React.FC<TypographyComponentProps> {
   return (props) => {
-    // eslint-disable-next-line react/prop-types
     const { style } = props;
     const theme = useTheme();
     const themeStyle = useMemo(() => styleProvider(theme), [theme]);
@@ -17,14 +18,14 @@ function createTextComponent(
       () => ({
         color: theme.colors.font['1'],
       }),
-      [theme]
+      [theme],
     );
 
     return <Text {...props} style={StyleSheet.compose([commonStyle, themeStyle], style)} />;
   };
 }
 
-export const Typography = {
+const Typography = {
   Body: createTextComponent(() => ({
     fontFamily: 'Poppins-Regular',
     fontSize: 14,
@@ -111,3 +112,5 @@ export const Typography = {
     letterSpacing: 0.0015,
   })),
 };
+
+export default Typography;

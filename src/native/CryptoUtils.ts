@@ -19,6 +19,12 @@ export interface NativeCryptoUtils {
     coinType: number,
     account: number,
     change: number,
-    index: number
+    index: number,
   ): Promise<CryptoUtilsKeyPair>;
+}
+
+declare module 'react-native' {
+  interface NativeModulesStatic {
+    CryptoUtils: NativeCryptoUtils;
+  }
 }

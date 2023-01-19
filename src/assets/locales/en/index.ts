@@ -1,0 +1,40 @@
+import messages from './messages';
+
+import account from './account.json';
+import chainLinks from './chainLinks.json';
+import common from './common.json';
+import landing from './landing.json';
+import ledgerScan from './ledgerScan.json';
+import legal from './legal.json';
+import profile from './profile.json';
+import sendTokens from './sendTokens.json';
+import settings from './settings.json';
+import transaction from './transaction.json';
+import walletConnect from './walletConnect.json';
+
+/**
+ * Merge all the messages translations by associating them to keys such as messages.bank for easy usage.
+ */
+const messagesTranslations = Object.entries(messages).reduce((p1, [key, value]) => {
+  const data: Record<string, any> = { ...p1 };
+  data[`messages.${key}`] = value;
+  return data;
+}, {} as Record<string, any>);
+
+const en = {
+  account,
+  chainLinks,
+  common,
+  landing,
+  ledgerScan,
+  legal,
+  profile,
+  sendTokens,
+  settings,
+  transaction,
+  walletConnect,
+
+  ...messagesTranslations,
+};
+
+export default en;

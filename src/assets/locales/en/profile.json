@@ -1,0 +1,20 @@
+{
+  "edit profile": "Edit profile",
+  "create profile": "Create profile",
+  "cover picture": "Cover picture",
+  "profile picture": "Profile picture",
+  "nickname": "Nickname",
+  "dtag": "DTag",
+  "bio": "Bio",
+  "invalid dtag": "Invalid DTag value",
+  "dtag too short": "DTag value too short",
+  "dtag too long": "DTag value too long",
+  "nickname too short": "Nickname too short",
+  "nickname too long": "Nickname too long",
+  "bio too long": "Bio too long",
+  "create first desmos profile": "Create your first Desmos Profile now",
+  "user does not have profile": "This user does not yet have a Desmos profile",
+  "cover picture upload failed": "Error while uploading cover picture",
+  "profile picture upload failed": "Error while uploading profile picture",
+  "cancel error": "Cancel"
+}

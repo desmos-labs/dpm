@@ -1,23 +1,36 @@
-import { useCallback } from 'react';
-import AccountSource from '../sources/AccountSource';
-import { ChainAccount } from '../types/chain';
-import useSetAccounts from './useSetAccounts';
+import { useCallback, useMemo } from 'react';
+import { useNavigation } from '@react-navigation/native';
+import { StackNavigationProp } from '@react-navigation/stack/lib/typescript/src/types';
+import { RootNavigatorParamList } from 'navigation/RootNavigator';
+import { useGetAccounts } from '@recoil/accounts';
+import { AccountWithWallet } from 'types/account';
+import ROUTES from 'navigation/routes';
 
-/**
- * Hooks to save an account into the device storage.
- * Returns a function to save an account into the device storage.
- */
-export default function useSaveAccount() {
-  const setAccounts = useSetAccounts();
+const useSaveAccount = () => {
+  const navigator = useNavigation<StackNavigationProp<RootNavigatorParamList>>();
+  const accounts = useGetAccounts();
+  const createWalletPassword = useMemo(() => Object.keys(accounts).length === 0, [accounts]);
 
   return useCallback(
-    async (account: ChainAccount, updateAppState?: boolean) => {
-      await AccountSource.putAccount(account);
-      if (updateAppState === true) {
-        setAccounts((accounts) => [...accounts, account]);
+    (account: AccountWithWallet) => {
+      if (createWalletPassword) {
+        navigator.navigate({
+          name: ROUTES.CREATE_WALLET_PASSWORD,
+          params: {
+            account,
+          },
+        });
+      } else {
+        navigator.navigate({
+          name: ROUTES.CHECK_WALLET_PASSWORD,
+          params: {
+            account,
+          },
+        });
       }
-      return account;
     },
-    [setAccounts]
+    [navigator, createWalletPassword],
   );
-}
+};
+
+export default useSaveAccount;

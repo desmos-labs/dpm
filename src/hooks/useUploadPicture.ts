@@ -13,8 +13,8 @@ export type IPFSResponse = {
 /**
  * Hooks that provides a function to upload a picture to IPFS.
  */
-export default function useUploadPicture(): (uriPath: string) => Promise<IPFSResponse> {
-  return useCallback(async (path: string): Promise<IPFSResponse> => {
+const useUploadPicture = (): ((uriPath: string) => Promise<IPFSResponse>) =>
+  useCallback(async (path: string): Promise<IPFSResponse> => {
     const fileName = path.substring(path.lastIndexOf('/') + 1, path.length);
     const name = fileName.substring(0, fileName.lastIndexOf('.'));
     const filePath = path.replace('file://', '');
@@ -43,4 +43,5 @@ export default function useUploadPicture(): (uriPath: string) => Promise<IPFSRes
     }
     throw new Error('Invalid response from server');
   }, []);
-}
+
+export default useUploadPicture;
