@@ -1,5 +1,6 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { ActivityIndicator, FlatList, FlatListProps } from 'react-native';
+import { useTheme } from 'react-native-paper';
 
 export type PaginatedFlatListProps<ItemT> = Omit<FlatListProps<ItemT>, 'data'> & {
   /**
