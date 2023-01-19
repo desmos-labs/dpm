@@ -9,7 +9,6 @@ import {
 import Divider from 'components/Divider';
 import React, { useCallback, useState } from 'react';
 import { GroupedTransactions, Transaction } from 'types/transactions';
-import { useTheme } from 'react-native-paper';
 import TransactionsListSectionHeader from 'screens/Home/components/TransactionsListSectionHeader';
 import TransactionsListItem from 'screens/Home/components/TransactionsListItem';
 import useStyles from './useStyles';
@@ -24,7 +23,6 @@ export interface TransactionsListProps {
 
 const TransactionsList = (props: TransactionsListProps) => {
   const { loading, transactions, onFetchMore, onRefresh, style } = props;
-  const theme = useTheme();
   const styles = useStyles();
   const [onEndReachedCalledDuringMomentum, setOnEndReachedCalledDuringMomentum] = useState(false);
   const sections = transactions?.map((enty) => ({ date: enty.date, data: enty.transactions }));

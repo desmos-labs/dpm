@@ -64,7 +64,6 @@ const useWalletConnectPair = () => {
           }, 5000);
 
           client.on('session_proposal', (proposal) => {
-            console.log('session_proposal', proposal);
             clearTimeout(timoutTimer);
             const validationResul = validateSessionRequest(proposal);
             if (validationResul !== undefined) {

@@ -1,6 +1,5 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { ActivityIndicator, FlatList, FlatListProps } from 'react-native';
-import { useTheme } from 'react-native-paper';
 
 export type PaginatedFlatListProps<ItemT> = Omit<FlatListProps<ItemT>, 'data'> & {
   /**
@@ -17,7 +16,6 @@ export type PaginatedFlatListProps<ItemT> = Omit<FlatListProps<ItemT>, 'data'> &
 
 const PaginatedFlatList = (props: PaginatedFlatListProps<any>) => {
   const { loadPage, itemsPerPage, onEndReached } = props;
-  const theme = useTheme();
   const [loading, setLoading] = useState(false);
   const [currentOffset, setCurrentOffset] = useState(0);
   const [data, setData] = useState<any[]>([]);

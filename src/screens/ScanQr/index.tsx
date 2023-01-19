@@ -74,7 +74,6 @@ const ScanQr: React.FC<NavProps> = ({ navigation }) => {
       if (barCode.rawValue === undefined) {
         openErrorModal(t('invalid qr code'));
       } else {
-        console.log(barCode.rawValue);
         await startPairProcedure(barCode.rawValue);
       }
     },
