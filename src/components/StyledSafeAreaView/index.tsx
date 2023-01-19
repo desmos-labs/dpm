@@ -49,7 +49,7 @@ const StyledSafeAreaView: React.FC<StyledSafeAreaViewProps> = (props) => {
       {divider && <Divider />}
       <View style={[styles.content, style]}>
         {scrollable ? (
-          <View style={styles.scrollViewContainer}>
+          <View style={styles.scrollViewContainer} onStartShouldSetResponder={() => false}>
             <ScrollView
               style={{ margin: -theme.spacing.m }}
               contentContainerStyle={{ padding: theme.spacing.m }}
@@ -58,7 +58,9 @@ const StyledSafeAreaView: React.FC<StyledSafeAreaViewProps> = (props) => {
             </ScrollView>
           </View>
         ) : (
-          children
+          <View style={{ flex: 1 }} onStartShouldSetResponder={() => false}>
+            {children}
+          </View>
         )}
       </View>
     </View>

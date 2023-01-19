@@ -1,6 +1,6 @@
 import React, { useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
-import { StyleProp, View, ViewStyle } from 'react-native';
+import { View } from 'react-native';
 import DpmImage from 'components/DPMImage';
 import Typography from 'components/Typography';
 import TransactionsList from 'screens/Home/components/TransactionsList';
@@ -13,13 +13,12 @@ export type AccountTransactionsProps = {
   readonly loading: boolean;
   readonly onReload: () => void;
   readonly onFetchMore: () => void;
-  readonly style?: StyleProp<ViewStyle>;
 };
 
 const AccountTransactions = (props: AccountTransactionsProps) => {
   const { t } = useTranslation('account');
   const styles = useStyles();
-  const { transactions, loading, onReload, onFetchMore, style } = props;
+  const { transactions, loading, onReload, onFetchMore } = props;
 
   const fetchMore = useCallback(onFetchMore, [onFetchMore]);
   const reloadFromChain = useCallback(onReload, [onReload]);
@@ -30,7 +29,6 @@ const AccountTransactions = (props: AccountTransactionsProps) => {
       transactions={transactions}
       onFetchMore={fetchMore}
       onRefresh={reloadFromChain}
-      style={style}
     />
   ) : (
     <View style={styles.noTransactionsView}>
