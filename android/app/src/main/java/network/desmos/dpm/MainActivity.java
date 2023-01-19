@@ -2,6 +2,8 @@ package network.desmos.dpm;
 
 import com.facebook.react.ReactActivity;
 import android.content.res.Configuration;
+import android.os.Bundle;
+import com.zoontek.rnbootsplash.RNBootSplash;
 
 public class MainActivity extends ReactActivity {
 
@@ -12,6 +14,12 @@ public class MainActivity extends ReactActivity {
   @Override
   protected String getMainComponentName() {
     return "DesmosProfileManager";
+  }
+
+  @Override
+  protected void onCreate(Bundle savedInstanceState) {
+    RNBootSplash.init(this);
+    super.onCreate(savedInstanceState);
   }
 
   @Override

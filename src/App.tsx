@@ -6,6 +6,7 @@ import ThemeProvider from 'contexts/ThemeProvider';
 import GraphQLClientProvider from 'contexts/GraphQLClientProvider';
 import { StatusBar } from 'react-native';
 import useLockApplicationOnBlur from 'hooks/useLockApplicationOnBlur';
+import RNBootSplash from 'react-native-bootsplash';
 
 const AppLockLogic = () => {
   useLockApplicationOnBlur();
@@ -13,7 +14,7 @@ const AppLockLogic = () => {
 };
 
 const Navigation = () => (
-  <NavigationContainer>
+  <NavigationContainer onReady={() => RNBootSplash.hide({ fade: true, duration: 500 })}>
     <AppLockLogic />
     <RootNavigator />
   </NavigationContainer>

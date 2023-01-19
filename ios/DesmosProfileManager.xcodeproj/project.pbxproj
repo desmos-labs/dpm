@@ -13,7 +13,6 @@
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
 		4F752A856D734593990D5273 /* desmos.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 943612EDC99C498396E76E55 /* desmos.ttf */; };
 		53EC6945A6EDB4900C8AB68F /* libPods-DesmosProfileManager-DesmosProfileManagerTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 89FCB16DC8A2A9A06ADA973C /* libPods-DesmosProfileManager-DesmosProfileManagerTests.a */; };
-		81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */; };
 		A789FD3F270CA2AE00EFC6CF /* RCTCryptoUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = A789FD3E270CA2AE00EFC6CF /* RCTCryptoUtils.m */; };
 		BD262DC42755542E73D14699 /* libPods-DesmosProfileManager.a in Frameworks */ = {isa = PBXBuildFile; fileRef = CC5C218B01E6DED6233DB154 /* libPods-DesmosProfileManager.a */; };
 		D227F90C297879DC00BE8252 /* Poppins-BlackItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D227F8FA297879DC00BE8252 /* Poppins-BlackItalic.ttf */; };
@@ -37,6 +36,7 @@
 		D227F920297879E400BE8252 /* privacy.md in Resources */ = {isa = PBXBuildFile; fileRef = D227F91E297879E400BE8252 /* privacy.md */; };
 		D227F921297879E400BE8252 /* about.md in Resources */ = {isa = PBXBuildFile; fileRef = D227F91F297879E400BE8252 /* about.md */; };
 		D2886E64296F93E700629B20 /* RCTCryptoUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2886E63296F93E700629B20 /* RCTCryptoUtils.swift */; };
+		D2EE74EC2979A11600C6CA64 /* BootSplash.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D2EE74EB2979A11500C6CA64 /* BootSplash.storyboard */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -61,7 +61,6 @@
 		13B07FB71A68108700A75B9A /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = DesmosProfileManager/main.m; sourceTree = "<group>"; };
 		16FC26DB8B0F835EBAC56DEC /* Pods-DesmosProfileManager.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DesmosProfileManager.release.xcconfig"; path = "Target Support Files/Pods-DesmosProfileManager/Pods-DesmosProfileManager.release.xcconfig"; sourceTree = "<group>"; };
 		5DD5EE6413E0F3306726B108 /* Pods-DesmosProfileManager-DesmosProfileManagerTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DesmosProfileManager-DesmosProfileManagerTests.release.xcconfig"; path = "Target Support Files/Pods-DesmosProfileManager-DesmosProfileManagerTests/Pods-DesmosProfileManager-DesmosProfileManagerTests.release.xcconfig"; sourceTree = "<group>"; };
-		81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = LaunchScreen.storyboard; path = DesmosProfileManager/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		89FCB16DC8A2A9A06ADA973C /* libPods-DesmosProfileManager-DesmosProfileManagerTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-DesmosProfileManager-DesmosProfileManagerTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		910B28EAC61BBA214524C2F3 /* Pods-DesmosProfileManager-DesmosProfileManagerTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DesmosProfileManager-DesmosProfileManagerTests.debug.xcconfig"; path = "Target Support Files/Pods-DesmosProfileManager-DesmosProfileManagerTests/Pods-DesmosProfileManager-DesmosProfileManagerTests.debug.xcconfig"; sourceTree = "<group>"; };
 		943612EDC99C498396E76E55 /* desmos.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = desmos.ttf; path = ../assets/fonts/desmos.ttf; sourceTree = "<group>"; };
@@ -90,6 +89,7 @@
 		D227F91F297879E400BE8252 /* about.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; name = about.md; path = ../assets/md/about.md; sourceTree = "<group>"; };
 		D227F92229787CE800BE8252 /* DesmosProfileManager-Bridging-Header.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "DesmosProfileManager-Bridging-Header.h"; sourceTree = "<group>"; };
 		D2886E63296F93E700629B20 /* RCTCryptoUtils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RCTCryptoUtils.swift; sourceTree = "<group>"; };
+		D2EE74EB2979A11500C6CA64 /* BootSplash.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = BootSplash.storyboard; path = DesmosProfileManager/BootSplash.storyboard; sourceTree = "<group>"; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
@@ -137,10 +137,10 @@
 				D2886E63296F93E700629B20 /* RCTCryptoUtils.swift */,
 				A789FD3E270CA2AE00EFC6CF /* RCTCryptoUtils.m */,
 				13B07FAF1A68108700A75B9A /* AppDelegate.h */,
+				D2EE74EB2979A11500C6CA64 /* BootSplash.storyboard */,
 				13B07FB01A68108700A75B9A /* AppDelegate.mm */,
 				13B07FB51A68108700A75B9A /* Images.xcassets */,
 				13B07FB61A68108700A75B9A /* Info.plist */,
-				81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */,
 				13B07FB71A68108700A75B9A /* main.m */,
 			);
 			name = DesmosProfileManager;
@@ -329,7 +329,6 @@
 				D227F911297879DC00BE8252 /* Poppins-ExtraLightItalic.ttf in Resources */,
 				D227F91A297879DC00BE8252 /* Poppins-Black.ttf in Resources */,
 				D227F921297879E400BE8252 /* about.md in Resources */,
-				81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */,
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
 				D227F91C297879DC00BE8252 /* Poppins-Thin.ttf in Resources */,
 				D227F915297879DC00BE8252 /* Poppins-Italic.ttf in Resources */,
@@ -338,6 +337,7 @@
 				D227F91D297879DC00BE8252 /* Poppins-ThinItalic.ttf in Resources */,
 				D227F91B297879DC00BE8252 /* Poppins-ExtraBold.ttf in Resources */,
 				D227F910297879DC00BE8252 /* Poppins-Medium.ttf in Resources */,
+				D2EE74EC2979A11600C6CA64 /* BootSplash.storyboard in Resources */,
 				D227F912297879DC00BE8252 /* Poppins-Bold.ttf in Resources */,
 				D227F90F297879DC00BE8252 /* Poppins-MediumItalic.ttf in Resources */,
 				4F752A856D734593990D5273 /* desmos.ttf in Resources */,
