@@ -38,7 +38,7 @@ const jsonReviver = (key: string, value: any) => {
 };
 
 /**
- * Function that serialize an object into a JSON string, using a custom serialization
+ * Function that serializes an object into a JSON string, using a custom serialization
  * algorithm that preserves the type of the object.
  * @param obj - The object to serialize.
  */
