@@ -154,11 +154,10 @@ export const deserializeAccounts = (
   if (accounts === undefined) {
     return defaultValue;
   }
-  const result: Record<string, Account> = {};
 
+  const result: Record<string, Account> = {};
   Object.keys(accounts).forEach((address) => {
     result[address] = deserializeAccount(accounts[address]);
   });
-
   return result;
 };
