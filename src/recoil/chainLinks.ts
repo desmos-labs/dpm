@@ -73,3 +73,25 @@ export const useStoreUserChainLinks = () => {
     [setChainLinks],
   );
 };
+
+/**
+ * Hook that allows to delete a stored chain link.
+ */
+export const useDeleteChainLink = () => {
+  const deleteChainLink = useSetRecoilState(chainLinksAppState);
+  return React.useCallback(
+    (chainLink: ChainLink) => {
+      deleteChainLink((currentChainLinks) => {
+        const userChinaLinks = currentChainLinks[chainLink.userAddress] || [];
+        const newChainLinks: Record<string, ChainLink[]> = {
+          ...currentChainLinks,
+        };
+        newChainLinks[chainLink.userAddress] = userChinaLinks.filter(
+          (link) => link.externalAddress !== chainLink.externalAddress,
+        );
+        return newChainLinks;
+      });
+    },
+    [deleteChainLink],
+  );
+};
