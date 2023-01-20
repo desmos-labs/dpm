@@ -43,6 +43,7 @@ import SettingsEnableBiometricsAuthorization, {
 import UnlockApplication from 'screens/UnlockApplication';
 import SplashScreen from 'screens/SplashScreen';
 import Legal, { LegalParams } from 'screens/Legal';
+import { Platform } from 'react-native';
 
 export type RootNavigatorParamList = {
   [ROUTES.DEV_SCREEN]: undefined;
@@ -129,7 +130,12 @@ const RootNavigator = () => {
         name={ROUTES.SPLASH_SCREEN}
         component={SplashScreen}
         options={{
-          cardStyleInterpolator: CardStyleInterpolators.forFadeFromCenter,
+          cardStyleInterpolator: Platform.select({
+            ios: CardStyleInterpolators.forFadeFromCenter,
+            // no animation to prevent seeing the application
+            // screen through the splash screen.
+            android: undefined,
+          }),
         }}
       />
       <Stack.Screen name={ROUTES.LANDING} component={Landing} />

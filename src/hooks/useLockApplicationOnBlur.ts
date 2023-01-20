@@ -1,7 +1,7 @@
 import { RootNavigatorParamList } from 'navigation/RootNavigator';
 import { useAppState, useSetAppState } from '@recoil/appState';
-import { useEffect } from 'react';
-import { AppState, Platform } from 'react-native';
+import { useCallback, useEffect } from 'react';
+import { AppState, NativeEventSubscription, Platform } from 'react-native';
 import ROUTES from 'navigation/routes';
 import { useNavigation } from '@react-navigation/native';
 import { StackNavigationProp } from '@react-navigation/stack/lib/typescript/src/types';
@@ -13,23 +13,53 @@ const useLockApplicationOnBlur = () => {
   const setAppState = useSetAppState();
   const accounts = useGetAccounts();
 
+  const showSplashScreen = useCallback(() => {
+    setAppState((currentState) => {
+      if (!currentState.noSplashScreen) {
+        navigation.navigate(ROUTES.SPLASH_SCREEN);
+      }
+      return {
+        ...currentState,
+        noSplashScreen: false,
+      };
+    });
+  }, [navigation, setAppState]);
+
+  const removeSplashScreen = useCallback(() => {
+    const navigationState = navigation.getState();
+    if (navigationState !== undefined) {
+      const routesCount = navigationState.routes.length;
+      if (routesCount > 0) {
+        const lastRoute = navigationState.routes[routesCount - 1];
+        if (lastRoute.name === ROUTES.SPLASH_SCREEN) {
+          navigation.goBack();
+        }
+      }
+    }
+  }, [navigation]);
+
   useEffect(() => {
+    let blurSubscription: NativeEventSubscription | undefined;
+    let focusSubscription: NativeEventSubscription | undefined;
+
+    if (Platform.OS === 'android') {
+      // Events available only on Android.
+      blurSubscription = AppState.addEventListener('blur', () => {
+        showSplashScreen();
+      });
+      focusSubscription = AppState.addEventListener('focus', () => {
+        removeSplashScreen();
+      });
+    }
+
     const onChangeSubscription = AppState.addEventListener('change', (state) => {
       if (Object.keys(accounts).length === 0) {
         return;
       }
 
       if (state === 'active') {
-        const navigationState = navigation.getState();
-        if (navigationState !== undefined) {
-          const routesCount = navigationState.routes.length;
-          if (routesCount > 0) {
-            const lastRoute = navigationState.routes[routesCount - 1];
-            if (lastRoute.name === ROUTES.SPLASH_SCREEN) {
-              navigation.goBack();
-            }
-          }
-        }
+        removeSplashScreen();
+
         setAppState((currentState) => {
           // App is back on focus, check if the app should be locked.
           if (currentState.lastObBlur !== undefined) {
@@ -48,22 +78,16 @@ const useLockApplicationOnBlur = () => {
           lastObBlur: new Date(),
         }));
       } else if (state === 'inactive' && Platform.OS === 'ios') {
-        setAppState((currentState) => {
-          if (!currentState.noSplashOnInactive) {
-            navigation.navigate(ROUTES.SPLASH_SCREEN);
-          }
-          return {
-            ...currentState,
-            noSplashOnInactive: false,
-          };
-        });
+        showSplashScreen();
       }
     });
 
     return () => {
       onChangeSubscription.remove();
+      blurSubscription?.remove();
+      focusSubscription?.remove();
     };
-  }, [accounts, navigation, setAppState, appState]);
+  }, [accounts, navigation, setAppState, appState, showSplashScreen, removeSplashScreen]);
 
   useEffect(() => {
     if (appState.locked) {

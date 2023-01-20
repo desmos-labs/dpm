@@ -15,10 +15,9 @@ export interface AppState {
    */
   readonly noLockOnBackground: boolean;
   /**
-   * Tells if the application shouldn't lock when receiving the next on
-   * background AppState event.
+   * Tells if the application shouldn't visualize the splash screen.
    */
-  readonly noSplashOnInactive: boolean;
+  readonly noSplashScreen: boolean;
   /**
    * Last time the application went on blur state.
    */

@@ -84,9 +84,13 @@ const usePermissions = (permission: AppPermissions) => {
     if ((updatedCount[permission] ?? 0) <= maxAllowedRequests) {
       // Don't lock the app when displaying the permission popup.
       if (Platform.OS === 'ios') {
-        setAppState((currentState) => ({ ...currentState, noSplashOnInactive: true }));
+        setAppState((currentState) => ({ ...currentState, noSplashScreen: true }));
       } else {
-        setAppState((currentState) => ({ ...currentState, noLockOnBackground: true }));
+        setAppState((currentState) => ({
+          ...currentState,
+          noLockOnBackground: true,
+          noSplashScreen: true,
+        }));
       }
 
       const permissionsRejected = await Permissions.requestMultiple(permissionsList).then(
