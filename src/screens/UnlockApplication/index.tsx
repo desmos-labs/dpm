@@ -43,10 +43,11 @@ const UnlockApplication: React.FC<NavProps> = (props) => {
         e.preventDefault();
       } else {
         // Unlock the application
-        setAppState({
+        setAppState((currentState) => ({
+          ...currentState,
           locked: false,
           noLockOnBackground: false,
-        });
+        }));
       }
     };
 
@@ -113,7 +114,6 @@ const UnlockApplication: React.FC<NavProps> = (props) => {
   return (
     <StyledSafeAreaView
       topBar={<TopBar stackProps={props} hideGoBack={true} title={t('unlock application')} />}
-      divider
     >
       <Typography.Subtitle>{t('enter security password')}</Typography.Subtitle>
       <SecureTextInput
