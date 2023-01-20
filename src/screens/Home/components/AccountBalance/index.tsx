@@ -1,6 +1,6 @@
 import React, { useCallback, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
-import { ActivityIndicator, StyleProp, TouchableOpacity, View, ViewStyle } from 'react-native';
+import { StyleProp, TouchableOpacity, View, ViewStyle } from 'react-native';
 import IconButton from 'components/IconButton';
 import Typography from 'components/Typography';
 import { useSetSetting, useSetting } from '@recoil/settings';
@@ -13,6 +13,7 @@ import { StackNavigationProp } from '@react-navigation/stack';
 import ROUTES from 'navigation/routes';
 import { RootNavigatorParamList } from 'navigation/RootNavigator';
 import { Coin } from '@cosmjs/amino';
+import StyledActivityIndicator from 'components/StyledActivityIndicator';
 import useStyles from './useStyles';
 
 export type AccountBalanceProps = {
@@ -76,7 +77,7 @@ const AccountBalance: React.FC<AccountBalanceProps> = (props) => {
         <View style={styles.balanceTextContainer}>
           <Typography.Body style={styles.balanceText}>{t('available')}</Typography.Body>
           {loading ? (
-            <ActivityIndicator />
+            <StyledActivityIndicator />
           ) : (
             <Typography.H4 style={styles.balanceText}>{balanceValue}</Typography.H4>
           )}

@@ -10,9 +10,10 @@ import { HomeTabsParamList } from 'navigation/RootNavigator/HomeTabs';
 import { Barcode } from 'vision-camera-code-scanner';
 import StyledSafeAreaView from 'components/StyledSafeAreaView';
 import TextInput from 'components/TextInput';
-import { ActivityIndicator, Vibration } from 'react-native';
+import { Vibration } from 'react-native';
 import { CompositeScreenProps } from '@react-navigation/native';
 import { RootNavigatorParamList } from 'navigation/RootNavigator';
+import StyledActivityIndicator from 'components/StyledActivityIndicator';
 import useStyles from './useStyles';
 import QrCodeScanner from './components/QrCodeScanner';
 
@@ -91,7 +92,7 @@ const ScanQr: React.FC<NavProps> = ({ navigation }) => {
           onSubmitEditing={onDevUriSubmitted}
         />
       )}
-      {pairing && <ActivityIndicator style={styles.pairingIndicator} />}
+      {pairing && <StyledActivityIndicator style={styles.pairingIndicator} />}
     </StyledSafeAreaView>
   );
 };

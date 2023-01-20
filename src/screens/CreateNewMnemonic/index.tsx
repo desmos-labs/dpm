@@ -1,7 +1,7 @@
 import { StackScreenProps } from '@react-navigation/stack';
 import React, { FC, useCallback, useEffect, useState } from 'react';
 import { Trans, useTranslation } from 'react-i18next';
-import { ActivityIndicator, View } from 'react-native';
+import { View } from 'react-native';
 import { randomMnemonic } from 'lib/WalletUtils/mnemonic';
 import Typography from 'components/Typography';
 import Button from 'components/Button';
@@ -9,6 +9,7 @@ import StyledSafeAreaView from 'components/StyledSafeAreaView';
 import TopBar from 'components/TopBar';
 import { RootNavigatorParamList } from 'navigation/RootNavigator';
 import ROUTES from 'navigation/routes';
+import StyledActivityIndicator from 'components/StyledActivityIndicator';
 import MnemonicGrid from './components/MnemonicGrid';
 import InlineButton from './components/InlineButton';
 import useStyles from './useStyles';
@@ -77,7 +78,7 @@ const CreateNewMnemonic: FC<NavProps> = (props) => {
 
       {generatingMnemonic ? (
         <View style={styles.loadingView}>
-          <ActivityIndicator size="large" />
+          <StyledActivityIndicator />
         </View>
       ) : (
         <>
