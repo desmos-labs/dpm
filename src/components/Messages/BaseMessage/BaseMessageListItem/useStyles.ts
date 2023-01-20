@@ -16,7 +16,7 @@ const useStyles = makeStyle((theme) => ({
     flex: 1,
     marginLeft: 12,
   },
-  date: {
+  array: {
     color: theme.colors.font['3'],
   },
 }));
