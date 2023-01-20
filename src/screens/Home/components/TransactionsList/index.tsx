@@ -22,15 +22,18 @@ const TransactionsList = (props: TransactionsListProps) => {
   const [onEndReachedCalledDuringMomentum, setOnEndReachedCalledDuringMomentum] = useState(false);
   const sections = transactions.flatMap((enty) => [enty.date, ...enty.transactions, 'divider']);
 
-  const renderItem = useCallback(({ item, index }) => {
-    if (typeof item === 'string') {
-      if (item === 'divider') {
-        return <View style={styles.blankDivider} />;
+  const renderItem = useCallback(
+    ({ item, index }) => {
+      if (typeof item === 'string') {
+        if (item === 'divider') {
+          return <View style={styles.blankDivider} />;
+        }
+        return <TransactionsListSectionHeader date={item} />;
       }
-      return <TransactionsListSectionHeader date={item} />;
-    }
-    return <TransactionsListItem index={index} transaction={item} sectionLength={0} />;
-  }, []);
+      return <TransactionsListItem index={index} transaction={item} sectionLength={0} />;
+    },
+    [styles.blankDivider],
+  );
 
   const stickyHeaderIndices = sections
     .map((item, index) => {

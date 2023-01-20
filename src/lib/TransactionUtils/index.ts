@@ -2,6 +2,7 @@ import { GroupedTransactions, Transaction } from 'types/transactions';
 import decodeQueriedMessage from 'lib/TransactionUtils/decoders';
 import { Fee } from 'cosmjs-types/cosmos/tx/v1beta1/tx';
 import Long from 'long';
+import { format } from 'date-fns';
 import { QueriedMessage } from './types';
 
 /**
@@ -42,7 +43,7 @@ const groupMessagesByTransaction = (messages: QueriedMessage[]) =>
  */
 const groupTransactionByDay = (transactions: Transaction[]) =>
   transactions.reduce((group: Map<string, Transaction[]>, transaction) => {
-    const date = transaction.timestamp.split('T')[0]; // Group only by day
+    const date = format(new Date(transaction.timestamp), 'yyyy-MM-dd'); // Group only by day
     const groupedTransactions = group.get(date) || [];
     groupedTransactions.push(transaction);
     group.set(date, groupedTransactions);

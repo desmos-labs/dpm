@@ -16,6 +16,6 @@ i18next
     interpolation: {
       escapeValue: false,
     },
-    compatibilityJSON: 'v3',
+    compatibilityJSON: 'v4',
   })
   .then(() => {});

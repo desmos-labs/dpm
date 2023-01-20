@@ -23,5 +23,8 @@
   "value copied": "Value copied",
   "discord": "Discord",
   "twitter": "Twitter",
-  "website": "Website"
+  "website": "Website",
+  "days distance_zero": "Today",
+  "days distance_one": "{{ count }} Day Ago",
+  "days distance_other": "{{ count }} Days Ago"
 }
