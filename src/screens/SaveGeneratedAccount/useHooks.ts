@@ -1,4 +1,4 @@
-import { useCallback, useState } from 'react';
+import { useCallback, useMemo, useState } from 'react';
 import { AccountWithWallet } from 'types/account';
 import {
   deleteItem,
@@ -7,17 +7,18 @@ import {
   SecureStorageKeys,
   setUserPassword,
 } from 'lib/SecureStorage';
-import { useGetAccounts, useStoreAccount } from '@recoil/accounts';
+import { useHasAccount, useStoreAccount } from '@recoil/accounts';
 
 export const useSaveAccount = () => {
-  const accounts = useGetAccounts();
+  const hasAccount = useHasAccount();
+  const savingFirstAccount = useMemo(() => !hasAccount, [hasAccount]);
+
   const storeAccount = useStoreAccount();
   const [savingAccount, setSavingAccount] = useState(false);
   const [saveAccountError, setError] = useState<string>();
 
   const saveAccount = useCallback(
     async ({ account, wallet }: AccountWithWallet, password: string) => {
-      const savingFirstAccount = Object.keys(accounts).length === 0;
       try {
         setSavingAccount(true);
         setError(undefined);
@@ -33,14 +34,13 @@ export const useSaveAccount = () => {
           deleteItem(SecureStorageKeys.PASSWORD_CHALLENGE);
         }
         deleteWallet(wallet.address);
-
         setError(e.toString());
         throw e;
       } finally {
         setSavingAccount(false);
       }
     },
-    [accounts, storeAccount],
+    [savingFirstAccount, storeAccount],
   );
 
   return {
