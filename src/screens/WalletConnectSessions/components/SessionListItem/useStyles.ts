@@ -35,7 +35,7 @@ const useStyles = makeStyle((theme) => ({
   permissions: {
     textAlign: 'center',
   },
-  array: {
+  date: {
     fontStyle: 'italic',
   },
 }));
