@@ -1,5 +1,5 @@
 import React, { useEffect, useRef } from 'react';
-import { Animated, Image, ImageBackground, Text } from 'react-native';
+import { Animated, Image, ImageBackground, Platform, Text } from 'react-native';
 import StyledSafeAreaView from 'components/StyledSafeAreaView';
 import useStyles from './useStyles';
 
@@ -11,12 +11,22 @@ const SplashScreen: React.FC = () => {
   useEffect(() => {
     Animated.sequence([
       Animated.timing(iconOpacity, {
-        duration: 500,
+        duration: Platform.select({
+          ios: 500,
+          // No animation on android to prevent
+          // partial visualized image.
+          android: 0,
+        }),
         toValue: 1,
         useNativeDriver: true,
       }),
       Animated.timing(profileManagerTextOpacity, {
-        duration: 500,
+        duration: Platform.select({
+          ios: 500,
+          // No animation on android to prevent
+          // partial visualized text.
+          android: 0,
+        }),
         toValue: 1,
         useNativeDriver: true,
       }),

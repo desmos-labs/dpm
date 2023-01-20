@@ -63,10 +63,11 @@ export function useRequestEnableBt() {
       return iOSOpenSettingsAndCheckBtStatus();
     }
 
-    // Don't block the app after showing the turn on bluetooth
-    // dialog
+    // Don't block the app and show the splash screen
+    // after showing the turn on bluetooth dialog
     setAppState((currentState) => ({
       ...currentState,
+      noSplashScreen: true,
       noLockOnBackground: true,
     }));
 
