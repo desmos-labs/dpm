@@ -1,5 +1,5 @@
 import Typography from 'components/Typography';
-import { differenceInDays, formatDistanceToNow } from 'date-fns';
+import { differenceInDays } from 'date-fns';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { View } from 'react-native';
@@ -14,12 +14,11 @@ const TransactionsListSectionHeader = (props: TransactionsListSectionHeaderProps
   const { date } = props;
   const styles = useStyles();
   const sectionDate = new Date(date);
-  const isToday = differenceInDays(sectionDate, new Date()) === 0;
 
   return (
     <View style={styles.headerContainer}>
       <Typography.Body style={styles.header}>
-        {isToday ? t('today') : formatDistanceToNow(sectionDate, { addSuffix: true })}
+        {t('days distance', { count: differenceInDays(new Date(), sectionDate) })}
       </Typography.Body>
     </View>
   );
