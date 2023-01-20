@@ -20,6 +20,9 @@ const activeProfileAppState = selector<DesmosProfile | undefined>({
   },
 });
 
+/**
+ * Hook that allows to get the active profile.
+ */
 const useActiveProfile = () => {
   const activeAddress = useActiveAccountAddress();
   const storeProfile = useStoreProfile();

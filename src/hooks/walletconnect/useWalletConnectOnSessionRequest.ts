@@ -1,5 +1,5 @@
 import SignClient from '@walletconnect/sign-client';
-import { useGetAccounts } from '@recoil/accounts';
+import { useStoredAccounts } from '@recoil/accounts';
 import { useGetSessionByTopic } from '@recoil/walletConnectSessions';
 import { useStoreWalletConnectSessionRequest } from '@recoil/walletConnectRequests';
 import { useNavigation } from '@react-navigation/native';
@@ -16,7 +16,7 @@ import {
 import ROUTES from 'navigation/routes';
 
 const useWalletConnectOnSessionRequest = (signClient: SignClient | undefined) => {
-  const accounts = useGetAccounts();
+  const accounts = useStoredAccounts();
   const getSessionByTopic = useGetSessionByTopic();
   const storeSessionRequest = useStoreWalletConnectSessionRequest();
   const navigation = useNavigation<StackNavigationProp<RootNavigatorParamList>>();

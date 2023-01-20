@@ -6,7 +6,7 @@ import Divider from 'components/Divider';
 import { Menu, useTheme } from 'react-native-paper';
 import { useTranslation } from 'react-i18next';
 import useDrawerContext from 'lib/AppDrawer/context';
-import useDeleteAccount from 'hooks/useDeleteAccount';
+import useRemoveAccount from 'hooks/useRemoveAccount';
 import { useNavigation } from '@react-navigation/native';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { RootNavigatorParamList } from 'navigation/RootNavigator';
@@ -19,14 +19,16 @@ export interface ItemMenuProps {
 }
 
 const ItemMenu: FC<ItemMenuProps> = ({ account }) => {
-  const { t } = useTranslation();
   const navigator = useNavigation<StackNavigationProp<RootNavigatorParamList>>();
-  const theme = useTheme();
+  const { t } = useTranslation();
   const styles = useStyles();
-  const [menuVisible, setMenuVisible] = useState(false);
+  const theme = useTheme();
+
   const { closeDrawer } = useDrawerContext();
-  const deleteAccount = useDeleteAccount();
+  const removeAccount = useRemoveAccount();
   const profiles = useStoredProfiles();
+
+  const [menuVisible, setMenuVisible] = useState(false);
 
   const onMenuOpen = useCallback(() => {
     setMenuVisible(true);
@@ -37,10 +39,10 @@ const ItemMenu: FC<ItemMenuProps> = ({ account }) => {
   }, []);
 
   const onDeleteAccount = useCallback(() => {
-    deleteAccount(account.address);
+    removeAccount(account.address);
     setMenuVisible(false);
     closeDrawer();
-  }, [account.address, closeDrawer, deleteAccount]);
+  }, [account.address, closeDrawer, removeAccount]);
 
   const onEditProfile = useCallback(() => {
     setMenuVisible(false);

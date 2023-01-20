@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import { atom, useRecoilValue, useSetRecoilState } from 'recoil';
 import { ApplicationLink } from 'types/desmos';
 import { getMMKV, MMKVKEYS, setMMKV } from 'lib/MMKVStorage';
@@ -53,5 +53,24 @@ export const useStoreUserApplicationLinks = () => {
       });
     },
     [setApplicationsLinks],
+  );
+};
+
+/**
+ * Hook that allows to easily delete the application links for the user having a given address.
+ */
+export const useDeleteApplicationLinks = () => {
+  const setApplicationLinks = useSetRecoilState(applicationLinksAppState);
+  return useCallback(
+    (address: string) => {
+      setApplicationLinks((storedLinks) => {
+        const newValue: Record<string, ApplicationLink[]> = {
+          ...storedLinks,
+        };
+        delete newValue[address];
+        return newValue;
+      });
+    },
+    [setApplicationLinks],
   );
 };
