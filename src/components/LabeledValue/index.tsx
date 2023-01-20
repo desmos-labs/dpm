@@ -1,5 +1,6 @@
 import React from 'react';
-import { ActivityIndicator, View } from 'react-native';
+import { View } from 'react-native';
+import StyledActivityIndicator from 'components/StyledActivityIndicator';
 import Typography from '../Typography';
 import useStyles from './useStyles';
 
@@ -25,7 +26,7 @@ const LabeledValue: React.FC<LabeledValueProps> = (props) => {
   return (
     <View style={styles.root}>
       <Typography.Subtitle>{label}</Typography.Subtitle>
-      {loading === true ? <ActivityIndicator /> : <Typography.Body>{value}</Typography.Body>}
+      {loading === true ? <StyledActivityIndicator /> : <Typography.Body>{value}</Typography.Body>}
     </View>
   );
 };

@@ -8,7 +8,8 @@ const useStyles = makeStyle((theme) => ({
   },
   generatingText: {},
   icon: {
-    height: 180,
+    width: 200,
+    height: 120,
   },
   continueButton: {
     alignSelf: 'auto',

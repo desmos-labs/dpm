@@ -1,6 +1,6 @@
 import React, { useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
-import { ActivityIndicator, FlatList, ListRenderItemInfo, View } from 'react-native';
+import { FlatList, ListRenderItemInfo, View } from 'react-native';
 import Typography from 'components/Typography';
 import DpmImage from 'components/DPMImage';
 import Button from 'components/Button';
@@ -9,6 +9,7 @@ import { DPMImages } from 'types/images';
 import useShowModal from 'hooks/useShowModal';
 import SingleButtonModal from 'modals/SingleButtonModal';
 import { ChainLink } from 'types/desmos';
+import StyledActivityIndicator from 'components/StyledActivityIndicator';
 import ChainLinkItem from '../ChainLinkItem';
 import useStyles from './useStyles';
 import useConnectChain from './useHooks';
@@ -69,7 +70,7 @@ const ChainLinksList = (props: ChainConnectionsProps) => {
   return (
     <View style={styles.root}>
       {/* Loading indicator */}
-      {loading && <ActivityIndicator />}
+      {loading && <StyledActivityIndicator />}
 
       {/* Chain links list */}
       {!loading && (

@@ -1,5 +1,5 @@
 import React, { ReactNode, useCallback, useMemo, useState } from 'react';
-import { ActivityIndicator, View } from 'react-native';
+import { View } from 'react-native';
 import FastImage from 'react-native-fast-image';
 import { useTheme } from 'react-native-paper';
 import AvatarImage from 'components/AvatarImage';
@@ -9,6 +9,7 @@ import { DesmosProfile } from 'types/desmos';
 import { defaultProfileCover, defaultProfilePicture } from 'assets/images';
 import CopyButton from 'components/CopyButton';
 import usePickPicture from 'components/ProfileHeader/useHooks';
+import StyledActivityIndicator from 'components/StyledActivityIndicator';
 import useStyles from './useStyles';
 
 export type ProfileHeaderProps = {
@@ -85,7 +86,7 @@ const ProfileHeader: React.FC<ProfileHeaderProps> = (props) => {
           />
         )}
         {coverPictureLoading === true && (
-          <ActivityIndicator style={styles.coverPictureActivityIndicator} />
+          <StyledActivityIndicator style={styles.coverPictureActivityIndicator} />
         )}
       </View>
 
@@ -103,7 +104,7 @@ const ProfileHeader: React.FC<ProfileHeaderProps> = (props) => {
             />
           )}
           {profilePictureLoading === true && (
-            <ActivityIndicator style={styles.profilePictureActivityIndicator} />
+            <StyledActivityIndicator style={styles.profilePictureActivityIndicator} />
           )}
         </View>
 
