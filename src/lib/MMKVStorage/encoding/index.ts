@@ -6,6 +6,8 @@ import Serializers from './serializers';
  * Custom JSON serialization for MMKV.
  */
 function jsonReplacer(key: string, value: any): any {
+  // Safe to ignore with ts-ignore since "this" is the object that we are currently
+  // serializing.
   // @ts-ignore
   const toSerializeObject = this[key];
   if (toSerializeObject !== undefined) {
