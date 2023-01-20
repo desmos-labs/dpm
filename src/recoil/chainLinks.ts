@@ -58,15 +58,17 @@ const mergeChainLinks = (first: ChainLink[], second: ChainLink[]) => {
 export const useStoreUserChainLinks = () => {
   const setChainLinks = useSetRecoilState(chainLinksAppState);
   return React.useCallback(
-    (user: string, chainLinks: ChainLink[]) => {
+    (user: string, chainLinks: ChainLink[], merge?: boolean) => {
       setChainLinks((currentChainLinks) => {
         const existingChainLinks = currentChainLinks[user] || [];
-        const mergedLinks = mergeChainLinks(existingChainLinks, chainLinks);
+        const newUserChainLinks = merge
+          ? mergeChainLinks(existingChainLinks, chainLinks)
+          : chainLinks;
 
         const newChainLinks: Record<string, ChainLink[]> = {
           ...currentChainLinks,
         };
-        newChainLinks[user] = mergedLinks;
+        newChainLinks[user] = newUserChainLinks;
         return newChainLinks;
       });
     },
