@@ -5,6 +5,7 @@ const useStyle = makeStyle((theme) => ({
     backgroundColor: theme.colors.background2,
   },
   topMargin: {
+    paddingVertical: theme.spacing.xl,
     marginTop: theme.spacing.l,
   },
 }));

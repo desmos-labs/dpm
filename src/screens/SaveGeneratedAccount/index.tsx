@@ -11,6 +11,7 @@ import { AccountWithWallet } from 'types/account';
 import { useSaveAccount } from 'screens/SaveGeneratedAccount/useHooks';
 import { DPMImages } from 'types/images';
 import { useSetActiveAccountAddress } from '@recoil/activeAccount';
+import { View } from 'react-native';
 import useStyles from './useStyles';
 
 export type SaveGeneratedAccountParams = {
@@ -62,8 +63,8 @@ const SaveGeneratedAccount = (props: NavProps) => {
 
   const generatedAccount =
     !savingAccount && saveAccountError === undefined ? (
-      <>
-        <DpmImage style={styles.icon} source={DPMImages.Success} resizeMode="contain" />
+      <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+        <DpmImage style={styles.icon} source={DPMImages.Success} resizeMode="cover" />
 
         <Typography.Title>{t('common:success')}</Typography.Title>
         <Typography.Body1>{t('account created')}</Typography.Body1>
@@ -71,7 +72,7 @@ const SaveGeneratedAccount = (props: NavProps) => {
         <Button style={styles.continueButton} mode="contained" onPress={onContinuePressed}>
           {t('continue')}
         </Button>
-      </>
+      </View>
     ) : (
       <>
         <Typography.Body style={styles.errorText}>{t('error generating account')}</Typography.Body>

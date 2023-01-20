@@ -1,9 +1,11 @@
-import { ActivityIndicator, RefreshControl, View } from 'react-native';
+import { RefreshControl, View } from 'react-native';
 import React, { useCallback, useState } from 'react';
 import { GroupedTransactions } from 'types/transactions';
 import TransactionsListItem from 'screens/Home/components/TransactionsListItem';
 import { FlashList } from '@shopify/flash-list';
 import TransactionsListSectionHeader from 'screens/Home/components/TransactionsListSectionHeader';
+import StyledActivityIndicator from 'components/StyledActivityIndicator';
+import { useTheme } from 'react-native-paper';
 import useStyles from './useStyles';
 
 export interface TransactionsListProps {
@@ -16,6 +18,7 @@ export interface TransactionsListProps {
 const TransactionsList = (props: TransactionsListProps) => {
   const { loading, transactions, onFetchMore, onRefresh } = props;
   const styles = useStyles();
+  const theme = useTheme();
   const [onEndReachedCalledDuringMomentum, setOnEndReachedCalledDuringMomentum] = useState(false);
   const sections = transactions.flatMap((enty) => [enty.date, ...enty.transactions, 'divider']);
 
@@ -55,12 +58,20 @@ const TransactionsList = (props: TransactionsListProps) => {
       }}
       onEndReachedThreshold={0.5}
       getItemType={(item) => (typeof item === 'string' ? 'sectionHeader' : 'row')}
-      refreshControl={<RefreshControl enabled refreshing={loading} onRefresh={onRefresh} />}
+      refreshControl={
+        <RefreshControl
+          tintColor={theme.colors.primary}
+          colors={[theme.colors.primary]}
+          enabled
+          refreshing={loading}
+          onRefresh={onRefresh}
+        />
+      }
       showsVerticalScrollIndicator
       estimatedItemSize={60}
     />
   ) : (
-    <ActivityIndicator />
+    <StyledActivityIndicator />
   );
 };
 

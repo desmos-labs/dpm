@@ -8,7 +8,7 @@ import ROUTES from 'navigation/routes';
 import { useNavigation, useRoute } from '@react-navigation/native';
 import EditProfileButton from 'screens/Profile/components/EditProfileButton';
 import useProfileGivenAddress from 'hooks/useProfileGivenAddress';
-import { ActivityIndicator } from 'react-native';
+import StyledActivityIndicator from 'components/StyledActivityIndicator';
 import ProfileData from './components/ProfileData';
 import useStyles from './useStyles';
 
@@ -50,7 +50,11 @@ const Profile = () => {
         />
       }
     >
-      {loadingProfile ? <ActivityIndicator /> : <ProfileData profile={profile} canEdit={canEdit} />}
+      {loadingProfile ? (
+        <StyledActivityIndicator />
+      ) : (
+        <ProfileData profile={profile} canEdit={canEdit} />
+      )}
     </StyledSafeAreaView>
   );
 };
