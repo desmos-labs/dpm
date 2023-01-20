@@ -1,4 +1,4 @@
-import { Deserializer, SerializableTypes, SerializedObject, Serializer } from './types';
+import { SerializableTypes, SerializedObject, Serializer } from '../types';
 
 export const DateSerializer: Serializer = {
   canEncodeObj(obj: any): boolean {
@@ -9,11 +9,5 @@ export const DateSerializer: Serializer = {
       serializedType: SerializableTypes.Date,
       value: obj.toISOString(),
     };
-  },
-};
-
-export const DateDeserializer: Deserializer = {
-  decode(serialized: SerializedObject): Date {
-    return new Date(serialized.value);
   },
 };

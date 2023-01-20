@@ -1,18 +1,6 @@
-import { DateDeserializer, DateSerializer } from 'lib/MMKVStorage/encoding/date';
-import {
-  Deserializer,
-  SerializableTypes,
-  SerializedObject,
-  Serializer,
-} from 'lib/MMKVStorage/encoding/types';
-import { Uint8ArrayDeserializer, Uint8ArraySerializer } from 'lib/MMKVStorage/encoding/uint8array';
-
-const Serializers: Serializer[] = [DateSerializer, Uint8ArraySerializer];
-
-const Deserializers: Record<SerializableTypes, Deserializer> = {
-  [SerializableTypes.Date]: DateDeserializer,
-  [SerializableTypes.Uint8Array]: Uint8ArrayDeserializer,
-};
+import { SerializedObject } from 'lib/MMKVStorage/encoding/types';
+import Deserializers from './deserializers';
+import Serializers from './serializers';
 
 /**
  * Custom JSON serialization for MMKV.
