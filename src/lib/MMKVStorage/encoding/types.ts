@@ -27,7 +27,7 @@ export interface Serializer {
   canEncodeObj(obj: any): boolean;
 
   /**
-   * Function that serialize the provided object.
+   * Function that serializes the provided object.
    * @param obj - The object to serialize.
    */
   encode(obj: any): SerializedObject;
