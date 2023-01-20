@@ -100,7 +100,15 @@ const Home: React.FC<NavProps> = (props) => {
 
       {/* Transactions list */}
       <View style={styles.transactionsContainer}>
-        <Typography.Subtitle>{t('transactions')}</Typography.Subtitle>
+        <View
+          style={{
+            zIndex: 2,
+            backgroundColor: theme.colors.background2,
+            paddingVertical: theme.spacing.m,
+          }}
+        >
+          <Typography.Subtitle>{t('transactions')}</Typography.Subtitle>
+        </View>
         <AccountTransactions
           transactions={transactions}
           loading={transactionsLoading}

@@ -4,7 +4,6 @@ import { useIsFocused } from '@react-navigation/native';
 import { Camera, useCameraDevices, useFrameProcessor } from 'react-native-vision-camera';
 import { runOnJS } from 'react-native-reanimated';
 import { StyleSheet, View } from 'react-native';
-import { ActivityIndicator } from 'react-native-paper';
 import DpmImage from 'components/DPMImage';
 import { DPMImages } from 'types/images';
 import Typography from 'components/Typography';
@@ -12,6 +11,7 @@ import Button from 'components/Button';
 import Spacer from 'components/Spacer';
 import { AppPermissions, AppPermissionStatus } from 'types/permissions';
 import usePermissions from 'hooks/usePermissions';
+import StyledActivityIndicator from 'components/StyledActivityIndicator';
 import useStyles from './useStyles';
 
 export interface QrCodeScannerProps {
@@ -83,7 +83,7 @@ const QrCodeScanner: FC<QrCodeScannerProps> = ({ onQrCodeDetected, stopRecogniti
       );
     }
     if (backCameraDevice === undefined) {
-      return <ActivityIndicator />;
+      return <StyledActivityIndicator />;
     }
     return (
       <Camera

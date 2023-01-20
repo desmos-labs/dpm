@@ -58,7 +58,7 @@ const ImportAccountSelectType: React.FC<NavProps> = ({ navigation }) => {
       switch (item.item) {
         case WalletType.Mnemonic:
           label = t('use secret recovery passphrase');
-          image = DPMImages.ConnectChain;
+          image = DPMImages.ConnectMnemonic;
           break;
         case WalletType.Ledger:
           label = t('connect with ledger');
