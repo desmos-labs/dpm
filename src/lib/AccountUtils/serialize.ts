@@ -66,6 +66,5 @@ export const serializeAccounts = (
   Object.keys(accounts).forEach((address) => {
     result[address] = serializeAccount(accounts[address]);
   });
-
   return result;
 };
