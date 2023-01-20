@@ -45,7 +45,7 @@ const jsonReviver = (key: string, value: any) => {
 export const serializeObject = (obj: any) => JSON.stringify(obj, jsonReplacer);
 
 /**
- * Function that deserialize a JSON string into an object using a custom deserialization
+ * Function that deserializes a JSON string into an object using a custom deserialization
  * algorithm that decodes the types of the object.
  * @param obj - The object to deserialize.
  */
