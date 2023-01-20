@@ -5,13 +5,13 @@ import { AppState, NativeEventSubscription, Platform } from 'react-native';
 import ROUTES from 'navigation/routes';
 import { useNavigation } from '@react-navigation/native';
 import { StackNavigationProp } from '@react-navigation/stack/lib/typescript/src/types';
-import { useGetAccounts } from '@recoil/accounts';
+import { useHasAccount } from '@recoil/accounts';
 
 const useLockApplicationOnBlur = () => {
   const navigation = useNavigation<StackNavigationProp<RootNavigatorParamList>>();
   const appState = useAppState();
   const setAppState = useSetAppState();
-  const accounts = useGetAccounts();
+  const hasAccount = useHasAccount();
 
   const showSplashScreen = useCallback(() => {
     setAppState((currentState) => {
@@ -53,7 +53,7 @@ const useLockApplicationOnBlur = () => {
     }
 
     const onChangeSubscription = AppState.addEventListener('change', (state) => {
-      if (Object.keys(accounts).length === 0) {
+      if (!hasAccount) {
         return;
       }
 
@@ -87,7 +87,7 @@ const useLockApplicationOnBlur = () => {
       blurSubscription?.remove();
       focusSubscription?.remove();
     };
-  }, [accounts, navigation, setAppState, appState, showSplashScreen, removeSplashScreen]);
+  }, [hasAccount, navigation, setAppState, appState, showSplashScreen, removeSplashScreen]);
 
   useEffect(() => {
     if (appState.locked) {

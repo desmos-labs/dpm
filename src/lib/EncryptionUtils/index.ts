@@ -1,4 +1,5 @@
 import { NativeModules } from 'react-native';
+import * as DeviceInfo from 'react-native-device-info';
 
 const { Aes } = NativeModules;
 
@@ -11,8 +12,10 @@ export interface EncryptedData {
  * Derive a safe password using the pbkdf2 algorithm.
  * @param password The password from which will be derived the safer password.
  */
-export const deriveSecurePassword = async (password: string): Promise<string> =>
-  Aes.pbkdf2(password, password.normalize('NFKC'), 100000, 256);
+export const deriveSecurePassword = async (password: string): Promise<string> => {
+  const firstInstallTime = await DeviceInfo.getFirstInstallTime();
+  return Aes.pbkdf2(password, firstInstallTime.toString(), 100_100, 256);
+};
 
 /**
  * Encrypts the provided text using the AES algorithm.

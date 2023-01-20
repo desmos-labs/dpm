@@ -56,6 +56,22 @@ export const useStoreAccount = () => {
 };
 
 /**
+ * Recoil select that allows to easily know if there is at least one account stored in the device or not.
+ */
+const hasAccountAppState = selector({
+  key: 'hasAccount',
+  get: ({ get }) => {
+    const accounts = get(accountsAppState);
+    return Object.keys(accounts).length > 0;
+  },
+});
+
+/**
+ * Hook that allows to easily know if there is at least one account stored inside the device or not.
+ */
+export const useHasAccount = () => useRecoilValue(hasAccountAppState);
+
+/**
  * Hook that allows to get the accounts stored on the device.
  */
 export const useGetAccounts = () => useRecoilValue(accountsAppState);
