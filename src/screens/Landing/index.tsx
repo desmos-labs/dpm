@@ -11,7 +11,7 @@ import useSaveAccount from 'hooks/useSaveAccount';
 import useImportAccount from 'hooks/useImportAccount';
 import { DesmosChain } from 'config/LinkableChains';
 import { desmosLogoWhite, homeBackgroundLight } from 'assets/images';
-import { useGetAccountsAddresses } from '@recoil/accounts';
+import { useStoredAccountsAddresses } from '@recoil/accounts';
 import useStyles from './useStyles';
 
 export type NavProps = StackScreenProps<RootNavigatorParamList, ROUTES.LANDING>;
@@ -20,7 +20,7 @@ const Landing = ({ navigation }: NavProps) => {
   const { t } = useTranslation('landing');
   const styles = useStyles();
 
-  const accountsAddresses = useGetAccountsAddresses();
+  const accountsAddresses = useStoredAccountsAddresses();
   const importAccount = useImportAccount([DesmosChain], accountsAddresses);
   const saveAccount = useSaveAccount();
 

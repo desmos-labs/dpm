@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import { atom, useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
 import { getMMKV, MMKVKEYS, setMMKV } from 'lib/MMKVStorage';
 import { DesmosProfile } from 'types/desmos';
@@ -17,6 +17,11 @@ export const profilesAppState = atom<Record<string, DesmosProfile>>({
     },
   ],
 });
+
+/**
+ * Hook that allows to get the profiles stored on the device.
+ */
+export const useStoredProfiles = () => useRecoilValue(profilesAppState);
 
 /**
  * Hook that allows to easily store a new profile inside the profilesAppState Atom.
@@ -49,11 +54,20 @@ export const useStoreProfile = () => {
 };
 
 /**
- * Hook that allows to get the profiles stored on the device.
+ * Hook that allows to easily delete a cached profile.
  */
-export const useStoredProfiles = () => useRecoilValue(profilesAppState);
-
-/**
- * Hook that allows to update the profiles stored on the device.
- */
-export const useSetProfiles = () => useSetRecoilState(profilesAppState);
+export const useDeleteProfile = () => {
+  const setProfiles = useSetRecoilState(profilesAppState);
+  return useCallback(
+    (address: string) => {
+      setProfiles((storedProfiles) => {
+        const newValue = {
+          ...storedProfiles,
+        };
+        delete newValue[address];
+        return newValue;
+      });
+    },
+    [setProfiles],
+  );
+};

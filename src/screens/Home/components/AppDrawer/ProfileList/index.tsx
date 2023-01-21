@@ -1,7 +1,7 @@
 import ListItemSeparator from 'components/ListItemSeparator';
 import { FlatList, ListRenderItemInfo } from 'react-native';
 import React, { useCallback, useMemo } from 'react';
-import { useGetAccounts } from '@recoil/accounts';
+import { useStoredAccounts } from '@recoil/accounts';
 import { useStoredProfiles } from '@recoil/profiles';
 import { useActiveAccount } from '@recoil/activeAccount';
 import { Account } from 'types/account';
@@ -9,7 +9,7 @@ import useStyles from './useStyles';
 import ProfileListItem from './Item';
 
 export const ProfileList = () => {
-  const accounts = useGetAccounts();
+  const accounts = useStoredAccounts();
   const profiles = useStoredProfiles();
   const activeAccount = useActiveAccount();
   const styles = useStyles();
