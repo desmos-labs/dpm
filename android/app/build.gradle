@@ -270,10 +270,14 @@ android {
             keyPassword 'android'
         }
         release {
-            storeFile file(DPM_RELEASE_STORE_FILE)
-            storePassword DPM_RELEASE_STORE_PASSWORD
-            keyAlias DPM_RELEASE_KEY_ALIAS
-            keyPassword DPM_RELEASE_KEY_PASSWORD
+            try {
+                storeFile file(DPM_RELEASE_STORE_FILE)
+                storePassword DPM_RELEASE_STORE_PASSWORD
+                keyAlias DPM_RELEASE_KEY_ALIAS
+                keyPassword DPM_RELEASE_KEY_PASSWORD
+            } catch (ex) {
+                logger.warn('Error while setting up release signing config: {}', ex)
+            }
         }
     }
     buildTypes {
