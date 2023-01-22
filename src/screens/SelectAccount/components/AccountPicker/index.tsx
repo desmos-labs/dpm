@@ -1,20 +1,19 @@
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { ListRenderItemInfo, StyleProp, TouchableOpacity, View, ViewStyle } from 'react-native';
-import { WalletType } from 'types/wallet';
+import { ListRenderItemInfo, StyleProp, View, ViewStyle } from 'react-native';
 import Typography from 'components/Typography';
-import Divider from 'components/Divider';
 import ListItemSeparator from 'components/ListItemSeparator';
 import { HdPath } from '@cosmjs/crypto';
 import {
   useFetchWallets,
   useGenerateAccountWithWalletFromHdPath,
 } from 'screens/SelectAccount/components/AccountPicker/useHooks';
-import { slip10IndexToBaseNumber } from 'lib/FormatUtils';
 import { AccountWithWallet } from 'types/account';
+import Button from 'components/Button';
+import Spacer from 'components/Spacer';
 import PaginatedFlatList from '../PaginatedFlatList';
 import HdPathPicker from '../HdPathPicker';
-import AddressListItem from '../AddressListItem';
+import AccountListItem from '../AccountListItem';
 import useStyles from './useStyles';
 import { AccountPickerParams, WalletPickerMode } from './types';
 
@@ -38,7 +37,7 @@ const AccountPicker: React.FC<AccountPickerProps> = ({ onAccountSelected, params
 
   const [selectedHdPath, setSelectedHdPath] = useState<HdPath>(params.masterHdPath);
   const [selectedAccount, setSelectedAccount] = useState<AccountWithWallet | null>(null);
-  const [addressPickerVisible, setAddressPickerVisible] = useState(false);
+  const [addressPickerVisible, setAddressPickerVisible] = useState(true);
 
   const { generateWalletAccountFromHdPath } = useGenerateAccountWithWalletFromHdPath();
   const { fetchWallets } = useFetchWallets(params);
@@ -86,19 +85,8 @@ const AccountPicker: React.FC<AccountPickerProps> = ({ onAccountSelected, params
   const renderListItem = useCallback(
     (info: ListRenderItemInfo<AccountWithWallet>) => {
       const { address } = info.item.account;
-      let number;
-      switch (info.item.wallet.type) {
-        case WalletType.Mnemonic:
-        case WalletType.Ledger:
-          number = slip10IndexToBaseNumber(info.item.wallet.hdPath[2]);
-          break;
-        default:
-          number = 0;
-          break;
-      }
       return (
-        <AddressListItem
-          number={number}
+        <AccountListItem
           address={address}
           highlight={selectedAccount?.account.address === address}
           onPress={() => {
@@ -126,48 +114,6 @@ const AccountPicker: React.FC<AccountPickerProps> = ({ onAccountSelected, params
 
   return (
     <View style={[style, styles.root]}>
-      {/* Description */}
-      <Typography.Subtitle
-        style={[styles.hpPathLabel, addressPickerVisible ? styles.disabledText : null]}
-      >
-        {t('enter derivation path')}.
-      </Typography.Subtitle>
-
-      {/* Path picker */}
-      <HdPathPicker
-        style={styles.hdPathPicker}
-        onChange={onHdPathChange}
-        value={selectedHdPath}
-        disabled={!selectedAccount || addressPickerVisible}
-        allowCoinTypeEdit={allowCoinTypeEdit}
-      />
-
-      {/* Last generated address */}
-      {!addressPickerVisible && (
-        <Typography.Body style={styles.addressText} numberOfLines={1} ellipsizeMode="middle">
-          {selectedAccount ? selectedAccount.account.address : `${t('generating address')}...`}
-        </Typography.Body>
-      )}
-
-      {/* Divider */}
-      <View style={styles.dividerContainer}>
-        <Divider style={styles.dividerLine} />
-        <Typography.Subtitle style={styles.dividerText}>{t('or')}</Typography.Subtitle>
-        <Divider style={styles.dividerLine} />
-      </View>
-
-      {/* Select account description */}
-      <TouchableOpacity onPress={toggleAddressPicker}>
-        <Typography.Subtitle
-          style={[
-            styles.toggleSelectAccount,
-            !addressPickerVisible ? styles.toggleSelectAccountEnabled : null,
-          ]}
-        >
-          {t('select account')}
-        </Typography.Subtitle>
-      </TouchableOpacity>
-
       {/* Address picker */}
       {addressPickerVisible ? (
         <PaginatedFlatList
@@ -180,6 +126,40 @@ const AccountPicker: React.FC<AccountPickerProps> = ({ onAccountSelected, params
           ItemSeparatorComponent={ListItemSeparator}
         />
       ) : null}
+
+      <Spacer paddingVertical={4} />
+
+      <Button mode="text" onPress={toggleAddressPicker} labelStyle={styles.pickerOptionButtonLabel}>
+        {addressPickerVisible ? t('enter derivation path') : t('select account')}
+      </Button>
+
+      <Spacer paddingVertical={4} />
+
+      <View style={{ display: addressPickerVisible ? 'none' : undefined }}>
+        {/* Description */}
+        <Typography.Body>{t('enter the derivation path you want')}</Typography.Body>
+
+        {/* Path picker */}
+        <HdPathPicker
+          style={styles.hdPathPicker}
+          onChange={onHdPathChange}
+          value={selectedHdPath}
+          disabled={!selectedAccount || addressPickerVisible}
+          allowCoinTypeEdit={allowCoinTypeEdit}
+        />
+
+        <Spacer paddingVertical={8} />
+
+        {/* Last generated address */}
+        {!addressPickerVisible &&
+          (selectedAccount?.account.address ? (
+            <AccountListItem address={selectedAccount.account.address} />
+          ) : (
+            <Typography.Body numberOfLines={1} ellipsizeMode="middle">
+              {`${t('generating address')}...`}
+            </Typography.Body>
+          ))}
+      </View>
     </View>
   );
 };

@@ -27,7 +27,7 @@ const useProfileGivenAddress = (address?: string) => {
 
   const { data, loading, refetch } = useQuery(GetProfileForAddress, {
     variables: { address: userAddress },
-    fetchPolicy: 'no-cache',
+    fetchPolicy: 'cache-and-network',
   });
 
   React.useEffect(() => {
