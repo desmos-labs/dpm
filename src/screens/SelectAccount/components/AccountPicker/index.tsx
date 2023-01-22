@@ -1,4 +1,3 @@
-import { debounce } from 'lodash';
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { ListRenderItemInfo, StyleProp, TouchableOpacity, View, ViewStyle } from 'react-native';
@@ -21,13 +20,6 @@ import { AccountPickerParams, WalletPickerMode } from './types';
 
 export type AccountPickerProps = {
   /**
-   * Callback called when the component is generating the addresses
-   * or the component have correctly generated all the addresses
-   * @param loading - true means that the component is generating the addresses, false
-   * means that the component is not generating the addresses.
-   */
-  onGeneratingAddressesStateChange: (loading: boolean) => void;
-  /**
    * Callback called when the user select a wallet.
    * @param wallet
    */
@@ -40,19 +32,13 @@ export type AccountPickerProps = {
   style?: StyleProp<ViewStyle>;
 };
 
-const AccountPicker: React.FC<AccountPickerProps> = ({
-  onGeneratingAddressesStateChange,
-  onAccountSelected,
-  params,
-  style,
-}) => {
+const AccountPicker: React.FC<AccountPickerProps> = ({ onAccountSelected, params, style }) => {
   const styles = useStyles();
   const { t } = useTranslation('account');
 
   const [selectedHdPath, setSelectedHdPath] = useState<HdPath>(params.masterHdPath);
   const [selectedAccount, setSelectedAccount] = useState<AccountWithWallet | null>(null);
   const [addressPickerVisible, setAddressPickerVisible] = useState(false);
-  const [generatingAddresses] = useState(false);
 
   const { generateWalletAccountFromHdPath } = useGenerateAccountWithWalletFromHdPath();
   const { fetchWallets } = useFetchWallets(params);
@@ -64,14 +50,12 @@ const AccountPicker: React.FC<AccountPickerProps> = ({
     return false;
   }, [params]);
 
+  // Effect to notify any listener about when the account has been selected
   useEffect(() => {
     onAccountSelected(selectedAccount);
   }, [selectedAccount, onAccountSelected]);
 
-  useEffect(() => {
-    onGeneratingAddressesStateChange(generatingAddresses);
-  }, [generatingAddresses, onGeneratingAddressesStateChange]);
-
+  // Effect to generate the first account when the screen loads.
   useEffect(() => {
     (async () => {
       const account = await generateWalletAccountFromHdPath(selectedHdPath, params);
@@ -130,48 +114,50 @@ const AccountPicker: React.FC<AccountPickerProps> = ({
 
   const listKeyExtractor = useCallback((item: AccountWithWallet) => item.account.address, []);
 
-  const debouncedGenerateWallet = debounce(async (hdPath: HdPath) => {
-    const wallet = await generateWalletAccountFromHdPath(hdPath, params);
-    setSelectedAccount(wallet);
-  }, 2000);
-
   const onHdPathChange = useCallback(
-    (hdPath: HdPath) => {
+    async (hdPath: HdPath) => {
       setSelectedAccount(null);
       setSelectedHdPath(hdPath);
-      debouncedGenerateWallet(hdPath);
+      const wallet = await generateWalletAccountFromHdPath(hdPath, params);
+      setSelectedAccount(wallet);
     },
-    [debouncedGenerateWallet, setSelectedAccount],
+    [generateWalletAccountFromHdPath, params],
   );
 
   return (
     <View style={[style, styles.root]}>
+      {/* Description */}
       <Typography.Subtitle
         style={[styles.hpPathLabel, addressPickerVisible ? styles.disabledText : null]}
       >
         {t('enter derivation path')}.
       </Typography.Subtitle>
+
+      {/* Path picker */}
       <HdPathPicker
         style={styles.hdPathPicker}
         onChange={onHdPathChange}
         value={selectedHdPath}
-        disabled={addressPickerVisible}
+        disabled={!selectedAccount || addressPickerVisible}
         allowCoinTypeEdit={allowCoinTypeEdit}
       />
 
+      {/* Last generated address */}
       {!addressPickerVisible && (
-        <Typography.Body style={styles.addressText}>
+        <Typography.Body style={styles.addressText} numberOfLines={1} ellipsizeMode="middle">
           {selectedAccount ? selectedAccount.account.address : `${t('generating address')}...`}
         </Typography.Body>
       )}
 
+      {/* Divider */}
       <View style={styles.dividerContainer}>
         <Divider style={styles.dividerLine} />
         <Typography.Subtitle style={styles.dividerText}>{t('or')}</Typography.Subtitle>
         <Divider style={styles.dividerLine} />
       </View>
 
-      <TouchableOpacity onPress={toggleAddressPicker} disabled={generatingAddresses}>
+      {/* Select account description */}
+      <TouchableOpacity onPress={toggleAddressPicker}>
         <Typography.Subtitle
           style={[
             styles.toggleSelectAccount,
@@ -182,6 +168,7 @@ const AccountPicker: React.FC<AccountPickerProps> = ({
         </Typography.Subtitle>
       </TouchableOpacity>
 
+      {/* Address picker */}
       {addressPickerVisible ? (
         <PaginatedFlatList
           style={styles.addressesList}
