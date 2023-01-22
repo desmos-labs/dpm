@@ -101,3 +101,22 @@ export const useDeleteChainLink = () => {
     [setChainLinks],
   );
 };
+
+/**
+ * Hook that allows to easily delete the chain links associated with the user having a given address.
+ */
+export const useDeleteChainLinks = () => {
+  const setChainLinks = useSetRecoilState(chainLinksAppState);
+  return React.useCallback(
+    (address: string) => {
+      setChainLinks((storedLinks) => {
+        const newValue: Record<string, ChainLink[]> = {
+          ...storedLinks,
+        };
+        delete newValue[address];
+        return newValue;
+      });
+    },
+    [setChainLinks],
+  );
+};
