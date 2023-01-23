@@ -1,7 +1,7 @@
 import { useNavigation } from '@react-navigation/native';
 import React, { useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Image, View } from 'react-native';
+import { View } from 'react-native';
 import Button from 'components/Button';
 import IconButton from 'components/IconButton';
 import StyledSafeAreaView from 'components/StyledSafeAreaView';
@@ -12,6 +12,7 @@ import ROUTES from 'navigation/routes';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { ProfileList } from 'screens/Home/components/AppDrawer/ProfileList';
 import { desmosLogoOrange } from 'assets/images';
+import FastImage from 'react-native-fast-image';
 import useStyles from './useStyles';
 
 const AppDrawerContent = () => {
@@ -33,7 +34,7 @@ const AppDrawerContent = () => {
   return (
     <StyledSafeAreaView>
       <IconButton style={styles.settingsBtn} icon="settings" onPress={openSettings} size={24} />
-      <Image style={styles.desmosIcon} source={desmosLogoOrange} resizeMode="contain" />
+      <FastImage style={styles.desmosIcon} source={desmosLogoOrange} resizeMode="contain" />
 
       <View style={styles.accountsContainer}>
         <Typography.Subtitle>{t('account:accounts')}</Typography.Subtitle>

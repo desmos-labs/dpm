@@ -1,12 +1,15 @@
-import React from 'react';
-import { Image, ImageProps, View } from 'react-native';
+import React, { useMemo } from 'react';
+import { ImageSourcePropType, View } from 'react-native';
 import Divider from 'components/Divider';
 import Typography from 'components/Typography';
 import LabeledValue from 'components/LabeledValue';
+import FastImage from 'react-native-fast-image';
+import { getImageSource } from 'lib/ImageUtils';
+import { desmosLogoOrange } from 'assets/images';
 import useStyles from './useStyles';
 
 export type BaseMessageDetailsProps = {
-  icon?: ImageProps['source'];
+  icon?: ImageSourcePropType;
   customIconView?: React.ReactElement;
   iconSubtitle?: string;
   fields?: { label: string; value?: string }[];
@@ -16,14 +19,12 @@ const BaseMessageDetails = (props: BaseMessageDetailsProps) => {
   const { icon, customIconView, iconSubtitle, fields } = props;
   const styles = useStyles();
   const customIcon = customIconView !== undefined ? customIconView : null;
+  const iconSource = useMemo(() => (icon ? getImageSource(icon) : desmosLogoOrange), [icon]);
+
   return (
     <View>
       <View style={styles.txHeader}>
-        {icon !== undefined ? (
-          <Image style={styles.txIcon} source={icon} resizeMode="contain" />
-        ) : (
-          customIcon
-        )}
+        {customIcon ?? <FastImage style={styles.txIcon} source={iconSource} resizeMode="contain" />}
         <Typography.Subtitle style={styles.headerAmount}>{iconSubtitle}</Typography.Subtitle>
       </View>
       {fields?.map((field, index) => (

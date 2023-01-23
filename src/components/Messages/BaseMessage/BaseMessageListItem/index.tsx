@@ -1,23 +1,26 @@
-import React from 'react';
-import { Image, ImageProps, View } from 'react-native';
+import React, { useMemo } from 'react';
+import { ImageSourcePropType, View } from 'react-native';
 import Typography from 'components/Typography';
 import { format } from 'date-fns';
+import FastImage from 'react-native-fast-image';
+import { getImageSource } from 'lib/ImageUtils';
 import useStyles from './useStyles';
 
 export type BaseMessageListItemProps = {
   date: Date;
-  icon: ImageProps['source'];
+  icon: ImageSourcePropType;
   renderContent: () => React.ReactNode;
 };
 
 const BaseMessageListItem = (props: BaseMessageListItemProps) => {
-  const { icon, date, renderContent } = props;
   const styles = useStyles();
+  const { icon, date, renderContent } = props;
+  const iconSource = useMemo(() => getImageSource(icon), [icon]);
 
   return (
     <View style={styles.root}>
       <View>
-        <Image style={styles.image} source={icon} resizeMode="contain" />
+        <FastImage style={styles.image} source={iconSource} resizeMode="contain" />
       </View>
       <View style={styles.content}>
         {renderContent()}

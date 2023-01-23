@@ -1,20 +1,24 @@
-import React from 'react';
-import { Image, ImageSourcePropType, TouchableOpacity } from 'react-native';
+import React, { useMemo } from 'react';
+import { ImageSourcePropType, TouchableOpacity } from 'react-native';
 import Typography from 'components/Typography';
+import FastImage from 'react-native-fast-image';
+import { getImageSource } from 'lib/ImageUtils';
 import useStyles from './useStyles';
 
-export type Props = {
+export type BlockchainListItemProps = {
   name: string;
   icon: ImageSourcePropType;
   onPress?: () => void;
 };
 
-const BlockchainListItem: React.FC<Props> = ({ name, icon, onPress }) => {
+const BlockchainListItem = (props: BlockchainListItemProps) => {
   const styles = useStyles();
+  const { name, icon, onPress } = props;
+  const imageSource = useMemo(() => getImageSource(icon), [icon]);
 
   return (
     <TouchableOpacity style={styles.chainItem} onPress={onPress}>
-      <Image style={styles.chainLogo} source={icon} resizeMode="contain" />
+      <FastImage style={styles.chainLogo} source={imageSource} resizeMode="contain" />
       <Typography.Body1 style={styles.chainLinkName}>{name}</Typography.Body1>
     </TouchableOpacity>
   );

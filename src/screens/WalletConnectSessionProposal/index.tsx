@@ -1,7 +1,7 @@
 import { StackScreenProps } from '@react-navigation/stack';
 import React, { FC, useCallback, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Image, View } from 'react-native';
+import { View } from 'react-native';
 import SingleButtonModal from 'modals/SingleButtonModal';
 import useShowModal from 'hooks/useShowModal';
 import Typography from 'components/Typography';
@@ -15,6 +15,7 @@ import useWalletConnectApproveSessionProposal from 'hooks/walletconnect/useWalle
 import useWalletConnectRejectSessionProposal from 'hooks/walletconnect/useWalletConnectRejectSessionProposal';
 import { DPMImages } from 'types/images';
 import { walletConnectIconUriToImageSource } from 'lib/WalletConnectUtils';
+import FastImage from 'react-native-fast-image';
 import useStyles from './useStyles';
 
 export interface WalletConnectSessionProposalParams {
@@ -93,7 +94,7 @@ const WalletConnectSessionProposal: FC<NavProps> = (props) => {
       topBar={<TopBar style={styles.topBar} stackProps={props} title={t('authorization')} />}
     >
       <View style={styles.dappDetails}>
-        <Image style={styles.dappIcon} source={dAppIcon} resizeMode="center" />
+        <FastImage style={styles.dappIcon} source={dAppIcon} resizeMode="center" />
         <Typography.Body style={styles.permissionMessage}>
           {t('walletConnect:authorize app', {
             app: appName,
