@@ -6,17 +6,21 @@ import { defaultProfilePicture } from 'assets/images';
 
 export interface ProfileImageProps extends Omit<AvatarImageProps, 'source'> {
   readonly profile: DesmosProfile | undefined;
+  /**
+   * True if we should display an activity indicator over the profile image.
+   */
+  readonly loading?: boolean;
 }
 
 const ProfileImage = (props: ProfileImageProps) => {
-  const { profile, ...rest } = props;
+  const { profile, loading, ...rest } = props;
 
   const profileImage = useMemo(
     () => (profile?.profilePicture ? { uri: profile.profilePicture } : defaultProfilePicture),
     [profile],
   );
 
-  return <AvatarImage source={profileImage} {...rest} />;
+  return <AvatarImage source={profileImage} {...rest} loading={loading} />;
 };
 
 export default ProfileImage;

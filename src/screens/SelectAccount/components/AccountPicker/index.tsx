@@ -71,7 +71,6 @@ const AccountPicker: React.FC<AccountPickerProps> = ({ onAccountSelected, params
       const { address } = info.item.account;
       return (
         <AccountListItem
-          profile={undefined}
           address={address}
           highlight={selectedAccount?.account.address === address}
           onPress={() => {
@@ -105,7 +104,7 @@ const AccountPicker: React.FC<AccountPickerProps> = ({ onAccountSelected, params
         <PaginatedFlatList
           extraData={selectedAccount}
           loadPage={fetchWallets}
-          itemsPerPage={10}
+          itemsPerPage={15}
           renderItem={renderListItem}
           keyExtractor={listKeyExtractor}
           onEndReachedThreshold={0.5}
@@ -140,7 +139,7 @@ const AccountPicker: React.FC<AccountPickerProps> = ({ onAccountSelected, params
         {/* Last generated address */}
         {!addressPickerVisible &&
           (selectedAccount?.account.address ? (
-            <AccountListItem profile={undefined} address={selectedAccount.account.address} />
+            <AccountListItem address={selectedAccount.account.address} fetchDelay={0} />
           ) : (
             <Typography.Body numberOfLines={1} ellipsizeMode="middle">
               {`${t('generating address')}...`}
