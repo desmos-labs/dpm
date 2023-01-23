@@ -28,10 +28,6 @@ jobs:
         if: env.GIT_DIFF
         run: yarn install --immutable
 
-      - name: Build 🔨
-        if: env.GIT_DIFF
-        run: yarn build
-
       - name: Run unit tests 🧪
         if: env.GIT_DIFF
         run: yarn test
