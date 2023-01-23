@@ -42,8 +42,10 @@ const CreateWalletPassword = (props: NavProps) => {
   }, [navigation, password, route.params.account]);
 
   return (
-    <StyledSafeAreaView style={styles.root} topBar={<TopBar stackProps={props} />}>
-      <Typography.Title>{t('create password')}</Typography.Title>
+    <StyledSafeAreaView
+      style={styles.root}
+      topBar={<TopBar stackProps={props} title={t('create password')} />}
+    >
       <Typography.Body>{t('add an extra security')}</Typography.Body>
       <View style={styles.passwordLabel}>
         <Typography.Body>{t('enter security password')}</Typography.Body>
