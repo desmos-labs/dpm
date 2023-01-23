@@ -22,7 +22,10 @@ const Landing = ({ navigation }: NavProps) => {
   const styles = useStyles();
 
   const accountsAddresses = useStoredAccountsAddresses();
-  const importAccount = useImportAccount([DesmosChain], accountsAddresses);
+  const importAccount = useImportAccount([DesmosChain], accountsAddresses, {
+    title: t('account:import account'),
+    description: t('account:select import method'),
+  });
   const saveAccount = useSaveAccount();
 
   const animate = !navigation.canGoBack();
