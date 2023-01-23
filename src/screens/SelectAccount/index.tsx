@@ -52,12 +52,7 @@ const SelectAccount: FC<NavProps> = (props) => {
 
       <AccountPicker onAccountSelected={setSelectedAccount} params={accountPickerParams} />
 
-      <Button
-        style={styles.nextButton}
-        mode="contained"
-        disabled={!selectedAccount}
-        onPress={onNextPressed}
-      >
+      <Button mode="contained" disabled={!selectedAccount} onPress={onNextPressed}>
         {t('next')}
       </Button>
     </StyledSafeAreaView>

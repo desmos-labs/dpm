@@ -3,26 +3,24 @@ import { makeStyle } from 'config/theme';
 const useStyles = (selected?: boolean) =>
   makeStyle((theme) => ({
     container: {
-      display: 'flex',
       backgroundColor: selected ? theme.colors.primary : theme.colors.surface,
       borderRadius: 8,
-      paddingTop: 18,
-      paddingBottom: 18,
+      paddingVertical: 12,
+      paddingHorizontal: 12,
+      height: 60,
     },
     row: {
+      flex: 1,
       display: 'flex',
       flexDirection: 'row',
-      justifyContent: 'space-between',
-      flexGrow: 1,
-      marginLeft: 16,
-      marginRight: 40,
+      alignItems: 'center',
+      alignContent: 'center',
     },
-    number: {
-      color: selected ? theme.colors.font['5'] : theme.colors.text,
+    textContainer: {
+      flex: 1,
     },
     address: {
       color: selected ? theme.colors.font['5'] : theme.colors.text,
-      marginLeft: 24,
     },
   }))();
 

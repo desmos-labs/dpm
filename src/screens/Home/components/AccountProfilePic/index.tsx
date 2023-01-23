@@ -1,11 +1,10 @@
 import React, { useCallback } from 'react';
 import { DesmosProfile } from 'types/desmos';
-import AvatarImage from 'components/AvatarImage';
 import { useNavigation } from '@react-navigation/native';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { RootNavigatorParamList } from 'navigation/RootNavigator';
 import ROUTES from 'navigation/routes';
-import { defaultProfilePicture } from 'assets/images';
+import ProfileImage from 'components/ProfileImage';
 import useStyles from './useStyles';
 
 export interface AccountProfilePicProps {
@@ -21,15 +20,11 @@ const AccountProfilePic = (props: AccountProfilePicProps) => {
     navigation.navigate(ROUTES.PROFILE);
   }, [navigation]);
 
-  const imageSource = profile?.profilePicture
-    ? { uri: profile?.profilePicture }
-    : defaultProfilePicture;
-
   return (
-    <AvatarImage
+    <ProfileImage
+      profile={profile}
       size={30}
       style={styles.avatarImage}
-      source={imageSource}
       onPress={openProfileDetails}
     />
   );

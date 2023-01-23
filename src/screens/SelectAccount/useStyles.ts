@@ -38,9 +38,6 @@ const useStyles = makeStyle((theme) => ({
     flex: 1,
     marginTop: theme.spacing.s,
   },
-  nextButton: {
-    marginTop: theme.spacing.m,
-  },
   disabledText: {
     color: theme.colors.disabled,
   },

@@ -1,17 +1,17 @@
-import React, { useCallback, useMemo } from 'react';
+import React, { useCallback } from 'react';
 import { TouchableOpacity, View } from 'react-native';
-import AvatarImage from 'components/AvatarImage';
 import Typography from 'components/Typography';
 import { Account } from 'types/account';
 import { DesmosProfile } from 'types/desmos';
 import { useSetActiveAccountAddress } from '@recoil/activeAccount';
 import useDrawerContext from 'lib/AppDrawer/context';
+import ProfileImage from 'components/ProfileImage';
 import useStyles from './useStyles';
 import ItemMenu from '../ItemMenu';
 
 export type ProfileListItemProps = {
   readonly account: Account;
-  readonly profile: DesmosProfile | null | undefined;
+  readonly profile: DesmosProfile | undefined;
   readonly selected: boolean;
 };
 
@@ -19,16 +19,6 @@ const ProfileListItem: React.FC<ProfileListItemProps> = ({ account, profile, sel
   const styles = useStyles();
   const { closeDrawer } = useDrawerContext();
   const setActiveAccountAddress = useSetActiveAccountAddress();
-
-  const profileImage = useMemo(
-    () =>
-      profile?.profilePicture
-        ? {
-            uri: profile.profilePicture,
-          }
-        : require('assets/images/defaultProfilePicture.png'),
-    [profile],
-  );
 
   const onItemPres = useCallback(() => {
     setActiveAccountAddress(account.address);
@@ -40,7 +30,7 @@ const ProfileListItem: React.FC<ProfileListItemProps> = ({ account, profile, sel
       style={[styles.root, selected ? styles.itemSelected : null]}
       onPress={onItemPres}
     >
-      <AvatarImage source={profileImage} size={48} />
+      <ProfileImage profile={profile} size={48} />
       <View style={styles.textContainer}>
         <Typography.Subtitle style={styles.nickname} numberOfLines={1} ellipsizeMode="tail">
           {profile?.nickname ?? '-'}
