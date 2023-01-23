@@ -30,7 +30,7 @@ jobs:
 
       - name: Run unit tests 🧪
         if: env.GIT_DIFF
-        run: yarn test
+        run: yarn test --coverage
 
       - name: Upload coverage to Codecov 📤
         uses: codecov/codecov-action@v3
