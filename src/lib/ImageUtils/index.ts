@@ -1,14 +1,17 @@
 import { ImageRequireSource, ImageSourcePropType, ImageURISource } from 'react-native';
 import { Source } from 'react-native-fast-image';
 
-function isImageURISource(source: ImageSourcePropType): source is ImageURISource {
-  return (source as ImageURISource).uri !== undefined;
-}
+const isImageURISource = (source: ImageSourcePropType): source is ImageURISource =>
+  (source as ImageURISource).uri !== undefined;
 
-function isImageRequireSource(source: ImageSourcePropType): source is ImageRequireSource {
-  return typeof source === 'number';
-}
+const isImageRequireSource = (source: ImageSourcePropType): source is ImageRequireSource =>
+  typeof source === 'number';
 
+/**
+ * Allows to convert the given {@link ImageSourcePropType} into a {@link Source} instance so that it
+ * can be used with FastImage instances.
+ * @param source {ImageSourcePropType} - The source to be converted.
+ */
 export const getImageSource = (source: ImageSourcePropType): Source | number => {
   if (isImageRequireSource(source)) {
     return source;
