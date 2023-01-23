@@ -48,7 +48,7 @@ const useChainLinksGivenAddress = (address: string | undefined) => {
     switch (isForActiveUser) {
       case true:
         // Cache the chain links of the active user
-        storeUserChainLinks(userAddress, retrievedChainLinks);
+        storeUserChainLinks(userAddress, retrievedChainLinks, false);
         break;
 
       default:

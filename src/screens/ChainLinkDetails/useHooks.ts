@@ -1,7 +1,11 @@
 import React from 'react';
 import { ChainLink } from 'types/desmos';
 import useBroadcastTx, { BroadcastTxOptions } from 'hooks/useBroadcastTx';
-import { MsgUnlinkChainAccountEncodeObject } from '@desmoslabs/desmjs';
+import {
+  MsgUnlinkChainAccountEncodeObject,
+  MsgUnlinkChainAccountTypeUrl,
+} from '@desmoslabs/desmjs';
+import { useDeleteChainLink } from '@recoil/chainLinks';
 
 /**
  * Hook that allows disconnecting the given chain link.
@@ -10,10 +14,11 @@ import { MsgUnlinkChainAccountEncodeObject } from '@desmoslabs/desmjs';
  */
 export const useDisconnectChainLink = (chainLink: ChainLink, options?: BroadcastTxOptions) => {
   const broadcastTx = useBroadcastTx();
+  const deleteChainLink = useDeleteChainLink();
 
   return React.useCallback(async () => {
     const msg: MsgUnlinkChainAccountEncodeObject = {
-      typeUrl: '/desmos.profiles.v3.MsgUnlinkChainAccount',
+      typeUrl: MsgUnlinkChainAccountTypeUrl,
       value: {
         chainName: chainLink.chainName,
         target: chainLink.externalAddress,
@@ -21,6 +26,16 @@ export const useDisconnectChainLink = (chainLink: ChainLink, options?: Broadcast
       },
     };
 
-    await broadcastTx([msg], options);
-  }, [chainLink, broadcastTx, options]);
+    const onSuccess = () => {
+      deleteChainLink(chainLink);
+      if (options?.onSuccess) {
+        options.onSuccess();
+      }
+    };
+
+    await broadcastTx([msg], {
+      ...options,
+      onSuccess,
+    });
+  }, [chainLink, broadcastTx, options, deleteChainLink]);
 };
