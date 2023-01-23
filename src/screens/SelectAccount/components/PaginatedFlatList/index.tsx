@@ -1,8 +1,14 @@
 import React, { useCallback, useEffect, useState } from 'react';
-import { FlatList, FlatListProps } from 'react-native';
 import StyledActivityIndicator from 'components/StyledActivityIndicator';
+import {
+  FlashList,
+  FlashListProps,
+  ListRenderItemInfo as FlashListRenderItemInfo,
+} from '@shopify/flash-list';
 
-export type PaginatedFlatListProps<ItemT> = Omit<FlatListProps<ItemT>, 'data'> & {
+export type ListRenderItemInfo<T> = FlashListRenderItemInfo<T>;
+
+export type PaginatedFlashListProps<ItemT> = Omit<FlashListProps<ItemT>, 'data'> & {
   /**
    * Function that loads the items from the provided offset to the limit (excluded).
    * If the function returns null means that there aren't any other elements to load.
@@ -15,7 +21,7 @@ export type PaginatedFlatListProps<ItemT> = Omit<FlatListProps<ItemT>, 'data'> &
   itemsPerPage: number;
 };
 
-const PaginatedFlatList = (props: PaginatedFlatListProps<any>) => {
+const PaginatedFlatList = (props: PaginatedFlashListProps<any>) => {
   const { loadPage, itemsPerPage, onEndReached } = props;
   const [loading, setLoading] = useState(false);
   const [currentOffset, setCurrentOffset] = useState(0);
@@ -46,17 +52,14 @@ const PaginatedFlatList = (props: PaginatedFlatListProps<any>) => {
     setLoading(false);
   }, [currentOffset, loadPage, itemsPerPage]);
 
-  const onPageEndReached = useCallback(
-    (info: { distanceFromEnd: number }) => {
-      if (!loading) {
-        fetchNextPage().then(() => {});
-      }
-      if (onEndReached) {
-        onEndReached(info);
-      }
-    },
-    [loading, onEndReached, fetchNextPage],
-  );
+  const onPageEndReached = useCallback(() => {
+    if (!loading) {
+      fetchNextPage().then(() => {});
+    }
+    if (onEndReached) {
+      onEndReached();
+    }
+  }, [loading, onEndReached, fetchNextPage]);
 
   useEffect(() => {
     if (currentOffset === 0) {
@@ -69,7 +72,7 @@ const PaginatedFlatList = (props: PaginatedFlatListProps<any>) => {
   }, []);
 
   return (
-    <FlatList
+    <FlashList
       {...props}
       data={data}
       onEndReached={onPageEndReached}

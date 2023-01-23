@@ -1,10 +1,10 @@
 import React from 'react';
 import { TouchableOpacity, View } from 'react-native';
 import Typography from 'components/Typography';
-import useProfileGivenAddress from 'hooks/useProfileGivenAddress';
 import ProfileImage from 'components/ProfileImage';
 import Spacer from 'components/Spacer';
 import { getProfileDisplayName } from 'lib/ProfileUtils';
+import { DesmosProfile } from 'types/desmos';
 import useStyles from './useStyles';
 
 export type AccountListItemProps = {
@@ -12,6 +12,7 @@ export type AccountListItemProps = {
    * The Bech32 address that is displayed to the user.
    */
   address: string;
+  profile: DesmosProfile | undefined;
   /**
    * True if the item should be highlighted to the user.
    */
@@ -23,10 +24,8 @@ export type AccountListItemProps = {
 };
 
 const AccountListItem = (props: AccountListItemProps) => {
-  const { address, highlight, onPress } = props;
+  const { address, highlight, onPress, profile } = props;
   const styles = useStyles(highlight);
-
-  const { profile } = useProfileGivenAddress(address);
 
   return (
     <TouchableOpacity style={styles.container} onPress={onPress} disabled={!onPress}>
