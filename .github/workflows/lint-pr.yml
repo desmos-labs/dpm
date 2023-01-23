@@ -9,6 +9,7 @@ on:
 
 jobs:
   lint-pr:
+    name: Lint PR
     runs-on: ubuntu-latest
     steps:
       - name: Run lint ✅
