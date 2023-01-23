@@ -11,8 +11,8 @@ const useGetPasswordFromBiometrics = (biometricAuthorization: BiometricAuthoriza
   return useCallback(() => {
     setAppState((currentState) => ({ ...currentState, noSplashScreen: true }));
     if (Platform.OS === 'android') {
-      // In android if we are requesting the biometrics shortly after the user have
-      // unlocked is phone the application don't show the biometrics popup in this case
+      // On Android if we are requesting the biometrics shortly after the user has
+      // unlocked is phone the application won't show the biometrics popup. In this case
       // we don't need to prevent the visualization of the splash screen on the next
       // blur event.
       const cancelSplashIgnore = setTimeout(() => {
