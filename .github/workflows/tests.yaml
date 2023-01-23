@@ -19,10 +19,10 @@ jobs:
         uses: technote-space/get-diff-action@v6.1.2
         id: git_diff
         with:
-          PATTERNS: +**/*.{js,jsx,ts,tsx}
+          PATTERNS: +(src|__tests__)/**/*.+(js|jsx|ts|tsx)
           FILES: |
             package.json
-            yarn.lock   
+            yarn.lock
 
       - name: Install 🔨
         if: env.GIT_DIFF
