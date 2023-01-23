@@ -68,6 +68,7 @@ const useLockApplicationOnBlur = () => {
               noLockOnBackground: false,
               // Lock only if we shouldn't ignore the app state change.
               locked: !currentState.noLockOnBackground,
+              lastObBlur: undefined,
             };
           }
           return currentState;
