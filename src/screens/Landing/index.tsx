@@ -1,7 +1,7 @@
 import { StackScreenProps } from '@react-navigation/stack';
 import React, { useCallback, useEffect, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Animated, Image, ImageBackground, Text } from 'react-native';
+import { Animated, ImageBackground, Text } from 'react-native';
 import StyledSafeAreaView from 'components/StyledSafeAreaView';
 import IconButton from 'components/IconButton';
 import Button from 'components/Button';
@@ -12,6 +12,7 @@ import useImportAccount from 'hooks/useImportAccount';
 import { DesmosChain } from 'config/LinkableChains';
 import { desmosLogoWhite, homeBackgroundLight } from 'assets/images';
 import { useStoredAccountsAddresses } from '@recoil/accounts';
+import FastImage from 'react-native-fast-image';
 import useStyles from './useStyles';
 
 export type NavProps = StackScreenProps<RootNavigatorParamList, ROUTES.LANDING>;
@@ -83,7 +84,7 @@ const Landing = ({ navigation }: NavProps) => {
             opacity: iconOpacity,
           }}
         >
-          <Image style={styles.icon} source={desmosLogoWhite} resizeMode="contain" />
+          <FastImage style={styles.icon} source={desmosLogoWhite} resizeMode="contain" />
         </Animated.View>
         <Animated.View
           style={{

@@ -1,7 +1,8 @@
 import React, { useCallback } from 'react';
 import { ApplicationLink } from 'types/desmos';
 import { getApplicationData } from 'lib/ApplicationLinksUtils';
-import { Image, Linking, TouchableOpacity, View } from 'react-native';
+import { Linking, TouchableOpacity, View } from 'react-native';
+import FastImage from 'react-native-fast-image';
 import useStyles from './useStyles';
 
 export interface ApplicationLinkItemProps {
@@ -23,7 +24,7 @@ const ApplicationLinkItem = (props: ApplicationLinkItemProps) => {
 
   return (
     <TouchableOpacity onPress={onClick}>
-      <Image style={styles.image} source={data.image} />
+      <FastImage style={styles.image} source={data.image} />
     </TouchableOpacity>
   );
 };

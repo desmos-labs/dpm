@@ -1,13 +1,14 @@
 import React, { useCallback } from 'react';
 import { getLinkableChainInfoByName } from 'lib/ChainsUtils';
 import { cosmosIcon } from 'assets/images';
-import { Image, TouchableOpacity, View } from 'react-native';
+import { TouchableOpacity, View } from 'react-native';
 import Typography from 'components/Typography';
 import { useNavigation } from '@react-navigation/native';
 import ROUTES from 'navigation/routes';
 import { RootNavigatorParamList } from 'navigation/RootNavigator';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { ChainLink } from 'types/desmos';
+import FastImage from 'react-native-fast-image';
 import useStyles from './useStyles';
 
 export interface ChainLinkItemProps {
@@ -32,7 +33,7 @@ const ChainLinkItem = (props: ChainLinkItemProps) => {
   const chainName = chainInfo?.name ?? chainLink.chainName;
   return (
     <TouchableOpacity style={styles.chainLinkItem} onPress={onShowChainLinkInfo}>
-      <Image style={styles.chainLinkIcon} source={chainIcon} />
+      <FastImage style={styles.chainLinkIcon} source={chainIcon} />
       <View style={styles.chainLinkInfo}>
         <Typography.Body1 style={styles.chainLinkName}>{chainName}</Typography.Body1>
         <Typography.Caption2 ellipsizeMode="middle" numberOfLines={1}>

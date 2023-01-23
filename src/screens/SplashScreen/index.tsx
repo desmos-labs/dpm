@@ -1,6 +1,8 @@
 import React, { useEffect, useRef } from 'react';
-import { Animated, Image, ImageBackground, Platform, Text } from 'react-native';
+import { Animated, ImageBackground, Platform, Text } from 'react-native';
 import StyledSafeAreaView from 'components/StyledSafeAreaView';
+import FastImage from 'react-native-fast-image';
+import { desmosLogoWhite } from 'assets/images';
 import useStyles from './useStyles';
 
 const SplashScreen: React.FC = () => {
@@ -46,11 +48,7 @@ const SplashScreen: React.FC = () => {
             opacity: iconOpacity,
           }}
         >
-          <Image
-            style={styles.icon}
-            source={require('assets/images/desmosLogo-white.png')}
-            resizeMode="contain"
-          />
+          <FastImage style={styles.icon} source={desmosLogoWhite} resizeMode="contain" />
         </Animated.View>
         <Animated.View
           style={{

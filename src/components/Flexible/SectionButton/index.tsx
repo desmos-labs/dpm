@@ -1,7 +1,8 @@
 import React from 'react';
-import { Image, ImageProps, TouchableOpacity } from 'react-native';
+import { ImageProps, TouchableOpacity } from 'react-native';
 import Typography from 'components/Typography';
 import Icon from 'components/Flexible/Icon';
+import FastImage from 'react-native-fast-image';
 import useStyles from './useStyles';
 
 export type Props = {
@@ -16,7 +17,7 @@ const SectionButton: React.FC<Props> = (props) => {
 
   return (
     <TouchableOpacity style={styles.root} onPress={onPress ?? onPress}>
-      {icon && <Image style={styles.communityIcon} source={icon} resizeMode="contain" />}
+      {icon && <FastImage style={styles.communityIcon} source={icon} resizeMode="contain" />}
       <Typography.Body1 style={styles.label}>{label}</Typography.Body1>
       <Icon name="arrow-right" />
     </TouchableOpacity>

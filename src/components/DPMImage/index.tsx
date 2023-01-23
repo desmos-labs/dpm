@@ -1,5 +1,4 @@
 import React, { useMemo } from 'react';
-import { Image } from 'react-native';
 import useIsCurrentThemeDark from 'hooks/useIsCurrentThemeDark';
 import { DPMImages } from 'types/images';
 import {
@@ -23,14 +22,15 @@ import {
   resultSuccessDarkIcon,
   resultSuccessLightIcon,
 } from 'assets/images';
+import FastImage from 'react-native-fast-image';
 
-type ImageProps = React.ComponentProps<typeof Image>;
+type ImageProps = React.ComponentProps<typeof FastImage>;
 
 export type DPMImageProps = Omit<ImageProps, 'source'> & {
   source: DPMImages | ImageProps['source'];
 };
 
-const DpmImage: React.FC<DPMImageProps> = (props) => {
+const DpmImage = (props: DPMImageProps) => {
   const { source } = props;
   const darkTheme = useIsCurrentThemeDark();
 
@@ -66,7 +66,7 @@ const DpmImage: React.FC<DPMImageProps> = (props) => {
     }
   }, [source, darkTheme]);
 
-  return <Image {...props} source={imageSource} />;
+  return <FastImage {...props} source={imageSource} />;
 };
 
 export default DpmImage;

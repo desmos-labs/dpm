@@ -2,7 +2,7 @@ import { StackScreenProps } from '@react-navigation/stack';
 import { format } from 'date-fns';
 import React, { useCallback, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Image, View } from 'react-native';
+import { View } from 'react-native';
 import Typography from 'components/Typography';
 import StyledSafeAreaView from 'components/StyledSafeAreaView';
 import Button from 'components/Button';
@@ -14,6 +14,7 @@ import { cosmosIcon } from 'assets/images';
 import TopBar from 'components/TopBar';
 import Spacer from 'components/Spacer';
 import { ChainLink } from 'types/desmos';
+import FastImage from 'react-native-fast-image';
 import useStyles from './useStyles';
 import { useDisconnectChainLink } from './useHooks';
 
@@ -56,7 +57,7 @@ const ChainLinkDetails = () => {
     >
       {/* Chain data */}
       <View style={styles.chainDetails}>
-        <Image style={styles.chainLinkIcon} source={chainIcon} />
+        <FastImage style={styles.chainLinkIcon} source={chainIcon} />
         <Spacer paddingVertical={8} />
         <Typography.Title>{chainName}</Typography.Title>
       </View>
