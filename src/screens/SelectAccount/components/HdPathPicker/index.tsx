@@ -1,10 +1,11 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { StyleProp, StyleSheet, Text, View, ViewStyle } from 'react-native';
 import Typography from 'components/Typography';
 import TextInput from 'components/TextInput';
 import { HdPath, Slip10RawIndex } from '@cosmjs/crypto';
 import { safeParseInt, slip10IndexToString } from 'lib/FormatUtils';
 import { DesmosHdPath } from 'config/HdPaths';
+import { debounce } from 'lodash';
 import useStyles from './useStyles';
 
 type HdPathValues = 'coinType' | 'account' | 'change' | 'addressIndex';
@@ -30,9 +31,16 @@ export type HdPathPickerProps = {
 };
 
 const HdPathPicker: React.FC<HdPathPickerProps> = (props) => {
-  const { onChange, value, disabled, allowCoinTypeEdit, style } = props;
   const styles = useStyles(props);
+  const { onChange, value, disabled, allowCoinTypeEdit, style } = props;
+
   const [hdPath, setHdPath] = useState<HdPath>(value ?? DesmosHdPath);
+  const [hdPathValues, setHdPathValues] = useState<Record<HdPathValues, string | undefined>>({
+    coinType: slip10IndexToString(DesmosHdPath[1]),
+    account: slip10IndexToString(DesmosHdPath[2]),
+    change: slip10IndexToString(DesmosHdPath[3]),
+    addressIndex: slip10IndexToString(DesmosHdPath[4]),
+  });
 
   useEffect(() => {
     if (value !== undefined) {
@@ -89,6 +97,26 @@ const HdPathPicker: React.FC<HdPathPickerProps> = (props) => {
     }
   };
 
+  const debouncedElementChange = useRef(debounce(onElementChange, 750));
+
+  // This function is used to avoid calling the onElementChange function each time an individual value is set.
+  // It is wrapped in a debounce function to let the user have enough time to input multiple digits numbers.
+  const onValueChange = (changedValue: string | undefined, changedElement: HdPathValues) => {
+    setHdPathValues((values) => {
+      const newValues: Record<string, string | undefined> = {
+        ...values,
+      };
+      newValues[changedElement] = changedValue;
+      return newValues;
+    });
+
+    if (changedValue !== undefined && changedValue !== '') {
+      debouncedElementChange.current(changedValue, changedElement);
+    } else {
+      debouncedElementChange.current.cancel();
+    }
+  };
+
   return (
     <View style={StyleSheet.compose(styles.root as StyleProp<ViewStyle>, style)}>
       {allowCoinTypeEdit === true ? (
@@ -98,8 +126,8 @@ const HdPathPicker: React.FC<HdPathPickerProps> = (props) => {
             style={styles.elements}
             inputStyle={styles.input}
             keyboardType="numeric"
-            onChangeText={(v) => onElementChange(v, 'coinType')}
-            value={slip10IndexToString(hdPath[1])}
+            onChangeText={(v) => onValueChange(v, 'coinType')}
+            value={hdPathValues.coinType || ''}
             editable={disabled !== true}
           />
           <Text style={styles.hdPathText}>/</Text>
@@ -114,8 +142,8 @@ const HdPathPicker: React.FC<HdPathPickerProps> = (props) => {
         style={styles.elements}
         inputStyle={styles.input}
         keyboardType="numeric"
-        onChangeText={(v) => onElementChange(v, 'account')}
-        value={slip10IndexToString(hdPath[2])}
+        onChangeText={(v) => onValueChange(v, 'account')}
+        value={hdPathValues.account || ''}
         editable={disabled !== true}
       />
       <Text style={styles.hdPathText}>/</Text>
@@ -123,8 +151,8 @@ const HdPathPicker: React.FC<HdPathPickerProps> = (props) => {
         style={styles.elements}
         inputStyle={styles.input}
         keyboardType="numeric"
-        onChangeText={(v) => onElementChange(v, 'change')}
-        value={slip10IndexToString(hdPath[3])}
+        onChangeText={(v) => onValueChange(v, 'change')}
+        value={hdPathValues.change || ''}
         editable={disabled !== true}
       />
       <Text style={styles.hdPathText}>/</Text>
@@ -132,8 +160,8 @@ const HdPathPicker: React.FC<HdPathPickerProps> = (props) => {
         style={styles.elements}
         inputStyle={styles.input}
         keyboardType="numeric"
-        onChangeText={(v) => onElementChange(v, 'addressIndex')}
-        value={slip10IndexToString(hdPath[4])}
+        onChangeText={(v) => onValueChange(v, 'addressIndex')}
+        value={hdPathValues.addressIndex || ''}
         editable={disabled !== true}
       />
     </View>

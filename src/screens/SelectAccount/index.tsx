@@ -28,7 +28,6 @@ const SelectAccount: FC<NavProps> = (props) => {
   const { onSelect, onCancel, accountPickerParams } = props.route.params;
 
   const [selectedAccount, setSelectedAccount] = useState<AccountWithWallet | null>(null);
-  const [generatingAddresses, setGeneratingAddresses] = useState(false);
 
   const onNextPressed = useCallback(() => {
     if (selectedAccount !== null) {
@@ -51,16 +50,12 @@ const SelectAccount: FC<NavProps> = (props) => {
       <Typography.Title>{t('import account')}</Typography.Title>
       <Typography.Body>{t('select account or enter derivation path')}.</Typography.Body>
 
-      <AccountPicker
-        onAccountSelected={setSelectedAccount}
-        onGeneratingAddressesStateChange={setGeneratingAddresses}
-        params={accountPickerParams}
-      />
+      <AccountPicker onAccountSelected={setSelectedAccount} params={accountPickerParams} />
 
       <Button
         style={styles.nextButton}
         mode="contained"
-        disabled={selectedAccount === null || generatingAddresses}
+        disabled={!selectedAccount}
         onPress={onNextPressed}
       >
         {t('next')}
