@@ -9,7 +9,7 @@ import ROUTES from 'navigation/routes';
 const useSaveAccount = () => {
   const navigator = useNavigation<StackNavigationProp<RootNavigatorParamList>>();
   const hasAccount = useHasAccount();
-  const createWalletPassword = useMemo(() => hasAccount, [hasAccount]);
+  const createWalletPassword = useMemo(() => !hasAccount, [hasAccount]);
 
   return useCallback(
     (account: AccountWithWallet) => {
