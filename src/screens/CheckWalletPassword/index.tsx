@@ -92,8 +92,10 @@ const CheckWalletPassword = (props: NavProps) => {
   );
 
   return (
-    <StyledSafeAreaView style={styles.root} topBar={<TopBar stackProps={props} />}>
-      <Typography.Title>{t('confirm password')}</Typography.Title>
+    <StyledSafeAreaView
+      style={styles.root}
+      topBar={<TopBar stackProps={props} title={t('confirm password')} />}
+    >
       <View style={styles.passwordLabel}>
         <Typography.Body>{t('enter security password')}</Typography.Body>
       </View>
