@@ -93,8 +93,9 @@ const AccountPicker: React.FC<AccountPickerProps> = ({ onAccountSelected, params
       setSelectedHdPath(hdPath);
       const wallet = await generateWalletAccountFromHdPath(hdPath, params);
       setSelectedAccount(wallet);
+      onAccountSelected(wallet);
     },
-    [generateWalletAccountFromHdPath, params],
+    [generateWalletAccountFromHdPath, params, onAccountSelected],
   );
 
   return (
