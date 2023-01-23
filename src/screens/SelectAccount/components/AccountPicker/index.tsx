@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import React, { useCallback, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { ListRenderItemInfo, StyleProp, View, ViewStyle } from 'react-native';
 import Typography from 'components/Typography';
@@ -49,22 +49,6 @@ const AccountPicker: React.FC<AccountPickerProps> = ({ onAccountSelected, params
     return false;
   }, [params]);
 
-  // Effect to notify any listener about when the account has been selected
-  useEffect(() => {
-    onAccountSelected(selectedAccount);
-  }, [selectedAccount, onAccountSelected]);
-
-  // Effect to generate the first account when the screen loads.
-  useEffect(() => {
-    (async () => {
-      const account = await generateWalletAccountFromHdPath(selectedHdPath, params);
-      setSelectedAccount(account);
-    })();
-
-    // Disable the next line warning as we want to run this effect only the first time the screen loads
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
   const toggleAddressPicker = useCallback(() => {
     setAddressPickerVisible((visible) => {
       if (!visible) {
@@ -92,12 +76,12 @@ const AccountPicker: React.FC<AccountPickerProps> = ({ onAccountSelected, params
           onPress={() => {
             const account = selectedAccount?.account.address === address ? null : info.item;
             setSelectedAccount(account);
-            return account;
+            onAccountSelected(account);
           }}
         />
       );
     },
-    [selectedAccount, setSelectedAccount],
+    [selectedAccount, onAccountSelected, setSelectedAccount],
   );
 
   const listKeyExtractor = useCallback((item: AccountWithWallet) => item.account.address, []);
