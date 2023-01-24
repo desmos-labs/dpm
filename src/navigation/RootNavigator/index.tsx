@@ -16,7 +16,9 @@ import ConnectToLedgerStack, {
 import Profile, { ProfileParams } from 'screens/Profile';
 import ChainLinkDetails, { ChainLinkDetailsParams } from 'screens/ChainLinkDetails';
 import ImportAccountSelectChain from 'screens/ImportAccountSelectChain';
-import ImportAccountSelectType from 'screens/ImportAccountSelectType';
+import ImportAccountSelectType, {
+  ImportAccountSelectTypeParams,
+} from 'screens/ImportAccountSelectType';
 import ImportAccountSelectLedgerApp from 'screens/ImportAccountSelectLedgerApp';
 import UnlockWallet, { UnlockWalletParams } from 'screens/UnlockWallet';
 import SendTokens from 'screens/SendTokens';
@@ -52,7 +54,7 @@ export type RootNavigatorParamList = {
   [ROUTES.LEGAL]: LegalParams;
   [ROUTES.CREATE_NEW_MNEMONIC]: undefined;
   [ROUTES.IMPORT_ACCOUNT_SELECT_CHAIN]: undefined;
-  [ROUTES.IMPORT_ACCOUNT_SELECT_TYPE]: undefined;
+  [ROUTES.IMPORT_ACCOUNT_SELECT_TYPE]: ImportAccountSelectTypeParams | undefined;
   [ROUTES.IMPORT_ACCOUNT_FROM_MNEMONIC]: undefined;
   [ROUTES.IMPORT_ACCOUNT_SELECT_LEDGER_APP]: undefined;
   [ROUTES.CHECK_MNEMONIC]: CheckMnemonicParams;

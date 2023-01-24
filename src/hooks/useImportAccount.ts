@@ -10,6 +10,11 @@ import importAccountAppState from '@recoil/importAccountState';
 import { getChainSupportedWalletTypes } from 'lib/ChainsUtils';
 import useReturnToCurrentScreen from 'hooks/useReturnToCurrentScreen';
 
+type ImportAccountOptions = {
+  title: string;
+  description: string;
+};
+
 type AccountWithWalletAndChain = {
   account: AccountWithWallet;
   chain: SupportedChain;
@@ -19,11 +24,16 @@ type AccountWithWalletAndChain = {
  * Hook that starts a flow that allow the user to import an account from either one of the supported chains.
  * @param chains - List of supported chains to be showed during the import flow.
  * @param ignoreAddresses - List of addresses that will be ignored during the account generation.
+ * @param options - Details to be used on the next screen.
  *
  * <b>Note</b>: If the {@param chains} list only contains one item, the screen allowing to select the chain
  * to be imported will be skipped.
  */
-const useImportAccount = (chains: SupportedChain[], ignoreAddresses?: string[]) => {
+const useImportAccount = (
+  chains: SupportedChain[],
+  ignoreAddresses?: string[],
+  options?: ImportAccountOptions,
+) => {
   const navigation = useNavigation<StackNavigationProp<RootNavigatorParamList>>();
   const [, setImportAccountState] = useRecoilState(importAccountAppState);
   const returnToCurrentScreen = useReturnToCurrentScreen();
@@ -46,19 +56,23 @@ const useImportAccount = (chains: SupportedChain[], ignoreAddresses?: string[]) 
         },
       });
 
-      navigation.navigate({
-        name:
-          selectedChain === undefined
-            ? ROUTES.IMPORT_ACCOUNT_SELECT_CHAIN
-            : ROUTES.IMPORT_ACCOUNT_SELECT_TYPE,
-        params: undefined,
-      });
+      switch (selectedChain) {
+        case undefined:
+          navigation.navigate(ROUTES.IMPORT_ACCOUNT_SELECT_CHAIN);
+          break;
+        default:
+          navigation.navigate(ROUTES.IMPORT_ACCOUNT_SELECT_TYPE, {
+            title: options?.title,
+            description: options?.description,
+          });
+          break;
+      }
     });
 
     await returnToCurrentScreen();
     // setImportAccountState(undefined);
     return data;
-  }, [chains, ignoreAddresses, navigation, returnToCurrentScreen, setImportAccountState]);
+  }, [chains, ignoreAddresses, navigation, options, returnToCurrentScreen, setImportAccountState]);
 };
 
 export default useImportAccount;

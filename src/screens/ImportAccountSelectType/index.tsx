@@ -1,5 +1,5 @@
 import { StackScreenProps } from '@react-navigation/stack';
-import React, { useCallback } from 'react';
+import React, { useCallback, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import Typography from 'components/Typography';
 import StyledSafeAreaView from 'components/StyledSafeAreaView';
@@ -17,9 +17,16 @@ import ImageButton from './components/ImageButton';
 
 type NavProps = StackScreenProps<RootNavigatorParamList, ROUTES.IMPORT_ACCOUNT_SELECT_TYPE>;
 
-const ImportAccountSelectType: React.FC<NavProps> = ({ navigation }) => {
+export interface ImportAccountSelectTypeParams {
+  readonly title?: string;
+  readonly description?: string;
+}
+
+const ImportAccountSelectType = (props: NavProps) => {
   const { t } = useTranslation('account');
   const styles = useStyles();
+  const { navigation } = props;
+  const { params } = props.route;
 
   const [importAccountState, setImportAccountState] = useRecoilState(importAccountAppState);
   const { onCancel, chains, supportedImportMode } = importAccountState!;
@@ -80,14 +87,18 @@ const ImportAccountSelectType: React.FC<NavProps> = ({ navigation }) => {
     [styles, t, onImportModeSelected],
   );
 
+  const title = useMemo(() => (params?.title ? params.title : t('connect chain')), [params, t]);
+  const description = useMemo(
+    () => (params?.description ? params.description : t('select connection method')),
+    [params, t],
+  );
+
   return (
-    <StyledSafeAreaView
-      style={styles.background}
-      topBar={
-        <TopBar style={styles.background} stackProps={{ navigation }} title={t('connect chain')} />
-      }
-    >
-      <Typography.Body>{t('select connection method')}</Typography.Body>
+    <StyledSafeAreaView topBar={<TopBar stackProps={{ navigation }} title={title} />}>
+      {/* Description */}
+      <Typography.Body>{description}</Typography.Body>
+
+      {/* Import type list */}
       <FlatList data={supportedImportMode!} renderItem={renderWalletTypeItem} />
     </StyledSafeAreaView>
   );
