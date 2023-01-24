@@ -5,8 +5,11 @@ const useStyles = makeStyle((theme) => ({
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
-    padding: 16,
+    padding: theme.spacing.s,
     backgroundColor: theme.colors.surface2,
+    elevation: 5,
+    borderRadius: theme.roundness,
+    marginHorizontal: theme.spacing.s,
   },
 }));
 
