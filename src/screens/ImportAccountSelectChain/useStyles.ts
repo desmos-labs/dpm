@@ -7,9 +7,6 @@ const useStyle = makeStyle((theme) => ({
   list: {
     flex: 1,
   },
-  bottomMargin: {
-    marginTop: theme.spacing.l,
-  },
 }));
 
 export default useStyle;
