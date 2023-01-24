@@ -2,7 +2,7 @@ import { atom, useRecoilValue, useSetRecoilState } from 'recoil';
 import { useCallback } from 'react';
 import { SnackBarState } from './types';
 
-const SnackBarAtom = atom<SnackBarState>({
+const snackBarAppState = atom<SnackBarState>({
   key: 'snackBarState',
   default: { visible: false },
 });
@@ -10,7 +10,7 @@ const SnackBarAtom = atom<SnackBarState>({
 /**
  * Hook that provides the SnackBar app state.
  */
-export const useSnackBarState = () => useRecoilValue(SnackBarAtom);
+export const useSnackBarState = () => useRecoilValue(snackBarAppState);
 
 export interface SnackBarShowOptions {
   /**
@@ -28,7 +28,7 @@ export interface SnackBarShowOptions {
  * Hook that provide a function to display the SnackBar.
  */
 export const useShowSnackBar = () => {
-  const setSnackBarState = useSetRecoilState(SnackBarAtom);
+  const setSnackBarState = useSetRecoilState(snackBarAppState);
 
   return useCallback(
     (text: string, options?: SnackBarShowOptions) => {
