@@ -27,6 +27,9 @@ require('crypto');
 
 //if (typeof BigInt === 'undefined') global.BigInt = require('big-integer')
 
+// Polyfill Intl.PluralRules to support the new i18n v4 api
+import 'intl-pluralrules';
+
 // Wallet Shims
 import '@walletconnect/react-native-compat';
 // Wallet connect TextEncoding polyfill
