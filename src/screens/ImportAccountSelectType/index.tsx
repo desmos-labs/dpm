@@ -8,11 +8,10 @@ import { DPMImages } from 'types/images';
 import { RootNavigatorParamList } from 'navigation/RootNavigator';
 import ROUTES from 'navigation/routes';
 import { WalletType } from 'types/wallet';
-import { FlatList, ListRenderItemInfo } from 'react-native';
 import useOnBackAction from 'hooks/useOnBackAction';
 import { useRecoilState } from 'recoil';
 import importAccountAppState from '@recoil/importAccountState';
-import useStyles from './useStyles';
+import Spacer from 'components/Spacer';
 import ImageButton from './components/ImageButton';
 
 type NavProps = StackScreenProps<RootNavigatorParamList, ROUTES.IMPORT_ACCOUNT_SELECT_TYPE>;
@@ -24,12 +23,11 @@ export interface ImportAccountSelectTypeParams {
 
 const ImportAccountSelectType = (props: NavProps) => {
   const { t } = useTranslation('account');
-  const styles = useStyles();
   const { navigation } = props;
   const { params } = props.route;
 
   const [importAccountState, setImportAccountState] = useRecoilState(importAccountAppState);
-  const { onCancel, chains, supportedImportMode } = importAccountState!;
+  const { onCancel, chains } = importAccountState!;
 
   useOnBackAction(() => {
     if (onCancel !== undefined && chains.length === 1) {
@@ -58,35 +56,6 @@ const ImportAccountSelectType = (props: NavProps) => {
     [setImportAccountState, navigation],
   );
 
-  const renderWalletTypeItem = useCallback(
-    (item: ListRenderItemInfo<WalletType>) => {
-      let label: string;
-      let image: DPMImages;
-      switch (item.item) {
-        case WalletType.Mnemonic:
-          label = t('use secret recovery passphrase');
-          image = DPMImages.ConnectMnemonic;
-          break;
-        case WalletType.Ledger:
-          label = t('connect with ledger');
-          image = DPMImages.ConnectLedger;
-          break;
-        default:
-          return null;
-      }
-
-      return (
-        <ImageButton
-          style={[styles.bottomMargin, item.index === 0 && styles.topMargin]}
-          image={image}
-          label={label}
-          onPress={() => onImportModeSelected(item.item)}
-        />
-      );
-    },
-    [styles, t, onImportModeSelected],
-  );
-
   const title = useMemo(() => (params?.title ? params.title : t('connect chain')), [params, t]);
   const description = useMemo(
     () => (params?.description ? params.description : t('select connection method')),
@@ -98,8 +67,23 @@ const ImportAccountSelectType = (props: NavProps) => {
       {/* Description */}
       <Typography.Body>{description}</Typography.Body>
 
-      {/* Import type list */}
-      <FlatList data={supportedImportMode!} renderItem={renderWalletTypeItem} />
+      <Spacer paddingVertical={10} />
+
+      {/* Connect with Mnemonic button */}
+      <ImageButton
+        image={DPMImages.ConnectMnemonic}
+        label={t('use secret recovery passphrase')}
+        onPress={() => onImportModeSelected(WalletType.Mnemonic)}
+      />
+
+      <Spacer paddingVertical={20} />
+
+      {/* Connect with Ledger button */}
+      <ImageButton
+        image={DPMImages.ConnectLedger}
+        label={t('connect with ledger')}
+        onPress={() => onImportModeSelected(WalletType.Ledger)}
+      />
     </StyledSafeAreaView>
   );
 };
