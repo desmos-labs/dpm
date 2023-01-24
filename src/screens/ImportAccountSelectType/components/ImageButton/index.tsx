@@ -25,7 +25,7 @@ const ImageButton: React.FC<ImageButtonProps> = ({
 
   return (
     <TouchableOpacity style={[styles.root, style]} onPress={onPress} disabled={disabled}>
-      <DpmImage source={image} style={imageStyle} resizeMode={'contain'} />
+      <DpmImage source={image} style={imageStyle ?? styles.imageStyle} resizeMode={'contain'} />
       <Typography.Body1>{label}</Typography.Body1>
     </TouchableOpacity>
   );

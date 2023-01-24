@@ -11,6 +11,10 @@ const useStyles = makeStyle((theme) => ({
     borderRadius: theme.roundness,
     marginHorizontal: theme.spacing.s,
   },
+  imageStyle: {
+    width: '100%',
+    height: 100,
+  },
 }));
 
 export default useStyles;

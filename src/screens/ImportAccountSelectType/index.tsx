@@ -79,7 +79,6 @@ const ImportAccountSelectType = (props: NavProps) => {
         <ImageButton
           style={[styles.bottomMargin, item.index === 0 && styles.topMargin]}
           image={image}
-          imageStyle={styles.buttonImage}
           label={label}
           onPress={() => onImportModeSelected(item.item)}
         />

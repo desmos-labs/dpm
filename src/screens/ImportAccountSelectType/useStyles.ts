@@ -4,10 +4,6 @@ const useStyle = makeStyle((theme) => ({
   background: {
     backgroundColor: theme.colors.background2,
   },
-  buttonImage: {
-    height: 100,
-    width: '100%',
-  },
   topMargin: {
     marginTop: theme.spacing.l,
   },
