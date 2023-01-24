@@ -14,6 +14,10 @@ interface AvatarImageProps {
    * Callback called when the user press on the avatar image.
    */
   onPress?: () => void;
+  /**
+   * True if we should display a loading indicator over the image.
+   */
+  loading?: boolean;
   style?: StyleProp<ImageStyle>;
 }
 

@@ -3,8 +3,6 @@ import { makeStyle } from 'config/theme';
 const useStyles = makeStyle((theme) => ({
   root: {
     flex: 1,
-    alignContent: 'center',
-    alignItems: 'center',
   },
   addressesList: {
     flex: 1,

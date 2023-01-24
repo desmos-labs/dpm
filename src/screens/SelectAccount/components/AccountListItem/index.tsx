@@ -1,10 +1,10 @@
 import React from 'react';
 import { TouchableOpacity, View } from 'react-native';
 import Typography from 'components/Typography';
-import useProfileGivenAddress from 'hooks/useProfileGivenAddress';
 import ProfileImage from 'components/ProfileImage';
 import Spacer from 'components/Spacer';
 import { getProfileDisplayName } from 'lib/ProfileUtils';
+import { useFetchProfile } from 'screens/SelectAccount/components/AccountListItem/useHooks';
 import useStyles from './useStyles';
 
 export type AccountListItemProps = {
@@ -20,13 +20,18 @@ export type AccountListItemProps = {
    * Function called when the user click over the item.
    */
   onPress?: () => void;
+  /**
+   * Amount of time in milliseconds that the component will wait
+   * before fetching the profile associated to the provided address.
+   * Default 1000ms.
+   */
+  fetchDelay?: number;
 };
 
 const AccountListItem = (props: AccountListItemProps) => {
-  const { address, highlight, onPress } = props;
+  const { address, highlight, onPress, fetchDelay } = props;
   const styles = useStyles(highlight);
-
-  const { profile } = useProfileGivenAddress(address);
+  const { profile, profileLoading } = useFetchProfile(address, fetchDelay ?? 1000);
 
   return (
     <TouchableOpacity style={styles.container} onPress={onPress} disabled={!onPress}>
@@ -34,7 +39,7 @@ const AccountListItem = (props: AccountListItemProps) => {
         {/* <Typography.Body1 style={styles.number}>#{number}</Typography.Body1> */}
 
         {/* Profile image */}
-        <ProfileImage profile={profile} size={36} />
+        <ProfileImage profile={profile} size={36} loading={profileLoading} />
 
         <Spacer paddingHorizontal={6} />
 

@@ -1,6 +1,6 @@
-import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import React, { useCallback, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { ListRenderItemInfo, StyleProp, View, ViewStyle } from 'react-native';
+import { StyleProp, View, ViewStyle } from 'react-native';
 import Typography from 'components/Typography';
 import ListItemSeparator from 'components/ListItemSeparator';
 import { HdPath } from '@cosmjs/crypto';
@@ -11,7 +11,7 @@ import {
 import { AccountWithWallet } from 'types/account';
 import Button from 'components/Button';
 import Spacer from 'components/Spacer';
-import PaginatedFlatList from '../PaginatedFlatList';
+import PaginatedFlatList, { ListRenderItemInfo } from '../PaginatedFlatList';
 import HdPathPicker from '../HdPathPicker';
 import AccountListItem from '../AccountListItem';
 import useStyles from './useStyles';
@@ -49,22 +49,6 @@ const AccountPicker: React.FC<AccountPickerProps> = ({ onAccountSelected, params
     return false;
   }, [params]);
 
-  // Effect to notify any listener about when the account has been selected
-  useEffect(() => {
-    onAccountSelected(selectedAccount);
-  }, [selectedAccount, onAccountSelected]);
-
-  // Effect to generate the first account when the screen loads.
-  useEffect(() => {
-    (async () => {
-      const account = await generateWalletAccountFromHdPath(selectedHdPath, params);
-      setSelectedAccount(account);
-    })();
-
-    // Disable the next line warning as we want to run this effect only the first time the screen loads
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
   const toggleAddressPicker = useCallback(() => {
     setAddressPickerVisible((visible) => {
       if (!visible) {
@@ -92,12 +76,12 @@ const AccountPicker: React.FC<AccountPickerProps> = ({ onAccountSelected, params
           onPress={() => {
             const account = selectedAccount?.account.address === address ? null : info.item;
             setSelectedAccount(account);
-            return account;
+            onAccountSelected(account);
           }}
         />
       );
     },
-    [selectedAccount, setSelectedAccount],
+    [selectedAccount, onAccountSelected, setSelectedAccount],
   );
 
   const listKeyExtractor = useCallback((item: AccountWithWallet) => item.account.address, []);
@@ -108,8 +92,9 @@ const AccountPicker: React.FC<AccountPickerProps> = ({ onAccountSelected, params
       setSelectedHdPath(hdPath);
       const wallet = await generateWalletAccountFromHdPath(hdPath, params);
       setSelectedAccount(wallet);
+      onAccountSelected(wallet);
     },
-    [generateWalletAccountFromHdPath, params],
+    [generateWalletAccountFromHdPath, params, onAccountSelected],
   );
 
   return (
@@ -117,13 +102,14 @@ const AccountPicker: React.FC<AccountPickerProps> = ({ onAccountSelected, params
       {/* Address picker */}
       {addressPickerVisible ? (
         <PaginatedFlatList
-          style={styles.addressesList}
+          extraData={selectedAccount}
           loadPage={fetchWallets}
-          itemsPerPage={10}
+          itemsPerPage={15}
           renderItem={renderListItem}
           keyExtractor={listKeyExtractor}
           onEndReachedThreshold={0.5}
           ItemSeparatorComponent={ListItemSeparator}
+          estimatedItemSize={74}
         />
       ) : null}
 
@@ -153,7 +139,7 @@ const AccountPicker: React.FC<AccountPickerProps> = ({ onAccountSelected, params
         {/* Last generated address */}
         {!addressPickerVisible &&
           (selectedAccount?.account.address ? (
-            <AccountListItem address={selectedAccount.account.address} />
+            <AccountListItem address={selectedAccount.account.address} fetchDelay={0} />
           ) : (
             <Typography.Body numberOfLines={1} ellipsizeMode="middle">
               {`${t('generating address')}...`}
