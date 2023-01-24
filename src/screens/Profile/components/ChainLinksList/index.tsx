@@ -9,7 +9,6 @@ import { DPMImages } from 'types/images';
 import useShowModal from 'hooks/useShowModal';
 import SingleButtonModal from 'modals/SingleButtonModal';
 import { ChainLink } from 'types/desmos';
-import StyledActivityIndicator from 'components/StyledActivityIndicator';
 import ChainLinkItem from '../ChainLinkItem';
 import useStyles from './useStyles';
 import useConnectChain from './useHooks';
@@ -17,12 +16,11 @@ import useConnectChain from './useHooks';
 export interface ChainConnectionsProps {
   canEdit: boolean;
   chainLinks: ChainLink[];
-  loading: boolean;
 }
 
 const ChainLinksList = (props: ChainConnectionsProps) => {
   const { t } = useTranslation('chainLinks');
-  const { canEdit, chainLinks, loading } = props;
+  const { canEdit, chainLinks } = props;
   const hasConnections = chainLinks.length !== 0;
   const styles = useStyles();
 
@@ -69,30 +67,26 @@ const ChainLinksList = (props: ChainConnectionsProps) => {
 
   return (
     <View style={styles.root}>
-      {/* Loading indicator */}
-      {loading && <StyledActivityIndicator />}
-
       {/* Chain links list */}
-      {!loading && (
-        <View style={styles.connectionsContainer}>
-          {hasConnections && (
-            <Typography.Body1 style={styles.connectionsListTitle}>
-              {t('connected chains')}
-            </Typography.Body1>
-          )}
-          <FlatList
-            style={styles.connectionsList}
-            data={chainLinks}
-            renderItem={renderItem}
-            keyExtractor={(item) => item.chainName + item.externalAddress}
-            ItemSeparatorComponent={ListItemSeparator}
-            ListEmptyComponent={ListEmptyComponent}
-          />
-        </View>
-      )}
+
+      <View style={styles.connectionsContainer}>
+        {hasConnections && (
+          <Typography.Body1 style={styles.connectionsListTitle}>
+            {t('connected chains')}
+          </Typography.Body1>
+        )}
+        <FlatList
+          style={styles.connectionsList}
+          data={chainLinks}
+          renderItem={renderItem}
+          keyExtractor={(item) => item.chainName + item.externalAddress}
+          ItemSeparatorComponent={ListItemSeparator}
+          ListEmptyComponent={ListEmptyComponent}
+        />
+      </View>
 
       {/* Connect button */}
-      {canEdit && !loading && hasConnections && (
+      {canEdit && hasConnections && (
         <Button style={styles.connectChainButton} onPress={connectChain} mode="outlined">
           {t('connect chain')}
         </Button>

@@ -1,14 +1,18 @@
-import React from 'react';
+import React, { useCallback, useMemo } from 'react';
 import { StackScreenProps } from '@react-navigation/stack';
 import { useTheme } from 'react-native-paper';
 import StyledSafeAreaView from 'components/StyledSafeAreaView';
 import TopBar from 'components/TopBar';
 import { RootNavigatorParamList } from 'navigation/RootNavigator';
 import ROUTES from 'navigation/routes';
-import { useNavigation, useRoute } from '@react-navigation/native';
+import { useFocusEffect, useNavigation, useRoute } from '@react-navigation/native';
 import EditProfileButton from 'screens/Profile/components/EditProfileButton';
 import useProfileGivenAddress from 'hooks/useProfileGivenAddress';
-import StyledActivityIndicator from 'components/StyledActivityIndicator';
+import useModal from 'hooks/useModal';
+import LoadingModal from 'modals/LoadingModal';
+import { useTranslation } from 'react-i18next';
+import useChainLinksGivenAddress from 'hooks/useChainLinksGivenAddress';
+import useApplicationLinksGivenAddress from 'hooks/useApplicationLinksGivenAddress';
 import ProfileData from './components/ProfileData';
 import useStyles from './useStyles';
 
@@ -23,20 +27,53 @@ export interface ProfileParams {
 }
 
 const Profile = () => {
-  const navigation = useNavigation<NavProps['navigation']>();
-  const { params } = useRoute<NavProps['route']>();
   const styles = useStyles();
   const theme = useTheme();
+  const { t } = useTranslation('profile');
 
+  const navigation = useNavigation<NavProps['navigation']>();
+  const { params } = useRoute<NavProps['route']>();
   const visitingProfile = params?.visitingProfile;
   const canEdit = !visitingProfile;
 
+  const { showModal, hideModal } = useModal();
+
   const { profile, loading: loadingProfile } = useProfileGivenAddress(visitingProfile);
 
-  const EditProfileBtn = React.useMemo(
-    () => (canEdit && profile ? <EditProfileButton profile={profile} /> : undefined),
-    [profile, canEdit],
+  const {
+    chainLinks,
+    loading: loadingChainLinks,
+    refetch: updateChainLinks,
+  } = useChainLinksGivenAddress(profile?.address);
+
+  const {
+    applicationLinks,
+    loading: loadingApplicationLinks,
+    refetch: updateApplicationLinks,
+  } = useApplicationLinksGivenAddress(profile?.address);
+
+  useFocusEffect(
+    useCallback(() => {
+      // Refresh the data when the screen is focused
+      updateChainLinks();
+      updateApplicationLinks();
+    }, [updateApplicationLinks, updateChainLinks]),
   );
+
+  const isLoading = useMemo(
+    () => loadingProfile || loadingChainLinks || loadingApplicationLinks,
+    [loadingApplicationLinks, loadingChainLinks, loadingProfile],
+  );
+
+  React.useEffect(() => {
+    if (isLoading) {
+      showModal(LoadingModal, {
+        text: `${t('loading profile')}...`,
+      });
+    } else {
+      hideModal();
+    }
+  }, [hideModal, isLoading, showModal, t]);
 
   return (
     <StyledSafeAreaView
@@ -46,14 +83,18 @@ const Profile = () => {
           style={styles.topBar}
           leftIconColor={theme.colors.icon['5']}
           stackProps={{ navigation }}
-          rightElement={EditProfileBtn}
+          rightElement={canEdit && profile ? <EditProfileButton profile={profile} /> : undefined}
         />
       }
     >
-      {loadingProfile ? (
-        <StyledActivityIndicator />
-      ) : (
-        <ProfileData profile={profile} canEdit={canEdit} />
+      {/* Profile data */}
+      {!isLoading && (
+        <ProfileData
+          canEdit={canEdit}
+          profile={profile}
+          applicationLinks={applicationLinks}
+          chainLinks={chainLinks}
+        />
       )}
     </StyledSafeAreaView>
   );

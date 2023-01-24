@@ -7,7 +7,6 @@ import Spacer from 'components/Spacer';
 import useStyles from './useStyles';
 
 export interface ApplicationLinksProps {
-  readonly loading: boolean;
   readonly applicationLinks: ApplicationLink[];
   readonly canEdit: boolean;
 }
