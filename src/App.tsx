@@ -7,6 +7,7 @@ import GraphQLClientProvider from 'contexts/GraphQLClientProvider';
 import { StatusBar } from 'react-native';
 import useLockApplicationOnBlur from 'hooks/useLockApplicationOnBlur';
 import RNBootSplash from 'react-native-bootsplash';
+import SnackBarProvider from 'lib/SnackBarProvider';
 
 const AppLockLogic = () => {
   useLockApplicationOnBlur();
@@ -24,8 +25,10 @@ const App = () => (
   <RecoilRoot>
     <GraphQLClientProvider>
       <ThemeProvider>
-        <StatusBar translucent backgroundColor="transparent" barStyle="dark-content" />
-        <Navigation />
+        <SnackBarProvider>
+          <StatusBar translucent backgroundColor="transparent" barStyle="dark-content" />
+          <Navigation />
+        </SnackBarProvider>
       </ThemeProvider>
     </GraphQLClientProvider>
   </RecoilRoot>
