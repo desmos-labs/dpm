@@ -1,5 +1,5 @@
 import React, { FC, PropsWithChildren, useCallback } from 'react';
-import { Snackbar } from 'react-native-paper';
+import { Snackbar, useTheme } from 'react-native-paper';
 import { useSnackBarState } from 'lib/SnackBarProvider/recoil';
 import Typography from 'components/Typography';
 import { useTranslation } from 'react-i18next';
@@ -11,6 +11,7 @@ const SnackBarProvider: FC<PropsWithChildren<SnackBarProviderProps>> = ({ childr
   const { visible, onDismiss, text, duration } = useSnackBarState();
   const { t } = useTranslation();
   const styles = useStyles();
+  const theme = useTheme();
 
   const onDismissAction = useCallback(() => {
     if (onDismiss) {
@@ -23,6 +24,7 @@ const SnackBarProvider: FC<PropsWithChildren<SnackBarProviderProps>> = ({ childr
       {children}
       <Snackbar
         style={styles.snackbar}
+        theme={{ colors: { accent: theme.colors.primary } }}
         visible={visible}
         onDismiss={onDismissAction}
         action={{ label: t('hide') }}
