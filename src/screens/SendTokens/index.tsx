@@ -121,7 +121,7 @@ const SendTokens = () => {
       <Typography.Subtitle style={styles.topMarginMedium}>{t('tx note')}</Typography.Subtitle>
       <TextInput
         style={[styles.topMarginSmall, styles.memoInput]}
-        placeholder={t('transaction:tx description')}
+        placeholder={t('tx description')}
         value={memo}
         onChangeText={onMemoChange}
         numberOfLines={4}
