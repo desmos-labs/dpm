@@ -234,6 +234,17 @@ export const changeWalletsPassword = async (oldPassword: string, newPassword: st
 
   // Update the global password challenge
   await setUserPassword(newPassword);
+
+  // Update the configured biometrics configurations with the new password.
+  const allKeys = await Keychain.getAllGenericPasswordServices();
+  const biometricsKeys = Object.values(BiometricAuthorizations).map(
+    (auth) => `${auth}${SecureStorageKeys.BIOMETRIC_AUTHORIZATION_SUFFIX}`,
+  );
+  const biometricsToUpdate = allKeys.filter((key) => biometricsKeys.indexOf(key) !== -1);
+  await Promise.all(
+    biometricsToUpdate.map((key) => setItem(key, newPassword, { biometrics: true })),
+  );
+
   return true;
 };
 
