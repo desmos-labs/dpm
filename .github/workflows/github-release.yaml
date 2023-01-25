@@ -9,7 +9,7 @@ on:
 
 jobs:
   deploy:
-    name: Deploying to Play Store
+    name: Deploying to Github Release
     runs-on: ubuntu-latest
 
     steps:
