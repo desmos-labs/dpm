@@ -22,11 +22,42 @@ static def getVersionCode(String gitTag, String abi) {
     if (gitTag[0] != 'v') {
         throw new RuntimeException("Invalid version tag \"${gitTag}\", format \"vx.y.z\" expected.")
     }
+    // Drop the v char from the git tag version.
     def tag = gitTag.substring(1)
+    // Split in the varius version numbers
     def parts = tag.tokenize('.')
-    if(parts.size() != 3 || parts[1].length() > 2 || parts[2].length() > 2) {
+    if(parts.size() != 3 || parts[1].length() > 2 || parts[2].length() > 7) {
         throw new RuntimeException("Invalid version tag \"${tag}\", format \"x.y.z\" expected.")
     }
+
+    // Major version number
+    def major = parts[0]
+    // Intermediate version number
+    def intermediate = parts[1]
+    // Extract RC number from the last number (00-RC00)
+    def minorParts = parts[2].tokenize('-')
+    // Minor version number
+    def minor = minorParts[0]
+    if (minor.length() > 2 || minor.length() == 0) {
+        throw new RuntimeException("Invalid minor value \"${minor}\", the minor value should be between 0-99.")
+    }
+
+    // Force to 99 so if we are compiling a release version the generated version code will be
+    // greater of all the release candidates.
+    def rcValue = '99'
+    if (minorParts.size() == 2) {
+        // Drop the "RC" chars from the RCXX string
+        def cleanedValue = minorParts[1].substring(2)
+        // Check that the value is not empty and shorter then 2
+        if (cleanedValue.length() == 0 || cleanedValue.length() > 2) {
+            throw new RuntimeException("Invalid RC release candidate value \"${cleanedValue}\", format \"xx\" expected.")
+        }
+        if (cleanedValue == '99') {
+            throw new RuntimeException("Invalid RC value \"${cleanedValue}\", the max allowed value is 98")
+        }
+        rcValue = cleanedValue
+    }
+
 
     // Create different version for each abi
     def versionCodes = ["armeabi-v7a": "1", "x86": "2", "arm64-v8a": "3", "x86_64": "4"]
@@ -38,14 +69,17 @@ static def getVersionCode(String gitTag, String abi) {
         }
     }
 
-    if(parts[1].length() == 1) {
-        parts[1] = "0" + parts[1]
+    if(intermediate.length() == 1) {
+        intermediate = "0" + intermediate
     }
-    if(parts[2].length() == 1) {
-        parts[2] = "0" + parts[2]
+    if(minor.length() == 1) {
+        minor = "0" + minor
+    }
+    if(rcValue.length() == 1) {
+        rcValue = "0" + rcValue
     }
 
-    return Integer.parseInt(abiCode + parts[0] + parts[1] + parts[2])
+    return Integer.parseInt(major + intermediate + minor + rcValue + abiCode)
 }
 
 static def getVersionName(String tag) {
