@@ -254,6 +254,18 @@ platform :android do
     gradle(task: 'clean', project_dir: "android/")
   end
 
+  lane :signing_report do
+    # Prepares keystore to sign the application in /tmp/keystore.jks
+    prepare_keystore
+
+    gradle(
+      task: ':app:signingReport',
+      project_dir: "android/",
+      properties: get_gradle_properties,
+      print_command: false,
+    )
+  end
+
   lane :build_apk do
     # Prepares keystore to sign the application in /tmp/keystore.jks
     prepare_keystore
