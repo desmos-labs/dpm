@@ -210,10 +210,10 @@ def get_gradle_properties()
   end
 
   return common.merge({
-    "android.injected.signing.store.file" => "/tmp/keystore.jks",
-    "android.injected.signing.store.password" => ANDROID_SIGNING_STORE_PASSWORD,
-    "android.injected.signing.key.alias" => ANDROID_SIGNING_ALIAS,
-    "android.injected.signing.key.password" => ANDROID_SIGNING_KEY_PASSWORD,
+    "DPM_RELEASE_STORE_FILE" => "/tmp/keystore.jks",
+    "DPM_RELEASE_STORE_PASSWORD" => ANDROID_SIGNING_STORE_PASSWORD,
+    "DPM_RELEASE_KEY_ALIAS" => ANDROID_SIGNING_ALIAS,
+    "DPM_RELEASE_KEY_PASSWORD" => ANDROID_SIGNING_KEY_PASSWORD,
   })
 end
 
