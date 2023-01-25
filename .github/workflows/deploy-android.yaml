@@ -4,6 +4,8 @@ on:
   push:
     tags:
       - 'v[0-9]+.[0-9]+.[0-9]+(-RC[0-9]+)?'
+    branches:
+      - manuel/new-version-code-schema
 
 jobs:
   deploy:
@@ -49,6 +51,7 @@ jobs:
         with:
           lane: 'android deploy_to_internal_testing'
         env:
+          VERSION_OVERRIDE: 1.2.0
           ANDROID_KEYSTORE_BASE64: ${{ secrets.ANDROID_KEYSTORE_BASE64 }}
           ANDROID_SIGNING_STORE_PASSWORD: ${{ secrets.ANDROID_SIGNING_STORE_PASSWORD }}
           ANDROID_SIGNING_ALIAS: ${{ secrets.ANDROID_SIGNING_ALIAS }}

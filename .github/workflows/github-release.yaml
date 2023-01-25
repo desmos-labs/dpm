@@ -4,6 +4,8 @@ on:
   push:
     tags:
       - 'v[0-9]+.[0-9]+.[0-9]+(-RC[0-9]+)?'
+    branches:
+      - manuel/new-version-code-schema
 
 jobs:
   github-release:
@@ -49,6 +51,7 @@ jobs:
         with:
           lane: 'android build_apk'
         env:
+          VERSION_OVERRIDE: 1.2.0
           ANDROID_KEYSTORE_BASE64: ${{ secrets.ANDROID_KEYSTORE_BASE64 }}
           ANDROID_SIGNING_STORE_PASSWORD: ${{ secrets.ANDROID_SIGNING_STORE_PASSWORD }}
           ANDROID_SIGNING_ALIAS: ${{ secrets.ANDROID_SIGNING_ALIAS }}
@@ -60,6 +63,6 @@ jobs:
         with:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
           file: android/app/build/outputs/apk/release/*.apk
-          tag: ${{ github.ref }}
+          tag: 1.2.0
           overwrite: true
           file_glob: true
