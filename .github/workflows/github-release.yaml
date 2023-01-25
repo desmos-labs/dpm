@@ -8,48 +8,62 @@ on:
       - manuel/new-version-code-schema
 
 jobs:
-  github-release:
-    name: Release on github
+  deploy:
+    name: Deploying to Play Store
     runs-on: ubuntu-latest
-    container: reactnativecommunity/react-native-android
 
     steps:
       - name: Checkout 🛎
         uses: actions/checkout@v2
 
-      - name: Setup Ruby 🔧
+      - name: Setup JDK 11 🔧
+        uses: actions/setup-java@v2
+        with:
+          distribution: "zulu"
+          java-version: 11
+
+      - name: Setup Android SDK 🔧
+        uses: android-actions/setup-android@v2
+
+      - name: Setup ruby 🔧
         uses: ruby/setup-ruby@v1
         with:
           ruby-version: '3.0'
           bundler-cache: true
 
-      - name: Fix git permissions 🔧
-        run: git config --global --add safe.directory /__w/dpm/dpm
+      - name: Setup Node.js 🔧
+        uses: actions/setup-node@v3
+        with:
+          node-version: "16.x"
+          cache: 'yarn'
+          cache-dependency-path: |
+            yarn.lock
 
-      - uses: c-hive/gha-yarn-cache@v1
+      - name: Caching Gradle packages 🔨
+        uses: actions/cache@v2
+        with:
+          path: |
+            ~/.gradle/caches
+            ~/.gradle/wrapper
+          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
+          restore-keys: |
+            ${{ runner.os }}-gradle-
+
+      - name: Caching ruby dependencies 🔨
+        uses: actions/cache@v2
+        with:
+          path: 'vendor/bundle'
+          key: ${{ runner.os }}-gems-${{ secrets.GEMS_CACHE_VERSION }}-${{ hashFiles('**/Gemfile.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-gems-
 
       - name: Install dependencies 🔨
         run: |
           yarn install
-
-      - name: Cache Gradle Wrapper
-        uses: actions/cache@v2
-        with:
-          path: ~/.gradle/wrapper
-          key: ${{ runner.os }}-gradle-wrapper-${{ hashFiles('gradle/wrapper/gradle-wrapper.properties') }}
-
-      - name: Cache Gradle Dependencies
-        uses: actions/cache@v2
-        with:
-          path: ~/.gradle/caches
-          key: ${{ runner.os }}-gradle-caches-${{ hashFiles('gradle/wrapper/gradle-wrapper.properties') }}
-          restore-keys: |
-            ${{ runner.os }}-gradle-caches-
+          bundle install
 
       - name: Build signed apks 🔨
-        uses: maierj/fastlane-action@v3.0.0
-        with:
-          lane: 'android build_apk'
+        run: bundle exec fastlane android build_apk
         env:
           VERSION_OVERRIDE: 1.2.0
           ANDROID_KEYSTORE_BASE64: ${{ secrets.ANDROID_KEYSTORE_BASE64 }}

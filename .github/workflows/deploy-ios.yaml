@@ -33,14 +33,21 @@ jobs:
           ruby-version: '3.0'
           bundler-cache: true
 
+      - name: Caching ruby dependencies 🔨
+        uses: actions/cache@v2
+        with:
+          path: 'vendor/bundle'
+          key: ${{ runner.os }}-gems-${{ secrets.GEMS_CACHE_VERSION }}-${{ hashFiles('**/Gemfile.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-gems-
+
       - name: Install dependencies 🔨
         run: |
           yarn install
+          bundle install
 
       - name: Deploy iOS Beta to TestFlight 🚀
-        uses: maierj/fastlane-action@v3.0.0
-        with:
-          lane: ios closed_beta
+        run: bundle exec fastlane ios closed_beta
         env:
           VERSION_OVERRIDE: 1.2.0
           APP_STORE_CONNECT_TEAM_ID: '${{ secrets.APP_STORE_CONNECT_TEAM_ID }}'
