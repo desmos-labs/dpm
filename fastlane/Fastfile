@@ -14,6 +14,13 @@ APPLE_KEY_ID = ENV["APPLE_KEY_ID"]
 APPLE_KEY_CONTENT = ENV["APPLE_KEY_CONTENT"]
 GIT_AUTHORIZATION = ENV["GIT_AUTHORIZATION"]
 
+# Define utility function to check if a string is a valid integer
+class String
+  def is_integer?
+    self.to_i.to_s == self
+  end
+end
+
 def delete_temp_keychain(name)
   delete_keychain(
     name: name
@@ -35,20 +42,60 @@ def ensure_temp_keychain(name, password)
 end
 
 def build_number_from_git(xcodeproj)
-    version_number = ''
+    version_code = ''
     if ENV['VERSION_OVERRIDE'] != nil
-      version_number = ENV['VERSION_OVERRIDE']
+      version_code = ENV['VERSION_OVERRIDE']
     else
       git_tag = last_git_tag
-      version_number = git_tag.sub('v', '')
+      version_code = git_tag.sub('v', '')
     end
 
+    versions = version_code.split('.')
+    if versions.length < 3
+      raise Exception.new "invalid version #{version_code}, expected format x.y.z"
+    end
+
+    # Extract version
+    major = versions[0]
+    intermediate = versions[1]
+
+    # Check if the minor have the -RC
+    minorParts = versions[2].split('-RC')
+    minor = minorParts[0]
+    rc = '99'
+    if minorParts.length > 1
+      rc = minorParts[1]
+      if rc.length == 0 or rc.length > 2
+        raise Exception.new "Invalid value #{rc}, must have length > 0 and <= 2"
+      end
+      if rc == '99'
+        raise Exception.new "Invalid value #{rc}, max allowed value is 98"
+      end
+    end
+
+    if intermediate.length == 1
+      intermediate = "0#{intermediate}"
+    end
+    if minor.length == 1
+      minor = "0#{minor}"
+    end
+    if rc.length == 1
+      rc = "0#{rc}"
+    end
+
+    build_number_str = "#{major}#{intermediate}#{minor}#{rc}"
+    if not build_number_str.is_integer?
+      raise Exception.new "Invalid build number #{build_number_str}, must be a valid integer"
+    end
+    build_number = build_number_str.to_i
+
+
     # Set marketing version to version_number
-    sh("sed -i '' -e 's/MARKETING_VERSION \= [^\;]*\;/MARKETING_VERSION = #{version_number};/' ../ios/#{PROJECT_NAME}.xcodeproj/project.pbxproj")
+    sh("sed -i '' -e 's/MARKETING_VERSION \= [^\;]*\;/MARKETING_VERSION = #{version_code};/' ../ios/#{PROJECT_NAME}.xcodeproj/project.pbxproj")
 
     increment_build_number(
         xcodeproj: xcodeproj,
-        build_number: version_number
+        build_number: build_number
     )
 end
 
