@@ -24,7 +24,7 @@ const Landing = ({ navigation }: NavProps) => {
   const accountsAddresses = useStoredAccountsAddresses();
   const importAccount = useImportAccount([DesmosChain], accountsAddresses, {
     title: t('account:import account'),
-    description: t('account:select import method'),
+    description: t('account:select connection method'),
   });
   const saveAccount = useSaveAccount();
 
