@@ -1,4 +1,4 @@
-name: Deploying Android Release
+name: Deploy Android Release
 
 on:
   push:
