@@ -8,6 +8,13 @@ const useStyles = makeStyle((theme) => ({
     padding: theme.spacing.s,
     backgroundColor: theme.colors.surface2,
     elevation: 5,
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
     borderRadius: theme.roundness,
     marginHorizontal: theme.spacing.s,
   },
