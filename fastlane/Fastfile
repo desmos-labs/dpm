@@ -241,9 +241,10 @@ platform :android do
     # Prepares the playstore key in /tmp/playstore-key.json
     prepare_playstore_key
 
-    # Deplsy the bundle to the playstore
+    # Deploy the bundle to the PlayStore
     supply(
       package_name: 'network.desmos.dpm',
+      # use 'production' to upload to all the users.
       track: 'internal',
       json_key: '/tmp/playstore-key.json',
       aab: 'android/app/build/outputs/bundle/release/app-release.aab',
