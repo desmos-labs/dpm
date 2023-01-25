@@ -250,11 +250,15 @@ platform :android do
     )
   end
 
+  lane :clean do
+
+    gradle(task: 'clean', project_dir: "android/")
+
+  end
+
   lane :build_apk do
     # Prepares keystore to sign the application in /tmp/keystore.jks
     prepare_keystore
-
-    gradle(task: 'clean', project_dir: "android/")
 
     gradle(
       task: "assemble",
@@ -269,8 +273,6 @@ platform :android do
     # Prepares keystore to sign the application in /tmp/keystore.jks
     prepare_keystore
 
-    gradle(task: 'clean', project_dir: "android/")
-
     gradle(
       task: "bundle",
       build_type: "Release",
@@ -281,9 +283,6 @@ platform :android do
   end
 
   lane :deploy_to_internal_testing do
-    # Build the application bundle
-    build_bundle
-
     # Prepares the playstore key in /tmp/playstore-key.json
     prepare_playstore_key
 
