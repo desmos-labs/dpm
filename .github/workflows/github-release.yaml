@@ -12,15 +12,21 @@ jobs:
     container: reactnativecommunity/react-native-android
 
     steps:
-      - name: Checkout
+      - name: Checkout 🛎
         uses: actions/checkout@v2
 
-      - name: Fix git permissions
+      - name: Setup Ruby 🔧
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: '3.0'
+          bundler-cache: true
+
+      - name: Fix git permissions 🔧
         run: git config --global --add safe.directory /__w/dpm/dpm
 
       - uses: c-hive/gha-yarn-cache@v1
 
-      - name: Install node modules
+      - name: Install dependencies 🔨
         run: |
           yarn install
 
@@ -38,8 +44,8 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-gradle-caches-
 
-      - name: 'Build signed apk'
-        uses: maierj/fastlane-action@v2.0.1
+      - name: Build signed apks 🔨
+        uses: maierj/fastlane-action@v3.0.0
         with:
           lane: 'android build_apk'
         env:
@@ -49,7 +55,7 @@ jobs:
           ANDROID_SIGNING_KEY_PASSWORD: ${{ secrets.ANDROID_SIGNING_KEY_PASSWORD }}
           PLAYSTORE_JSON_KEY: ${{ secrets.PLAYSTORE_JSON_KEY }}
 
-      - name: Upload binaries to release
+      - name: Upload binaries to release 🚀
         uses: svenstaro/upload-release-action@v2
         with:
           repo_token: ${{ secrets.GITHUB_TOKEN }}

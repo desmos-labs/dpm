@@ -14,20 +14,29 @@ jobs:
     runs-on: macos-latest
 
     steps:
-      - name: Install node
+      - name: Checkout 🛎
+        uses: actions/checkout@v1
+
+      - name: Setup Node.js 🔧
         uses: actions/setup-node@v1
         with:
           node-version: 16
+          cache: 'yarn'
+          cache-dependency-path: |
+            yarn.lock
 
-      - name: Checkout repository
-        uses: actions/checkout@v1
+      - name: Setup Ruby 🔧
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: '3.0'
+          bundler-cache: true
 
-      - name: Install yarn dependencies
+      - name: Install dependencies 🔨
         run: |
           yarn install
 
-      - name: Deploy iOS Beta to TestFlight via Fastlane
-        uses: maierj/fastlane-action@v2.1.0
+      - name: Deploy iOS Beta to TestFlight 🚀
+        uses: maierj/fastlane-action@v3.0.0
         with:
           lane: ios closed_beta
         env:
