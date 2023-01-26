@@ -62,10 +62,16 @@ jobs:
           yarn install
           bundle install
 
+      - name: Get version info 🔨
+        id: version-info
+        run: bundle exec fastlane android build_bundle
+        env:
+          VERSION_OVERRIDE: 1.2.0-RC1
+
       - name: Build bundle 🔨
         run: bundle exec fastlane android build_bundle
         env:
-          VERSION_OVERRIDE: 1.2.0
+          VERSION_OVERRIDE: 1.2.0-RC1
           ANDROID_KEYSTORE_BASE64: ${{ secrets.ANDROID_KEYSTORE_BASE64 }}
           ANDROID_SIGNING_STORE_PASSWORD: ${{ secrets.ANDROID_SIGNING_STORE_PASSWORD }}
           ANDROID_SIGNING_ALIAS: ${{ secrets.ANDROID_SIGNING_ALIAS }}
@@ -74,22 +80,23 @@ jobs:
       - name: Build apk 🔨
         run: bundle exec fastlane android build_apk
         env:
-          VERSION_OVERRIDE: 1.2.0
+          VERSION_OVERRIDE: 1.2.0-RC1
           ANDROID_KEYSTORE_BASE64: ${{ secrets.ANDROID_KEYSTORE_BASE64 }}
           ANDROID_SIGNING_STORE_PASSWORD: ${{ secrets.ANDROID_SIGNING_STORE_PASSWORD }}
           ANDROID_SIGNING_ALIAS: ${{ secrets.ANDROID_SIGNING_ALIAS }}
           ANDROID_SIGNING_KEY_PASSWORD: ${{ secrets.ANDROID_SIGNING_KEY_PASSWORD }}
 
       - name: Deploy on Play Store 🚀
-        run: bundle exec fastlane android deploy_to_internal_testing
+        run: bundle exec fastlane android deploy_bundle
         env:
           PLAYSTORE_JSON_KEY: ${{ secrets.PLAYSTORE_JSON_KEY }}
 
       - name: Upload apks to release 🚀
         uses: svenstaro/upload-release-action@v2
         with:
+          tag: 1.2.0-RC1
           repo_token: ${{ secrets.GITHUB_TOKEN }}
-          file: android/app/build/outputs/apk/release/*.apk
-          tag: 1.2.0
-          overwrite: true
           file_glob: true
+          file: android/app/build/outputs/apk/release/*.apk
+          overwrite: true
+          prerelease: ${{ steps.version-info.outputs.INTERNAL_RELEASE }}

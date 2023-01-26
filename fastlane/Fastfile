@@ -51,7 +51,7 @@ def ensure_temp_keychain(name, password)
   create_temp_keychain(name, password)
 end
 
-def version_name_from_git()
+def version_name_from_git
   version_code = ''
   if VERSION_OVERRIDE != nil
     version_name = VERSION_OVERRIDE
@@ -65,10 +65,10 @@ def version_name_from_git()
     raise Exception.new "invalid version #{version_name}, expected format x.y.z"
   end
 
-  return version_name
+  version_name
 end
 
-def build_number_from_git()
+def build_number_from_git
   version_code = ''
   if VERSION_OVERRIDE != nil
     version_code = VERSION_OVERRIDE
@@ -87,11 +87,11 @@ def build_number_from_git()
   intermediate = versions[1]
 
   # Check if the minor have the -RC
-  minorParts = versions[2].split('-RC')
-  minor = minorParts[0]
+  minor_parts = versions[2].split('-RC')
+  minor = minor_parts[0]
   rc = '99'
-  if minorParts.length > 1
-    rc = minorParts[1]
+  if minor_parts.length > 1
+    rc = minor_parts[1]
     if rc.length == 0 or rc.length > 2
       raise Exception.new "Invalid value #{rc}, must have length > 0 and <= 2"
     end
@@ -111,11 +111,15 @@ def build_number_from_git()
   end
 
   build_number_str = "#{major}#{intermediate}#{minor}#{rc}"
-  if not is_integer(build_number_str)
+  unless is_integer(build_number_str)
     raise Exception.new "Invalid build number #{build_number_str}, must be a valid integer"
   end
 
-  return build_number_str.to_i
+  build_number_str.to_i
+end
+
+def is_internal_release
+  version_name_from_git.include? '-RC'
 end
 
 platform :ios do
@@ -132,8 +136,8 @@ platform :ios do
       in_house: false
     )
 
-    version_name = version_name_from_git()
-    build_number = build_number_from_git()
+    version_name = version_name_from_git
+    build_number = build_number_from_git
 
     # Set marketing version to version_number
     sh("sed -i '' -e 's/MARKETING_VERSION \= [^\;]*\;/MARKETING_VERSION = #{version_name};/' ../ios/#{PROJECT_NAME}.xcodeproj/project.pbxproj")
@@ -195,9 +199,9 @@ end
 
 ###############################################################
 
-def get_gradle_properties()
-  build_number = build_number_from_git()
-  version_name = version_name_from_git()
+def get_gradle_properties
+  build_number = build_number_from_git
+  version_name = version_name_from_git
 
   common = {
     "buildNumber" => build_number,
@@ -275,7 +279,7 @@ platform :android do
       build_type: "Release",
       print_command: false,
       project_dir: "android/",
-      properties: get_gradle_properties()
+      properties: get_gradle_properties
     )
   end
 
@@ -288,13 +292,16 @@ platform :android do
       build_type: "Release",
       print_command: false,
       project_dir: "android/",
-      properties: get_gradle_properties()
+      properties: get_gradle_properties
     )
   end
 
-  lane :deploy_to_internal_testing do
+  lane :deploy_bundle do
     # Prepares the playstore key in /tmp/playstore-key.json
     prepare_playstore_key
+
+    release_track = is_internal_release ? 'internal' : 'production'
+    UI.message "Deploy android bundle to play store track: #{release_track}"
 
     # Deploy the bundle to the PlayStore
     supply(
@@ -311,5 +318,15 @@ platform :android do
       skip_upload_screenshots: true,
       skip_upload_apk: true,
     )
+  end
+end
+
+platform :common do
+  lane :populate_github_env do
+    version_name = version_name_from_git
+    internal_release = is_internal_release
+
+    sh("echo VERSION_NAME=#{version_name} >> $GITHUB_OUTPUT")
+    sh("echo INTERNAL_RELEASE=#{internal_release} >> $GITHUB_OUTPUT")
   end
 end
