@@ -1,4 +1,4 @@
-name: Deploy Android Release
+name: Release Android
 
 on:
   push:
@@ -7,7 +7,7 @@ on:
 
 jobs:
   deploy:
-    name: Deploying Android Release
+    name: Deploy Android Release
     runs-on: ubuntu-latest
 
     steps:
