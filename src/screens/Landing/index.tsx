@@ -7,8 +7,7 @@ import IconButton from 'components/IconButton';
 import Button from 'components/Button';
 import { RootNavigatorParamList } from 'navigation/RootNavigator';
 import ROUTES from 'navigation/routes';
-import useSaveAccount from 'hooks/useSaveAccount';
-import useImportAccount from 'hooks/useImportAccount';
+import useImportNewAccount from 'hooks/useImportNewAccount';
 import { DesmosChain } from 'config/LinkableChains';
 import { desmosLogoWhite, homeBackgroundLight } from 'assets/images';
 import { useStoredAccountsAddresses } from '@recoil/accounts';
@@ -22,11 +21,7 @@ const Landing = ({ navigation }: NavProps) => {
   const styles = useStyles();
 
   const accountsAddresses = useStoredAccountsAddresses();
-  const importAccount = useImportAccount([DesmosChain], accountsAddresses, {
-    title: t('account:import account'),
-    description: t('account:select connection method'),
-  });
-  const saveAccount = useSaveAccount();
+  const importNewAccount = useImportNewAccount([DesmosChain], accountsAddresses);
 
   const animate = !navigation.canGoBack();
   const initialOpacity = animate ? 0 : 1;
@@ -64,11 +59,8 @@ const Landing = ({ navigation }: NavProps) => {
   }, [navigation]);
 
   const onImportAccount = useCallback(async () => {
-    const importedAccount = await importAccount();
-    if (importedAccount !== undefined) {
-      saveAccount(importedAccount.account);
-    }
-  }, [importAccount, saveAccount]);
+    importNewAccount();
+  }, [importNewAccount]);
 
   const goBack = useCallback(() => {
     navigation.goBack();
