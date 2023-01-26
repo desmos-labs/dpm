@@ -35,7 +35,7 @@ const TransactionsList = (props: TransactionsListProps) => {
     [styles.blankDivider],
   );
 
-  // Disable the sticky header since there is a bug in FlashList that cause
+  // Disable the sticky header since there is a bug in FlashList that causes
   // the first element to not update correctly when the date changes.
   // See: https://github.com/Shopify/flash-list/issues/615
   // const stickyHeaderIndices = sections
