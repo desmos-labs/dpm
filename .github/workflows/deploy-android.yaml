@@ -89,6 +89,7 @@ jobs:
       - name: Deploy on Play Store 🚀
         run: bundle exec fastlane android deploy_bundle
         env:
+          VERSION_OVERRIDE: 1.2.0-RC1
           PLAYSTORE_JSON_KEY: ${{ secrets.PLAYSTORE_JSON_KEY }}
 
       - name: Upload apks to release 🚀
