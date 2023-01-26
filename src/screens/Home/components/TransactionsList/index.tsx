@@ -35,20 +35,22 @@ const TransactionsList = (props: TransactionsListProps) => {
     [styles.blankDivider],
   );
 
-  const stickyHeaderIndices = sections
-    .map((item, index) => {
-      if (typeof item === 'string') {
-        return index;
-      }
-      return null;
-    })
-    .filter((item) => item !== null) as number[];
+  // Disable the sticky header since there is a bug in FlashList that cause
+  // the first element to not update correctly when the date changes.
+  // See: https://github.com/Shopify/flash-list/issues/615
+  // const stickyHeaderIndices = sections
+  //   .map((item, index) => {
+  //     if (typeof item === 'string') {
+  //       return index;
+  //     }
+  //     return null;
+  //   })
+  //   .filter((item) => item !== null) as number[];
 
   return sections && !loading ? (
     <FlashList
       data={sections}
       renderItem={renderItem}
-      stickyHeaderIndices={stickyHeaderIndices}
       keyExtractor={(item, index) =>
         typeof item === 'string' ? `sectionHeader${index}` : `row${item.hash}`
       }
