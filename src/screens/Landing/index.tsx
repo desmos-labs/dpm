@@ -1,7 +1,7 @@
 import { StackScreenProps } from '@react-navigation/stack';
 import React, { useCallback, useEffect, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Animated, ImageBackground, Text } from 'react-native';
+import { Animated, ImageBackground, Text, View } from 'react-native';
 import StyledSafeAreaView from 'components/StyledSafeAreaView';
 import IconButton from 'components/IconButton';
 import Button from 'components/Button';
@@ -9,9 +9,20 @@ import { RootNavigatorParamList } from 'navigation/RootNavigator';
 import ROUTES from 'navigation/routes';
 import useImportNewAccount from 'hooks/useImportNewAccount';
 import { DesmosChain } from 'config/LinkableChains';
-import { desmosLogoWhite, homeBackgroundLight } from 'assets/images';
+import {
+  appleApplicationIcon,
+  desmosLogoWhite,
+  discordApplicationIcon,
+  githubApplicationIcon,
+  googleApplicationIcon,
+  homeBackgroundLight,
+  twitterApplicationIcon,
+} from 'assets/images';
 import { useStoredAccountsAddresses } from '@recoil/accounts';
 import FastImage from 'react-native-fast-image';
+import Spacer from 'components/Spacer';
+import Typography from 'components/Typography';
+import { Web3AuthLoginProvider } from 'types/web3auth';
 import useStyles from './useStyles';
 
 export type NavProps = StackScreenProps<RootNavigatorParamList, ROUTES.LANDING>;
@@ -62,6 +73,16 @@ const Landing = ({ navigation }: NavProps) => {
     importNewAccount();
   }, [importNewAccount]);
 
+  const importFromSocial = useCallback((social: Web3AuthLoginProvider) => {
+    // TODO: Implement login with social app.
+    console.log('social login from', social);
+  }, []);
+
+  const showOtherSocialLogin = useCallback(() => {
+    // TODO: show other supported login methods modal.
+    console.log('showing social login');
+  }, []);
+
   const goBack = useCallback(() => {
     navigation.goBack();
   }, [navigation]);
@@ -103,13 +124,57 @@ const Landing = ({ navigation }: NavProps) => {
           >
             {t('create wallet')}
           </Button>
-          <Button
-            style={[styles.buttons, styles.buttonMargin]}
-            mode="outlined"
-            color="#ffffff"
-            onPress={onImportAccount}
-          >
+
+          <Spacer paddingVertical={12} />
+
+          <Button style={styles.buttons} mode="outlined" color="#ffffff" onPress={onImportAccount}>
             {t('account:import account')}
+          </Button>
+
+          <Spacer paddingVertical={12} />
+
+          <Typography.Subtitle style={styles.loginWithLabel}>
+            {t('login with social app')} :
+          </Typography.Subtitle>
+
+          <Spacer paddingVertical={4} />
+
+          {/* Social login buttons */}
+          <View style={styles.socialButtonsContainer}>
+            <IconButton
+              style={styles.socialButton}
+              icon={googleApplicationIcon}
+              color={null}
+              onPress={() => importFromSocial(Web3AuthLoginProvider.Google)}
+            />
+            <IconButton
+              style={styles.socialButton}
+              icon={appleApplicationIcon}
+              color={null}
+              onPress={() => importFromSocial(Web3AuthLoginProvider.Apple)}
+            />
+            <IconButton
+              style={styles.socialButton}
+              icon={twitterApplicationIcon}
+              color={null}
+              onPress={() => importFromSocial(Web3AuthLoginProvider.Twitter)}
+            />
+            <IconButton
+              style={styles.socialButton}
+              icon={discordApplicationIcon}
+              color={null}
+              onPress={() => importFromSocial(Web3AuthLoginProvider.Discord)}
+            />
+            <IconButton
+              style={styles.socialButton}
+              icon={githubApplicationIcon}
+              color={null}
+              onPress={() => importFromSocial(Web3AuthLoginProvider.Github)}
+            />
+          </View>
+          <Spacer paddingVertical={4} />
+          <Button style={styles.buttons} color="#ffffff" onPress={showOtherSocialLogin}>
+            More
           </Button>
         </Animated.View>
       </ImageBackground>
