@@ -47,18 +47,8 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-gradle-
 
-      - name: Caching ruby dependencies 🔨
-        uses: actions/cache@v3
-        with:
-          path: 'vendor/bundle'
-          key: ${{ runner.os }}-gems-${{ hashFiles('**/Gemfile.lock') }}
-          restore-keys: |
-            ${{ runner.os }}-gems-
-
-      - name: Install dependencies 🔨
-        run: |
-          yarn install
-          bundle install
+      - name: Install yarn dependencies 🔨
+        run: yarn install --immutable
 
       - name: Get version info 🔨
         id: version-info
