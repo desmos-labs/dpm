@@ -4,8 +4,6 @@ on:
   push:
     tags:
       - 'v[0-9]+.[0-9]+.[0-9]+(-RC[0-9]+)?'
-    branches:
-      - manuel/new-version-code-schema
 
 jobs:
   deploy:
@@ -53,7 +51,7 @@ jobs:
         uses: actions/cache@v3
         with:
           path: 'vendor/bundle'
-          key: ${{ runner.os }}-gems-${{ secrets.GEMS_CACHE_VERSION }}-${{ hashFiles('**/Gemfile.lock') }}
+          key: ${{ runner.os }}-gems-${{ hashFiles('**/Gemfile.lock') }}
           restore-keys: |
             ${{ runner.os }}-gems-
 
@@ -65,13 +63,10 @@ jobs:
       - name: Get version info 🔨
         id: version-info
         run: bundle exec fastlane common populate_github_env
-        env:
-          VERSION_OVERRIDE: 1.2.0-RC1
 
       - name: Build bundle 🔨
         run: bundle exec fastlane android build_bundle
         env:
-          VERSION_OVERRIDE: 1.2.0-RC1
           ANDROID_KEYSTORE_BASE64: ${{ secrets.ANDROID_KEYSTORE_BASE64 }}
           ANDROID_SIGNING_STORE_PASSWORD: ${{ secrets.ANDROID_SIGNING_STORE_PASSWORD }}
           ANDROID_SIGNING_ALIAS: ${{ secrets.ANDROID_SIGNING_ALIAS }}
@@ -80,7 +75,6 @@ jobs:
       - name: Build apk 🔨
         run: bundle exec fastlane android build_apk
         env:
-          VERSION_OVERRIDE: 1.2.0-RC1
           ANDROID_KEYSTORE_BASE64: ${{ secrets.ANDROID_KEYSTORE_BASE64 }}
           ANDROID_SIGNING_STORE_PASSWORD: ${{ secrets.ANDROID_SIGNING_STORE_PASSWORD }}
           ANDROID_SIGNING_ALIAS: ${{ secrets.ANDROID_SIGNING_ALIAS }}
@@ -89,13 +83,12 @@ jobs:
       - name: Deploy on Play Store 🚀
         run: bundle exec fastlane android deploy_bundle
         env:
-          VERSION_OVERRIDE: 1.2.0-RC1
           PLAYSTORE_JSON_KEY: ${{ secrets.PLAYSTORE_JSON_KEY }}
 
       - name: Upload apks to release 🚀
         uses: svenstaro/upload-release-action@v2
         with:
-          tag: 1.2.0-RC1
+          tag: ${{ github.ref }}
           repo_token: ${{ secrets.GITHUB_TOKEN }}
           file_glob: true
           file: android/app/build/outputs/apk/release/*.apk
