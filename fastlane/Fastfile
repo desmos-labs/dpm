@@ -8,6 +8,7 @@ VERSION_OVERRIDE = ENV['VERSION_OVERRIDE']
 XCODE_PROJECT = "./ios/#{PROJECT_NAME}.xcodeproj"
 XCODE_WORKSPACE = "./ios/#{PROJECT_NAME}.xcworkspace"
 IOS_OUTPUT_DIRECTORY = "./fastlane/builds/"
+IOS_SKIP_POD_INSTALL = ENV['IOS_SKIP_POD_INSTALL'] == 'true'
 DEVELOPER_APP_ID = ENV["DEVELOPER_APP_ID"]
 DEVELOPER_APP_IDENTIFIER = ENV["DEVELOPER_APP_IDENTIFIER"]
 PROVISIONING_PROFILE_SPECIFIER = ENV["PROVISIONING_PROFILE_SPECIFIER"]
@@ -148,10 +149,12 @@ platform :ios do
         build_number: build_number
     )
 
-    cocoapods(
-      clean_install: true,
-      podfile: "./ios/Podfile"
-    )
+    unless IOS_SKIP_POD_INSTALL
+      cocoapods(
+        clean_install: true,
+        podfile: "./ios/Podfile"
+      )
+    end
 
     match(
       type: 'appstore',
