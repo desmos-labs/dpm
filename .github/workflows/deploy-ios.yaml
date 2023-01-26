@@ -7,7 +7,7 @@ on:
     branches:
       - manuel/new-version-code-schema
 
-      # Allows you to run this workflow manually from the Actions a tab
+  # Allows you to run this workflow manually from the Actions a tab
   workflow_dispatch:
 
 jobs:
@@ -17,27 +17,27 @@ jobs:
 
     steps:
       - name: Checkout 🛎
-        uses: actions/checkout@v1
+        uses: actions/checkout@v3
+
+      - name: Setup ruby 🔧
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: '3.0'
+          bundler-cache: true
 
       - name: Setup Node.js 🔧
-        uses: actions/setup-node@v1
+        uses: actions/setup-node@v3
         with:
           node-version: 16
           cache: 'yarn'
           cache-dependency-path: |
             yarn.lock
 
-      - name: Setup Ruby 🔧
-        uses: ruby/setup-ruby@v1
-        with:
-          ruby-version: '3.0'
-          bundler-cache: true
-
       - name: Caching ruby dependencies 🔨
-        uses: actions/cache@v2
+        uses: actions/cache@v3
         with:
           path: 'vendor/bundle'
-          key: ${{ runner.os }}-gems-${{ secrets.GEMS_CACHE_VERSION }}-${{ hashFiles('**/Gemfile.lock') }}
+          key: ${{ runner.os }}-gems-${{ hashFiles('**/Gemfile.lock') }}
           restore-keys: |
             ${{ runner.os }}-gems-
 
@@ -46,15 +46,20 @@ jobs:
           yarn install
           bundle install
 
-      - name: Deploy iOS Beta to TestFlight 🚀
-        run: bundle exec fastlane ios closed_beta
+      - name: Get version info 🔨
+        id: version-info
+        run: bundle exec fastlane common populate_github_env
         env:
-          VERSION_OVERRIDE: 1.2.0
-          APP_STORE_CONNECT_TEAM_ID: '${{ secrets.APP_STORE_CONNECT_TEAM_ID }}'
-          DEVELOPER_APP_ID: '${{ secrets.DEVELOPER_APP_ID }}'
-          DEVELOPER_APP_IDENTIFIER: '${{ secrets.DEVELOPER_APP_IDENTIFIER }}'
+          VERSION_OVERRIDE: 1.2.0-RC1
+
+      - name: Build ipa 🔨
+        run: bundle exec fastlane ios build
+        env:
+          VERSION_OVERRIDE: 1.2.0-RC1
           DEVELOPER_PORTAL_TEAM_ID: '${{ secrets.DEVELOPER_PORTAL_TEAM_ID }}'
           FASTLANE_APPLE_ID: '${{ secrets.FASTLANE_APPLE_ID }}'
+          DEVELOPER_APP_ID: '${{ secrets.DEVELOPER_APP_ID }}'
+          DEVELOPER_APP_IDENTIFIER: '${{ secrets.DEVELOPER_APP_IDENTIFIER }}'
           FASTLANE_APPLE_APPLICATION_SPECIFIC_PASSWORD: '${{ secrets.FASTLANE_APPLE_APPLICATION_SPECIFIC_PASSWORD }}'
           MATCH_PASSWORD: '${{ secrets.MATCH_PASSWORD }}'
           GIT_AUTHORIZATION: '${{ secrets.GIT_AUTHORIZATION }}'
@@ -64,3 +69,14 @@ jobs:
           APPLE_KEY_ID: '${{ secrets.APPLE_KEY_ID }}'
           APPLE_ISSUER_ID: '${{ secrets.APPLE_ISSUER_ID }}'
           APPLE_KEY_CONTENT: '${{ secrets.APPLE_KEY_CONTENT }}'
+
+      - name: Deploy 🚀
+        run: bundle exec fastlane ios deploy
+        env:
+          VERSION_OVERRIDE: 1.2.0-RC1
+          DEVELOPER_PORTAL_TEAM_ID: '${{ secrets.DEVELOPER_PORTAL_TEAM_ID }}'
+          FASTLANE_APPLE_ID: '${{ secrets.FASTLANE_APPLE_ID }}'
+          FASTLANE_APPLE_APPLICATION_SPECIFIC_PASSWORD: '${{ secrets.FASTLANE_APPLE_APPLICATION_SPECIFIC_PASSWORD }}'
+          MATCH_PASSWORD: '${{ secrets.MATCH_PASSWORD }}'
+          DEVELOPER_APP_ID: '${{ secrets.DEVELOPER_APP_ID }}'
+          DEVELOPER_APP_IDENTIFIER: '${{ secrets.DEVELOPER_APP_IDENTIFIER }}'
