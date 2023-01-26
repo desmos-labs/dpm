@@ -13,7 +13,12 @@ const useReturnToCurrentScreen = () => {
   }, [navigator]);
 
   return useCallback(() => {
-    navigator.navigate(startingScreenNavigateParams);
+    const canNavigate =
+      navigator.getState().routes.find((r) => r.key === startingScreenNavigateParams.key) !==
+      undefined;
+    if (canNavigate) {
+      navigator.navigate(startingScreenNavigateParams);
+    }
   }, [navigator, startingScreenNavigateParams]);
 };
 
