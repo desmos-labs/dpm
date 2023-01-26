@@ -64,7 +64,7 @@ jobs:
 
       - name: Get version info 🔨
         id: version-info
-        run: bundle exec fastlane android build_bundle
+        run: bundle exec fastlane common populate_github_env
         env:
           VERSION_OVERRIDE: 1.2.0-RC1
 
