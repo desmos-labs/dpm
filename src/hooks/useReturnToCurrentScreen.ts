@@ -2,13 +2,28 @@ import { useCallback, useMemo } from 'react';
 import { useNavigation } from '@react-navigation/native';
 import { StackNavigationProp } from '@react-navigation/stack/lib/typescript/src/types';
 import { RootNavigatorParamList } from 'navigation/RootNavigator';
+import { ModalScreenParams } from 'modals/ModalScreen';
+import LoadingModal from 'modals/LoadingModal';
+
+/**
+ * List of modal component that we should ignore when going back.
+ */
+const ToIgnoreModals = [LoadingModal];
 
 const useReturnToCurrentScreen = () => {
   const navigator = useNavigation<StackNavigationProp<RootNavigatorParamList>>();
 
   const startingScreenNavigateParams = useMemo(() => {
     const { routes } = navigator.getState();
-    const currentRoute = routes[routes.length - 1];
+    let currentRoute = routes[routes.length - 1];
+
+    // Check if the screen that we should return to is one of the modal that we
+    // need to ignore, in this case we should go back to the screen that opened that modal.
+    const modalParams = <Partial<ModalScreenParams> | undefined>currentRoute.params;
+    if (ToIgnoreModals.find((modalComponent) => modalParams?.component === modalComponent)) {
+      currentRoute = routes[routes.length - 2];
+    }
+
     return { key: currentRoute.key, params: currentRoute.params };
   }, [navigator]);
 
