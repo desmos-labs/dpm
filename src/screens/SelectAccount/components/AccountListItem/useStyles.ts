@@ -7,7 +7,7 @@ const useStyles = (selected?: boolean) =>
       borderRadius: 8,
       paddingVertical: 12,
       paddingHorizontal: 12,
-      height: 60,
+      height: 70,
     },
     row: {
       flex: 1,

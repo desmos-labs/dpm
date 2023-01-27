@@ -23,6 +23,7 @@ import FastImage from 'react-native-fast-image';
 import Spacer from 'components/Spacer';
 import Typography from 'components/Typography';
 import { Web3AuthLoginProvider } from 'types/web3auth';
+import useLoginWithWeb3Auth from 'hooks/useLoginWithWeb3Auth';
 import useStyles from './useStyles';
 
 export type NavProps = StackScreenProps<RootNavigatorParamList, ROUTES.LANDING>;
@@ -33,6 +34,7 @@ const Landing = ({ navigation }: NavProps) => {
 
   const accountsAddresses = useStoredAccountsAddresses();
   const importNewAccount = useImportNewAccount([DesmosChain], accountsAddresses);
+  const loginWithWeb3Auth = useLoginWithWeb3Auth(DesmosChain, accountsAddresses);
 
   const animate = !navigation.canGoBack();
   const initialOpacity = animate ? 0 : 1;
@@ -73,10 +75,12 @@ const Landing = ({ navigation }: NavProps) => {
     importNewAccount();
   }, [importNewAccount]);
 
-  const importFromSocial = useCallback((social: Web3AuthLoginProvider) => {
-    // TODO: Implement login with social app.
-    console.log('social login from', social);
-  }, []);
+  const importFromSocial = useCallback(
+    (social: Web3AuthLoginProvider) => {
+      loginWithWeb3Auth(social);
+    },
+    [loginWithWeb3Auth],
+  );
 
   const showOtherSocialLogin = useCallback(() => {
     // TODO: show other supported login methods modal.

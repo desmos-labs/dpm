@@ -1,5 +1,5 @@
 import { StackScreenProps } from '@react-navigation/stack';
-import React, { FC, useCallback, useEffect, useState } from 'react';
+import React, { FC, useCallback, useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import Typography from 'components/Typography';
 import StyledSafeAreaView from 'components/StyledSafeAreaView';
@@ -7,7 +7,10 @@ import TopBar from 'components/TopBar';
 import Button from 'components/Button';
 import { RootNavigatorParamList } from 'navigation/RootNavigator';
 import ROUTES from 'navigation/routes';
-import { AccountPickerParams } from 'screens/SelectAccount/components/AccountPicker/types';
+import {
+  AccountPickerParams,
+  WalletPickerMode,
+} from 'screens/SelectAccount/components/AccountPicker/types';
 import { AccountWithWallet } from 'types/account';
 import useStyles from './useStyles';
 import AccountPicker from './components/AccountPicker';
@@ -35,6 +38,17 @@ const SelectAccount: FC<NavProps> = (props) => {
     }
   }, [onSelect, selectedAccount]);
 
+  const descriptionText = useMemo(() => {
+    if (
+      accountPickerParams.mode === WalletPickerMode.Ledger ||
+      accountPickerParams.mode === WalletPickerMode.Mnemonic
+    ) {
+      return t('select account or enter derivation path');
+    }
+
+    return t('select account');
+  }, [accountPickerParams, t]);
+
   useEffect(
     () =>
       navigation.addListener('beforeRemove', (e) => {
@@ -51,7 +65,7 @@ const SelectAccount: FC<NavProps> = (props) => {
       topBar={<TopBar stackProps={props} title={t('import account')} />}
       touchableWithoutFeedbackDisabled={false}
     >
-      <Typography.Body>{t('select account or enter derivation path')}.</Typography.Body>
+      <Typography.Body>{descriptionText}.</Typography.Body>
 
       <AccountPicker onAccountSelected={setSelectedAccount} params={accountPickerParams} />
 

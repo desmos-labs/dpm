@@ -15,8 +15,8 @@ const useStyles = makeStyleWithProps((props: AvatarImageProps, theme) => ({
   },
   indicator: {
     position: 'absolute',
-    width: '100%',
-    height: '100%',
+    height: props.size ?? 24,
+    width: props.size ?? 24,
     borderRadius: 100,
   },
 }));
