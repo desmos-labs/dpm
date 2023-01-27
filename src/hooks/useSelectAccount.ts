@@ -3,33 +3,28 @@ import { StackNavigationProp } from '@react-navigation/stack/lib/typescript/src/
 import { RootNavigatorParamList } from 'navigation/RootNavigator';
 import ROUTES from 'navigation/routes';
 import { useCallback } from 'react';
-import useReturnToCurrentScreen from 'hooks/useReturnToCurrentScreen';
 import { AccountPickerParams } from 'screens/SelectAccount/components/AccountPicker/types';
 import { AccountWithWallet } from 'types/account';
 
+export interface ResultCallbacks {
+  onSuccess: (account: AccountWithWallet) => any;
+  onCancel?: () => any;
+}
+
 const useSelectAccount = () => {
   const navigator = useNavigation<StackNavigationProp<RootNavigatorParamList>>();
-  const returnToCurrentScreen = useReturnToCurrentScreen();
 
   return useCallback(
-    (accountPickerParams: AccountPickerParams): Promise<AccountWithWallet | undefined> =>
-      new Promise<AccountWithWallet | undefined>((resolve) => {
-        navigator.navigate({
-          name: ROUTES.SELECT_ACCOUNT,
-          params: {
-            accountPickerParams,
-            onSelect: (account) => {
-              resolve(account);
-              returnToCurrentScreen();
-            },
-            onCancel: () => {
-              resolve(undefined);
-              returnToCurrentScreen();
-            },
-          },
-        });
+    (accountPickerParams: AccountPickerParams, callbacks: ResultCallbacks): void =>
+      navigator.navigate({
+        name: ROUTES.SELECT_ACCOUNT,
+        params: {
+          accountPickerParams,
+          onSelect: callbacks.onSuccess,
+          onCancel: callbacks.onCancel,
+        },
       }),
-    [navigator, returnToCurrentScreen],
+    [navigator],
   );
 };
 

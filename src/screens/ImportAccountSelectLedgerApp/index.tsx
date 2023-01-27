@@ -47,18 +47,21 @@ const ImportAccountSelectLedgerApp: React.FC<NavProps> = ({ navigation }) => {
         return;
       }
 
-      const account = await selectAccount({
-        mode: WalletPickerMode.Ledger,
-        ignoreAddresses,
-        ledgerApp,
-        transport,
-        addressPrefix: selectedChain!.prefix,
-        masterHdPath: ledgerApp.masterHdPath,
-      });
-
-      if (account !== undefined) {
-        onSuccess({ account, chain: selectedChain! });
-      }
+      selectAccount(
+        {
+          mode: WalletPickerMode.Ledger,
+          ignoreAddresses,
+          ledgerApp,
+          transport,
+          addressPrefix: selectedChain!.prefix,
+          masterHdPath: ledgerApp.masterHdPath,
+        },
+        {
+          onSuccess: (account) => {
+            onSuccess({ account, chain: selectedChain! });
+          },
+        },
+      );
     },
     [connectToLedger, selectAccount, ignoreAddresses, selectedChain, onSuccess],
   );

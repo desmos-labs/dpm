@@ -75,18 +75,19 @@ const CheckMnemonic: FC<NavProps> = (props) => {
     } else {
       const composedMnemonic = selectedWords.join(' ');
       if (receivedMnemonic === composedMnemonic) {
-        const account = await selectAccount({
-          mode: WalletPickerMode.Mnemonic,
-          mnemonic,
-          masterHdPath: DesmosHdPath,
-          addressPrefix: 'desmos',
-          allowCoinTypeEdit: false,
-          ignoreAddresses: accountsAddresses,
-        });
-
-        if (account !== undefined) {
-          saveAccount(account);
-        }
+        selectAccount(
+          {
+            mode: WalletPickerMode.Mnemonic,
+            mnemonic,
+            masterHdPath: DesmosHdPath,
+            addressPrefix: 'desmos',
+            allowCoinTypeEdit: false,
+            ignoreAddresses: accountsAddresses,
+          },
+          {
+            onSuccess: saveAccount,
+          },
+        );
       } else {
         setErrorMessage(t('invalid recovery passphrase'));
       }

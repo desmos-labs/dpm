@@ -55,18 +55,21 @@ const ImportAccountFromMnemonic: FC<NavProps> = (props) => {
       const sanitizedMnemonic = sanitizeMnemonic(mnemonic);
 
       if (checkMnemonic(sanitizedMnemonic)) {
-        const account = await selectAccount({
-          mode: WalletPickerMode.Mnemonic,
-          mnemonic: sanitizedMnemonic,
-          masterHdPath: selectedChain!.masterHDPath,
-          ignoreAddresses,
-          addressPrefix: selectedChain!.prefix,
-          allowCoinTypeEdit: false,
-        });
-
-        if (account !== undefined) {
-          onSuccess({ account, chain: selectedChain! });
-        }
+        selectAccount(
+          {
+            mode: WalletPickerMode.Mnemonic,
+            mnemonic: sanitizedMnemonic,
+            masterHdPath: selectedChain!.masterHDPath,
+            ignoreAddresses,
+            addressPrefix: selectedChain!.prefix,
+            allowCoinTypeEdit: false,
+          },
+          {
+            onSuccess: (account) => {
+              onSuccess({ account, chain: selectedChain! });
+            },
+          },
+        );
       } else {
         const invalidWords = sanitizedMnemonic
           .split(' ')
