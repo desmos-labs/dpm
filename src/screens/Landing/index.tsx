@@ -24,6 +24,8 @@ import Spacer from 'components/Spacer';
 import Typography from 'components/Typography';
 import { Web3AuthLoginProvider } from 'types/web3auth';
 import useLoginWithWeb3Auth from 'hooks/useLoginWithWeb3Auth';
+import useShowModal from 'hooks/useShowModal';
+import Web3AuthLoginProvidersModal from 'modals/Web3AuthLoginProvidersModal';
 import useStyles from './useStyles';
 
 export type NavProps = StackScreenProps<RootNavigatorParamList, ROUTES.LANDING>;
@@ -35,6 +37,7 @@ const Landing = ({ navigation }: NavProps) => {
   const accountsAddresses = useStoredAccountsAddresses();
   const importNewAccount = useImportNewAccount([DesmosChain], accountsAddresses);
   const loginWithWeb3Auth = useLoginWithWeb3Auth(DesmosChain, accountsAddresses);
+  const showModal = useShowModal();
 
   const animate = !navigation.canGoBack();
   const initialOpacity = animate ? 0 : 1;
@@ -83,9 +86,10 @@ const Landing = ({ navigation }: NavProps) => {
   );
 
   const showOtherSocialLogin = useCallback(() => {
-    // TODO: show other supported login methods modal.
-    console.log('showing social login');
-  }, []);
+    showModal(Web3AuthLoginProvidersModal, {
+      onSelect: loginWithWeb3Auth,
+    });
+  }, [showModal, loginWithWeb3Auth]);
 
   const goBack = useCallback(() => {
     navigation.goBack();

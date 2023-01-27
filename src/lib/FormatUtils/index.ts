@@ -113,3 +113,9 @@ export const formatHiddenValue = (value: string): string => {
   }
   return toReturn;
 };
+
+/**
+ * Capitalize the provided string.
+ * @param value - The string to capitalize.
+ */
+export const capitalize = (value: string): string => value.charAt(0).toUpperCase() + value.slice(1);

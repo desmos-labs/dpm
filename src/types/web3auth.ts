@@ -1,7 +1,15 @@
 export enum Web3AuthLoginProvider {
-  Google = 'google',
   Apple = 'apple',
-  Twitter = 'twitter',
   Discord = 'discord',
+  Facebook = 'facebook',
   Github = 'github',
+  Google = 'google',
+  Kakao = 'kakao',
+  Line = 'line',
+  Linkedin = 'linkedin',
+  Reddit = 'reddit',
+  Twitch = 'twitch',
+  Twitter = 'twitter',
+  Wechat = 'wechat',
+  Weibo = 'weibo',
 }
