@@ -19,7 +19,7 @@ import { useTranslation } from 'react-i18next';
  * <b>Note</b>: If the {@param chains} list only contains one item, the screen allowing to select the chain
  * to be imported will be skipped.
  */
-const useImportAccount = (chains: SupportedChain[], ignoreAddresses?: string[]) => {
+const useImportNewAccount = (chains: SupportedChain[], ignoreAddresses?: string[]) => {
   const { t } = useTranslation('account');
   const navigation = useNavigation<StackNavigationProp<RootNavigatorParamList>>();
   const [, setImportAccountState] = useRecoilState(importAccountAppState);
@@ -53,4 +53,4 @@ const useImportAccount = (chains: SupportedChain[], ignoreAddresses?: string[]) 
   }, [chains, ignoreAddresses, navigation, saveAccount, setImportAccountState, t]);
 };
 
-export default useImportAccount;
+export default useImportNewAccount;
