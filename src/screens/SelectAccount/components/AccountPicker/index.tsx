@@ -2,7 +2,6 @@ import React, { useCallback, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { StyleProp, View, ViewStyle } from 'react-native';
 import Typography from 'components/Typography';
-import ListItemSeparator from 'components/ListItemSeparator';
 import { HdPath } from '@cosmjs/crypto';
 import {
   useFetchWallets,
@@ -70,15 +69,18 @@ const AccountPicker: React.FC<AccountPickerProps> = ({ onAccountSelected, params
     (info: ListRenderItemInfo<AccountWithWallet>) => {
       const { address } = info.item.account;
       return (
-        <AccountListItem
-          address={address}
-          highlight={selectedAccount?.account.address === address}
-          onPress={() => {
-            const account = selectedAccount?.account.address === address ? null : info.item;
-            setSelectedAccount(account);
-            onAccountSelected(account);
-          }}
-        />
+        <>
+          <AccountListItem
+            address={address}
+            highlight={selectedAccount?.account.address === address}
+            onPress={() => {
+              const account = selectedAccount?.account.address === address ? null : info.item;
+              setSelectedAccount(account);
+              onAccountSelected(account);
+            }}
+          />
+          <View style={styles.separator} />
+        </>
       );
     },
     [selectedAccount, onAccountSelected, setSelectedAccount],
@@ -108,7 +110,6 @@ const AccountPicker: React.FC<AccountPickerProps> = ({ onAccountSelected, params
           renderItem={renderListItem}
           keyExtractor={listKeyExtractor}
           onEndReachedThreshold={0.5}
-          ItemSeparatorComponent={ListItemSeparator}
           estimatedItemSize={74}
         />
       ) : null}
