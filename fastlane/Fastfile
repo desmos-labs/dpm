@@ -172,12 +172,6 @@ platform :ios do
       api_key: api_key
     )
 
-    # manual code signing
-    update_code_signing_settings(
-      use_automatic_signing: false,
-      path: XCODE_PROJECT
-    )
-
     gym(
       scheme: PROJECT_NAME,
       workspace: XCODE_WORKSPACE,
