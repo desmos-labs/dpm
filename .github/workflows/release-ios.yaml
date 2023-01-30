@@ -49,12 +49,12 @@ jobs:
         id: version-info
         run: bundle exec fastlane common populate_github_env
         env:
-          VERSION_OVERRIDE: 1.2.0-RC1
+          VERSION_OVERRIDE: 1.2.1-RC1
 
       - name: Build ipa 🔨
         run: bundle exec fastlane ios build
         env:
-          VERSION_OVERRIDE: 1.2.0-RC1
+          VERSION_OVERRIDE: 1.2.1-RC1
           IOS_SKIP_POD_INSTALL: '${{ steps.cocoapods-cache.outputs.cache-hit }}'
           DEVELOPER_PORTAL_TEAM_ID: '${{ secrets.DEVELOPER_PORTAL_TEAM_ID }}'
           FASTLANE_APPLE_ID: '${{ secrets.FASTLANE_APPLE_ID }}'
@@ -73,7 +73,7 @@ jobs:
       - name: Deploy 🚀
         run: bundle exec fastlane ios deploy
         env:
-          VERSION_OVERRIDE: 1.2.0-RC1
+          VERSION_OVERRIDE: 1.2.1-RC1
           DEVELOPER_PORTAL_TEAM_ID: '${{ secrets.DEVELOPER_PORTAL_TEAM_ID }}'
           FASTLANE_APPLE_ID: '${{ secrets.FASTLANE_APPLE_ID }}'
           FASTLANE_APPLE_APPLICATION_SPECIFIC_PASSWORD: '${{ secrets.FASTLANE_APPLE_APPLICATION_SPECIFIC_PASSWORD }}'
