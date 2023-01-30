@@ -26,10 +26,10 @@
   "open source": "Open Source (GitHub)",
   "version": "Version",
   "block explorer": "Block Explorer",
-  "enable biometrics for login": "Enable biometric authentication for login",
-  "enable biometrics for signature": "Enable biometric authentication for signature",
+  "enable biometrics": "Enable biometrics",
   "enable": "Enable",
-  "insert your password to enable biometrics": "Insert your password to enable biometric authentication",
+  "insert your password to enable biometrics login": "Insert your password to allow login into the app with biometrics",
+  "insert your password to enable biometrics signature": "Insert your password to allow to confirm transactions signature with biometrics",
   "wrong password": "Password doesn't match",
   "unlock application": "Unlock application"
 }

@@ -21,7 +21,7 @@ const useStyles = makeStyleWithProps((props: TopBarProps, theme) => ({
     minHeight: 60,
   },
   containerCenter: {
-    flex: 2,
+    flex: 3,
   },
   title: {
     textTransform: props.capitalizeTitle === false ? 'none' : 'capitalize',

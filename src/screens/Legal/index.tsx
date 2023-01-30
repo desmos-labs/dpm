@@ -45,10 +45,8 @@ const Legal = (props: NavProps) => {
   return (
     <StyledSafeAreaView
       style={styles.background}
-      topBar={<TopBar style={styles.background} stackProps={props} />}
+      topBar={<TopBar style={styles.background} stackProps={props} title={t('legal')} />}
     >
-      <Typography.Title style={styles.title}>{t('legal')}</Typography.Title>
-
       <Typography.Body>
         {t('please review the desmos profile manager terms of service and privacy policy')}.
       </Typography.Body>
