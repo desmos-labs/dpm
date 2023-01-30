@@ -329,10 +329,7 @@ end
 
 platform :common do
   lane :populate_github_env do
-    version_name = version_name_from_git(false)
-    internal_release = is_internal_release
-
-    sh("echo VERSION_NAME=#{version_name} >> $GITHUB_OUTPUT")
-    sh("echo INTERNAL_RELEASE=#{internal_release} >> $GITHUB_OUTPUT")
+    sh("echo VERSION_NAME=#{version_name_from_git(false)} >> $GITHUB_OUTPUT")
+    sh("echo IS_INTERNAL_RELEASE=#{is_internal_release} >> $GITHUB_OUTPUT")
   end
 end

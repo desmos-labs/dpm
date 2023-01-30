@@ -83,4 +83,4 @@ jobs:
           file_glob: true
           file: android/app/build/outputs/apk/release/*.apk
           overwrite: true
-          prerelease: ${{ steps.version-info.outputs.INTERNAL_RELEASE }}
+          prerelease: ${{ steps.version-info.outputs.IS_INTERNAL_RELEASE }}
