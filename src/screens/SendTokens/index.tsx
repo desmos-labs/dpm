@@ -82,7 +82,10 @@ const SendTokens = () => {
   }, [address, amount, memo, sendTokens]);
 
   return (
-    <StyledSafeAreaView topBar={<TopBar stackProps={{ navigation }} title={t('send')} />}>
+    <StyledSafeAreaView
+      topBar={<TopBar stackProps={{ navigation }} title={t('send')} />}
+      touchableWithoutFeedbackDisabled={false}
+    >
       {/* Address */}
       <Typography.Subtitle>{t('recipient address')}</Typography.Subtitle>
       <TextInput

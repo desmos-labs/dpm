@@ -181,6 +181,7 @@ const EditProfile = () => {
           title={profile ? t('edit profile') : t('create profile')}
         />
       }
+      touchableWithoutFeedbackDisabled={false}
     >
       <KeyboardAvoidingView
         keyboardVerticalOffset={Platform.OS === 'ios' ? 110 : 0}

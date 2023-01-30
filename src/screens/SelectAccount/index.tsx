@@ -46,7 +46,11 @@ const SelectAccount: FC<NavProps> = (props) => {
   );
 
   return (
-    <StyledSafeAreaView style={styles.root} topBar={<TopBar stackProps={props} />}>
+    <StyledSafeAreaView
+      style={styles.root}
+      topBar={<TopBar stackProps={props} />}
+      touchableWithoutFeedbackDisabled={false}
+    >
       <Typography.Title>{t('import account')}</Typography.Title>
       <Typography.Body>{t('select account or enter derivation path')}.</Typography.Body>
 

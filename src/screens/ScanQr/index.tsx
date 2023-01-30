@@ -82,7 +82,7 @@ const ScanQr: React.FC<NavProps> = ({ navigation }) => {
   );
 
   return (
-    <StyledSafeAreaView style={styles.root} padding={0}>
+    <StyledSafeAreaView style={styles.root} padding={0} touchableWithoutFeedbackDisabled={false}>
       <IconButton style={styles.backButton} icon="close" size={18} onPress={goBack} />
       <QrCodeScanner onQrCodeDetected={onQrCodeDetected} stopRecognition={pairing} />
       {__DEV__ && (
