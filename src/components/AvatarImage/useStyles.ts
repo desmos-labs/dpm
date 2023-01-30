@@ -11,12 +11,12 @@ const useStyles = makeStyleWithProps((props: AvatarImageProps, theme) => ({
     borderRadius: 100,
     height: props.size ?? 24,
     width: props.size ?? 24,
+    opacity: props.loading ? 0.5 : 1,
   },
   indicator: {
     position: 'absolute',
     width: '100%',
     height: '100%',
-    backgroundColor: 'rgba(0, 0, 0, 0.5)',
     borderRadius: 100,
   },
 }));
