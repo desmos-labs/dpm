@@ -52,7 +52,7 @@ def ensure_temp_keychain(name, password)
   create_temp_keychain(name, password)
 end
 
-def version_name_from_git
+def version_name_from_git(exclude_rc)
   version_code = ''
   if VERSION_OVERRIDE != nil
     version_name = VERSION_OVERRIDE
@@ -64,6 +64,12 @@ def version_name_from_git
   versions = version_name.split('.')
   if versions.length < 3
     raise Exception.new "invalid version #{version_name}, expected format x.y.z"
+  end
+
+  if exclude_rc
+    minor = versions[2]
+    minor_parts = minor.split('-RC')
+    return "#{versions[0]}.#{versions[1]}.#{minor_parts[0]}"
   end
 
   version_name
@@ -120,7 +126,7 @@ def build_number_from_git
 end
 
 def is_internal_release
-  version_name_from_git.include? '-RC'
+  version_name_from_git(false).include? '-RC'
 end
 
 platform :ios do
@@ -137,7 +143,7 @@ platform :ios do
       in_house: false
     )
 
-    version_name = version_name_from_git
+    version_name = version_name_from_git(true)
     build_number = build_number_from_git
 
     # Set marketing version to version_number
@@ -201,7 +207,7 @@ end
 
 def get_gradle_properties
   build_number = build_number_from_git
-  version_name = version_name_from_git
+  version_name = version_name_from_git(false)
 
   common = {
     "buildNumber" => build_number,
@@ -323,7 +329,7 @@ end
 
 platform :common do
   lane :populate_github_env do
-    version_name = version_name_from_git
+    version_name = version_name_from_git(false)
     internal_release = is_internal_release
 
     sh("echo VERSION_NAME=#{version_name} >> $GITHUB_OUTPUT")
