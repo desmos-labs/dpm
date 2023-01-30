@@ -2,7 +2,7 @@ import { useNavigation, useRoute } from '@react-navigation/native';
 import { StackScreenProps } from '@react-navigation/stack';
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { ScrollView, View } from 'react-native';
+import { KeyboardAvoidingView, Platform, ScrollView, View } from 'react-native';
 import { DesmosProfile } from 'types/desmos';
 import StyledSafeAreaView from 'components/StyledSafeAreaView';
 import TopBar from 'components/TopBar';
@@ -182,53 +182,60 @@ const EditProfile = () => {
         />
       }
     >
-      <ScrollView style={styles.content}>
-        {/* Header */}
-        <ProfileHeader
-          canEdit={true}
-          profile={profile}
-          onEditCoverPicture={setCoverPicture}
-          coverPictureLoading={coverPicUploading}
-          onEditProfilePicture={setProfilePicture}
-          profilePictureLoading={profilePicUploading}
-        />
-
-        <View style={styles.input}>
-          {/* Nickname */}
-          <InlineInput
-            label={t('nickname')}
-            placeholder={t('nickname')}
-            value={nickname}
-            onChangeText={onNicknameChanged}
-            error={nicknameError}
+      <KeyboardAvoidingView
+        keyboardVerticalOffset={Platform.OS === 'ios' ? 110 : 0}
+        style={{ flex: 1 }}
+        {...(Platform.OS === 'ios' ? { behavior: 'padding' } : {})}
+      >
+        <ScrollView style={styles.content} keyboardDismissMode={'on-drag'}>
+          {/* Header */}
+          <ProfileHeader
+            canEdit={true}
+            profile={profile}
+            onEditCoverPicture={setCoverPicture}
+            coverPictureLoading={coverPicUploading}
+            onEditProfilePicture={setProfilePicture}
+            profilePictureLoading={profilePicUploading}
           />
 
-          <Divider />
+          <View style={styles.input}>
+            {/* Nickname */}
+            <InlineInput
+              label={t('nickname')}
+              placeholder={t('nickname')}
+              value={nickname}
+              onChangeText={onNicknameChanged}
+              error={nicknameError}
+            />
 
-          {/* DTag */}
-          <InlineInput
-            label={t('dtag')}
-            placeholder={t('dtag')}
-            value={dTag}
-            error={dTagError}
-            onChangeText={onDTagChanged}
-          />
+            <Divider />
 
-          <Divider />
+            {/* DTag */}
+            <InlineInput
+              label={t('dtag')}
+              placeholder={t('dtag')}
+              value={dTag}
+              error={dTagError}
+              onChangeText={onDTagChanged}
+            />
 
-          {/* Biography */}
-          <InlineInput
-            style={styles.bioEditor}
-            label={t('bio')}
-            placeholder={t('bio')}
-            value={biography}
-            error={biographyError}
-            onChangeText={onBiographyChanged}
-            numberOfLines={5}
-            multiline={true}
-          />
-        </View>
-      </ScrollView>
+            <Divider />
+
+            {/* Biography */}
+            <InlineInput
+              style={styles.bioEditor}
+              label={t('bio')}
+              placeholder={t('bio')}
+              value={biography}
+              error={biographyError}
+              onChangeText={onBiographyChanged}
+              numberOfLines={5}
+              multiline={true}
+              scrollEnabled={false}
+            />
+          </View>
+        </ScrollView>
+      </KeyboardAvoidingView>
     </StyledSafeAreaView>
   );
 };
