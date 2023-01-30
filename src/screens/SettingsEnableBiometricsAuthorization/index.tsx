@@ -73,7 +73,11 @@ const SettingsEnableBiometricsAuthorization: React.FC<Props> = (props) => {
   );
 
   return (
-    <StyledSafeAreaView style={styles.root} topBar={<TopBar stackProps={props} />}>
+    <StyledSafeAreaView
+      style={styles.root}
+      topBar={<TopBar stackProps={props} />}
+      touchableWithoutFeedbackDisabled={false}
+    >
       <Typography.Title>
         {biometricsType === BiometricAuthorizations.Login
           ? t('enable biometrics for login')

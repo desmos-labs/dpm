@@ -67,6 +67,7 @@ const SettingsChangeWalletPassword = (props: NavProps) => {
     <StyledSafeAreaView
       style={styles.root}
       topBar={<TopBar stackProps={props} title={t('change password')} />}
+      touchableWithoutFeedbackDisabled={false}
     >
       {/* Description */}
       <Typography.Body>{t('change application password description')}</Typography.Body>

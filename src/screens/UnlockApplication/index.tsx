@@ -114,6 +114,7 @@ const UnlockApplication: React.FC<NavProps> = (props) => {
   return (
     <StyledSafeAreaView
       topBar={<TopBar stackProps={props} hideGoBack={true} title={t('unlock application')} />}
+      touchableWithoutFeedbackDisabled={false}
     >
       <Typography.Subtitle>{t('enter security password')}</Typography.Subtitle>
       <SecureTextInput
@@ -127,7 +128,7 @@ const UnlockApplication: React.FC<NavProps> = (props) => {
       <Typography.Body style={styles.errorMsg}>{error}</Typography.Body>
       <Padding flex={1} />
       <KeyboardAvoidingView
-        keyboardVerticalOffset={Platform.OS === 'ios' ? bottom + 80 : 0}
+        keyboardVerticalOffset={Platform.OS === 'ios' ? bottom + 100 : 0}
         {...(Platform.OS === 'ios' ? { behavior: 'padding' } : {})}
       >
         <Button mode="contained" onPress={unlockWithPassword} loading={loading} disabled={loading}>

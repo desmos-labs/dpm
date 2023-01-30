@@ -45,6 +45,9 @@ const useStyles = makeStyle((theme) => ({
   disabledText: {
     color: theme.colors.disabled,
   },
+  separator: {
+    paddingVertical: theme.spacing.s,
+  },
 }));
 
 export default useStyles;
