@@ -4,11 +4,6 @@ on:
   push:
     tags:
       - 'v[0-9]+.[0-9]+.[0-9]+(-RC[0-9]+)?'
-    branches:
-      - manuel/new-version-code-schema
-
-  # Allows you to run this workflow manually from the Actions a tab
-  workflow_dispatch:
 
 jobs:
   deploy:
@@ -48,13 +43,10 @@ jobs:
       - name: Get version info 🔨
         id: version-info
         run: bundle exec fastlane common populate_github_env
-        env:
-          VERSION_OVERRIDE: 1.2.1-RC1
 
       - name: Build ipa 🔨
         run: bundle exec fastlane ios build || cat /Users/runner/Library/Logs/gym/DesmosProfileManager-DesmosProfileManager.log
         env:
-          VERSION_OVERRIDE: 1.2.1-RC1
           IOS_SKIP_POD_INSTALL: '${{ steps.cocoapods-cache.outputs.cache-hit }}'
           DEVELOPER_PORTAL_TEAM_ID: '${{ secrets.DEVELOPER_PORTAL_TEAM_ID }}'
           FASTLANE_APPLE_ID: '${{ secrets.FASTLANE_APPLE_ID }}'
@@ -70,13 +62,12 @@ jobs:
           APPLE_ISSUER_ID: '${{ secrets.APPLE_ISSUER_ID }}'
           APPLE_KEY_CONTENT: '${{ secrets.APPLE_KEY_CONTENT }}'
 
-      # - name: Deploy 🚀
-      #   run: bundle exec fastlane ios deploy
-      #   env:
-      #     VERSION_OVERRIDE: 1.2.1-RC1
-      #     DEVELOPER_PORTAL_TEAM_ID: '${{ secrets.DEVELOPER_PORTAL_TEAM_ID }}'
-      #     FASTLANE_APPLE_ID: '${{ secrets.FASTLANE_APPLE_ID }}'
-      #     FASTLANE_APPLE_APPLICATION_SPECIFIC_PASSWORD: '${{ secrets.FASTLANE_APPLE_APPLICATION_SPECIFIC_PASSWORD }}'
-      #     MATCH_PASSWORD: '${{ secrets.MATCH_PASSWORD }}'
-      #     DEVELOPER_APP_ID: '${{ secrets.DEVELOPER_APP_ID }}'
-      #     DEVELOPER_APP_IDENTIFIER: '${{ secrets.DEVELOPER_APP_IDENTIFIER }}'
+      - name: Deploy 🚀
+        run: bundle exec fastlane ios deploy
+        env:
+          DEVELOPER_PORTAL_TEAM_ID: '${{ secrets.DEVELOPER_PORTAL_TEAM_ID }}'
+          FASTLANE_APPLE_ID: '${{ secrets.FASTLANE_APPLE_ID }}'
+          FASTLANE_APPLE_APPLICATION_SPECIFIC_PASSWORD: '${{ secrets.FASTLANE_APPLE_APPLICATION_SPECIFIC_PASSWORD }}'
+          MATCH_PASSWORD: '${{ secrets.MATCH_PASSWORD }}'
+          DEVELOPER_APP_ID: '${{ secrets.DEVELOPER_APP_ID }}'
+          DEVELOPER_APP_IDENTIFIER: '${{ secrets.DEVELOPER_APP_IDENTIFIER }}'
