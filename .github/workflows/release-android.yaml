@@ -37,7 +37,7 @@ jobs:
           cache-dependency-path: |
             yarn.lock
 
-      - name: Caching Gradle packages 🔨
+      - name: Setup Gradle cache 🗄
         uses: actions/cache@v3
         with:
           path: |
@@ -47,12 +47,12 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-gradle-
 
-      - name: Install yarn dependencies 🔨
-        run: yarn install --immutable
-
-      - name: Get version info 🔨
+      - name: Get version info ⚙
         id: version-info
         run: bundle exec fastlane common populate_github_env
+
+      - name: Install yarn dependencies 🔨
+        run: yarn install --immutable
 
       - name: Build bundle 🔨
         run: bundle exec fastlane android build_bundle

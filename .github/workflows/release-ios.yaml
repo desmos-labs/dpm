@@ -28,7 +28,7 @@ jobs:
           cache-dependency-path: |
             yarn.lock
 
-      - name: Caching Cocoapods 🔨
+      - name: Setup Cocoapods Cache 🗄
         uses: actions/cache@v3
         id: cocoapods-cache
         with:
@@ -37,12 +37,12 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-pods-
 
-      - name: Install yarn dependencies 🔨
-        run: yarn install --immutable
-
-      - name: Get version info 🔨
+      - name: Get version info ⚙
         id: version-info
         run: bundle exec fastlane common populate_github_env
+
+      - name: Install yarn dependencies 🔨
+        run: yarn install --immutable
 
       - name: Build ipa 🔨
         run: bundle exec fastlane ios build
