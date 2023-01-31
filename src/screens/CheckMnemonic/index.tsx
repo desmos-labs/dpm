@@ -104,8 +104,10 @@ const CheckMnemonic: FC<NavProps> = (props) => {
   ]);
 
   return (
-    <StyledSafeAreaView style={styles.root} topBar={<TopBar stackProps={props} />}>
-      <Typography.Title>{t('confirm recovery passphrase')}</Typography.Title>
+    <StyledSafeAreaView
+      style={styles.root}
+      topBar={<TopBar stackProps={props} title={t('confirm recovery passphrase')} />}
+    >
       <Typography.Subtitle2>{t('select each word in order')}.</Typography.Subtitle2>
 
       <View style={styles.selectedWordsContainer}>
