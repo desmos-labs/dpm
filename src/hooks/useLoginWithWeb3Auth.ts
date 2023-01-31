@@ -8,6 +8,7 @@ import { Web3AuthKeyProvider } from '@desmoslabs/desmjs-web3auth-mobile';
 import { newWeb3AuthClient, web3AuthLoginParams } from 'lib/Web3AuthUtils';
 import { PrivateKeyProviderStatus } from '@desmoslabs/desmjs';
 import { useSetAppState } from '@recoil/appState';
+import { Platform } from 'react-native';
 
 const useLoginWithWeb3Auth = (chain: SupportedChain, ignoreAddresses: string[]) => {
   const selectAccount = useSelectAccount();
@@ -23,11 +24,20 @@ const useLoginWithWeb3Auth = (chain: SupportedChain, ignoreAddresses: string[]) 
 
       // Prevent screens visualization since we are going to open
       // an external web link to perform the authentication.
-      setAppState((currVal) => ({
-        ...currVal,
-        noSplashScreen: true,
-        noLockOnBackground: true,
-      }));
+      setAppState(
+        (currVal) =>
+          Platform.select({
+            android: {
+              ...currVal,
+              noSplashScreen: true,
+              noLockOnBackground: true,
+            },
+            ios: {
+              ...currVal,
+              noSplashScreen: true,
+            },
+          })!,
+      );
 
       try {
         await keyProvider.connect();
