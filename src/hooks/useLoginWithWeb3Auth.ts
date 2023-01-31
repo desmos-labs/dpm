@@ -22,16 +22,12 @@ const useLoginWithWeb3Auth = (chain: SupportedChain, ignoreAddresses: string[]) 
         logoutParams: {},
       });
 
-      // Prevent screens visualization since we are going to open
-      // an external web link to perform the authentication.
       setAppState(
         (currVal) =>
           Platform.select({
-            android: {
-              ...currVal,
-              noSplashScreen: true,
-              noLockOnBackground: true,
-            },
+            android: currVal,
+            // Prevent splash visualization since the app will
+            // go on 'inactive' state to show a login popup to the user.
             ios: {
               ...currVal,
               noSplashScreen: true,
