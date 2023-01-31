@@ -7,7 +7,7 @@ const useStyles = makeStyle((theme) => ({
     flexGrow: 1,
   },
   bioContainer: {
-    paddingHorizontal: theme.spacing.m,
+    marginHorizontal: theme.spacing.m,
   },
   bioText: {
     overflow: 'hidden',

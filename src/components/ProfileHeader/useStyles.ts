@@ -68,7 +68,6 @@ const useStyles = makeStyle((theme) => ({
     lineHeight: 26,
     letterSpacing: 0.0015,
     color: theme.colors.primary,
-    marginTop: 16,
   },
   addressContainer: {
     width: 100,

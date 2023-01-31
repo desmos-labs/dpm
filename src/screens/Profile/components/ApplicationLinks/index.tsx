@@ -4,20 +4,33 @@ import { View } from 'react-native';
 import ApplicationLinkItem from 'screens/Profile/components/ApplicationLinkItem';
 import { isApplicationSupported } from 'lib/ApplicationLinksUtils';
 import Spacer from 'components/Spacer';
+import ContentLoader, { Circle } from 'react-content-loader/native';
 import useStyles from './useStyles';
 
 export interface ApplicationLinksProps {
   readonly applicationLinks: ApplicationLink[];
   readonly canEdit: boolean;
+
+  readonly loading?: boolean;
 }
 
 const ApplicationLinks = (props: ApplicationLinksProps) => {
   const styles = useStyles();
-  const { applicationLinks } = props;
+  const { applicationLinks, loading } = props;
 
   // Filter the application links to only show the supported ones (forward compatibility)
   const supportedApplicationLinks = applicationLinks.filter(isApplicationSupported);
   const hasApplicationLinks = supportedApplicationLinks.length !== 0;
+
+  if (loading) {
+    return (
+      <ContentLoader width="100" height="30">
+        <Circle r="14" x="16" y="16" />
+        <Circle r="14" x="46" y="16" />
+        <Circle r="14" x="78" y="16" />
+      </ContentLoader>
+    );
+  }
 
   // Return a default empty view if there are no application links
   if (!hasApplicationLinks) {
