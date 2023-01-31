@@ -129,18 +129,14 @@ const Landing = ({ navigation }: NavProps) => {
             opacity: buttonsOpacity,
           }}
         >
-          <Button
-            style={styles.buttons}
-            mode="contained"
-            color="#ffffff"
-            onPress={onCreateAccount}
-            labelStyle={styles.createWalletLabel}
-          >
+          {/* Create new wallet */}
+          <Button style={styles.buttons} mode="outlined" color="#ffffff" onPress={onCreateAccount}>
             {t('create wallet')}
           </Button>
 
           <Spacer paddingVertical={12} />
 
+          {/* Import wallet */}
           <Button style={styles.buttons} mode="outlined" color="#ffffff" onPress={onImportAccount}>
             {t('account:import account')}
           </Button>
@@ -148,10 +144,10 @@ const Landing = ({ navigation }: NavProps) => {
           <Spacer paddingVertical={12} />
 
           <Typography.Subtitle style={styles.loginWithLabel}>
-            {t('login with social app')} :
+            {t('or login with')}
           </Typography.Subtitle>
 
-          <Spacer paddingVertical={4} />
+          <Spacer paddingVertical={8} />
 
           {/* Social login buttons */}
           <View style={styles.socialButtonsContainer}>
@@ -168,8 +164,15 @@ const Landing = ({ navigation }: NavProps) => {
 
           <Spacer paddingVertical={4} />
 
-          <Button style={styles.buttons} color="#ffffff" onPress={showOtherSocialLogin}>
-            More
+          <Button
+            style={styles.buttons}
+            color="#ffffff"
+            onPress={showOtherSocialLogin}
+            labelStyle={{
+              fontSize: 14,
+            }}
+          >
+            {t('show more')}
           </Button>
         </Animated.View>
       </ImageBackground>

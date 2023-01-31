@@ -37,11 +37,9 @@ const useStyle = makeStyle((theme) => ({
   buttons: {
     justifyContent: 'center',
   },
-  createWalletLabel: {
-    color: theme.colors.primary,
-  },
   loginWithLabel: {
     color: '#ffffff',
+    alignSelf: 'center',
   },
   socialButtonsContainer: {
     display: 'flex',
