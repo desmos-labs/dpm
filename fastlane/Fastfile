@@ -342,6 +342,8 @@ platform :common do
        .each { |env|
          env_key = env.sub('ENV_', '')
          UI.message "Writing #{env_key} to #{ENV_FILE}"
+
+         # Don't log to prevent secrets leaking during the CI execution.
          sh("echo '#{env_key}=#{ENV[env]}' >> #{ENV_FILE}", log: false)
        }
   end
