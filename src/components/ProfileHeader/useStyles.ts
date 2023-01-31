@@ -27,12 +27,6 @@ const useStyles = makeStyle((theme) => ({
     width: '100%',
     height: 200,
   },
-  coverPictureActivityIndicator: {
-    position: 'absolute',
-    backgroundColor: 'rgba(255, 255, 255, 0.6)',
-    width: '100%',
-    height: '100%',
-  },
   editCoverPictureBtn: {
     position: 'absolute',
     bottom: 8,
@@ -47,12 +41,6 @@ const useStyles = makeStyle((theme) => ({
   profilePictureContainer: {
     width: 100,
     height: 100,
-    borderRadius: 50,
-  },
-  profilePictureActivityIndicator: {
-    position: 'absolute',
-    width: '100%',
-    height: '100%',
     borderRadius: 50,
   },
   editProfilePictureBtn: {
