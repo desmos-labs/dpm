@@ -3,6 +3,7 @@ PROJECT_NAME = "DesmosProfileManager"
 
 # Common variable
 VERSION_OVERRIDE = ENV['VERSION_OVERRIDE']
+ENV_FILE = '../.env'
 
 # iOS variables
 XCODE_PROJECT = "./ios/#{PROJECT_NAME}.xcodeproj"
@@ -29,7 +30,7 @@ ANDROID_USE_LOCAL_KEYSTORE = ENV["ANDROID_USE_LOCAL_KEYSTORE"] != nil
 
 # Define utility function to check if a string is a valid integer
 def is_integer(value)
-    value.to_i.to_s == value
+  value.to_i.to_s == value
 end
 
 def delete_temp_keychain(name)
@@ -151,8 +152,8 @@ platform :ios do
 
     # Set application build number
     increment_build_number(
-        xcodeproj: XCODE_PROJECT,
-        build_number: build_number
+      xcodeproj: XCODE_PROJECT,
+      build_number: build_number
     )
 
     unless IOS_SKIP_POD_INSTALL
@@ -181,7 +182,7 @@ platform :ios do
       export_method: "app-store",
       export_options: {
         provisioningProfiles: {
-            DEVELOPER_APP_ID => PROVISIONING_PROFILE_SPECIFIER
+          DEVELOPER_APP_ID => PROVISIONING_PROFILE_SPECIFIER
         }
       }
     )
@@ -220,11 +221,11 @@ def get_gradle_properties
   end
 
   return common.merge({
-    "DPM_RELEASE_STORE_FILE" => "/tmp/keystore.jks",
-    "DPM_RELEASE_STORE_PASSWORD" => ANDROID_SIGNING_STORE_PASSWORD,
-    "DPM_RELEASE_KEY_ALIAS" => ANDROID_SIGNING_ALIAS,
-    "DPM_RELEASE_KEY_PASSWORD" => ANDROID_SIGNING_KEY_PASSWORD,
-  })
+                        "DPM_RELEASE_STORE_FILE" => "/tmp/keystore.jks",
+                        "DPM_RELEASE_STORE_PASSWORD" => ANDROID_SIGNING_STORE_PASSWORD,
+                        "DPM_RELEASE_KEY_ALIAS" => ANDROID_SIGNING_ALIAS,
+                        "DPM_RELEASE_KEY_PASSWORD" => ANDROID_SIGNING_KEY_PASSWORD,
+                      })
 end
 
 platform :android do
@@ -245,7 +246,7 @@ platform :android do
       command: "md5sum /tmp/keystore.jks"
     )
     sh(
-        command: "echo '4683f0f906c894411c0b4e0db125b603 /tmp/keystore.jks' | md5sum -c -"
+      command: "echo '4683f0f906c894411c0b4e0db125b603 /tmp/keystore.jks' | md5sum -c -"
     )
   end
 
@@ -328,8 +329,22 @@ platform :android do
 end
 
 platform :common do
+
   lane :populate_github_env do
     sh("echo VERSION_NAME=#{version_name_from_git(false)} >> $GITHUB_OUTPUT")
     sh("echo IS_INTERNAL_RELEASE=#{is_internal_release} >> $GITHUB_OUTPUT")
+  end
+
+  lane :write_env_file do
+    sh("rm #{ENV_FILE} || echo #{ENV_FILE} not present")
+
+    ENV.keys.select { |value| value.start_with?('ENV_') }
+       .each { |env|
+         env_key = env.sub('ENV_', '')
+         UI.message "Writing #{env_key} to #{ENV_FILE}"
+
+         # Don't log to prevent secrets leaking during the CI execution.
+         sh("echo '#{env_key}=#{ENV[env]}' >> #{ENV_FILE}", log: false)
+       }
   end
 end

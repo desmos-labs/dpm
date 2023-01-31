@@ -44,6 +44,12 @@ jobs:
       - name: Install yarn dependencies 🔨
         run: yarn install --immutable
 
+      - name: Prepare production .env file 🔨
+        run: bundler exec fastlane common write_env_file
+        env:
+          ENV_WALLET_CONNECT_PROJECT_ID: ${{ secrets.ENV_WALLET_CONNECT_PROJECT_ID }}
+          ENV_WEB3_AUTH_CLIENT_ID_MAINNET: ${{ secrets.ENV_WEB3_AUTH_CLIENT_ID_MAINNET }}
+
       - name: Build ipa 🔨
         run: bundle exec fastlane ios build
         env:
