@@ -1,7 +1,7 @@
 import { StackScreenProps } from '@react-navigation/stack';
-import React, { useCallback, useEffect, useRef } from 'react';
+import React, { useCallback, useEffect, useMemo, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Animated, ImageBackground, Text, View } from 'react-native';
+import { Animated, ImageBackground, Platform, Text, View } from 'react-native';
 import StyledSafeAreaView from 'components/StyledSafeAreaView';
 import IconButton from 'components/IconButton';
 import Button from 'components/Button';
@@ -9,15 +9,7 @@ import { RootNavigatorParamList } from 'navigation/RootNavigator';
 import ROUTES from 'navigation/routes';
 import useImportNewAccount from 'hooks/useImportNewAccount';
 import { DesmosChain } from 'config/LinkableChains';
-import {
-  appleApplicationIcon,
-  desmosLogoWhite,
-  discordApplicationIcon,
-  githubApplicationIcon,
-  googleApplicationIcon,
-  homeBackgroundLight,
-  twitterApplicationIcon,
-} from 'assets/images';
+import { applicationsIconsMap, desmosLogoWhite, homeBackgroundLight } from 'assets/images';
 import { useStoredAccountsAddresses } from '@recoil/accounts';
 import FastImage from 'react-native-fast-image';
 import Spacer from 'components/Spacer';
@@ -44,6 +36,20 @@ const Landing = ({ navigation }: NavProps) => {
   const iconOpacity = useRef(new Animated.Value(initialOpacity)).current;
   const profileManagerTextOpacity = useRef(new Animated.Value(initialOpacity)).current;
   const buttonsOpacity = useRef(new Animated.Value(initialOpacity)).current;
+  const primaryLoginProviders = useMemo(() => {
+    const loginProviders = [];
+    if (Platform.OS === 'ios') {
+      loginProviders.push(Web3AuthLoginProvider.Apple, Web3AuthLoginProvider.Google);
+    } else {
+      loginProviders.push(Web3AuthLoginProvider.Google, Web3AuthLoginProvider.Apple);
+    }
+    loginProviders.push(
+      Web3AuthLoginProvider.Twitter,
+      Web3AuthLoginProvider.Discord,
+      Web3AuthLoginProvider.Reddit,
+    );
+    return loginProviders;
+  }, []);
 
   useEffect(() => {
     if (animate) {
@@ -149,38 +155,19 @@ const Landing = ({ navigation }: NavProps) => {
 
           {/* Social login buttons */}
           <View style={styles.socialButtonsContainer}>
-            <IconButton
-              style={styles.socialButton}
-              icon={googleApplicationIcon}
-              color={null}
-              onPress={() => importFromSocial(Web3AuthLoginProvider.Google)}
-            />
-            <IconButton
-              style={styles.socialButton}
-              icon={appleApplicationIcon}
-              color={null}
-              onPress={() => importFromSocial(Web3AuthLoginProvider.Apple)}
-            />
-            <IconButton
-              style={styles.socialButton}
-              icon={twitterApplicationIcon}
-              color={null}
-              onPress={() => importFromSocial(Web3AuthLoginProvider.Twitter)}
-            />
-            <IconButton
-              style={styles.socialButton}
-              icon={discordApplicationIcon}
-              color={null}
-              onPress={() => importFromSocial(Web3AuthLoginProvider.Discord)}
-            />
-            <IconButton
-              style={styles.socialButton}
-              icon={githubApplicationIcon}
-              color={null}
-              onPress={() => importFromSocial(Web3AuthLoginProvider.Github)}
-            />
+            {primaryLoginProviders.map((loginProvider, index) => (
+              <IconButton
+                key={`login-button-${index}`}
+                style={styles.socialButton}
+                icon={applicationsIconsMap[loginProvider]}
+                color={null}
+                onPress={() => importFromSocial(loginProvider)}
+              />
+            ))}
           </View>
+
           <Spacer paddingVertical={4} />
+
           <Button style={styles.buttons} color="#ffffff" onPress={showOtherSocialLogin}>
             More
           </Button>
