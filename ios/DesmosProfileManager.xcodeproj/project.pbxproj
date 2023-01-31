@@ -11,10 +11,8 @@
 		13B07FBC1A68108700A75B9A /* AppDelegate.mm in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB01A68108700A75B9A /* AppDelegate.mm */; };
 		13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
-		46CAA452F61615AB1E2CBD90 /* libPods-DesmosProfileManager-DesmosProfileManagerTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 986C98A9D805ECF49CD13B6E /* libPods-DesmosProfileManager-DesmosProfileManagerTests.a */; };
 		4F752A856D734593990D5273 /* desmos.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 943612EDC99C498396E76E55 /* desmos.ttf */; };
 		A789FD3F270CA2AE00EFC6CF /* RCTCryptoUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = A789FD3E270CA2AE00EFC6CF /* RCTCryptoUtils.m */; };
-		D062745B07185D5E097A8696 /* libPods-DesmosProfileManager.a in Frameworks */ = {isa = PBXBuildFile; fileRef = EAA0E55CCAF06D84C6B56CB3 /* libPods-DesmosProfileManager.a */; };
 		D227F90C297879DC00BE8252 /* Poppins-BlackItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D227F8FA297879DC00BE8252 /* Poppins-BlackItalic.ttf */; };
 		D227F90D297879DC00BE8252 /* Poppins-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D227F8FB297879DC00BE8252 /* Poppins-Light.ttf */; };
 		D227F90E297879DC00BE8252 /* Poppins-ExtraBoldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D227F8FC297879DC00BE8252 /* Poppins-ExtraBoldItalic.ttf */; };
@@ -37,6 +35,8 @@
 		D227F921297879E400BE8252 /* about.md in Resources */ = {isa = PBXBuildFile; fileRef = D227F91F297879E400BE8252 /* about.md */; };
 		D2886E64296F93E700629B20 /* RCTCryptoUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2886E63296F93E700629B20 /* RCTCryptoUtils.swift */; };
 		D2EE74EC2979A11600C6CA64 /* BootSplash.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D2EE74EB2979A11500C6CA64 /* BootSplash.storyboard */; };
+		EB2EDF699E07424F503FD4F7 /* libPods-DesmosProfileManager.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 44B4642C6AB3ECAEC346CCB1 /* libPods-DesmosProfileManager.a */; };
+		FE58B4BEB901B71A8FF1EA78 /* libPods-DesmosProfileManager-DesmosProfileManagerTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = FD9BF8827BB4F52EE161DCB9 /* libPods-DesmosProfileManager-DesmosProfileManagerTests.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -59,12 +59,12 @@
 		13B07FB51A68108700A75B9A /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = DesmosProfileManager/Images.xcassets; sourceTree = "<group>"; };
 		13B07FB61A68108700A75B9A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = DesmosProfileManager/Info.plist; sourceTree = "<group>"; };
 		13B07FB71A68108700A75B9A /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = DesmosProfileManager/main.m; sourceTree = "<group>"; };
-		1D5ADE09A43A2D782ED2C69B /* Pods-DesmosProfileManager-DesmosProfileManagerTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DesmosProfileManager-DesmosProfileManagerTests.debug.xcconfig"; path = "Target Support Files/Pods-DesmosProfileManager-DesmosProfileManagerTests/Pods-DesmosProfileManager-DesmosProfileManagerTests.debug.xcconfig"; sourceTree = "<group>"; };
-		92A5B8F4FF2B7303E5DEE83D /* Pods-DesmosProfileManager.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DesmosProfileManager.release.xcconfig"; path = "Target Support Files/Pods-DesmosProfileManager/Pods-DesmosProfileManager.release.xcconfig"; sourceTree = "<group>"; };
+		182608DCDB51DA9B06829635 /* Pods-DesmosProfileManager.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DesmosProfileManager.release.xcconfig"; path = "Target Support Files/Pods-DesmosProfileManager/Pods-DesmosProfileManager.release.xcconfig"; sourceTree = "<group>"; };
+		1CC86619CFB97CAC1CC9E0A9 /* Pods-DesmosProfileManager-DesmosProfileManagerTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DesmosProfileManager-DesmosProfileManagerTests.release.xcconfig"; path = "Target Support Files/Pods-DesmosProfileManager-DesmosProfileManagerTests/Pods-DesmosProfileManager-DesmosProfileManagerTests.release.xcconfig"; sourceTree = "<group>"; };
+		44B4642C6AB3ECAEC346CCB1 /* libPods-DesmosProfileManager.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-DesmosProfileManager.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		8CE6E94653355E2CB4DF92ED /* Pods-DesmosProfileManager.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DesmosProfileManager.debug.xcconfig"; path = "Target Support Files/Pods-DesmosProfileManager/Pods-DesmosProfileManager.debug.xcconfig"; sourceTree = "<group>"; };
 		943612EDC99C498396E76E55 /* desmos.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = desmos.ttf; path = ../assets/fonts/desmos.ttf; sourceTree = "<group>"; };
-		986C98A9D805ECF49CD13B6E /* libPods-DesmosProfileManager-DesmosProfileManagerTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-DesmosProfileManager-DesmosProfileManagerTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		A789FD3E270CA2AE00EFC6CF /* RCTCryptoUtils.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RCTCryptoUtils.m; sourceTree = "<group>"; };
-		C7D8DD72F59C219E434C854C /* Pods-DesmosProfileManager-DesmosProfileManagerTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DesmosProfileManager-DesmosProfileManagerTests.release.xcconfig"; path = "Target Support Files/Pods-DesmosProfileManager-DesmosProfileManagerTests/Pods-DesmosProfileManager-DesmosProfileManagerTests.release.xcconfig"; sourceTree = "<group>"; };
 		D227F8FA297879DC00BE8252 /* Poppins-BlackItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Poppins-BlackItalic.ttf"; path = "../assets/fonts/Poppins-BlackItalic.ttf"; sourceTree = "<group>"; };
 		D227F8FB297879DC00BE8252 /* Poppins-Light.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Poppins-Light.ttf"; path = "../assets/fonts/Poppins-Light.ttf"; sourceTree = "<group>"; };
 		D227F8FC297879DC00BE8252 /* Poppins-ExtraBoldItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Poppins-ExtraBoldItalic.ttf"; path = "../assets/fonts/Poppins-ExtraBoldItalic.ttf"; sourceTree = "<group>"; };
@@ -88,9 +88,9 @@
 		D227F92229787CE800BE8252 /* DesmosProfileManager-Bridging-Header.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "DesmosProfileManager-Bridging-Header.h"; sourceTree = "<group>"; };
 		D2886E63296F93E700629B20 /* RCTCryptoUtils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RCTCryptoUtils.swift; sourceTree = "<group>"; };
 		D2EE74EB2979A11500C6CA64 /* BootSplash.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = BootSplash.storyboard; path = DesmosProfileManager/BootSplash.storyboard; sourceTree = "<group>"; };
-		EAA0E55CCAF06D84C6B56CB3 /* libPods-DesmosProfileManager.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-DesmosProfileManager.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		D76EE7B8A5E4C1AF5FBF917D /* Pods-DesmosProfileManager-DesmosProfileManagerTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DesmosProfileManager-DesmosProfileManagerTests.debug.xcconfig"; path = "Target Support Files/Pods-DesmosProfileManager-DesmosProfileManagerTests/Pods-DesmosProfileManager-DesmosProfileManagerTests.debug.xcconfig"; sourceTree = "<group>"; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
-		F6935FB0D8A359451DBDAAC2 /* Pods-DesmosProfileManager.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DesmosProfileManager.debug.xcconfig"; path = "Target Support Files/Pods-DesmosProfileManager/Pods-DesmosProfileManager.debug.xcconfig"; sourceTree = "<group>"; };
+		FD9BF8827BB4F52EE161DCB9 /* libPods-DesmosProfileManager-DesmosProfileManagerTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-DesmosProfileManager-DesmosProfileManagerTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -98,7 +98,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				46CAA452F61615AB1E2CBD90 /* libPods-DesmosProfileManager-DesmosProfileManagerTests.a in Frameworks */,
+				FE58B4BEB901B71A8FF1EA78 /* libPods-DesmosProfileManager-DesmosProfileManagerTests.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -106,7 +106,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D062745B07185D5E097A8696 /* libPods-DesmosProfileManager.a in Frameworks */,
+				EB2EDF699E07424F503FD4F7 /* libPods-DesmosProfileManager.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -150,8 +150,8 @@
 			isa = PBXGroup;
 			children = (
 				ED297162215061F000B7C4FE /* JavaScriptCore.framework */,
-				EAA0E55CCAF06D84C6B56CB3 /* libPods-DesmosProfileManager.a */,
-				986C98A9D805ECF49CD13B6E /* libPods-DesmosProfileManager-DesmosProfileManagerTests.a */,
+				44B4642C6AB3ECAEC346CCB1 /* libPods-DesmosProfileManager.a */,
+				FD9BF8827BB4F52EE161DCB9 /* libPods-DesmosProfileManager-DesmosProfileManagerTests.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -219,10 +219,10 @@
 		BBD78D7AC51CEA395F1C20DB /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				F6935FB0D8A359451DBDAAC2 /* Pods-DesmosProfileManager.debug.xcconfig */,
-				92A5B8F4FF2B7303E5DEE83D /* Pods-DesmosProfileManager.release.xcconfig */,
-				1D5ADE09A43A2D782ED2C69B /* Pods-DesmosProfileManager-DesmosProfileManagerTests.debug.xcconfig */,
-				C7D8DD72F59C219E434C854C /* Pods-DesmosProfileManager-DesmosProfileManagerTests.release.xcconfig */,
+				8CE6E94653355E2CB4DF92ED /* Pods-DesmosProfileManager.debug.xcconfig */,
+				182608DCDB51DA9B06829635 /* Pods-DesmosProfileManager.release.xcconfig */,
+				D76EE7B8A5E4C1AF5FBF917D /* Pods-DesmosProfileManager-DesmosProfileManagerTests.debug.xcconfig */,
+				1CC86619CFB97CAC1CC9E0A9 /* Pods-DesmosProfileManager-DesmosProfileManagerTests.release.xcconfig */,
 			);
 			path = Pods;
 			sourceTree = "<group>";
@@ -234,12 +234,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 00E357021AD99517003FC87E /* Build configuration list for PBXNativeTarget "DesmosProfileManagerTests" */;
 			buildPhases = (
-				C445CB8A92E43AAC8E878335 /* [CP] Check Pods Manifest.lock */,
+				FDFC11DEEFCA0CEA4291D1E7 /* [CP] Check Pods Manifest.lock */,
 				00E356EA1AD99517003FC87E /* Sources */,
 				00E356EB1AD99517003FC87E /* Frameworks */,
 				00E356EC1AD99517003FC87E /* Resources */,
-				8E09365430C059FEFFD58755 /* [CP] Embed Pods Frameworks */,
-				4EFCBE4E27682C3F2EF7AAC3 /* [CP] Copy Pods Resources */,
+				CB808962574FDBC3357536C1 /* [CP] Embed Pods Frameworks */,
+				A555EFCA69D4467FAA56AA6B /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -255,14 +255,14 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 13B07F931A680F5B00A75B9A /* Build configuration list for PBXNativeTarget "DesmosProfileManager" */;
 			buildPhases = (
-				960B9D50A96F13166D4D2E03 /* [CP] Check Pods Manifest.lock */,
+				470F4AF5F078AE7CEF1B0CF4 /* [CP] Check Pods Manifest.lock */,
 				FD10A7F022414F080027D42C /* Start Packager */,
 				13B07F871A680F5B00A75B9A /* Sources */,
 				13B07F8C1A680F5B00A75B9A /* Frameworks */,
 				13B07F8E1A680F5B00A75B9A /* Resources */,
 				00DD1BFF1BD5951E006B06BC /* Bundle React Native code and images */,
-				26B4A97B6B226D2A24F83D8A /* [CP] Embed Pods Frameworks */,
-				833C18C90D0D4BCA4FFF9934 /* [CP] Copy Pods Resources */,
+				9B241B41D3BBE6C93D00B130 /* [CP] Embed Pods Frameworks */,
+				0EA55C616A97AD4A692B0D2F /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -366,41 +366,7 @@
 			shellPath = /bin/sh;
 			shellScript = "set -e\n\nWITH_ENVIRONMENT=\"../node_modules/react-native/scripts/xcode/with-environment.sh\"\nREACT_NATIVE_XCODE=\"../node_modules/react-native/scripts/react-native-xcode.sh\"\n\n/bin/sh -c \"$WITH_ENVIRONMENT $REACT_NATIVE_XCODE\"\n";
 		};
-		26B4A97B6B226D2A24F83D8A /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-DesmosProfileManager/Pods-DesmosProfileManager-frameworks-${CONFIGURATION}-input-files.xcfilelist",
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-DesmosProfileManager/Pods-DesmosProfileManager-frameworks-${CONFIGURATION}-output-files.xcfilelist",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-DesmosProfileManager/Pods-DesmosProfileManager-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		4EFCBE4E27682C3F2EF7AAC3 /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-DesmosProfileManager-DesmosProfileManagerTests/Pods-DesmosProfileManager-DesmosProfileManagerTests-resources-${CONFIGURATION}-input-files.xcfilelist",
-			);
-			name = "[CP] Copy Pods Resources";
-			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-DesmosProfileManager-DesmosProfileManagerTests/Pods-DesmosProfileManager-DesmosProfileManagerTests-resources-${CONFIGURATION}-output-files.xcfilelist",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-DesmosProfileManager-DesmosProfileManagerTests/Pods-DesmosProfileManager-DesmosProfileManagerTests-resources.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		833C18C90D0D4BCA4FFF9934 /* [CP] Copy Pods Resources */ = {
+		0EA55C616A97AD4A692B0D2F /* [CP] Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -417,24 +383,7 @@
 			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-DesmosProfileManager/Pods-DesmosProfileManager-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		8E09365430C059FEFFD58755 /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-DesmosProfileManager-DesmosProfileManagerTests/Pods-DesmosProfileManager-DesmosProfileManagerTests-frameworks-${CONFIGURATION}-input-files.xcfilelist",
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-DesmosProfileManager-DesmosProfileManagerTests/Pods-DesmosProfileManager-DesmosProfileManagerTests-frameworks-${CONFIGURATION}-output-files.xcfilelist",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-DesmosProfileManager-DesmosProfileManagerTests/Pods-DesmosProfileManager-DesmosProfileManagerTests-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		960B9D50A96F13166D4D2E03 /* [CP] Check Pods Manifest.lock */ = {
+		470F4AF5F078AE7CEF1B0CF4 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -456,26 +405,55 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
-		C445CB8A92E43AAC8E878335 /* [CP] Check Pods Manifest.lock */ = {
+		9B241B41D3BBE6C93D00B130 /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-DesmosProfileManager/Pods-DesmosProfileManager-frameworks-${CONFIGURATION}-input-files.xcfilelist",
 			);
-			inputPaths = (
-				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
-				"${PODS_ROOT}/Manifest.lock",
-			);
-			name = "[CP] Check Pods Manifest.lock";
+			name = "[CP] Embed Pods Frameworks";
 			outputFileListPaths = (
-			);
-			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-DesmosProfileManager-DesmosProfileManagerTests-checkManifestLockResult.txt",
+				"${PODS_ROOT}/Target Support Files/Pods-DesmosProfileManager/Pods-DesmosProfileManager-frameworks-${CONFIGURATION}-output-files.xcfilelist",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-DesmosProfileManager/Pods-DesmosProfileManager-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		A555EFCA69D4467FAA56AA6B /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-DesmosProfileManager-DesmosProfileManagerTests/Pods-DesmosProfileManager-DesmosProfileManagerTests-resources-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Copy Pods Resources";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-DesmosProfileManager-DesmosProfileManagerTests/Pods-DesmosProfileManager-DesmosProfileManagerTests-resources-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-DesmosProfileManager-DesmosProfileManagerTests/Pods-DesmosProfileManager-DesmosProfileManagerTests-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		CB808962574FDBC3357536C1 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-DesmosProfileManager-DesmosProfileManagerTests/Pods-DesmosProfileManager-DesmosProfileManagerTests-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-DesmosProfileManager-DesmosProfileManagerTests/Pods-DesmosProfileManager-DesmosProfileManagerTests-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-DesmosProfileManager-DesmosProfileManagerTests/Pods-DesmosProfileManager-DesmosProfileManagerTests-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		FD10A7F022414F080027D42C /* Start Packager */ = {
@@ -495,6 +473,28 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "export RCT_METRO_PORT=\"${RCT_METRO_PORT:=8081}\"\necho \"export RCT_METRO_PORT=${RCT_METRO_PORT}\" > \"${SRCROOT}/../node_modules/react-native/scripts/.packager.env\"\nif [ -z \"${RCT_NO_LAUNCH_PACKAGER+xxx}\" ] ; then\n  if nc -w 5 -z localhost ${RCT_METRO_PORT} ; then\n    if ! curl -s \"http://localhost:${RCT_METRO_PORT}/status\" | grep -q \"packager-status:running\" ; then\n      echo \"Port ${RCT_METRO_PORT} already in use, packager is either not running or not running correctly\"\n      exit 2\n    fi\n  else\n    open \"$SRCROOT/../node_modules/react-native/scripts/launchPackager.command\" || echo \"Can't start packager automatically\"\n  fi\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+		FDFC11DEEFCA0CEA4291D1E7 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-DesmosProfileManager-DesmosProfileManagerTests-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
@@ -532,7 +532,7 @@
 /* Begin XCBuildConfiguration section */
 		00E356F61AD99517003FC87E /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 1D5ADE09A43A2D782ED2C69B /* Pods-DesmosProfileManager-DesmosProfileManagerTests.debug.xcconfig */;
+			baseConfigurationReference = D76EE7B8A5E4C1AF5FBF917D /* Pods-DesmosProfileManager-DesmosProfileManagerTests.debug.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				DEVELOPMENT_TEAM = S7CFLM85H9;
@@ -560,7 +560,7 @@
 		};
 		00E356F71AD99517003FC87E /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = C7D8DD72F59C219E434C854C /* Pods-DesmosProfileManager-DesmosProfileManagerTests.release.xcconfig */;
+			baseConfigurationReference = 1CC86619CFB97CAC1CC9E0A9 /* Pods-DesmosProfileManager-DesmosProfileManagerTests.release.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				COPY_PHASE_STRIP = NO;
@@ -585,11 +585,13 @@
 		};
 		13B07F941A680F5B00A75B9A /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = F6935FB0D8A359451DBDAAC2 /* Pods-DesmosProfileManager.debug.xcconfig */;
+			baseConfigurationReference = 8CE6E94653355E2CB4DF92ED /* Pods-DesmosProfileManager.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = NO;
 				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = S7CFLM85H9;
 				ENABLE_BITCODE = NO;
@@ -606,6 +608,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = network.desmos.dpm;
 				PRODUCT_NAME = DesmosProfileManager;
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "DesmosProfileManager-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
@@ -615,7 +618,7 @@
 		};
 		13B07F951A680F5B00A75B9A /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 92A5B8F4FF2B7303E5DEE83D /* Pods-DesmosProfileManager.release.xcconfig */;
+			baseConfigurationReference = 182608DCDB51DA9B06829635 /* Pods-DesmosProfileManager.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
