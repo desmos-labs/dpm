@@ -1,55 +1,27 @@
 apply plugin: "com.android.application"
 apply plugin: 'kotlin-android'
 
-
 import com.android.build.OutputFile
 
-def getVersionTag(String variant) {
-    if(System.env['VERSION_OVERRIDE'] != null) {
-        return "v${System.env['VERSION_OVERRIDE']}"
-    } else {
-        def stdout
-        stdout = new ByteArrayOutputStream()
-        exec {
-            commandLine "git", "describe", "--tags", "--abbrev=0"
-            standardOutput = stdout
-        }
-        return stdout.toString().trim()
-    }
-}
-
-static def getVersionCode(String gitTag, String abi) {
-    if (gitTag[0] != 'v') {
-        throw new RuntimeException("Invalid version tag \"${gitTag}\", format \"vx.y.z\" expected.")
-    }
-    def tag = gitTag.substring(1)
-    def parts = tag.tokenize('.')
-    if(parts.size() != 3 || parts[1].length() > 2 || parts[2].length() > 2) {
-        throw new RuntimeException("Invalid version tag \"${tag}\", format \"x.y.z\" expected.")
-    }
+def getVersionCode(abi) {
+    def buildNumber = project.findProperty('buildNumber') ?: 1
+    def buildNumberStr = "${buildNumber}"
 
     // Create different version for each abi
-    def versionCodes = ["armeabi-v7a": "1", "x86": "2", "arm64-v8a": "3", "x86_64": "4"]
+    def abiVersionCodes = ["armeabi-v7a": "1", "x86": "2", "arm64-v8a": "3", "x86_64": "4"]
     def abiCode = "0"
     if (abi != null) {
-        abiCode = versionCodes.get(abi)
+        abiCode = abiVersionCodes.get(abi)
         if (abiCode == null) {
             throw new RuntimeException("Invalid abi \"${abiCode}\".")
         }
     }
 
-    if(parts[1].length() == 1) {
-        parts[1] = "0" + parts[1]
-    }
-    if(parts[2].length() == 1) {
-        parts[2] = "0" + parts[2]
-    }
-
-    return Integer.parseInt(abiCode + parts[0] + parts[1] + parts[2])
+    return Integer.parseInt(buildNumberStr + abiCode)
 }
 
-static def getVersionName(String tag) {
-    return tag
+def getVersionName() {
+    return project.findProperty('versionName') ?: '1-Debug'
 }
 
 /**
@@ -297,12 +269,9 @@ android {
     // applicationVariants are e.g. debug, release
     applicationVariants.all { variant ->
         variant.outputs.each { output ->
-            def tag = getVersionTag(variant.toString())
             def abi = output.getFilter(OutputFile.ABI)
-            def versionCode = getVersionCode(tag, abi)
-            def versionName = getVersionName(tag)
-            output.versionCodeOverride = versionCode
-            output.versionNameOverride = versionName
+            output.versionCodeOverride = getVersionCode(abi)
+            output.versionNameOverride = getVersionName()
         }
     }
 }

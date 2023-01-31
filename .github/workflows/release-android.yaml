@@ -1,0 +1,86 @@
+name: Release Android
+
+on:
+  push:
+    tags:
+      - 'v[0-9]+.[0-9]+.[0-9]+(-RC[0-9]+)?'
+
+jobs:
+  deploy:
+    name: Deploy Android Release
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout 🛎
+        uses: actions/checkout@v3
+
+      - name: Setup JDK 11 🔧
+        uses: actions/setup-java@v3
+        with:
+          distribution: "zulu"
+          java-version: 11
+
+      - name: Setup Android SDK 🔧
+        uses: android-actions/setup-android@v2
+
+      - name: Setup ruby 🔧
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: '3.0'
+          bundler-cache: true
+
+      - name: Setup Node.js 🔧
+        uses: actions/setup-node@v3
+        with:
+          node-version: "16.x"
+          cache: 'yarn'
+          cache-dependency-path: |
+            yarn.lock
+
+      - name: Setup Gradle cache 🗄
+        uses: actions/cache@v3
+        with:
+          path: |
+            ~/.gradle/caches
+            ~/.gradle/wrapper
+          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
+          restore-keys: |
+            ${{ runner.os }}-gradle-
+
+      - name: Get version info ⚙
+        id: version-info
+        run: bundle exec fastlane common populate_github_env
+
+      - name: Install yarn dependencies 🔨
+        run: yarn install --immutable
+
+      - name: Build bundle 🔨
+        run: bundle exec fastlane android build_bundle
+        env:
+          ANDROID_KEYSTORE_BASE64: ${{ secrets.ANDROID_KEYSTORE_BASE64 }}
+          ANDROID_SIGNING_STORE_PASSWORD: ${{ secrets.ANDROID_SIGNING_STORE_PASSWORD }}
+          ANDROID_SIGNING_ALIAS: ${{ secrets.ANDROID_SIGNING_ALIAS }}
+          ANDROID_SIGNING_KEY_PASSWORD: ${{ secrets.ANDROID_SIGNING_KEY_PASSWORD }}
+
+      - name: Build apk 🔨
+        run: bundle exec fastlane android build_apk
+        env:
+          ANDROID_KEYSTORE_BASE64: ${{ secrets.ANDROID_KEYSTORE_BASE64 }}
+          ANDROID_SIGNING_STORE_PASSWORD: ${{ secrets.ANDROID_SIGNING_STORE_PASSWORD }}
+          ANDROID_SIGNING_ALIAS: ${{ secrets.ANDROID_SIGNING_ALIAS }}
+          ANDROID_SIGNING_KEY_PASSWORD: ${{ secrets.ANDROID_SIGNING_KEY_PASSWORD }}
+
+      - name: Deploy on Play Store 🚀
+        run: bundle exec fastlane android deploy_bundle
+        env:
+          PLAYSTORE_JSON_KEY: ${{ secrets.PLAYSTORE_JSON_KEY }}
+
+      - name: Upload apks to release 🚀
+        uses: svenstaro/upload-release-action@v2
+        with:
+          tag: ${{ github.ref }}
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
+          file_glob: true
+          file: android/app/build/outputs/apk/release/*.apk
+          overwrite: true
+          prerelease: ${{ steps.version-info.outputs.IS_INTERNAL_RELEASE }}

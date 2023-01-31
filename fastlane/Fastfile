@@ -1,9 +1,14 @@
 # Global variables to simplify the individual adjustment
 PROJECT_NAME = "DesmosProfileManager"
+
+# Common variable
+VERSION_OVERRIDE = ENV['VERSION_OVERRIDE']
+
+# iOS variables
 XCODE_PROJECT = "./ios/#{PROJECT_NAME}.xcodeproj"
 XCODE_WORKSPACE = "./ios/#{PROJECT_NAME}.xcworkspace"
-OUTPUT_DIRECTORY = "./fastlane/builds/"
-
+IOS_OUTPUT_DIRECTORY = "./fastlane/builds/"
+IOS_SKIP_POD_INSTALL = ENV['IOS_SKIP_POD_INSTALL'] == 'true'
 DEVELOPER_APP_ID = ENV["DEVELOPER_APP_ID"]
 DEVELOPER_APP_IDENTIFIER = ENV["DEVELOPER_APP_IDENTIFIER"]
 PROVISIONING_PROFILE_SPECIFIER = ENV["PROVISIONING_PROFILE_SPECIFIER"]
@@ -13,6 +18,19 @@ APPLE_ISSUER_ID = ENV["APPLE_ISSUER_ID"]
 APPLE_KEY_ID = ENV["APPLE_KEY_ID"]
 APPLE_KEY_CONTENT = ENV["APPLE_KEY_CONTENT"]
 GIT_AUTHORIZATION = ENV["GIT_AUTHORIZATION"]
+
+# Android variable
+ANDROID_PLAYSTORE_JSON_KEY = ENV["PLAYSTORE_JSON_KEY"]
+ANDROID_KEYSTORE_BASE64 = ENV["ANDROID_KEYSTORE_BASE64"]
+ANDROID_SIGNING_STORE_PASSWORD = ENV["ANDROID_SIGNING_STORE_PASSWORD"]
+ANDROID_SIGNING_ALIAS = ENV["ANDROID_SIGNING_ALIAS"]
+ANDROID_SIGNING_KEY_PASSWORD = ENV["ANDROID_SIGNING_KEY_PASSWORD"]
+ANDROID_USE_LOCAL_KEYSTORE = ENV["ANDROID_USE_LOCAL_KEYSTORE"] != nil
+
+# Define utility function to check if a string is a valid integer
+def is_integer(value)
+    value.to_i.to_s == value
+end
 
 def delete_temp_keychain(name)
   delete_keychain(
@@ -34,26 +52,85 @@ def ensure_temp_keychain(name, password)
   create_temp_keychain(name, password)
 end
 
-def build_number_from_git(xcodeproj)
-    version_number = ''
-    if ENV['VERSION_OVERRIDE'] != nil
-      version_number = ENV['VERSION_OVERRIDE']
-    else
-      git_tag = last_git_tag
-      version_number = git_tag.sub('v', '')
+def version_name_from_git(exclude_rc)
+  version_code = ''
+  if VERSION_OVERRIDE != nil
+    version_name = VERSION_OVERRIDE
+  else
+    git_tag = last_git_tag
+    version_name = git_tag.sub('v', '')
+  end
+
+  versions = version_name.split('.')
+  if versions.length < 3
+    raise Exception.new "invalid version #{version_name}, expected format x.y.z"
+  end
+
+  if exclude_rc
+    minor = versions[2]
+    minor_parts = minor.split('-RC')
+    return "#{versions[0]}.#{versions[1]}.#{minor_parts[0]}"
+  end
+
+  version_name
+end
+
+def build_number_from_git
+  version_code = ''
+  if VERSION_OVERRIDE != nil
+    version_code = VERSION_OVERRIDE
+  else
+    git_tag = last_git_tag
+    version_code = git_tag.sub('v', '')
+  end
+
+  versions = version_code.split('.')
+  if versions.length < 3
+    raise Exception.new "invalid version #{version_code}, expected format x.y.z"
+  end
+
+  # Extract version
+  major = versions[0]
+  intermediate = versions[1]
+
+  # Check if the minor have the -RC
+  minor_parts = versions[2].split('-RC')
+  minor = minor_parts[0]
+  rc = '99'
+  if minor_parts.length > 1
+    rc = minor_parts[1]
+    if rc.length == 0 or rc.length > 2
+      raise Exception.new "Invalid value #{rc}, must have length > 0 and <= 2"
     end
+    if rc == '99'
+      raise Exception.new "Invalid value #{rc}, max allowed value is 98"
+    end
+  end
 
-    # Set marketing version to version_number
-    sh("sed -i '' -e 's/MARKETING_VERSION \= [^\;]*\;/MARKETING_VERSION = #{version_number};/' ../ios/#{PROJECT_NAME}.xcodeproj/project.pbxproj")
+  if intermediate.length == 1
+    intermediate = "0#{intermediate}"
+  end
+  if minor.length == 1
+    minor = "0#{minor}"
+  end
+  if rc.length == 1
+    rc = "0#{rc}"
+  end
 
-    increment_build_number(
-        xcodeproj: xcodeproj,
-        build_number: version_number
-    )
+  build_number_str = "#{major}#{intermediate}#{minor}#{rc}"
+  unless is_integer(build_number_str)
+    raise Exception.new "Invalid build number #{build_number_str}, must be a valid integer"
+  end
+
+  build_number_str.to_i
+end
+
+def is_internal_release
+  version_name_from_git(false).include? '-RC'
 end
 
 platform :ios do
-  lane :build_ipa do
+  lane :build do
     keychain_name = TEMP_KEYCHAIN_USER
     keychain_password = TEMP_KEYCHAIN_PASSWORD
     ensure_temp_keychain(keychain_name, keychain_password)
@@ -66,17 +143,29 @@ platform :ios do
       in_house: false
     )
 
-    build_number_from_git(XCODE_PROJECT)
+    version_name = version_name_from_git(true)
+    build_number = build_number_from_git
 
-    cocoapods(
-      clean_install: true,
-      podfile: "./ios/Podfile"
+    # Set marketing version to version_number
+    sh("sed -i '' -e 's/MARKETING_VERSION \= [^\;]*\;/MARKETING_VERSION = #{version_name};/' ../ios/#{PROJECT_NAME}.xcodeproj/project.pbxproj")
+
+    # Set application build number
+    increment_build_number(
+        xcodeproj: XCODE_PROJECT,
+        build_number: build_number
     )
+
+    unless IOS_SKIP_POD_INSTALL
+      cocoapods(
+        clean_install: true,
+        podfile: "./ios/Podfile"
+      )
+    end
 
     match(
       type: 'appstore',
       app_identifier: "#{DEVELOPER_APP_IDENTIFIER}",
-      git_basic_authorization: ENV["GIT_AUTHORIZATION"],
+      git_basic_authorization: GIT_AUTHORIZATION,
       readonly: true,
       keychain_name: keychain_name,
       keychain_password: keychain_password,
@@ -87,7 +176,7 @@ platform :ios do
       scheme: PROJECT_NAME,
       workspace: XCODE_WORKSPACE,
       configuration: "Release",
-      output_directory: OUTPUT_DIRECTORY,
+      output_directory: IOS_OUTPUT_DIRECTORY,
       output_name: "#{PROJECT_NAME}.ipa",
       export_method: "app-store",
       export_options: {
@@ -100,10 +189,7 @@ platform :ios do
     delete_temp_keychain(keychain_name)
   end
 
-  lane :closed_beta do
-    # Build signed ipa
-    build_ipa
-
+  lane :deploy do
     # Deploy to test flight
     pilot(
       apple_id: "#{DEVELOPER_APP_ID}",
@@ -112,25 +198,52 @@ platform :ios do
       skip_submission: true,
       distribute_external: false,
       notify_external_testers: false,
-      ipa: "#{OUTPUT_DIRECTORY}#{PROJECT_NAME}.ipa"
+      ipa: "#{IOS_OUTPUT_DIRECTORY}#{PROJECT_NAME}.ipa"
     )
   end
 end
 
 ###############################################################
 
+def get_gradle_properties
+  build_number = build_number_from_git
+  version_name = version_name_from_git(false)
+
+  common = {
+    "buildNumber" => build_number,
+    "versionName" => version_name,
+    "reactNativeArchitectures" => "armeabi-v7a,arm64-v8a",
+  }
+
+  if ANDROID_USE_LOCAL_KEYSTORE
+    return common
+  end
+
+  return common.merge({
+    "DPM_RELEASE_STORE_FILE" => "/tmp/keystore.jks",
+    "DPM_RELEASE_STORE_PASSWORD" => ANDROID_SIGNING_STORE_PASSWORD,
+    "DPM_RELEASE_KEY_ALIAS" => ANDROID_SIGNING_ALIAS,
+    "DPM_RELEASE_KEY_PASSWORD" => ANDROID_SIGNING_KEY_PASSWORD,
+  })
+end
+
 platform :android do
   lane :prepare_keystore do
-    # Expand keystore from enviroment variable
+    if ANDROID_USE_LOCAL_KEYSTORE
+      UI.important 'Skip keystore preparation, using the local one'
+      next
+    end
+
+    # Expand keystore from environment variable
     sh(
-      command: "rm -f /tmp/keystore.jks && echo $ANDROID_KEYSTORE_BASE64 | base64 --decode >> /tmp/keystore.jks",
+      command: "rm -f /tmp/keystore.jks && printf '#{ANDROID_KEYSTORE_BASE64}' | base64 --decode >> /tmp/keystore.jks",
       log: false
     )
+
     # Check keystore integrity
     sh(
       command: "md5sum /tmp/keystore.jks"
     )
-
     sh(
         command: "echo '4683f0f906c894411c0b4e0db125b603 /tmp/keystore.jks' | md5sum -c -"
     )
@@ -138,7 +251,7 @@ platform :android do
 
   lane :prepare_playstore_key do
     sh(
-      command: "rm -f /tmp/playstore-key.json && printf '#{ENV["PLAYSTORE_JSON_KEY"]}' | base64 --decode >> /tmp/playstore-key.json",
+      command: "rm -f /tmp/playstore-key.json && printf '#{ANDROID_PLAYSTORE_JSON_KEY}' | base64 --decode >> /tmp/playstore-key.json",
       log: false
     )
 
@@ -147,23 +260,32 @@ platform :android do
     )
   end
 
-  lane :build_apk do
+  lane :clean do
+    gradle(task: 'clean', project_dir: "android/")
+  end
+
+  lane :signing_report do
     # Prepares keystore to sign the application in /tmp/keystore.jks
     prepare_keystore
 
-    gradle(task: 'clean', project_dir: "android/")
+    gradle(
+      task: ':app:signingReport',
+      project_dir: "android/",
+      properties: get_gradle_properties,
+      print_command: false,
+    )
+  end
+
+  lane :build_apk do
+    # Prepares keystore to sign the application in /tmp/keystore.jks
+    prepare_keystore
 
     gradle(
       task: "assemble",
       build_type: "Release",
       print_command: false,
       project_dir: "android/",
-      properties: {
-        "android.injected.signing.store.file" => "/tmp/keystore.jks",
-        "android.injected.signing.store.password" => ENV["ANDROID_SIGNING_STORE_PASSWORD"],
-        "android.injected.signing.key.alias" => ENV["ANDROID_SIGNING_ALIAS"],
-        "android.injected.signing.key.password" => ENV["ANDROID_SIGNING_KEY_PASSWORD"],
-      }
+      properties: get_gradle_properties
     )
   end
 
@@ -171,32 +293,26 @@ platform :android do
     # Prepares keystore to sign the application in /tmp/keystore.jks
     prepare_keystore
 
-    gradle(task: 'clean', project_dir: "android/")
-
     gradle(
       task: "bundle",
       build_type: "Release",
       print_command: false,
       project_dir: "android/",
-      properties: {
-        "android.injected.signing.store.file" => "/tmp/keystore.jks",
-        "android.injected.signing.store.password" => ENV["ANDROID_SIGNING_STORE_PASSWORD"],
-        "android.injected.signing.key.alias" => ENV["ANDROID_SIGNING_ALIAS"],
-        "android.injected.signing.key.password" => ENV["ANDROID_SIGNING_KEY_PASSWORD"],
-      }
+      properties: get_gradle_properties
     )
   end
 
-  lane :deploy_to_internal_testing do
-    # Build the application bundle
-    build_bundle
-
+  lane :deploy_bundle do
     # Prepares the playstore key in /tmp/playstore-key.json
     prepare_playstore_key
 
-    # Deplsy the bundle to the playstore
+    release_track = is_internal_release ? 'internal' : 'production'
+    UI.message "Deploy android bundle to play store track: #{release_track}"
+
+    # Deploy the bundle to the PlayStore
     supply(
       package_name: 'network.desmos.dpm',
+      # use 'production' to upload to all the users.
       track: 'internal',
       json_key: '/tmp/playstore-key.json',
       aab: 'android/app/build/outputs/bundle/release/app-release.aab',
@@ -208,5 +324,12 @@ platform :android do
       skip_upload_screenshots: true,
       skip_upload_apk: true,
     )
+  end
+end
+
+platform :common do
+  lane :populate_github_env do
+    sh("echo VERSION_NAME=#{version_name_from_git(false)} >> $GITHUB_OUTPUT")
+    sh("echo IS_INTERNAL_RELEASE=#{is_internal_release} >> $GITHUB_OUTPUT")
   end
 end
