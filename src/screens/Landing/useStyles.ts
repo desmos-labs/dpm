@@ -37,11 +37,20 @@ const useStyle = makeStyle((theme) => ({
   buttons: {
     justifyContent: 'center',
   },
-  createWalletLabel: {
-    color: theme.colors.primary,
+  loginWithLabel: {
+    color: '#ffffff',
+    alignSelf: 'center',
   },
-  buttonMargin: {
-    marginTop: theme.spacing.l,
+  socialButtonsContainer: {
+    display: 'flex',
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    justifyContent: 'center',
+  },
+  socialButton: {
+    backgroundColor: theme.colors.background,
+    borderRadius: theme.roundness * 3,
+    margin: theme.spacing.s,
   },
 }));
 

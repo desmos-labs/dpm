@@ -11,6 +11,7 @@ import sendTokens from './sendTokens.json';
 import settings from './settings.json';
 import transaction from './transaction.json';
 import walletConnect from './walletConnect.json';
+import web3auth from './web3auth.json';
 
 /**
  * Merge all the messages translations by associating them to keys such as messages.bank for easy usage.
@@ -33,6 +34,7 @@ const en = {
   settings,
   transaction,
   walletConnect,
+  web3auth,
 
   ...messagesTranslations,
 };

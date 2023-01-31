@@ -28,6 +28,13 @@ function generationParamsToWalletGenerationData(
         transport: params.transport,
         accountPrefix: params.addressPrefix,
       };
+    case WalletPickerMode.Web3Auth:
+      return {
+        type: WalletType.Web3Auth,
+        accountPrefix: params.addressPrefix,
+        loginProvider: params.loginProvider,
+        privateKey: params.privateKey,
+      };
 
     default:
       // @ts-ignore
@@ -68,13 +75,24 @@ export const useGenerateAccountWithWalletFromHdPath = () => {
 export const useFetchWallets = (params: AccountPickerParams) => {
   const fetchWallets = useCallback(
     async (start: number, end: number) => {
-      const paths = _.range(start, end)
-        .map(Slip10RawIndex.hardened)
-        .map((accountIndex) => {
-          const path = [...params.masterHdPath];
-          path[2] = accountIndex;
-          return path;
-        });
+      let paths: HdPath[] = [];
+
+      if (params.mode === WalletPickerMode.Mnemonic || params.mode === WalletPickerMode.Ledger) {
+        paths = _.range(start, end)
+          .map(Slip10RawIndex.hardened)
+          .map((accountIndex) => {
+            const path = [...params.masterHdPath];
+            path[2] = accountIndex;
+            return path;
+          });
+      }
+
+      if (paths.length === 0 && start !== 0) {
+        // Fetching a second page from a mode that can't generate more than
+        // one address, in this case just return null on the second page to
+        // signal that the elements are finished.
+        return null;
+      }
 
       const accounts = await generateAccountWithWallets(
         generationParamsToWalletGenerationData(params, paths),

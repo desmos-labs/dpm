@@ -1,7 +1,7 @@
 import { StackScreenProps } from '@react-navigation/stack';
-import React, { useCallback, useEffect, useRef } from 'react';
+import React, { useCallback, useEffect, useMemo, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Animated, ImageBackground, Text } from 'react-native';
+import { Animated, ImageBackground, Platform, Text, View } from 'react-native';
 import StyledSafeAreaView from 'components/StyledSafeAreaView';
 import IconButton from 'components/IconButton';
 import Button from 'components/Button';
@@ -9,9 +9,15 @@ import { RootNavigatorParamList } from 'navigation/RootNavigator';
 import ROUTES from 'navigation/routes';
 import useImportNewAccount from 'hooks/useImportNewAccount';
 import { DesmosChain } from 'config/LinkableChains';
-import { desmosLogoWhite, homeBackgroundLight } from 'assets/images';
+import { applicationsIconsMap, desmosLogoWhite, homeBackgroundLight } from 'assets/images';
 import { useStoredAccountsAddresses } from '@recoil/accounts';
 import FastImage from 'react-native-fast-image';
+import Spacer from 'components/Spacer';
+import Typography from 'components/Typography';
+import { Web3AuthLoginProvider } from 'types/web3auth';
+import useLoginWithWeb3Auth from 'hooks/useLoginWithWeb3Auth';
+import useShowModal from 'hooks/useShowModal';
+import Web3AuthLoginProvidersModal from 'modals/Web3AuthLoginProvidersModal';
 import useStyles from './useStyles';
 
 export type NavProps = StackScreenProps<RootNavigatorParamList, ROUTES.LANDING>;
@@ -22,12 +28,28 @@ const Landing = ({ navigation }: NavProps) => {
 
   const accountsAddresses = useStoredAccountsAddresses();
   const importNewAccount = useImportNewAccount([DesmosChain], accountsAddresses);
+  const loginWithWeb3Auth = useLoginWithWeb3Auth(DesmosChain, accountsAddresses);
+  const showModal = useShowModal();
 
   const animate = !navigation.canGoBack();
   const initialOpacity = animate ? 0 : 1;
   const iconOpacity = useRef(new Animated.Value(initialOpacity)).current;
   const profileManagerTextOpacity = useRef(new Animated.Value(initialOpacity)).current;
   const buttonsOpacity = useRef(new Animated.Value(initialOpacity)).current;
+  const primaryLoginProviders = useMemo(() => {
+    const loginProviders = [];
+    if (Platform.OS === 'ios') {
+      loginProviders.push(Web3AuthLoginProvider.Apple, Web3AuthLoginProvider.Google);
+    } else {
+      loginProviders.push(Web3AuthLoginProvider.Google, Web3AuthLoginProvider.Apple);
+    }
+    loginProviders.push(
+      Web3AuthLoginProvider.Twitter,
+      Web3AuthLoginProvider.Discord,
+      Web3AuthLoginProvider.Reddit,
+    );
+    return loginProviders;
+  }, []);
 
   useEffect(() => {
     if (animate) {
@@ -62,6 +84,19 @@ const Landing = ({ navigation }: NavProps) => {
     importNewAccount();
   }, [importNewAccount]);
 
+  const importFromSocial = useCallback(
+    (social: Web3AuthLoginProvider) => {
+      loginWithWeb3Auth(social);
+    },
+    [loginWithWeb3Auth],
+  );
+
+  const showOtherSocialLogin = useCallback(() => {
+    showModal(Web3AuthLoginProvidersModal, {
+      onSelect: loginWithWeb3Auth,
+    });
+  }, [showModal, loginWithWeb3Auth]);
+
   const goBack = useCallback(() => {
     navigation.goBack();
   }, [navigation]);
@@ -94,22 +129,50 @@ const Landing = ({ navigation }: NavProps) => {
             opacity: buttonsOpacity,
           }}
         >
-          <Button
-            style={styles.buttons}
-            mode="contained"
-            color="#ffffff"
-            onPress={onCreateAccount}
-            labelStyle={styles.createWalletLabel}
-          >
+          {/* Create new wallet */}
+          <Button style={styles.buttons} mode="outlined" color="#ffffff" onPress={onCreateAccount}>
             {t('create wallet')}
           </Button>
-          <Button
-            style={[styles.buttons, styles.buttonMargin]}
-            mode="outlined"
-            color="#ffffff"
-            onPress={onImportAccount}
-          >
+
+          <Spacer paddingVertical={12} />
+
+          {/* Import wallet */}
+          <Button style={styles.buttons} mode="outlined" color="#ffffff" onPress={onImportAccount}>
             {t('account:import account')}
+          </Button>
+
+          <Spacer paddingVertical={12} />
+
+          <Typography.Subtitle style={styles.loginWithLabel}>
+            {t('or login with')}
+          </Typography.Subtitle>
+
+          <Spacer paddingVertical={8} />
+
+          {/* Social login buttons */}
+          <View style={styles.socialButtonsContainer}>
+            {primaryLoginProviders.map((loginProvider, index) => (
+              <IconButton
+                key={`login-button-${index}`}
+                style={styles.socialButton}
+                icon={applicationsIconsMap[loginProvider]}
+                color={null}
+                onPress={() => importFromSocial(loginProvider)}
+              />
+            ))}
+          </View>
+
+          <Spacer paddingVertical={4} />
+
+          <Button
+            style={styles.buttons}
+            color="#ffffff"
+            onPress={showOtherSocialLogin}
+            labelStyle={{
+              fontSize: 14,
+            }}
+          >
+            {t('show more')}
           </Button>
         </Animated.View>
       </ImageBackground>

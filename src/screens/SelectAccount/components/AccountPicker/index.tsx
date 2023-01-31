@@ -34,7 +34,13 @@ const AccountPicker: React.FC<AccountPickerProps> = ({ onAccountSelected, params
   const styles = useStyles();
   const { t } = useTranslation('account');
 
-  const [selectedHdPath, setSelectedHdPath] = useState<HdPath>(params.masterHdPath);
+  const masterHdPath = useMemo(() => {
+    if (params.mode === WalletPickerMode.Mnemonic || params.mode === WalletPickerMode.Ledger) {
+      return params.masterHdPath;
+    }
+    return undefined;
+  }, [params]);
+  const [selectedHdPath, setSelectedHdPath] = useState<HdPath | undefined>(masterHdPath);
   const [selectedAccount, setSelectedAccount] = useState<AccountWithWallet | null>(null);
   const [addressPickerVisible, setAddressPickerVisible] = useState(true);
 
@@ -49,21 +55,23 @@ const AccountPicker: React.FC<AccountPickerProps> = ({ onAccountSelected, params
   }, [params]);
 
   const toggleAddressPicker = useCallback(() => {
-    setAddressPickerVisible((visible) => {
-      if (!visible) {
-        // The address picker is being displayed,
-        // remove the wallet generated from the derivation path.
-        setSelectedAccount(null);
-        setSelectedHdPath(params.masterHdPath);
-      } else if (selectedAccount === null) {
-        setSelectedHdPath(params.masterHdPath);
-        generateWalletAccountFromHdPath(params.masterHdPath, params).then((account) => {
-          setSelectedAccount(account);
-        });
-      }
-      return !visible;
-    });
-  }, [setSelectedAccount, selectedAccount, generateWalletAccountFromHdPath, params]);
+    if (masterHdPath !== undefined) {
+      setAddressPickerVisible((visible) => {
+        if (!visible) {
+          // The address picker is being displayed,
+          // remove the wallet generated from the derivation path.
+          setSelectedAccount(null);
+          setSelectedHdPath(masterHdPath);
+        } else if (selectedAccount === null) {
+          setSelectedHdPath(masterHdPath);
+          generateWalletAccountFromHdPath(masterHdPath, params).then((account) => {
+            setSelectedAccount(account);
+          });
+        }
+        return !visible;
+      });
+    }
+  }, [selectedAccount, masterHdPath, generateWalletAccountFromHdPath, params]);
 
   const renderListItem = useCallback(
     (info: ListRenderItemInfo<AccountWithWallet>) => {
@@ -110,15 +118,21 @@ const AccountPicker: React.FC<AccountPickerProps> = ({ onAccountSelected, params
           renderItem={renderListItem}
           keyExtractor={listKeyExtractor}
           onEndReachedThreshold={0.5}
-          estimatedItemSize={74}
+          estimatedItemSize={89}
         />
       ) : null}
 
       <Spacer paddingVertical={4} />
 
-      <Button mode="text" onPress={toggleAddressPicker} labelStyle={styles.pickerOptionButtonLabel}>
-        {addressPickerVisible ? t('enter derivation path') : t('select account')}
-      </Button>
+      {masterHdPath !== undefined && (
+        <Button
+          mode="text"
+          onPress={toggleAddressPicker}
+          labelStyle={styles.pickerOptionButtonLabel}
+        >
+          {addressPickerVisible ? t('enter derivation path') : t('select account')}
+        </Button>
+      )}
 
       <Spacer paddingVertical={4} />
 
