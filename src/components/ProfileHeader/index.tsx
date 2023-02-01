@@ -9,11 +9,14 @@ import { DesmosProfile } from 'types/desmos';
 import { defaultProfileCover, defaultProfilePicture } from 'assets/images';
 import CopyButton from 'components/CopyButton';
 import usePickPicture from 'components/ProfileHeader/useHooks';
-import StyledActivityIndicator from 'components/StyledActivityIndicator';
+import ContentLoader, { Circle, Rect } from 'react-content-loader/native';
+import Spacer from 'components/Spacer';
+import TypographyContentLoaders from 'components/ContentLoaders/Typography';
 import useStyles from './useStyles';
 
 export type ProfileHeaderProps = {
   profile: DesmosProfile | undefined;
+  loading?: boolean;
   canEdit?: boolean;
   topRightElement?: ReactNode | null;
   topLeftElement?: ReactNode | null;
@@ -26,6 +29,7 @@ export type ProfileHeaderProps = {
 const ProfileHeader: React.FC<ProfileHeaderProps> = (props) => {
   const {
     profile,
+    loading,
     canEdit,
     topRightElement,
     topLeftElement,
@@ -75,7 +79,13 @@ const ProfileHeader: React.FC<ProfileHeaderProps> = (props) => {
 
       {/* Cover picture */}
       <View style={styles.coverPictureContainer}>
-        <FastImage style={styles.coverPicture} resizeMode="cover" source={coverPicture} />
+        {coverPictureLoading === true || loading === true ? (
+          <ContentLoader style={styles.coverPicture}>
+            <Rect width="100%" height="100%" />
+          </ContentLoader>
+        ) : (
+          <FastImage style={styles.coverPicture} resizeMode="cover" source={coverPicture} />
+        )}
         {canEdit && (
           <IconButton
             icon="camera"
@@ -85,15 +95,18 @@ const ProfileHeader: React.FC<ProfileHeaderProps> = (props) => {
             style={styles.editCoverPictureBtn}
           />
         )}
-        {coverPictureLoading === true && (
-          <StyledActivityIndicator style={styles.coverPictureActivityIndicator} />
-        )}
       </View>
 
       <View style={styles.profileDataContainer}>
         {/* Profile picture */}
         <View style={styles.profilePictureContainer}>
-          <AvatarImage size={100} source={profilePicture} />
+          {profilePictureLoading === true || loading === true ? (
+            <ContentLoader width="100%" height="100%">
+              <Circle r="50%" cx="50%" cy="50%" />
+            </ContentLoader>
+          ) : (
+            <AvatarImage size={100} source={profilePicture} />
+          )}
           {canEdit && (
             <IconButton
               icon="camera"
@@ -103,27 +116,39 @@ const ProfileHeader: React.FC<ProfileHeaderProps> = (props) => {
               style={styles.editProfilePictureBtn}
             />
           )}
-          {profilePictureLoading === true && (
-            <StyledActivityIndicator style={styles.profilePictureActivityIndicator} />
-          )}
         </View>
 
         {/* Nickname */}
-        {profile?.nickname && (
-          <Typography.Body style={styles.nickName}>{profile.nickname}</Typography.Body>
+        <Spacer paddingTop={16} />
+        {loading ? (
+          <TypographyContentLoaders.Body width={200} />
+        ) : (
+          profile?.nickname && (
+            <Typography.Body style={styles.nickName}>{profile.nickname}</Typography.Body>
+          )
         )}
 
         {/* DTag */}
-        {profile?.dtag && <Typography.Caption>@{profile.dtag}</Typography.Caption>}
+        {loading ? (
+          <TypographyContentLoaders.Caption width={120} />
+        ) : (
+          profile?.dtag && <Typography.Caption>@{profile.dtag}</Typography.Caption>
+        )}
 
         {/* Address */}
-        {profile?.address && (
-          <View style={styles.addressContainer}>
-            <Typography.Caption ellipsizeMode="middle" numberOfLines={1}>
-              {profile.address}
-            </Typography.Caption>
-            <CopyButton value={profile.address} color="#c4c4c4" />
-          </View>
+        {loading ? (
+          <ContentLoader width="150" height="36">
+            <Rect width="100%" height="16" y="10" />
+          </ContentLoader>
+        ) : (
+          profile?.address && (
+            <View style={styles.addressContainer}>
+              <Typography.Caption ellipsizeMode="middle" numberOfLines={1}>
+                {profile.address}
+              </Typography.Caption>
+              <CopyButton value={profile.address} color="#c4c4c4" />
+            </View>
+          )
         )}
       </View>
     </View>

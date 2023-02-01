@@ -9,27 +9,28 @@ const useStyles = makeStyleWithProps((props: TopBarProps, theme) => ({
     alignItems: 'center',
     backgroundColor: theme.colors.background,
     paddingTop: Platform.OS === 'android' ? StatusBar.currentHeight : 42,
-  },
-  container: {
-    flex: 1,
-    alignItems: 'center',
+    maxHeight: 80,
   },
   containerLeft: {
+    flex: 1,
     alignItems: 'flex-start',
-    justifyContent: 'flex-start',
-    zIndex: 1,
-    minHeight: 60,
+    justifyContent: 'center',
+    zIndex: 99,
   },
   containerCenter: {
     flex: 3,
+    height: '100%',
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   title: {
     textTransform: props.capitalizeTitle === false ? 'none' : 'capitalize',
-    textAlign: 'center',
   },
   containerRight: {
+    flex: 1,
     alignItems: 'flex-end',
-    zIndex: 1,
+    justifyContent: 'center',
+    zIndex: 99,
   },
 }));
 

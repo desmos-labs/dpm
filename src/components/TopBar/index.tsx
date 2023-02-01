@@ -1,7 +1,7 @@
 import React, { ReactElement } from 'react';
 import { StyleProp, TextStyle, View, ViewStyle } from 'react-native';
 import { useTheme } from 'react-native-paper';
-import IconButton from 'components/IconButton';
+import IconButton, { IconButtonProps } from 'components/IconButton';
 import Typography from 'components/Typography';
 import useStyles from './useStyles';
 
@@ -36,19 +36,30 @@ export type TopBarProps = {
    */
   leftIconColor?: string;
   style?: StyleProp<ViewStyle>;
+  leftIconStyle?: IconButtonProps['style'];
   titleStyle?: StyleProp<TextStyle>;
   hideGoBack?: boolean;
 };
 
 const TopBar: React.FC<TopBarProps> = (props) => {
-  const { stackProps, title, rightElement, leftIconColor, style, titleStyle, hideGoBack } = props;
+  const {
+    stackProps,
+    title,
+    rightElement,
+    leftIconColor,
+    style,
+    leftIconStyle,
+    titleStyle,
+    hideGoBack,
+  } = props;
   const theme = useTheme();
   const styles = useStyles(props);
   const { navigation } = stackProps;
   const navigationGoBack =
     hideGoBack !== true && navigation.canGoBack() ? (
       <IconButton
-        color={leftIconColor ?? theme.colors.icon['1']}
+        style={leftIconStyle}
+        color={leftIconColor ?? leftIconStyle?.color ?? theme.colors.icon['1']}
         icon="back"
         onPress={navigation.goBack}
       />
@@ -56,7 +67,7 @@ const TopBar: React.FC<TopBarProps> = (props) => {
 
   return (
     <View style={[styles.root, style]}>
-      <View style={[styles.container, styles.containerLeft]}>
+      <View style={styles.containerLeft}>
         {navigation.openDrawer ? (
           <IconButton
             color={leftIconColor ?? theme.colors.icon['1']}
@@ -68,10 +79,10 @@ const TopBar: React.FC<TopBarProps> = (props) => {
           navigationGoBack
         )}
       </View>
-      <View style={[styles.container, styles.containerCenter]}>
+      <View style={styles.containerCenter}>
         <Typography.Subtitle style={[styles.title, titleStyle]}>{title}</Typography.Subtitle>
       </View>
-      <View style={[styles.container, styles.containerRight]}>{rightElement}</View>
+      <View style={styles.containerRight}>{rightElement}</View>
     </View>
   );
 };

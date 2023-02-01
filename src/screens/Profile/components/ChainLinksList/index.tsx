@@ -9,6 +9,9 @@ import { DPMImages } from 'types/images';
 import useShowModal from 'hooks/useShowModal';
 import SingleButtonModal from 'modals/SingleButtonModal';
 import { ChainLink } from 'types/desmos';
+import TypographyContentLoaders from 'components/ContentLoaders/Typography';
+import ChainLinkContentLoader from 'components/ContentLoaders/ChainLink';
+import Spacer from 'components/Spacer';
 import ChainLinkItem from '../ChainLinkItem';
 import useStyles from './useStyles';
 import useConnectChain from './useHooks';
@@ -16,11 +19,12 @@ import useConnectChain from './useHooks';
 export interface ChainConnectionsProps {
   canEdit: boolean;
   chainLinks: ChainLink[];
+  loading?: boolean;
 }
 
 const ChainLinksList = (props: ChainConnectionsProps) => {
   const { t } = useTranslation('chainLinks');
-  const { canEdit, chainLinks } = props;
+  const { canEdit, chainLinks, loading } = props;
   const hasConnections = chainLinks.length !== 0;
   const styles = useStyles();
 
@@ -64,6 +68,25 @@ const ChainLinksList = (props: ChainConnectionsProps) => {
       </View>
     );
   }, [canEdit, connectChain, styles, t]);
+
+  if (loading) {
+    return (
+      <>
+        <TypographyContentLoaders.Body1 width={160} />
+        <Spacer paddingTop={12} />
+        <ChainLinkContentLoader />
+
+        <Spacer paddingTop={12} />
+        <ChainLinkContentLoader />
+
+        <Spacer paddingTop={12} />
+        <ChainLinkContentLoader />
+
+        <Spacer paddingTop={12} />
+        <ChainLinkContentLoader />
+      </>
+    );
+  }
 
   return (
     <View style={styles.root}>
