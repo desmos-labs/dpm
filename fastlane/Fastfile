@@ -187,7 +187,6 @@ platform :ios do
       }
     )
 
-    delete_temp_keychain(keychain_name)
   end
 
   lane :deploy do
