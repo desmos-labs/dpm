@@ -37,9 +37,19 @@ const useStyle = makeStyle((theme) => ({
   buttons: {
     justifyContent: 'center',
   },
+  loginWithContainer: {
+    display: 'flex',
+    flexDirection: 'row',
+    alignItems: 'center',
+    width: '100%',
+  },
   loginWithLabel: {
     color: '#ffffff',
-    alignSelf: 'center',
+  },
+  loginDivider: {
+    flex: 1,
+    backgroundColor: '#ffffff',
+    height: 1,
   },
   socialButtonsContainer: {
     display: 'flex',
