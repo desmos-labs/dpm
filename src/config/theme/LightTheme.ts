@@ -43,6 +43,10 @@ export const LightTheme: ReactNativePaper.Theme = {
       active: '#ED6C53',
       inactive: '#AFAFAF',
     },
+    activityIndicator: {
+      background: '#f9f9f9',
+      foreground: '#e8e8e8',
+    },
     passwordComplexity: {
       weak: '#ecb140',
       normal: '#379afe',
