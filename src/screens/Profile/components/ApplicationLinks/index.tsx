@@ -4,7 +4,8 @@ import { View } from 'react-native';
 import ApplicationLinkItem from 'screens/Profile/components/ApplicationLinkItem';
 import { isApplicationSupported } from 'lib/ApplicationLinksUtils';
 import Spacer from 'components/Spacer';
-import ContentLoader, { Circle } from 'react-content-loader/native';
+import { Circle } from 'react-content-loader/native';
+import ThemedContentLoader from 'components/ThemedContentLoader';
 import useStyles from './useStyles';
 
 export interface ApplicationLinksProps {
@@ -24,11 +25,11 @@ const ApplicationLinks = (props: ApplicationLinksProps) => {
 
   if (loading) {
     return (
-      <ContentLoader width="100" height="30">
+      <ThemedContentLoader width="100" height="30">
         <Circle r="14" x="16" y="16" />
         <Circle r="14" x="46" y="16" />
         <Circle r="14" x="78" y="16" />
-      </ContentLoader>
+      </ThemedContentLoader>
     );
   }
 

@@ -1,6 +1,6 @@
 import { TextStyle } from 'react-native';
 import React, { FC } from 'react';
-import ContentLoader, { Rect } from 'react-content-loader/native';
+import { Rect } from 'react-content-loader/native';
 import {
   TypographyConfigBody,
   TypographyConfigBody1,
@@ -13,6 +13,7 @@ import {
   TypographyConfigSubtitle2,
   TypographyConfigTitle,
 } from 'components/Typography/config';
+import ThemedContentLoader from 'components/ThemedContentLoader';
 
 export interface TypographyContentLoaderProps {
   width: string | number;
@@ -21,12 +22,12 @@ export interface TypographyContentLoaderProps {
 
 function createComponent(textStyle: TextStyle): FC<TypographyContentLoaderProps> {
   return ({ width, height }) => (
-    <ContentLoader
+    <ThemedContentLoader
       width={width}
       height={height ?? textStyle.lineHeight ?? textStyle.fontSize ?? 10}
     >
       <Rect y="6" height="100%" width="100%" />
-    </ContentLoader>
+    </ThemedContentLoader>
   );
 }
 

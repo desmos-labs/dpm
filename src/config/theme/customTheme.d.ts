@@ -37,6 +37,11 @@ declare global {
       inactive: string;
     }
 
+    interface ActivityIndicatorColors {
+      background: string;
+      foreground: string;
+    }
+
     interface ThemeColors {
       background2: string;
       /**
@@ -53,6 +58,7 @@ declare global {
       icon: IconColors;
       font: FontColors;
       toggle: ToggleColors;
+      activityIndicator: ActivityIndicatorColors;
       /**
        * Colors used to provide to the user a feedback about the
        * complexity of a password.

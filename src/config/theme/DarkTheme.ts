@@ -32,6 +32,10 @@ const DarkTheme: ReactNativePaper.Theme = {
       5: '#FFFFFF',
       red: '#FD565F',
     },
+    activityIndicator: {
+      background: '#25282D',
+      foreground: '#34383E',
+    },
     text: '#E6E6E6',
     disabled: '#9d9d9d',
   },

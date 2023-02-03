@@ -1,6 +1,7 @@
-import { makeStyle } from 'config/theme';
+import { makeStyleWithProps } from 'config/theme';
+import { ProfileHeaderProps } from 'components/ProfileHeader/index';
 
-const useStyles = makeStyle((theme) => ({
+const useStyles = makeStyleWithProps((props: ProfileHeaderProps, theme) => ({
   root: {
     display: 'flex',
     flexDirection: 'column',
@@ -26,6 +27,13 @@ const useStyles = makeStyle((theme) => ({
   coverPicture: {
     width: '100%',
     height: 200,
+    opacity: props.coverPictureUploading ? 0.5 : 1,
+  },
+  coverPictureActivityIndicator: {
+    position: 'absolute',
+    backgroundColor: 'rgba(255, 255, 255, 0.6)',
+    width: '100%',
+    height: '100%',
   },
   editCoverPictureBtn: {
     position: 'absolute',
