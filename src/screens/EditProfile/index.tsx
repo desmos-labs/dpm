@@ -194,9 +194,9 @@ const EditProfile = () => {
             canEdit={true}
             profile={profile}
             onEditCoverPicture={setCoverPicture}
-            coverPictureLoading={coverPicUploading}
+            coverPictureUploading={coverPicUploading}
             onEditProfilePicture={setProfilePicture}
-            profilePictureLoading={profilePicUploading}
+            profilePictureUploading={profilePicUploading}
           />
 
           <View style={styles.input}>

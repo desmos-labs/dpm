@@ -9,9 +9,11 @@ import { DesmosProfile } from 'types/desmos';
 import { defaultProfileCover, defaultProfilePicture } from 'assets/images';
 import CopyButton from 'components/CopyButton';
 import usePickPicture from 'components/ProfileHeader/useHooks';
-import ContentLoader, { Circle, Rect } from 'react-content-loader/native';
+import { Circle, Rect } from 'react-content-loader/native';
+import ThemedContentLoader from 'components/ThemedContentLoader';
 import Spacer from 'components/Spacer';
 import TypographyContentLoaders from 'components/ContentLoaders/Typography';
+import StyledActivityIndicator from 'components/StyledActivityIndicator';
 import useStyles from './useStyles';
 
 export type ProfileHeaderProps = {
@@ -21,9 +23,9 @@ export type ProfileHeaderProps = {
   topRightElement?: ReactNode | null;
   topLeftElement?: ReactNode | null;
   onEditCoverPicture?: (uri: string) => void;
-  coverPictureLoading?: boolean;
+  coverPictureUploading?: boolean;
   onEditProfilePicture?: (uri: string) => void;
-  profilePictureLoading?: boolean;
+  profilePictureUploading?: boolean;
 };
 
 const ProfileHeader: React.FC<ProfileHeaderProps> = (props) => {
@@ -34,12 +36,12 @@ const ProfileHeader: React.FC<ProfileHeaderProps> = (props) => {
     topRightElement,
     topLeftElement,
     onEditProfilePicture,
-    coverPictureLoading,
+    coverPictureUploading,
     onEditCoverPicture,
-    profilePictureLoading,
+    profilePictureUploading,
   } = props;
   const theme = useTheme();
-  const styles = useStyles();
+  const styles = useStyles(props);
 
   const pickPicture = usePickPicture();
 
@@ -79,12 +81,15 @@ const ProfileHeader: React.FC<ProfileHeaderProps> = (props) => {
 
       {/* Cover picture */}
       <View style={styles.coverPictureContainer}>
-        {coverPictureLoading === true || loading === true ? (
-          <ContentLoader style={styles.coverPicture}>
+        {loading === true ? (
+          <ThemedContentLoader style={styles.coverPicture}>
             <Rect width="100%" height="100%" />
-          </ContentLoader>
+          </ThemedContentLoader>
         ) : (
           <FastImage style={styles.coverPicture} resizeMode="cover" source={coverPicture} />
+        )}
+        {coverPictureUploading === true && (
+          <StyledActivityIndicator style={styles.coverPictureActivityIndicator} />
         )}
         {canEdit && (
           <IconButton
@@ -100,12 +105,12 @@ const ProfileHeader: React.FC<ProfileHeaderProps> = (props) => {
       <View style={styles.profileDataContainer}>
         {/* Profile picture */}
         <View style={styles.profilePictureContainer}>
-          {profilePictureLoading === true || loading === true ? (
-            <ContentLoader width="100%" height="100%">
+          {loading === true ? (
+            <ThemedContentLoader width="100%" height="100%">
               <Circle r="50%" cx="50%" cy="50%" />
-            </ContentLoader>
+            </ThemedContentLoader>
           ) : (
-            <AvatarImage size={100} source={profilePicture} />
+            <AvatarImage size={100} source={profilePicture} loading={profilePictureUploading} />
           )}
           {canEdit && (
             <IconButton
@@ -137,9 +142,9 @@ const ProfileHeader: React.FC<ProfileHeaderProps> = (props) => {
 
         {/* Address */}
         {loading ? (
-          <ContentLoader width="150" height="36">
+          <ThemedContentLoader width="150" height="36">
             <Rect width="100%" height="16" y="10" />
-          </ContentLoader>
+          </ThemedContentLoader>
         ) : (
           profile?.address && (
             <View style={styles.addressContainer}>
