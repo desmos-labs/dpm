@@ -142,7 +142,7 @@ export default function useSignTx() {
 
       if (wallet.type === WalletType.Ledger) {
         showModal(LoadingModal, {
-          text: t('waiting ledger confirmation'),
+          text: t('account:waiting ledger confirmation'),
         });
       }
 
