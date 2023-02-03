@@ -190,10 +190,20 @@ platform :ios do
   end
 
   lane :deploy do
+    # Get api key
+    api_key = app_store_connect_api_key(
+      key_id: APPLE_KEY_ID,
+      issuer_id: APPLE_ISSUER_ID,
+      key_content: APPLE_KEY_CONTENT,
+      duration: 1200,
+      in_house: false
+    )
+
     # Deploy to test flight
     pilot(
       apple_id: "#{DEVELOPER_APP_ID}",
       app_identifier: "#{DEVELOPER_APP_IDENTIFIER}",
+      api_key: api_key,
       skip_waiting_for_build_processing: false,
       skip_submission: true,
       distribute_external: false,
