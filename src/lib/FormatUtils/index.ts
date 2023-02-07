@@ -85,8 +85,18 @@ export const formatMultiSendInput = (inputs: Input[], separator: string = '\n'):
 /**
  * Perform the sanitization to a seed phrase.
  * @param mnemonic - The seed phrase to sanitize.
+ * @param skipTrimEnd - Tells if shouldn't be removed the whitespace chars from the
+ * end of the string.
  */
-export const sanitizeMnemonic = (mnemonic: string): string => mnemonic.replace(/\n\n/g, ' ').trim();
+export const sanitizeMnemonic = (mnemonic: string, skipTrimEnd?: boolean): string => {
+  // Replace the double spaces with a single space and
+  // remove all the characters that are not a-z or space.
+  const sanitized = mnemonic.replace(/( {2,})/gm, ' ').replace(/[^a-z ]/gm, '');
+  if (skipTrimEnd === true) {
+    return sanitized;
+  }
+  return sanitized.trimEnd();
+};
 
 /**
  * Converts a [Slip10RawIndex] to it's base number representation.
