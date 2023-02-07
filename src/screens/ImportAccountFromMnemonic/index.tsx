@@ -37,15 +37,9 @@ const ImportAccountFromMnemonic: FC<NavProps> = (props) => {
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
   const onMnemonicChange = (changedMnemonic: string) => {
-    const sanitizedMnemonic = sanitizeMnemonic(changedMnemonic);
-
-    // Handle enter pressed
-    if (sanitizedMnemonic.indexOf('\n') > 0) {
-      onNextPressed();
-    } else {
-      setMnemonic(sanitizedMnemonic);
-      setErrorMessage(null);
-    }
+    const sanitizedMnemonic = sanitizeMnemonic(changedMnemonic, true);
+    setMnemonic(sanitizedMnemonic);
+    setErrorMessage(null);
   };
 
   const onNextPressed = useCallback(async () => {
@@ -105,11 +99,14 @@ const ImportAccountFromMnemonic: FC<NavProps> = (props) => {
       </Typography.Body>
       <TextInput
         style={styles.mnemonicInput}
+        textAlignVertical={'top'}
         placeholder={t('enter recovery passphrase placeholder')}
         value={mnemonic}
         multiline
         onChangeText={onMnemonicChange}
+        blurOnSubmit
         autoFocus
+        onSubmitEditing={onNextPressed}
       />
 
       {errorMessage !== null && (
