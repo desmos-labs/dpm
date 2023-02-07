@@ -143,9 +143,15 @@ const Landing = ({ navigation }: NavProps) => {
 
           <Spacer paddingVertical={12} />
 
-          <Typography.Subtitle style={styles.loginWithLabel}>
-            {t('or login with')}
-          </Typography.Subtitle>
+          <View style={styles.loginWithContainer}>
+            <View style={styles.loginDivider} />
+            <Spacer paddingHorizontal={8} />
+            <Typography.Subtitle style={styles.loginWithLabel}>
+              {t('or login with')}
+            </Typography.Subtitle>
+            <Spacer paddingHorizontal={8} />
+            <View style={styles.loginDivider} />
+          </View>
 
           <Spacer paddingVertical={8} />
 
