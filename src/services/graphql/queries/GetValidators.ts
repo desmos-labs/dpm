@@ -27,10 +27,9 @@ const GetValidators = gql`
         validator_descriptions_aggregate: { max: { moniker: $moniker_order } }
       }
       where: {
-        validator_voting_powers: {
-          validator: { validator_descriptions: { moniker: { _ilike: $moniker_ilike } } }
-        }
         validator_statuses: { status: { _eq: 3 } }
+        voting_power: { _is_null: false }
+        validator: { validator_descriptions: { moniker: { _ilike: $moniker_ilike } } }
       }
       limit: $limit
       offset: $offset
@@ -39,6 +38,7 @@ const GetValidators = gql`
         avatar_url
         details
         moniker
+        validator_address
         website
       }
       validator_voting_powers {
