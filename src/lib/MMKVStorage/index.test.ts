@@ -1,6 +1,14 @@
 import { getMMKV, MMKVKEYS, setMMKV } from 'lib/MMKVStorage/index';
 
 describe('MMKV custom serialization', () => {
+  it('test serialize null value', () => {
+    const testData = { test: null };
+    setMMKV(MMKVKEYS.PROFILES, testData);
+    const reloadedDate = <typeof testData>getMMKV(MMKVKEYS.PROFILES);
+
+    expect(testData).toEqual(reloadedDate);
+  });
+
   it('test Date serialization', () => {
     const testDate = new Date();
     setMMKV(MMKVKEYS.PROFILES, testDate);
