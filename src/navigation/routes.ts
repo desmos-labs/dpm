@@ -100,6 +100,10 @@ enum ROUTES {
    */
   WALLET_CONNECT_REQUEST = 'WALLET_CONNECT_REQUEST',
   /**
+   * Screen that allow the user to manage the staked assets.
+   */
+  STACKING = 'STACKING',
+  /**
    * Home screen.
    * Screen that allow the user to scan a WalletConnect qr code
    * to initialize a session.

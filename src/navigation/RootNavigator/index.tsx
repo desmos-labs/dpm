@@ -46,6 +46,7 @@ import SplashScreen from 'screens/SplashScreen';
 import Legal, { LegalParams } from 'screens/Legal';
 import { Platform } from 'react-native';
 import { useUpdateAccountsProfiles } from 'hooks/profile/useUpdateAccountsProfiles';
+import Stacking from 'screens/Stacking';
 
 export type RootNavigatorParamList = {
   [ROUTES.DEV_SCREEN]: undefined;
@@ -69,6 +70,7 @@ export type RootNavigatorParamList = {
   [ROUTES.WALLET_CONNECT_SESSIONS]: undefined;
   [ROUTES.WALLET_CONNECT_SESSION_PROPOSAL]: WalletConnectSessionProposalParams;
   [ROUTES.WALLET_CONNECT_REQUEST]: undefined;
+  [ROUTES.STACKING]: undefined;
 
   [ROUTES.PROFILE]: ProfileParams | undefined;
   [ROUTES.EDIT_PROFILE]: EditProfileParams | undefined;
@@ -176,6 +178,7 @@ const RootNavigator = () => {
         component={WalletConnectSessionProposal}
       />
       <Stack.Screen name={ROUTES.WALLET_CONNECT_REQUEST} component={WalletConnectRequest} />
+      <Stack.Screen name={ROUTES.STACKING} component={Stacking} />
 
       <Stack.Screen name={ROUTES.PROFILE} component={Profile} />
       <Stack.Screen name={ROUTES.EDIT_PROFILE} component={EditProfile} />

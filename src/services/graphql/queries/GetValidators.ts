@@ -20,7 +20,7 @@ const GetValidators = gql`
     $moniker_order: order_by
     $limit: Int = 100
     $offset: Int = 0
-  ) {
+  ) @api(name: forbole) {
     validator(
       order_by: {
         validator_voting_powers_aggregate: { max: { voting_power: $voting_power_order } }
@@ -28,9 +28,9 @@ const GetValidators = gql`
       }
       where: {
         validator_voting_powers: {
-          voting_power: { _is_null: false }
           validator: { validator_descriptions: { moniker: { _ilike: $moniker_ilike } } }
         }
+        validator_statuses: { status: { _eq: 3 } }
       }
       limit: $limit
       offset: $offset
@@ -47,6 +47,9 @@ const GetValidators = gql`
       }
       validator_commissions {
         commission
+      }
+      validator_statuses {
+        status
       }
     }
   }
