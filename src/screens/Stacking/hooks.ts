@@ -1,8 +1,9 @@
 import { useApolloClient } from '@apollo/client';
 import React from 'react';
 import { Validator } from 'types/validator';
-import GetValidators from 'services/graphql/queries/GetValidators';
+import GetValidators, { GQLGetValidators } from 'services/graphql/queries/GetValidators';
 import { PaginatedResult } from 'hooks/usePaginatedData';
+import { convertGraphQLValidator } from 'lib/GraphQLUtils';
 
 interface FetchValidatorFilter {
   text: string;
@@ -19,7 +20,7 @@ export const useFetchValidators = () => {
       limit: number,
       filter?: FetchValidatorFilter,
     ): Promise<PaginatedResult<Validator>> => {
-      const { data } = await client.query({
+      const { data } = await client.query<GQLGetValidators>({
         query: GetValidators,
         variables: {
           offset,
@@ -28,23 +29,10 @@ export const useFetchValidators = () => {
           moniker_order: filter?.monikerOrder,
           voting_power_order: filter?.votingPowerOrder,
         },
-        fetchPolicy: 'network-only',
       });
 
-      const validators = data.validator.map(
-        (validator: any) =>
-          ({
-            address: validator.validator_descriptions[0].validator_address,
-            commission: validator.validator_commissions[0].commission,
-            moniker: validator.validator_descriptions[0].moniker,
-            votingPower: validator.validator_voting_powers[0].voting_power,
-            website: validator.validator_descriptions[0].website ?? undefined,
-            avatarUrl: validator.validator_descriptions[0].avatar_url ?? undefined,
-          } as Validator),
-      );
-
       return {
-        data: validators,
+        data: data.validator.map(convertGraphQLValidator),
       };
     },
     [client],

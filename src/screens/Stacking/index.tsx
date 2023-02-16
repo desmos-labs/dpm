@@ -5,13 +5,13 @@ import StyledSafeAreaView from 'components/StyledSafeAreaView';
 import TopBar from 'components/TopBar';
 import { StackScreenProps } from '@react-navigation/stack';
 import { ListRenderItemInfo } from 'screens/SelectAccount/components/PaginatedFlatList';
-import { useFetchValidators } from 'screens/Stacking/useHooks';
 import { Validator } from 'types/validator';
 import ValidatorListItem from 'screens/Stacking/components/ValidatorItem';
 import { FlashList } from '@shopify/flash-list';
 import { usePaginatedData } from 'hooks/usePaginatedData';
 import StyledActivityIndicator from 'components/StyledActivityIndicator';
 import TextInput from 'components/TextInput';
+import { useFetchValidators } from './hooks';
 
 type NavProps = StackScreenProps<RootNavigatorParamList, ROUTES.STACKING>;
 
