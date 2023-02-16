@@ -55,4 +55,27 @@ const GetValidators = gql`
   }
 `;
 
+export interface GQLValidator {
+  validator_descriptions: {
+    validator_address: string;
+    details: string;
+    moniker: string;
+    avatar_url: string | null;
+    website: string | null;
+  }[];
+  validator_voting_powers: {
+    voting_power: number;
+  }[];
+  validator_commissions: {
+    commission: number;
+  }[];
+  validator_statuses: {
+    status: number;
+  }[];
+}
+
+export interface GQLGetValidators {
+  validator: GQLValidator[];
+}
+
 export default GetValidators;
