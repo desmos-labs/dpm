@@ -1,35 +1,41 @@
 import React from 'react';
-import { View } from 'react-native';
-import Typography from 'components/Typography';
-import { DPMImages } from 'types/images';
 import { ModalComponentProps } from 'modals/ModalScreen';
-import DPMImage from 'components/DPMImage';
 import { useTranslation } from 'react-i18next';
-import useStyles from './useStyles';
+import SingleButtonModal from 'modals/SingleButtonModal';
+import { DPMImages } from 'types/images';
 
-export type SingleButtonModalParams = {
+export type ErrorModalParams = {
   /**
    * Text to be shown under the error icon.
    */
   text: string;
+
+  /**
+   * Function called when the user clicks on the continue button.
+   */
+  action?: () => void;
 };
 
 /**
  * Modal that shows an error.
  * @constructor
  */
-const ErrorModal: React.FC<ModalComponentProps<SingleButtonModalParams>> = (props) => {
+const ErrorModal: React.FC<ModalComponentProps<ErrorModalParams>> = (props) => {
   const { t } = useTranslation();
-  const styles = useStyles();
 
-  const { params } = props;
+  const { params, closeModal } = props;
 
   return (
-    <View>
-      <DPMImage style={styles.image} source={DPMImages.Fail} resizeMode="cover" />
-      <Typography.Title style={styles.text}>{t('something went wrong')}</Typography.Title>
-      <Typography.Body style={styles.text}>{params.text}</Typography.Body>
-    </View>
+    <SingleButtonModal
+      params={{
+        title: t('something went wrong'),
+        message: params.text,
+        image: DPMImages.Fail,
+        actionLabel: t('continue'),
+        action: params.action,
+      }}
+      closeModal={closeModal}
+    />
   );
 };
 

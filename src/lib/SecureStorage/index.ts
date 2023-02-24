@@ -1,10 +1,15 @@
 import * as Keychain from 'react-native-keychain';
-import { getAllGenericPasswordServices, resetGenericPassword, Result } from 'react-native-keychain';
+import {
+  getAllGenericPasswordServices,
+  resetGenericPassword,
+  Result as KeychainResult,
+} from 'react-native-keychain';
 import { decryptData, encryptData, EncryptedData } from 'lib/EncryptionUtils';
 import { SerializableWallet, Wallet } from 'types/wallet';
 import { serializeWallet } from 'lib/WalletUtils/serialize';
 import { deserializeWallet } from 'lib/WalletUtils/deserialize';
 import { BiometricAuthorizations } from 'types/settings';
+import { err, ok, Result } from 'neverthrow';
 
 export enum SecureStorageKeys {
   /**
@@ -48,7 +53,7 @@ export interface StoreOptions {
 export async function getItem<T>(
   key: string,
   options: StoreOptions | undefined = undefined,
-): Promise<T | null> {
+): Promise<Result<T | undefined, Error>> {
   const moreOptions = options?.biometrics === true ? { ...defaultOptions } : null;
 
   const data = await Keychain.getGenericPassword({
@@ -57,22 +62,30 @@ export async function getItem<T>(
   });
 
   if (!data) {
-    return null;
+    return ok(undefined);
   }
 
-  let jsonSerialized = data.password;
+  // By default, if the password is not provided, the data is stored as a plain text
+  let serializedData = data.password;
 
   // Password provided, decrypt the data
   if (options?.password !== undefined) {
+    // Get the password to be used to decrypt the data
     const jsonValueNew = JSON.parse(data.password);
     if (typeof jsonValueNew.iv !== 'string' && typeof jsonValueNew.cipher !== 'string') {
-      throw new Error('Invalid encrypted data');
-    } else {
-      jsonSerialized = await decryptData(jsonValueNew as EncryptedData, options.password);
+      return err(new Error('Invalid encrypted data'));
     }
+
+    // Decrypt the data
+    const result = await decryptData(jsonValueNew as EncryptedData, options.password);
+    if (result.isErr()) {
+      return err(result.error);
+    }
+    serializedData = result.value;
   }
 
-  return JSON.parse(jsonSerialized);
+  // Deserialize the data
+  return ok(JSON.parse(serializedData));
 }
 
 /**
@@ -85,32 +98,25 @@ export async function setItem<T>(
   key: string,
   value: T,
   options: StoreOptions | undefined = undefined,
-): Promise<false | Result> {
+): Promise<false | KeychainResult> {
   const moreOptions = options?.biometrics === true ? { ...defaultOptions } : null;
 
   let data = JSON.stringify(value);
 
   // Password provided, encrypt the data.
   if (options?.password !== undefined) {
-    const encryptedData = await encryptData(data, options.password);
-    data = JSON.stringify(encryptedData);
+    const result = await encryptData(data, options.password);
+    if (result.isErr()) {
+      return false;
+    }
+
+    data = JSON.stringify(result.value);
   }
 
   return Keychain.setGenericPassword('dpm', data, {
     service: key,
     ...moreOptions,
   });
-}
-
-export async function turnOnBiometrics(
-  key: string,
-  password: string,
-): Promise<false | Result | null> {
-  const passwordKey = await getItem('dpm_global_password');
-  if (passwordKey === 'dpm_global_password') {
-    return setItem(key, password, { password, biometrics: true });
-  }
-  return null;
 }
 
 export async function deleteItem(key: string): Promise<boolean> {
@@ -122,14 +128,22 @@ export async function resetSecureStorage(): Promise<void> {
   await Promise.all(keys.map(async (key) => resetGenericPassword({ service: key })));
 }
 
-async function storeWallet(wallet: SerializableWallet, password: string) {
+/**
+ * Stores the given {@param wallet} into the device storage encrypted with the given {@param password}.
+ */
+async function storeWallet(
+  wallet: SerializableWallet,
+  password: string,
+): Promise<Result<void, Error>> {
   const result = await setItem(`${wallet.address}${SecureStorageKeys.WALLET_SUFFIX}`, wallet, {
     password,
   });
 
   if (!result) {
-    throw new Error(`error while saving wallet ${wallet.address}`);
+    return err(new Error(`error while saving wallet ${wallet.address}`));
   }
+
+  return ok(undefined);
 }
 
 /**
@@ -137,36 +151,48 @@ async function storeWallet(wallet: SerializableWallet, password: string) {
  * @param wallet - Wallet instance to save.
  * @param password - Password to protect the wallet.
  */
-export const saveWallet = async (wallet: Wallet, password: string) => {
+export const saveWallet = async (
+  wallet: Wallet,
+  password: string,
+): Promise<Result<void, Error>> => {
   const serializableWallet = serializeWallet(wallet);
-  await storeWallet(serializableWallet, password);
+  return storeWallet(serializableWallet, password);
 };
+
+const getWalletKey = (address: string) => `${address}${SecureStorageKeys.WALLET_SUFFIX}`;
 
 /**
  * Saves a wallet into the device storage.
  * @param address - Address of the wallet to delete.
  */
-export const deleteWallet = async (address: string) =>
-  deleteItem(`${address}${SecureStorageKeys.WALLET_SUFFIX}`);
+export const deleteWallet = async (address: string) => {
+  const key = getWalletKey(address);
+  deleteItem(key);
+};
 
 /**
  * Gets a wallet from the device storage.
  * @param address - Address of the wallet to load.
  * @param password - Password used to protect the wallet.
  */
-export const getWallet = async (address: string, password: string): Promise<SerializableWallet> => {
-  const loadedValue = await getItem<Partial<SerializableWallet>>(
-    `${address}${SecureStorageKeys.WALLET_SUFFIX}`,
-    {
-      password,
-    },
-  );
-
-  if (loadedValue === null) {
-    throw new Error(`can't find wallet for address: ${address}`);
+export const getWallet = async (
+  address: string,
+  password: string,
+): Promise<Result<SerializableWallet, Error>> => {
+  const key = getWalletKey(address);
+  const result = await getItem<Partial<SerializableWallet>>(key, { password });
+  if (result.isErr()) {
+    return err(result.error);
   }
 
-  return deserializeWallet(loadedValue);
+  // Read the value from the result
+  const { value } = result;
+  if (!value) {
+    return err(new Error(`Can't find wallet for address: ${address}`));
+  }
+
+  // Return the deserialized wallet
+  return ok(deserializeWallet(value));
 };
 
 /**
@@ -175,14 +201,16 @@ export const getWallet = async (address: string, password: string): Promise<Seri
  * @param password {string} - Value of the password to be set.
  * @throws Error if for some reason the encryption operations fail.
  */
-export const setUserPassword = async (password: string) => {
+export const setUserPassword = async (password: string): Promise<Result<void, Error>> => {
   const result = await setItem<string>(SecureStorageKeys.PASSWORD_CHALLENGE, passwordChallenge, {
     password,
   });
 
   if (!result) {
-    throw new Error('error while storing the user password challenge');
+    return err(new Error('error while storing the user password challenge'));
   }
+
+  return ok(undefined);
 };
 
 /**
@@ -191,21 +219,9 @@ export const setUserPassword = async (password: string) => {
  * @return {true} if the password matches the previous one, or {false} otherwise.
  * @throws Error if for some reason the decryption operations fail.
  */
-export const checkUserPassword = async (password: string) => {
-  let value: string | null;
-  try {
-    value = await getItem<string>(SecureStorageKeys.PASSWORD_CHALLENGE, {
-      password,
-    });
-  } catch (e) {
-    return false;
-  }
-
-  if (value === null) {
-    throw new Error('error while loading the password challenge from storage');
-  }
-
-  return value === passwordChallenge;
+export const checkUserPassword = async (password: string): Promise<boolean> => {
+  const result = await getItem<string>(SecureStorageKeys.PASSWORD_CHALLENGE, { password });
+  return result.unwrapOr(undefined) === passwordChallenge;
 };
 
 /**
@@ -216,10 +232,13 @@ export const checkUserPassword = async (password: string) => {
  * If `false` is returned, it means the input password is incorrect.
  * @throws {Error} if for some reason the decryption of encryption fails.
  */
-export const changeWalletsPassword = async (oldPassword: string, newPassword: string) => {
+export const changeWalletsPassword = async (
+  oldPassword: string,
+  newPassword: string,
+): Promise<Result<void, Error>> => {
   const isPasswordValid = await checkUserPassword(oldPassword);
   if (!isPasswordValid) {
-    return false;
+    return err(new Error('The old password is not valid'));
   }
 
   // Get all the wallet addresses
@@ -229,11 +248,32 @@ export const changeWalletsPassword = async (oldPassword: string, newPassword: st
     .map((key) => key.replace(SecureStorageKeys.WALLET_SUFFIX, ''));
 
   // Decrypt and re-encrypt all the wallets with the new password
-  const wallets = await Promise.all(walletAddresses.map((key) => getWallet(key, oldPassword)));
-  await Promise.all(wallets.map((wallet) => storeWallet(wallet, newPassword)));
+  // It's fine to disable the no-restricted-syntax rule here because we using a foor loop makes the
+  // code a lot more readable
+  // eslint-disable-next-line no-restricted-syntax
+  for (const address of walletAddresses) {
+    // Decode the wallet with the old password
+    // It's important to disable the no-await-in-loop rule here because we need to wait for the result
+    // eslint-disable-next-line no-await-in-loop
+    const walletResult = await getWallet(address, oldPassword);
+    if (walletResult.isErr()) {
+      return err(walletResult.error);
+    }
+
+    // Encode the wallet with the new password
+    // It's important to disable the no-await-in-loop rule here because we need to wait for the result
+    // eslint-disable-next-line no-await-in-loop
+    const storeResult = await storeWallet(walletResult.value, newPassword);
+    if (storeResult.isErr()) {
+      return err(storeResult.error);
+    }
+  }
 
   // Update the global password challenge
-  await setUserPassword(newPassword);
+  const passwordResult = await setUserPassword(newPassword);
+  if (passwordResult.isErr()) {
+    return err(passwordResult.error);
+  }
 
   // Update the configured biometrics configurations with the new password.
   const allKeys = await Keychain.getAllGenericPasswordServices();
@@ -241,11 +281,20 @@ export const changeWalletsPassword = async (oldPassword: string, newPassword: st
     (auth) => `${auth}${SecureStorageKeys.BIOMETRIC_AUTHORIZATION_SUFFIX}`,
   );
   const biometricsToUpdate = allKeys.filter((key) => biometricsKeys.indexOf(key) !== -1);
-  await Promise.all(
-    biometricsToUpdate.map((key) => setItem(key, newPassword, { biometrics: true })),
-  );
 
-  return true;
+  // It's fine to disable the no-restricted-syntax rule here because we using a foor loop makes the
+  // code a lot more readable
+  // eslint-disable-next-line no-restricted-syntax
+  for (const key of biometricsToUpdate) {
+    // It's important to disable the no-await-in-loop rule here because we need to wait for the result
+    // eslint-disable-next-line no-await-in-loop
+    const result = await setItem(key, newPassword, { biometrics: true });
+    if (!result) {
+      return err(new Error('Error while updating the biometric password'));
+    }
+  }
+
+  return ok(undefined);
 };
 
 export const storeBiometricAuthorization = async (
@@ -266,34 +315,34 @@ export const storeBiometricAuthorization = async (
   );
 };
 
+const getBiometricAuthorizationKey = (authorizationType: BiometricAuthorizations) =>
+  `${authorizationType}${SecureStorageKeys.BIOMETRIC_AUTHORIZATION_SUFFIX}`;
+
 /**
  * Delete the password protected with biometric for the provided [BiometricAuthorizations].
  */
-export const deleteBiometricAuthorization = async (authorizationType: BiometricAuthorizations) => {
-  const key = `${authorizationType}${SecureStorageKeys.BIOMETRIC_AUTHORIZATION_SUFFIX}`;
-  try {
-    // Get the item first to force the user to authenticate before delete.
-    await getItem(key, {
-      biometrics: true,
-    });
-    await deleteItem(key);
-    return true;
-  } catch (e) {
-    return false;
+export const deleteBiometricAuthorization = async (
+  authorizationType: BiometricAuthorizations,
+): Promise<Result<void, Error>> => {
+  const key = getBiometricAuthorizationKey(authorizationType);
+
+  // Get the item first to force the user to authenticate before delete.
+  const result = await getItem(key, { biometrics: true });
+  if (result.isErr()) {
+    return err(result.error);
   }
+
+  // Delete the item
+  await deleteItem(key);
+  return ok(undefined);
 };
 
+/**
+ * Get the password protected with biometric for the provided [BiometricAuthorizations].
+ * @param authorizationType {BiometricAuthorizations} - The type of biometric authorization.
+ */
 export const getBiometricPassword = async (authorizationType: BiometricAuthorizations) => {
-  try {
-    const password = await getItem<string>(
-      `${authorizationType}${SecureStorageKeys.BIOMETRIC_AUTHORIZATION_SUFFIX}`,
-      {
-        biometrics: true,
-      },
-    );
-
-    return password ?? undefined;
-  } catch (e) {
-    return undefined;
-  }
+  const key = getBiometricAuthorizationKey(authorizationType);
+  const result = await getItem<string>(key, { biometrics: true });
+  return result.unwrapOr(undefined);
 };

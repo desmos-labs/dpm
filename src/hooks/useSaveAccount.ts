@@ -55,9 +55,13 @@ const useSaveAccount = () => {
     });
   }, [navigation]);
 
+  // Callback to be used when the saving fails
   const onError = useCallback(
     (account: AccountWithWallet) => {
-      // Remove possible saved data
+      // Stop the loading
+      setSavingAccount(false);
+
+      // Remove any possible saved data
       if (savingFirstAccount) {
         deleteItem(SecureStorageKeys.PASSWORD_CHALLENGE);
       }
@@ -72,50 +76,49 @@ const useSaveAccount = () => {
     [onErrorPressed, savingFirstAccount, showErrorModal, t],
   );
 
+  // Callback to save the account
   const saveAccount = useCallback(
     async (account: AccountWithWallet, password: string) => {
-      try {
-        setSavingAccount(true);
+      setSavingAccount(true);
 
-        // Show the loading modal
-        showLoadingModal(LoadingModal, {
-          text: t('saving account'),
-        });
+      // Show the loading modal
+      showLoadingModal(LoadingModal, {
+        text: t('saving account'),
+      });
 
-        // Save everything
-        const saveResult = await saveWallet(account.wallet, password);
-        if (saveResult.isErr()) {
+      // Save everything
+      const saveResult = await saveWallet(account.wallet, password);
+      if (saveResult.isErr()) {
+        onError(account);
+        return;
+      }
+
+      if (savingFirstAccount) {
+        // Set the wallet password
+        const passwordResult = await setUserPassword(password);
+        if (passwordResult.isErr()) {
           onError(account);
           return;
         }
-
-        if (savingFirstAccount) {
-          // Set the wallet password
-          const passwordResult = await setUserPassword(password);
-          if (passwordResult.isErr()) {
-            onError(account);
-            return;
-          }
-        }
-
-        // Store the account and set it as active
-        storeAccount(account.account);
-        setActiveAccountAddress(account.wallet.address);
-
-        // Hide the loading modal
-        hideLoadingModal();
-
-        // Show the success modal
-        showSuccessModal(SingleButtonModal, {
-          title: t('account saved'),
-          message: t('account ready to be used'),
-          actionLabel: t('common:continue'),
-          action: onContinuePressed,
-        });
-      } catch (e: any) {
-      } finally {
-        setSavingAccount(false);
       }
+
+      // Store the account and set it as active
+      storeAccount(account.account);
+      setActiveAccountAddress(account.wallet.address);
+
+      // Hide the loading modal
+      hideLoadingModal();
+
+      // Show the success modal
+      showSuccessModal(SingleButtonModal, {
+        title: t('account saved'),
+        message: t('account ready to be used'),
+        actionLabel: t('common:continue'),
+        action: onContinuePressed,
+      });
+
+      // Stop the loading indicator
+      setSavingAccount(false);
     },
     [
       hideLoadingModal,

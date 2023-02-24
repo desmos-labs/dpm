@@ -12,6 +12,7 @@ import { RootNavigatorParamList } from 'navigation/RootNavigator';
 import ROUTES from 'navigation/routes';
 import { AccountWithWallet } from 'types/account';
 import Spacer from 'components/Spacer';
+import useSaveAccount from 'hooks/useSaveAccount';
 import PasswordComplexityScore from './components/PasswordComplexityScore';
 import useStyles from './useStyles';
 
@@ -21,16 +22,37 @@ export interface CreateWalletPasswordParams {
   account: AccountWithWallet;
 }
 
+/**
+ * Screen that allows the user to set a password for the wallet for the first time.
+ * @param props
+ * @constructor
+ */
 const CreateWalletPassword = (props: NavProps) => {
   const { t } = useTranslation('account');
   const styles = useStyles();
 
-  const { navigation, route } = props;
+  const { route } = props;
+  const { params } = route;
+  const { account } = params;
+
+  // --------------------------------------------------------------------------------------
+  // --- Hooks
+  // --------------------------------------------------------------------------------------
+
+  const { saveAccount } = useSaveAccount();
+
+  // --------------------------------------------------------------------------------------
+  // --- Local state
+  // --------------------------------------------------------------------------------------
 
   const [password, setPassword] = useState('');
   const confirmationPasswordRef = useRef<TextInput>(null);
   const [confirmationPassword, setConfirmationPassword] = useState('');
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
+
+  // --------------------------------------------------------------------------------------
+  // --- Actions
+  // --------------------------------------------------------------------------------------
 
   const onPasswordChange = useCallback((text: string) => {
     setPassword(text);
@@ -42,20 +64,21 @@ const CreateWalletPassword = (props: NavProps) => {
     setErrorMessage(null);
   }, []);
 
-  const focusConfirmationPassword = useCallback(() => {
+  const onSubmitPassword = useCallback(() => {
     confirmationPasswordRef.current?.focus();
   }, []);
 
   const onContinuePressed = useCallback(async () => {
     if (password === confirmationPassword) {
-      navigation.navigate(ROUTES.SAVE_GENERATED_ACCOUNT, {
-        password,
-        account: route.params.account,
-      });
+      saveAccount(account, password);
     } else {
       setErrorMessage(t('wrong confirmation password'));
     }
-  }, [confirmationPassword, password, navigation, route.params?.account, t]);
+  }, [password, confirmationPassword, saveAccount, account, t]);
+
+  // --------------------------------------------------------------------------------------
+  // --- Screen rendering
+  // --------------------------------------------------------------------------------------
 
   return (
     <StyledSafeAreaView
@@ -74,7 +97,7 @@ const CreateWalletPassword = (props: NavProps) => {
         style={styles.password}
         value={password}
         onChangeText={onPasswordChange}
-        onSubmitEditing={focusConfirmationPassword}
+        onSubmitEditing={onSubmitPassword}
         autoFocus
       />
       <Typography.Body style={styles.passwordComplexityHint}>

@@ -1,7 +1,6 @@
-import { NativeModules } from 'react-native';
+import Aes from 'react-native-aes-crypto';
 import * as DeviceInfo from 'react-native-device-info';
-
-const { Aes } = NativeModules;
+import { Result, ResultAsync } from 'neverthrow';
 
 export interface EncryptedData {
   iv: string;
@@ -22,10 +21,20 @@ export const deriveSecurePassword = async (password: string): Promise<string> =>
  * @param text The text to encrypt.
  * @param password The password used to generate the cipher key.
  */
-export const encryptData = async (text: string, password: string): Promise<EncryptedData> => {
+export const encryptData = async (
+  text: string,
+  password: string,
+): Promise<Result<EncryptedData, Error>> => {
   const securePassword: string = await deriveSecurePassword(password);
+
+  // Generate a random IV
   const iv: string = await Aes.randomKey(16);
-  return Aes.encrypt(text, securePassword, iv, 'aes-256-cbc').then((cipher: string) => ({
+
+  // Encrypt the text
+  return ResultAsync.fromPromise(
+    Aes.encrypt(text, securePassword, iv, 'aes-256-cbc'),
+    (e: any) => new Error(e.toString()),
+  ).map((cipher) => ({
     cipher,
     iv,
   }));
@@ -36,7 +45,13 @@ export const encryptData = async (text: string, password: string): Promise<Encry
  * @param data The data to be decrypted.
  * @param password The password used to generate the cipher key.
  */
-export const decryptData = async (data: EncryptedData, password: string): Promise<string> => {
+export const decryptData = async (
+  data: EncryptedData,
+  password: string,
+): Promise<Result<string, Error>> => {
   const securePassword: string = await deriveSecurePassword(password);
-  return Aes.decrypt(data.cipher, securePassword, data.iv, 'aes-256-cbc');
+  return ResultAsync.fromPromise(
+    Aes.decrypt(data.cipher, securePassword, data.iv, 'aes-256-cbc'),
+    (e: any) => new Error(e.toString()),
+  );
 };

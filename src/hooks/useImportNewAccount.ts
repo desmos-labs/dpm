@@ -7,7 +7,7 @@ import { SupportedChain } from 'types/chains';
 import { useRecoilState } from 'recoil';
 import importAccountAppState from '@recoil/importAccountState';
 import { getChainSupportedWalletTypes } from 'lib/ChainsUtils';
-import useSaveAccount from 'hooks/useSaveAccount';
+import useSaveGeneratedAccount from 'hooks/useSaveGeneratedAccount';
 import { useTranslation } from 'react-i18next';
 
 /**
@@ -23,7 +23,7 @@ const useImportNewAccount = (chains: SupportedChain[], ignoreAddresses?: string[
   const { t } = useTranslation('account');
   const navigation = useNavigation<StackNavigationProp<RootNavigatorParamList>>();
   const [, setImportAccountState] = useRecoilState(importAccountAppState);
-  const saveAccount = useSaveAccount();
+  const saveAccount = useSaveGeneratedAccount();
 
   return useCallback(() => {
     const selectedChain: SupportedChain | undefined = chains.length === 1 ? chains[0] : undefined;

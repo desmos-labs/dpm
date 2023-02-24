@@ -5,7 +5,7 @@ import { Wallet, WalletType } from 'types/wallet';
 import { DeliverTxResponse, DesmosClient, SignatureResult } from '@desmoslabs/desmjs';
 import { useCurrentChainGasPrice, useCurrentChainInfo } from '@recoil/settings';
 import useModal from 'hooks/useModal';
-import LoadingModal from 'modals/LoadingModal';
+import ErrorModal from 'modals/ErrorModal';
 import { useTranslation } from 'react-i18next';
 import { SignerData } from '@cosmjs/stargate';
 
@@ -141,7 +141,7 @@ export default function useSignTx() {
       const client = await getClientFromSignMode(signParams.mode, wallet);
 
       if (wallet.type === WalletType.Ledger) {
-        showModal(LoadingModal, {
+        showModal(ErrorModal, {
           text: t('account:waiting ledger confirmation'),
         });
       }

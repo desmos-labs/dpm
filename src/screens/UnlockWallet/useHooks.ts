@@ -16,20 +16,21 @@ import { stringToPath } from '@cosmjs/crypto';
 import { OfflineSignerAdapter, PrivateKeySigner, SigningMode } from '@desmoslabs/desmjs';
 import { LedgerApps } from 'config/LedgerApps';
 import { LedgerSigner } from '@cosmjs/ledger-amino';
+import { err, ok, Result } from 'neverthrow';
 
 /**
  * Hook that provides a function to initialize a mnemonic wallet.
  */
-const useInitMnemonicWallet = () => {
-  const initMnemonicWallet = useCallback(
+const useInitMnemonicWallet = () =>
+  useCallback(
     async (
       serializedWallet: SerializableMnemonicWallet,
       signingMode?: SigningMode,
-    ): Promise<MnemonicWallet> => {
+    ): Promise<Result<Wallet | undefined, Error>> => {
       const privateKey = fromHex(serializedWallet.privateKey);
       const hdPath = stringToPath(serializedWallet.hdPath);
 
-      return {
+      return ok({
         type: WalletType.Mnemonic,
         address: serializedWallet.address,
         privateKey,
@@ -38,15 +39,10 @@ const useInitMnemonicWallet = () => {
         signer: PrivateKeySigner.fromSecp256k1(privateKey, signingMode ?? SigningMode.DIRECT, {
           prefix: serializedWallet.addressPrefix,
         }),
-      };
+      } as MnemonicWallet);
     },
     [],
   );
-
-  return {
-    initMnemonicWallet,
-  };
-};
 
 /**
  * Hook that provides a function to initialize a Ledger wallet.
@@ -54,21 +50,23 @@ const useInitMnemonicWallet = () => {
 const useInitLedgerWallet = () => {
   const connectToLedger = useConnectToLedger();
 
-  const initLedgerWallet = useCallback(
-    async (serializedWallet: SerializableLedgerWallet): Promise<LedgerWallet | undefined> => {
+  return useCallback(
+    async (
+      serializedWallet: SerializableLedgerWallet,
+    ): Promise<Result<Wallet | undefined, Error>> => {
       const ledgerApp = LedgerApps.find(({ name }) => name === serializedWallet.ledgerAppName);
       if (ledgerApp === undefined) {
-        throw new Error(`can't find app for wallet ${serializedWallet.address}`);
+        return err(new Error(`can't find app for wallet ${serializedWallet.address}`));
       }
 
       const transport = await connectToLedger(ledgerApp);
       if (transport === undefined) {
-        return undefined;
+        return ok(undefined);
       }
 
       const hdPath = stringToPath(serializedWallet.hdPath);
 
-      return {
+      return ok({
         type: WalletType.Ledger,
         address: serializedWallet.address,
         ledgerAppName: serializedWallet.ledgerAppName,
@@ -82,28 +80,24 @@ const useInitLedgerWallet = () => {
             hdPaths: [hdPath],
           }),
         ),
-      };
+      } as LedgerWallet);
     },
     [connectToLedger],
   );
-
-  return {
-    initLedgerWallet,
-  };
 };
 
 /**
  * Hook that provides a function to initialize a Web3Auth wallet.
  */
-const useInitWeb3AuthWallet = () => {
-  const initWeb3AuthWallet = useCallback(
+const useInitWeb3AuthWallet = () =>
+  useCallback(
     async (
       serializedWallet: SerializableWeb3AuthWallet,
       signingMode?: SigningMode,
-    ): Promise<Web3AuthWallet> => {
+    ): Promise<Result<Wallet | undefined, Error>> => {
       const privateKey = fromHex(serializedWallet.privateKey);
 
-      return {
+      return ok({
         type: WalletType.Web3Auth,
         address: serializedWallet.address,
         privateKey,
@@ -112,42 +106,44 @@ const useInitWeb3AuthWallet = () => {
         signer: PrivateKeySigner.fromSecp256k1(privateKey, signingMode ?? SigningMode.DIRECT, {
           prefix: serializedWallet.addressPrefix,
         }),
-      };
+      } as Web3AuthWallet);
     },
     [],
   );
-
-  return {
-    initWeb3AuthWallet,
-  };
-};
 
 /**
  * Hook that provides a function to unlock the wallet using the password.
  */
 export const useUnlockWalletWithPassword = () => {
-  const { initMnemonicWallet } = useInitMnemonicWallet();
-  const { initLedgerWallet } = useInitLedgerWallet();
-  const { initWeb3AuthWallet } = useInitWeb3AuthWallet();
+  const initMnemonicWallet = useInitMnemonicWallet();
+  const initLedgerWallet = useInitLedgerWallet();
+  const initWeb3AuthWallet = useInitWeb3AuthWallet();
 
   return useCallback(
     async (
       address: string,
       password: string,
       signingMode?: SigningMode,
-    ): Promise<Wallet | undefined> => {
-      const serializedWallet = await getWallet(address, password);
+    ): Promise<Result<Wallet | undefined, Error>> => {
+      const result = await getWallet(address, password);
+      if (result.isErr()) {
+        return err(result.error);
+      }
 
-      switch (serializedWallet.type) {
-        case WalletType.Mnemonic:
-          return initMnemonicWallet(serializedWallet, signingMode);
-        case WalletType.Ledger:
-          return initLedgerWallet(serializedWallet);
-        case WalletType.Web3Auth:
-          return initWeb3AuthWallet(serializedWallet, signingMode);
+      switch (result.value.type) {
+        case WalletType.Mnemonic: {
+          return initMnemonicWallet(result.value, signingMode);
+        }
+        case WalletType.Ledger: {
+          return initLedgerWallet(result.value);
+        }
+        case WalletType.Web3Auth: {
+          return initWeb3AuthWallet(result.value, signingMode);
+        }
         default:
+          // It's impossible to reach this point, but TypeScript doesn't know that.
           // @ts-ignore
-          throw new Error(`unsupported wallet type ${serializedWallet.type}`);
+          return err(new Error(`unknown wallet type ${result.value.type}`));
       }
     },
     [initMnemonicWallet, initLedgerWallet, initWeb3AuthWallet],

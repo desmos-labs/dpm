@@ -11,7 +11,7 @@ import Button from 'components/Button';
 import { RootNavigatorParamList } from 'navigation/RootNavigator';
 import ROUTES from 'navigation/routes';
 import { WalletPickerMode } from 'screens/SelectAccount/components/AccountPicker/types';
-import useSaveAccount from 'hooks/useSaveAccount';
+import useSaveGeneratedAccount from 'hooks/useSaveGeneratedAccount';
 import useSelectAccount from 'hooks/useSelectAccount';
 import { DesmosHdPath } from 'config/HdPaths';
 import { useStoredAccountsAddresses } from '@recoil/accounts';
@@ -41,7 +41,7 @@ const CheckMnemonic: FC<NavProps> = (props) => {
   const [availableWords, setAvailableWords] = useState<string[]>([...words]);
 
   const accountsAddresses = useStoredAccountsAddresses();
-  const saveAccount = useSaveAccount();
+  const saveAccount = useSaveGeneratedAccount();
   const selectAccount = useSelectAccount();
 
   const onWordSelected = useCallback(

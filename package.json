@@ -70,6 +70,7 @@
     "long": "4.0.0",
     "lottie-ios": "3.2.3",
     "lottie-react-native": "^5.0.1",
+    "neverthrow": "^6.0.0",
     "numbro": "^2.3.6",
     "patch-package": "^6.4.7",
     "path-browserify": "0.0.0",

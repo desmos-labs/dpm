@@ -10,7 +10,7 @@ import TopBar from 'components/TopBar';
 import Button from 'components/Button';
 import { RootNavigatorParamList } from 'navigation/RootNavigator';
 import ROUTES from 'navigation/routes';
-import { useSettings } from '@recoil/settings';
+import { useSetting } from '@recoil/settings';
 import { checkUserPassword } from 'lib/SecureStorage';
 import { BiometricAuthorizations } from 'types/settings';
 import { useSetAppState } from '@recoil/appState';
@@ -18,23 +18,52 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import useGetPasswordFromBiometrics from 'hooks/useGetPasswordFromBiometrics';
 import useStyles from './useStyles';
 
-type NavProps = StackScreenProps<RootNavigatorParamList, ROUTES.UNLOCK_APPLICATION>;
+// Development related
 const ALLOWED_NAVIGATION_ACTIONS = ['RESET', 'NAVIGATE'];
 
+type NavProps = StackScreenProps<RootNavigatorParamList, ROUTES.UNLOCK_APPLICATION>;
+
+/**
+ * Screen that allows the user to unlock the application.
+ * @constructor
+ */
 const UnlockApplication: React.FC<NavProps> = (props) => {
-  const styles = useStyles();
   const { t } = useTranslation('account');
+
+  const styles = useStyles();
 
   const { navigation } = props;
 
+  // --------------------------------------------------------------------------------------
+  // --- Hooks
+  // --------------------------------------------------------------------------------------
+
+  const areBiometricsEnabled = useSetting('loginWithBiometrics');
   const setAppState = useSetAppState();
+
   const { bottom } = useSafeAreaInsets();
   const getPasswordFromBiometrics = useGetPasswordFromBiometrics(BiometricAuthorizations.Login);
+
+  const previousScreenParams = useMemo(() => {
+    const { routes } = navigation.getState();
+    if (routes.length <= 1) {
+      return undefined;
+    }
+    const currentRoute = routes[routes.length - 2];
+    return { key: currentRoute.key, params: currentRoute.params };
+  }, [navigation]);
+
+  // --------------------------------------------------------------------------------------
+  // --- Local state
+  // --------------------------------------------------------------------------------------
 
   const [loading, setLoading] = useState(false);
   const [inputPassword, setInputPassword] = useState('');
   const [error, setError] = useState<string>();
-  const settings = useSettings();
+
+  // --------------------------------------------------------------------------------------
+  // --- Effects
+  // --------------------------------------------------------------------------------------
 
   // Prevent to exit from this screen.
   useEffect(() => {
@@ -57,39 +86,40 @@ const UnlockApplication: React.FC<NavProps> = (props) => {
     };
   }, [navigation, setAppState]);
 
-  const previousScreenParams = useMemo(() => {
-    const { routes } = navigation.getState();
-    if (routes.length <= 1) {
-      return undefined;
+  // Use the biometrics authentication if the user has enabled it
+  useEffect(() => {
+    if (areBiometricsEnabled) {
+      setLoading(true);
+      setTimeout(unlockWithBiometrics, 500);
     }
-    const currentRoute = routes[routes.length - 2];
-    return { key: currentRoute.key, params: currentRoute.params };
-  }, [navigation]);
+    // eslint-disable-next-line
+  }, []);
+
+  // --------------------------------------------------------------------------------------
+  // --- Actions
+  // --------------------------------------------------------------------------------------
 
   const unlockApplication = useCallback(
     async (password: string | undefined) => {
+      if (!password) return;
+
       setLoading(true);
-      try {
-        if (password !== undefined) {
-          const passwordOk = await checkUserPassword(password);
-          if (!passwordOk) {
-            setError(t('invalid password'));
-          } else if (previousScreenParams !== undefined) {
-            // Go to the previous screen.
-            navigation.navigate(previousScreenParams);
-          } else {
-            // Reset to home screen.
-            navigation.reset({
-              index: 0,
-              routes: [{ name: ROUTES.HOME_TABS }],
-            });
-          }
-        }
-      } catch (e) {
-        setError(e.message);
-      } finally {
-        setLoading(false);
+
+      const passwordOk = await checkUserPassword(password);
+      if (!passwordOk) {
+        setError(t('invalid password'));
+      } else if (previousScreenParams !== undefined) {
+        // Go to the previous screen.
+        navigation.navigate(previousScreenParams);
+      } else {
+        // Reset to home screen.
+        navigation.reset({
+          index: 0,
+          routes: [{ name: ROUTES.HOME_TABS }],
+        });
       }
+
+      setLoading(false);
     },
     [navigation, previousScreenParams, t],
   );
@@ -103,13 +133,9 @@ const UnlockApplication: React.FC<NavProps> = (props) => {
     unlockApplication(inputPassword);
   }, [inputPassword, unlockApplication]);
 
-  useEffect(() => {
-    if (settings.loginWithBiometrics) {
-      setLoading(true);
-      setTimeout(unlockWithBiometrics, 500);
-    }
-    // eslint-disable-next-line
-  }, []);
+  // --------------------------------------------------------------------------------------
+  // --- Screen rendering
+  // --------------------------------------------------------------------------------------
 
   return (
     <StyledSafeAreaView
@@ -123,7 +149,7 @@ const UnlockApplication: React.FC<NavProps> = (props) => {
         onChangeText={setInputPassword}
         onSubmitEditing={unlockWithPassword}
         placeholder={t('common:password')}
-        autoFocus={!settings.loginWithBiometrics}
+        autoFocus={!areBiometricsEnabled}
       />
       <Typography.Body style={styles.errorMsg}>{error}</Typography.Body>
       <Padding flex={1} />

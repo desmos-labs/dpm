@@ -9,7 +9,6 @@ import PickDerivationPath, { SelectAccountParams } from 'screens/SelectAccount';
 import ImportAccountFromMnemonic from 'screens/ImportAccountFromMnemonic';
 import CreateWalletPassword, { CreateWalletPasswordParams } from 'screens/CreateWalletPassword';
 import CheckWalletPassword, { CheckWalletPasswordParams } from 'screens/CheckWalletPassword';
-import SaveGeneratedAccount, { SaveGeneratedAccountParams } from 'screens/SaveGeneratedAccount';
 import ConnectToLedgerStack, {
   ConnectToLedgerStackParams,
 } from 'navigation/RootNavigator/ConnectToLedgerStack';
@@ -61,7 +60,6 @@ export type RootNavigatorParamList = {
   [ROUTES.SELECT_ACCOUNT]: SelectAccountParams;
   [ROUTES.CREATE_WALLET_PASSWORD]: CreateWalletPasswordParams;
   [ROUTES.CHECK_WALLET_PASSWORD]: CheckWalletPasswordParams;
-  [ROUTES.SAVE_GENERATED_ACCOUNT]: SaveGeneratedAccountParams;
 
   [ROUTES.CONNECT_TO_LEDGER_STACK]: ConnectToLedgerStackParams;
   [ROUTES.HOME_TABS]: undefined;
@@ -160,7 +158,6 @@ const RootNavigator = () => {
       <Stack.Screen name={ROUTES.SELECT_ACCOUNT} component={PickDerivationPath} />
       <Stack.Screen name={ROUTES.CREATE_WALLET_PASSWORD} component={CreateWalletPassword} />
       <Stack.Screen name={ROUTES.CHECK_WALLET_PASSWORD} component={CheckWalletPassword} />
-      <Stack.Screen name={ROUTES.SAVE_GENERATED_ACCOUNT} component={SaveGeneratedAccount} />
 
       <Stack.Screen name={ROUTES.CONNECT_TO_LEDGER_STACK} component={ConnectToLedgerStack} />
 
