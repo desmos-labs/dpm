@@ -8,6 +8,7 @@ import { WALLET_CONNECT_PROJECT_ID } from '@env';
 
 import * as WalletConnectMMKV from 'lib/MMKVStorage/walletconnect';
 import { useRemoveSessionByTopic, useWalletConnectSessions } from '@recoil/walletConnectSessions';
+import useWalletConnectOnSessionExpire from './useWalletConnectOnSessionExpire';
 import useWalletConnectOnSessionRequest from './useWalletConnectOnSessionRequest';
 import useWalletConnectOnSessionDelete from './useWalletConnectOnSessionDelete';
 
@@ -16,6 +17,7 @@ const useInitWalletConnectClient = () => {
   const client = useWalletConnectClient();
   const onSessionRequest = useWalletConnectOnSessionRequest(client?.client);
   const onSessionDelete = useWalletConnectOnSessionDelete();
+  const onSessionExpire = useWalletConnectOnSessionExpire();
   const deleteSessionByTopic = useRemoveSessionByTopic();
   const savedSessions = useWalletConnectSessions();
 
@@ -36,6 +38,14 @@ const useInitWalletConnectClient = () => {
       client?.client.off('session_delete', onSessionDelete);
     };
   }, [onSessionDelete, client]);
+
+  // Effect to subscribe and unsubscribe to session_expire
+  useEffect(() => {
+    client?.client.on('session_expire', onSessionExpire);
+    return () => {
+      client?.client.off('session_expire', onSessionExpire);
+    };
+  }, [onSessionExpire, client]);
 
   return useCallback(async () => {
     try {
