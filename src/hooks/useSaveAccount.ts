@@ -18,6 +18,7 @@ import SingleButtonModal from 'modals/SingleButtonModal';
 import LoadingModal from 'modals/LoadingModal';
 import ErrorModal from 'modals/ErrorModal';
 import { useSetActiveAccountAddress } from '@recoil/activeAccount';
+import { DPMImages } from 'types/images';
 
 /**
  * Hook to save a new account to the device.
@@ -111,6 +112,7 @@ const useSaveAccount = () => {
 
       // Show the success modal
       showSuccessModal(SingleButtonModal, {
+        image: DPMImages.Success,
         title: t('account saved'),
         message: t('account ready to be used'),
         actionLabel: t('common:continue'),
