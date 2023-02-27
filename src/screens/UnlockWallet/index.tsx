@@ -17,7 +17,6 @@ import { SigningMode } from '@desmoslabs/desmjs';
 import { useSettings } from '@recoil/settings';
 import { BiometricAuthorizations } from 'types/settings';
 import useGetPasswordFromBiometrics from 'hooks/useGetPasswordFromBiometrics';
-import BiometricsLoadingIndicator from './components/BiometricsLoadingIndicator';
 import useStyles from './useStyles';
 
 export interface UnlockWalletParams {
@@ -48,7 +47,6 @@ const UnlockWallet: React.FC<Props> = (props) => {
   const { onSuccess, address, onCancel, signingMode } = props.route.params;
 
   const [loading, setLoading] = useState(false);
-  const [loadingBiometrics] = useState(false);
   const [error, setError] = useState<string>();
   const [inputPassword, setInputInputPassword] = useState('');
 
@@ -108,7 +106,6 @@ const UnlockWallet: React.FC<Props> = (props) => {
 
   return (
     <View style={styles.root}>
-      {loadingBiometrics && <BiometricsLoadingIndicator />}
       <StyledSafeAreaView topBar={<TopBar stackProps={props} title={t('wallet password')} />}>
         <Typography.Subtitle>{t('enter wallet password')}</Typography.Subtitle>
         <SecureTextInput
