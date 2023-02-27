@@ -21,7 +21,7 @@ function jsonReplacer(key: string, value: any): any {
  * Custom JSON deserialization for MMKV.
  */
 const jsonReviver = (key: string, value: any) => {
-  if (value[0] === '{') {
+  if (value !== null && value !== undefined && value[0] === '{') {
     // We have a serialized object, try to deserialize it to see if it's one
     // of our custom serialized types.
     const deserializedObject = <Partial<SerializedObject>>JSON.parse(value);
