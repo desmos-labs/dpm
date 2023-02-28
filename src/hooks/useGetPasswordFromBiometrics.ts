@@ -5,6 +5,10 @@ import { useSetAppState } from '@recoil/appState';
 import { Platform } from 'react-native';
 import { appStateOnce } from 'lib/AppStateUtils';
 
+/**
+ * Hook to get the password that is stored in the secure storage and encrypted using the biometrics of the device.
+ * @param biometricAuthorization
+ */
 const useGetPasswordFromBiometrics = (biometricAuthorization: BiometricAuthorizations) => {
   const setAppState = useSetAppState();
 

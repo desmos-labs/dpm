@@ -8,6 +8,9 @@ import BluetoothTransport from '@ledgerhq/react-native-hw-transport-ble';
 import { LedgerApp } from 'types/ledger';
 import useReturnToCurrentScreen from 'hooks/useReturnToCurrentScreen';
 
+/**
+ * Hook that allows to start the procedure to connect to a Ledger device.
+ */
 const useConnectToLedger = () => {
   const navigator = useNavigation<StackNavigationProp<RootNavigatorParamList>>();
   const returnToCurrentScreen = useReturnToCurrentScreen();

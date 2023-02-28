@@ -1,5 +1,5 @@
 import useSelectAccount from 'hooks/useSelectAccount';
-import useSaveAccount from 'hooks/useSaveAccount';
+import useSaveGeneratedAccount from 'hooks/useSaveGeneratedAccount';
 import { useCallback } from 'react';
 import { SupportedChain } from 'types/chains';
 import { Web3AuthLoginProvider } from 'types/web3auth';
@@ -12,7 +12,7 @@ import { Platform } from 'react-native';
 
 const useLoginWithWeb3Auth = (chain: SupportedChain, ignoreAddresses: string[]) => {
   const selectAccount = useSelectAccount();
-  const saveAccount = useSaveAccount();
+  const saveAccount = useSaveGeneratedAccount();
   const setAppState = useSetAppState();
 
   return useCallback(

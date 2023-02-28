@@ -1,6 +1,12 @@
 {
   "account created": "Account created",
-  "error generating account": "An error occurred while generating the account",
+  "error saving account": "An error occurred while saving the account",
+  "saving account": "Saving account",
+
+  "account saved": "Account saved",
+  "account ready to be used": "Your account is now ready to be used",
+
+
   "generating account": "Generating account",
   "accounts": "Accounts",
   "add account": "Add account",

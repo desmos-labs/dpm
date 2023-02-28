@@ -15,6 +15,7 @@ import { useSettings } from '@recoil/settings';
 import { BiometricAuthorizations } from 'types/settings';
 import { useFocusEffect } from '@react-navigation/native';
 import useGetPasswordFromBiometrics from 'hooks/useGetPasswordFromBiometrics';
+import useSaveAccount from 'hooks/useSaveAccount';
 import useStyles from './useStyles';
 
 export interface CheckWalletPasswordParams {
@@ -29,57 +30,73 @@ export interface CheckWalletPasswordParams {
 
 export type NavProps = StackScreenProps<RootNavigatorParamList, ROUTES.CHECK_WALLET_PASSWORD>;
 
+/**
+ * This screen is used to check the password of the wallet.
+ * @param props
+ * @constructor
+ */
 const CheckWalletPassword = (props: NavProps) => {
-  const { navigation, route } = props;
   const { t } = useTranslation('account');
   const styles = useStyles();
 
-  const appSettings = useSettings();
+  const { route } = props;
+  const { params } = route;
+  const { account, password } = params;
 
-  const [password, setPassword] = useState('');
-  const [errorMessage, setErrorMessage] = useState<string | null>(null);
+  // --------------------------------------------------------------------------------------
+  // --- Hooks
+  // --------------------------------------------------------------------------------------
+
+  const appSettings = useSettings();
   const getPasswordFromBiometrics = useGetPasswordFromBiometrics(
     BiometricAuthorizations.UnlockWallet,
   );
+  const { saveAccount } = useSaveAccount();
+
+  // --------------------------------------------------------------------------------------
+  // --- Local state
+  // --------------------------------------------------------------------------------------
+
+  const [inputPassword, setInputPassword] = useState('');
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
+
+  // --------------------------------------------------------------------------------------
+  // --- Actions
+  // --------------------------------------------------------------------------------------
 
   const onPasswordChange = (text: string) => {
-    setPassword(text);
+    setInputPassword(text);
     setErrorMessage(null);
   };
 
+  // Handles the continue button press
   const onContinuePressed = useCallback(async () => {
-    let isPasswordCorrect: boolean;
-
-    if (route.params.password === undefined) {
-      isPasswordCorrect = await checkUserPassword(password).catch(() => false);
-    } else {
-      isPasswordCorrect = route.params.password === password;
-    }
-
+    const isPasswordCorrect = await checkUserPassword(inputPassword);
     if (isPasswordCorrect) {
-      navigation.navigate(ROUTES.SAVE_GENERATED_ACCOUNT, {
-        account: route.params.account,
-        password,
-      });
+      saveAccount(account, inputPassword);
     } else {
       setErrorMessage(t('wrong confirmation password'));
     }
-  }, [navigation, password, route, t]);
+  }, [inputPassword, saveAccount, account, t]);
 
+  // Handles the continue button press when the biometrics are enabled
   const continueWithBiometrics = useCallback(async () => {
+    // Get the password from the biometrics
     const biometricPassword = await getPasswordFromBiometrics();
     if (biometricPassword) {
-      const isPasswordCorrect = await checkUserPassword(biometricPassword).catch(() => false);
+      const isPasswordCorrect = await checkUserPassword(biometricPassword);
       if (isPasswordCorrect) {
-        navigation.navigate(ROUTES.SAVE_GENERATED_ACCOUNT, {
-          account: route.params.account,
-          password: biometricPassword,
-        });
+        // Save the account
+        await saveAccount(account, biometricPassword);
       } else {
         setErrorMessage(t('wrong confirmation password'));
       }
     }
-  }, [getPasswordFromBiometrics, navigation, route.params.account, t]);
+  }, [getPasswordFromBiometrics, account, saveAccount, t]);
+
+  // --------------------------------------------------------------------------------------
+  // --- Effects
+  // --------------------------------------------------------------------------------------
 
   useFocusEffect(
     useCallback(() => {
@@ -87,9 +104,14 @@ const CheckWalletPassword = (props: NavProps) => {
         setTimeout(continueWithBiometrics, 500);
       }
 
+      // It's fine to disable the exhaustive deps check here because we only want to run this effect once
       // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []),
   );
+
+  // --------------------------------------------------------------------------------------
+  // --- Screen rendering
+  // --------------------------------------------------------------------------------------
 
   return (
     <StyledSafeAreaView

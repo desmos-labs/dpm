@@ -8,11 +8,15 @@ import useStyles from './useStyles';
 
 export type SingleButtonModalParams = {
   /**
-   * Modal text.
+   * Text to be shown under the loading animation.
    */
   text: string;
 };
 
+/**
+ * Modal that shows a loading animation.
+ * @constructor
+ */
 const LoadingModal: React.FC<ModalComponentProps<SingleButtonModalParams>> = (props) => {
   const { params } = props;
   const styles = useStyles();

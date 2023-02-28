@@ -11,7 +11,7 @@ import ROUTES from 'navigation/routes';
 import { useTranslation } from 'react-i18next';
 import { setUserPassword } from 'lib/SecureStorage';
 import Spacer from 'components/Spacer';
-import { useChangeUserPassword } from 'screens/SettingsChangeWalletPassword/useHooks';
+import { useChangeUserPassword } from './hooks';
 import useStyles from './useStyles';
 
 type NavProps = StackScreenProps<
@@ -19,34 +19,57 @@ type NavProps = StackScreenProps<
   ROUTES.SETTINGS_CHANGE_APPLICATION_PASSWORD
 >;
 
+/**
+ * Screen that allows the user to change the application password.
+ * @constructor
+ */
 const SettingsChangeWalletPassword = (props: NavProps) => {
-  const { navigation } = props;
   const { t } = useTranslation('settings');
   const styles = useStyles();
 
+  const { navigation } = props;
+
   const { loading: changingPassword, changePassword } = useChangeUserPassword();
+
+  // --------------------------------------------------------------------------------------
+  // --- Local state
+  // --------------------------------------------------------------------------------------
 
   const [oldPassword, setOldPassword] = useState<string | undefined>(undefined);
   const [oldPasswordError, setOldPasswordError] = useState<string | undefined>(undefined);
-  const onOldPasswordChange = useCallback(
-    (value: string) => {
-      setOldPassword(value);
-      setOldPasswordError(undefined);
-    },
-    [setOldPassword],
-  );
-
   const [newPassword, setNewPassword] = useState<string | undefined>(undefined);
-  const onNewPasswordChange = useCallback(
-    (value: string) => setNewPassword(value),
-    [setNewPassword],
-  );
+  const [errorMessage, setErrorMessage] = useState<string | undefined>(undefined);
 
+  // Determines whether the continue button is enabled
   const canContinue = useMemo(
     () => oldPassword && newPassword && !oldPasswordError,
     [newPassword, oldPassword, oldPasswordError],
   );
 
+  // --------------------------------------------------------------------------------------
+  // --- Actions
+  // --------------------------------------------------------------------------------------
+
+  // Callback that is called when the user changes the old password
+  const onOldPasswordChange = useCallback(
+    (value: string) => {
+      setErrorMessage(undefined);
+      setOldPasswordError(undefined);
+      setOldPassword(value);
+    },
+    [setOldPassword],
+  );
+
+  // Callback that is called when the user changes the new password
+  const onNewPasswordChange = useCallback(
+    (value: string) => {
+      setErrorMessage(undefined);
+      setNewPassword(value);
+    },
+    [setNewPassword],
+  );
+
+  // Callback that is called when the user presses the continue button
   const onContinue = useCallback(async () => {
     const success = await changePassword(oldPassword, newPassword);
     if (!success) {
@@ -59,9 +82,17 @@ const SettingsChangeWalletPassword = (props: NavProps) => {
     }
 
     // Set the new password and go back
-    await setUserPassword(newPassword);
-    navigation.goBack();
+    const result = await setUserPassword(newPassword);
+    if (result.isErr()) {
+      setErrorMessage(result.error.message);
+    } else {
+      navigation.goBack();
+    }
   }, [changePassword, navigation, newPassword, oldPassword, t]);
+
+  // --------------------------------------------------------------------------------------
+  // --- Screen rendering
+  // --------------------------------------------------------------------------------------
 
   return (
     <StyledSafeAreaView
@@ -102,7 +133,6 @@ const SettingsChangeWalletPassword = (props: NavProps) => {
             onChangeText={onNewPasswordChange}
             onSubmitEditing={onContinue}
           />
-          <Typography.Body style={styles.errorParagraph}>{/* {errorMessage} */}</Typography.Body>
         </View>
       </View>
 
@@ -119,6 +149,11 @@ const SettingsChangeWalletPassword = (props: NavProps) => {
         >
           {t('common:confirm')}
         </Button>
+
+        {/* Error message */}
+        {errorMessage && (
+          <Typography.Body style={styles.errorParagraph}>{{ errorMessage }}</Typography.Body>
+        )}
       </KeyboardAvoidingView>
     </StyledSafeAreaView>
   );

@@ -14,7 +14,7 @@ import { Wallet } from 'types/wallet';
 import useOnBackAction from 'hooks/useOnBackAction';
 import { useUnlockWalletWithPassword } from 'screens/UnlockWallet/useHooks';
 import { SigningMode } from '@desmoslabs/desmjs';
-import { useSettings } from '@recoil/settings';
+import { useSetting } from '@recoil/settings';
 import { BiometricAuthorizations } from 'types/settings';
 import useGetPasswordFromBiometrics from 'hooks/useGetPasswordFromBiometrics';
 import useStyles from './useStyles';
@@ -40,18 +40,24 @@ export interface UnlockWalletParams {
 
 type Props = StackScreenProps<RootNavigatorParamList, ROUTES.UNLOCK_WALLET>;
 
+/**
+ * Screen that allows the user to unlock their wallet.
+ * @constructor
+ */
 const UnlockWallet: React.FC<Props> = (props) => {
   const styles = useStyles();
   const { t } = useTranslation('account');
 
-  const { onSuccess, address, onCancel, signingMode } = props.route.params;
+  const { route } = props;
+  const { params } = route;
+  const { onSuccess, address, onCancel, signingMode } = params;
 
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState<string>();
-  const [inputPassword, setInputInputPassword] = useState('');
+  // --------------------------------------------------------------------------------------
+  // --- Hooks
+  // --------------------------------------------------------------------------------------
 
   const unlockWalletWithPassword = useUnlockWalletWithPassword();
-  const appSettings = useSettings();
+  const unlockWithBiometrics = useSetting('unlockWalletWithBiometrics');
   const getPasswordFromBiometrics = useGetPasswordFromBiometrics(
     BiometricAuthorizations.UnlockWallet,
   );
@@ -59,27 +65,44 @@ const UnlockWallet: React.FC<Props> = (props) => {
   // Cancel if the user close this screen.
   useOnBackAction(() => onCancel !== undefined && onCancel(), [onCancel]);
 
+  // --------------------------------------------------------------------------------------
+  // --- Local state
+  // --------------------------------------------------------------------------------------
+
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string>();
+  const [inputPassword, setInputInputPassword] = useState('');
+
+  // --------------------------------------------------------------------------------------
+  // --- Actions
+  // --------------------------------------------------------------------------------------
+
+  // Callback called when the user press the unlock button
   const unlockWallet = useCallback(
     async (unlockWalletPassword: string | undefined) => {
+      if (!unlockWalletPassword) return;
+
       setLoading(true);
-      try {
-        setError(undefined);
-        if (unlockWalletPassword !== undefined) {
-          const wallet = await unlockWalletWithPassword(address, unlockWalletPassword, signingMode);
-          if (wallet !== undefined) {
-            await wallet.signer.connect();
-            onSuccess(wallet);
-          }
-        }
-      } catch (e) {
-        if (e.message.indexOf('BAD_DECRYPT') !== 0) {
-          setError(t('wrong password'));
-        } else {
-          setError(e.message);
-        }
-      } finally {
-        setLoading(false);
+
+      // Unlock the wallet
+      const result = await unlockWalletWithPassword(address, unlockWalletPassword, signingMode);
+      if (result.isErr()) {
+        const { message } = result.error;
+        setError(message.indexOf('BAD_DECRYPT') !== 0 ? t('wrong password') : message);
+        return;
       }
+
+      // Make sure the wallet is valid
+      const { value: wallet } = result;
+      if (!wallet) {
+        // The user has gone back (ie. when connecting to the Ledger), before completing the unlock
+        return;
+      }
+
+      // Connect the signer to be able to use the wallet
+      await wallet.signer.connect();
+      onSuccess(wallet);
+      setLoading(false);
     },
     [unlockWalletWithPassword, address, signingMode, onSuccess, t],
   );
@@ -93,16 +116,25 @@ const UnlockWallet: React.FC<Props> = (props) => {
     await unlockWallet(inputPassword);
   }, [unlockWallet, inputPassword]);
 
+  // --------------------------------------------------------------------------------------
+  // --- Effects
+  // --------------------------------------------------------------------------------------
+
   useEffect(() => {
-    if (appSettings.unlockWalletWithBiometrics) {
+    if (unlockWithBiometrics) {
       setLoading(true);
       // Use a timeout to allow the application to show the screen
       // before displaying the os biometrics modal.
       setTimeout(unlockWalletWithBiometrics, 500);
     }
 
+    // It's fine to disable the exhaustive deps check here because we only want to run this effect only once
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  // --------------------------------------------------------------------------------------
+  // --- Screen rendering
+  // --------------------------------------------------------------------------------------
 
   return (
     <View style={styles.root}>
@@ -113,7 +145,7 @@ const UnlockWallet: React.FC<Props> = (props) => {
           value={inputPassword}
           onChangeText={setInputInputPassword}
           placeholder={t('common:password')}
-          autoFocus={!appSettings.unlockWalletWithBiometrics}
+          autoFocus={!unlockWithBiometrics}
           onSubmitEditing={unlockWalletWithWithPassword}
         />
         <Typography.Body style={styles.errorMsg}>{error}</Typography.Body>

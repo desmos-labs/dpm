@@ -3,6 +3,9 @@ import { deleteBiometricAuthorization } from 'lib/SecureStorage';
 import { BiometricAuthorizations } from 'types/settings';
 import { useSetAppState } from '@recoil/appState';
 
+/**
+ * Hook to remove the biometric authentication data, disabling this method.
+ */
 const useDeletePasswordFromBiometrics = () => {
   const setAppState = useSetAppState();
 

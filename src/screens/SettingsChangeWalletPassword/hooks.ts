@@ -1,6 +1,9 @@
 import React, { useState } from 'react';
 import { changeWalletsPassword } from 'lib/SecureStorage';
 
+/**
+ * Hook to change the user password.
+ */
 export const useChangeUserPassword = () => {
   const [loading, setLoading] = useState<boolean>(false);
 

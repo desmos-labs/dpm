@@ -91,7 +91,7 @@ const AccountPicker: React.FC<AccountPickerProps> = ({ onAccountSelected, params
         </>
       );
     },
-    [selectedAccount, onAccountSelected, setSelectedAccount],
+    [selectedAccount?.account.address, styles.separator, onAccountSelected],
   );
 
   const listKeyExtractor = useCallback((item: AccountWithWallet) => item.account.address, []);

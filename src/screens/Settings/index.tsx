@@ -8,7 +8,7 @@ import Flexible from 'components/Flexible';
 import StyledSafeAreaView from 'components/StyledSafeAreaView';
 import { RootNavigatorParamList } from 'navigation/RootNavigator';
 import ROUTES from 'navigation/routes';
-import { useSetSettings, useSettings } from '@recoil/settings';
+import { useSetSetting, useSetting } from '@recoil/settings';
 import TopBar from 'components/TopBar';
 import OpenSettingScreenButton from 'screens/Settings/components/OpenSettingScreenButton';
 import { BiometricAuthorizations } from 'types/settings';
@@ -17,72 +17,40 @@ import useStyles from './useStyles';
 
 export type NavProps = StackScreenProps<RootNavigatorParamList, ROUTES.SETTINGS>;
 
+/**
+ * Screen that shows the settings of the app.
+ * @param props
+ * @constructor
+ */
 const Settings = (props: NavProps) => {
-  const { navigation } = props;
   const { t } = useTranslation('settings');
   const styles = useStyles();
 
-  const settings = useSettings();
-  const setSettings = useSetSettings();
-  const [biometricsSupported, setBiometricsSupported] = React.useState(false);
+  const { navigation } = props;
+
+  // --------------------------------------------------------------------------------------
+  // --- Hooks
+  // --------------------------------------------------------------------------------------
+
+  const unlockWalletWithBiometrics = useSetting('unlockWalletWithBiometrics');
+  const setUnlockWalletWalletWithBiometrics = useSetSetting('unlockWalletWithBiometrics');
+
+  const loginWithBiometrics = useSetting('loginWithBiometrics');
+  const setLoginWithBiometrics = useSetSetting('loginWithBiometrics');
+
   const deletePasswordFromBiometrics = useDeletePasswordFromBiometrics();
 
-  const sendFeedback = useCallback(async () => {
-    Linking.openURL('mailto:development@forbole.com');
-  }, []);
+  // --------------------------------------------------------------------------------------
+  // --- Local state
+  // --------------------------------------------------------------------------------------
 
-  const openAbout = useCallback(async () => {
-    navigation.navigate(ROUTES.MARKDOWN_TEXT, {
-      title: t('about dpm'),
-      fileName: 'about.md',
-    });
-  }, [navigation, t]);
+  const [biometricsSupported, setBiometricsSupported] = React.useState(false);
 
-  const openPrivacy = useCallback(async () => {
-    navigation.navigate(ROUTES.MARKDOWN_TEXT, {
-      title: t('legal:privacy policy'),
-      fileName: 'privacy.md',
-    });
-  }, [navigation, t]);
+  // --------------------------------------------------------------------------------------
+  // --- Actions
+  // --------------------------------------------------------------------------------------
 
-  const navigateToGithub = useCallback(() => {
-    Linking.openURL('https://github.com/desmos-labs/dpm');
-  }, []);
-
-  const navigateHandleBiometrics = useCallback(
-    async (biometricsType: BiometricAuthorizations) => {
-      navigation.navigate(ROUTES.SETTINGS_ENABLE_BIOMETRICS_AUTHORIZATION, {
-        biometricsType,
-      });
-    },
-    [navigation],
-  );
-
-  const turnOffBiometrics = useCallback(
-    async (biometricsType: BiometricAuthorizations) => {
-      const biometricsDisabled = await deletePasswordFromBiometrics(biometricsType);
-      if (biometricsDisabled) {
-        setSettings((currentSettings) => {
-          if (biometricsType === BiometricAuthorizations.Login) {
-            return {
-              ...currentSettings,
-              loginWithBiometrics: false,
-            };
-          }
-          if (biometricsType === BiometricAuthorizations.UnlockWallet) {
-            return {
-              ...currentSettings,
-              unlockWalletWithBiometrics: false,
-            };
-          }
-          return currentSettings;
-        });
-      }
-    },
-    [deletePasswordFromBiometrics, setSettings],
-  );
-
-  const areBiometricsSupported = useCallback(async () => {
+  const checkBiometricsSupported = useCallback(async () => {
     try {
       const supported = await Keychain.getSupportedBiometryType();
       setBiometricsSupported(supported != null);
@@ -91,9 +59,69 @@ const Settings = (props: NavProps) => {
     }
   }, []);
 
+  const handleSendFeedback = useCallback(async () => {
+    Linking.openURL('mailto:development@forbole.com');
+  }, []);
+
+  const handleOpenAbout = useCallback(async () => {
+    navigation.navigate(ROUTES.MARKDOWN_TEXT, {
+      title: t('about dpm'),
+      fileName: 'about.md',
+    });
+  }, [navigation, t]);
+
+  const handleOpenPrivacy = useCallback(async () => {
+    navigation.navigate(ROUTES.MARKDOWN_TEXT, {
+      title: t('legal:privacy policy'),
+      fileName: 'privacy.md',
+    });
+  }, [navigation, t]);
+
+  const handleNavigateToGithub = useCallback(() => {
+    Linking.openURL('https://github.com/desmos-labs/dpm');
+  }, []);
+
+  const handleEnableBiometrics = useCallback(
+    async (biometricsType: BiometricAuthorizations) => {
+      navigation.navigate(ROUTES.SETTINGS_ENABLE_BIOMETRICS_AUTHORIZATION, {
+        biometricsType,
+      });
+    },
+    [navigation],
+  );
+
+  const handleDisableBiometrics = useCallback(
+    async (biometricsType: BiometricAuthorizations) => {
+      const result = await deletePasswordFromBiometrics(biometricsType);
+      if (result.isErr()) {
+        // TODO: Handle the error here
+        return;
+      }
+
+      switch (biometricsType) {
+        case BiometricAuthorizations.Login:
+          setLoginWithBiometrics(false);
+          break;
+        case BiometricAuthorizations.UnlockWallet:
+          setUnlockWalletWalletWithBiometrics(false);
+          break;
+        default:
+      }
+    },
+    [deletePasswordFromBiometrics, setLoginWithBiometrics, setUnlockWalletWalletWithBiometrics],
+  );
+
+  // --------------------------------------------------------------------------------------
+  // --- Effects
+  // --------------------------------------------------------------------------------------
+
   useEffect(() => {
-    areBiometricsSupported();
-  }, [areBiometricsSupported]);
+    checkBiometricsSupported();
+  }, [checkBiometricsSupported]);
+
+  // --------------------------------------------------------------------------------------
+  // --- Screen rendering
+  // --------------------------------------------------------------------------------------
 
   return (
     <StyledSafeAreaView
@@ -115,29 +143,29 @@ const Settings = (props: NavProps) => {
         />
         <Flexible.SectionSwitch
           label={t('enable face id for signature')}
-          value={settings.unlockWalletWithBiometrics}
+          value={unlockWalletWithBiometrics}
           isDisabled={!biometricsSupported}
           onPress={
-            settings.unlockWalletWithBiometrics
-              ? () => turnOffBiometrics(BiometricAuthorizations.UnlockWallet)
-              : () => navigateHandleBiometrics(BiometricAuthorizations.UnlockWallet)
+            unlockWalletWithBiometrics
+              ? () => handleDisableBiometrics(BiometricAuthorizations.UnlockWallet)
+              : () => handleEnableBiometrics(BiometricAuthorizations.UnlockWallet)
           }
         />
         <Flexible.SectionSwitch
           label={t('enable face id for login')}
-          value={settings.loginWithBiometrics}
+          value={loginWithBiometrics}
           isDisabled={!biometricsSupported}
           onPress={
-            settings.loginWithBiometrics
-              ? () => turnOffBiometrics(BiometricAuthorizations.Login)
-              : () => navigateHandleBiometrics(BiometricAuthorizations.Login)
+            loginWithBiometrics
+              ? () => handleDisableBiometrics(BiometricAuthorizations.Login)
+              : () => handleEnableBiometrics(BiometricAuthorizations.Login)
           }
         />
       </Flexible.Section>
 
       {/* Support section */}
       <Flexible.Section style={styles.sectionMargin} title={t('support')}>
-        <Flexible.SectionButton label={t('feedback')} onPress={sendFeedback} />
+        <Flexible.SectionButton label={t('feedback')} onPress={handleSendFeedback} />
         <OpenSettingScreenButton
           title={t('join community')}
           route={ROUTES.SETTINGS_JOIN_COMMUNITY}
@@ -146,9 +174,9 @@ const Settings = (props: NavProps) => {
 
       {/* About section */}
       <Flexible.Section style={styles.sectionMargin} title={t('about')}>
-        <Flexible.SectionButton label={t('about dpm')} onPress={openAbout} />
-        <Flexible.SectionButton label={t('legal:privacy policy')} onPress={openPrivacy} />
-        <Flexible.SectionButton label={t('open source')} onPress={navigateToGithub} />
+        <Flexible.SectionButton label={t('about dpm')} onPress={handleOpenAbout} />
+        <Flexible.SectionButton label={t('legal:privacy policy')} onPress={handleOpenPrivacy} />
+        <Flexible.SectionButton label={t('open source')} onPress={handleNavigateToGithub} />
         <Flexible.SectionText label={t('version')} value={DeviceInfo.getVersion()} />
       </Flexible.Section>
     </StyledSafeAreaView>
