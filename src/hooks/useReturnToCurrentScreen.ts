@@ -3,12 +3,12 @@ import { useNavigation } from '@react-navigation/native';
 import { StackNavigationProp } from '@react-navigation/stack/lib/typescript/src/types';
 import { RootNavigatorParamList } from 'navigation/RootNavigator';
 import { ModalScreenParams } from 'modals/ModalScreen';
-import ErrorModal from 'modals/ErrorModal';
+import LoadingModal from 'modals/LoadingModal';
 
 /**
  * List of modal component that we should ignore when going back.
  */
-const ToIgnoreModals = [ErrorModal];
+const ToIgnoreModals = [LoadingModal];
 
 const useReturnToCurrentScreen = () => {
   const navigator = useNavigation<StackNavigationProp<RootNavigatorParamList>>();
