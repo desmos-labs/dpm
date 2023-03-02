@@ -1,3 +1,4 @@
+import { defaultProfilePicture } from 'assets/images';
 import { DesmosProfile } from 'types/desmos';
 
 /**
@@ -15,3 +16,10 @@ export const getProfileDisplayName = (profile: DesmosProfile): string | undefine
       return undefined;
   }
 };
+
+/**
+ * Returns the profile picture associated to the provided Desmos profile.
+ * @param profile {DesmosProfile} which profile picture should be returned.
+ */
+export const getProfilePicture = (profile: DesmosProfile | undefined) =>
+  profile?.profilePicture ? { uri: profile?.profilePicture } : defaultProfilePicture;
