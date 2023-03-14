@@ -13,7 +13,7 @@ import BluetoothTransport from '@ledgerhq/react-native-hw-transport-ble';
 import { DPMAnimations, DPMImages } from 'types/images';
 import ROUTES from 'navigation/routes';
 import { ConnectToLedgerStackParamList } from 'navigation/RootNavigator/ConnectToLedgerStack';
-import { useConnectToLedger } from './useHooks';
+import { useConnectToLedger } from './hooks';
 import useStyles from './useStyles';
 
 export interface ConnectToLedgerParams {
