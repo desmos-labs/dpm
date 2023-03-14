@@ -114,10 +114,10 @@ const AccountPicker: React.FC<AccountPickerProps> = ({ onAccountSelected, params
         <PaginatedFlatList
           extraData={selectedAccount}
           loadPage={fetchWallets}
-          itemsPerPage={15}
+          itemsPerPage={10}
           renderItem={renderListItem}
           keyExtractor={listKeyExtractor}
-          onEndReachedThreshold={0.5}
+          onEndReachedThreshold={0.2}
           estimatedItemSize={89}
         />
       ) : null}

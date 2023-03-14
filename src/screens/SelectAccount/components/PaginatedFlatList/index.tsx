@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import StyledActivityIndicator from 'components/StyledActivityIndicator';
 import {
   FlashList,
@@ -62,16 +62,6 @@ const PaginatedFlatList = (props: PaginatedFlashListProps<any>) => {
       onEndReached();
     }
   }, [loading, onEndReached, fetchNextPage]);
-
-  useEffect(() => {
-    if (currentOffset === 0) {
-      fetchNextPage().then(() => {});
-    }
-
-    // Safe to ignore, since we need to fetch the first page when the component
-    // is ready.
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
 
   return (
     <FlashList
