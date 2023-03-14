@@ -4,6 +4,16 @@ import ButtonProps from './props';
 const useStyles = makeStyleWithProps((props: ButtonProps, theme) => {
   const accent = props.accent ? theme.colors.accent : theme.colors.primary;
   const color = props.color ? props.color : accent;
+
+  let labelColor = props.mode === 'contained' ? theme.colors.font['5'] : color;
+  let borderColor = color;
+  if (props.disabled) {
+    borderColor = theme.colors.font['3'];
+    if (props.mode !== 'contained') {
+      labelColor = theme.colors.font['3'];
+    }
+  }
+
   return {
     labelStyle: {
       fontFamily: 'Poppins-Medium',
@@ -12,11 +22,11 @@ const useStyles = makeStyleWithProps((props: ButtonProps, theme) => {
       fontSize: 16,
       lineHeight: 24,
       letterSpacing: 0.0125,
-      color: props.mode === 'contained' ? theme.colors.font['5'] : color,
+      color: labelColor,
       textTransform: 'capitalize',
     },
     btnStyle: {
-      borderColor: color,
+      borderColor,
       borderWidth: props.mode === 'outlined' ? 1 : 0,
       elevation: 0,
     },
