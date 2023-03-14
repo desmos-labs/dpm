@@ -1,7 +1,7 @@
 import { LedgerConnector } from '@cosmjs/ledger-amino';
 import BluetoothTransport from '@ledgerhq/react-native-hw-transport-ble';
 import React, { useCallback, useEffect, useState } from 'react';
-import { BLELedger, LedgerApp } from 'types/ledger';
+import { BLELedger, LedgerApp, LedgerErrorType } from 'types/ledger';
 import { err, ok, ResultAsync } from 'neverthrow';
 import {
   convertErrorToLedgerError,
@@ -9,6 +9,7 @@ import {
   isWrongApplicationError,
 } from 'lib/LedgerUtils/errors';
 import { closeApp, openApp, openLedgerTransport } from 'lib/LedgerUtils/commands';
+import { useTranslation } from 'react-i18next';
 
 /**
  * Hook that provides a function to connect to a Ledger device.
@@ -16,6 +17,7 @@ import { closeApp, openApp, openLedgerTransport } from 'lib/LedgerUtils/commands
  * @param ledgerApp - The app that the Ledger device should have opened.
  */
 export function useConnectToLedger(ledger: BLELedger, ledgerApp: LedgerApp) {
+  const { t } = useTranslation('connectToLedger');
   const [connecting, setConnecting] = useState(true);
   const [connected, setConnected] = useState(false);
   const [transport, setTransport] = useState<BluetoothTransport | undefined>();
@@ -77,14 +79,29 @@ export function useConnectToLedger(ledger: BLELedger, ledgerApp: LedgerApp) {
       const connectResult = await performConnection(ledgerToConnect, ledgerAppToUse);
 
       if (connectResult.isErr()) {
-        setConnectionError(connectResult.error.message);
+        switch (connectResult.error.name) {
+          case LedgerErrorType.ConnectionFailed:
+            setConnectionError(t('connection failed'));
+            break;
+          case LedgerErrorType.DeviceDisconnected:
+            setConnectionError(t('device disconnected'));
+            break;
+          case LedgerErrorType.ApplicationOpenRejected:
+            setConnectionError(
+              t('please open the application', { application: ledgerAppToUse.name }),
+            );
+            break;
+          default:
+            setConnectionError(connectResult.error.message);
+            break;
+        }
       } else {
         setTransport(connectResult.value);
         setConnected(true);
       }
       setConnecting(false);
     },
-    [performConnection],
+    [performConnection, t],
   );
 
   const retry = useCallback(

@@ -1,6 +1,6 @@
 import BluetoothTransport from '@ledgerhq/react-native-hw-transport-ble';
 import { err, Result, ResultAsync } from 'neverthrow';
-import { convertErrorToLedgerError } from 'lib/LedgerUtils/errors';
+import { convertErrorToLedgerError, isUnknownLedgerError } from 'lib/LedgerUtils/errors';
 import { ApplicationOpenRejectedError, LedgerError } from 'types/ledger';
 
 async function delay(ms: number): Promise<void> {
@@ -47,8 +47,12 @@ export async function openApp(
     return openLedgerTransport(transport.id);
   }
 
-  // Application open rejected from the user.
-  return err(new ApplicationOpenRejectedError());
+  if (isUnknownLedgerError(openAppResult.error)) {
+    // Application open rejected from the user.
+    return err(new ApplicationOpenRejectedError());
+  }
+
+  return err(openAppResult.error);
 }
 
 /**

@@ -1,0 +1,5 @@
+{
+  "connection failed": "Connection failed",
+  "device disconnected": "The device has disconnected for unknown reasons",
+  "please open the application": "Pleas open the {{application}} application on the Ledger device"
+}
