@@ -40,6 +40,7 @@ const AccountPicker: React.FC<AccountPickerProps> = ({ onAccountSelected, params
     }
     return undefined;
   }, [params]);
+  const [toggleAddressPickerDisabled, setToggleAddressPickerDisabled] = useState(true);
   const [selectedHdPath, setSelectedHdPath] = useState<HdPath | undefined>(masterHdPath);
   const [selectedAccount, setSelectedAccount] = useState<AccountWithWallet | null>(null);
   const [addressPickerVisible, setAddressPickerVisible] = useState(true);
@@ -114,10 +115,11 @@ const AccountPicker: React.FC<AccountPickerProps> = ({ onAccountSelected, params
         <PaginatedFlatList
           extraData={selectedAccount}
           loadPage={fetchWallets}
-          itemsPerPage={15}
+          onLoadStateChange={setToggleAddressPickerDisabled}
+          itemsPerPage={10}
           renderItem={renderListItem}
           keyExtractor={listKeyExtractor}
-          onEndReachedThreshold={0.5}
+          onEndReachedThreshold={0.2}
           estimatedItemSize={89}
         />
       ) : null}
@@ -126,6 +128,7 @@ const AccountPicker: React.FC<AccountPickerProps> = ({ onAccountSelected, params
 
       {masterHdPath !== undefined && (
         <Button
+          disabled={toggleAddressPickerDisabled}
           mode="text"
           onPress={toggleAddressPicker}
           labelStyle={styles.pickerOptionButtonLabel}

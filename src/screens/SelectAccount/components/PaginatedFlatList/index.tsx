@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import StyledActivityIndicator from 'components/StyledActivityIndicator';
 import {
   FlashList,
@@ -20,17 +20,30 @@ export type PaginatedFlashListProps<ItemT> = Omit<FlashListProps<ItemT>, 'data'>
    * Amount of items to load when the list reach the end.
    */
   itemsPerPage: number;
+
+  /**
+   * Callback called when the loading state changes.
+   */
+  onLoadStateChange?: (loading: boolean) => any;
 };
 
 const PaginatedFlatList = (props: PaginatedFlashListProps<any>) => {
-  const { loadPage, itemsPerPage, onEndReached } = props;
+  const { loadPage, itemsPerPage, onEndReached, onLoadStateChange } = props;
   const [loading, setLoading] = useState(false);
   const [currentOffset, setCurrentOffset] = useState(0);
   const [data, setData] = useState<any[]>([]);
   const theme = useTheme();
 
+  const setLoadingState = useCallback(
+    (l: boolean) => {
+      if (onLoadStateChange) onLoadStateChange(l);
+      setLoading(l);
+    },
+    [onLoadStateChange],
+  );
+
   const fetchNextPage = useCallback(async () => {
-    setLoading(true);
+    setLoadingState(true);
     const fetched: any[] = [];
     let itemsAvailable = true;
     let offset = currentOffset;
@@ -51,8 +64,8 @@ const PaginatedFlatList = (props: PaginatedFlashListProps<any>) => {
       setData((current) => [...current, ...fetched]);
     }
     setCurrentOffset(offset);
-    setLoading(false);
-  }, [currentOffset, loadPage, itemsPerPage]);
+    setLoadingState(false);
+  }, [setLoadingState, currentOffset, itemsPerPage, loadPage]);
 
   const onPageEndReached = useCallback(() => {
     if (!loading) {
@@ -62,16 +75,6 @@ const PaginatedFlatList = (props: PaginatedFlashListProps<any>) => {
       onEndReached();
     }
   }, [loading, onEndReached, fetchNextPage]);
-
-  useEffect(() => {
-    if (currentOffset === 0) {
-      fetchNextPage().then(() => {});
-    }
-
-    // Safe to ignore, since we need to fetch the first page when the component
-    // is ready.
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
 
   return (
     <FlashList
