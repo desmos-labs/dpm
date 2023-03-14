@@ -3,6 +3,7 @@ import messages from './messages';
 import account from './account.json';
 import chainLinks from './chainLinks.json';
 import common from './common.json';
+import connectToLedger from './connectToLedger.json';
 import landing from './landing.json';
 import ledgerScan from './ledgerScan.json';
 import legal from './legal.json';
@@ -26,6 +27,7 @@ const en = {
   account,
   chainLinks,
   common,
+  connectToLedger,
   landing,
   ledgerScan,
   legal,

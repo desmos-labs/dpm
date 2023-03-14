@@ -87,7 +87,10 @@ const PerformLedgerScan: React.FC<NavProps> = ({ navigation, route }) => {
             }
           }}
         >
-          {t('grant permissions')}
+          {Platform.select({
+            ios: t('grant permissions ios'),
+            android: t('grant permissions android'),
+          })}
         </Button>
       );
     }

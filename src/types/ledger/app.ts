@@ -1,18 +1,6 @@
 import { ImageSourcePropType } from 'react-native';
 import { HdPath } from '@cosmjs/crypto';
 
-export type Subscription = {
-  unsubscribe: () => void;
-};
-
-/**
- * Type that represents a Bluetooth Low Energy Ledger device.
- */
-export type BLELedger = {
-  id: string;
-  name: string;
-};
-
 /**
  * Type that represents an application that can be installed on a Ledger device.
  */
