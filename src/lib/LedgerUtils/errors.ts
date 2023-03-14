@@ -1,4 +1,5 @@
 import {
+  ApplicationOpenRejectedError,
   ConnectionFailedError,
   DeviceDisconnectedError,
   LedgerError,
@@ -71,6 +72,16 @@ export function isNoApplicationOpenedError(error: LedgerError): error is NoAppli
  */
 export function isWrongApplicationError(error: LedgerError): error is WrongApplicationError {
   return error.name === LedgerErrorType.WrongApplication;
+}
+
+/**
+ * Function to check if the provided error is an instance of WrongApplicationError.
+ * @param error - Error to check.
+ */
+export function isApplicationOpenRejectedError(
+  error: LedgerError,
+): error is ApplicationOpenRejectedError {
+  return error.name === LedgerErrorType.ApplicationOpenRejected;
 }
 
 /**

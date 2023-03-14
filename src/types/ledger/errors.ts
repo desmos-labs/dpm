@@ -6,6 +6,7 @@ export enum LedgerErrorType {
   NoApplicationOpened = 'NoApplicationOpenedError',
   WrongApplication = 'WrongApplicationError',
   DeviceDisconnected = 'DeviceDisconnectedError',
+  ApplicationOpenRejected = 'ApplicationOpenRejected',
   Unknown = 'UnknownError',
 }
 
@@ -65,6 +66,16 @@ export class DeviceDisconnectedError extends Error {
 }
 
 /**
+ * Error that tells that the user have reject the application open request.
+ */
+export class ApplicationOpenRejectedError extends Error {
+  constructor() {
+    super('Application open rejected from the user.');
+    this.name = LedgerErrorType.ApplicationOpenRejected;
+  }
+}
+
+/**
  * Unknown Ledger error.
  */
 export class UnknownLedgerError extends Error {
@@ -78,4 +89,5 @@ export type LedgerError =
   | NoApplicationOpenedError
   | WrongApplicationError
   | DeviceDisconnectedError
+  | ApplicationOpenRejectedError
   | UnknownLedgerError;
