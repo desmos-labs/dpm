@@ -1,3 +1,7 @@
+// Disable max classes per file lint error to have a single file
+// that contains all the possible Ledger related errors.
+/* eslint-disable max-classes-per-file */
+
 /**
  * Enum that contains the possible Ledger error types.
  */
