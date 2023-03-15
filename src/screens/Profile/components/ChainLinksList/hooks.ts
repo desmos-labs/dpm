@@ -1,5 +1,5 @@
 import { Account, AccountWithWallet } from 'types/account';
-import { useCallback, useMemo } from 'react';
+import React, { useCallback, useMemo } from 'react';
 import useImportAccount from 'hooks/useImportAccount';
 import LinkableChains from 'config/LinkableChains';
 import { toHex } from '@cosmjs/encoding';
@@ -26,9 +26,10 @@ import { singleSignatureToAny } from '@desmoslabs/desmjs/build/aminomessages/pro
 import { getAddress } from 'lib/ChainsUtils';
 import useBroadcastTx from 'hooks/useBroadcastTx';
 import { useActiveAccount, useActiveAccountAddress } from '@recoil/activeAccount';
-import useSignTx, { OfflineSignResult, SignMode } from 'hooks/useSignTx';
+import useSignTx, { SignMode } from 'hooks/tx/useSignTx';
 import { ChainLink } from 'types/desmos';
 import { useStoreUserChainLinks } from '@recoil/chainLinks';
+import { err, ok, Result } from 'neverthrow';
 
 const useSaveChainLinkAccount = () => {
   const activeAccountAddress = useActiveAccountAddress();
@@ -66,7 +67,11 @@ const useGenerateProof = () => {
   const signTx = useSignTx();
 
   return useCallback(
-    async (desmosAccount: Account, chain: SupportedChain, account: AccountWithWallet) => {
+    async (
+      desmosAccount: Account,
+      chain: SupportedChain,
+      account: AccountWithWallet,
+    ): Promise<Result<Proof, Error>> => {
       const fees: StdFee = {
         gas: '0',
         amount: [],
@@ -76,8 +81,7 @@ const useGenerateProof = () => {
         chainId: chain.name,
         sequence: 0,
       };
-
-      const { signatureResult } = <OfflineSignResult>await signTx(account.wallet, {
+      const signResult = await signTx(account.wallet, {
         mode: SignMode.Offline,
         messages: [],
         fees,
@@ -85,9 +89,14 @@ const useGenerateProof = () => {
         memo: desmosAccount.address,
       });
 
-      const pubKeyBytes = getPubKeyRawBytes(signatureResult);
-      const signatureBytes = getSignatureBytes(signatureResult);
-      const signedBytes = getSignedBytes(signatureResult);
+      if (signResult.isErr()) {
+        return err(signResult.error);
+      }
+
+      const signature = signResult.value;
+      const pubKeyBytes = getPubKeyRawBytes(signature);
+      const signatureBytes = getSignatureBytes(signature);
+      const signedBytes = getSignedBytes(signature);
 
       const proofPlainText = toHex(signedBytes);
       const proofSignature = singleSignatureToAny(
@@ -108,11 +117,13 @@ const useGenerateProof = () => {
         ).finish(),
       });
 
-      return Proof.fromPartial({
-        signature: proofSignature,
-        plainText: proofPlainText,
-        pubKey: proofPubKey,
-      });
+      return ok(
+        Proof.fromPartial({
+          signature: proofSignature,
+          plainText: proofPlainText,
+          pubKey: proofPubKey,
+        }),
+      );
     },
     [signTx],
   );
@@ -125,23 +136,31 @@ const useGenerateMsgLinkChainAccount = () => {
   const generateProof = useGenerateProof();
   const activeAccount = useActiveAccount();
 
-  return useCallback(
-    async (chain: SupportedChain, account: AccountWithWallet) => {
+  return React.useCallback(
+    async (
+      chain: SupportedChain,
+      account: AccountWithWallet,
+    ): Promise<Result<MsgLinkChainAccountEncodeObject | undefined, Error>> => {
       if (!activeAccount) {
-        return undefined;
+        return ok(undefined);
       }
 
       const address = getAddress(chain, account);
-      const proof = await generateProof(activeAccount, chain, account);
-      return {
+      const proofResult = await generateProof(activeAccount, chain, account);
+
+      if (proofResult.isErr()) {
+        return err(proofResult.error);
+      }
+
+      return ok({
         typeUrl: MsgLinkChainAccountTypeUrl,
         value: {
-          proof,
+          proof: proofResult.value,
           chainConfig: chain.chainConfig,
           signer: activeAccount.address,
           chainAddress: address,
         },
-      } as MsgLinkChainAccountEncodeObject;
+      } as MsgLinkChainAccountEncodeObject);
     },
     [generateProof, activeAccount],
   );
@@ -169,7 +188,13 @@ const useConnectChain = (onSuccess: () => void, userChainLinks: ChainLink[]) => 
     }
 
     const { account, chain } = accountWithChain;
-    const message = await generateMsgChainLink(chain, account);
+
+    const generateMsgResult = await generateMsgChainLink(chain, account);
+    if (generateMsgResult.isErr()) {
+      return;
+    }
+
+    const message = generateMsgResult.value;
     if (!message) {
       return;
     }

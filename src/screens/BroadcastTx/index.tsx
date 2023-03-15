@@ -1,5 +1,5 @@
 import { StackScreenProps } from '@react-navigation/stack';
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import SingleButtonModal from 'modals/SingleButtonModal';
 import TransactionDetails from 'components/TransactionDetails';
@@ -10,7 +10,7 @@ import Button from 'components/Button';
 import { RootNavigatorParamList } from 'navigation/RootNavigator';
 import ROUTES from 'navigation/routes';
 import { EncodeObject } from '@cosmjs/proto-signing';
-import { useBroadcastTx, useEstimateFees } from 'screens/BroadcastTx/useHooks';
+import { useEstimateFees, useSignAndBroadcastTx } from 'screens/BroadcastTx/hooks';
 import { DPMImages } from 'types/images';
 import { DeliverTxResponse } from '@desmoslabs/desmjs';
 import useOnScreenDetached from 'hooks/useOnScreenDetached';
@@ -54,7 +54,7 @@ const BroadcastTx: React.FC<NavProps> = (props) => {
   const { t } = useTranslation('transaction');
   const styles = useStyles();
 
-  const broadcastTx = useBroadcastTx();
+  const broadcastTx = useSignAndBroadcastTx();
   const showModal = useShowModal();
   const { estimateFees, estimatingFees, estimatedFees } = useEstimateFees();
 
@@ -87,7 +87,7 @@ const BroadcastTx: React.FC<NavProps> = (props) => {
     }
   }, [broadcastTxStatus, onCancel, onError, onSuccess]);
 
-  const showSuccessModal = useCallback(() => {
+  const showSuccessModal = React.useCallback(() => {
     showModal(SingleButtonModal, {
       image: DPMImages.Success,
       title: t('common:success'),
@@ -97,7 +97,7 @@ const BroadcastTx: React.FC<NavProps> = (props) => {
     });
   }, [showModal, t, navigation]);
 
-  const showErrorModal = useCallback(
+  const showErrorModal = React.useCallback(
     (error: string) => {
       showModal(SingleButtonModal, {
         image: DPMImages.Fail,
@@ -110,21 +110,25 @@ const BroadcastTx: React.FC<NavProps> = (props) => {
     [showModal, t, navigation],
   );
 
-  const confirmBroadcast = useCallback(async () => {
-    setBroadcastingTx(true);
-    try {
-      const result = await broadcastTx(messages, estimatedFees, memo);
-      if (result !== undefined) {
-        setBroadcastTxStatus({ status: BroadcastStatus.Success, deliveredTx: result });
-        showSuccessModal();
+  const confirmBroadcast = React.useCallback(async () => {
+    if (estimatedFees !== undefined) {
+      setBroadcastingTx(true);
+      const broadcastResult = await broadcastTx(messages, estimatedFees, memo);
+      if (broadcastResult.isOk()) {
+        const deliveredTx = broadcastResult.value;
+        if (deliveredTx !== undefined) {
+          setBroadcastTxStatus({ status: BroadcastStatus.Success, deliveredTx });
+          showSuccessModal();
+        } else {
+          setBroadcastTxStatus({ status: BroadcastStatus.Cancel });
+        }
       } else {
-        setBroadcastTxStatus({ status: BroadcastStatus.Cancel });
+        const errorMessage = broadcastResult.error.message;
+        setBroadcastTxStatus({ status: BroadcastStatus.Fail, error: errorMessage });
+        showErrorModal(errorMessage);
       }
-    } catch (e) {
-      setBroadcastTxStatus({ status: BroadcastStatus.Fail, error: e.message });
-      showErrorModal(e.message);
+      setBroadcastingTx(false);
     }
-    setBroadcastingTx(false);
   }, [broadcastTx, estimatedFees, memo, messages, showErrorModal, showSuccessModal]);
 
   return (

@@ -6,6 +6,8 @@
   "tx details": "Transaction details",
   "view on explorer": "View on Desmos explorer",
   "tx sent successfully": "Transaction sent successfully",
+  "signing tx": "Signing transaction",
+  "waiting ledger confirmation": "Waiting for Ledger to confirm",
   "broadcasting tx": "Broadcasting transaction",
   "time": "Time",
   "status": "Status",
