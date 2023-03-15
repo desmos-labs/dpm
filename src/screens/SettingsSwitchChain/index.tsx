@@ -21,24 +21,30 @@ const SettingsSwitchChain = (props: NavProps) => {
   const chainName = useSetting('chainName');
   const setChainName = useSetSetting('chainName');
 
-  const changeChain = (newChainName: string) => {
-    setChainName(newChainName);
-  };
+  const changeChain = React.useCallback(
+    (newChainName: string) => {
+      setChainName(newChainName);
+    },
+    [setChainName],
+  );
 
-  const values: RadioValue[] = [
-    {
-      label: t('testnet'),
-      value: DesmosTestnet.chainName,
-      status: chainName === DesmosTestnet.chainName ? 'checked' : 'unchecked',
-      onPress: () => changeChain(DesmosTestnet.chainName),
-    },
-    {
-      label: t('mainnet'),
-      value: DesmosMainnet.chainName,
-      status: chainName === DesmosMainnet.chainName ? 'checked' : 'unchecked',
-      onPress: () => changeChain(DesmosMainnet.chainName),
-    },
-  ];
+  const values: RadioValue[] = React.useMemo(
+    () => [
+      {
+        label: t('testnet'),
+        value: DesmosTestnet.chainName,
+        status: chainName === DesmosTestnet.chainName ? 'checked' : 'unchecked',
+        onPress: () => changeChain(DesmosTestnet.chainName),
+      },
+      {
+        label: t('mainnet'),
+        value: DesmosMainnet.chainName,
+        status: chainName === DesmosMainnet.chainName ? 'checked' : 'unchecked',
+        onPress: () => changeChain(DesmosMainnet.chainName),
+      },
+    ],
+    [chainName, changeChain, t],
+  );
 
   return (
     <StyledSafeAreaView
