@@ -97,7 +97,7 @@ const RootNavigator = () => {
   const activeAccount = useActiveAccount();
   const initWalletConnect = useInitWalletConnectClient();
   // Hook to update all the profiles, this will also take care of updating
-  // the profiles when the user change the network.
+  // the profiles when the user change the chain.
   useUpdateAccountsProfile();
 
   const initialRouteName = useMemo(() => {
