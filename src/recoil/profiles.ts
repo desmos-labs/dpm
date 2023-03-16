@@ -26,6 +26,11 @@ export const useStoredProfiles = () => useRecoilValue(profilesAppState);
 /**
  * Hook that allows to easily store a new profile inside the profilesAppState Atom.
  */
+export const useStoreProfiles = () => useSetRecoilState(profilesAppState);
+
+/**
+ * Hook that allows to easily store a new profile inside the profilesAppState Atom.
+ */
 export const useStoreProfile = () => {
   const [, setProfiles] = useRecoilState(profilesAppState);
   return React.useCallback(
