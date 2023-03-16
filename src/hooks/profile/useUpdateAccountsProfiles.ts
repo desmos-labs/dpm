@@ -9,7 +9,7 @@ import { useStoreProfiles } from '@recoil/profiles';
  * Hook that updates all the profiles associated to the accounts that the user
  * have imported in the application.
  */
-export const useUpdateAccountsProfile = () => {
+export const useUpdateAccountsProfiles = () => {
   const storeProfiles = useStoreProfiles();
   const addresses = useStoredAccountsAddresses();
   useQuery(GetProfileForAddresses, {

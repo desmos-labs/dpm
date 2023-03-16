@@ -45,7 +45,7 @@ import UnlockApplication from 'screens/UnlockApplication';
 import SplashScreen from 'screens/SplashScreen';
 import Legal, { LegalParams } from 'screens/Legal';
 import { Platform } from 'react-native';
-import { useUpdateAccountsProfile } from 'hooks/profile/useUpdateAccountsProfile';
+import { useUpdateAccountsProfiles } from 'hooks/profile/useUpdateAccountsProfiles';
 
 export type RootNavigatorParamList = {
   [ROUTES.DEV_SCREEN]: undefined;
@@ -98,7 +98,7 @@ const RootNavigator = () => {
   const initWalletConnect = useInitWalletConnectClient();
   // Hook to update all the profiles, this will also take care of updating
   // the profiles when the user change the chain.
-  useUpdateAccountsProfile();
+  useUpdateAccountsProfiles();
 
   const initialRouteName = useMemo(() => {
     if (__DEV__) {
