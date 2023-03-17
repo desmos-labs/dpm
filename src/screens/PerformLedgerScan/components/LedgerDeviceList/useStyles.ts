@@ -10,6 +10,11 @@ const useStyles = makeStyle((theme) => ({
     alignItems: 'center',
     backgroundColor: theme.colors.surface,
     padding: theme.spacing.m,
+    borderRadius: theme.roundness,
+  },
+  ledgerIcon: {
+    width: 8,
+    height: 32,
   },
   ledgerName: {
     marginStart: theme.spacing.m,
