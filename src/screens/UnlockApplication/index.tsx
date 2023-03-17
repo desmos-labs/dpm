@@ -107,7 +107,7 @@ const UnlockApplication: React.FC<NavProps> = (props) => {
 
       const passwordOk = await checkUserPassword(password);
       if (!passwordOk) {
-        setError(t('invalid password'));
+        setError(t('account:wrong password'));
       } else if (previousScreenParams !== undefined) {
         // Go to the previous screen.
         navigation.navigate(previousScreenParams);
