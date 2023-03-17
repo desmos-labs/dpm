@@ -89,7 +89,7 @@ const UnlockWallet: React.FC<Props> = (props) => {
       const result = await unlockWalletWithPassword(address, unlockWalletPassword, signingMode);
       if (result.isErr()) {
         if (isInvalidPasswordError(result.error)) {
-          setError(t('wrong password'));
+          setError(t('account:wrong password'));
         } else {
           setError((result.error as Error).message);
         }

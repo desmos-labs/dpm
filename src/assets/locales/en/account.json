@@ -30,6 +30,7 @@
   "generating address": "Generating address",
   "import account": "Import account",
   "import recovery passphrase": "Import recovery passphrase",
+  "wrong password": "Password doesn't match",
   "invalid password": "Invalid password",
   "invalid words": "Invalid words",
   "no transactions": "No transactions",
