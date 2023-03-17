@@ -53,19 +53,15 @@ const useGetClientFromSignMode = () => {
   const gasPrice = useCurrentChainGasPrice();
 
   return useCallback(
-    async (signMode: SignMode, { signer, addressPrefix }: Wallet) => {
+    async (signMode: SignMode, { signer }: Wallet) => {
       switch (signMode) {
         case SignMode.Offline:
-          return ResultAsync.fromPromise(
-            DesmosClient.offline(signer, {
-              prefix: addressPrefix,
-            }),
-            (e) => Error(`error while initializing the client: ${e}`),
+          return ResultAsync.fromPromise(DesmosClient.offline(signer), (e) =>
+            Error(`error while initializing the client: ${e}`),
           );
         case SignMode.Online:
           return ResultAsync.fromPromise(
             DesmosClient.connectWithSigner(rpcUrl, signer, {
-              prefix: addressPrefix,
               gasPrice,
             }),
             (e) => Error(`error while initializing the client: ${e}`),
