@@ -1,8 +1,6 @@
 import React, { FC, useCallback } from 'react';
 import { BLELedger, LedgerApp } from 'types/ledger';
 import { FlatList, ListRenderItemInfo, TouchableOpacity } from 'react-native';
-import DpmImage from 'components/DPMImage';
-import { DPMImages } from 'types/images';
 import Typography from 'components/Typography';
 import ROUTES from 'navigation/routes';
 import { useNavigation } from '@react-navigation/native';
@@ -10,6 +8,8 @@ import { StackNavigationProp } from '@react-navigation/stack';
 import { ConnectToLedgerStackParamList } from 'navigation/RootNavigator/ConnectToLedgerStack';
 import BluetoothTransport from '@ledgerhq/react-native-hw-transport-ble';
 import ListItemSeparator from 'components/ListItemSeparator';
+import DpmImage from 'components/DPMImage';
+import { DPMImages } from 'types/images';
 import useStyles from './useStyles';
 
 export interface LedgerDeviceListProps {
@@ -39,11 +39,11 @@ const LedgerDeviceList: FC<LedgerDeviceListProps> = ({ devices, ledgerApp, onCon
   const renderLedgerDevice = useCallback(
     (info: ListRenderItemInfo<BLELedger>) => (
       <TouchableOpacity style={styles.ledgerListItem} onPress={() => onLedgerItemSelected(info)}>
-        <DpmImage source={DPMImages.Ledger} />
+        <DpmImage style={styles.ledgerIcon} source={DPMImages.Ledger} resizeMode="contain" />
         <Typography.Subtitle style={styles.ledgerName}>{info.item.name}</Typography.Subtitle>
       </TouchableOpacity>
     ),
-    [onLedgerItemSelected, styles.ledgerListItem, styles.ledgerName],
+    [onLedgerItemSelected, styles.ledgerIcon, styles.ledgerListItem, styles.ledgerName],
   );
 
   return (
