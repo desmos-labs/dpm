@@ -17,6 +17,7 @@ import { SigningMode } from '@desmoslabs/desmjs';
 import { useSetting } from '@recoil/settings';
 import { BiometricAuthorizations } from 'types/settings';
 import useGetPasswordFromBiometrics from 'hooks/useGetPasswordFromBiometrics';
+import { isInvalidPasswordError } from 'lib/SecureStorage/errors';
 import useStyles from './useStyles';
 
 export interface UnlockWalletParams {
@@ -87,21 +88,19 @@ const UnlockWallet: React.FC<Props> = (props) => {
       // Unlock the wallet
       const result = await unlockWalletWithPassword(address, unlockWalletPassword, signingMode);
       if (result.isErr()) {
-        const { message } = result.error;
-        setError(message.indexOf('BAD_DECRYPT') !== 0 ? t('wrong password') : message);
-        return;
+        if (isInvalidPasswordError(result.error)) {
+          setError(t('account:wrong password'));
+        } else {
+          setError((result.error as Error).message);
+        }
+      } else {
+        const { value: wallet } = result;
+        if (wallet) {
+          // Connect the signer to be able to use the wallet
+          await wallet.signer.connect();
+          onSuccess(wallet);
+        }
       }
-
-      // Make sure the wallet is valid
-      const { value: wallet } = result;
-      if (!wallet) {
-        // The user has gone back (ie. when connecting to the Ledger), before completing the unlock
-        return;
-      }
-
-      // Connect the signer to be able to use the wallet
-      await wallet.signer.connect();
-      onSuccess(wallet);
       setLoading(false);
     },
     [unlockWalletWithPassword, address, signingMode, onSuccess, t],

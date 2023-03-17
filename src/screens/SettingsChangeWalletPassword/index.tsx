@@ -73,7 +73,7 @@ const SettingsChangeWalletPassword = (props: NavProps) => {
   const onContinue = useCallback(async () => {
     const success = await changePassword(oldPassword, newPassword);
     if (!success) {
-      setOldPasswordError(t('common:invalid password'));
+      setOldPasswordError(t('account:invalid password'));
       return;
     }
 
