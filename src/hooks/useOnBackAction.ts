@@ -23,7 +23,7 @@ const useOnBackAction = (onBack: BackCallback, deps: DependencyList) => {
       // Call the back action only when the go back action source is the current screen,
       // this is to prevent executing the callback when is another screen that
       // originated the event.
-      if (e.data.action.type === 'GO_BACK' && e.data.action.source === currentScreen.key) {
+      if (e.data.action.type === 'GO_BACK' && e.target === currentScreen.key) {
         memoizedBackCallback(e);
       }
     },

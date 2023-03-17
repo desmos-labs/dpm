@@ -14,7 +14,7 @@ import ChainLinkContentLoader from 'components/ContentLoaders/ChainLink';
 import Spacer from 'components/Spacer';
 import ChainLinkItem from '../ChainLinkItem';
 import useStyles from './useStyles';
-import useConnectChain from './useHooks';
+import useConnectChain from './hooks';
 
 export interface ChainConnectionsProps {
   canEdit: boolean;
@@ -34,7 +34,7 @@ const ChainLinksList = (props: ChainConnectionsProps) => {
     showModal(SingleButtonModal, {
       title: t('chain linked'),
       message: t('chain link created successfully'),
-      actionLabel: t('ok'),
+      actionLabel: t('common:ok'),
       image: DPMImages.Success,
     });
   }, [showModal, t]);
