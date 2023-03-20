@@ -9,5 +9,6 @@
   "delete profile": "Delete profile",
   "request dtag transfer": "Request DTag transfer",
   "accept dtag transfer": "Accept DTag transfer",
+  "refuse dtag transfer": "Refuse DTag transfer",
   "new dtag": "New DTag"
 }
