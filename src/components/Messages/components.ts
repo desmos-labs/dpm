@@ -6,6 +6,7 @@ import {
   MsgDelegateTypeUrl,
   MsgDeleteProfileTypeUrl,
   MsgDeleteRelationshipTypeUrl,
+  MsgLinkApplicationTypeUrl,
   MsgLinkChainAccountTypeUrl,
   MsgMultiSendTypeUrl,
   MsgRefuseDTagTransferRequestTypeUrl,
@@ -29,6 +30,7 @@ import MsgDeleteProfileComponents from 'components/Messages/MsgDeleteProfile';
 import MsgRequestDtagTransferComponents from 'components/Messages/MsgRequestDtagTransfer';
 import MsgAcceptDtagTransferComponents from 'components/Messages/MsgAcceptDtagTransfer';
 import MsgRefuseDtagTransferRequestComponents from 'components/Messages/MsgRefuseDTagTransferRequest';
+import MsgLinkApplicationComponents from 'components/Messages/MsgLinkApplication';
 import { MessageComponents } from './BaseMessage';
 import MsgCancelDtagTransferRequestComponents from './MsgCancelDTagTransferRequest';
 import MsgCreateRelationshipComponents from './MsgCreateRelationship';
@@ -61,6 +63,7 @@ export const messageDetailsComponents: Record<string, MessageComponents<any>> = 
   [MsgDeleteRelationshipTypeUrl]: MsgDeleteRelationshipComponents,
   [MsgBlockUserTypeUrl]: MsgBlockUserComponents,
   [MsgUnblockUserTypeUrl]: MsgUnblockUserComponents,
+  [MsgLinkApplicationTypeUrl]: MsgLinkApplicationComponents,
   [MsgLinkChainAccountTypeUrl]: MsgLinkChainAccountComponents,
   [MsgUnlinkChainAccountTypeUrl]: MsgUnlinkChainAccountComponents,
 };

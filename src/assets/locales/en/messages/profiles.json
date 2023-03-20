@@ -15,10 +15,19 @@
   "delete relationship": "Delete relationship",
   "block user": "Block user",
   "unblock user": "Unblock user",
+  "link application": "Link application",
   "subspace id": "Subspace id",
   "new dtag": "New DTag",
   "blocker": "Blocker",
   "blocked": "Blocked",
   "unblocked": "Unblocked",
-  "block reason": "Block reason"
+  "block reason": "Block reason",
+  "sender": "Sender",
+  "application": "Application",
+  "username": "Username",
+  "call data": "Call data",
+  "source channel": "Source channel",
+  "source port": "Source port",
+  "timeout height": "Timeout height",
+  "timeout timestamp": "Timeout timestamp"
 }
