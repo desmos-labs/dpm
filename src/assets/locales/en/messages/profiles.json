@@ -16,6 +16,7 @@
   "block user": "Block user",
   "unblock user": "Unblock user",
   "link application": "Link application",
+  "unlink application": "Unlink application",
   "subspace id": "Subspace id",
   "new dtag": "New DTag",
   "blocker": "Blocker",
@@ -29,5 +30,6 @@
   "source channel": "Source channel",
   "source port": "Source port",
   "timeout height": "Timeout height",
-  "timeout timestamp": "Timeout timestamp"
+  "timeout timestamp": "Timeout timestamp",
+  "signer": "Signer"
 }

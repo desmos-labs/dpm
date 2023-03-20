@@ -14,6 +14,7 @@ import {
   MsgSaveProfileTypeUrl,
   MsgSendTypeUrl,
   MsgUnblockUserTypeUrl,
+  MsgUnlinkApplicationTypeUrl,
   MsgUnlinkChainAccountTypeUrl,
   MsgVoteTypeUrl,
   MsgWithdrawDelegatorRewardTypeUrl,
@@ -31,6 +32,7 @@ import MsgRequestDtagTransferComponents from 'components/Messages/MsgRequestDtag
 import MsgAcceptDtagTransferComponents from 'components/Messages/MsgAcceptDtagTransfer';
 import MsgRefuseDtagTransferRequestComponents from 'components/Messages/MsgRefuseDTagTransferRequest';
 import MsgLinkApplicationComponents from 'components/Messages/MsgLinkApplication';
+import MsgUnlinkApplicationComponents from 'components/Messages/MsgUnlinkApplication';
 import { MessageComponents } from './BaseMessage';
 import MsgCancelDtagTransferRequestComponents from './MsgCancelDTagTransferRequest';
 import MsgCreateRelationshipComponents from './MsgCreateRelationship';
@@ -64,6 +66,7 @@ export const messageDetailsComponents: Record<string, MessageComponents<any>> = 
   [MsgBlockUserTypeUrl]: MsgBlockUserComponents,
   [MsgUnblockUserTypeUrl]: MsgUnblockUserComponents,
   [MsgLinkApplicationTypeUrl]: MsgLinkApplicationComponents,
+  [MsgUnlinkApplicationTypeUrl]: MsgUnlinkApplicationComponents,
   [MsgLinkChainAccountTypeUrl]: MsgLinkChainAccountComponents,
   [MsgUnlinkChainAccountTypeUrl]: MsgUnlinkChainAccountComponents,
 };
