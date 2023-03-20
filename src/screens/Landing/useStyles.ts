@@ -5,9 +5,13 @@ const useStyle = makeStyle((theme) => ({
     padding: 0,
   },
   background: {
-    justifyContent: 'center',
     width: '100%',
     height: '100%',
+  },
+  content: {
+    display: 'flex',
+    flex: 1,
+    justifyContent: 'center',
   },
   backArrow: {
     position: 'absolute',
@@ -61,6 +65,17 @@ const useStyle = makeStyle((theme) => ({
     backgroundColor: theme.colors.background,
     borderRadius: theme.roundness * 3,
     margin: theme.spacing.s,
+  },
+  footer: {
+    display: 'flex',
+    alignItems: 'center',
+  },
+  legalText: {
+    color: '#ffffff',
+  },
+  clickableText: {
+    color: '#ffffff',
+    fontWeight: 'bold',
   },
 }));
 
