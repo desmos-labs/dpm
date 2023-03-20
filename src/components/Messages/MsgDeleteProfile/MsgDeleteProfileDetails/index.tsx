@@ -21,6 +21,7 @@ const MsgDeleteProfileDetails = (props: MsgDeleteProfileDetailsProps) => {
   return (
     <BaseMessageDetails
       icon={msgGeneralIcon}
+      iconSubtitle={t('delete profile')}
       fields={[
         {
           label: t('creator'),
