@@ -3,7 +3,7 @@ import { MessageComponents } from 'components/Messages/BaseMessage';
 import MsgVoteListItem from './MsgVoteListItem';
 import MsgVoteDetails from './MsgVoteDetails';
 
-const MsgVoteComponents: MessageComponents<MsgVoteEncodeObject['value']> = {
+const MsgVoteComponents: MessageComponents<MsgVoteEncodeObject> = {
   listItem: MsgVoteListItem,
   details: MsgVoteDetails,
 };
