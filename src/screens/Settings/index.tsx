@@ -77,6 +77,13 @@ const Settings = (props: NavProps) => {
     });
   }, [navigation, t]);
 
+  const handleOpenToS = useCallback(async () => {
+    navigation.navigate(ROUTES.MARKDOWN_TEXT, {
+      title: t('legal:terms of service'),
+      fileName: 'tos.md',
+    });
+  }, [navigation, t]);
+
   const handleNavigateToGithub = useCallback(() => {
     Linking.openURL('https://github.com/desmos-labs/dpm');
   }, []);
@@ -176,6 +183,7 @@ const Settings = (props: NavProps) => {
       <Flexible.Section style={styles.sectionMargin} title={t('about')}>
         <Flexible.SectionButton label={t('about dpm')} onPress={handleOpenAbout} />
         <Flexible.SectionButton label={t('legal:privacy policy')} onPress={handleOpenPrivacy} />
+        <Flexible.SectionButton label={t('legal:terms of service')} onPress={handleOpenToS} />
         <Flexible.SectionButton label={t('open source')} onPress={handleNavigateToGithub} />
         <Flexible.SectionText label={t('version')} value={DeviceInfo.getVersion()} />
       </Flexible.Section>

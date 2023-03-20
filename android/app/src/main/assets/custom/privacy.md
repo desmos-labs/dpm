@@ -1,61 +1,33 @@
-# DPM Privacy Policy
+# Privacy Policy for DPM (Desmos Profile Manager)
 
-Forbole LTD built the DPM app as an Open Source app. This SERVICE is provided by Forbole LTD at no cost and is intended for use as is.
+This Privacy Policy explains how DPM (Desmos Profile Manager) (“we”, “us”, or “our”) collects, uses, and protects the information collected through our mobile application.
 
-This page is used to inform visitors regarding our policies with the collection, use, and disclosure of Personal Information if anyone decided to use our Service.
+## Information Collection and Use:
 
-If you choose to use our Service, then you agree to the collection and use of information in relation to this policy. The Personal Information that we collect is used for providing and improving the Service. we will not use or share your information with anyone except as described in this Privacy Policy.
+DPM is a Web3 mobile wallet that interacts with the Desmos chain, as well as other supported chains including but not limited to Cosmos-based chains (e.g. Cosmos Hub, Osmosis, Juno, Crypto.org, etc.), EVM-based chains (e.g. Ethereum, Binance Smart Chain, etc.), Solana, and others. Our application does not collect any personal information from users. The only information stored on the device is the private keys of the wallets generated or imported by the users. This information is encrypted using either a password chosen by the user or biometric information enrolled on the device.
 
-## Information Collection and Use
+## Firebase Notifications:
 
-For a better experience, while using our Service, we may require you to provide us with certain personally identifiable information. The information that we request will be retained by us and used as described in this privacy policy.
+In the future, we may use Firebase to handle in-app notifications for our users. Firebase may collect certain information from our users, including device information, unique identifiers, and interaction data. This information will only be used to provide and improve our notification services and will not be shared with any third parties. By using our application, you consent to the collection and use of your information by Firebase for these purposes.
 
-The app does use third party services that may collect information used to identify you.
+## Third-Party Services:
 
-Link to privacy policy of third party service providers used by the app
+Our application does not use any third-party services that collect data, except for Firebase for in-app notifications, as described above. We do not share any information collected with any third parties.
 
-- [Google Play Services](https://www.google.com/policies/privacy/)
-- [Google Analytics for Firebase](https://firebase.google.com/policies/analytics)
+## Data Retention:
 
-## Log Data
+The encrypted private keys of the wallets generated or imported by the users are stored only on the device of the user and are not stored in any centralized or online service. The private keys will be deleted from the device upon the deletion of the application.
 
-We want to inform you that whenever you use our Service, in a case of an error in the app we collect data and information (through third party products) on your phone called Log Data. This Log Data may include information such as your device Internet Protocol (“IP”) address, device name, operating system version, the configuration of the app when utilizing our Service, the time and date of your use of the Service, and other statistics.
+## Security:
 
-## Cookies
+We take security measures to protect against unauthorized access to or unauthorized alteration, disclosure or destruction of data. These measures include encryption of the private keys and secure storage on the device. However, no method of transmission over the internet, or method of electronic storage, is 100% secure. Therefore, we cannot guarantee its absolute security.
 
-Cookies are files with a small amount of data that are commonly used as anonymous unique identifiers. These are sent to your browser from the websites that you visit and are stored on your device's internal memory.
+## Changes to this Privacy Policy:
 
-This Service does not use these “cookies” explicitly. However, the app may use third party code and libraries that use “cookies” to collect information and improve their services. You have the option to either accept or refuse these cookies and know when a cookie is being sent to your device. If you choose to refuse our cookies, you may not be able to use some portions of this Service.
+We may update this Privacy Policy from time to time to reflect changes in our practices or services. We will notify you of any material changes to this policy by posting the updated policy on our website or through our application. Your continued use of our application after any changes to this policy will constitute your acceptance of such changes.
 
-## Service Providers
+## Contact Us:
 
-We may employ third-party companies and individuals due to the following reasons:
+If you have any questions about this Privacy Policy, please contact us at development@desmos.network.
 
-- To facilitate our Service;
-- To provide the Service on our behalf;
-- To perform Service-related services; or
-- To assist us in analyzing how our Service is used.
-
-We want to inform users of this Service that these third parties have access to your Personal Information. The reason is to perform the tasks assigned to them on our behalf. However, they are obligated not to disclose or use the information for any other purpose.
-
-## Security
-
-We value your trust in providing us your Personal Information, thus we are striving to use commercially acceptable means of protecting it. But remember that no method of transmission over the internet, or method of electronic storage is 100% secure and reliable, and we cannot guarantee its absolute security.
-
-## Links to Other Sites
-
-This Service may contain links to other sites. If you click on a third-party link, you will be directed to that site. Note that these external sites are not operated by us. Therefore, we strongly advise you to review the Privacy Policy of these websites. we have no control over and assume no responsibility for the content, privacy policies, or practices of any third-party sites or services.
-
-## Children’s Privacy
-
-These Services do not address anyone under the age of 16. We do not knowingly collect personally identifiable information from children under 16. In the case we discover that a child under 16 has provided us with personal information, we immediately delete this from our servers. If you are a parent or guardian and you are aware that your child has provided us with personal information, please contact us so that we will be able to do necessary actions.
-
-## Changes to This Privacy Policy
-
-We may update our Privacy Policy from time to time. Thus, you are advised to review this page periodically for any changes. we will notify you of any changes by posting the new Privacy Policy on this page.
-
-This policy is effective as of 2021-10-28
-
-## Contact Us
-
-If you have any questions or suggestions about our Privacy Policy, do not hesitate to contact us at [report@forbole.com](mailto:report@forbole.com).
+This Privacy Policy is effective as of February 1st 2023.
