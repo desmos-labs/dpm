@@ -24,7 +24,7 @@ const MsgRequestDtagTransferListItem: React.FC<MsgRequestDtagTransferListItemPro
         </Typography.Caption>
       </View>
     ),
-    [message],
+    [message.value.receiver, t],
   );
 
   return <BaseMessageListItem date={date} icon={msgGeneralIcon} renderContent={renderContent} />;
