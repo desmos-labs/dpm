@@ -13,6 +13,10 @@
   "cancel dtag transfer": "Cancel DTag transfer",
   "create relationship": "Create relationship",
   "delete relationship": "Delete relationship",
+  "block user": "Block user",
   "subspace id": "Subspace id",
-  "new dtag": "New DTag"
+  "new dtag": "New DTag",
+  "blocker": "Blocker",
+  "blocked": "Blocked",
+  "block reason": "Block reason"
 }
