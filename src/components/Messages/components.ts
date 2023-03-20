@@ -1,5 +1,6 @@
 import {
   MsgDelegateTypeUrl,
+  MsgDeleteProfileTypeUrl,
   MsgLinkChainAccountTypeUrl,
   MsgMultiSendTypeUrl,
   MsgSaveProfileTypeUrl,
@@ -16,6 +17,7 @@ import MsgWithdrawDelegatorRewardsComponents from 'components/Messages/MsgWithdr
 import MsgSaveProfileComponents from 'components/Messages/MsgSaveProfile';
 import MsgLinkChainAccountComponents from 'components/Messages/MsgLinkChainAccount';
 import MsgUnlinkChainAccountComponents from 'components/Messages/MsgUnlinkChainAccount';
+import MsgDeleteProfileComponents from 'components/Messages/MsgDeleteProfile';
 import { MessageComponents } from './BaseMessage';
 
 export const messageDetailsComponents: Record<string, MessageComponents<any>> = {
@@ -34,6 +36,7 @@ export const messageDetailsComponents: Record<string, MessageComponents<any>> = 
 
   // x/profiles
   [MsgSaveProfileTypeUrl]: MsgSaveProfileComponents,
+  [MsgDeleteProfileTypeUrl]: MsgDeleteProfileComponents,
   [MsgLinkChainAccountTypeUrl]: MsgLinkChainAccountComponents,
   [MsgUnlinkChainAccountTypeUrl]: MsgUnlinkChainAccountComponents,
 };
