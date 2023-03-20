@@ -7,5 +7,7 @@
   "unlinked account": "Unlinked account",
   "creator": "Creator",
   "delete profile": "Delete profile",
-  "request dtag transfer": "Request Dtag transfer"
+  "request dtag transfer": "Request DTag transfer",
+  "accept dtag transfer": "Accept DTag transfer",
+  "new dtag": "New DTag"
 }
