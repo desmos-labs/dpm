@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "postinstall": "patch-package && rn-nodeify -y --install stream,crypto,fs,path --hack",
-    "link": "react-native link",
+    "update-assets": "react-native-asset",
     "android": "react-native run-android --appIdSuffix debug",
     "ios": "react-native run-ios",
     "start": "react-native start",
@@ -229,11 +229,6 @@
     "tls": false,
     "net": "react-native-tcp",
     "dgram": "react-native-udp"
-  },
-  "rnpm": {
-    "assets": [
-      "assets/fonts"
-    ]
   },
   "rnx-kit": {
     "reactNativeVersion": "0.70.6",

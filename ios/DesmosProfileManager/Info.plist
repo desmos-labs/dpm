@@ -42,7 +42,7 @@
 	<key>NSFaceIDUsageDescription</key>
 	<string>DPM authentication with TouchId or FaceID</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string></string>
+	<string/>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>DPM would like to access your camera roll to fetch profile pictures</string>
 	<key>UIAppFonts</key>

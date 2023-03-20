@@ -83,7 +83,11 @@
     },
     {
       "path": "assets/md/privacy.md",
-      "sha1": "5f797bb783a6be63cd4db235bf89835e62cba18b"
+      "sha1": "4d4aefe7903ae45462b4447e2f50c8ad92c53475"
+    },
+    {
+      "path": "assets/md/tos.md",
+      "sha1": "e6b18a90e183d5213c7b2fe92d1342a4c94bf153"
     }
   ]
 }

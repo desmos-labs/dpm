@@ -31,12 +31,13 @@
 		D227F91B297879DC00BE8252 /* Poppins-ExtraBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D227F909297879DC00BE8252 /* Poppins-ExtraBold.ttf */; };
 		D227F91C297879DC00BE8252 /* Poppins-Thin.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D227F90A297879DC00BE8252 /* Poppins-Thin.ttf */; };
 		D227F91D297879DC00BE8252 /* Poppins-ThinItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D227F90B297879DC00BE8252 /* Poppins-ThinItalic.ttf */; };
-		D227F920297879E400BE8252 /* privacy.md in Resources */ = {isa = PBXBuildFile; fileRef = D227F91E297879E400BE8252 /* privacy.md */; };
 		D227F921297879E400BE8252 /* about.md in Resources */ = {isa = PBXBuildFile; fileRef = D227F91F297879E400BE8252 /* about.md */; };
 		D2886E64296F93E700629B20 /* RCTCryptoUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2886E63296F93E700629B20 /* RCTCryptoUtils.swift */; };
 		D2EE74EC2979A11600C6CA64 /* BootSplash.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D2EE74EB2979A11500C6CA64 /* BootSplash.storyboard */; };
 		EB2EDF699E07424F503FD4F7 /* libPods-DesmosProfileManager.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 44B4642C6AB3ECAEC346CCB1 /* libPods-DesmosProfileManager.a */; };
 		FE58B4BEB901B71A8FF1EA78 /* libPods-DesmosProfileManager-DesmosProfileManagerTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = FD9BF8827BB4F52EE161DCB9 /* libPods-DesmosProfileManager-DesmosProfileManagerTests.a */; };
+		57C1D2E2E9DA43A19A8E3F34 /* tos.md in Resources */ = {isa = PBXBuildFile; fileRef = 15B6053259744C0CA2A9E525 /* tos.md */; };
+		870F5348622E4BBFB0F95D96 /* privacy.md in Resources */ = {isa = PBXBuildFile; fileRef = ECF86E2306F6432C9F9881D5 /* privacy.md */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -83,7 +84,6 @@
 		D227F909297879DC00BE8252 /* Poppins-ExtraBold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Poppins-ExtraBold.ttf"; path = "../assets/fonts/Poppins-ExtraBold.ttf"; sourceTree = "<group>"; };
 		D227F90A297879DC00BE8252 /* Poppins-Thin.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Poppins-Thin.ttf"; path = "../assets/fonts/Poppins-Thin.ttf"; sourceTree = "<group>"; };
 		D227F90B297879DC00BE8252 /* Poppins-ThinItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Poppins-ThinItalic.ttf"; path = "../assets/fonts/Poppins-ThinItalic.ttf"; sourceTree = "<group>"; };
-		D227F91E297879E400BE8252 /* privacy.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; name = privacy.md; path = ../assets/md/privacy.md; sourceTree = "<group>"; };
 		D227F91F297879E400BE8252 /* about.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; name = about.md; path = ../assets/md/about.md; sourceTree = "<group>"; };
 		D227F92229787CE800BE8252 /* DesmosProfileManager-Bridging-Header.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "DesmosProfileManager-Bridging-Header.h"; sourceTree = "<group>"; };
 		D2886E63296F93E700629B20 /* RCTCryptoUtils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RCTCryptoUtils.swift; sourceTree = "<group>"; };
@@ -91,6 +91,8 @@
 		D76EE7B8A5E4C1AF5FBF917D /* Pods-DesmosProfileManager-DesmosProfileManagerTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DesmosProfileManager-DesmosProfileManagerTests.debug.xcconfig"; path = "Target Support Files/Pods-DesmosProfileManager-DesmosProfileManagerTests/Pods-DesmosProfileManager-DesmosProfileManagerTests.debug.xcconfig"; sourceTree = "<group>"; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
 		FD9BF8827BB4F52EE161DCB9 /* libPods-DesmosProfileManager-DesmosProfileManagerTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-DesmosProfileManager-DesmosProfileManagerTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		15B6053259744C0CA2A9E525 /* tos.md */ = {isa = PBXFileReference; name = "tos.md"; path = "../assets/md/tos.md"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		ECF86E2306F6432C9F9881D5 /* privacy.md */ = {isa = PBXFileReference; name = "privacy.md"; path = "../assets/md/privacy.md"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -192,7 +194,6 @@
 			isa = PBXGroup;
 			children = (
 				D227F91F297879E400BE8252 /* about.md */,
-				D227F91E297879E400BE8252 /* privacy.md */,
 				D227F908297879DC00BE8252 /* Poppins-Black.ttf */,
 				D227F8FA297879DC00BE8252 /* Poppins-BlackItalic.ttf */,
 				D227F900297879DC00BE8252 /* Poppins-Bold.ttf */,
@@ -212,6 +213,8 @@
 				D227F90A297879DC00BE8252 /* Poppins-Thin.ttf */,
 				D227F90B297879DC00BE8252 /* Poppins-ThinItalic.ttf */,
 				943612EDC99C498396E76E55 /* desmos.ttf */,
+				15B6053259744C0CA2A9E525 /* tos.md */,
+				ECF86E2306F6432C9F9881D5 /* privacy.md */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
@@ -332,7 +335,6 @@
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
 				D227F91C297879DC00BE8252 /* Poppins-Thin.ttf in Resources */,
 				D227F915297879DC00BE8252 /* Poppins-Italic.ttf in Resources */,
-				D227F920297879E400BE8252 /* privacy.md in Resources */,
 				D227F917297879DC00BE8252 /* Poppins-Regular.ttf in Resources */,
 				D227F91D297879DC00BE8252 /* Poppins-ThinItalic.ttf in Resources */,
 				D227F91B297879DC00BE8252 /* Poppins-ExtraBold.ttf in Resources */,
@@ -344,6 +346,8 @@
 				D227F913297879DC00BE8252 /* Poppins-LightItalic.ttf in Resources */,
 				D227F918297879DC00BE8252 /* Poppins-BoldItalic.ttf in Resources */,
 				D227F919297879DC00BE8252 /* Poppins-SemiBold.ttf in Resources */,
+				57C1D2E2E9DA43A19A8E3F34 /* tos.md in Resources */,
+				870F5348622E4BBFB0F95D96 /* privacy.md in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
