@@ -75,7 +75,7 @@ const useStyle = makeStyle((theme) => ({
   },
   clickableText: {
     color: '#ffffff',
-    fontWeight: 'bold',
+    textDecorationLine: 'underline',
   },
 }));
 
