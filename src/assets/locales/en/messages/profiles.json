@@ -10,5 +10,6 @@
   "request dtag transfer": "Request DTag transfer",
   "accept dtag transfer": "Accept DTag transfer",
   "refuse dtag transfer": "Refuse DTag transfer",
+  "cancel dtag transfer": "Cancel DTag transfer",
   "new dtag": "New DTag"
 }
