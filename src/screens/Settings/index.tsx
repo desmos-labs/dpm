@@ -13,6 +13,8 @@ import TopBar from 'components/TopBar';
 import OpenSettingScreenButton from 'screens/Settings/components/OpenSettingScreenButton';
 import { BiometricAuthorizations } from 'types/settings';
 import useDeletePasswordFromBiometrics from 'hooks/useDelletPasswordFromBiometrics';
+import useShowPrivacyPolicy from 'hooks/legal/useShowPrivacyPolicy';
+import useShowToS from 'hooks/legal/useShowToS';
 import useStyles from './useStyles';
 
 export type NavProps = StackScreenProps<RootNavigatorParamList, ROUTES.SETTINGS>;
@@ -70,19 +72,9 @@ const Settings = (props: NavProps) => {
     });
   }, [navigation, t]);
 
-  const handleOpenPrivacy = useCallback(async () => {
-    navigation.navigate(ROUTES.MARKDOWN_TEXT, {
-      title: t('legal:privacy policy'),
-      fileName: 'privacy.md',
-    });
-  }, [navigation, t]);
+  const handleOpenPrivacy = useShowPrivacyPolicy();
 
-  const handleOpenToS = useCallback(async () => {
-    navigation.navigate(ROUTES.MARKDOWN_TEXT, {
-      title: t('legal:terms of service'),
-      fileName: 'tos.md',
-    });
-  }, [navigation, t]);
+  const handleOpenToS = useShowToS();
 
   const handleNavigateToGithub = useCallback(() => {
     Linking.openURL('https://github.com/desmos-labs/dpm');
