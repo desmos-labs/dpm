@@ -14,9 +14,11 @@
   "create relationship": "Create relationship",
   "delete relationship": "Delete relationship",
   "block user": "Block user",
+  "unblock user": "Unblock user",
   "subspace id": "Subspace id",
   "new dtag": "New DTag",
   "blocker": "Blocker",
   "blocked": "Blocked",
+  "unblocked": "Unblocked",
   "block reason": "Block reason"
 }

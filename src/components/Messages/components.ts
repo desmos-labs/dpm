@@ -12,6 +12,7 @@ import {
   MsgRequestDTagTransferTypeUrl,
   MsgSaveProfileTypeUrl,
   MsgSendTypeUrl,
+  MsgUnblockUserTypeUrl,
   MsgUnlinkChainAccountTypeUrl,
   MsgVoteTypeUrl,
   MsgWithdrawDelegatorRewardTypeUrl,
@@ -33,6 +34,7 @@ import MsgCancelDtagTransferRequestComponents from './MsgCancelDTagTransferReque
 import MsgCreateRelationshipComponents from './MsgCreateRelationship';
 import MsgDeleteRelationshipComponents from './MsgDeleteRelationship';
 import MsgBlockUserComponents from './MsgBlockUser';
+import MsgUnblockUserComponents from './MsgUnblockUser';
 
 export const messageDetailsComponents: Record<string, MessageComponents<any>> = {
   // x/bank
@@ -58,6 +60,7 @@ export const messageDetailsComponents: Record<string, MessageComponents<any>> = 
   [MsgCreateRelationshipTypeUrl]: MsgCreateRelationshipComponents,
   [MsgDeleteRelationshipTypeUrl]: MsgDeleteRelationshipComponents,
   [MsgBlockUserTypeUrl]: MsgBlockUserComponents,
+  [MsgUnblockUserTypeUrl]: MsgUnblockUserComponents,
   [MsgLinkChainAccountTypeUrl]: MsgLinkChainAccountComponents,
   [MsgUnlinkChainAccountTypeUrl]: MsgUnlinkChainAccountComponents,
 };
