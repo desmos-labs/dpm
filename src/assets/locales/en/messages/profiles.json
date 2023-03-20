@@ -5,5 +5,6 @@
   "tx type delete profile": "Delete profile",
   "tx type unlink chain account": "Unlink chain account",
   "unlinked account": "Unlinked account",
-  "creator": "Creator"
+  "creator": "Creator",
+  "request dtag transfer": "Request Dtag transfer"
 }
