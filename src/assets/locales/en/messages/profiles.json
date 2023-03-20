@@ -11,5 +11,7 @@
   "accept dtag transfer": "Accept DTag transfer",
   "refuse dtag transfer": "Refuse DTag transfer",
   "cancel dtag transfer": "Cancel DTag transfer",
+  "create relationship": "Create relationship",
+  "subspace id": "Subspace id",
   "new dtag": "New DTag"
 }

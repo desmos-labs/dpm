@@ -1,6 +1,7 @@
 import {
   MsgAcceptDTagTransferRequestTypeUrl,
   MsgCancelDTagTransferRequestTypeUrl,
+  MsgCreateRelationshipTypeUrl,
   MsgDelegateTypeUrl,
   MsgDeleteProfileTypeUrl,
   MsgLinkChainAccountTypeUrl,
@@ -27,6 +28,7 @@ import MsgAcceptDtagTransferComponents from 'components/Messages/MsgAcceptDtagTr
 import MsgRefuseDtagTransferRequestComponents from 'components/Messages/MsgRefuseDTagTransferRequest';
 import { MessageComponents } from './BaseMessage';
 import MsgCancelDtagTransferRequestComponents from './MsgCancelDTagTransferRequest';
+import MsgCreateRelationshipComponents from './MsgCreateRelationship';
 
 export const messageDetailsComponents: Record<string, MessageComponents<any>> = {
   // x/bank
@@ -49,6 +51,7 @@ export const messageDetailsComponents: Record<string, MessageComponents<any>> = 
   [MsgAcceptDTagTransferRequestTypeUrl]: MsgAcceptDtagTransferComponents,
   [MsgRefuseDTagTransferRequestTypeUrl]: MsgRefuseDtagTransferRequestComponents,
   [MsgCancelDTagTransferRequestTypeUrl]: MsgCancelDtagTransferRequestComponents,
+  [MsgCreateRelationshipTypeUrl]: MsgCreateRelationshipComponents,
   [MsgLinkChainAccountTypeUrl]: MsgLinkChainAccountComponents,
   [MsgUnlinkChainAccountTypeUrl]: MsgUnlinkChainAccountComponents,
 };
