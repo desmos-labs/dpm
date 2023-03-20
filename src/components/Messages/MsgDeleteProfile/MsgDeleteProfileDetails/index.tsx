@@ -12,7 +12,7 @@ export type MsgDeleteProfileDetailsProps = {
  * Displays the full details of a MsgLinkChainAccount.
  * @constructor
  */
-const MsgLinkChainAccountDetails = (props: MsgDeleteProfileDetailsProps) => {
+const MsgDeleteProfileDetails = (props: MsgDeleteProfileDetailsProps) => {
   const { t } = useTranslation('messages.profiles');
 
   const { message } = props;
@@ -31,4 +31,4 @@ const MsgLinkChainAccountDetails = (props: MsgDeleteProfileDetailsProps) => {
   );
 };
 
-export default MsgLinkChainAccountDetails;
+export default MsgDeleteProfileDetails;

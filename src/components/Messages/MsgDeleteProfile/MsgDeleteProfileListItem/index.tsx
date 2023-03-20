@@ -14,7 +14,7 @@ export type MsgDeleteProfileListItemProps =
  * Displays the full details of a MsgLinkChainAccount.
  * @constructor
  */
-const MsgLinkChainAccountListItem = (props: MsgDeleteProfileListItemProps) => {
+const MsgDeleteProfileListItem = (props: MsgDeleteProfileListItemProps) => {
   const { t } = useTranslation('messages.profiles');
 
   const { date } = props;
@@ -32,4 +32,4 @@ const MsgLinkChainAccountListItem = (props: MsgDeleteProfileListItemProps) => {
   );
 };
 
-export default MsgLinkChainAccountListItem;
+export default MsgDeleteProfileListItem;
