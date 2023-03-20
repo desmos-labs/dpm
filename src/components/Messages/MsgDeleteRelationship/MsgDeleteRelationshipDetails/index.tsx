@@ -8,7 +8,7 @@ import { MsgDeleteRelationshipEncodeObject } from '@desmoslabs/desmjs';
 type MsgDeleteRelationshipDetailsProps =
   MessageDetailsComponentProps<MsgDeleteRelationshipEncodeObject>;
 
-const MsgCancelDTagTransferDetails: React.FC<MsgDeleteRelationshipDetailsProps> = ({ message }) => {
+const MsgDeleteRelationshipDetails: React.FC<MsgDeleteRelationshipDetailsProps> = ({ message }) => {
   const { t } = useTranslation('messages.profiles');
 
   return (
@@ -33,4 +33,4 @@ const MsgCancelDTagTransferDetails: React.FC<MsgDeleteRelationshipDetailsProps> 
   );
 };
 
-export default MsgCancelDTagTransferDetails;
+export default MsgDeleteRelationshipDetails;

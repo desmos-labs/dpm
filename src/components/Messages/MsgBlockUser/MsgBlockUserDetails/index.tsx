@@ -7,7 +7,7 @@ import { MsgBlockUserEncodeObject } from '@desmoslabs/desmjs';
 
 type MsgBlockUserDetailsProps = MessageDetailsComponentProps<MsgBlockUserEncodeObject>;
 
-const MsgCancelDTagTransferDetails: React.FC<MsgBlockUserDetailsProps> = ({ message }) => {
+const MsgBlockUserDetails: React.FC<MsgBlockUserDetailsProps> = ({ message }) => {
   const { t } = useTranslation('messages.profiles');
 
   return (
@@ -36,4 +36,4 @@ const MsgCancelDTagTransferDetails: React.FC<MsgBlockUserDetailsProps> = ({ mess
   );
 };
 
-export default MsgCancelDTagTransferDetails;
+export default MsgBlockUserDetails;
