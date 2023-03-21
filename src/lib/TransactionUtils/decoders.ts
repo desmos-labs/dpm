@@ -9,6 +9,8 @@ import {
 import { VoteOption } from 'cosmjs-types/cosmos/gov/v1beta1/gov';
 import Long from 'long';
 import {
+  AllowedMsgAllowanceTypeUrl,
+  BasicAllowanceTypeUrl,
   MsgAddUserToUserGroupEncodeObject,
   MsgAddUserToUserGroupTypeUrl,
   MsgCreateSectionEncodeObject,
@@ -29,6 +31,8 @@ import {
   MsgEditUserGroupTypeUrl,
   GenericAuthorizationTypeUrl,
   GenericSubspaceAuthorizationTypeUrl,
+  MsgGrantAllowanceEncodeObject,
+  MsgGrantAllowanceTypeUrl,
   MsgGrantEncodeObject,
   MsgGrantTypeUrl,
   MsgLinkChainAccountEncodeObject,
@@ -49,6 +53,7 @@ import {
   MsgSetUserPermissionsTypeUrl,
   MsgUnlinkChainAccountEncodeObject,
   MsgUnlinkChainAccountTypeUrl,
+  PeriodicAllowanceTypeUrl,
   SendAuthorizationTypeUrl,
   timestampFromDate,
 } from '@desmoslabs/desmjs';
@@ -83,6 +88,12 @@ import {
 } from 'cosmjs-types/cosmos/staking/v1beta1/authz';
 import { Coin } from 'cosmjs-types/cosmos/base/v1beta1/coin';
 import { StakeAuthorizationTypeUrl } from 'types/cosmos-staking';
+import { MsgGrantAllowance } from 'cosmjs-types/cosmos/feegrant/v1beta1/tx';
+import {
+  AllowedMsgAllowance,
+  BasicAllowance,
+  PeriodicAllowance,
+} from 'cosmjs-types/cosmos/feegrant/v1beta1/feegrant';
 
 const decodePubKey = (gqlPubKey: any): Any | undefined => {
   const type = gqlPubKey['@type'];
@@ -527,12 +538,92 @@ const decodeSubspaceMessage = (type: string, value: any): EncodeObject | undefin
   }
 };
 
+const decodeAllowance = (allowance: any): Any | undefined => {
+  if (allowance === undefined) {
+    return undefined;
+  }
+
+  const allowanceType = allowance['@type'];
+
+  switch (allowanceType) {
+    case BasicAllowanceTypeUrl:
+      return Any.fromPartial({
+        typeUrl: BasicAllowanceTypeUrl,
+        value: BasicAllowance.encode(
+          BasicAllowance.fromPartial({
+            expiration: allowance.expiration
+              ? timestampFromDate(new Date(allowance.expiration))
+              : undefined,
+            spendLimit: allowance.spend_limit,
+          }),
+        ).finish(),
+      });
+
+    case PeriodicAllowanceTypeUrl:
+      return Any.fromPartial({
+        typeUrl: PeriodicAllowanceTypeUrl,
+        value: PeriodicAllowance.encode(
+          PeriodicAllowance.fromPartial({
+            basic: BasicAllowance.fromPartial({
+              expiration: allowance.basic.expiration
+                ? timestampFromDate(new Date(allowance.basic.expiration))
+                : undefined,
+              spendLimit: allowance.basic.spend_limit,
+            }),
+            periodReset: allowance.period_reset
+              ? timestampFromDate(new Date(allowance.period_reset))
+              : undefined,
+            period: allowance.period
+              ? {
+                  seconds: allowance.period.replace('s', ''),
+                  nanos: 0,
+                }
+              : undefined,
+            periodSpendLimit: allowance.period_spend_limit,
+            periodCanSpend: allowance.period_can_spend,
+          }),
+        ).finish(),
+      });
+
+    case AllowedMsgAllowanceTypeUrl:
+      return Any.fromPartial({
+        typeUrl: AllowedMsgAllowanceTypeUrl,
+        value: AllowedMsgAllowance.encode(
+          AllowedMsgAllowance.fromPartial({
+            allowance: decodeAllowance(allowance.allowance),
+            allowedMessages: allowance.allowed_messages,
+          }),
+        ).finish(),
+      });
+    default:
+      console.log('Unsupported allowance type', allowanceType);
+      return undefined;
+  }
+};
+
+const decodeFeeGrantMessage = (type: string, value: any): EncodeObject | undefined => {
+  switch (type) {
+    case MsgGrantAllowanceTypeUrl:
+      return {
+        typeUrl: MsgGrantAllowanceTypeUrl,
+        value: MsgGrantAllowance.fromPartial({
+          granter: value.granter,
+          grantee: value.grantee,
+          allowance: decodeAllowance(value.allowance),
+        }),
+      } as MsgGrantAllowanceEncodeObject;
+    default:
+      return undefined;
+  }
+};
+
 const converters = [
   decodeBankMessage,
   decodeDistributionMessage,
   decodeGovMessage,
   decodeStakingMessage,
   decodeProfileMessage,
+  decodeFeeGrantMessage,
   decodeAuthzMessage,
   decodeSubspaceMessage,
 ];
