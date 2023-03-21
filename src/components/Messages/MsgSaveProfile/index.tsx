@@ -3,7 +3,7 @@ import { MessageComponents } from 'components/Messages/BaseMessage';
 import MsgSaveProfileDetails from './MsgSaveProfileDetails';
 import MsgSaveProfileListItem from './MsgSaveProfileListItem';
 
-const MsgSaveProfileComponents: MessageComponents<MsgSaveProfileEncodeObject['value']> = {
+const MsgSaveProfileComponents: MessageComponents<MsgSaveProfileEncodeObject> = {
   details: MsgSaveProfileDetails,
   listItem: MsgSaveProfileListItem,
 };
