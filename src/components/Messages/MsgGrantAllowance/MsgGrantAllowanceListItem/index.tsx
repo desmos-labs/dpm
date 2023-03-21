@@ -14,7 +14,7 @@ const MsgGrantAllowanceListItem: React.FC<MsgGrantAllowanceListItemPops> = ({ me
   const { grantee, allowance } = message.value;
 
   const renderContent = React.useCallback(() => {
-    const allowanceType = allowance?.typeUrl?.split('.')?.slice(-1);
+    const allowanceType = allowance?.typeUrl?.split('.')?.pop();
     return (
       <View>
         <Typography.Body1>{t('grant allowance')}</Typography.Body1>
