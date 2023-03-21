@@ -6,6 +6,7 @@ import {
   MsgDelegateTypeUrl,
   MsgDeleteProfileTypeUrl,
   MsgDeleteRelationshipTypeUrl,
+  MsgGrantAllowanceTypeUrl,
   MsgLinkApplicationTypeUrl,
   MsgLinkChainAccountTypeUrl,
   MsgMultiSendTypeUrl,
@@ -33,6 +34,7 @@ import MsgAcceptDtagTransferComponents from 'components/Messages/MsgAcceptDtagTr
 import MsgRefuseDtagTransferRequestComponents from 'components/Messages/MsgRefuseDTagTransferRequest';
 import MsgLinkApplicationComponents from 'components/Messages/MsgLinkApplication';
 import MsgUnlinkApplicationComponents from 'components/Messages/MsgUnlinkApplication';
+import MsgGrantAllowanceComponents from 'components/Messages/MsgGrantAllowance';
 import { MessageComponents } from './BaseMessage';
 import MsgCancelDtagTransferRequestComponents from './MsgCancelDTagTransferRequest';
 import MsgCreateRelationshipComponents from './MsgCreateRelationship';
@@ -69,4 +71,7 @@ export const messageDetailsComponents: Record<string, MessageComponents<any>> = 
   [MsgUnlinkApplicationTypeUrl]: MsgUnlinkApplicationComponents,
   [MsgLinkChainAccountTypeUrl]: MsgLinkChainAccountComponents,
   [MsgUnlinkChainAccountTypeUrl]: MsgUnlinkChainAccountComponents,
+
+  // x/feegrant
+  [MsgGrantAllowanceTypeUrl]: MsgGrantAllowanceComponents,
 };

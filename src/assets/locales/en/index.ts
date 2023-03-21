@@ -37,7 +37,6 @@ const en = {
   transaction,
   walletConnect,
   web3auth,
-
   ...messagesTranslations,
 };
 
