@@ -12,6 +12,7 @@ import {
   MsgMultiSendTypeUrl,
   MsgRefuseDTagTransferRequestTypeUrl,
   MsgRequestDTagTransferTypeUrl,
+  MsgRevokeAllowanceTypeUrl,
   MsgSaveProfileTypeUrl,
   MsgSendTypeUrl,
   MsgUnblockUserTypeUrl,
@@ -35,6 +36,7 @@ import MsgRefuseDtagTransferRequestComponents from 'components/Messages/MsgRefus
 import MsgLinkApplicationComponents from 'components/Messages/MsgLinkApplication';
 import MsgUnlinkApplicationComponents from 'components/Messages/MsgUnlinkApplication';
 import MsgGrantAllowanceComponents from 'components/Messages/MsgGrantAllowance';
+import MsgRevokeAllowanceComponents from 'components/Messages/MsgRevokeAllowance';
 import { MessageComponents } from './BaseMessage';
 import MsgCancelDtagTransferRequestComponents from './MsgCancelDTagTransferRequest';
 import MsgCreateRelationshipComponents from './MsgCreateRelationship';
@@ -74,4 +76,5 @@ export const messageDetailsComponents: Record<string, MessageComponents<any>> = 
 
   // x/feegrant
   [MsgGrantAllowanceTypeUrl]: MsgGrantAllowanceComponents,
+  [MsgRevokeAllowanceTypeUrl]: MsgRevokeAllowanceComponents,
 };
