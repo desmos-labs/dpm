@@ -39,6 +39,8 @@ import {
   MsgMoveUserGroupTypeUrl,
   MsgRemoveUserFromUserGroupEncodeObject,
   MsgRemoveUserFromUserGroupTypeUrl,
+  MsgRevokeEncodeObject,
+  MsgRevokeTypeUrl,
   MsgSaveProfileEncodeObject,
   MsgSaveProfileTypeUrl,
   MsgSetUserGroupPermissionsEncodeObject,
@@ -54,6 +56,7 @@ import { Bech32Address } from '@desmoslabs/desmjs-types/desmos/profiles/v3/model
 import { Any } from 'cosmjs-types/google/protobuf/any';
 import { PubKey } from 'cosmjs-types/cosmos/crypto/secp256k1/keys';
 import { Message } from 'types/transactions';
+import { MsgGrant, MsgRevoke } from 'cosmjs-types/cosmos/authz/v1beta1/tx';
 import {
   MsgAddUserToUserGroup,
   MsgCreateSection,
@@ -343,6 +346,16 @@ const decodeAuthzMessage = (type: string, value: any): EncodeObject | undefined 
           grant: decodeGrant(value.grant),
         }),
       } as MsgGrantEncodeObject;
+
+    case MsgRevokeTypeUrl:
+      return {
+        typeUrl: MsgRevokeTypeUrl,
+        value: MsgRevoke.fromPartial({
+          granter: value.granter,
+          grantee: value.grantee,
+          msgTypeUrl: value.msg_type_url,
+        }),
+      } as MsgRevokeEncodeObject;
     default:
       return undefined;
   }

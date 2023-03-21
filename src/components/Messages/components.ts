@@ -24,6 +24,7 @@ import {
   MsgRemoveUserFromUserGroupTypeUrl,
   MsgRequestDTagTransferTypeUrl,
   MsgRevokeAllowanceTypeUrl,
+  MsgRevokeTypeUrl,
   MsgSaveProfileTypeUrl,
   MsgSendTypeUrl,
   MsgSetUserGroupPermissionsTypeUrl,
@@ -72,6 +73,7 @@ import MsgSetUserGroupPermissionsComponents from './subspaces/MsgSetUserGroupPer
 import MsgDeleteUserGroupComponents from './subspaces/MsgDeleteUserGroup';
 import MsgSetUserPermissionsComponents from './subspaces/MsgSetUserPermissions';
 import MsgGrantComponents from './MsgGrant';
+import MsgRevokeComponents from './MsgRevoke';
 
 export const messageDetailsComponents: Record<string, MessageComponents<any>> = {
   // x/bank
@@ -126,4 +128,5 @@ export const messageDetailsComponents: Record<string, MessageComponents<any>> = 
 
   // x/authz
   [MsgGrantTypeUrl]: MsgGrantComponents,
+  [MsgRevokeTypeUrl]: MsgRevokeComponents,
 };
