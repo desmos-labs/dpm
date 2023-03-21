@@ -6,12 +6,12 @@ import feegrant from './feegrant.json';
 import unknown from './unknown.json';
 
 const messages = {
-  bank,
-  gov,
-  profiles,
-  staking,
-  feegrant,
-  unknown,
+  'messages.bank': bank,
+  'messages.gov': gov,
+  'messages.profiles': profiles,
+  'messages.staking': staking,
+  'messages.feegrant': feegrant,
+  'messages.unknown': unknown,
 };
 
 export default messages;
