@@ -27,6 +27,10 @@ import {
   MsgEditSubspaceTypeUrl,
   MsgEditUserGroupEncodeObject,
   MsgEditUserGroupTypeUrl,
+  GenericAuthorizationTypeUrl,
+  GenericSubspaceAuthorizationTypeUrl,
+  MsgGrantEncodeObject,
+  MsgGrantTypeUrl,
   MsgLinkChainAccountEncodeObject,
   MsgLinkChainAccountTypeUrl,
   MsgMoveSectionEncodeObject,
@@ -43,6 +47,8 @@ import {
   MsgSetUserPermissionsTypeUrl,
   MsgUnlinkChainAccountEncodeObject,
   MsgUnlinkChainAccountTypeUrl,
+  SendAuthorizationTypeUrl,
+  timestampFromDate,
 } from '@desmoslabs/desmjs';
 import { Bech32Address } from '@desmoslabs/desmjs-types/desmos/profiles/v3/models_chain_links';
 import { Any } from 'cosmjs-types/google/protobuf/any';
@@ -64,6 +70,16 @@ import {
   MsgSetUserGroupPermissions,
   MsgSetUserPermissions,
 } from '@desmoslabs/desmjs-types/desmos/subspaces/v3/msgs';
+import { MsgGrant } from 'cosmjs-types/cosmos/authz/v1beta1/tx';
+import { GenericAuthorization, Grant } from 'cosmjs-types/cosmos/authz/v1beta1/authz';
+import { GenericSubspaceAuthorization } from '@desmoslabs/desmjs-types/desmos/subspaces/v3/authz/authz';
+import { SendAuthorization } from 'cosmjs-types/cosmos/bank/v1beta1/authz';
+import {
+  authorizationTypeFromJSON,
+  StakeAuthorization,
+} from 'cosmjs-types/cosmos/staking/v1beta1/authz';
+import { Coin } from 'cosmjs-types/cosmos/base/v1beta1/coin';
+import { StakeAuthorizationTypeUrl } from 'types/cosmos-staking';
 
 const decodePubKey = (gqlPubKey: any): Any | undefined => {
   const type = gqlPubKey['@type'];
@@ -241,6 +257,97 @@ const decodeProfileMessage = (type: string, value: any): EncodeObject | undefine
   }
 };
 
+const decodeGrant = (grant: any): Grant | undefined => {
+  if (grant === undefined) {
+    return undefined;
+  }
+
+  const { authorization, expiration } = grant;
+  const parsedExpiration = expiration ? timestampFromDate(new Date(expiration)) : undefined;
+  const authorizationType = authorization['@type'];
+  let decodedAuthorization: Any | undefined;
+
+  switch (authorizationType) {
+    case GenericSubspaceAuthorizationTypeUrl:
+      decodedAuthorization = {
+        typeUrl: authorizationType,
+        value: GenericSubspaceAuthorization.encode(
+          GenericSubspaceAuthorization.fromPartial({
+            msg: authorization.msg,
+            subspacesIds: authorization.subspaces_ids,
+          }),
+        ).finish(),
+      };
+      break;
+
+    case GenericAuthorizationTypeUrl:
+      decodedAuthorization = {
+        typeUrl: GenericAuthorizationTypeUrl,
+        value: GenericAuthorization.encode(
+          GenericAuthorization.fromPartial({
+            msg: authorization.msg,
+          }),
+        ).finish(),
+      };
+      break;
+
+    case SendAuthorizationTypeUrl:
+      decodedAuthorization = {
+        typeUrl: SendAuthorizationTypeUrl,
+        value: SendAuthorization.encode(
+          SendAuthorization.fromPartial({
+            spendLimit: authorization.spend_limit.map(Coin.fromJSON),
+          }),
+        ).finish(),
+      };
+      break;
+
+    case StakeAuthorizationTypeUrl:
+      decodedAuthorization = {
+        typeUrl: StakeAuthorizationTypeUrl,
+        value: StakeAuthorization.encode(
+          StakeAuthorization.fromPartial({
+            authorizationType: authorizationTypeFromJSON(authorization.authorization_type),
+            allowList: authorization.allow_list,
+            denyList: authorization.deny_list,
+            maxTokens: authorization.max_tokens,
+          }),
+        ).finish(),
+      };
+      break;
+
+    default:
+      // Disable eslint so that we have the warning when in development mode.
+      // eslint-disable-next-line no-console
+      console.warn('Unsupported authorization type', authorizationType);
+      decodedAuthorization = Any.fromPartial({
+        typeUrl: authorizationType,
+      });
+      break;
+  }
+
+  return Grant.fromPartial({
+    authorization: decodedAuthorization,
+    expiration: parsedExpiration,
+  });
+};
+
+const decodeAuthzMessage = (type: string, value: any): EncodeObject | undefined => {
+  switch (type) {
+    case MsgGrantTypeUrl:
+      return {
+        typeUrl: MsgGrantTypeUrl,
+        value: MsgGrant.fromPartial({
+          granter: value.granter,
+          grantee: value.grantee,
+          grant: decodeGrant(value.grant),
+        }),
+      } as MsgGrantEncodeObject;
+    default:
+      return undefined;
+  }
+};
+
 const decodeSubspaceMessage = (type: string, value: any): EncodeObject | undefined => {
   switch (type) {
     case MsgEditSubspaceTypeUrl:
@@ -413,6 +520,7 @@ const converters = [
   decodeGovMessage,
   decodeStakingMessage,
   decodeProfileMessage,
+  decodeAuthzMessage,
   decodeSubspaceMessage,
 ];
 

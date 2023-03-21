@@ -1,3 +1,4 @@
+import authz from './authz.json';
 import bank from './bank.json';
 import gov from './gov.json';
 import profiles from './profiles.json';
@@ -7,6 +8,7 @@ import feegrant from './feegrant.json';
 import unknown from './unknown.json';
 
 const messages = {
+  'messages.authz': authz,
   'messages.bank': bank,
   'messages.gov': gov,
   'messages.profiles': profiles,

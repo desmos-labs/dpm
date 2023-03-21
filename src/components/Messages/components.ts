@@ -4,9 +4,6 @@ import {
   MsgBlockUserTypeUrl,
   MsgCancelDTagTransferRequestTypeUrl,
   MsgCreateRelationshipTypeUrl,
-  MsgCreateSectionTypeUrl,
-  MsgCreateSubspaceTypeUrl,
-  MsgCreateUserGroupTypeUrl,
   MsgDelegateTypeUrl,
   MsgDeleteProfileTypeUrl,
   MsgDeleteRelationshipTypeUrl,
@@ -17,6 +14,7 @@ import {
   MsgEditSubspaceTypeUrl,
   MsgEditUserGroupTypeUrl,
   MsgGrantAllowanceTypeUrl,
+  MsgGrantTypeUrl,
   MsgLinkApplicationTypeUrl,
   MsgLinkChainAccountTypeUrl,
   MsgMoveSectionTypeUrl,
@@ -73,6 +71,7 @@ import MsgDeleteSubspaceComponents from './subspaces/MsgDeleteSubspace';
 import MsgSetUserGroupPermissionsComponents from './subspaces/MsgSetUserGroupPermissions';
 import MsgDeleteUserGroupComponents from './subspaces/MsgDeleteUserGroup';
 import MsgSetUserPermissionsComponents from './subspaces/MsgSetUserPermissions';
+import MsgGrantComponents from './MsgGrant';
 
 export const messageDetailsComponents: Record<string, MessageComponents<any>> = {
   // x/bank
@@ -124,4 +123,7 @@ export const messageDetailsComponents: Record<string, MessageComponents<any>> = 
   [MsgAddUserToUserGroupTypeUrl]: MsgAddUserToUserGroupComponents,
   [MsgRemoveUserFromUserGroupTypeUrl]: MsgRemoveUserFromUserGroupComponents,
   [MsgSetUserPermissionsTypeUrl]: MsgSetUserPermissionsComponents,
+
+  // x/authz
+  [MsgGrantTypeUrl]: MsgGrantComponents,
 };

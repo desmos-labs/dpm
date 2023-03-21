@@ -1,0 +1,12 @@
+{
+  "grant": "Grant",
+  "authorization": "Authorization",
+  "expiration": "Expiration",
+  "stake authorization type": "Stake authorization type",
+  "allow list": "Allow list",
+  "deny list": "Deny list",
+  "max tokens": "Max tokens",
+  "spend limit": "Spend limit",
+  "message": "Message",
+  "subspaces": "Subspaces"
+}
