@@ -1,9 +1,8 @@
 import { EncodeObject } from '@cosmjs/proto-signing';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-import { View } from 'react-native';
-import LabeledValue from 'components/LabeledValue';
-import Divider from 'components/Divider';
+import BaseMessageDetails from 'components/Messages/BaseMessage/BaseMessageDetails';
+import { msgUnknownIcon } from 'assets/images';
 
 export type MsgUnknownDetailsProps = {
   message: EncodeObject;
@@ -18,11 +17,20 @@ export const MsgUnknownDetails = (props: MsgUnknownDetailsProps) => {
   const { message } = props;
 
   return (
-    <View>
-      <LabeledValue label={t('message type')} value={message.typeUrl} />
-      <Divider />
-      <LabeledValue label={t('message value')} value={JSON.stringify(message.value)} />
-    </View>
+    <BaseMessageDetails
+      icon={msgUnknownIcon}
+      iconSubtitle={message.typeUrl.split('.').pop()}
+      fields={[
+        {
+          label: t('message type'),
+          value: message.typeUrl,
+        },
+        {
+          label: t('message value'),
+          value: JSON.stringify(message.value),
+        },
+      ]}
+    />
   );
 };
 
