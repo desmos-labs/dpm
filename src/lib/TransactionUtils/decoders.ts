@@ -9,6 +9,8 @@ import {
 import { VoteOption } from 'cosmjs-types/cosmos/gov/v1beta1/gov';
 import Long from 'long';
 import {
+  MsgEditSubspaceEncodeObject,
+  MsgEditSubspaceTypeUrl,
   MsgLinkChainAccountEncodeObject,
   MsgLinkChainAccountTypeUrl,
   MsgSaveProfileEncodeObject,
@@ -20,6 +22,7 @@ import { Bech32Address } from '@desmoslabs/desmjs-types/desmos/profiles/v3/model
 import { Any } from 'cosmjs-types/google/protobuf/any';
 import { PubKey } from 'cosmjs-types/cosmos/crypto/secp256k1/keys';
 import { Message } from 'types/transactions';
+import { MsgEditSubspace } from '@desmoslabs/desmjs-types/desmos/subspaces/v3/msgs';
 
 const decodePubKey = (gqlPubKey: any): Any | undefined => {
   const type = gqlPubKey['@type'];
@@ -197,13 +200,32 @@ const decodeProfileMessage = (type: string, value: any): EncodeObject | undefine
   }
 };
 
+const decodeSubspaceMessage = (type: string, value: any): EncodeObject | undefined => {
+  switch (type) {
+    case MsgEditSubspaceTypeUrl:
+      return {
+        typeUrl: MsgEditSubspaceTypeUrl,
+        value: MsgEditSubspace.fromPartial({
+          subspaceId: Long.fromString(value.subspace_id),
+          name: value.name,
+          owner: value.owner,
+          signer: value.signer,
+          description: value.description,
+          treasury: value.treasury,
+        }),
+      } as MsgEditSubspaceEncodeObject;
+    default:
+      return undefined;
+  }
+};
+
 const converters = [
   decodeBankMessage,
   decodeDistributionMessage,
   decodeGovMessage,
   decodeStakingMessage,
-
   decodeProfileMessage,
+  decodeSubspaceMessage,
 ];
 
 const decodeQueriedMessage = (message: QueriedMessage): Message => {

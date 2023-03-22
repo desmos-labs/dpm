@@ -1,8 +1,11 @@
 {
   "create subspace": "Create subspace",
+  "edit subspace": "Edit subspace",
   "name": "Name",
   "description": "Description",
   "treasury": "Treasury",
   "creator": "Creator",
-  "owner": "Owner"
+  "owner": "Owner",
+  "subspace id": "Subspace id",
+  "signer": "Signer"
 }
