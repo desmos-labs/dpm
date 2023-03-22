@@ -7,6 +7,7 @@ import {
   MsgDelegateTypeUrl,
   MsgDeleteProfileTypeUrl,
   MsgDeleteRelationshipTypeUrl,
+  MsgDeleteSubspaceTypeUrl,
   MsgEditSubspaceTypeUrl,
   MsgGrantAllowanceTypeUrl,
   MsgLinkApplicationTypeUrl,
@@ -47,6 +48,7 @@ import MsgDeleteRelationshipComponents from './MsgDeleteRelationship';
 import MsgBlockUserComponents from './MsgBlockUser';
 import MsgUnblockUserComponents from './MsgUnblockUser';
 import MsgEditSubspaceComponents from './subspaces/MsgEditSubspace';
+import MsgDeleteSubspaceComponents from './subspaces/MsgDeleteSubspace';
 
 export const messageDetailsComponents: Record<string, MessageComponents<any>> = {
   // x/bank
@@ -85,4 +87,5 @@ export const messageDetailsComponents: Record<string, MessageComponents<any>> = 
   // x/subspaces
   [MsgCreateSubspaceTypeUrl]: MsgCreateSubspaceComponents,
   [MsgEditSubspaceTypeUrl]: MsgEditSubspaceComponents,
+  [MsgDeleteSubspaceTypeUrl]: MsgDeleteSubspaceComponents,
 };

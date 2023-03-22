@@ -1,6 +1,7 @@
 {
   "create subspace": "Create subspace",
   "edit subspace": "Edit subspace",
+  "delete subspace": "Delete subspace",
   "name": "Name",
   "description": "Description",
   "treasury": "Treasury",

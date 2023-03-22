@@ -9,6 +9,8 @@ import {
 import { VoteOption } from 'cosmjs-types/cosmos/gov/v1beta1/gov';
 import Long from 'long';
 import {
+  MsgDeleteSubspaceEncodeObject,
+  MsgDeleteSubspaceTypeUrl,
   MsgEditSubspaceEncodeObject,
   MsgEditSubspaceTypeUrl,
   MsgLinkChainAccountEncodeObject,
@@ -22,7 +24,10 @@ import { Bech32Address } from '@desmoslabs/desmjs-types/desmos/profiles/v3/model
 import { Any } from 'cosmjs-types/google/protobuf/any';
 import { PubKey } from 'cosmjs-types/cosmos/crypto/secp256k1/keys';
 import { Message } from 'types/transactions';
-import { MsgEditSubspace } from '@desmoslabs/desmjs-types/desmos/subspaces/v3/msgs';
+import {
+  MsgDeleteSubspace,
+  MsgEditSubspace,
+} from '@desmoslabs/desmjs-types/desmos/subspaces/v3/msgs';
 
 const decodePubKey = (gqlPubKey: any): Any | undefined => {
   const type = gqlPubKey['@type'];
@@ -214,6 +219,15 @@ const decodeSubspaceMessage = (type: string, value: any): EncodeObject | undefin
           treasury: value.treasury,
         }),
       } as MsgEditSubspaceEncodeObject;
+
+    case MsgDeleteSubspaceTypeUrl:
+      return {
+        typeUrl: MsgDeleteSubspaceTypeUrl,
+        value: MsgDeleteSubspace.fromPartial({
+          subspaceId: Long.fromString(value.subspace_id),
+          signer: value.signer,
+        }),
+      } as MsgDeleteSubspaceEncodeObject;
     default:
       return undefined;
   }
