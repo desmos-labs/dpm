@@ -11,6 +11,7 @@ import useStyles from './useStyles';
 export interface MessageDetailsField {
   readonly label: string;
   readonly value?: string;
+  readonly hide?: boolean;
 }
 
 export type BaseMessageDetailsProps = {
@@ -32,12 +33,14 @@ const BaseMessageDetails = (props: BaseMessageDetailsProps) => {
         {customIcon ?? <FastImage style={styles.txIcon} source={iconSource} resizeMode="contain" />}
         <Typography.Subtitle style={styles.headerAmount}>{iconSubtitle}</Typography.Subtitle>
       </View>
-      {fields?.map((field, index) => (
-        <View key={`field-${index * 2}`}>
-          {index > 0 && <Divider />}
-          <LabeledValue label={field.label} value={field.value} />
-        </View>
-      ))}
+      {fields
+        ?.filter((f) => f.hide !== true)
+        ?.map((field, index) => (
+          <View key={`field-${index * 2}`}>
+            {index > 0 && <Divider />}
+            <LabeledValue label={field.label} value={field.value} />
+          </View>
+        ))}
     </View>
   );
 };

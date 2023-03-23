@@ -3,6 +3,7 @@ import {
   MsgAddUserToUserGroupTypeUrl,
   MsgBlockUserTypeUrl,
   MsgCancelDTagTransferRequestTypeUrl,
+  MsgCreatePostTypeUrl,
   MsgCreateRelationshipTypeUrl,
   MsgCreateSectionTypeUrl,
   MsgCreateSubspaceTypeUrl,
@@ -77,6 +78,7 @@ import MsgDeleteUserGroupComponents from './subspaces/MsgDeleteUserGroup';
 import MsgSetUserPermissionsComponents from './subspaces/MsgSetUserPermissions';
 import MsgGrantComponents from './MsgGrant';
 import MsgRevokeComponents from './MsgRevoke';
+import MsgCreatePostComponents from './posts/MsgCreatePost';
 
 export const messageDetailsComponents: Record<string, MessageComponents<any>> = {
   // x/bank
@@ -132,4 +134,7 @@ export const messageDetailsComponents: Record<string, MessageComponents<any>> = 
   [MsgAddUserToUserGroupTypeUrl]: MsgAddUserToUserGroupComponents,
   [MsgRemoveUserFromUserGroupTypeUrl]: MsgRemoveUserFromUserGroupComponents,
   [MsgSetUserPermissionsTypeUrl]: MsgSetUserPermissionsComponents,
+
+  // x/posts
+  [MsgCreatePostTypeUrl]: MsgCreatePostComponents,
 };

@@ -1,0 +1,22 @@
+{
+  "create post": "Create post",
+  "external id": "External id",
+  "text": "Text",
+  "hashtags": "Hashtags",
+  "mentions": "Mentions",
+  "urls": "URLs",
+  "entities": "Entities",
+  "tags": "Tags",
+  "conversation id": "Conversation id",
+  "replay settings": "Reply settings",
+  "referenced posts": "Referenced posts",
+  "media attachment": "Media attachment",
+  "unknown attachment type": "Unknown attachment type",
+  "media mime type": "Media mime type",
+  "poll question": "Poll question",
+  "poll answers": "Poll answers",
+  "poll end date": "Poll end date",
+  "poll allow answer edit": "Poll allow answer edit",
+  "poll allow multiple answers": "Poll allow multiple answers",
+  "author": "Author"
+}
