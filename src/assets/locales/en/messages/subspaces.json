@@ -9,6 +9,7 @@
   "create user group": "Create user group",
   "edit user group": "Edit user group",
   "move user group": "Move user group",
+  "add user to group": "Add user to group",
   "set user group permissions": "Set user group permissions",
   "name": "Name",
   "description": "Description",
@@ -25,5 +26,6 @@
   "editor": "Editor",
   "initial members": "Initial members",
   "permissions": "Permissions",
-  "default permissions": "Default permissions"
+  "default permissions": "Default permissions",
+  "user": "User"
 }

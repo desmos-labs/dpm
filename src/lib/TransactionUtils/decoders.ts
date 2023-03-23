@@ -9,6 +9,8 @@ import {
 import { VoteOption } from 'cosmjs-types/cosmos/gov/v1beta1/gov';
 import Long from 'long';
 import {
+  MsgAddUserToUserGroupEncodeObject,
+  MsgAddUserToUserGroupTypeUrl,
   MsgCreateSectionEncodeObject,
   MsgCreateSectionTypeUrl,
   MsgCreateUserGroupEncodeObject,
@@ -41,6 +43,7 @@ import { Any } from 'cosmjs-types/google/protobuf/any';
 import { PubKey } from 'cosmjs-types/cosmos/crypto/secp256k1/keys';
 import { Message } from 'types/transactions';
 import {
+  MsgAddUserToUserGroup,
   MsgCreateSection,
   MsgCreateUserGroup,
   MsgDeleteSection,
@@ -345,6 +348,17 @@ const decodeSubspaceMessage = (type: string, value: any): EncodeObject | undefin
           signer: value.signer,
         }),
       } as MsgSetUserGroupPermissionsEncodeObject;
+
+    case MsgAddUserToUserGroupTypeUrl:
+      return {
+        typeUrl: MsgAddUserToUserGroupTypeUrl,
+        value: MsgAddUserToUserGroup.fromPartial({
+          subspaceId: Long.fromString(value.subspace_id),
+          groupId: value.group_id,
+          user: value.user,
+          signer: value.signer,
+        }),
+      } as MsgAddUserToUserGroupEncodeObject;
 
     default:
       return undefined;
