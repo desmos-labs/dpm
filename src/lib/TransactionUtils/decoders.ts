@@ -19,6 +19,8 @@ import {
   MsgDeleteSectionTypeUrl,
   MsgDeleteSubspaceEncodeObject,
   MsgDeleteSubspaceTypeUrl,
+  MsgDeleteUserGroupEncodeObject,
+  MsgDeleteUserGroupTypeUrl,
   MsgEditSectionEncodeObject,
   MsgEditSectionTypeUrl,
   MsgEditSubspaceEncodeObject,
@@ -48,6 +50,7 @@ import {
   MsgCreateUserGroup,
   MsgDeleteSection,
   MsgDeleteSubspace,
+  MsgDeleteUserGroup,
   MsgEditSection,
   MsgEditSubspace,
   MsgEditUserGroup,
@@ -348,6 +351,16 @@ const decodeSubspaceMessage = (type: string, value: any): EncodeObject | undefin
           signer: value.signer,
         }),
       } as MsgSetUserGroupPermissionsEncodeObject;
+
+    case MsgDeleteUserGroupTypeUrl:
+      return {
+        typeUrl: MsgDeleteUserGroupTypeUrl,
+        value: MsgDeleteUserGroup.fromPartial({
+          subspaceId: Long.fromString(value.subspace_id),
+          groupId: value.group_id,
+          signer: value.signer,
+        }),
+      } as MsgDeleteUserGroupEncodeObject;
 
     case MsgAddUserToUserGroupTypeUrl:
       return {

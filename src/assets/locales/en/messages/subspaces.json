@@ -9,6 +9,7 @@
   "create user group": "Create user group",
   "edit user group": "Edit user group",
   "move user group": "Move user group",
+  "delete user group": "Delete user group",
   "add user to group": "Add user to group",
   "set user group permissions": "Set user group permissions",
   "name": "Name",

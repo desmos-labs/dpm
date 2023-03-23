@@ -12,6 +12,7 @@ import {
   MsgDeleteRelationshipTypeUrl,
   MsgDeleteSectionTypeUrl,
   MsgDeleteSubspaceTypeUrl,
+  MsgDeleteUserGroupTypeUrl,
   MsgEditSectionTypeUrl,
   MsgEditSubspaceTypeUrl,
   MsgEditUserGroupTypeUrl,
@@ -67,6 +68,7 @@ import MsgUnblockUserComponents from './MsgUnblockUser';
 import MsgEditSubspaceComponents from './subspaces/MsgEditSubspace';
 import MsgDeleteSubspaceComponents from './subspaces/MsgDeleteSubspace';
 import MsgSetUserGroupPermissionsComponents from './subspaces/MsgSetUserGroupPermissions';
+import MsgDeleteUserGroupComponents from './subspaces/MsgDeleteUserGroup';
 
 export const messageDetailsComponents: Record<string, MessageComponents<any>> = {
   // x/bank
@@ -114,5 +116,6 @@ export const messageDetailsComponents: Record<string, MessageComponents<any>> = 
   [MsgEditUserGroupTypeUrl]: MsgEditUserGroupComponents,
   [MsgMoveUserGroupTypeUrl]: MsgMoveUserGroupComponents,
   [MsgSetUserGroupPermissionsTypeUrl]: MsgSetUserGroupPermissionsComponents,
+  [MsgDeleteUserGroupTypeUrl]: MsgDeleteUserGroupComponents,
   [MsgAddUserToUserGroupTypeUrl]: MsgAddUserToUserGroupComponents,
 };
