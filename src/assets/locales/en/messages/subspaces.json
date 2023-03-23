@@ -6,6 +6,7 @@
   "edit section": "Edit section",
   "move section": "Move section",
   "delete section": "Delete section",
+  "create user group": "Create user group",
   "name": "Name",
   "description": "Description",
   "treasury": "Treasury",
@@ -16,5 +17,7 @@
   "parent id": "Parent id",
   "new parent id": "New parent id",
   "section id": "Section id",
-  "editor": "Editor"
+  "editor": "Editor",
+  "initial members": "Initial members",
+  "default permissions": "Default permissions"
 }

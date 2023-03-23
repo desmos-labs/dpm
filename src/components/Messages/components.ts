@@ -5,6 +5,7 @@ import {
   MsgCreateRelationshipTypeUrl,
   MsgCreateSectionTypeUrl,
   MsgCreateSubspaceTypeUrl,
+  MsgCreateUserGroupTypeUrl,
   MsgDelegateTypeUrl,
   MsgDeleteProfileTypeUrl,
   MsgDeleteRelationshipTypeUrl,
@@ -49,6 +50,7 @@ import MsgCreateSectionComponents from 'components/Messages/subspaces/MsgCreateS
 import MsgEditSectionComponents from 'components/Messages/subspaces/MsgEditSection';
 import MsgMoveSectionComponents from 'components/Messages/subspaces/MsgMoveSection';
 import MsgDeleteSectionComponents from 'components/Messages/subspaces/MsgDeleteSection';
+import MsgCreateUserGroupComponents from 'components/Messages/subspaces/MsgCreateUserGroup';
 import { MessageComponents } from './BaseMessage';
 import MsgCancelDtagTransferRequestComponents from './MsgCancelDTagTransferRequest';
 import MsgCreateRelationshipComponents from './MsgCreateRelationship';
@@ -100,4 +102,5 @@ export const messageDetailsComponents: Record<string, MessageComponents<any>> = 
   [MsgEditSectionTypeUrl]: MsgEditSectionComponents,
   [MsgMoveSectionTypeUrl]: MsgMoveSectionComponents,
   [MsgDeleteSectionTypeUrl]: MsgDeleteSectionComponents,
+  [MsgCreateUserGroupTypeUrl]: MsgCreateUserGroupComponents,
 };

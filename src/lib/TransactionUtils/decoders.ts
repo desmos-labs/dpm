@@ -11,6 +11,8 @@ import Long from 'long';
 import {
   MsgCreateSectionEncodeObject,
   MsgCreateSectionTypeUrl,
+  MsgCreateUserGroupEncodeObject,
+  MsgCreateUserGroupTypeUrl,
   MsgDeleteSectionEncodeObject,
   MsgDeleteSectionTypeUrl,
   MsgDeleteSubspaceEncodeObject,
@@ -34,6 +36,7 @@ import { PubKey } from 'cosmjs-types/cosmos/crypto/secp256k1/keys';
 import { Message } from 'types/transactions';
 import {
   MsgCreateSection,
+  MsgCreateUserGroup,
   MsgDeleteSection,
   MsgDeleteSubspace,
   MsgEditSection,
@@ -285,6 +288,20 @@ const decodeSubspaceMessage = (type: string, value: any): EncodeObject | undefin
           signer: value.signer,
         }),
       } as MsgDeleteSectionEncodeObject;
+
+    case MsgCreateUserGroupTypeUrl:
+      return {
+        typeUrl: MsgCreateUserGroupTypeUrl,
+        value: MsgCreateUserGroup.fromPartial({
+          name: value.name,
+          description: value.description,
+          creator: value.creator,
+          initialMembers: value.initial_members,
+          sectionId: value.section_id,
+          subspaceId: Long.fromString(value.subspace_id),
+          defaultPermissions: value.default_permissions,
+        }),
+      } as MsgCreateUserGroupEncodeObject;
 
     default:
       return undefined;
