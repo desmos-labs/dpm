@@ -33,6 +33,8 @@ import {
   MsgMoveSectionTypeUrl,
   MsgMoveUserGroupEncodeObject,
   MsgMoveUserGroupTypeUrl,
+  MsgRemoveUserFromUserGroupEncodeObject,
+  MsgRemoveUserFromUserGroupTypeUrl,
   MsgSaveProfileEncodeObject,
   MsgSaveProfileTypeUrl,
   MsgSetUserGroupPermissionsEncodeObject,
@@ -56,6 +58,7 @@ import {
   MsgEditUserGroup,
   MsgMoveSection,
   MsgMoveUserGroup,
+  MsgRemoveUserFromUserGroup,
   MsgSetUserGroupPermissions,
 } from '@desmoslabs/desmjs-types/desmos/subspaces/v3/msgs';
 
@@ -372,6 +375,17 @@ const decodeSubspaceMessage = (type: string, value: any): EncodeObject | undefin
           signer: value.signer,
         }),
       } as MsgAddUserToUserGroupEncodeObject;
+
+    case MsgRemoveUserFromUserGroupTypeUrl:
+      return {
+        typeUrl: MsgRemoveUserFromUserGroupTypeUrl,
+        value: MsgRemoveUserFromUserGroup.fromPartial({
+          subspaceId: Long.fromString(value.subspace_id),
+          groupId: value.group_id,
+          user: value.user,
+          signer: value.signer,
+        }),
+      } as MsgRemoveUserFromUserGroupEncodeObject;
 
     default:
       return undefined;

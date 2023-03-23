@@ -11,6 +11,7 @@
   "move user group": "Move user group",
   "delete user group": "Delete user group",
   "add user to group": "Add user to group",
+  "remove user from group": "Remove user from group",
   "set user group permissions": "Set user group permissions",
   "name": "Name",
   "description": "Description",
