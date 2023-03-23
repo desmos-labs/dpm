@@ -11,6 +11,8 @@ import Long from 'long';
 import {
   AllowedMsgAllowanceTypeUrl,
   BasicAllowanceTypeUrl,
+  GenericAuthorizationTypeUrl,
+  GenericSubspaceAuthorizationTypeUrl,
   MsgAddUserToUserGroupEncodeObject,
   MsgAddUserToUserGroupTypeUrl,
   MsgCreateSectionEncodeObject,
@@ -29,8 +31,6 @@ import {
   MsgEditSubspaceTypeUrl,
   MsgEditUserGroupEncodeObject,
   MsgEditUserGroupTypeUrl,
-  GenericAuthorizationTypeUrl,
-  GenericSubspaceAuthorizationTypeUrl,
   MsgGrantAllowanceEncodeObject,
   MsgGrantAllowanceTypeUrl,
   MsgGrantEncodeObject,
@@ -78,7 +78,6 @@ import {
   MsgSetUserGroupPermissions,
   MsgSetUserPermissions,
 } from '@desmoslabs/desmjs-types/desmos/subspaces/v3/msgs';
-import { MsgGrant } from 'cosmjs-types/cosmos/authz/v1beta1/tx';
 import { GenericAuthorization, Grant } from 'cosmjs-types/cosmos/authz/v1beta1/authz';
 import { GenericSubspaceAuthorization } from '@desmoslabs/desmjs-types/desmos/subspaces/v3/authz/authz';
 import { SendAuthorization } from 'cosmjs-types/cosmos/bank/v1beta1/authz';
@@ -372,6 +371,87 @@ const decodeAuthzMessage = (type: string, value: any): EncodeObject | undefined 
   }
 };
 
+const decodeAllowance = (allowance: any): Any | undefined => {
+  if (allowance === undefined) {
+    return undefined;
+  }
+
+  const allowanceType = allowance['@type'];
+
+  switch (allowanceType) {
+    case BasicAllowanceTypeUrl:
+      return Any.fromPartial({
+        typeUrl: BasicAllowanceTypeUrl,
+        value: BasicAllowance.encode(
+          BasicAllowance.fromPartial({
+            expiration: allowance.expiration
+              ? timestampFromDate(new Date(allowance.expiration))
+              : undefined,
+            spendLimit: allowance.spend_limit,
+          }),
+        ).finish(),
+      });
+
+    case PeriodicAllowanceTypeUrl:
+      return Any.fromPartial({
+        typeUrl: PeriodicAllowanceTypeUrl,
+        value: PeriodicAllowance.encode(
+          PeriodicAllowance.fromPartial({
+            basic: BasicAllowance.fromPartial({
+              expiration: allowance.basic.expiration
+                ? timestampFromDate(new Date(allowance.basic.expiration))
+                : undefined,
+              spendLimit: allowance.basic.spend_limit,
+            }),
+            periodReset: allowance.period_reset
+              ? timestampFromDate(new Date(allowance.period_reset))
+              : undefined,
+            period: allowance.period
+              ? {
+                  seconds: allowance.period.replace('s', ''),
+                  nanos: 0,
+                }
+              : undefined,
+            periodSpendLimit: allowance.period_spend_limit,
+            periodCanSpend: allowance.period_can_spend,
+          }),
+        ).finish(),
+      });
+
+    case AllowedMsgAllowanceTypeUrl:
+      return Any.fromPartial({
+        typeUrl: AllowedMsgAllowanceTypeUrl,
+        value: AllowedMsgAllowance.encode(
+          AllowedMsgAllowance.fromPartial({
+            allowance: decodeAllowance(allowance.allowance),
+            allowedMessages: allowance.allowed_messages,
+          }),
+        ).finish(),
+      });
+    default:
+      // Keep this console log for debug purpose.
+      // eslint-disable-next-line no-console
+      console.log('Unsupported allowance type', allowanceType);
+      return undefined;
+  }
+};
+
+const decodeFeeGrantMessage = (type: string, value: any): EncodeObject | undefined => {
+  switch (type) {
+    case MsgGrantAllowanceTypeUrl:
+      return {
+        typeUrl: MsgGrantAllowanceTypeUrl,
+        value: MsgGrantAllowance.fromPartial({
+          granter: value.granter,
+          grantee: value.grantee,
+          allowance: decodeAllowance(value.allowance),
+        }),
+      } as MsgGrantAllowanceEncodeObject;
+    default:
+      return undefined;
+  }
+};
+
 const decodeSubspaceMessage = (type: string, value: any): EncodeObject | undefined => {
   switch (type) {
     case MsgEditSubspaceTypeUrl:
@@ -533,85 +613,6 @@ const decodeSubspaceMessage = (type: string, value: any): EncodeObject | undefin
         }),
       } as MsgSetUserPermissionsEncodeObject;
 
-    default:
-      return undefined;
-  }
-};
-
-const decodeAllowance = (allowance: any): Any | undefined => {
-  if (allowance === undefined) {
-    return undefined;
-  }
-
-  const allowanceType = allowance['@type'];
-
-  switch (allowanceType) {
-    case BasicAllowanceTypeUrl:
-      return Any.fromPartial({
-        typeUrl: BasicAllowanceTypeUrl,
-        value: BasicAllowance.encode(
-          BasicAllowance.fromPartial({
-            expiration: allowance.expiration
-              ? timestampFromDate(new Date(allowance.expiration))
-              : undefined,
-            spendLimit: allowance.spend_limit,
-          }),
-        ).finish(),
-      });
-
-    case PeriodicAllowanceTypeUrl:
-      return Any.fromPartial({
-        typeUrl: PeriodicAllowanceTypeUrl,
-        value: PeriodicAllowance.encode(
-          PeriodicAllowance.fromPartial({
-            basic: BasicAllowance.fromPartial({
-              expiration: allowance.basic.expiration
-                ? timestampFromDate(new Date(allowance.basic.expiration))
-                : undefined,
-              spendLimit: allowance.basic.spend_limit,
-            }),
-            periodReset: allowance.period_reset
-              ? timestampFromDate(new Date(allowance.period_reset))
-              : undefined,
-            period: allowance.period
-              ? {
-                  seconds: allowance.period.replace('s', ''),
-                  nanos: 0,
-                }
-              : undefined,
-            periodSpendLimit: allowance.period_spend_limit,
-            periodCanSpend: allowance.period_can_spend,
-          }),
-        ).finish(),
-      });
-
-    case AllowedMsgAllowanceTypeUrl:
-      return Any.fromPartial({
-        typeUrl: AllowedMsgAllowanceTypeUrl,
-        value: AllowedMsgAllowance.encode(
-          AllowedMsgAllowance.fromPartial({
-            allowance: decodeAllowance(allowance.allowance),
-            allowedMessages: allowance.allowed_messages,
-          }),
-        ).finish(),
-      });
-    default:
-      console.log('Unsupported allowance type', allowanceType);
-      return undefined;
-  }
-};
-
-const decodeFeeGrantMessage = (type: string, value: any): EncodeObject | undefined => {
-  switch (type) {
-    case MsgGrantAllowanceTypeUrl:
-      return {
-        typeUrl: MsgGrantAllowanceTypeUrl,
-        value: MsgGrantAllowance.fromPartial({
-          granter: value.granter,
-          grantee: value.grantee,
-          allowance: decodeAllowance(value.allowance),
-        }),
-      } as MsgGrantAllowanceEncodeObject;
     default:
       return undefined;
   }

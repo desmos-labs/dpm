@@ -4,6 +4,9 @@ import {
   MsgBlockUserTypeUrl,
   MsgCancelDTagTransferRequestTypeUrl,
   MsgCreateRelationshipTypeUrl,
+  MsgCreateSectionTypeUrl,
+  MsgCreateSubspaceTypeUrl,
+  MsgCreateUserGroupTypeUrl,
   MsgDelegateTypeUrl,
   MsgDeleteProfileTypeUrl,
   MsgDeleteRelationshipTypeUrl,
@@ -109,6 +112,10 @@ export const messageDetailsComponents: Record<string, MessageComponents<any>> = 
   [MsgGrantAllowanceTypeUrl]: MsgGrantAllowanceComponents,
   [MsgRevokeAllowanceTypeUrl]: MsgRevokeAllowanceComponents,
 
+  // x/authz
+  [MsgGrantTypeUrl]: MsgGrantComponents,
+  [MsgRevokeTypeUrl]: MsgRevokeComponents,
+
   // x/subspaces
   [MsgCreateSubspaceTypeUrl]: MsgCreateSubspaceComponents,
   [MsgEditSubspaceTypeUrl]: MsgEditSubspaceComponents,
@@ -125,8 +132,4 @@ export const messageDetailsComponents: Record<string, MessageComponents<any>> = 
   [MsgAddUserToUserGroupTypeUrl]: MsgAddUserToUserGroupComponents,
   [MsgRemoveUserFromUserGroupTypeUrl]: MsgRemoveUserFromUserGroupComponents,
   [MsgSetUserPermissionsTypeUrl]: MsgSetUserPermissionsComponents,
-
-  // x/authz
-  [MsgGrantTypeUrl]: MsgGrantComponents,
-  [MsgRevokeTypeUrl]: MsgRevokeComponents,
 };
