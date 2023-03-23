@@ -29,6 +29,7 @@ import {
   MsgSaveProfileTypeUrl,
   MsgSendTypeUrl,
   MsgSetUserGroupPermissionsTypeUrl,
+  MsgSetUserPermissionsTypeUrl,
   MsgUnblockUserTypeUrl,
   MsgUnlinkApplicationTypeUrl,
   MsgUnlinkChainAccountTypeUrl,
@@ -71,6 +72,7 @@ import MsgEditSubspaceComponents from './subspaces/MsgEditSubspace';
 import MsgDeleteSubspaceComponents from './subspaces/MsgDeleteSubspace';
 import MsgSetUserGroupPermissionsComponents from './subspaces/MsgSetUserGroupPermissions';
 import MsgDeleteUserGroupComponents from './subspaces/MsgDeleteUserGroup';
+import MsgSetUserPermissionsComponents from './subspaces/MsgSetUserPermissions';
 
 export const messageDetailsComponents: Record<string, MessageComponents<any>> = {
   // x/bank
@@ -121,4 +123,5 @@ export const messageDetailsComponents: Record<string, MessageComponents<any>> = 
   [MsgDeleteUserGroupTypeUrl]: MsgDeleteUserGroupComponents,
   [MsgAddUserToUserGroupTypeUrl]: MsgAddUserToUserGroupComponents,
   [MsgRemoveUserFromUserGroupTypeUrl]: MsgRemoveUserFromUserGroupComponents,
+  [MsgSetUserPermissionsTypeUrl]: MsgSetUserPermissionsComponents,
 };
