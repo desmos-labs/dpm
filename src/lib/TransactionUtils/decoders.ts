@@ -19,6 +19,8 @@ import {
   MsgEditSubspaceTypeUrl,
   MsgLinkChainAccountEncodeObject,
   MsgLinkChainAccountTypeUrl,
+  MsgMoveSectionEncodeObject,
+  MsgMoveSectionTypeUrl,
   MsgSaveProfileEncodeObject,
   MsgSaveProfileTypeUrl,
   MsgUnlinkChainAccountEncodeObject,
@@ -33,6 +35,7 @@ import {
   MsgDeleteSubspace,
   MsgEditSection,
   MsgEditSubspace,
+  MsgMoveSection,
 } from '@desmoslabs/desmjs-types/desmos/subspaces/v3/msgs';
 
 const decodePubKey = (gqlPubKey: any): Any | undefined => {
@@ -258,6 +261,17 @@ const decodeSubspaceMessage = (type: string, value: any): EncodeObject | undefin
           editor: value.editor,
         }),
       } as MsgEditSectionEncodeObject;
+
+    case MsgMoveSectionTypeUrl:
+      return {
+        typeUrl: MsgMoveSectionTypeUrl,
+        value: MsgMoveSection.fromPartial({
+          sectionId: value.section_id,
+          subspaceId: Long.fromString(value.subspace_id),
+          newParentId: value.new_parent_id,
+          signer: value.signer,
+        }),
+      } as MsgMoveSectionEncodeObject;
 
     default:
       return undefined;

@@ -14,6 +14,7 @@ import {
   MsgGrantAllowanceTypeUrl,
   MsgLinkApplicationTypeUrl,
   MsgLinkChainAccountTypeUrl,
+  MsgMoveSectionTypeUrl,
   MsgMultiSendTypeUrl,
   MsgRefuseDTagTransferRequestTypeUrl,
   MsgRequestDTagTransferTypeUrl,
@@ -45,6 +46,7 @@ import MsgRevokeAllowanceComponents from 'components/Messages/MsgRevokeAllowance
 import MsgCreateSubspaceComponents from 'components/Messages/subspaces/MsgCreateSubspace';
 import MsgCreateSectionComponents from 'components/Messages/subspaces/MsgCreateSection';
 import MsgEditSectionComponents from 'components/Messages/subspaces/MsgEditSection';
+import MsgMoveSectionComponents from 'components/Messages/subspaces/MsgMoveSection';
 import { MessageComponents } from './BaseMessage';
 import MsgCancelDtagTransferRequestComponents from './MsgCancelDTagTransferRequest';
 import MsgCreateRelationshipComponents from './MsgCreateRelationship';
@@ -94,4 +96,5 @@ export const messageDetailsComponents: Record<string, MessageComponents<any>> = 
   [MsgDeleteSubspaceTypeUrl]: MsgDeleteSubspaceComponents,
   [MsgCreateSectionTypeUrl]: MsgCreateSectionComponents,
   [MsgEditSectionTypeUrl]: MsgEditSectionComponents,
+  [MsgMoveSectionTypeUrl]: MsgMoveSectionComponents,
 };

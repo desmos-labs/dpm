@@ -4,6 +4,7 @@
   "delete subspace": "Delete subspace",
   "create section": "Create section",
   "edit section": "Edit section",
+  "move section": "Move section",
   "name": "Name",
   "description": "Description",
   "treasury": "Treasury",
@@ -12,6 +13,7 @@
   "subspace id": "Subspace id",
   "signer": "Signer",
   "parent id": "Parent id",
+  "new parent id": "New parent id",
   "section id": "Section id",
   "editor": "Editor"
 }
