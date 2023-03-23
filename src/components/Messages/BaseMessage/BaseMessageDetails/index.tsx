@@ -8,11 +8,16 @@ import { getImageSource } from 'lib/ImageUtils';
 import { desmosLogoOrange } from 'assets/images';
 import useStyles from './useStyles';
 
+export interface MessageDetailsField {
+  readonly label: string;
+  readonly value?: string;
+}
+
 export type BaseMessageDetailsProps = {
   icon?: ImageSourcePropType;
   customIconView?: React.ReactElement;
   iconSubtitle?: string;
-  fields?: { label: string; value?: string }[];
+  fields?: MessageDetailsField[];
 };
 
 const BaseMessageDetails = (props: BaseMessageDetailsProps) => {

@@ -9,6 +9,10 @@ import {
 import { VoteOption } from 'cosmjs-types/cosmos/gov/v1beta1/gov';
 import Long from 'long';
 import {
+  AllowedMsgAllowanceTypeUrl,
+  BasicAllowanceTypeUrl,
+  GenericAuthorizationTypeUrl,
+  GenericSubspaceAuthorizationTypeUrl,
   MsgAddUserToUserGroupEncodeObject,
   MsgAddUserToUserGroupTypeUrl,
   MsgCreateSectionEncodeObject,
@@ -27,6 +31,10 @@ import {
   MsgEditSubspaceTypeUrl,
   MsgEditUserGroupEncodeObject,
   MsgEditUserGroupTypeUrl,
+  MsgGrantAllowanceEncodeObject,
+  MsgGrantAllowanceTypeUrl,
+  MsgGrantEncodeObject,
+  MsgGrantTypeUrl,
   MsgLinkChainAccountEncodeObject,
   MsgLinkChainAccountTypeUrl,
   MsgMoveSectionEncodeObject,
@@ -35,6 +43,8 @@ import {
   MsgMoveUserGroupTypeUrl,
   MsgRemoveUserFromUserGroupEncodeObject,
   MsgRemoveUserFromUserGroupTypeUrl,
+  MsgRevokeEncodeObject,
+  MsgRevokeTypeUrl,
   MsgSaveProfileEncodeObject,
   MsgSaveProfileTypeUrl,
   MsgSetUserGroupPermissionsEncodeObject,
@@ -43,11 +53,15 @@ import {
   MsgSetUserPermissionsTypeUrl,
   MsgUnlinkChainAccountEncodeObject,
   MsgUnlinkChainAccountTypeUrl,
+  PeriodicAllowanceTypeUrl,
+  SendAuthorizationTypeUrl,
+  timestampFromDate,
 } from '@desmoslabs/desmjs';
 import { Bech32Address } from '@desmoslabs/desmjs-types/desmos/profiles/v3/models_chain_links';
 import { Any } from 'cosmjs-types/google/protobuf/any';
 import { PubKey } from 'cosmjs-types/cosmos/crypto/secp256k1/keys';
 import { Message } from 'types/transactions';
+import { MsgGrant, MsgRevoke } from 'cosmjs-types/cosmos/authz/v1beta1/tx';
 import {
   MsgAddUserToUserGroup,
   MsgCreateSection,
@@ -64,6 +78,21 @@ import {
   MsgSetUserGroupPermissions,
   MsgSetUserPermissions,
 } from '@desmoslabs/desmjs-types/desmos/subspaces/v3/msgs';
+import { GenericAuthorization, Grant } from 'cosmjs-types/cosmos/authz/v1beta1/authz';
+import { GenericSubspaceAuthorization } from '@desmoslabs/desmjs-types/desmos/subspaces/v3/authz/authz';
+import { SendAuthorization } from 'cosmjs-types/cosmos/bank/v1beta1/authz';
+import {
+  authorizationTypeFromJSON,
+  StakeAuthorization,
+} from 'cosmjs-types/cosmos/staking/v1beta1/authz';
+import { Coin } from 'cosmjs-types/cosmos/base/v1beta1/coin';
+import { StakeAuthorizationTypeUrl } from 'types/cosmos-staking';
+import { MsgGrantAllowance } from 'cosmjs-types/cosmos/feegrant/v1beta1/tx';
+import {
+  AllowedMsgAllowance,
+  BasicAllowance,
+  PeriodicAllowance,
+} from 'cosmjs-types/cosmos/feegrant/v1beta1/feegrant';
 
 const decodePubKey = (gqlPubKey: any): Any | undefined => {
   const type = gqlPubKey['@type'];
@@ -241,6 +270,188 @@ const decodeProfileMessage = (type: string, value: any): EncodeObject | undefine
   }
 };
 
+const decodeGrant = (grant: any): Grant | undefined => {
+  if (grant === undefined) {
+    return undefined;
+  }
+
+  const { authorization, expiration } = grant;
+  const parsedExpiration = expiration ? timestampFromDate(new Date(expiration)) : undefined;
+  const authorizationType = authorization['@type'];
+  let decodedAuthorization: Any | undefined;
+
+  switch (authorizationType) {
+    case GenericSubspaceAuthorizationTypeUrl:
+      decodedAuthorization = {
+        typeUrl: authorizationType,
+        value: GenericSubspaceAuthorization.encode(
+          GenericSubspaceAuthorization.fromPartial({
+            msg: authorization.msg,
+            subspacesIds: authorization.subspaces_ids,
+          }),
+        ).finish(),
+      };
+      break;
+
+    case GenericAuthorizationTypeUrl:
+      decodedAuthorization = {
+        typeUrl: GenericAuthorizationTypeUrl,
+        value: GenericAuthorization.encode(
+          GenericAuthorization.fromPartial({
+            msg: authorization.msg,
+          }),
+        ).finish(),
+      };
+      break;
+
+    case SendAuthorizationTypeUrl:
+      decodedAuthorization = {
+        typeUrl: SendAuthorizationTypeUrl,
+        value: SendAuthorization.encode(
+          SendAuthorization.fromPartial({
+            spendLimit: authorization.spend_limit.map(Coin.fromJSON),
+          }),
+        ).finish(),
+      };
+      break;
+
+    case StakeAuthorizationTypeUrl:
+      decodedAuthorization = {
+        typeUrl: StakeAuthorizationTypeUrl,
+        value: StakeAuthorization.encode(
+          StakeAuthorization.fromPartial({
+            authorizationType: authorizationTypeFromJSON(authorization.authorization_type),
+            allowList: authorization.allow_list,
+            denyList: authorization.deny_list,
+            maxTokens: authorization.max_tokens,
+          }),
+        ).finish(),
+      };
+      break;
+
+    default:
+      // Disable eslint so that we have the warning when in development mode.
+      // eslint-disable-next-line no-console
+      console.warn('Unsupported authorization type', authorizationType);
+      decodedAuthorization = Any.fromPartial({
+        typeUrl: authorizationType,
+      });
+      break;
+  }
+
+  return Grant.fromPartial({
+    authorization: decodedAuthorization,
+    expiration: parsedExpiration,
+  });
+};
+
+const decodeAuthzMessage = (type: string, value: any): EncodeObject | undefined => {
+  switch (type) {
+    case MsgGrantTypeUrl:
+      return {
+        typeUrl: MsgGrantTypeUrl,
+        value: MsgGrant.fromPartial({
+          granter: value.granter,
+          grantee: value.grantee,
+          grant: decodeGrant(value.grant),
+        }),
+      } as MsgGrantEncodeObject;
+
+    case MsgRevokeTypeUrl:
+      return {
+        typeUrl: MsgRevokeTypeUrl,
+        value: MsgRevoke.fromPartial({
+          granter: value.granter,
+          grantee: value.grantee,
+          msgTypeUrl: value.msg_type_url,
+        }),
+      } as MsgRevokeEncodeObject;
+    default:
+      return undefined;
+  }
+};
+
+const decodeAllowance = (allowance: any): Any | undefined => {
+  if (allowance === undefined) {
+    return undefined;
+  }
+
+  const allowanceType = allowance['@type'];
+
+  switch (allowanceType) {
+    case BasicAllowanceTypeUrl:
+      return Any.fromPartial({
+        typeUrl: BasicAllowanceTypeUrl,
+        value: BasicAllowance.encode(
+          BasicAllowance.fromPartial({
+            expiration: allowance.expiration
+              ? timestampFromDate(new Date(allowance.expiration))
+              : undefined,
+            spendLimit: allowance.spend_limit,
+          }),
+        ).finish(),
+      });
+
+    case PeriodicAllowanceTypeUrl:
+      return Any.fromPartial({
+        typeUrl: PeriodicAllowanceTypeUrl,
+        value: PeriodicAllowance.encode(
+          PeriodicAllowance.fromPartial({
+            basic: BasicAllowance.fromPartial({
+              expiration: allowance.basic.expiration
+                ? timestampFromDate(new Date(allowance.basic.expiration))
+                : undefined,
+              spendLimit: allowance.basic.spend_limit,
+            }),
+            periodReset: allowance.period_reset
+              ? timestampFromDate(new Date(allowance.period_reset))
+              : undefined,
+            period: allowance.period
+              ? {
+                  seconds: allowance.period.replace('s', ''),
+                  nanos: 0,
+                }
+              : undefined,
+            periodSpendLimit: allowance.period_spend_limit,
+            periodCanSpend: allowance.period_can_spend,
+          }),
+        ).finish(),
+      });
+
+    case AllowedMsgAllowanceTypeUrl:
+      return Any.fromPartial({
+        typeUrl: AllowedMsgAllowanceTypeUrl,
+        value: AllowedMsgAllowance.encode(
+          AllowedMsgAllowance.fromPartial({
+            allowance: decodeAllowance(allowance.allowance),
+            allowedMessages: allowance.allowed_messages,
+          }),
+        ).finish(),
+      });
+    default:
+      // Keep this console log for debug purpose.
+      // eslint-disable-next-line no-console
+      console.log('Unsupported allowance type', allowanceType);
+      return undefined;
+  }
+};
+
+const decodeFeeGrantMessage = (type: string, value: any): EncodeObject | undefined => {
+  switch (type) {
+    case MsgGrantAllowanceTypeUrl:
+      return {
+        typeUrl: MsgGrantAllowanceTypeUrl,
+        value: MsgGrantAllowance.fromPartial({
+          granter: value.granter,
+          grantee: value.grantee,
+          allowance: decodeAllowance(value.allowance),
+        }),
+      } as MsgGrantAllowanceEncodeObject;
+    default:
+      return undefined;
+  }
+};
+
 const decodeSubspaceMessage = (type: string, value: any): EncodeObject | undefined => {
   switch (type) {
     case MsgEditSubspaceTypeUrl:
@@ -413,6 +624,8 @@ const converters = [
   decodeGovMessage,
   decodeStakingMessage,
   decodeProfileMessage,
+  decodeFeeGrantMessage,
+  decodeAuthzMessage,
   decodeSubspaceMessage,
 ];
 

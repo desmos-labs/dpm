@@ -17,6 +17,7 @@ import {
   MsgEditSubspaceTypeUrl,
   MsgEditUserGroupTypeUrl,
   MsgGrantAllowanceTypeUrl,
+  MsgGrantTypeUrl,
   MsgLinkApplicationTypeUrl,
   MsgLinkChainAccountTypeUrl,
   MsgMoveSectionTypeUrl,
@@ -26,6 +27,7 @@ import {
   MsgRemoveUserFromUserGroupTypeUrl,
   MsgRequestDTagTransferTypeUrl,
   MsgRevokeAllowanceTypeUrl,
+  MsgRevokeTypeUrl,
   MsgSaveProfileTypeUrl,
   MsgSendTypeUrl,
   MsgSetUserGroupPermissionsTypeUrl,
@@ -73,6 +75,8 @@ import MsgDeleteSubspaceComponents from './subspaces/MsgDeleteSubspace';
 import MsgSetUserGroupPermissionsComponents from './subspaces/MsgSetUserGroupPermissions';
 import MsgDeleteUserGroupComponents from './subspaces/MsgDeleteUserGroup';
 import MsgSetUserPermissionsComponents from './subspaces/MsgSetUserPermissions';
+import MsgGrantComponents from './MsgGrant';
+import MsgRevokeComponents from './MsgRevoke';
 
 export const messageDetailsComponents: Record<string, MessageComponents<any>> = {
   // x/bank
@@ -107,6 +111,10 @@ export const messageDetailsComponents: Record<string, MessageComponents<any>> = 
   // x/feegrant
   [MsgGrantAllowanceTypeUrl]: MsgGrantAllowanceComponents,
   [MsgRevokeAllowanceTypeUrl]: MsgRevokeAllowanceComponents,
+
+  // x/authz
+  [MsgGrantTypeUrl]: MsgGrantComponents,
+  [MsgRevokeTypeUrl]: MsgRevokeComponents,
 
   // x/subspaces
   [MsgCreateSubspaceTypeUrl]: MsgCreateSubspaceComponents,
