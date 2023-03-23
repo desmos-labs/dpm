@@ -18,6 +18,7 @@ import {
   MsgLinkApplicationTypeUrl,
   MsgLinkChainAccountTypeUrl,
   MsgMoveSectionTypeUrl,
+  MsgMoveUserGroupTypeUrl,
   MsgMultiSendTypeUrl,
   MsgRefuseDTagTransferRequestTypeUrl,
   MsgRequestDTagTransferTypeUrl,
@@ -53,6 +54,7 @@ import MsgMoveSectionComponents from 'components/Messages/subspaces/MsgMoveSecti
 import MsgDeleteSectionComponents from 'components/Messages/subspaces/MsgDeleteSection';
 import MsgCreateUserGroupComponents from 'components/Messages/subspaces/MsgCreateUserGroup';
 import MsgEditUserGroupComponents from 'components/Messages/subspaces/MsgEditUserGroup';
+import MsgMoveUserGroupComponents from 'components/Messages/subspaces/MsgMoveUserGroup';
 import { MessageComponents } from './BaseMessage';
 import MsgCancelDtagTransferRequestComponents from './MsgCancelDTagTransferRequest';
 import MsgCreateRelationshipComponents from './MsgCreateRelationship';
@@ -106,4 +108,5 @@ export const messageDetailsComponents: Record<string, MessageComponents<any>> = 
   [MsgDeleteSectionTypeUrl]: MsgDeleteSectionComponents,
   [MsgCreateUserGroupTypeUrl]: MsgCreateUserGroupComponents,
   [MsgEditUserGroupTypeUrl]: MsgEditUserGroupComponents,
+  [MsgMoveUserGroupTypeUrl]: MsgMoveUserGroupComponents,
 };
