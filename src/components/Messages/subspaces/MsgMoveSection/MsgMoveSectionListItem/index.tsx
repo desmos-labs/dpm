@@ -23,7 +23,9 @@ const MsgMoveSectionListItem: MessageListItemComponent<MsgMoveSectionEncodeObjec
       date={date}
       renderContent={() => (
         <View>
-          <Typography.Body1>{t('move section')}</Typography.Body1>
+          <Typography.Body1>
+            {t('move section')} {message.value.sectionId.toString()}
+          </Typography.Body1>
           <Typography.Caption>
             {t('subspace id')}: {message.value.subspaceId.toString()}
           </Typography.Caption>
