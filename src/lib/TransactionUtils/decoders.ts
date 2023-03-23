@@ -9,10 +9,38 @@ import {
 import { VoteOption } from 'cosmjs-types/cosmos/gov/v1beta1/gov';
 import Long from 'long';
 import {
+  MsgAddUserToUserGroupEncodeObject,
+  MsgAddUserToUserGroupTypeUrl,
+  MsgCreateSectionEncodeObject,
+  MsgCreateSectionTypeUrl,
+  MsgCreateUserGroupEncodeObject,
+  MsgCreateUserGroupTypeUrl,
+  MsgDeleteSectionEncodeObject,
+  MsgDeleteSectionTypeUrl,
+  MsgDeleteSubspaceEncodeObject,
+  MsgDeleteSubspaceTypeUrl,
+  MsgDeleteUserGroupEncodeObject,
+  MsgDeleteUserGroupTypeUrl,
+  MsgEditSectionEncodeObject,
+  MsgEditSectionTypeUrl,
+  MsgEditSubspaceEncodeObject,
+  MsgEditSubspaceTypeUrl,
+  MsgEditUserGroupEncodeObject,
+  MsgEditUserGroupTypeUrl,
   MsgLinkChainAccountEncodeObject,
   MsgLinkChainAccountTypeUrl,
+  MsgMoveSectionEncodeObject,
+  MsgMoveSectionTypeUrl,
+  MsgMoveUserGroupEncodeObject,
+  MsgMoveUserGroupTypeUrl,
+  MsgRemoveUserFromUserGroupEncodeObject,
+  MsgRemoveUserFromUserGroupTypeUrl,
   MsgSaveProfileEncodeObject,
   MsgSaveProfileTypeUrl,
+  MsgSetUserGroupPermissionsEncodeObject,
+  MsgSetUserGroupPermissionsTypeUrl,
+  MsgSetUserPermissionsEncodeObject,
+  MsgSetUserPermissionsTypeUrl,
   MsgUnlinkChainAccountEncodeObject,
   MsgUnlinkChainAccountTypeUrl,
 } from '@desmoslabs/desmjs';
@@ -20,6 +48,22 @@ import { Bech32Address } from '@desmoslabs/desmjs-types/desmos/profiles/v3/model
 import { Any } from 'cosmjs-types/google/protobuf/any';
 import { PubKey } from 'cosmjs-types/cosmos/crypto/secp256k1/keys';
 import { Message } from 'types/transactions';
+import {
+  MsgAddUserToUserGroup,
+  MsgCreateSection,
+  MsgCreateUserGroup,
+  MsgDeleteSection,
+  MsgDeleteSubspace,
+  MsgDeleteUserGroup,
+  MsgEditSection,
+  MsgEditSubspace,
+  MsgEditUserGroup,
+  MsgMoveSection,
+  MsgMoveUserGroup,
+  MsgRemoveUserFromUserGroup,
+  MsgSetUserGroupPermissions,
+  MsgSetUserPermissions,
+} from '@desmoslabs/desmjs-types/desmos/subspaces/v3/msgs';
 
 const decodePubKey = (gqlPubKey: any): Any | undefined => {
   const type = gqlPubKey['@type'];
@@ -197,13 +241,179 @@ const decodeProfileMessage = (type: string, value: any): EncodeObject | undefine
   }
 };
 
+const decodeSubspaceMessage = (type: string, value: any): EncodeObject | undefined => {
+  switch (type) {
+    case MsgEditSubspaceTypeUrl:
+      return {
+        typeUrl: MsgEditSubspaceTypeUrl,
+        value: MsgEditSubspace.fromPartial({
+          subspaceId: Long.fromString(value.subspace_id),
+          name: value.name,
+          owner: value.owner,
+          signer: value.signer,
+          description: value.description,
+          treasury: value.treasury,
+        }),
+      } as MsgEditSubspaceEncodeObject;
+
+    case MsgDeleteSubspaceTypeUrl:
+      return {
+        typeUrl: MsgDeleteSubspaceTypeUrl,
+        value: MsgDeleteSubspace.fromPartial({
+          subspaceId: Long.fromString(value.subspace_id),
+          signer: value.signer,
+        }),
+      } as MsgDeleteSubspaceEncodeObject;
+
+    case MsgCreateSectionTypeUrl:
+      return {
+        typeUrl: MsgCreateSectionTypeUrl,
+        value: MsgCreateSection.fromPartial({
+          name: value.name,
+          description: value.description,
+          parentId: value.parent_id,
+          subspaceId: Long.fromString(value.subspace_id),
+          creator: value.creator,
+        }),
+      } as MsgCreateSectionEncodeObject;
+
+    case MsgEditSectionTypeUrl:
+      return {
+        typeUrl: MsgEditSectionTypeUrl,
+        value: MsgEditSection.fromPartial({
+          name: value.name,
+          description: value.description,
+          sectionId: value.section_id,
+          subspaceId: Long.fromString(value.subspace_id),
+          editor: value.editor,
+        }),
+      } as MsgEditSectionEncodeObject;
+
+    case MsgMoveSectionTypeUrl:
+      return {
+        typeUrl: MsgMoveSectionTypeUrl,
+        value: MsgMoveSection.fromPartial({
+          sectionId: value.section_id,
+          subspaceId: Long.fromString(value.subspace_id),
+          newParentId: value.new_parent_id,
+          signer: value.signer,
+        }),
+      } as MsgMoveSectionEncodeObject;
+
+    case MsgDeleteSectionTypeUrl:
+      return {
+        typeUrl: MsgDeleteSectionTypeUrl,
+        value: MsgDeleteSection.fromPartial({
+          sectionId: value.section_id,
+          subspaceId: Long.fromString(value.subspace_id),
+          signer: value.signer,
+        }),
+      } as MsgDeleteSectionEncodeObject;
+
+    case MsgCreateUserGroupTypeUrl:
+      return {
+        typeUrl: MsgCreateUserGroupTypeUrl,
+        value: MsgCreateUserGroup.fromPartial({
+          name: value.name,
+          description: value.description,
+          creator: value.creator,
+          initialMembers: value.initial_members,
+          sectionId: value.section_id,
+          subspaceId: Long.fromString(value.subspace_id),
+          defaultPermissions: value.default_permissions,
+        }),
+      } as MsgCreateUserGroupEncodeObject;
+
+    case MsgEditUserGroupTypeUrl:
+      return {
+        typeUrl: MsgEditUserGroupTypeUrl,
+        value: MsgEditUserGroup.fromPartial({
+          subspaceId: Long.fromString(value.subspace_id),
+          groupId: value.group_id,
+          name: value.name,
+          description: value.description,
+          signer: value.signer,
+        }),
+      } as MsgEditUserGroupEncodeObject;
+
+    case MsgMoveUserGroupTypeUrl:
+      return {
+        typeUrl: MsgMoveUserGroupTypeUrl,
+        value: MsgMoveUserGroup.fromPartial({
+          subspaceId: Long.fromString(value.subspace_id),
+          groupId: value.group_id,
+          newSectionId: value.new_section_id,
+          signer: value.signer,
+        }),
+      } as MsgMoveUserGroupEncodeObject;
+
+    case MsgSetUserGroupPermissionsTypeUrl:
+      return {
+        typeUrl: MsgSetUserGroupPermissionsTypeUrl,
+        value: MsgSetUserGroupPermissions.fromPartial({
+          subspaceId: Long.fromString(value.subspace_id),
+          groupId: value.group_id,
+          permissions: value.permissions,
+          signer: value.signer,
+        }),
+      } as MsgSetUserGroupPermissionsEncodeObject;
+
+    case MsgDeleteUserGroupTypeUrl:
+      return {
+        typeUrl: MsgDeleteUserGroupTypeUrl,
+        value: MsgDeleteUserGroup.fromPartial({
+          subspaceId: Long.fromString(value.subspace_id),
+          groupId: value.group_id,
+          signer: value.signer,
+        }),
+      } as MsgDeleteUserGroupEncodeObject;
+
+    case MsgAddUserToUserGroupTypeUrl:
+      return {
+        typeUrl: MsgAddUserToUserGroupTypeUrl,
+        value: MsgAddUserToUserGroup.fromPartial({
+          subspaceId: Long.fromString(value.subspace_id),
+          groupId: value.group_id,
+          user: value.user,
+          signer: value.signer,
+        }),
+      } as MsgAddUserToUserGroupEncodeObject;
+
+    case MsgRemoveUserFromUserGroupTypeUrl:
+      return {
+        typeUrl: MsgRemoveUserFromUserGroupTypeUrl,
+        value: MsgRemoveUserFromUserGroup.fromPartial({
+          subspaceId: Long.fromString(value.subspace_id),
+          groupId: value.group_id,
+          user: value.user,
+          signer: value.signer,
+        }),
+      } as MsgRemoveUserFromUserGroupEncodeObject;
+
+    case MsgSetUserPermissionsTypeUrl:
+      return {
+        typeUrl: MsgSetUserPermissionsTypeUrl,
+        value: MsgSetUserPermissions.fromPartial({
+          subspaceId: Long.fromString(value.subspace_id),
+          sectionId: value.section_id ?? 0,
+          user: value.user,
+          permissions: value.permissions,
+          signer: value.signer,
+        }),
+      } as MsgSetUserPermissionsEncodeObject;
+
+    default:
+      return undefined;
+  }
+};
+
 const converters = [
   decodeBankMessage,
   decodeDistributionMessage,
   decodeGovMessage,
   decodeStakingMessage,
-
   decodeProfileMessage,
+  decodeSubspaceMessage,
 ];
 
 const decodeQueriedMessage = (message: QueriedMessage): Message => {
