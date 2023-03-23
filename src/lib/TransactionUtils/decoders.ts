@@ -31,6 +31,8 @@ import {
   MsgMoveUserGroupTypeUrl,
   MsgSaveProfileEncodeObject,
   MsgSaveProfileTypeUrl,
+  MsgSetUserGroupPermissionsEncodeObject,
+  MsgSetUserGroupPermissionsTypeUrl,
   MsgUnlinkChainAccountEncodeObject,
   MsgUnlinkChainAccountTypeUrl,
 } from '@desmoslabs/desmjs';
@@ -48,6 +50,7 @@ import {
   MsgEditUserGroup,
   MsgMoveSection,
   MsgMoveUserGroup,
+  MsgSetUserGroupPermissions,
 } from '@desmoslabs/desmjs-types/desmos/subspaces/v3/msgs';
 
 const decodePubKey = (gqlPubKey: any): Any | undefined => {
@@ -331,6 +334,17 @@ const decodeSubspaceMessage = (type: string, value: any): EncodeObject | undefin
           signer: value.signer,
         }),
       } as MsgMoveUserGroupEncodeObject;
+
+    case MsgSetUserGroupPermissionsTypeUrl:
+      return {
+        typeUrl: MsgSetUserGroupPermissionsTypeUrl,
+        value: MsgSetUserGroupPermissions.fromPartial({
+          subspaceId: Long.fromString(value.subspace_id),
+          groupId: value.group_id,
+          permissions: value.permissions,
+          signer: value.signer,
+        }),
+      } as MsgSetUserGroupPermissionsEncodeObject;
 
     default:
       return undefined;
