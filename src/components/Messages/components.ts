@@ -9,6 +9,7 @@ import {
   MsgCreateSubspaceTypeUrl,
   MsgCreateUserGroupTypeUrl,
   MsgDelegateTypeUrl,
+  MsgDeletePostTypeUrl,
   MsgDeleteProfileTypeUrl,
   MsgDeleteRelationshipTypeUrl,
   MsgDeleteSectionTypeUrl,
@@ -79,6 +80,7 @@ import MsgSetUserPermissionsComponents from './subspaces/MsgSetUserPermissions';
 import MsgGrantComponents from './MsgGrant';
 import MsgRevokeComponents from './MsgRevoke';
 import MsgCreatePostComponents from './posts/MsgCreatePost';
+import MsgDeletePostComponents from './posts/MsgDeletePost';
 
 export const messageDetailsComponents: Record<string, MessageComponents<any>> = {
   // x/bank
@@ -137,4 +139,5 @@ export const messageDetailsComponents: Record<string, MessageComponents<any>> = 
 
   // x/posts
   [MsgCreatePostTypeUrl]: MsgCreatePostComponents,
+  [MsgDeletePostTypeUrl]: MsgDeletePostComponents,
 };

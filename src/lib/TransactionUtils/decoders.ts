@@ -22,6 +22,8 @@ import {
   MsgCreateSectionTypeUrl,
   MsgCreateUserGroupEncodeObject,
   MsgCreateUserGroupTypeUrl,
+  MsgDeletePostEncodeObject,
+  MsgDeletePostTypeUrl,
   MsgDeleteSectionEncodeObject,
   MsgDeleteSectionTypeUrl,
   MsgDeleteSubspaceEncodeObject,
@@ -97,7 +99,7 @@ import {
   BasicAllowance,
   PeriodicAllowance,
 } from 'cosmjs-types/cosmos/feegrant/v1beta1/feegrant';
-import { MsgCreatePost } from '@desmoslabs/desmjs-types/desmos/posts/v2/msgs';
+import { MsgCreatePost, MsgDeletePost } from '@desmoslabs/desmjs-types/desmos/posts/v2/msgs';
 import {
   Attachment,
   Entities,
@@ -743,6 +745,17 @@ const decodePostsMessage = (type: string, value: any): EncodeObject | undefined 
             ?.filter((attachment: Any | undefined) => attachment !== undefined),
         }),
       } as MsgCreatePostEncodeObject;
+
+    case MsgDeletePostTypeUrl:
+      return {
+        typeUrl: MsgDeletePostTypeUrl,
+        value: MsgDeletePost.fromPartial({
+          subspaceId: value.subspace_id,
+          postId: value.post_id,
+          signer: value.signer,
+        }),
+      } as MsgDeletePostEncodeObject;
+
     default:
       return undefined;
   }

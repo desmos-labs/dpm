@@ -1,5 +1,7 @@
 {
   "create post": "Create post",
+  "delete post": "Delete post",
+  "post id": "Post id",
   "external id": "External id",
   "text": "Text",
   "hashtags": "Hashtags",
