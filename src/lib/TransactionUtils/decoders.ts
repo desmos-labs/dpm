@@ -21,6 +21,8 @@ import {
   MsgEditSectionTypeUrl,
   MsgEditSubspaceEncodeObject,
   MsgEditSubspaceTypeUrl,
+  MsgEditUserGroupEncodeObject,
+  MsgEditUserGroupTypeUrl,
   MsgLinkChainAccountEncodeObject,
   MsgLinkChainAccountTypeUrl,
   MsgMoveSectionEncodeObject,
@@ -41,6 +43,7 @@ import {
   MsgDeleteSubspace,
   MsgEditSection,
   MsgEditSubspace,
+  MsgEditUserGroup,
   MsgMoveSection,
 } from '@desmoslabs/desmjs-types/desmos/subspaces/v3/msgs';
 
@@ -302,6 +305,18 @@ const decodeSubspaceMessage = (type: string, value: any): EncodeObject | undefin
           defaultPermissions: value.default_permissions,
         }),
       } as MsgCreateUserGroupEncodeObject;
+
+    case MsgEditUserGroupTypeUrl:
+      return {
+        typeUrl: MsgEditUserGroupTypeUrl,
+        value: MsgEditUserGroup.fromPartial({
+          subspaceId: Long.fromString(value.subspace_id),
+          groupId: value.group_id,
+          name: value.name,
+          description: value.description,
+          signer: value.signer,
+        }),
+      } as MsgEditUserGroupEncodeObject;
 
     default:
       return undefined;
