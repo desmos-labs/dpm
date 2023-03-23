@@ -41,7 +41,7 @@ const MsgEditSectionDetails: MessageDetailsComponent<MsgEditSectionEncodeObject>
   );
 
   return (
-    <BaseMessageDetails icon={msgGeneralIcon} iconSubtitle={t('create section')} fields={fields} />
+    <BaseMessageDetails icon={msgGeneralIcon} iconSubtitle={t('edit section')} fields={fields} />
   );
 };
 
