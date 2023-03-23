@@ -9,6 +9,8 @@ import {
 import { VoteOption } from 'cosmjs-types/cosmos/gov/v1beta1/gov';
 import Long from 'long';
 import {
+  MsgCreateSectionEncodeObject,
+  MsgCreateSectionTypeUrl,
   MsgDeleteSubspaceEncodeObject,
   MsgDeleteSubspaceTypeUrl,
   MsgEditSubspaceEncodeObject,
@@ -25,6 +27,7 @@ import { Any } from 'cosmjs-types/google/protobuf/any';
 import { PubKey } from 'cosmjs-types/cosmos/crypto/secp256k1/keys';
 import { Message } from 'types/transactions';
 import {
+  MsgCreateSection,
   MsgDeleteSubspace,
   MsgEditSubspace,
 } from '@desmoslabs/desmjs-types/desmos/subspaces/v3/msgs';
@@ -228,6 +231,19 @@ const decodeSubspaceMessage = (type: string, value: any): EncodeObject | undefin
           signer: value.signer,
         }),
       } as MsgDeleteSubspaceEncodeObject;
+
+    case MsgCreateSectionTypeUrl:
+      return {
+        typeUrl: MsgCreateSectionTypeUrl,
+        value: MsgCreateSection.fromPartial({
+          name: value.name,
+          description: value.description,
+          parentId: value.parent_id,
+          subspaceId: Long.fromString(value.subspace_id),
+          creator: value.creator,
+        }),
+      } as MsgCreateSectionEncodeObject;
+
     default:
       return undefined;
   }

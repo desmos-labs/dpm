@@ -2,11 +2,13 @@
   "create subspace": "Create subspace",
   "edit subspace": "Edit subspace",
   "delete subspace": "Delete subspace",
+  "create section": "Create section",
   "name": "Name",
   "description": "Description",
   "treasury": "Treasury",
   "creator": "Creator",
   "owner": "Owner",
   "subspace id": "Subspace id",
-  "signer": "Signer"
+  "signer": "Signer",
+  "parent id": "Parent id"
 }
