@@ -1,4 +1,4 @@
-import { MsgRemovePostAttachmentEncodeObject } from '@desmoslabs/desmjs';
+import { MsgAddRegisteredReactionEncodeObject } from '@desmoslabs/desmjs';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import BaseMessageDetails from 'components/Messages/BaseMessage/BaseMessageDetails';
@@ -6,14 +6,15 @@ import { msgGeneralIcon } from 'assets/images';
 import { MessageDetailsComponent } from 'components/Messages/BaseMessage';
 
 /**
- * Displays the full details of a MsgRemovePostAttachment
+ * Displays the full details of a MsgAddRegisteredReaction
  * @constructor
  */
-const MsgRemovePostAttachmentDetails: MessageDetailsComponent<
-  MsgRemovePostAttachmentEncodeObject
+const MsgAddRegisteredReactionDetails: MessageDetailsComponent<
+  MsgAddRegisteredReactionEncodeObject
 > = ({ message }) => {
-  const { t } = useTranslation('messages.posts');
+  const { t } = useTranslation('messages.reactions');
   const { t: tSubspaces } = useTranslation('messages.subspaces');
+  const { t: tCommon } = useTranslation('messages.common');
 
   const fields = React.useMemo(
     () => [
@@ -22,28 +23,28 @@ const MsgRemovePostAttachmentDetails: MessageDetailsComponent<
         value: message.value.subspaceId.toString(),
       },
       {
-        label: t('post id'),
-        value: message.value.postId.toString(),
+        label: t('shorthand code'),
+        value: message.value.shorthandCode,
       },
       {
-        label: t('attachment id'),
-        value: message.value.attachmentId.toString(),
+        label: t('display value'),
+        value: message.value.displayValue,
       },
       {
-        label: t('editor'),
-        value: message.value.editor,
+        label: tCommon('user'),
+        value: message.value.user,
       },
     ],
-    [tSubspaces, t, message],
+    [tSubspaces, message, t, tCommon],
   );
 
   return (
     <BaseMessageDetails
       icon={msgGeneralIcon}
-      iconSubtitle={t('remove post attachment')}
+      iconSubtitle={t('add registered reaction')}
       fields={fields}
     />
   );
 };
 
-export default MsgRemovePostAttachmentDetails;
+export default MsgAddRegisteredReactionDetails;

@@ -11,11 +11,16 @@ import Long from 'long';
 import {
   AllowedMsgAllowanceTypeUrl,
   BasicAllowanceTypeUrl,
+  FreeTextValueTypeUrl,
   GenericAuthorizationTypeUrl,
   GenericSubspaceAuthorizationTypeUrl,
   MediaTypeUrl,
   MsgAddPostAttachmentEncodeObject,
   MsgAddPostAttachmentTypeUrl,
+  MsgAddReactionEncodeObject,
+  MsgAddReactionTypeUrl,
+  MsgAddRegisteredReactionEncodeObject,
+  MsgAddRegisteredReactionTypeUrl,
   MsgAddUserToUserGroupEncodeObject,
   MsgAddUserToUserGroupTypeUrl,
   MsgAnswerPollEncodeObject,
@@ -36,6 +41,8 @@ import {
   MsgDeleteUserGroupTypeUrl,
   MsgEditPostEncodeObject,
   MsgEditPostTypeUrl,
+  MsgEditRegisteredReactionEncodeObject,
+  MsgEditRegisteredReactionTypeUrl,
   MsgEditSectionEncodeObject,
   MsgEditSectionTypeUrl,
   MsgEditSubspaceEncodeObject,
@@ -54,12 +61,18 @@ import {
   MsgMoveUserGroupTypeUrl,
   MsgRemovePostAttachmentEncodeObject,
   MsgRemovePostAttachmentTypeUrl,
+  MsgRemoveReactionEncodeObject,
+  MsgRemoveReactionTypeUrl,
+  MsgRemoveRegisteredReactionEncodeObject,
+  MsgRemoveRegisteredReactionTypeUrl,
   MsgRemoveUserFromUserGroupEncodeObject,
   MsgRemoveUserFromUserGroupTypeUrl,
   MsgRevokeEncodeObject,
   MsgRevokeTypeUrl,
   MsgSaveProfileEncodeObject,
   MsgSaveProfileTypeUrl,
+  MsgSetReactionsParamsEncodeObject,
+  MsgSetReactionsParamsTypeUrl,
   MsgSetUserGroupPermissionsEncodeObject,
   MsgSetUserGroupPermissionsTypeUrl,
   MsgSetUserPermissionsEncodeObject,
@@ -68,6 +81,7 @@ import {
   MsgUnlinkChainAccountTypeUrl,
   PeriodicAllowanceTypeUrl,
   PollTypeUrl,
+  RegisteredReactionValueTypeUrl,
   SendAuthorizationTypeUrl,
   timestampFromDate,
 } from '@desmoslabs/desmjs';
@@ -125,6 +139,18 @@ import {
   replySettingFromJSON,
   Url,
 } from '@desmoslabs/desmjs-types/desmos/posts/v2/models';
+import {
+  MsgAddReaction,
+  MsgAddRegisteredReaction,
+  MsgEditRegisteredReaction,
+  MsgRemoveReaction,
+  MsgRemoveRegisteredReaction,
+  MsgSetReactionsParams,
+} from '@desmoslabs/desmjs-types/desmos/reactions/v1/msgs';
+import {
+  FreeTextValue,
+  RegisteredReactionValue,
+} from '@desmoslabs/desmjs-types/desmos/reactions/v1/models';
 
 const decodePubKey = (gqlPubKey: any): Any | undefined => {
   const type = gqlPubKey['@type'];
@@ -823,6 +849,121 @@ const decodePostsMessage = (type: string, value: any): EncodeObject | undefined 
   }
 };
 
+const decodeReactionValue = (value: any): Any | undefined => {
+  if (value === undefined) {
+    return value;
+  }
+
+  const valueType = value['@type'];
+
+  switch (valueType) {
+    case RegisteredReactionValueTypeUrl:
+      return Any.fromPartial({
+        typeUrl: RegisteredReactionValueTypeUrl,
+        value: RegisteredReactionValue.encode(
+          RegisteredReactionValue.fromPartial({
+            registeredReactionId: value.registered_reaction_id,
+          }),
+        ).finish(),
+      });
+
+    case FreeTextValueTypeUrl:
+      return Any.fromPartial({
+        typeUrl: FreeTextValueTypeUrl,
+        value: FreeTextValue.encode(
+          FreeTextValue.fromPartial({
+            text: value.text,
+          }),
+        ).finish(),
+      });
+
+    default:
+      // Keep this console log for debug purpose.
+      // eslint-disable-next-line no-console
+      console.log('Unsupported reaction value type', valueType);
+      return undefined;
+  }
+};
+
+const decodeReactionsMessage = (type: string, value: any): EncodeObject | undefined => {
+  switch (type) {
+    case MsgAddReactionTypeUrl:
+      return {
+        typeUrl: MsgAddReactionTypeUrl,
+        value: MsgAddReaction.fromPartial({
+          subspaceId: value.subspace_id,
+          postId: value.post_id,
+          value: decodeReactionValue(value.value),
+          user: value.user,
+        }),
+      } as MsgAddReactionEncodeObject;
+
+    case MsgRemoveReactionTypeUrl:
+      return {
+        typeUrl: MsgRemoveReactionTypeUrl,
+        value: MsgRemoveReaction.fromPartial({
+          subspaceId: value.subspace_id,
+          postId: value.post_id,
+          reactionId: value.reaction_id,
+          user: value.user,
+        }),
+      } as MsgRemoveReactionEncodeObject;
+
+    case MsgAddRegisteredReactionTypeUrl:
+      return {
+        typeUrl: MsgAddRegisteredReactionTypeUrl,
+        value: MsgAddRegisteredReaction.fromPartial({
+          subspaceId: value.subspace_id,
+          displayValue: value.display_value,
+          shorthandCode: value.shorthand_code,
+          user: value.user,
+        }),
+      } as MsgAddRegisteredReactionEncodeObject;
+
+    case MsgEditRegisteredReactionTypeUrl:
+      return {
+        typeUrl: MsgEditRegisteredReactionTypeUrl,
+        value: MsgEditRegisteredReaction.fromPartial({
+          subspaceId: value.subspace_id,
+          registeredReactionId: value.registered_reaction_id,
+          shorthandCode: value.shorthand_code,
+          displayValue: value.display_value,
+          user: value.user,
+        }),
+      } as MsgEditRegisteredReactionEncodeObject;
+
+    case MsgRemoveRegisteredReactionTypeUrl:
+      return {
+        typeUrl: MsgRemoveRegisteredReactionTypeUrl,
+        value: MsgRemoveRegisteredReaction.fromPartial({
+          subspaceId: value.subspace_id,
+          registeredReactionId: value.registered_reaction_id,
+          user: value.user,
+        }),
+      } as MsgRemoveRegisteredReactionEncodeObject;
+
+    case MsgSetReactionsParamsTypeUrl:
+      return {
+        typeUrl: MsgSetReactionsParamsTypeUrl,
+        value: MsgSetReactionsParams.fromPartial({
+          subspaceId: value.subspace_id,
+          registeredReaction: value.registered_reaction,
+          freeText: value.free_text
+            ? {
+                enabled: value.free_text.enabled,
+                regEx: value.free_text.reg_ex,
+                maxLength: value.free_text.max_length,
+              }
+            : undefined,
+          user: value.user,
+        }),
+      } as MsgSetReactionsParamsEncodeObject;
+
+    default:
+      return undefined;
+  }
+};
+
 const converters = [
   decodeBankMessage,
   decodeDistributionMessage,
@@ -833,6 +974,7 @@ const converters = [
   decodeAuthzMessage,
   decodeSubspaceMessage,
   decodePostsMessage,
+  decodeReactionsMessage,
 ];
 
 const decodeQueriedMessage = (message: QueriedMessage): Message => {

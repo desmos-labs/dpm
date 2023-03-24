@@ -1,6 +1,8 @@
 import {
   MsgAcceptDTagTransferRequestTypeUrl,
   MsgAddPostAttachmentTypeUrl,
+  MsgAddReactionTypeUrl,
+  MsgAddRegisteredReactionTypeUrl,
   MsgAddUserToUserGroupTypeUrl,
   MsgAnswerPollTypeUrl,
   MsgBlockUserTypeUrl,
@@ -18,6 +20,7 @@ import {
   MsgDeleteSubspaceTypeUrl,
   MsgDeleteUserGroupTypeUrl,
   MsgEditPostTypeUrl,
+  MsgEditRegisteredReactionTypeUrl,
   MsgEditSectionTypeUrl,
   MsgEditSubspaceTypeUrl,
   MsgEditUserGroupTypeUrl,
@@ -30,12 +33,15 @@ import {
   MsgMultiSendTypeUrl,
   MsgRefuseDTagTransferRequestTypeUrl,
   MsgRemovePostAttachmentTypeUrl,
+  MsgRemoveReactionTypeUrl,
+  MsgRemoveRegisteredReactionTypeUrl,
   MsgRemoveUserFromUserGroupTypeUrl,
   MsgRequestDTagTransferTypeUrl,
   MsgRevokeAllowanceTypeUrl,
   MsgRevokeTypeUrl,
   MsgSaveProfileTypeUrl,
   MsgSendTypeUrl,
+  MsgSetReactionsParamsTypeUrl,
   MsgSetUserGroupPermissionsTypeUrl,
   MsgSetUserPermissionsTypeUrl,
   MsgUnblockUserTypeUrl,
@@ -71,6 +77,8 @@ import MsgMoveUserGroupComponents from 'components/Messages/subspaces/MsgMoveUse
 import MsgAddUserToUserGroupComponents from 'components/Messages/subspaces/MsgAddUserToUserGroup';
 import MsgRemoveUserFromUserGroupComponents from 'components/Messages/subspaces/MsgRemoveUserFromUserGroup';
 import MsgRemovePostAttachmentComponents from 'components/Messages/posts/MsgRemovePostAttachment';
+import MsgAddReactionComponents from 'components/Messages/reactions/MsgAddReaction';
+import MsgSetReactionsParamsComponents from 'components/Messages/reactions/MsgSetReactionsParams';
 import { MessageComponents } from './BaseMessage';
 import MsgCancelDtagTransferRequestComponents from './MsgCancelDTagTransferRequest';
 import MsgCreateRelationshipComponents from './MsgCreateRelationship';
@@ -89,6 +97,10 @@ import MsgDeletePostComponents from './posts/MsgDeletePost';
 import MsgEditPostComponents from './posts/MsgEditPost';
 import MsgAddPostAttachmentComponents from './posts/MsgAddPostAttachment';
 import MsgAnswerPollComponents from './posts/MsgAnswerPoll';
+import MsgRemoveReactionComponents from './reactions/MsgRemoveReaction';
+import MsgAddRegisteredReactionComponents from './reactions/MsgAddRegisteredReaction';
+import MsgEditRegisteredReactionComponents from './reactions/MsgEditRegisteredReaction';
+import MsgRemoveRegisteredReactionComponents from './reactions/MsgRemoveRegisteredReaction';
 
 export const messageDetailsComponents: Record<string, MessageComponents<any>> = {
   // x/bank
@@ -152,4 +164,12 @@ export const messageDetailsComponents: Record<string, MessageComponents<any>> = 
   [MsgAddPostAttachmentTypeUrl]: MsgAddPostAttachmentComponents,
   [MsgRemovePostAttachmentTypeUrl]: MsgRemovePostAttachmentComponents,
   [MsgAnswerPollTypeUrl]: MsgAnswerPollComponents,
+
+  // x/reactions
+  [MsgAddReactionTypeUrl]: MsgAddReactionComponents,
+  [MsgRemoveReactionTypeUrl]: MsgRemoveReactionComponents,
+  [MsgAddRegisteredReactionTypeUrl]: MsgAddRegisteredReactionComponents,
+  [MsgEditRegisteredReactionTypeUrl]: MsgEditRegisteredReactionComponents,
+  [MsgRemoveRegisteredReactionTypeUrl]: MsgRemoveRegisteredReactionComponents,
+  [MsgSetReactionsParamsTypeUrl]: MsgSetReactionsParamsComponents,
 };
