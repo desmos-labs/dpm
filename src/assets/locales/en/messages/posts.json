@@ -3,6 +3,7 @@
   "edit post": "Edit post",
   "delete post": "Delete post",
   "add post attachment": "Add post attachment",
+  "remove post attachment": "Remove post attachment",
   "post id": "Post id",
   "external id": "External id",
   "text": "Text",
@@ -23,5 +24,6 @@
   "poll allow answer edit": "Poll allow answer edit",
   "poll allow multiple answers": "Poll allow multiple answers",
   "author": "Author",
-  "editor": "Editor"
+  "editor": "Editor",
+  "attachment id": "Attachment id"
 }

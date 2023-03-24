@@ -50,6 +50,8 @@ import {
   MsgMoveSectionTypeUrl,
   MsgMoveUserGroupEncodeObject,
   MsgMoveUserGroupTypeUrl,
+  MsgRemovePostAttachmentEncodeObject,
+  MsgRemovePostAttachmentTypeUrl,
   MsgRemoveUserFromUserGroupEncodeObject,
   MsgRemoveUserFromUserGroupTypeUrl,
   MsgRevokeEncodeObject,
@@ -108,6 +110,7 @@ import {
   MsgCreatePost,
   MsgDeletePost,
   MsgEditPost,
+  MsgRemovePostAttachment,
 } from '@desmoslabs/desmjs-types/desmos/posts/v2/msgs';
 import {
   Attachment,
@@ -788,6 +791,17 @@ const decodePostsMessage = (type: string, value: any): EncodeObject | undefined 
           editor: value.editor,
         }),
       } as MsgAddPostAttachmentEncodeObject;
+
+    case MsgRemovePostAttachmentTypeUrl:
+      return {
+        typeUrl: MsgRemovePostAttachmentTypeUrl,
+        value: MsgRemovePostAttachment.fromPartial({
+          subspaceId: value.subspace_id,
+          postId: value.post_id,
+          attachmentId: value.attachment_id,
+          editor: value.editor,
+        }),
+      } as MsgRemovePostAttachmentEncodeObject;
 
     default:
       return undefined;

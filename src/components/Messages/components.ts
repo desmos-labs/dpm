@@ -28,6 +28,7 @@ import {
   MsgMoveUserGroupTypeUrl,
   MsgMultiSendTypeUrl,
   MsgRefuseDTagTransferRequestTypeUrl,
+  MsgRemovePostAttachmentTypeUrl,
   MsgRemoveUserFromUserGroupTypeUrl,
   MsgRequestDTagTransferTypeUrl,
   MsgRevokeAllowanceTypeUrl,
@@ -68,6 +69,7 @@ import MsgEditUserGroupComponents from 'components/Messages/subspaces/MsgEditUse
 import MsgMoveUserGroupComponents from 'components/Messages/subspaces/MsgMoveUserGroup';
 import MsgAddUserToUserGroupComponents from 'components/Messages/subspaces/MsgAddUserToUserGroup';
 import MsgRemoveUserFromUserGroupComponents from 'components/Messages/subspaces/MsgRemoveUserFromUserGroup';
+import MsgRemovePostAttachmentComponents from 'components/Messages/posts/MsgRemovePostAttachment';
 import { MessageComponents } from './BaseMessage';
 import MsgCancelDtagTransferRequestComponents from './MsgCancelDTagTransferRequest';
 import MsgCreateRelationshipComponents from './MsgCreateRelationship';
@@ -146,4 +148,5 @@ export const messageDetailsComponents: Record<string, MessageComponents<any>> = 
   [MsgEditPostTypeUrl]: MsgEditPostComponents,
   [MsgDeletePostTypeUrl]: MsgDeletePostComponents,
   [MsgAddPostAttachmentTypeUrl]: MsgAddPostAttachmentComponents,
+  [MsgRemovePostAttachmentTypeUrl]: MsgRemovePostAttachmentComponents,
 };
