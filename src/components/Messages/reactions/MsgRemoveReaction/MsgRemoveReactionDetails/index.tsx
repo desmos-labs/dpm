@@ -9,7 +9,7 @@ import { MessageDetailsComponent } from 'components/Messages/BaseMessage';
  * Displays the full details of a MsgRemoveReaction
  * @constructor
  */
-const MsgEditSubspaceDetails: MessageDetailsComponent<MsgRemoveReactionEncodeObject> = ({
+const MsgRemoveReactionDetails: MessageDetailsComponent<MsgRemoveReactionEncodeObject> = ({
   message,
 }) => {
   const { t } = useTranslation('messages.reactions');
@@ -44,4 +44,4 @@ const MsgEditSubspaceDetails: MessageDetailsComponent<MsgRemoveReactionEncodeObj
   );
 };
 
-export default MsgEditSubspaceDetails;
+export default MsgRemoveReactionDetails;

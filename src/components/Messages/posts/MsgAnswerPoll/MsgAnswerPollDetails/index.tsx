@@ -9,7 +9,7 @@ import { MessageDetailsComponent } from 'components/Messages/BaseMessage';
  * Displays the full details of a MsgAnswerPoll
  * @constructor
  */
-const MsgEditSubspaceDetails: MessageDetailsComponent<MsgAnswerPollEncodeObject> = ({
+const MsgAddPostAttachmentDetails: MessageDetailsComponent<MsgAnswerPollEncodeObject> = ({
   message,
 }) => {
   const { t } = useTranslation('messages.posts');
@@ -47,4 +47,4 @@ const MsgEditSubspaceDetails: MessageDetailsComponent<MsgAnswerPollEncodeObject>
   );
 };
 
-export default MsgEditSubspaceDetails;
+export default MsgAddPostAttachmentDetails;

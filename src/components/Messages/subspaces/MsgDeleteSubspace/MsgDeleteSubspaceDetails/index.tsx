@@ -9,7 +9,7 @@ import { MessageDetailsComponent } from 'components/Messages/BaseMessage';
  * Displays the full details of a MsgDeleteSubspace
  * @constructor
  */
-const MsgEditSubspaceDetails: MessageDetailsComponent<MsgDeleteSubspaceEncodeObject> = ({
+const MsgDeleteSubspaceDetails: MessageDetailsComponent<MsgDeleteSubspaceEncodeObject> = ({
   message,
 }) => {
   const { t } = useTranslation('messages.subspaces');
@@ -33,4 +33,4 @@ const MsgEditSubspaceDetails: MessageDetailsComponent<MsgDeleteSubspaceEncodeObj
   );
 };
 
-export default MsgEditSubspaceDetails;
+export default MsgDeleteSubspaceDetails;

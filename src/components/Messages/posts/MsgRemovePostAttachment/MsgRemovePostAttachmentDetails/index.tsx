@@ -9,9 +9,9 @@ import { MessageDetailsComponent } from 'components/Messages/BaseMessage';
  * Displays the full details of a MsgRemovePostAttachment
  * @constructor
  */
-const MsgEditSubspaceDetails: MessageDetailsComponent<MsgRemovePostAttachmentEncodeObject> = ({
-  message,
-}) => {
+const MsgRemovePostAttachmentDetails: MessageDetailsComponent<
+  MsgRemovePostAttachmentEncodeObject
+> = ({ message }) => {
   const { t } = useTranslation('messages.posts');
   const { t: tSubspaces } = useTranslation('messages.subspaces');
 
@@ -46,4 +46,4 @@ const MsgEditSubspaceDetails: MessageDetailsComponent<MsgRemovePostAttachmentEnc
   );
 };
 
-export default MsgEditSubspaceDetails;
+export default MsgRemovePostAttachmentDetails;

@@ -10,7 +10,7 @@ import useGetReactionValueFields from 'components/Messages/reactions/MsgAddReact
  * Displays the full details of a MsgAddReaction
  * @constructor
  */
-const MsgEditSubspaceDetails: MessageDetailsComponent<MsgAddReactionEncodeObject> = ({
+const MsgAddReactionDetails: MessageDetailsComponent<MsgAddReactionEncodeObject> = ({
   message,
 }) => {
   const { t } = useTranslation('messages.reactions');
@@ -43,4 +43,4 @@ const MsgEditSubspaceDetails: MessageDetailsComponent<MsgAddReactionEncodeObject
   );
 };
 
-export default MsgEditSubspaceDetails;
+export default MsgAddReactionDetails;

@@ -9,9 +9,9 @@ import { MessageDetailsComponent } from 'components/Messages/BaseMessage';
  * Displays the full details of a MsgEditRegisteredReaction
  * @constructor
  */
-const MsgEditSubspaceDetails: MessageDetailsComponent<MsgEditRegisteredReactionEncodeObject> = ({
-  message,
-}) => {
+const MsgEditRegisteredReactionDetails: MessageDetailsComponent<
+  MsgEditRegisteredReactionEncodeObject
+> = ({ message }) => {
   const { t } = useTranslation('messages.reactions');
   const { t: tSubspaces } = useTranslation('messages.subspaces');
   const { t: tCommon } = useTranslation('messages.common');
@@ -51,4 +51,4 @@ const MsgEditSubspaceDetails: MessageDetailsComponent<MsgEditRegisteredReactionE
   );
 };
 
-export default MsgEditSubspaceDetails;
+export default MsgEditRegisteredReactionDetails;

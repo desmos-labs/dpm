@@ -10,7 +10,7 @@ import useGetGeneratePostAttachmentDetailFields from 'components/Messages/posts/
  * Displays the full details of a MsgAddPostAttachment
  * @constructor
  */
-const MsgEditSubspaceDetails: MessageDetailsComponent<MsgAddPostAttachmentEncodeObject> = ({
+const MsgAddPostAttachment: MessageDetailsComponent<MsgAddPostAttachmentEncodeObject> = ({
   message,
 }) => {
   const { t } = useTranslation('messages.posts');
@@ -45,4 +45,4 @@ const MsgEditSubspaceDetails: MessageDetailsComponent<MsgAddPostAttachmentEncode
   );
 };
 
-export default MsgEditSubspaceDetails;
+export default MsgAddPostAttachment;
