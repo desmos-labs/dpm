@@ -1,5 +1,6 @@
 {
   "create post": "Create post",
+  "edit post": "Edit post",
   "delete post": "Delete post",
   "post id": "Post id",
   "external id": "External id",
@@ -20,5 +21,6 @@
   "poll end date": "Poll end date",
   "poll allow answer edit": "Poll allow answer edit",
   "poll allow multiple answers": "Poll allow multiple answers",
-  "author": "Author"
+  "author": "Author",
+  "editor": "Editor"
 }

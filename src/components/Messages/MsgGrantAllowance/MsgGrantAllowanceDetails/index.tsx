@@ -10,7 +10,7 @@ import React from 'react';
 import { useTranslation } from 'react-i18next';
 import BaseMessageDetails from 'components/Messages/BaseMessage/BaseMessageDetails';
 import { msgGeneralIcon } from 'assets/images';
-import { parseAllowance } from 'lib/FeegrantUtils/parse';
+import { parseAllowance } from 'lib/EncodeObjectUtils/feegrant';
 import { formatCoins } from 'lib/FormatUtils';
 import * as datefns from 'date-fns';
 import { Any } from 'cosmjs-types/google/protobuf/any';

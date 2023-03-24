@@ -7,7 +7,8 @@ import BaseMessageDetails, {
 import { msgGeneralIcon } from 'assets/images';
 import { MessageDetailsComponent } from 'components/Messages/BaseMessage';
 import { replySettingToJSON } from '@desmoslabs/desmjs-types/desmos/posts/v2/models';
-import { useGetAttachmentsFields } from 'components/Messages/posts/MsgCreatePost/MsgCreatePostDetails/hooks';
+import useGetGeneratePostAttachmentsDetailFields from 'components/Messages/posts/hooks/useGetGeneratePostAttachmentsDetailFields';
+import useGetGeneratePostEntitiesDetailFields from 'components/Messages/posts/hooks/useGetGeneratePostEntitiesDetailFields';
 
 /**
  * Displays the full details of a MsgCreatePost
@@ -16,7 +17,8 @@ import { useGetAttachmentsFields } from 'components/Messages/posts/MsgCreatePost
 const MsgCreatePostDetails: MessageDetailsComponent<MsgCreatePostEncodeObject> = ({ message }) => {
   const { t } = useTranslation('messages.posts');
   const { t: tSubspces } = useTranslation('messages.subspaces');
-  const getAttachmentsFields = useGetAttachmentsFields();
+  const getEntitiesFields = useGetGeneratePostEntitiesDetailFields();
+  const getAttachmentsFields = useGetGeneratePostAttachmentsDetailFields();
 
   const fields = React.useMemo<MessageDetailsField[]>(
     () => [
@@ -43,21 +45,7 @@ const MsgCreatePostDetails: MessageDetailsComponent<MsgCreatePostEncodeObject> =
         value: message.value.tags.join('\n'),
         hide: message.value.tags.length === 0,
       },
-      {
-        label: t('hashtags'),
-        value: message.value.entities?.hashtags?.map((h) => h.tag).join('\n'),
-        hide: (message.value.entities?.hashtags?.length ?? 0) === 0,
-      },
-      {
-        label: t('mentions'),
-        value: message.value.entities?.mentions?.map((m) => m.tag).join('\n'),
-        hide: (message.value.entities?.mentions?.length ?? 0) === 0,
-      },
-      {
-        label: t('urls'),
-        value: message.value.entities?.urls?.map((m) => `${m.displayUrl} - ${m.url}`).join('\n'),
-        hide: (message.value.entities?.urls?.length ?? 0) === 0,
-      },
+      ...getEntitiesFields(message.value.entities),
       {
         label: t('conversation id'),
         value: message.value.conversationId.toString(),
@@ -73,7 +61,7 @@ const MsgCreatePostDetails: MessageDetailsComponent<MsgCreatePostEncodeObject> =
           .join('\n'),
         hide: message.value.referencedPosts.length === 0,
       },
-      ...getAttachmentsFields(message.value),
+      ...getAttachmentsFields(message.value.attachments),
       {
         label: t('author'),
         value: message.value.author,
