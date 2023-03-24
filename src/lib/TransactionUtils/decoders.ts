@@ -71,6 +71,8 @@ import {
   MsgRevokeTypeUrl,
   MsgSaveProfileEncodeObject,
   MsgSaveProfileTypeUrl,
+  MsgSetReactionsParamsEncodeObject,
+  MsgSetReactionsParamsTypeUrl,
   MsgSetUserGroupPermissionsEncodeObject,
   MsgSetUserGroupPermissionsTypeUrl,
   MsgSetUserPermissionsEncodeObject,
@@ -143,6 +145,7 @@ import {
   MsgEditRegisteredReaction,
   MsgRemoveReaction,
   MsgRemoveRegisteredReaction,
+  MsgSetReactionsParams,
 } from '@desmoslabs/desmjs-types/desmos/reactions/v1/msgs';
 import {
   FreeTextValue,
@@ -938,6 +941,23 @@ const decodeReactionsMessage = (type: string, value: any): EncodeObject | undefi
           user: value.user,
         }),
       } as MsgRemoveRegisteredReactionEncodeObject;
+
+    case MsgSetReactionsParamsTypeUrl:
+      return {
+        typeUrl: MsgSetReactionsParamsTypeUrl,
+        value: MsgSetReactionsParams.fromPartial({
+          subspaceId: value.subspace_id,
+          registeredReaction: value.registered_reaction,
+          freeText: value.free_text
+            ? {
+                enabled: value.free_text.enabled,
+                regEx: value.free_text.reg_ex,
+                maxLength: value.free_text.max_length,
+              }
+            : undefined,
+          user: value.user,
+        }),
+      } as MsgSetReactionsParamsEncodeObject;
 
     default:
       return undefined;

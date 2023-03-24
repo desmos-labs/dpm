@@ -41,6 +41,7 @@ import {
   MsgRevokeTypeUrl,
   MsgSaveProfileTypeUrl,
   MsgSendTypeUrl,
+  MsgSetReactionsParamsTypeUrl,
   MsgSetUserGroupPermissionsTypeUrl,
   MsgSetUserPermissionsTypeUrl,
   MsgUnblockUserTypeUrl,
@@ -77,6 +78,7 @@ import MsgAddUserToUserGroupComponents from 'components/Messages/subspaces/MsgAd
 import MsgRemoveUserFromUserGroupComponents from 'components/Messages/subspaces/MsgRemoveUserFromUserGroup';
 import MsgRemovePostAttachmentComponents from 'components/Messages/posts/MsgRemovePostAttachment';
 import MsgAddReactionComponents from 'components/Messages/reactions/MsgAddReaction';
+import MsgSetReactionsParamsComponents from 'components/Messages/reactions/MsgSetReactionsParams';
 import { MessageComponents } from './BaseMessage';
 import MsgCancelDtagTransferRequestComponents from './MsgCancelDTagTransferRequest';
 import MsgCreateRelationshipComponents from './MsgCreateRelationship';
@@ -169,4 +171,5 @@ export const messageDetailsComponents: Record<string, MessageComponents<any>> = 
   [MsgAddRegisteredReactionTypeUrl]: MsgAddRegisteredReactionComponents,
   [MsgEditRegisteredReactionTypeUrl]: MsgEditRegisteredReactionComponents,
   [MsgRemoveRegisteredReactionTypeUrl]: MsgRemoveRegisteredReactionComponents,
+  [MsgSetReactionsParamsTypeUrl]: MsgSetReactionsParamsComponents,
 };

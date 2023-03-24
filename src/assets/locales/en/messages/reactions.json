@@ -4,10 +4,15 @@
   "add registered reaction": "Add registered reaction",
   "edit registered reaction": "Edit registered reaction",
   "remove registered reaction": "Remove registered reaction",
+  "set reactions params": "Set reactions params",
   "shorthand code": "Shorthand code",
   "display value": "Display value",
   "free text value reaction": "Free text value reaction",
   "registered reaction id": "Registered reaction id",
   "unsupported reaction value": "Unsupported reaction value",
-  "reaction id": "Reaction id"
+  "reaction id": "Reaction id",
+  "registered reactions enabled": "Registered reactions enabled",
+  "free text reactions enabled": "Free text reactions enabled",
+  "free text reactions max length": "Free text reactions max length",
+  "free text reactions regex": "Free text reactions regex"
 }
