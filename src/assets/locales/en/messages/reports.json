@@ -2,6 +2,7 @@
   "create report": "Create report",
   "delete report": "Delete report",
   "support standard reason": "Support standard reason",
+  "add reason": "Add report reason",
   "report id": "Report id",
   "reasons ids": "Reasons ids",
   "message": "Report message",
@@ -9,5 +10,7 @@
   "unknown report target": "Unknown report target",
   "reported post id": "Reported post id",
   "reported user": "Reported user",
-  "standard reason id": "Standard reason id"
+  "standard reason id": "Standard reason id",
+  "title": "Report reason title",
+  "description": "Report reason description"
 }

@@ -21,6 +21,8 @@ import {
   MsgAddReactionTypeUrl,
   MsgAddRegisteredReactionEncodeObject,
   MsgAddRegisteredReactionTypeUrl,
+  MsgAddReasonEncodeObject,
+  MsgAddReasonTypeUrl,
   MsgAddUserToUserGroupEncodeObject,
   MsgAddUserToUserGroupTypeUrl,
   MsgAnswerPollEncodeObject,
@@ -162,6 +164,7 @@ import {
 import { MsgCreateReport } from '@desmoslabs/desmjs-types/desmos/reports/v1/msgs';
 import { MsgCreateReport, MsgDeleteReport } from '@desmoslabs/desmjs-types/desmos/reports/v1/msgs';
 import {
+  MsgAddReason,
   MsgCreateReport,
   MsgDeleteReport,
   MsgSupportStandardReason,
@@ -1045,6 +1048,17 @@ const decodeReportsMessage = (type: string, value: any): EncodeObject | undefine
           signer: value.signer,
         }),
       } as MsgSupportStandardReasonEncodeObject;
+
+    case MsgAddReasonTypeUrl:
+      return {
+        typeUrl: MsgAddReasonTypeUrl,
+        value: MsgAddReason.fromPartial({
+          subspaceId: value.subspace_id,
+          description: value.description,
+          title: value.title,
+          signer: value.signer,
+        }),
+      } as MsgAddReasonEncodeObject;
 
     default:
       return undefined;
