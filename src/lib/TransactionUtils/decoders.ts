@@ -57,6 +57,8 @@ import {
   MsgMoveUserGroupTypeUrl,
   MsgRemovePostAttachmentEncodeObject,
   MsgRemovePostAttachmentTypeUrl,
+  MsgRemoveReactionEncodeObject,
+  MsgRemoveReactionTypeUrl,
   MsgRemoveUserFromUserGroupEncodeObject,
   MsgRemoveUserFromUserGroupTypeUrl,
   MsgRevokeEncodeObject,
@@ -129,7 +131,10 @@ import {
   replySettingFromJSON,
   Url,
 } from '@desmoslabs/desmjs-types/desmos/posts/v2/models';
-import { MsgAddReaction } from '@desmoslabs/desmjs-types/desmos/reactions/v1/msgs';
+import {
+  MsgAddReaction,
+  MsgRemoveReaction,
+} from '@desmoslabs/desmjs-types/desmos/reactions/v1/msgs';
 import {
   FreeTextValue,
   RegisteredReactionValue,
@@ -880,6 +885,17 @@ const decodeReactionsMessage = (type: string, value: any): EncodeObject | undefi
           user: value.user,
         }),
       } as MsgAddReactionEncodeObject;
+
+    case MsgRemoveReactionTypeUrl:
+      return {
+        typeUrl: MsgRemoveReactionTypeUrl,
+        value: MsgRemoveReaction.fromPartial({
+          subspaceId: value.subspace_id,
+          postId: value.post_id,
+          reactionId: value.reaction_id,
+          user: value.user,
+        }),
+      } as MsgRemoveReactionEncodeObject;
 
     default:
       return undefined;

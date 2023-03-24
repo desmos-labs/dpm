@@ -1,8 +1,10 @@
 {
   "add reaction": "Add reaction",
+  "remove reaction": "Remove reaction",
   "shorthand code": "Shorthand code",
   "display value": "Display value",
   "free text value reaction": "Free text value reaction",
   "registered reaction id": "Registered reaction id",
-  "unsupported reaction value": "Unsupported reaction value"
+  "unsupported reaction value": "Unsupported reaction value",
+  "reaction id": "Reaction id"
 }
