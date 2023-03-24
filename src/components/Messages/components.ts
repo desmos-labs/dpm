@@ -20,6 +20,7 @@ import {
   MsgDeleteSubspaceTypeUrl,
   MsgDeleteUserGroupTypeUrl,
   MsgEditPostTypeUrl,
+  MsgEditRegisteredReactionTypeUrl,
   MsgEditSectionTypeUrl,
   MsgEditSubspaceTypeUrl,
   MsgEditUserGroupTypeUrl,
@@ -95,6 +96,7 @@ import MsgAddPostAttachmentComponents from './posts/MsgAddPostAttachment';
 import MsgAnswerPollComponents from './posts/MsgAnswerPoll';
 import MsgRemoveReactionComponents from './reactions/MsgRemoveReaction';
 import MsgAddRegisteredReactionComponents from './reactions/MsgAddRegisteredReaction';
+import MsgEditRegisteredReactionComponents from './reactions/MsgEditRegisteredReaction';
 
 export const messageDetailsComponents: Record<string, MessageComponents<any>> = {
   // x/bank
@@ -163,4 +165,5 @@ export const messageDetailsComponents: Record<string, MessageComponents<any>> = 
   [MsgAddReactionTypeUrl]: MsgAddReactionComponents,
   [MsgRemoveReactionTypeUrl]: MsgRemoveReactionComponents,
   [MsgAddRegisteredReactionTypeUrl]: MsgAddRegisteredReactionComponents,
+  [MsgEditRegisteredReactionTypeUrl]: MsgEditRegisteredReactionComponents,
 };
