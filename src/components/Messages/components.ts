@@ -34,6 +34,7 @@ import {
   MsgRefuseDTagTransferRequestTypeUrl,
   MsgRemovePostAttachmentTypeUrl,
   MsgRemoveReactionTypeUrl,
+  MsgRemoveRegisteredReactionTypeUrl,
   MsgRemoveUserFromUserGroupTypeUrl,
   MsgRequestDTagTransferTypeUrl,
   MsgRevokeAllowanceTypeUrl,
@@ -97,6 +98,7 @@ import MsgAnswerPollComponents from './posts/MsgAnswerPoll';
 import MsgRemoveReactionComponents from './reactions/MsgRemoveReaction';
 import MsgAddRegisteredReactionComponents from './reactions/MsgAddRegisteredReaction';
 import MsgEditRegisteredReactionComponents from './reactions/MsgEditRegisteredReaction';
+import MsgRemoveRegisteredReactionComponents from './reactions/MsgRemoveRegisteredReaction';
 
 export const messageDetailsComponents: Record<string, MessageComponents<any>> = {
   // x/bank
@@ -166,4 +168,5 @@ export const messageDetailsComponents: Record<string, MessageComponents<any>> = 
   [MsgRemoveReactionTypeUrl]: MsgRemoveReactionComponents,
   [MsgAddRegisteredReactionTypeUrl]: MsgAddRegisteredReactionComponents,
   [MsgEditRegisteredReactionTypeUrl]: MsgEditRegisteredReactionComponents,
+  [MsgRemoveRegisteredReactionTypeUrl]: MsgRemoveRegisteredReactionComponents,
 };
