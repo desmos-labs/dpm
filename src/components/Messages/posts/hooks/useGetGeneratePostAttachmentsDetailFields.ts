@@ -86,13 +86,7 @@ const useGetGeneratePostAttachmentsDetailFields = () => {
   const { t } = useTranslation('messages.posts');
 
   return React.useCallback(
-    (attachments: Any[]): MessageDetailsField[] => {
-      const fields: MessageDetailsField[] = [];
-      attachments.forEach((attachment) => {
-        fields.push(...generateAttachmentFields(attachment, t));
-      });
-      return fields;
-    },
+    (attachment: Any | undefined): MessageDetailsField[] => generateAttachmentFields(attachment, t),
     [t],
   );
 };

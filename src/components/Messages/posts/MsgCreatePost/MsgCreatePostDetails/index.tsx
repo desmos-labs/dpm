@@ -18,7 +18,7 @@ const MsgCreatePostDetails: MessageDetailsComponent<MsgCreatePostEncodeObject> =
   const { t } = useTranslation('messages.posts');
   const { t: tSubspces } = useTranslation('messages.subspaces');
   const getEntitiesFields = useGetGeneratePostEntitiesDetailFields();
-  const getAttachmentsFields = useGetGeneratePostAttachmentsDetailFields();
+  const getAttachmentFields = useGetGeneratePostAttachmentsDetailFields();
 
   const fields = React.useMemo<MessageDetailsField[]>(
     () => [
@@ -61,13 +61,13 @@ const MsgCreatePostDetails: MessageDetailsComponent<MsgCreatePostEncodeObject> =
           .join('\n'),
         hide: message.value.referencedPosts.length === 0,
       },
-      ...getAttachmentsFields(message.value.attachments),
+      ...message.value.attachments.flatMap((a) => getAttachmentFields(a)),
       {
         label: t('author'),
         value: message.value.author,
       },
     ],
-    [tSubspces, message.value, t, getAttachmentsFields],
+    [tSubspces, message, t, getEntitiesFields, getAttachmentFields],
   );
 
   return (

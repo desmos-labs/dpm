@@ -14,6 +14,8 @@ import {
   GenericAuthorizationTypeUrl,
   GenericSubspaceAuthorizationTypeUrl,
   MediaTypeUrl,
+  MsgAddPostAttachmentEncodeObject,
+  MsgAddPostAttachmentTypeUrl,
   MsgAddUserToUserGroupEncodeObject,
   MsgAddUserToUserGroupTypeUrl,
   MsgCreatePostEncodeObject,
@@ -102,6 +104,7 @@ import {
   PeriodicAllowance,
 } from 'cosmjs-types/cosmos/feegrant/v1beta1/feegrant';
 import {
+  MsgAddPostAttachment,
   MsgCreatePost,
   MsgDeletePost,
   MsgEditPost,
@@ -774,6 +777,17 @@ const decodePostsMessage = (type: string, value: any): EncodeObject | undefined 
           signer: value.signer,
         }),
       } as MsgDeletePostEncodeObject;
+
+    case MsgAddPostAttachmentTypeUrl:
+      return {
+        typeUrl: MsgAddPostAttachmentTypeUrl,
+        value: MsgAddPostAttachment.fromPartial({
+          subspaceId: value.subspace_id,
+          postId: value.post_id,
+          content: decodeAttachmentContent(value.content),
+          editor: value.editor,
+        }),
+      } as MsgAddPostAttachmentEncodeObject;
 
     default:
       return undefined;
