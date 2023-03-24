@@ -1,18 +1,23 @@
 import {
   MsgAcceptDTagTransferRequestTypeUrl,
+  MsgAddPostAttachmentTypeUrl,
   MsgAddUserToUserGroupTypeUrl,
+  MsgAnswerPollTypeUrl,
   MsgBlockUserTypeUrl,
   MsgCancelDTagTransferRequestTypeUrl,
+  MsgCreatePostTypeUrl,
   MsgCreateRelationshipTypeUrl,
   MsgCreateSectionTypeUrl,
   MsgCreateSubspaceTypeUrl,
   MsgCreateUserGroupTypeUrl,
   MsgDelegateTypeUrl,
+  MsgDeletePostTypeUrl,
   MsgDeleteProfileTypeUrl,
   MsgDeleteRelationshipTypeUrl,
   MsgDeleteSectionTypeUrl,
   MsgDeleteSubspaceTypeUrl,
   MsgDeleteUserGroupTypeUrl,
+  MsgEditPostTypeUrl,
   MsgEditSectionTypeUrl,
   MsgEditSubspaceTypeUrl,
   MsgEditUserGroupTypeUrl,
@@ -24,6 +29,7 @@ import {
   MsgMoveUserGroupTypeUrl,
   MsgMultiSendTypeUrl,
   MsgRefuseDTagTransferRequestTypeUrl,
+  MsgRemovePostAttachmentTypeUrl,
   MsgRemoveUserFromUserGroupTypeUrl,
   MsgRequestDTagTransferTypeUrl,
   MsgRevokeAllowanceTypeUrl,
@@ -64,6 +70,7 @@ import MsgEditUserGroupComponents from 'components/Messages/subspaces/MsgEditUse
 import MsgMoveUserGroupComponents from 'components/Messages/subspaces/MsgMoveUserGroup';
 import MsgAddUserToUserGroupComponents from 'components/Messages/subspaces/MsgAddUserToUserGroup';
 import MsgRemoveUserFromUserGroupComponents from 'components/Messages/subspaces/MsgRemoveUserFromUserGroup';
+import MsgRemovePostAttachmentComponents from 'components/Messages/posts/MsgRemovePostAttachment';
 import { MessageComponents } from './BaseMessage';
 import MsgCancelDtagTransferRequestComponents from './MsgCancelDTagTransferRequest';
 import MsgCreateRelationshipComponents from './MsgCreateRelationship';
@@ -77,6 +84,11 @@ import MsgDeleteUserGroupComponents from './subspaces/MsgDeleteUserGroup';
 import MsgSetUserPermissionsComponents from './subspaces/MsgSetUserPermissions';
 import MsgGrantComponents from './MsgGrant';
 import MsgRevokeComponents from './MsgRevoke';
+import MsgCreatePostComponents from './posts/MsgCreatePost';
+import MsgDeletePostComponents from './posts/MsgDeletePost';
+import MsgEditPostComponents from './posts/MsgEditPost';
+import MsgAddPostAttachmentComponents from './posts/MsgAddPostAttachment';
+import MsgAnswerPollComponents from './posts/MsgAnswerPoll';
 
 export const messageDetailsComponents: Record<string, MessageComponents<any>> = {
   // x/bank
@@ -132,4 +144,12 @@ export const messageDetailsComponents: Record<string, MessageComponents<any>> = 
   [MsgAddUserToUserGroupTypeUrl]: MsgAddUserToUserGroupComponents,
   [MsgRemoveUserFromUserGroupTypeUrl]: MsgRemoveUserFromUserGroupComponents,
   [MsgSetUserPermissionsTypeUrl]: MsgSetUserPermissionsComponents,
+
+  // x/posts
+  [MsgCreatePostTypeUrl]: MsgCreatePostComponents,
+  [MsgEditPostTypeUrl]: MsgEditPostComponents,
+  [MsgDeletePostTypeUrl]: MsgDeletePostComponents,
+  [MsgAddPostAttachmentTypeUrl]: MsgAddPostAttachmentComponents,
+  [MsgRemovePostAttachmentTypeUrl]: MsgRemovePostAttachmentComponents,
+  [MsgAnswerPollTypeUrl]: MsgAnswerPollComponents,
 };

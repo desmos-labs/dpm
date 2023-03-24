@@ -13,18 +13,29 @@ import {
   BasicAllowanceTypeUrl,
   GenericAuthorizationTypeUrl,
   GenericSubspaceAuthorizationTypeUrl,
+  MediaTypeUrl,
+  MsgAddPostAttachmentEncodeObject,
+  MsgAddPostAttachmentTypeUrl,
   MsgAddUserToUserGroupEncodeObject,
   MsgAddUserToUserGroupTypeUrl,
+  MsgAnswerPollEncodeObject,
+  MsgAnswerPollTypeUrl,
+  MsgCreatePostEncodeObject,
+  MsgCreatePostTypeUrl,
   MsgCreateSectionEncodeObject,
   MsgCreateSectionTypeUrl,
   MsgCreateUserGroupEncodeObject,
   MsgCreateUserGroupTypeUrl,
+  MsgDeletePostEncodeObject,
+  MsgDeletePostTypeUrl,
   MsgDeleteSectionEncodeObject,
   MsgDeleteSectionTypeUrl,
   MsgDeleteSubspaceEncodeObject,
   MsgDeleteSubspaceTypeUrl,
   MsgDeleteUserGroupEncodeObject,
   MsgDeleteUserGroupTypeUrl,
+  MsgEditPostEncodeObject,
+  MsgEditPostTypeUrl,
   MsgEditSectionEncodeObject,
   MsgEditSectionTypeUrl,
   MsgEditSubspaceEncodeObject,
@@ -41,6 +52,8 @@ import {
   MsgMoveSectionTypeUrl,
   MsgMoveUserGroupEncodeObject,
   MsgMoveUserGroupTypeUrl,
+  MsgRemovePostAttachmentEncodeObject,
+  MsgRemovePostAttachmentTypeUrl,
   MsgRemoveUserFromUserGroupEncodeObject,
   MsgRemoveUserFromUserGroupTypeUrl,
   MsgRevokeEncodeObject,
@@ -54,6 +67,7 @@ import {
   MsgUnlinkChainAccountEncodeObject,
   MsgUnlinkChainAccountTypeUrl,
   PeriodicAllowanceTypeUrl,
+  PollTypeUrl,
   SendAuthorizationTypeUrl,
   timestampFromDate,
 } from '@desmoslabs/desmjs';
@@ -93,6 +107,24 @@ import {
   BasicAllowance,
   PeriodicAllowance,
 } from 'cosmjs-types/cosmos/feegrant/v1beta1/feegrant';
+import {
+  MsgAddPostAttachment,
+  MsgAnswerPoll,
+  MsgCreatePost,
+  MsgDeletePost,
+  MsgEditPost,
+  MsgRemovePostAttachment,
+} from '@desmoslabs/desmjs-types/desmos/posts/v2/msgs';
+import {
+  Attachment,
+  Entities,
+  Media,
+  Poll,
+  Poll_ProvidedAnswer,
+  postReferenceTypeFromJSON,
+  replySettingFromJSON,
+  Url,
+} from '@desmoslabs/desmjs-types/desmos/posts/v2/models';
 
 const decodePubKey = (gqlPubKey: any): Any | undefined => {
   const type = gqlPubKey['@type'];
@@ -618,6 +650,179 @@ const decodeSubspaceMessage = (type: string, value: any): EncodeObject | undefin
   }
 };
 
+const decodeAttachmentContent = (attachment: any): Any | undefined => {
+  if (attachment === undefined) {
+    return undefined;
+  }
+
+  const attachmentType = attachment['@type'];
+  switch (attachmentType) {
+    case PollTypeUrl:
+      return {
+        typeUrl: PollTypeUrl,
+        value: Poll.encode(
+          Poll.fromPartial({
+            endDate: timestampFromDate(new Date(attachment.end_date)),
+            question: attachment.question,
+            allowsAnswerEdits: attachment.allows_answer_edits,
+            allowsMultipleAnswers: attachment.allows_multiple_answers,
+            finalTallyResults: attachment.final_tally_results
+              ? {
+                  results: attachment.final_tally_results.results?.map((result: any) => ({
+                    answerIndex: result.answer_index,
+                    votes: result.votes,
+                  })),
+                }
+              : undefined,
+            providedAnswers: attachment.provided_answers?.map(
+              (answer: any) =>
+                ({
+                  text: answer.text,
+                  attachments: answer.attachments?.map(
+                    (a: any) =>
+                      ({
+                        subspaceId: a.subspace_id,
+                        postId: a.post_id,
+                        id: a.id,
+                        content: decodeAttachmentContent(a.content),
+                      } as Attachment),
+                  ),
+                } as Poll_ProvidedAnswer),
+            ),
+          }),
+        ).finish(),
+      } as Any;
+
+    case MediaTypeUrl:
+      return {
+        typeUrl: MediaTypeUrl,
+        value: Media.encode(
+          Media.fromPartial({
+            uri: attachment.uri,
+            mimeType: attachment.mime_type,
+          }),
+        ).finish(),
+      } as Any;
+
+    default:
+      // Keep this console log for debug purpose.
+      // eslint-disable-next-line no-console
+      console.log('Unsupported attachment type', attachmentType);
+      return undefined;
+  }
+};
+
+const decodeEntities = (entities: any): Entities | undefined => {
+  if (entities === undefined) {
+    return undefined;
+  }
+
+  return Entities.fromPartial({
+    hashtags: entities.hashtags,
+    mentions: entities.mentions,
+    urls: entities.urls?.map(
+      (url: any) =>
+        ({
+          start: url.start,
+          end: url.end,
+          url: url.url,
+          displayUrl: url.display_url,
+        } as Url),
+    ),
+  });
+};
+
+const decodePostsMessage = (type: string, value: any): EncodeObject | undefined => {
+  switch (type) {
+    case MsgCreatePostTypeUrl:
+      return {
+        typeUrl: MsgCreatePostTypeUrl,
+        value: MsgCreatePost.fromPartial({
+          subspaceId: Long.fromString(value.subspace_id),
+          sectionId: value.section_id,
+          externalId: value.external_id,
+          text: value.text,
+          tags: value.tags,
+          author: value.author,
+          conversationId: Long.fromString(value.conversation_id),
+          replySettings: value.reply_settings
+            ? replySettingFromJSON(value.reply_settings)
+            : undefined,
+          referencedPosts: value.referenced_posts.map((rp: any) => ({
+            type: rp?.type ? postReferenceTypeFromJSON(rp.type) : undefined,
+            postId: rp?.post_id,
+            position: rp?.position,
+          })),
+          entities: decodeEntities(value.entities),
+
+          attachments: value.attachments
+            ?.map(decodeAttachmentContent)
+            ?.filter((attachment: Any | undefined) => attachment !== undefined),
+        }),
+      } as MsgCreatePostEncodeObject;
+
+    case MsgEditPostTypeUrl:
+      return {
+        typeUrl: MsgEditPostTypeUrl,
+        value: MsgEditPost.fromPartial({
+          subspaceId: value.subspace_id,
+          postId: value.post_id,
+          text: value.text,
+          tags: value.tags,
+          entities: decodeEntities(value.entities),
+          editor: value.editor,
+        }),
+      } as MsgEditPostEncodeObject;
+
+    case MsgDeletePostTypeUrl:
+      return {
+        typeUrl: MsgDeletePostTypeUrl,
+        value: MsgDeletePost.fromPartial({
+          subspaceId: value.subspace_id,
+          postId: value.post_id,
+          signer: value.signer,
+        }),
+      } as MsgDeletePostEncodeObject;
+
+    case MsgAddPostAttachmentTypeUrl:
+      return {
+        typeUrl: MsgAddPostAttachmentTypeUrl,
+        value: MsgAddPostAttachment.fromPartial({
+          subspaceId: value.subspace_id,
+          postId: value.post_id,
+          content: decodeAttachmentContent(value.content),
+          editor: value.editor,
+        }),
+      } as MsgAddPostAttachmentEncodeObject;
+
+    case MsgRemovePostAttachmentTypeUrl:
+      return {
+        typeUrl: MsgRemovePostAttachmentTypeUrl,
+        value: MsgRemovePostAttachment.fromPartial({
+          subspaceId: value.subspace_id,
+          postId: value.post_id,
+          attachmentId: value.attachment_id,
+          editor: value.editor,
+        }),
+      } as MsgRemovePostAttachmentEncodeObject;
+
+    case MsgAnswerPollTypeUrl:
+      return {
+        typeUrl: MsgAnswerPollTypeUrl,
+        value: MsgAnswerPoll.fromPartial({
+          subspaceId: value.subspace_id,
+          postId: value.post_id,
+          pollId: value.poll_id,
+          answersIndexes: value.answers_indexes,
+          signer: value.signer,
+        }),
+      } as MsgAnswerPollEncodeObject;
+
+    default:
+      return undefined;
+  }
+};
+
 const converters = [
   decodeBankMessage,
   decodeDistributionMessage,
@@ -627,6 +832,7 @@ const converters = [
   decodeFeeGrantMessage,
   decodeAuthzMessage,
   decodeSubspaceMessage,
+  decodePostsMessage,
 ];
 
 const decodeQueriedMessage = (message: QueriedMessage): Message => {
