@@ -17,6 +17,7 @@ import {
   MsgDeletePostTypeUrl,
   MsgDeleteProfileTypeUrl,
   MsgDeleteRelationshipTypeUrl,
+  MsgDeleteReportTypeUrl,
   MsgDeleteSectionTypeUrl,
   MsgDeleteSubspaceTypeUrl,
   MsgDeleteUserGroupTypeUrl,
@@ -103,6 +104,7 @@ import MsgRemoveReactionComponents from './reactions/MsgRemoveReaction';
 import MsgAddRegisteredReactionComponents from './reactions/MsgAddRegisteredReaction';
 import MsgEditRegisteredReactionComponents from './reactions/MsgEditRegisteredReaction';
 import MsgRemoveRegisteredReactionComponents from './reactions/MsgRemoveRegisteredReaction';
+import MsgDeleteReportComponents from './reports/MsgDeleteReport';
 
 export const messageDetailsComponents: Record<string, MessageComponents<any>> = {
   // x/bank
@@ -177,4 +179,5 @@ export const messageDetailsComponents: Record<string, MessageComponents<any>> = 
 
   // x/reports
   [MsgCreateReportTypeUrl]: MsgCreateReportComponents,
+  [MsgDeleteReportTypeUrl]: MsgDeleteReportComponents,
 };

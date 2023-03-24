@@ -35,6 +35,8 @@ import {
   MsgCreateUserGroupTypeUrl,
   MsgDeletePostEncodeObject,
   MsgDeletePostTypeUrl,
+  MsgDeleteReportEncodeObject,
+  MsgDeleteReportTypeUrl,
   MsgDeleteSectionEncodeObject,
   MsgDeleteSectionTypeUrl,
   MsgDeleteSubspaceEncodeObject,
@@ -156,6 +158,7 @@ import {
   RegisteredReactionValue,
 } from '@desmoslabs/desmjs-types/desmos/reactions/v1/models';
 import { MsgCreateReport } from '@desmoslabs/desmjs-types/desmos/reports/v1/msgs';
+import { MsgCreateReport, MsgDeleteReport } from '@desmoslabs/desmjs-types/desmos/reports/v1/msgs';
 import { PostTarget, UserTarget } from '@desmoslabs/desmjs-types/desmos/reports/v1/models';
 
 const decodePubKey = (gqlPubKey: any): Any | undefined => {
@@ -1015,6 +1018,16 @@ const decodeReportsMessage = (type: string, value: any): EncodeObject | undefine
           target: decodeReportTarget(value.target),
         }),
       } as MsgCreateReportEncodeObject;
+
+    case MsgDeleteReportTypeUrl:
+      return {
+        typeUrl: MsgDeleteReportTypeUrl,
+        value: MsgDeleteReport.fromPartial({
+          subspaceId: value.subspace_id,
+          reportId: value.report_id,
+          signer: value.signer,
+        }),
+      } as MsgDeleteReportEncodeObject;
 
     default:
       return undefined;

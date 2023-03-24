@@ -1,5 +1,7 @@
 {
   "create report": "Create report",
+  "delete report": "Delete report",
+  "report id": "Report id",
   "reasons ids": "Reasons ids",
   "message": "Report message",
   "reporter": "Reporter",
