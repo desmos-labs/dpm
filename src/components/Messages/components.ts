@@ -36,6 +36,7 @@ import {
   MsgMultiSendTypeUrl,
   MsgRefuseDTagTransferRequestTypeUrl,
   MsgRemovePostAttachmentTypeUrl,
+  MsgRemoveReasonTypeUrl,
   MsgRemoveReactionTypeUrl,
   MsgRemoveRegisteredReactionTypeUrl,
   MsgRemoveUserFromUserGroupTypeUrl,
@@ -109,6 +110,7 @@ import MsgEditRegisteredReactionComponents from './reactions/MsgEditRegisteredRe
 import MsgRemoveRegisteredReactionComponents from './reactions/MsgRemoveRegisteredReaction';
 import MsgDeleteReportComponents from './reports/MsgDeleteReport';
 import MsgSupportStandardReasonComponents from './reports/MsgSupportStandardReason';
+import MsgRemoveReasonComponents from './reports/MsgRemoveReason';
 
 export const messageDetailsComponents: Record<string, MessageComponents<any>> = {
   // x/bank
@@ -186,4 +188,5 @@ export const messageDetailsComponents: Record<string, MessageComponents<any>> = 
   [MsgDeleteReportTypeUrl]: MsgDeleteReportComponents,
   [MsgSupportStandardReasonTypeUrl]: MsgSupportStandardReasonComponents,
   [MsgAddReasonTypeUrl]: MsgAddReasonComponents,
+  [MsgRemoveReasonTypeUrl]: MsgRemoveReasonComponents,
 };

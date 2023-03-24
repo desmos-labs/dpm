@@ -67,6 +67,8 @@ import {
   MsgMoveUserGroupTypeUrl,
   MsgRemovePostAttachmentEncodeObject,
   MsgRemovePostAttachmentTypeUrl,
+  MsgRemoveReasonEncodeObject,
+  MsgRemoveReasonTypeUrl,
   MsgRemoveReactionEncodeObject,
   MsgRemoveReactionTypeUrl,
   MsgRemoveRegisteredReactionEncodeObject,
@@ -167,6 +169,7 @@ import {
   MsgAddReason,
   MsgCreateReport,
   MsgDeleteReport,
+  MsgRemoveReason,
   MsgSupportStandardReason,
 } from '@desmoslabs/desmjs-types/desmos/reports/v1/msgs';
 import { PostTarget, UserTarget } from '@desmoslabs/desmjs-types/desmos/reports/v1/models';
@@ -1059,6 +1062,16 @@ const decodeReportsMessage = (type: string, value: any): EncodeObject | undefine
           signer: value.signer,
         }),
       } as MsgAddReasonEncodeObject;
+
+    case MsgRemoveReasonTypeUrl:
+      return {
+        typeUrl: MsgRemoveReasonTypeUrl,
+        value: MsgRemoveReason.fromPartial({
+          subspaceId: value.subspace_id,
+          reasonId: value.reason_id,
+          signer: value.signer,
+        }),
+      } as MsgRemoveReasonEncodeObject;
 
     default:
       return undefined;
