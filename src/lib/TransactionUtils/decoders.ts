@@ -27,6 +27,8 @@ import {
   MsgAnswerPollTypeUrl,
   MsgCreatePostEncodeObject,
   MsgCreatePostTypeUrl,
+  MsgCreateReportEncodeObject,
+  MsgCreateReportTypeUrl,
   MsgCreateSectionEncodeObject,
   MsgCreateSectionTypeUrl,
   MsgCreateUserGroupEncodeObject,
@@ -81,9 +83,11 @@ import {
   MsgUnlinkChainAccountTypeUrl,
   PeriodicAllowanceTypeUrl,
   PollTypeUrl,
+  PostTargetTypeUrl,
   RegisteredReactionValueTypeUrl,
   SendAuthorizationTypeUrl,
   timestampFromDate,
+  UserTargetTypeUrl,
 } from '@desmoslabs/desmjs';
 import { Bech32Address } from '@desmoslabs/desmjs-types/desmos/profiles/v3/models_chain_links';
 import { Any } from 'cosmjs-types/google/protobuf/any';
@@ -151,6 +155,8 @@ import {
   FreeTextValue,
   RegisteredReactionValue,
 } from '@desmoslabs/desmjs-types/desmos/reactions/v1/models';
+import { MsgCreateReport } from '@desmoslabs/desmjs-types/desmos/reports/v1/msgs';
+import { PostTarget, UserTarget } from '@desmoslabs/desmjs-types/desmos/reports/v1/models';
 
 const decodePubKey = (gqlPubKey: any): Any | undefined => {
   const type = gqlPubKey['@type'];
@@ -964,6 +970,57 @@ const decodeReactionsMessage = (type: string, value: any): EncodeObject | undefi
   }
 };
 
+const decodeReportTarget = (target: any): Any | undefined => {
+  const type = target['@type'];
+
+  switch (type) {
+    case PostTargetTypeUrl:
+      return Any.fromPartial({
+        typeUrl: PostTargetTypeUrl,
+        value: PostTarget.encode(
+          PostTarget.fromPartial({
+            postId: target.post_id,
+          }),
+        ).finish(),
+      });
+
+    case UserTargetTypeUrl:
+      return Any.fromPartial({
+        typeUrl: UserTargetTypeUrl,
+        value: UserTarget.encode(
+          UserTarget.fromPartial({
+            user: target.user,
+          }),
+        ).finish(),
+      });
+
+    default:
+      // Keep this console log for debug purpose.
+      // eslint-disable-next-line no-console
+      console.log('unsupported report target type', type);
+      return undefined;
+  }
+};
+
+const decodeReportsMessage = (type: string, value: any): EncodeObject | undefined => {
+  switch (type) {
+    case MsgCreateReportTypeUrl:
+      return {
+        typeUrl: MsgCreateReportTypeUrl,
+        value: MsgCreateReport.fromPartial({
+          subspaceId: value.subspace_id,
+          message: value.message,
+          reporter: value.reporter,
+          reasonsIds: value.reasons_ids,
+          target: decodeReportTarget(value.target),
+        }),
+      } as MsgCreateReportEncodeObject;
+
+    default:
+      return undefined;
+  }
+};
+
 const converters = [
   decodeBankMessage,
   decodeDistributionMessage,
@@ -975,6 +1032,7 @@ const converters = [
   decodeSubspaceMessage,
   decodePostsMessage,
   decodeReactionsMessage,
+  decodeReportsMessage,
 ];
 
 const decodeQueriedMessage = (message: QueriedMessage): Message => {

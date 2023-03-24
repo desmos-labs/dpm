@@ -9,6 +9,7 @@ import {
   MsgCancelDTagTransferRequestTypeUrl,
   MsgCreatePostTypeUrl,
   MsgCreateRelationshipTypeUrl,
+  MsgCreateReportTypeUrl,
   MsgCreateSectionTypeUrl,
   MsgCreateSubspaceTypeUrl,
   MsgCreateUserGroupTypeUrl,
@@ -79,6 +80,7 @@ import MsgRemoveUserFromUserGroupComponents from 'components/Messages/subspaces/
 import MsgRemovePostAttachmentComponents from 'components/Messages/posts/MsgRemovePostAttachment';
 import MsgAddReactionComponents from 'components/Messages/reactions/MsgAddReaction';
 import MsgSetReactionsParamsComponents from 'components/Messages/reactions/MsgSetReactionsParams';
+import MsgCreateReportComponents from 'components/Messages/reports/MsgCreateReport';
 import { MessageComponents } from './BaseMessage';
 import MsgCancelDtagTransferRequestComponents from './MsgCancelDTagTransferRequest';
 import MsgCreateRelationshipComponents from './MsgCreateRelationship';
@@ -172,4 +174,7 @@ export const messageDetailsComponents: Record<string, MessageComponents<any>> = 
   [MsgEditRegisteredReactionTypeUrl]: MsgEditRegisteredReactionComponents,
   [MsgRemoveRegisteredReactionTypeUrl]: MsgRemoveRegisteredReactionComponents,
   [MsgSetReactionsParamsTypeUrl]: MsgSetReactionsParamsComponents,
+
+  // x/reports
+  [MsgCreateReportTypeUrl]: MsgCreateReportComponents,
 };
