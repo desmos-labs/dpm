@@ -31,7 +31,7 @@ const MsgEditSubspaceDetails: MessageDetailsComponent<MsgDeletePostEncodeObject>
         value: message.value.signer,
       },
     ],
-    [t, message],
+    [tSubspaces, tCommon, t, message],
   );
 
   return (
