@@ -4,6 +4,7 @@
   "delete post": "Delete post",
   "add post attachment": "Add post attachment",
   "remove post attachment": "Remove post attachment",
+  "answer poll": "Answer poll",
   "post id": "Post id",
   "external id": "External id",
   "text": "Text",
@@ -25,5 +26,7 @@
   "poll allow multiple answers": "Poll allow multiple answers",
   "author": "Author",
   "editor": "Editor",
-  "attachment id": "Attachment id"
+  "attachment id": "Attachment id",
+  "poll id": "Poll id",
+  "answers indexes": "Answers indexes"
 }

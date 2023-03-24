@@ -18,6 +18,8 @@ import {
   MsgAddPostAttachmentTypeUrl,
   MsgAddUserToUserGroupEncodeObject,
   MsgAddUserToUserGroupTypeUrl,
+  MsgAnswerPollEncodeObject,
+  MsgAnswerPollTypeUrl,
   MsgCreatePostEncodeObject,
   MsgCreatePostTypeUrl,
   MsgCreateSectionEncodeObject,
@@ -107,6 +109,7 @@ import {
 } from 'cosmjs-types/cosmos/feegrant/v1beta1/feegrant';
 import {
   MsgAddPostAttachment,
+  MsgAnswerPoll,
   MsgCreatePost,
   MsgDeletePost,
   MsgEditPost,
@@ -802,6 +805,18 @@ const decodePostsMessage = (type: string, value: any): EncodeObject | undefined 
           editor: value.editor,
         }),
       } as MsgRemovePostAttachmentEncodeObject;
+
+    case MsgAnswerPollTypeUrl:
+      return {
+        typeUrl: MsgAnswerPollTypeUrl,
+        value: MsgAnswerPoll.fromPartial({
+          subspaceId: value.subspace_id,
+          postId: value.post_id,
+          pollId: value.poll_id,
+          answersIndexes: value.answers_indexes,
+          signer: value.signer,
+        }),
+      } as MsgAnswerPollEncodeObject;
 
     default:
       return undefined;

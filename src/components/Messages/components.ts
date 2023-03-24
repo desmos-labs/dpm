@@ -2,6 +2,7 @@ import {
   MsgAcceptDTagTransferRequestTypeUrl,
   MsgAddPostAttachmentTypeUrl,
   MsgAddUserToUserGroupTypeUrl,
+  MsgAnswerPollTypeUrl,
   MsgBlockUserTypeUrl,
   MsgCancelDTagTransferRequestTypeUrl,
   MsgCreatePostTypeUrl,
@@ -87,6 +88,7 @@ import MsgCreatePostComponents from './posts/MsgCreatePost';
 import MsgDeletePostComponents from './posts/MsgDeletePost';
 import MsgEditPostComponents from './posts/MsgEditPost';
 import MsgAddPostAttachmentComponents from './posts/MsgAddPostAttachment';
+import MsgAnswerPollComponents from './posts/MsgAnswerPoll';
 
 export const messageDetailsComponents: Record<string, MessageComponents<any>> = {
   // x/bank
@@ -149,4 +151,5 @@ export const messageDetailsComponents: Record<string, MessageComponents<any>> = 
   [MsgDeletePostTypeUrl]: MsgDeletePostComponents,
   [MsgAddPostAttachmentTypeUrl]: MsgAddPostAttachmentComponents,
   [MsgRemovePostAttachmentTypeUrl]: MsgRemovePostAttachmentComponents,
+  [MsgAnswerPollTypeUrl]: MsgAnswerPollComponents,
 };
