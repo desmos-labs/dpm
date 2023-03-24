@@ -81,6 +81,8 @@ import {
   MsgSetUserGroupPermissionsTypeUrl,
   MsgSetUserPermissionsEncodeObject,
   MsgSetUserPermissionsTypeUrl,
+  MsgSupportStandardReasonEncodeObject,
+  MsgSupportStandardReasonTypeUrl,
   MsgUnlinkChainAccountEncodeObject,
   MsgUnlinkChainAccountTypeUrl,
   PeriodicAllowanceTypeUrl,
@@ -159,6 +161,11 @@ import {
 } from '@desmoslabs/desmjs-types/desmos/reactions/v1/models';
 import { MsgCreateReport } from '@desmoslabs/desmjs-types/desmos/reports/v1/msgs';
 import { MsgCreateReport, MsgDeleteReport } from '@desmoslabs/desmjs-types/desmos/reports/v1/msgs';
+import {
+  MsgCreateReport,
+  MsgDeleteReport,
+  MsgSupportStandardReason,
+} from '@desmoslabs/desmjs-types/desmos/reports/v1/msgs';
 import { PostTarget, UserTarget } from '@desmoslabs/desmjs-types/desmos/reports/v1/models';
 
 const decodePubKey = (gqlPubKey: any): Any | undefined => {
@@ -1028,6 +1035,16 @@ const decodeReportsMessage = (type: string, value: any): EncodeObject | undefine
           signer: value.signer,
         }),
       } as MsgDeleteReportEncodeObject;
+
+    case MsgSupportStandardReasonTypeUrl:
+      return {
+        typeUrl: MsgSupportStandardReasonTypeUrl,
+        value: MsgSupportStandardReason.fromPartial({
+          subspaceId: value.subspace_id,
+          standardReasonId: value.standard_reason_id,
+          signer: value.signer,
+        }),
+      } as MsgSupportStandardReasonEncodeObject;
 
     default:
       return undefined;

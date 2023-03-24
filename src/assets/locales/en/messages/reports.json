@@ -1,11 +1,13 @@
 {
   "create report": "Create report",
   "delete report": "Delete report",
+  "support standard reason": "Support standard reason",
   "report id": "Report id",
   "reasons ids": "Reasons ids",
   "message": "Report message",
   "reporter": "Reporter",
   "unknown report target": "Unknown report target",
   "reported post id": "Reported post id",
-  "reported user": "Reported user"
+  "reported user": "Reported user",
+  "standard reason id": "Standard reason id"
 }

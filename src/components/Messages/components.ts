@@ -46,6 +46,7 @@ import {
   MsgSetReactionsParamsTypeUrl,
   MsgSetUserGroupPermissionsTypeUrl,
   MsgSetUserPermissionsTypeUrl,
+  MsgSupportStandardReasonTypeUrl,
   MsgUnblockUserTypeUrl,
   MsgUnlinkApplicationTypeUrl,
   MsgUnlinkChainAccountTypeUrl,
@@ -105,6 +106,7 @@ import MsgAddRegisteredReactionComponents from './reactions/MsgAddRegisteredReac
 import MsgEditRegisteredReactionComponents from './reactions/MsgEditRegisteredReaction';
 import MsgRemoveRegisteredReactionComponents from './reactions/MsgRemoveRegisteredReaction';
 import MsgDeleteReportComponents from './reports/MsgDeleteReport';
+import MsgSupportStandardReasonComponents from './reports/MsgSupportStandardReason';
 
 export const messageDetailsComponents: Record<string, MessageComponents<any>> = {
   // x/bank
@@ -180,4 +182,5 @@ export const messageDetailsComponents: Record<string, MessageComponents<any>> = 
   // x/reports
   [MsgCreateReportTypeUrl]: MsgCreateReportComponents,
   [MsgDeleteReportTypeUrl]: MsgDeleteReportComponents,
+  [MsgSupportStandardReasonTypeUrl]: MsgSupportStandardReasonComponents,
 };
