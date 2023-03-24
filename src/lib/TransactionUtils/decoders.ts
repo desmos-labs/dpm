@@ -19,10 +19,10 @@ import {
   MsgAddPostAttachmentTypeUrl,
   MsgAddReactionEncodeObject,
   MsgAddReactionTypeUrl,
-  MsgAddRegisteredReactionEncodeObject,
-  MsgAddRegisteredReactionTypeUrl,
   MsgAddReasonEncodeObject,
   MsgAddReasonTypeUrl,
+  MsgAddRegisteredReactionEncodeObject,
+  MsgAddRegisteredReactionTypeUrl,
   MsgAddUserToUserGroupEncodeObject,
   MsgAddUserToUserGroupTypeUrl,
   MsgAnswerPollEncodeObject,
@@ -67,10 +67,10 @@ import {
   MsgMoveUserGroupTypeUrl,
   MsgRemovePostAttachmentEncodeObject,
   MsgRemovePostAttachmentTypeUrl,
-  MsgRemoveReasonEncodeObject,
-  MsgRemoveReasonTypeUrl,
   MsgRemoveReactionEncodeObject,
   MsgRemoveReactionTypeUrl,
+  MsgRemoveReasonEncodeObject,
+  MsgRemoveReasonTypeUrl,
   MsgRemoveRegisteredReactionEncodeObject,
   MsgRemoveRegisteredReactionTypeUrl,
   MsgRemoveUserFromUserGroupEncodeObject,
@@ -163,8 +163,6 @@ import {
   FreeTextValue,
   RegisteredReactionValue,
 } from '@desmoslabs/desmjs-types/desmos/reactions/v1/models';
-import { MsgCreateReport } from '@desmoslabs/desmjs-types/desmos/reports/v1/msgs';
-import { MsgCreateReport, MsgDeleteReport } from '@desmoslabs/desmjs-types/desmos/reports/v1/msgs';
 import {
   MsgAddReason,
   MsgCreateReport,
