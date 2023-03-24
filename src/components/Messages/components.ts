@@ -1,6 +1,7 @@
 import {
   MsgAcceptDTagTransferRequestTypeUrl,
   MsgAddPostAttachmentTypeUrl,
+  MsgAddReactionTypeUrl,
   MsgAddUserToUserGroupTypeUrl,
   MsgAnswerPollTypeUrl,
   MsgBlockUserTypeUrl,
@@ -71,6 +72,7 @@ import MsgMoveUserGroupComponents from 'components/Messages/subspaces/MsgMoveUse
 import MsgAddUserToUserGroupComponents from 'components/Messages/subspaces/MsgAddUserToUserGroup';
 import MsgRemoveUserFromUserGroupComponents from 'components/Messages/subspaces/MsgRemoveUserFromUserGroup';
 import MsgRemovePostAttachmentComponents from 'components/Messages/posts/MsgRemovePostAttachment';
+import MsgAddReactionComponents from 'components/Messages/reactions/MsgAddReaction';
 import { MessageComponents } from './BaseMessage';
 import MsgCancelDtagTransferRequestComponents from './MsgCancelDTagTransferRequest';
 import MsgCreateRelationshipComponents from './MsgCreateRelationship';
@@ -152,4 +154,7 @@ export const messageDetailsComponents: Record<string, MessageComponents<any>> = 
   [MsgAddPostAttachmentTypeUrl]: MsgAddPostAttachmentComponents,
   [MsgRemovePostAttachmentTypeUrl]: MsgRemovePostAttachmentComponents,
   [MsgAnswerPollTypeUrl]: MsgAnswerPollComponents,
+
+  // x/reactions
+  [MsgAddReactionTypeUrl]: MsgAddReactionComponents,
 };

@@ -11,11 +11,14 @@ import Long from 'long';
 import {
   AllowedMsgAllowanceTypeUrl,
   BasicAllowanceTypeUrl,
+  FreeTextValueTypeUrl,
   GenericAuthorizationTypeUrl,
   GenericSubspaceAuthorizationTypeUrl,
   MediaTypeUrl,
   MsgAddPostAttachmentEncodeObject,
   MsgAddPostAttachmentTypeUrl,
+  MsgAddReactionEncodeObject,
+  MsgAddReactionTypeUrl,
   MsgAddUserToUserGroupEncodeObject,
   MsgAddUserToUserGroupTypeUrl,
   MsgAnswerPollEncodeObject,
@@ -68,6 +71,7 @@ import {
   MsgUnlinkChainAccountTypeUrl,
   PeriodicAllowanceTypeUrl,
   PollTypeUrl,
+  RegisteredReactionValueTypeUrl,
   SendAuthorizationTypeUrl,
   timestampFromDate,
 } from '@desmoslabs/desmjs';
@@ -125,6 +129,11 @@ import {
   replySettingFromJSON,
   Url,
 } from '@desmoslabs/desmjs-types/desmos/posts/v2/models';
+import { MsgAddReaction } from '@desmoslabs/desmjs-types/desmos/reactions/v1/msgs';
+import {
+  FreeTextValue,
+  RegisteredReactionValue,
+} from '@desmoslabs/desmjs-types/desmos/reactions/v1/models';
 
 const decodePubKey = (gqlPubKey: any): Any | undefined => {
   const type = gqlPubKey['@type'];
@@ -823,6 +832,60 @@ const decodePostsMessage = (type: string, value: any): EncodeObject | undefined 
   }
 };
 
+const decodeReactionValue = (value: any): Any | undefined => {
+  if (value === undefined) {
+    return value;
+  }
+
+  const valueType = value['@type'];
+
+  switch (valueType) {
+    case RegisteredReactionValueTypeUrl:
+      return Any.fromPartial({
+        typeUrl: RegisteredReactionValueTypeUrl,
+        value: RegisteredReactionValue.encode(
+          RegisteredReactionValue.fromPartial({
+            registeredReactionId: value.registered_reaction_id,
+          }),
+        ).finish(),
+      });
+
+    case FreeTextValueTypeUrl:
+      return Any.fromPartial({
+        typeUrl: FreeTextValueTypeUrl,
+        value: FreeTextValue.encode(
+          FreeTextValue.fromPartial({
+            text: value.text,
+          }),
+        ).finish(),
+      });
+
+    default:
+      // Keep this console log for debug purpose.
+      // eslint-disable-next-line no-console
+      console.log('Unsupported reaction value type', valueType);
+      return undefined;
+  }
+};
+
+const decodeReactionsMessage = (type: string, value: any): EncodeObject | undefined => {
+  switch (type) {
+    case MsgAddReactionTypeUrl:
+      return {
+        typeUrl: MsgAddReactionTypeUrl,
+        value: MsgAddReaction.fromPartial({
+          subspaceId: value.subspace_id,
+          postId: value.post_id,
+          value: decodeReactionValue(value.value),
+          user: value.user,
+        }),
+      } as MsgAddReactionEncodeObject;
+
+    default:
+      return undefined;
+  }
+};
+
 const converters = [
   decodeBankMessage,
   decodeDistributionMessage,
@@ -833,6 +896,7 @@ const converters = [
   decodeAuthzMessage,
   decodeSubspaceMessage,
   decodePostsMessage,
+  decodeReactionsMessage,
 ];
 
 const decodeQueriedMessage = (message: QueriedMessage): Message => {
