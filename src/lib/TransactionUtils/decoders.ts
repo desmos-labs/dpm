@@ -19,6 +19,8 @@ import {
   MsgAddPostAttachmentTypeUrl,
   MsgAddReactionEncodeObject,
   MsgAddReactionTypeUrl,
+  MsgAddReasonEncodeObject,
+  MsgAddReasonTypeUrl,
   MsgAddRegisteredReactionEncodeObject,
   MsgAddRegisteredReactionTypeUrl,
   MsgAddUserToUserGroupEncodeObject,
@@ -27,12 +29,16 @@ import {
   MsgAnswerPollTypeUrl,
   MsgCreatePostEncodeObject,
   MsgCreatePostTypeUrl,
+  MsgCreateReportEncodeObject,
+  MsgCreateReportTypeUrl,
   MsgCreateSectionEncodeObject,
   MsgCreateSectionTypeUrl,
   MsgCreateUserGroupEncodeObject,
   MsgCreateUserGroupTypeUrl,
   MsgDeletePostEncodeObject,
   MsgDeletePostTypeUrl,
+  MsgDeleteReportEncodeObject,
+  MsgDeleteReportTypeUrl,
   MsgDeleteSectionEncodeObject,
   MsgDeleteSectionTypeUrl,
   MsgDeleteSubspaceEncodeObject,
@@ -63,6 +69,8 @@ import {
   MsgRemovePostAttachmentTypeUrl,
   MsgRemoveReactionEncodeObject,
   MsgRemoveReactionTypeUrl,
+  MsgRemoveReasonEncodeObject,
+  MsgRemoveReasonTypeUrl,
   MsgRemoveRegisteredReactionEncodeObject,
   MsgRemoveRegisteredReactionTypeUrl,
   MsgRemoveUserFromUserGroupEncodeObject,
@@ -77,13 +85,17 @@ import {
   MsgSetUserGroupPermissionsTypeUrl,
   MsgSetUserPermissionsEncodeObject,
   MsgSetUserPermissionsTypeUrl,
+  MsgSupportStandardReasonEncodeObject,
+  MsgSupportStandardReasonTypeUrl,
   MsgUnlinkChainAccountEncodeObject,
   MsgUnlinkChainAccountTypeUrl,
   PeriodicAllowanceTypeUrl,
   PollTypeUrl,
+  PostTargetTypeUrl,
   RegisteredReactionValueTypeUrl,
   SendAuthorizationTypeUrl,
   timestampFromDate,
+  UserTargetTypeUrl,
 } from '@desmoslabs/desmjs';
 import { Bech32Address } from '@desmoslabs/desmjs-types/desmos/profiles/v3/models_chain_links';
 import { Any } from 'cosmjs-types/google/protobuf/any';
@@ -151,6 +163,14 @@ import {
   FreeTextValue,
   RegisteredReactionValue,
 } from '@desmoslabs/desmjs-types/desmos/reactions/v1/models';
+import {
+  MsgAddReason,
+  MsgCreateReport,
+  MsgDeleteReport,
+  MsgRemoveReason,
+  MsgSupportStandardReason,
+} from '@desmoslabs/desmjs-types/desmos/reports/v1/msgs';
+import { PostTarget, UserTarget } from '@desmoslabs/desmjs-types/desmos/reports/v1/models';
 
 const decodePubKey = (gqlPubKey: any): Any | undefined => {
   const type = gqlPubKey['@type'];
@@ -964,6 +984,98 @@ const decodeReactionsMessage = (type: string, value: any): EncodeObject | undefi
   }
 };
 
+const decodeReportTarget = (target: any): Any | undefined => {
+  const type = target['@type'];
+
+  switch (type) {
+    case PostTargetTypeUrl:
+      return Any.fromPartial({
+        typeUrl: PostTargetTypeUrl,
+        value: PostTarget.encode(
+          PostTarget.fromPartial({
+            postId: target.post_id,
+          }),
+        ).finish(),
+      });
+
+    case UserTargetTypeUrl:
+      return Any.fromPartial({
+        typeUrl: UserTargetTypeUrl,
+        value: UserTarget.encode(
+          UserTarget.fromPartial({
+            user: target.user,
+          }),
+        ).finish(),
+      });
+
+    default:
+      // Keep this console log for debug purpose.
+      // eslint-disable-next-line no-console
+      console.log('unsupported report target type', type);
+      return undefined;
+  }
+};
+
+const decodeReportsMessage = (type: string, value: any): EncodeObject | undefined => {
+  switch (type) {
+    case MsgCreateReportTypeUrl:
+      return {
+        typeUrl: MsgCreateReportTypeUrl,
+        value: MsgCreateReport.fromPartial({
+          subspaceId: value.subspace_id,
+          message: value.message,
+          reporter: value.reporter,
+          reasonsIds: value.reasons_ids,
+          target: decodeReportTarget(value.target),
+        }),
+      } as MsgCreateReportEncodeObject;
+
+    case MsgDeleteReportTypeUrl:
+      return {
+        typeUrl: MsgDeleteReportTypeUrl,
+        value: MsgDeleteReport.fromPartial({
+          subspaceId: value.subspace_id,
+          reportId: value.report_id,
+          signer: value.signer,
+        }),
+      } as MsgDeleteReportEncodeObject;
+
+    case MsgSupportStandardReasonTypeUrl:
+      return {
+        typeUrl: MsgSupportStandardReasonTypeUrl,
+        value: MsgSupportStandardReason.fromPartial({
+          subspaceId: value.subspace_id,
+          standardReasonId: value.standard_reason_id,
+          signer: value.signer,
+        }),
+      } as MsgSupportStandardReasonEncodeObject;
+
+    case MsgAddReasonTypeUrl:
+      return {
+        typeUrl: MsgAddReasonTypeUrl,
+        value: MsgAddReason.fromPartial({
+          subspaceId: value.subspace_id,
+          description: value.description,
+          title: value.title,
+          signer: value.signer,
+        }),
+      } as MsgAddReasonEncodeObject;
+
+    case MsgRemoveReasonTypeUrl:
+      return {
+        typeUrl: MsgRemoveReasonTypeUrl,
+        value: MsgRemoveReason.fromPartial({
+          subspaceId: value.subspace_id,
+          reasonId: value.reason_id,
+          signer: value.signer,
+        }),
+      } as MsgRemoveReasonEncodeObject;
+
+    default:
+      return undefined;
+  }
+};
+
 const converters = [
   decodeBankMessage,
   decodeDistributionMessage,
@@ -975,6 +1087,7 @@ const converters = [
   decodeSubspaceMessage,
   decodePostsMessage,
   decodeReactionsMessage,
+  decodeReportsMessage,
 ];
 
 const decodeQueriedMessage = (message: QueriedMessage): Message => {

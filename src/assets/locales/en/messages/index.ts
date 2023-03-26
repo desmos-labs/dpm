@@ -5,6 +5,7 @@ import gov from './gov.json';
 import posts from './posts.json';
 import profiles from './profiles.json';
 import reactions from './reactions.json';
+import reports from './reports.json';
 import staking from './staking.json';
 import subspaces from './subspaces.json';
 import feegrant from './feegrant.json';
@@ -18,6 +19,7 @@ const messages = {
   'messages.posts': posts,
   'messages.profiles': profiles,
   'messages.reactions': reactions,
+  'messages.reports': reports,
   'messages.staking': staking,
   'messages.subspaces': subspaces,
   'messages.feegrant': feegrant,
