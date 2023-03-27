@@ -3,6 +3,7 @@ import React from 'react';
 import BaseMessageDetails from 'components/Messages/BaseMessage/BaseMessageDetails';
 import { msgGeneralIcon } from 'assets/images';
 import { useTranslation } from 'react-i18next';
+import { MsgRefuseDTagTransferRequestEncodeObject } from '@desmoslabs/desmjs';
 
 const MsgRefuseDTagTransferDetails: MessageDetailsComponent<
   MsgRefuseDTagTransferRequestEncodeObject
