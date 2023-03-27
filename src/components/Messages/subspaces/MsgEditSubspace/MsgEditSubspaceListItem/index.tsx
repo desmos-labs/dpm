@@ -5,20 +5,17 @@ import { msgGeneralIcon } from 'assets/images';
 import { View } from 'react-native';
 import Typography from 'components/Typography';
 import BaseMessageListItem from 'components/Messages/BaseMessage/BaseMessageListItem';
-
-export type MsgEditSubspaceListItemProps = {
-  message: MsgEditSubspaceEncodeObject;
-  date: Date;
-};
+import { MessageListItemComponent } from 'components/Messages/BaseMessage';
 
 /**
  * Displays the short details of a MsgEditSubspace within a list.
  * @constructor
  */
-const MsgEditSubspaceListItem = (props: MsgEditSubspaceListItemProps) => {
+const MsgEditSubspaceListItem: MessageListItemComponent<MsgEditSubspaceEncodeObject> = ({
+  message,
+  date,
+}) => {
   const { t } = useTranslation('messages.subspaces');
-  const { message, date } = props;
-
   return (
     <BaseMessageListItem
       icon={msgGeneralIcon}

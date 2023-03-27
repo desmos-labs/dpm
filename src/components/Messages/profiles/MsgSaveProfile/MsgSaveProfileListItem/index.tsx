@@ -1,4 +1,4 @@
-import { MsgCreateSubspaceEncodeObject } from '@desmoslabs/desmjs';
+import { MsgSaveProfileEncodeObject } from '@desmoslabs/desmjs';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { msgGeneralIcon } from 'assets/images';
@@ -8,27 +8,22 @@ import BaseMessageListItem from 'components/Messages/BaseMessage/BaseMessageList
 import { MessageListItemComponent } from 'components/Messages/BaseMessage';
 
 /**
- * Displays the short details of a MsgCreateSubspace within a list.
+ * Displays the short details of a MsgSaveProfile within a list.
  * @constructor
  */
-const MsgCreateSubspaceListItem: MessageListItemComponent<MsgCreateSubspaceEncodeObject> = ({
-  message,
-  date,
-}) => {
-  const { t } = useTranslation('messages.subspaces');
-
+const MsgSaveProfileListItem: MessageListItemComponent<MsgSaveProfileEncodeObject> = ({ date }) => {
+  const { t } = useTranslation('messages.profiles');
   return (
     <BaseMessageListItem
       icon={msgGeneralIcon}
       date={date}
       renderContent={() => (
         <View>
-          <Typography.Body1>{t('create subspace')}</Typography.Body1>
-          <Typography.Caption>{message.value.name}</Typography.Caption>
+          <Typography.Body1>{t('tx type save profile')}</Typography.Body1>
         </View>
       )}
     />
   );
 };
 
-export default MsgCreateSubspaceListItem;
+export default MsgSaveProfileListItem;

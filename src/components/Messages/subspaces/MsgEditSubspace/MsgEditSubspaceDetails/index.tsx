@@ -3,18 +3,16 @@ import React from 'react';
 import { useTranslation } from 'react-i18next';
 import BaseMessageDetails from 'components/Messages/BaseMessage/BaseMessageDetails';
 import { msgGeneralIcon } from 'assets/images';
-
-export type MsgEditSubspaceDetailsProps = {
-  message: MsgEditSubspaceEncodeObject;
-};
+import { MessageDetailsComponent } from 'components/Messages/BaseMessage';
 
 /**
  * Displays the full details of a MsgEditSubspace
  * @constructor
  */
-const MsgEditSubspaceDetails = (props: MsgEditSubspaceDetailsProps) => {
+const MsgEditSubspaceDetails: MessageDetailsComponent<MsgEditSubspaceEncodeObject> = ({
+  message,
+}) => {
   const { t } = useTranslation('messages.subspaces');
-  const { message } = props;
 
   const fields = React.useMemo(
     () => [

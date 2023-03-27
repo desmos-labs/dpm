@@ -2,8 +2,8 @@ import {
   MsgAcceptDTagTransferRequestTypeUrl,
   MsgAddPostAttachmentTypeUrl,
   MsgAddReactionTypeUrl,
-  MsgAddRegisteredReactionTypeUrl,
   MsgAddReasonTypeUrl,
+  MsgAddRegisteredReactionTypeUrl,
   MsgAddUserToUserGroupTypeUrl,
   MsgAnswerPollTypeUrl,
   MsgBlockUserTypeUrl,
@@ -36,8 +36,8 @@ import {
   MsgMultiSendTypeUrl,
   MsgRefuseDTagTransferRequestTypeUrl,
   MsgRemovePostAttachmentTypeUrl,
-  MsgRemoveReasonTypeUrl,
   MsgRemoveReactionTypeUrl,
+  MsgRemoveReasonTypeUrl,
   MsgRemoveRegisteredReactionTypeUrl,
   MsgRemoveUserFromUserGroupTypeUrl,
   MsgRequestDTagTransferTypeUrl,
@@ -55,50 +55,50 @@ import {
   MsgVoteTypeUrl,
   MsgWithdrawDelegatorRewardTypeUrl,
 } from '@desmoslabs/desmjs';
-import MsgSendComponents from 'components/Messages/MsgSend';
-import MsgMultiSendComponents from 'components/Messages/MsgMultiSend';
-import MsgVoteComponents from 'components/Messages/MsgVote';
-import MsgDelegateComponents from 'components/Messages/MsgDelegate';
-import MsgWithdrawDelegatorRewardsComponents from 'components/Messages/MsgWithdrawDelegatorRewards';
-import MsgSaveProfileComponents from 'components/Messages/MsgSaveProfile';
-import MsgLinkChainAccountComponents from 'components/Messages/MsgLinkChainAccount';
-import MsgUnlinkChainAccountComponents from 'components/Messages/MsgUnlinkChainAccount';
-import MsgDeleteProfileComponents from 'components/Messages/MsgDeleteProfile';
-import MsgRequestDtagTransferComponents from 'components/Messages/MsgRequestDtagTransfer';
-import MsgAcceptDtagTransferComponents from 'components/Messages/MsgAcceptDtagTransfer';
-import MsgRefuseDtagTransferRequestComponents from 'components/Messages/MsgRefuseDTagTransferRequest';
-import MsgLinkApplicationComponents from 'components/Messages/MsgLinkApplication';
-import MsgUnlinkApplicationComponents from 'components/Messages/MsgUnlinkApplication';
-import MsgGrantAllowanceComponents from 'components/Messages/MsgGrantAllowance';
-import MsgRevokeAllowanceComponents from 'components/Messages/MsgRevokeAllowance';
-import MsgCreateSubspaceComponents from 'components/Messages/subspaces/MsgCreateSubspace';
-import MsgCreateSectionComponents from 'components/Messages/subspaces/MsgCreateSection';
-import MsgEditSectionComponents from 'components/Messages/subspaces/MsgEditSection';
-import MsgMoveSectionComponents from 'components/Messages/subspaces/MsgMoveSection';
-import MsgDeleteSectionComponents from 'components/Messages/subspaces/MsgDeleteSection';
-import MsgCreateUserGroupComponents from 'components/Messages/subspaces/MsgCreateUserGroup';
-import MsgEditUserGroupComponents from 'components/Messages/subspaces/MsgEditUserGroup';
-import MsgMoveUserGroupComponents from 'components/Messages/subspaces/MsgMoveUserGroup';
-import MsgAddUserToUserGroupComponents from 'components/Messages/subspaces/MsgAddUserToUserGroup';
-import MsgRemoveUserFromUserGroupComponents from 'components/Messages/subspaces/MsgRemoveUserFromUserGroup';
-import MsgRemovePostAttachmentComponents from 'components/Messages/posts/MsgRemovePostAttachment';
-import MsgAddReactionComponents from 'components/Messages/reactions/MsgAddReaction';
-import MsgSetReactionsParamsComponents from 'components/Messages/reactions/MsgSetReactionsParams';
-import MsgCreateReportComponents from 'components/Messages/reports/MsgCreateReport';
-import MsgAddReasonComponents from 'components/Messages/reports/MsgAddReason';
+import MsgSendComponents from './bank/MsgSend';
+import MsgMultiSendComponents from './bank/MsgMultiSend';
+import MsgVoteComponents from './gov/MsgVote';
+import MsgDelegateComponents from './staking/MsgDelegate';
+import MsgWithdrawDelegatorRewardsComponents from './distribution/MsgWithdrawDelegatorRewards';
+import MsgSaveProfileComponents from './profiles/MsgSaveProfile';
+import MsgLinkChainAccountComponents from './profiles/MsgLinkChainAccount';
+import MsgUnlinkChainAccountComponents from './profiles/MsgUnlinkChainAccount';
+import MsgDeleteProfileComponents from './profiles/MsgDeleteProfile';
+import MsgRequestDtagTransferComponents from './profiles/MsgRequestDtagTransfer';
+import MsgAcceptDtagTransferComponents from './profiles/MsgAcceptDtagTransfer';
+import MsgRefuseDtagTransferRequestComponents from './profiles/MsgRefuseDTagTransferRequest';
+import MsgLinkApplicationComponents from './profiles/MsgLinkApplication';
+import MsgUnlinkApplicationComponents from './profiles/MsgUnlinkApplication';
+import MsgGrantAllowanceComponents from './feegrant/MsgGrantAllowance';
+import MsgRevokeAllowanceComponents from './feegrant/MsgRevokeAllowance';
+import MsgCreateSubspaceComponents from './subspaces/MsgCreateSubspace';
+import MsgCreateSectionComponents from './subspaces/MsgCreateSection';
+import MsgEditSectionComponents from './subspaces/MsgEditSection';
+import MsgMoveSectionComponents from './subspaces/MsgMoveSection';
+import MsgDeleteSectionComponents from './subspaces/MsgDeleteSection';
+import MsgCreateUserGroupComponents from './subspaces/MsgCreateUserGroup';
+import MsgEditUserGroupComponents from './subspaces/MsgEditUserGroup';
+import MsgMoveUserGroupComponents from './subspaces/MsgMoveUserGroup';
+import MsgAddUserToUserGroupComponents from './subspaces/MsgAddUserToUserGroup';
+import MsgRemoveUserFromUserGroupComponents from './subspaces/MsgRemoveUserFromUserGroup';
+import MsgRemovePostAttachmentComponents from './posts/MsgRemovePostAttachment';
+import MsgAddReactionComponents from './reactions/MsgAddReaction';
+import MsgSetReactionsParamsComponents from './reactions/MsgSetReactionsParams';
+import MsgCreateReportComponents from './reports/MsgCreateReport';
+import MsgAddReasonComponents from './reports/MsgAddReason';
 import { MessageComponents } from './BaseMessage';
-import MsgCancelDtagTransferRequestComponents from './MsgCancelDTagTransferRequest';
-import MsgCreateRelationshipComponents from './MsgCreateRelationship';
-import MsgDeleteRelationshipComponents from './MsgDeleteRelationship';
-import MsgBlockUserComponents from './MsgBlockUser';
-import MsgUnblockUserComponents from './MsgUnblockUser';
+import MsgCancelDtagTransferRequestComponents from './profiles/MsgCancelDTagTransferRequest';
+import MsgCreateRelationshipComponents from './relationships/MsgCreateRelationship';
+import MsgDeleteRelationshipComponents from './relationships/MsgDeleteRelationship';
+import MsgBlockUserComponents from './relationships/MsgBlockUser';
+import MsgUnblockUserComponents from './relationships/MsgUnblockUser';
 import MsgEditSubspaceComponents from './subspaces/MsgEditSubspace';
 import MsgDeleteSubspaceComponents from './subspaces/MsgDeleteSubspace';
 import MsgSetUserGroupPermissionsComponents from './subspaces/MsgSetUserGroupPermissions';
 import MsgDeleteUserGroupComponents from './subspaces/MsgDeleteUserGroup';
 import MsgSetUserPermissionsComponents from './subspaces/MsgSetUserPermissions';
-import MsgGrantComponents from './MsgGrant';
-import MsgRevokeComponents from './MsgRevoke';
+import MsgGrantComponents from './authz/MsgGrant';
+import MsgRevokeComponents from './authz/MsgRevoke';
 import MsgCreatePostComponents from './posts/MsgCreatePost';
 import MsgDeletePostComponents from './posts/MsgDeletePost';
 import MsgEditPostComponents from './posts/MsgEditPost';
@@ -126,22 +126,6 @@ export const messageDetailsComponents: Record<string, MessageComponents<any>> = 
   // x/staking
   [MsgDelegateTypeUrl]: MsgDelegateComponents,
 
-  // x/profiles
-  [MsgSaveProfileTypeUrl]: MsgSaveProfileComponents,
-  [MsgDeleteProfileTypeUrl]: MsgDeleteProfileComponents,
-  [MsgRequestDTagTransferTypeUrl]: MsgRequestDtagTransferComponents,
-  [MsgAcceptDTagTransferRequestTypeUrl]: MsgAcceptDtagTransferComponents,
-  [MsgRefuseDTagTransferRequestTypeUrl]: MsgRefuseDtagTransferRequestComponents,
-  [MsgCancelDTagTransferRequestTypeUrl]: MsgCancelDtagTransferRequestComponents,
-  [MsgCreateRelationshipTypeUrl]: MsgCreateRelationshipComponents,
-  [MsgDeleteRelationshipTypeUrl]: MsgDeleteRelationshipComponents,
-  [MsgBlockUserTypeUrl]: MsgBlockUserComponents,
-  [MsgUnblockUserTypeUrl]: MsgUnblockUserComponents,
-  [MsgLinkApplicationTypeUrl]: MsgLinkApplicationComponents,
-  [MsgUnlinkApplicationTypeUrl]: MsgUnlinkApplicationComponents,
-  [MsgLinkChainAccountTypeUrl]: MsgLinkChainAccountComponents,
-  [MsgUnlinkChainAccountTypeUrl]: MsgUnlinkChainAccountComponents,
-
   // x/feegrant
   [MsgGrantAllowanceTypeUrl]: MsgGrantAllowanceComponents,
   [MsgRevokeAllowanceTypeUrl]: MsgRevokeAllowanceComponents,
@@ -149,6 +133,24 @@ export const messageDetailsComponents: Record<string, MessageComponents<any>> = 
   // x/authz
   [MsgGrantTypeUrl]: MsgGrantComponents,
   [MsgRevokeTypeUrl]: MsgRevokeComponents,
+
+  // x/profiles
+  [MsgSaveProfileTypeUrl]: MsgSaveProfileComponents,
+  [MsgDeleteProfileTypeUrl]: MsgDeleteProfileComponents,
+  [MsgRequestDTagTransferTypeUrl]: MsgRequestDtagTransferComponents,
+  [MsgCancelDTagTransferRequestTypeUrl]: MsgCancelDtagTransferRequestComponents,
+  [MsgAcceptDTagTransferRequestTypeUrl]: MsgAcceptDtagTransferComponents,
+  [MsgRefuseDTagTransferRequestTypeUrl]: MsgRefuseDtagTransferRequestComponents,
+  [MsgLinkChainAccountTypeUrl]: MsgLinkChainAccountComponents,
+  [MsgUnlinkChainAccountTypeUrl]: MsgUnlinkChainAccountComponents,
+  [MsgLinkApplicationTypeUrl]: MsgLinkApplicationComponents,
+  [MsgUnlinkApplicationTypeUrl]: MsgUnlinkApplicationComponents,
+
+  // x/relationships
+  [MsgCreateRelationshipTypeUrl]: MsgCreateRelationshipComponents,
+  [MsgDeleteRelationshipTypeUrl]: MsgDeleteRelationshipComponents,
+  [MsgBlockUserTypeUrl]: MsgBlockUserComponents,
+  [MsgUnblockUserTypeUrl]: MsgUnblockUserComponents,
 
   // x/subspaces
   [MsgCreateSubspaceTypeUrl]: MsgCreateSubspaceComponents,

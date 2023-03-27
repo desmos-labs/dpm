@@ -4,14 +4,9 @@ import { View } from 'react-native';
 import Typography from 'components/Typography';
 import { EncodeObject } from '@cosmjs/proto-signing';
 import BaseMessageListItem from 'components/Messages/BaseMessage/BaseMessageListItem';
+import { MessageListItemComponent } from 'components/Messages/BaseMessage';
 
-export type MsgUnknownListItemProps = {
-  message: EncodeObject;
-  date: Date;
-};
-
-export const MsgUnknownListItem = (props: MsgUnknownListItemProps) => {
-  const { message, date } = props;
+export const MsgUnknownListItem: MessageListItemComponent<EncodeObject> = ({ message, date }) => {
   const msgPosition = message.typeUrl.indexOf('.Msg');
   const typeUrl = message.typeUrl.slice(msgPosition + 1);
   return (
