@@ -349,7 +349,7 @@ const decodeProfileMessage = (type: string, value: any): EncodeObject | undefine
 };
 
 const decodeGrant = (grant: any): Grant | undefined => {
-  if (grant === undefined) {
+  if (grant === undefined || grant === null) {
     return undefined;
   }
 
@@ -450,7 +450,7 @@ const decodeAuthzMessage = (type: string, value: any): EncodeObject | undefined 
 };
 
 const decodeAllowance = (allowance: any): Any | undefined => {
-  if (allowance === undefined) {
+  if (allowance === undefined || allowance === null) {
     return undefined;
   }
 
@@ -697,7 +697,7 @@ const decodeSubspaceMessage = (type: string, value: any): EncodeObject | undefin
 };
 
 const decodeAttachmentContent = (attachment: any): Any | undefined => {
-  if (attachment === undefined) {
+  if (attachment === undefined || attachment === null) {
     return undefined;
   }
 
@@ -759,7 +759,7 @@ const decodeAttachmentContent = (attachment: any): Any | undefined => {
 };
 
 const decodeEntities = (entities: any): Entities | undefined => {
-  if (entities === undefined) {
+  if (entities === undefined || entities === null) {
     return undefined;
   }
 
@@ -870,7 +870,7 @@ const decodePostsMessage = (type: string, value: any): EncodeObject | undefined 
 };
 
 const decodeReactionValue = (value: any): Any | undefined => {
-  if (value === undefined) {
+  if (value === undefined || value === null) {
     return value;
   }
 
