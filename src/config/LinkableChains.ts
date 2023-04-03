@@ -104,7 +104,7 @@ export const SupportedChains: SupportedChain[] = [
   },
   {
     name: 'Likecoin',
-    prefix: 'cosmos',
+    prefix: 'like',
     masterHDPath: CosmosHdPath,
     icon: likecoinIcon,
     chainConfig: ChainConfig.fromPartial({
