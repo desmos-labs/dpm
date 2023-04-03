@@ -1,7 +1,7 @@
 import { Account, AccountWithWallet } from 'types/account';
 import React, { useCallback, useMemo } from 'react';
 import useImportAccount from 'hooks/useImportAccount';
-import LinkableChains from 'config/LinkableChains';
+import { LinkableChains } from 'config/LinkableChains';
 import { toHex } from '@cosmjs/encoding';
 import { StdFee } from '@cosmjs/amino';
 import {
