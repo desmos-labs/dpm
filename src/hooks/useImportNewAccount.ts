@@ -28,7 +28,7 @@ const useImportNewAccount = (chains: SupportedChain[], ignoreAddresses?: string[
   return useCallback(() => {
     const selectedChain: SupportedChain | undefined = chains.length === 1 ? chains[0] : undefined;
     setImportAccountState({
-      chains,
+      chains: chains.sort((a, b) => a.name.localeCompare(b.name)),
       selectedChain,
       ignoreAddresses: ignoreAddresses ?? [],
       supportedImportMode:
