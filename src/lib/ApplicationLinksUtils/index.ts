@@ -38,10 +38,20 @@ export const getApplicationData = (link: ApplicationLink): ApplicationData => {
       };
 
     case ExternalApplications.DOMAIN:
-      return {
-        image: domainApplicationIcon,
-        url: link.username,
-      };
+      try {
+        // Disable es lint since we create a URL object to validate the domain url.
+        // eslint-disable-next-line no-unused-vars,@typescript-eslint/no-unused-vars
+        const { protocol } = new URL(link.username);
+        return {
+          image: domainApplicationIcon,
+          url: link.username,
+        };
+      } catch (e) {
+        return {
+          image: domainApplicationIcon,
+          url: `https://${link.username}`,
+        };
+      }
 
     case ExternalApplications.GITHUB:
       return {
