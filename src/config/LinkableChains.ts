@@ -24,6 +24,36 @@ import {
   LunaHdPath,
 } from './HdPaths';
 
+export const AkashChain: SupportedChain = {
+  name: 'Akash',
+  prefix: 'akash',
+  masterHDPath: CosmosHdPath,
+  icon: akashIcon,
+  chainConfig: ChainConfig.fromPartial({
+    name: 'akash',
+  }),
+};
+
+export const BandChain: SupportedChain = {
+  name: 'Band',
+  prefix: 'band',
+  masterHDPath: BandHdPath,
+  icon: bandIcon,
+  chainConfig: ChainConfig.fromPartial({
+    name: 'band',
+  }),
+};
+
+export const CosmosHubChain: SupportedChain = {
+  name: 'Cosmos Hub',
+  prefix: 'cosmos',
+  masterHDPath: CosmosHdPath,
+  icon: cosmosIcon,
+  chainConfig: ChainConfig.fromPartial({
+    name: 'cosmos',
+  }),
+};
+
 export const DesmosChain: SupportedChain = {
   name: 'Desmos',
   prefix: 'desmos',
@@ -45,99 +75,96 @@ export const CryptoDotOrgChain: SupportedChain = {
   }),
 };
 
-export const SupportedChains: SupportedChain[] = [
-  {
-    name: 'Akash',
-    prefix: 'akash',
-    masterHDPath: CosmosHdPath,
-    icon: akashIcon,
-    chainConfig: ChainConfig.fromPartial({
-      name: 'akash',
-    }),
-  },
-  {
-    name: 'Band',
-    prefix: 'band',
-    masterHDPath: BandHdPath,
-    icon: bandIcon,
-    chainConfig: ChainConfig.fromPartial({
-      name: 'band',
-    }),
-  },
-  {
-    name: 'Cosmos Hub',
-    prefix: 'cosmos',
-    masterHDPath: CosmosHdPath,
-    icon: cosmosIcon,
-    chainConfig: ChainConfig.fromPartial({
-      name: 'cosmos',
-    }),
-  },
+export const EMoneyChain: SupportedChain = {
+  name: 'e-Money',
+  prefix: 'emoney',
+  masterHDPath: CosmosHdPath,
+  icon: eMoneyIcon,
+  chainConfig: ChainConfig.fromPartial({
+    name: 'emoney',
+  }),
+};
+
+export const JunoChain: SupportedChain = {
+  name: 'Juno',
+  prefix: 'juno',
+  masterHDPath: CosmosHdPath,
+  icon: junoIcon,
+  chainConfig: ChainConfig.fromPartial({
+    name: 'juno',
+  }),
+};
+
+export const KavaChain: SupportedChain = {
+  name: 'Kava',
+  prefix: 'kava',
+  masterHDPath: KavaHdPath,
+  icon: kavaIcon,
+  chainConfig: ChainConfig.fromPartial({
+    name: 'kava',
+  }),
+};
+
+export const LikeCoinChain: SupportedChain = {
+  name: 'Likecoin',
+  prefix: 'like',
+  masterHDPath: CosmosHdPath,
+  icon: likecoinIcon,
+  chainConfig: ChainConfig.fromPartial({
+    name: 'likecoin',
+  }),
+};
+
+export const OsmosisChain: SupportedChain = {
+  name: 'Osmosis',
+  prefix: 'osmo',
+  masterHDPath: CosmosHdPath,
+  icon: osmosisIcon,
+  chainConfig: ChainConfig.fromPartial({
+    name: 'osmosis',
+  }),
+};
+
+export const RegenChain: SupportedChain = {
+  name: 'Regen',
+  prefix: 'regen',
+  masterHDPath: CosmosHdPath,
+  icon: regenIcon,
+  chainConfig: ChainConfig.fromPartial({
+    name: 'regen',
+  }),
+};
+
+export const TerraChain: SupportedChain = {
+  name: 'Terra',
+  prefix: 'terra',
+  masterHDPath: LunaHdPath,
+  icon: terraIcon,
+  chainConfig: ChainConfig.fromPartial({
+    name: 'terra',
+  }),
+};
+
+/**
+ * List of chains that can be linked to a Desmos profile.
+ */
+export const LinkableChains: SupportedChain[] = [
+  AkashChain,
+  BandChain,
+  CosmosHubChain,
   CryptoDotOrgChain,
   DesmosChain,
-  {
-    name: 'e-Money',
-    prefix: 'emoney',
-    masterHDPath: CosmosHdPath,
-    icon: eMoneyIcon,
-    chainConfig: ChainConfig.fromPartial({
-      name: 'emoney',
-    }),
-  },
-  {
-    name: 'Juno',
-    prefix: 'juno',
-    masterHDPath: CosmosHdPath,
-    icon: junoIcon,
-    chainConfig: ChainConfig.fromPartial({
-      name: 'juno',
-    }),
-  },
-  {
-    name: 'Kava',
-    prefix: 'kava',
-    masterHDPath: KavaHdPath,
-    icon: kavaIcon,
-    chainConfig: ChainConfig.fromPartial({
-      name: 'kava',
-    }),
-  },
-  {
-    name: 'Likecoin',
-    prefix: 'like',
-    masterHDPath: CosmosHdPath,
-    icon: likecoinIcon,
-    chainConfig: ChainConfig.fromPartial({
-      name: 'likecoin',
-    }),
-  },
-  {
-    name: 'Osmosis',
-    prefix: 'osmo',
-    masterHDPath: CosmosHdPath,
-    icon: osmosisIcon,
-    chainConfig: ChainConfig.fromPartial({
-      name: 'osmosis',
-    }),
-  },
-  {
-    name: 'Regen',
-    prefix: 'regen',
-    masterHDPath: CosmosHdPath,
-    icon: regenIcon,
-    chainConfig: ChainConfig.fromPartial({
-      name: 'regen',
-    }),
-  },
-  {
-    name: 'Terra',
-    prefix: 'terra',
-    masterHDPath: LunaHdPath,
-    icon: terraIcon,
-    chainConfig: ChainConfig.fromPartial({
-      name: 'terra',
-    }),
-  },
+  EMoneyChain,
+  JunoChain,
+  KavaChain,
+  LikeCoinChain,
+  OsmosisChain,
+  RegenChain,
 ];
+
+/**
+ * List of chains supported from the application.
+ */
+export const SupportedChains: SupportedChain[] = [...LinkableChains, TerraChain];
 
 export default SupportedChains;
