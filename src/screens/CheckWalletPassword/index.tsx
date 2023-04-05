@@ -13,7 +13,6 @@ import { AccountWithWallet } from 'types/account';
 import { checkUserPassword } from 'lib/SecureStorage';
 import { useSettings } from '@recoil/settings';
 import { BiometricAuthorizations } from 'types/settings';
-import { useFocusEffect } from '@react-navigation/native';
 import useGetPasswordFromBiometrics from 'hooks/useGetPasswordFromBiometrics';
 import useSaveAccount from 'hooks/useSaveAccount';
 import useStyles from './useStyles';
@@ -59,6 +58,7 @@ const CheckWalletPassword = (props: NavProps) => {
 
   const [inputPassword, setInputPassword] = useState('');
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
+  const [checkingPassword, setCheckingPassword] = useState(false);
 
   // --------------------------------------------------------------------------------------
   // --- Actions
@@ -71,16 +71,19 @@ const CheckWalletPassword = (props: NavProps) => {
 
   // Handles the continue button press
   const onContinuePressed = useCallback(async () => {
+    setCheckingPassword(true);
     const isPasswordCorrect = await checkUserPassword(inputPassword);
     if (isPasswordCorrect) {
       saveAccount(account, inputPassword);
     } else {
       setErrorMessage(t('wrong confirmation password'));
     }
+    setCheckingPassword(false);
   }, [inputPassword, saveAccount, account, t]);
 
   // Handles the continue button press when the biometrics are enabled
   const continueWithBiometrics = useCallback(async () => {
+    setCheckingPassword(true);
     // Get the password from the biometrics
     const biometricPassword = await getPasswordFromBiometrics();
     if (biometricPassword) {
@@ -92,22 +95,21 @@ const CheckWalletPassword = (props: NavProps) => {
         setErrorMessage(t('wrong confirmation password'));
       }
     }
+    setCheckingPassword(false);
   }, [getPasswordFromBiometrics, account, saveAccount, t]);
 
   // --------------------------------------------------------------------------------------
   // --- Effects
   // --------------------------------------------------------------------------------------
 
-  useFocusEffect(
-    useCallback(() => {
-      if (appSettings.unlockWalletWithBiometrics) {
-        setTimeout(continueWithBiometrics, 500);
-      }
+  React.useEffect(() => {
+    if (appSettings.unlockWalletWithBiometrics) {
+      setTimeout(continueWithBiometrics, 500);
+    }
 
-      // It's fine to disable the exhaustive deps check here because we only want to run this effect once
-      // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []),
-  );
+    // It's fine to disable the exhaustive deps check here because we only want to run this effect once
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   // --------------------------------------------------------------------------------------
   // --- Screen rendering
@@ -135,7 +137,13 @@ const CheckWalletPassword = (props: NavProps) => {
         keyboardVerticalOffset={Platform.OS === 'ios' ? 110 : 0}
         {...(Platform.OS === 'ios' ? { behavior: 'padding' } : {})}
       >
-        <Button style={styles.continueButton} mode="contained" onPress={onContinuePressed}>
+        <Button
+          style={styles.continueButton}
+          mode="contained"
+          loading={checkingPassword}
+          disabled={checkingPassword}
+          onPress={onContinuePressed}
+        >
           {t('common:next')}
         </Button>
       </KeyboardAvoidingView>
