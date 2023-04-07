@@ -44,30 +44,33 @@ const CheckMnemonic: FC<NavProps> = (props) => {
   const saveAccount = useSaveGeneratedAccount();
   const selectAccount = useSelectAccount();
 
-  const onWordSelected = useCallback(
-    (word: string) => {
-      const removeIndex = availableWords.indexOf(word);
+  const onWordSelected = useCallback((word: string) => {
+    setAvailableWords((currentAvailableWords) => {
+      const removeIndex = currentAvailableWords.indexOf(word);
       if (removeIndex >= 0) {
-        availableWords.splice(removeIndex, 1);
-        setAvailableWords(availableWords);
-        setSelectedWords([...selectedWords, word]);
+        const newAvailableWords = [...currentAvailableWords];
+        newAvailableWords.splice(removeIndex, 1);
+        setSelectedWords((currentSelectedWords) => [...currentSelectedWords, word]);
+        return newAvailableWords;
       }
-    },
-    [availableWords, selectedWords],
-  );
+      return currentAvailableWords;
+    });
+  }, []);
 
-  const onWordDeselected = useCallback(
-    (word: string) => {
-      const removeIndex = selectedWords.indexOf(word);
+  const onWordDeselected = useCallback((word: string) => {
+    setSelectedWords((currentSelectedWords) => {
+      const removeIndex = currentSelectedWords.indexOf(word);
       setErrorMessage(null);
       if (removeIndex >= 0) {
-        selectedWords.splice(removeIndex, 1);
-        setSelectedWords(selectedWords);
-        setAvailableWords([...availableWords, word]);
+        const newSelectedWords = [...currentSelectedWords];
+        newSelectedWords.splice(removeIndex, 1);
+        setAvailableWords((currentAvailableWords) => [...currentAvailableWords, word]);
+        return newSelectedWords;
       }
-    },
-    [availableWords, selectedWords],
-  );
+
+      return currentSelectedWords;
+    });
+  }, []);
 
   const onCheckPressed = useCallback(async () => {
     if (selectedWords.length !== words.length) {
