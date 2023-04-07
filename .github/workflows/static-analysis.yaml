@@ -1,0 +1,25 @@
+name: SonarQube Static Analysis
+
+on:
+  pull_request:
+  push:
+    branches:
+      - main
+      - manuel/sonarqube-setup # just for test purpose.
+
+jobs:
+  Lint:
+    name: SonarQube Static Analysis
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout 🛎
+        uses: actions/checkout@v2
+
+      - name: SonarQube Scan
+        uses: kitabisa/sonarqube-action@v1.2.0
+        with:
+          host: ${{ secrets.SONARQUBE_HOST }}
+          login: ${{ secrets.SONARQUBE_TOKEN }}
+          projectKey: "dpm"
+          projectBaseDir: "${{ github.workspace }}/src"
