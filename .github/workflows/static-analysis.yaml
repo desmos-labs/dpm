@@ -1,5 +1,6 @@
 name: SonarQube Static Analysis
-
+# SonarQube Static Analysis runs the static code analyses over the src folder.
+# This workflow is run on every pull request and push to main.
 on:
   pull_request:
   push:
