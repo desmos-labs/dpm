@@ -25,7 +25,7 @@ if (typeof localStorage !== 'undefined') {
 // crypto is loaded first, so it can populate global.crypto
 require('crypto');
 
-//if (typeof BigInt === 'undefined') global.BigInt = require('big-integer')
+if (typeof BigInt === 'undefined') global.BigInt = require('big-integer');
 
 // Polyfill Intl.PluralRules to support the new i18n v4 api
 import 'intl-pluralrules';
