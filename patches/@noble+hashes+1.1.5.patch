@@ -1,0 +1,60 @@
+diff --git a/node_modules/@noble/hashes/_sha2.js b/node_modules/@noble/hashes/_sha2.js
+index e1ebc80..bcf51a2 100644
+--- a/node_modules/@noble/hashes/_sha2.js
++++ b/node_modules/@noble/hashes/_sha2.js
+@@ -9,7 +9,7 @@ function setBigUint64(view, byteOffset, value, isLE) {
+         return view.setBigUint64(byteOffset, value, isLE);
+     const _32n = BigInt(32);
+     const _u32_max = BigInt(0xffffffff);
+-    const wh = Number((value >> _32n) & _u32_max);
++    const wh = Number((value.shiftRight(_32n)) & _u32_max);
+     const wl = Number(value & _u32_max);
+     const h = isLE ? 4 : 0;
+     const l = isLE ? 0 : 4;
+diff --git a/node_modules/@noble/hashes/esm/_sha2.js b/node_modules/@noble/hashes/esm/_sha2.js
+index c9fc908..73cd257 100644
+--- a/node_modules/@noble/hashes/esm/_sha2.js
++++ b/node_modules/@noble/hashes/esm/_sha2.js
+@@ -6,7 +6,7 @@ function setBigUint64(view, byteOffset, value, isLE) {
+         return view.setBigUint64(byteOffset, value, isLE);
+     const _32n = BigInt(32);
+     const _u32_max = BigInt(0xffffffff);
+-    const wh = Number((value >> _32n) & _u32_max);
++    const wh = Number((value.shiftRight(_32n)) & _u32_max);
+     const wl = Number(value & _u32_max);
+     const h = isLE ? 4 : 0;
+     const l = isLE ? 0 : 4;
+diff --git a/node_modules/@noble/hashes/esm/package.json b/node_modules/@noble/hashes/esm/package.json
+index 1517420..0f25323 100644
+--- a/node_modules/@noble/hashes/esm/package.json
++++ b/node_modules/@noble/hashes/esm/package.json
+@@ -1,7 +1,27 @@
+ {
+   "type": "module",
+   "browser": {
+-    "crypto": false,
+-    "./crypto": "./esm/cryptoBrowser.js"
++    "crypto": "react-native-crypto",
++    "path": "path-browserify",
++    "fs": "react-native-level-fs",
++    "_stream_transform": "readable-stream/transform",
++    "_stream_readable": "readable-stream/readable",
++    "_stream_writable": "readable-stream/writable",
++    "_stream_duplex": "readable-stream/duplex",
++    "_stream_passthrough": "readable-stream/passthrough",
++    "stream": "stream-browserify",
++    "./crypto.js": "./esm/cryptoBrowser.js"
++  },
++  "react-native": {
++    "crypto": "react-native-crypto",
++    "./crypto": "./esm/cryptoBrowser.js",
++    "path": "path-browserify",
++    "fs": "react-native-level-fs",
++    "_stream_transform": "readable-stream/transform",
++    "_stream_readable": "readable-stream/readable",
++    "_stream_writable": "readable-stream/writable",
++    "_stream_duplex": "readable-stream/duplex",
++    "_stream_passthrough": "readable-stream/passthrough",
++    "stream": "stream-browserify"
+   }
+ }
