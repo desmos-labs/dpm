@@ -17,6 +17,7 @@ export const DefaultAppSettings: AppSettings = {
   notifications: false,
   dataInitialized: false,
   currentTimezone: '',
+  analyticsEnabled: true,
 };
 
 /**
@@ -26,7 +27,12 @@ const settingsAppState = atom<AppSettings>({
   key: 'appSettings',
   default: (() => {
     const savedSettings = getMMKV<AppSettings>(MMKVKEYS.APP_SETTINGS);
-    return savedSettings || DefaultAppSettings;
+    return savedSettings
+      ? {
+          ...DefaultAppSettings,
+          ...savedSettings,
+        }
+      : DefaultAppSettings;
   })(),
   effects: [
     ({ onSet }) => {
@@ -83,12 +89,20 @@ export const useSetting = <K extends keyof AppSettings>(settingKey: K) =>
 export const useSetSetting = <K extends keyof AppSettings>(settingKey: K) => {
   const setSettings = useSetSettings();
   return React.useCallback(
-    (setting: AppSettings[K]) => {
+    (valOrUpdater: ((currVal: AppSettings[K]) => AppSettings[K]) | AppSettings[K]) => {
       setSettings((currentValue) => {
         const settings: AppSettings = {
           ...currentValue,
         };
-        settings[settingKey] = setting;
+
+        let newValue: AppSettings[K];
+        if (typeof valOrUpdater === 'function') {
+          newValue = valOrUpdater(currentValue[settingKey]);
+        } else {
+          newValue = valOrUpdater;
+        }
+
+        settings[settingKey] = newValue;
         return settings;
       });
     },

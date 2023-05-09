@@ -31,6 +31,7 @@ export type AppSettings = {
   loginWithBiometrics: boolean;
   unlockWalletWithBiometrics: boolean;
   notifications: boolean;
-  dataInitialized: false;
+  dataInitialized: boolean;
   currentTimezone: '';
+  analyticsEnabled: boolean;
 };

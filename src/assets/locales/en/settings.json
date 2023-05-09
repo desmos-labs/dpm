@@ -30,5 +30,6 @@
   "enable": "Enable",
   "insert your password to enable biometrics login": "Insert your password to allow login into the app with biometrics",
   "insert your password to enable biometrics signature": "Insert your password to allow to confirm transactions signature with biometrics",
-  "unlock application": "Unlock application"
+  "unlock application": "Unlock application",
+  "analytics": "Analytics"
 }
