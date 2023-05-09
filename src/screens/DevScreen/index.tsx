@@ -69,7 +69,7 @@ const DevScreen: FC<NavProps> = ({ navigation }) => {
       <Spacer paddingVertical={4} />
 
       <Button mode="contained" onPress={testPostHogEvent}>
-        Sent PostHog test event
+        Send PostHog test event
       </Button>
     </StyledSafeAreaView>
   );
