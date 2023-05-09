@@ -29,6 +29,8 @@ const settingsAppState = atom<AppSettings>({
     const savedSettings = getMMKV<AppSettings>(MMKVKEYS.APP_SETTINGS);
     return savedSettings
       ? {
+          // Extend the default settings object so that if we add a new key
+          // this will take the value from the default settings.
           ...DefaultAppSettings,
           ...savedSettings,
         }
