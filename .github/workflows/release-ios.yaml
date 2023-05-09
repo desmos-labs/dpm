@@ -50,6 +50,7 @@ jobs:
         env:
           ENV_WALLET_CONNECT_PROJECT_ID: ${{ secrets.ENV_WALLET_CONNECT_PROJECT_ID }}
           ENV_WEB3_AUTH_CLIENT_ID_MAINNET: ${{ secrets.ENV_WEB3_AUTH_CLIENT_ID_MAINNET }}
+          ENV_POSTHOG_API_KEY: ${{ secrets.ENV_POSTHOG_API_KEY }}
 
       - name: Build ipa 🔨
         run: bundle exec fastlane ios build
