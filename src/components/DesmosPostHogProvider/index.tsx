@@ -1,6 +1,7 @@
 import React from 'react';
 import { PostHogProvider } from 'posthog-react-native';
 import { useSetting } from '@recoil/settings';
+// eslint-disable-next-line import/no-unresolved
 import { POSTHOG_API_KEY } from '@env';
 
 export interface Props {
