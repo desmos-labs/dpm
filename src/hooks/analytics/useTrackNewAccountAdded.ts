@@ -2,7 +2,6 @@ import React from 'react';
 import { usePostHog } from 'posthog-react-native';
 import { AccountWithWallet } from 'types/account';
 import useGetProfile from 'hooks/profile/useGetProfile';
-import useGetBalance from 'hooks/balance/useGetBalance';
 
 const ACCOUNT_CREATED_EVENT = 'Wallet Created';
 const ACCOUNT_IMPORTED_EVENT = 'Wallet Imported';
@@ -15,7 +14,6 @@ const ACCOUNT_IMPORTED_EVENT = 'Wallet Imported';
 const useTrackNewAccountAdded = (isImported: boolean) => {
   const postHog = usePostHog();
   const getProfile = useGetProfile();
-  const getBalance = useGetBalance();
 
   return React.useCallback(
     async (account: AccountWithWallet) => {
@@ -23,28 +21,24 @@ const useTrackNewAccountAdded = (isImported: boolean) => {
         return;
       }
 
-      const properties: Record<string, any> = {
-        CreationTime: new Date().toISOString(),
-        CreationMethod: account.wallet.type,
-        Address: account.account.address,
-      };
+      const properties: Record<string, any> = {};
 
-      const profile = await getProfile(account.account.address);
-      if (profile.isOk()) {
-        properties.HasProfile = profile.value !== undefined;
-        if (profile.value !== undefined) {
-          properties.ProfileDTag = profile.value.dtag;
+      if (!isImported) {
+        properties.CreationTime = new Date().toISOString();
+        properties.CreationMethod = account.wallet.type;
+      } else {
+        properties.ImportTime = new Date().toISOString();
+        properties.ImportMethod = account.wallet.type;
+
+        const profile = await getProfile(account.account.address);
+        if (profile.isOk()) {
+          properties.HasProfile = profile.value !== undefined;
         }
-      }
-
-      const balance = await getBalance(account.account.address);
-      if (balance.isOk()) {
-        properties.Balance = balance.value;
       }
 
       postHog.capture(isImported ? ACCOUNT_IMPORTED_EVENT : ACCOUNT_CREATED_EVENT, properties);
     },
-    [isImported, getProfile, getBalance, postHog],
+    [isImported, getProfile, postHog],
   );
 };
 

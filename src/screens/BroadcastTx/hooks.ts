@@ -89,7 +89,7 @@ export const useSignAndBroadcastTx = () => {
 
       const broadcastResult = await broadcastTx(wallet, signResult.value);
       if (broadcastResult.isOk()) {
-        trackTransactionPerformed(wallet.address, messages, memo, fees, broadcastResult.value);
+        trackTransactionPerformed(messages);
       }
 
       return broadcastResult;
