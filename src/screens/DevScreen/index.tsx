@@ -6,6 +6,7 @@ import { RootNavigatorParamList } from 'navigation/RootNavigator';
 import ROUTES from 'navigation/routes';
 import { FlatList, Text, TouchableOpacity } from 'react-native';
 import Spacer from 'components/Spacer';
+import { usePostHog } from 'posthog-react-native';
 import useStyles from './useStyles';
 
 const routesToRender = [
@@ -22,6 +23,7 @@ type NavProps = StackScreenProps<RootNavigatorParamList, ROUTES.DEV_SCREEN>;
 const DevScreen: FC<NavProps> = ({ navigation }) => {
   const { navigate } = navigation;
   const styles = useStyles();
+  const postHog = usePostHog()!;
 
   const itemSeparator = React.useCallback(() => <Spacer paddingVertical={4} />, []);
 
@@ -44,6 +46,10 @@ const DevScreen: FC<NavProps> = ({ navigation }) => {
     navigation.navigate(ROUTES.LANDING);
   }, [navigation]);
 
+  const testPostHogEvent = useCallback(() => {
+    postHog.capture('Test event');
+  }, [postHog]);
+
   return (
     <StyledSafeAreaView>
       <FlatList
@@ -58,6 +64,12 @@ const DevScreen: FC<NavProps> = ({ navigation }) => {
 
       <Button mode="contained" onPress={navigateToLandingPage}>
         Go to landing page
+      </Button>
+
+      <Spacer paddingVertical={4} />
+
+      <Button mode="contained" onPress={testPostHogEvent}>
+        Send PostHog test event
       </Button>
     </StyledSafeAreaView>
   );

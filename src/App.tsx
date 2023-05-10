@@ -8,6 +8,7 @@ import { StatusBar } from 'react-native';
 import useLockApplicationOnBlur from 'hooks/useLockApplicationOnBlur';
 import RNBootSplash from 'react-native-bootsplash';
 import SnackBarProvider from 'lib/SnackBarProvider';
+import DesmosPostHogProvider from 'components/DesmosPostHogProvider';
 
 const AppLockLogic = () => {
   useLockApplicationOnBlur();
@@ -17,7 +18,9 @@ const AppLockLogic = () => {
 const Navigation = () => (
   <NavigationContainer onReady={() => RNBootSplash.hide({ fade: true, duration: 500 })}>
     <AppLockLogic />
-    <RootNavigator />
+    <DesmosPostHogProvider>
+      <RootNavigator />
+    </DesmosPostHogProvider>
   </NavigationContainer>
 );
 

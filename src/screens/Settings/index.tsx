@@ -42,6 +42,9 @@ const Settings = (props: NavProps) => {
 
   const deletePasswordFromBiometrics = useDeletePasswordFromBiometrics();
 
+  const analyticsEnabled = useSetting('analyticsEnabled');
+  const setAnalyticsEnabled = useSetSetting('analyticsEnabled');
+
   // --------------------------------------------------------------------------------------
   // --- Local state
   // --------------------------------------------------------------------------------------
@@ -110,6 +113,10 @@ const Settings = (props: NavProps) => {
     [deletePasswordFromBiometrics, setLoginWithBiometrics, setUnlockWalletWalletWithBiometrics],
   );
 
+  const handleAnalyticsToggle = React.useCallback(() => {
+    setAnalyticsEnabled((enabled) => !enabled);
+  }, [setAnalyticsEnabled]);
+
   // --------------------------------------------------------------------------------------
   // --- Effects
   // --------------------------------------------------------------------------------------
@@ -132,6 +139,12 @@ const Settings = (props: NavProps) => {
       <Flexible.Section title={t('general')}>
         <OpenSettingScreenButton title={t('display mode')} route={ROUTES.SETTINGS_DISPLAY_MODE} />
         <OpenSettingScreenButton title={t('switch chain')} route={ROUTES.SETTINGS_SWITCH_CHAIN} />
+        <Flexible.SectionSwitch
+          label={t('analytics')}
+          value={analyticsEnabled}
+          isDisabled={!biometricsSupported}
+          onPress={handleAnalyticsToggle}
+        />
       </Flexible.Section>
 
       {/* Security section */}
