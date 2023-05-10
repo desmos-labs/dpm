@@ -57,7 +57,12 @@ export const walletConnectIconUriToImageSource = (iconUri: string | undefined) =
   }
   try {
     const url = new URL(iconUri);
-    if (url.protocol.indexOf('http') === 0 && url.hostname !== 'localhost') {
+    if (
+      url.protocol.indexOf('http') === 0 &&
+      url.hostname !== 'localhost' &&
+      // We don't support svg images
+      !url.pathname.endsWith('.svg')
+    ) {
       return { uri: iconUri };
     }
     return desmosIconOrange;

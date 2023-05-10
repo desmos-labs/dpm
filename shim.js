@@ -1,3 +1,10 @@
+// Polyfill URL
+import 'react-native-url-polyfill/auto';
+// Polyfill Intl.PluralRules to support the new i18n v4 api
+import 'intl-pluralrules';
+// Wallet Shims
+import '@walletconnect/react-native-compat';
+
 if (typeof __dirname === 'undefined') global.__dirname = '/';
 if (typeof __filename === 'undefined') global.__filename = '';
 if (typeof process === 'undefined') {
@@ -27,11 +34,6 @@ require('crypto');
 
 if (typeof BigInt === 'undefined') global.BigInt = require('big-integer');
 
-// Polyfill Intl.PluralRules to support the new i18n v4 api
-import 'intl-pluralrules';
-
-// Wallet Shims
-import '@walletconnect/react-native-compat';
 // Wallet connect TextEncoding polyfill
 const TextEncodingPolyfill = require('text-encoding');
 Object.assign(global, {
