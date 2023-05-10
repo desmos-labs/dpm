@@ -21,7 +21,8 @@ const DesmosPostHogProvider: React.FC<Props> = ({ children }) => {
       }}
       autocapture={{
         captureLifecycleEvents: false,
-        captureTouches: true,
+        captureTouches: false,
+        captureScreens: false,
       }}
     />
   );
