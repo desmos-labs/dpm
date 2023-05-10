@@ -13,7 +13,7 @@ const useTrackTransactionPerformed = () => {
 
   return React.useCallback(
     async (msgs: EncodeObject[]) => {
-      if (postHog === undefined) {
+      if (!postHog) {
         return;
       }
 
