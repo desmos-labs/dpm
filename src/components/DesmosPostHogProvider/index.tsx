@@ -19,6 +19,7 @@ const DesmosPostHogProvider: React.FC<Props> = ({ children }) => {
         host: 'https://app.posthog.com',
         enable: analyticsEnabled,
       }}
+      debug={__DEV__}
       autocapture={{
         captureLifecycleEvents: false,
         captureTouches: false,

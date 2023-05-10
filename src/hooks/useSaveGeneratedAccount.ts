@@ -15,7 +15,7 @@ import ROUTES from 'navigation/routes';
  * Once the user has entered their password the account will be stored on the device, and they will be
  * redirected to the home screen.
  */
-const useSaveGeneratedAccount = () => {
+const useSaveGeneratedAccount = (isImported: boolean) => {
   const navigator = useNavigation<StackNavigationProp<RootNavigatorParamList>>();
   const hasAccount = useHasAccount();
   const createWalletPassword = useMemo(() => !hasAccount, [hasAccount]);
@@ -27,6 +27,7 @@ const useSaveGeneratedAccount = () => {
           name: ROUTES.CREATE_WALLET_PASSWORD,
           params: {
             account,
+            isImported,
           },
         });
       } else {
@@ -34,11 +35,12 @@ const useSaveGeneratedAccount = () => {
           name: ROUTES.CHECK_WALLET_PASSWORD,
           params: {
             account,
+            isImported,
           },
         });
       }
     },
-    [navigator, createWalletPassword],
+    [navigator, createWalletPassword, isImported],
   );
 };
 

@@ -15,10 +15,15 @@ import { useSettings } from '@recoil/settings';
 import { BiometricAuthorizations } from 'types/settings';
 import useGetPasswordFromBiometrics from 'hooks/useGetPasswordFromBiometrics';
 import useSaveAccount from 'hooks/useSaveAccount';
+import useTrackNewAccountAdded from 'hooks/analytics/useTrackNewAccountAdded';
 import useStyles from './useStyles';
 
 export interface CheckWalletPasswordParams {
   account: AccountWithWallet;
+  /**
+   * Tells if the account is a new one or if has been imported.
+   */
+  isImported: boolean;
   /**
    * Optional password that should be used to validate the inserted password.
    * If this is undefined, the password challenge stored in the secure storage
@@ -40,7 +45,7 @@ const CheckWalletPassword = (props: NavProps) => {
 
   const { route } = props;
   const { params } = route;
-  const { account, password } = params;
+  const { account, password, isImported } = params;
 
   // --------------------------------------------------------------------------------------
   // --- Hooks
@@ -51,6 +56,7 @@ const CheckWalletPassword = (props: NavProps) => {
     BiometricAuthorizations.UnlockWallet,
   );
   const { saveAccount } = useSaveAccount();
+  const trackNewAccountAdded = useTrackNewAccountAdded(isImported);
 
   // --------------------------------------------------------------------------------------
   // --- Local state
@@ -74,12 +80,15 @@ const CheckWalletPassword = (props: NavProps) => {
     setCheckingPassword(true);
     const isPasswordCorrect = await checkUserPassword(inputPassword);
     if (isPasswordCorrect) {
-      saveAccount(account, inputPassword);
+      const saveResult = await saveAccount(account, inputPassword);
+      if (saveResult.isOk()) {
+        trackNewAccountAdded(account);
+      }
     } else {
       setErrorMessage(t('wrong confirmation password'));
     }
     setCheckingPassword(false);
-  }, [inputPassword, saveAccount, account, t]);
+  }, [inputPassword, saveAccount, account, t, trackNewAccountAdded]);
 
   // Handles the continue button press when the biometrics are enabled
   const continueWithBiometrics = useCallback(async () => {
@@ -90,13 +99,16 @@ const CheckWalletPassword = (props: NavProps) => {
       const isPasswordCorrect = await checkUserPassword(biometricPassword);
       if (isPasswordCorrect) {
         // Save the account
-        await saveAccount(account, biometricPassword);
+        const saveResult = await saveAccount(account, biometricPassword);
+        if (saveResult.isOk()) {
+          trackNewAccountAdded(account);
+        }
       } else {
         setErrorMessage(t('wrong confirmation password'));
       }
     }
     setCheckingPassword(false);
-  }, [getPasswordFromBiometrics, account, saveAccount, t]);
+  }, [getPasswordFromBiometrics, account, saveAccount, t, trackNewAccountAdded]);
 
   // --------------------------------------------------------------------------------------
   // --- Effects
