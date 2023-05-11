@@ -40,7 +40,7 @@ const ValidatorListItem: React.FC<ValidatorItemProps> = ({ validator, onPress })
     <View style={styles.root}>
       <TouchableOpacity style={styles.touchableArea} onPress={onPressItem}>
         <View style={styles.validatorImage}>
-          <AvatarImage source={getValidatorAvatar(validator)} size={40} />
+          <AvatarImage source={getValidatorAvatar(validator)} size={40} onPress={onPressItem} />
         </View>
 
         <Spacer paddingHorizontal={8} />
