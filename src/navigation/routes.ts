@@ -166,6 +166,11 @@ enum ROUTES {
    * Screen that allow the user to select a validator.
    */
   SELECT_VALIDATOR = 'SELECT_VALIDATOR',
+  /**
+   * Screen that shows the details of a validator allowing the user
+   * to delegate some tokens to them.
+   */
+  VALIDATOR_DETAILS = 'VALIDATOR_DETAILS',
 }
 
 export default ROUTES;

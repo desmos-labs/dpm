@@ -48,6 +48,8 @@ const GetValidators = gql`
       }
       validator_statuses {
         status
+        jailed
+        tombstoned
       }
       validator_info {
         operator_address
