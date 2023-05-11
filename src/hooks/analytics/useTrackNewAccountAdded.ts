@@ -1,6 +1,6 @@
 import React from 'react';
 import { usePostHog } from 'posthog-react-native';
-import { Account, Web3AuthAccount } from 'types/account';
+import { Account } from 'types/account';
 import useGetProfile from 'hooks/profile/useGetProfile';
 import { WalletType } from 'types/wallet';
 
@@ -39,7 +39,7 @@ const useTrackNewAccountAdded = (isImported: boolean) => {
 
       if (account.walletType === WalletType.Web3Auth) {
         // Track which login provider has been used.
-        properties.Web3AuthProvider = (account as Web3AuthAccount).loginProvider;
+        properties.Web3AuthProvider = account.loginProvider;
       }
 
       postHog.capture(isImported ? ACCOUNT_IMPORTED_EVENT : ACCOUNT_CREATED_EVENT, properties);
