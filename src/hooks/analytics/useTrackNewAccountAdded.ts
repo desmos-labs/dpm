@@ -2,7 +2,6 @@ import React from 'react';
 import { usePostHog } from 'posthog-react-native';
 import { Account, Web3AuthAccount } from 'types/account';
 import useGetProfile from 'hooks/profile/useGetProfile';
-import useIsTestnetEvent from 'hooks/analytics/useIsTestnetEvent';
 import { WalletType } from 'types/wallet';
 
 const ACCOUNT_CREATED_EVENT = 'Wallet Created';
@@ -16,11 +15,10 @@ const ACCOUNT_IMPORTED_EVENT = 'Wallet Imported';
 const useTrackNewAccountAdded = (isImported: boolean) => {
   const postHog = usePostHog();
   const getProfile = useGetProfile();
-  const isTestnetEvent = useIsTestnetEvent();
 
   return React.useCallback(
     async (account: Account) => {
-      if (!postHog || isTestnetEvent) {
+      if (!postHog) {
         return;
       }
 
@@ -46,7 +44,7 @@ const useTrackNewAccountAdded = (isImported: boolean) => {
 
       postHog.capture(isImported ? ACCOUNT_IMPORTED_EVENT : ACCOUNT_CREATED_EVENT, properties);
     },
-    [postHog, isTestnetEvent, isImported, getProfile],
+    [postHog, isImported, getProfile],
   );
 };
 

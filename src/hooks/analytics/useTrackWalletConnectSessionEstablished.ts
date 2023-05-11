@@ -1,7 +1,6 @@
 import { usePostHog } from 'posthog-react-native';
 import React from 'react';
 import { SessionTypes } from '@walletconnect/types';
-import useIsTestnetEvent from 'hooks/analytics/useIsTestnetEvent';
 
 const EVENT_WALLET_CONNECT_SESSION_ESTABLISHED = 'WalletConnect Session Established';
 
@@ -11,11 +10,10 @@ const EVENT_WALLET_CONNECT_SESSION_ESTABLISHED = 'WalletConnect Session Establis
  */
 const useTrackWalletConnectSessionEstablished = () => {
   const postHog = usePostHog();
-  const isTestnetEvent = useIsTestnetEvent();
 
   return React.useCallback(
     (session: SessionTypes.Struct) => {
-      if (!postHog || isTestnetEvent) {
+      if (!postHog) {
         return;
       }
 
@@ -25,7 +23,7 @@ const useTrackWalletConnectSessionEstablished = () => {
         Namespaces: session.requiredNamespaces,
       });
     },
-    [postHog, isTestnetEvent],
+    [postHog],
   );
 };
 
