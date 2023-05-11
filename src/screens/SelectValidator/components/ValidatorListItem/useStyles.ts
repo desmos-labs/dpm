@@ -6,27 +6,21 @@ const useStyles = makeStyle((theme) => ({
     flexDirection: 'row',
     backgroundColor: theme.colors.surface,
     borderRadius: 8,
-    paddingVertical: theme.spacing.m,
-    paddingHorizontal: theme.spacing.s,
+    paddingVertical: 10,
+    paddingHorizontal: 10,
   },
   touchableArea: {
+    display: 'flex',
     flexDirection: 'row',
+    flex: 1,
+    alignItems: 'center',
   },
   validatorImage: {
-    alignSelf: 'center',
-    height: 40,
-    width: 40,
-    borderRadius: 20,
+    backgroundColor: 'blu',
   },
   validatorDetails: {
     display: 'flex',
     flexDirection: 'column',
-  },
-  validatorActions: {
-    flexDirection: 'column',
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
   },
 }));
 
