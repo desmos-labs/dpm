@@ -16,6 +16,7 @@ export function convertGraphQLValidator(validator: any, profile?: DesmosProfile)
     votingPower: validator.validator_voting_powers[0].voting_power,
     website: validator.validator_descriptions[0].website ?? undefined,
     avatarUrl: validator.validator_descriptions[0].avatar_url ?? undefined,
+    details: validator.validator_descriptions[0].details ?? undefined,
     profile,
   };
 }
