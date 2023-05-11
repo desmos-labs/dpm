@@ -1,7 +1,6 @@
 import React, { useMemo } from 'react';
 import { DesmosProfile } from 'types/desmos';
-import AvatarImageProps from 'components/AvatarImage/props';
-import AvatarImage from 'components/AvatarImage';
+import AvatarImage, { AvatarImageProps } from 'components/AvatarImage';
 import { defaultProfilePicture } from 'assets/images';
 
 export interface ProfileImageProps extends Omit<AvatarImageProps, 'source'> {

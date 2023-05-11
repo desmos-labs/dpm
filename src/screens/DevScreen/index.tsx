@@ -34,6 +34,8 @@ const DevScreen: FC<NavProps> = ({ navigation }) => {
         switch (item) {
           case ROUTES.SELECT_VALIDATOR:
             navigate(ROUTES.SELECT_VALIDATOR, {
+              // Allow console log since this a dev screen.
+              // eslint-disable-next-line no-console
               onValidatorSelected: console.log,
             });
             break;
