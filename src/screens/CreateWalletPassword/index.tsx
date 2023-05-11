@@ -78,7 +78,7 @@ const CreateWalletPassword = (props: NavProps) => {
     if (password === confirmationPassword) {
       const saveResult = await saveAccount(account, password);
       if (saveResult.isOk()) {
-        trackNewAccountAdded(account);
+        trackNewAccountAdded(account.account);
       }
     } else {
       setErrorMessage(t('wrong confirmation password'));

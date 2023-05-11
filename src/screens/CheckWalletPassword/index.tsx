@@ -82,7 +82,7 @@ const CheckWalletPassword = (props: NavProps) => {
     if (isPasswordCorrect) {
       const saveResult = await saveAccount(account, inputPassword);
       if (saveResult.isOk()) {
-        trackNewAccountAdded(account);
+        trackNewAccountAdded(account.account);
       }
     } else {
       setErrorMessage(t('wrong confirmation password'));
@@ -101,7 +101,7 @@ const CheckWalletPassword = (props: NavProps) => {
         // Save the account
         const saveResult = await saveAccount(account, biometricPassword);
         if (saveResult.isOk()) {
-          trackNewAccountAdded(account);
+          trackNewAccountAdded(account.account);
         }
       } else {
         setErrorMessage(t('wrong confirmation password'));
