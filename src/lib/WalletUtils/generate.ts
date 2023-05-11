@@ -33,6 +33,7 @@ export const generateLedgerAccountWallets = async (
 
   await signer.connect();
   const accounts = await signer.getAccounts();
+  const creationTime = new Date();
 
   return accounts.map((account, i) => ({
     wallet: {
@@ -51,6 +52,7 @@ export const generateLedgerAccountWallets = async (
       algo: account.algo,
       pubKey: account.pubkey,
       ledgerAppName: app.name,
+      creationTime,
     },
   }));
 };
@@ -83,6 +85,7 @@ export const generateMnemonicWallets = async (
       await signer.connect();
 
       const [accountData] = await signer.getAccounts();
+      const creationTime = new Date();
 
       return {
         wallet: {
@@ -100,6 +103,7 @@ export const generateMnemonicWallets = async (
           hdPath,
           algo: accountData.algo,
           pubKey: accountData.pubkey,
+          creationTime,
         },
       } as AccountWithWallet;
     }),
@@ -122,6 +126,7 @@ export const generateWeb3AuthWallet = async (
 
   await signer.connect();
   const [accountData] = await signer.getAccounts();
+  const creationTime = new Date();
 
   return {
     wallet: {
@@ -138,6 +143,7 @@ export const generateWeb3AuthWallet = async (
       pubKey: accountData.pubkey,
       algo: accountData.algo,
       loginProvider,
+      creationTime,
     },
   };
 };
