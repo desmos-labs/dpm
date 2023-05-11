@@ -22,16 +22,11 @@ export interface AvatarImageProps {
    * True if we should display a loading indicator over the image.
    */
   loading?: boolean;
-  /**
-   * Callback called if an error occurred while fetching the
-   * avatar image.
-   */
-  onError?: () => void;
   style?: StyleProp<ImageStyle>;
 }
 
 const AvatarImage: React.FC<AvatarImageProps> = (props) => {
-  const { source, onPress, style, loading, onError } = props;
+  const { source, onPress, style, loading } = props;
   const styles = useStyles(props);
 
   const [fetching, setFetchingImage] = React.useState(false);
@@ -41,12 +36,9 @@ const AvatarImage: React.FC<AvatarImageProps> = (props) => {
   }, [source]);
 
   const onLoadError = React.useCallback(() => {
-    if (onError) {
-      onError();
-    }
     setFetchingImage(false);
     setPicture(defaultProfilePicture);
-  }, [onError]);
+  }, []);
 
   const onLoadStart = React.useCallback(() => {
     setFetchingImage(true);
