@@ -36,7 +36,10 @@ const SelectValidator: FC<NavProps> = (props) => {
 
   const renderValidator = React.useCallback(
     ({ item }: ListRenderItemInfo<Validator>) => (
-      <ValidatorListItem validator={item} onPress={onValidatorSelected} />
+      <>
+        <ValidatorListItem validator={item} onPress={onValidatorSelected} />
+        <Spacer paddingVertical={4} />
+      </>
     ),
     [onValidatorSelected],
   );
