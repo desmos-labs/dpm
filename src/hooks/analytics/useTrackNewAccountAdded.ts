@@ -26,10 +26,10 @@ const useTrackNewAccountAdded = (isImported: boolean) => {
       const properties: Record<string, any> = {};
 
       if (!isImported) {
-        properties.CreationTime = new Date().toISOString();
+        properties.CreationTime = account.account.creationTime;
         properties.CreationMethod = account.wallet.type;
       } else {
-        properties.ImportTime = new Date().toISOString();
+        properties.ImportTime = account.account.creationTime;
         properties.ImportMethod = account.wallet.type;
 
         const profile = await getProfile(account.account.address);
