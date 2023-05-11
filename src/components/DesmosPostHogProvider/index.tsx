@@ -4,6 +4,7 @@ import { useSetting } from '@recoil/settings';
 // eslint-disable-next-line import/no-unresolved
 import { POSTHOG_API_KEY } from '@env';
 import useTrackPreviouslyCreatedAccounts from 'hooks/analytics/useTrackPreviouslyCreatedAccounts';
+import useIdentifyForPreviouslyCreatedAccounts from 'hooks/analytics/useIdentifyForPreviouslyCreatedAccounts';
 
 export interface Props {
   children: React.ReactNode;
@@ -14,6 +15,7 @@ export interface Props {
  */
 const InternalPostHogComponent: React.FC<Props> = ({ children }) => {
   useTrackPreviouslyCreatedAccounts();
+  useIdentifyForPreviouslyCreatedAccounts();
 
   return <>{children}</>;
 };

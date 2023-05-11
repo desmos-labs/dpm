@@ -7,4 +7,9 @@ export type AnalyticsStatus = {
    * before the analytics were added.
    */
   trackedOldCreatedAccount: boolean;
+  /**
+   * Indicates whether the application has identified the user
+   * for the accounts created before the analytics were added.
+   */
+  userIdentified: boolean;
 };
