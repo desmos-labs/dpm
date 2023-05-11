@@ -12,6 +12,10 @@ interface FetchValidatorFilter {
   monikerOrder?: 'asc' | 'desc';
 }
 
+/**
+ * Hook that provides a function that can be used from usePaginatedData
+ * to fetch the validators.
+ */
 export const useFetchValidators = () => {
   const client = useApolloClient();
   const getGqlValidatorsProfile = useGetGqlValidatorsProfile();

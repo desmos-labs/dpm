@@ -5,7 +5,7 @@ import Typography from 'components/Typography';
 import Spacer from 'components/Spacer';
 import AvatarImage from 'components/AvatarImage';
 import { DesmosProfile } from 'types/desmos';
-import { useValidatorApr } from 'screens/SelectValidator/components/ValidatorListItem/hooks';
+import useValidatorStakingApr from 'hooks/validator/useValidatorStakingApr';
 import TypographyContentLoaders from 'components/ContentLoaders/Typography';
 import { getValidatorAvatar, getValidatorName } from 'lib/ValidatorUtils';
 import useStyles from './useStyles';
@@ -17,7 +17,11 @@ export interface ValidatorItemProps {
 
 const ValidatorListItem: React.FC<ValidatorItemProps> = ({ validator, onPress }) => {
   const styles = useStyles();
-  const { data: validatorApr, loading: loadingApr, error: errorApr } = useValidatorApr(validator);
+  const {
+    data: validatorApr,
+    loading: loadingApr,
+    error: errorApr,
+  } = useValidatorStakingApr(validator);
 
   const onPressItem = React.useCallback(() => {
     if (onPress) {

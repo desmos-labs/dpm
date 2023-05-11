@@ -163,7 +163,7 @@ enum ROUTES {
 
   // -------- STAKING RELATED ROUTES ------------------------
   /**
-   * Screen that allow the user to manage the staked assets.
+   * Screen that allow the user to select a validator.
    */
   SELECT_VALIDATOR = 'SELECT_VALIDATOR',
 }

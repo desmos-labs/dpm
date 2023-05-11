@@ -6,7 +6,11 @@ import { Coin } from '@desmoslabs/desmjs';
 import { useCurrentChainInfo } from '@recoil/settings';
 import { safeParseInt, safePartFloat } from 'lib/FormatUtils';
 
-export const useValidatorApr = (validator: Validator) => {
+/**
+ * Hook that provides the staking apr of a validator.
+ * @param validator - Validator for which to calculate the apr.
+ */
+const useValidatorStakingApr = (validator: Validator) => {
   const { data, loading, error } = useQuery(GetValidatorAprData, {
     fetchPolicy: 'cache-first',
   });
@@ -35,3 +39,5 @@ export const useValidatorApr = (validator: Validator) => {
 
   return { data: apr, loading, error };
 };
+
+export default useValidatorStakingApr;

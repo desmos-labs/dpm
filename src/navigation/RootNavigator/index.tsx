@@ -46,7 +46,7 @@ import SplashScreen from 'screens/SplashScreen';
 import Legal, { LegalParams } from 'screens/Legal';
 import { Platform } from 'react-native';
 import { useUpdateAccountsProfiles } from 'hooks/profile/useUpdateAccountsProfiles';
-import Stacking, { SelectValidatorParams } from 'screens/SelectValidator';
+import SelectValidator, { SelectValidatorParams } from 'screens/SelectValidator';
 
 export type RootNavigatorParamList = {
   [ROUTES.DEV_SCREEN]: undefined;
@@ -180,7 +180,7 @@ const RootNavigator = () => {
         component={WalletConnectSessionProposal}
       />
       <Stack.Screen name={ROUTES.WALLET_CONNECT_REQUEST} component={WalletConnectRequest} />
-      <Stack.Screen name={ROUTES.SELECT_VALIDATOR} component={Stacking} />
+      <Stack.Screen name={ROUTES.SELECT_VALIDATOR} component={SelectValidator} />
 
       <Stack.Screen name={ROUTES.PROFILE} component={Profile} />
       <Stack.Screen name={ROUTES.EDIT_PROFILE} component={EditProfile} />
