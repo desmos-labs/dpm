@@ -16,7 +16,7 @@ const routesToRender = [
   ROUTES.HOME_TABS,
   ROUTES.SETTINGS,
   ROUTES.UNLOCK_APPLICATION,
-  ROUTES.STACKING,
+  ROUTES.SELECT_VALIDATOR,
 ];
 
 type NavProps = StackScreenProps<RootNavigatorParamList, ROUTES.DEV_SCREEN>;
@@ -32,6 +32,11 @@ const DevScreen: FC<NavProps> = ({ navigation }) => {
     <TouchableOpacity
       onPress={() => {
         switch (item) {
+          case ROUTES.SELECT_VALIDATOR:
+            navigate(ROUTES.SELECT_VALIDATOR, {
+              onValidatorSelected: console.log,
+            });
+            break;
           default:
             navigate(item);
             break;

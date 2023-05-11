@@ -1,3 +1,5 @@
+import { DesmosProfile } from 'types/desmos';
+
 /**
  * Interface that represents a validator.
  */
@@ -5,7 +7,11 @@ export interface Validator {
   /**
    * Validator address.
    */
-  readonly address: string;
+  readonly operatorAddress: string;
+  /**
+   * Validator self delegate address.
+   */
+  readonly selfDelegateAddress: string;
   /**
    * Validator moniker.
    */
@@ -31,4 +37,8 @@ export interface Validator {
    * with a number inside this range [0, 1].
    */
   readonly commission: number;
+  /**
+   * Desmos profile associated to the validator selfDelegateAddress.
+   */
+  readonly profile?: DesmosProfile;
 }

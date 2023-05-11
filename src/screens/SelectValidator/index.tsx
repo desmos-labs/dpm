@@ -6,41 +6,54 @@ import TopBar from 'components/TopBar';
 import { StackScreenProps } from '@react-navigation/stack';
 import { ListRenderItemInfo } from 'screens/SelectAccount/components/PaginatedFlatList';
 import { Validator } from 'types/validator';
-import ValidatorListItem from 'screens/Stacking/components/ValidatorItem';
 import { FlashList } from '@shopify/flash-list';
 import { usePaginatedData } from 'hooks/usePaginatedData';
 import StyledActivityIndicator from 'components/StyledActivityIndicator';
 import TextInput from 'components/TextInput';
+import { useTranslation } from 'react-i18next';
+import Spacer from 'components/Spacer';
+import ValidatorListItem from './components/ValidatorListItem';
 import { useFetchValidators } from './hooks';
 
-type NavProps = StackScreenProps<RootNavigatorParamList, ROUTES.STACKING>;
+export interface SelectValidatorParams {
+  onValidatorSelected?: (validator: Validator) => any;
+}
 
-const Staking: FC<NavProps> = (props) => {
+type NavProps = StackScreenProps<RootNavigatorParamList, ROUTES.SELECT_VALIDATOR>;
+
+const SelectValidator: FC<NavProps> = (props) => {
+  const { onValidatorSelected } = props.route.params;
+  const { t } = useTranslation('selectValidator');
   const loadValidatorPage = useFetchValidators();
   const { data, loading, fetchMore, refresh, refreshing, updateFilter } = usePaginatedData(
     loadValidatorPage,
     { itemsPerPage: 50, updateFilterDebounceTimeMs: 500 },
     {
-      text: '',
+      moniker: '',
       votingPowerOrder: 'desc',
     },
   );
 
   const renderValidator = React.useCallback(
-    ({ item }: ListRenderItemInfo<Validator>) => <ValidatorListItem validator={item} />,
-    [],
+    ({ item }: ListRenderItemInfo<Validator>) => (
+      <ValidatorListItem validator={item} onPress={onValidatorSelected} />
+    ),
+    [onValidatorSelected],
   );
 
   return (
-    <StyledSafeAreaView topBar={<TopBar stackProps={props} />}>
+    <StyledSafeAreaView topBar={<TopBar stackProps={props} title={t('active validators')} />}>
       <TextInput
         onChangeText={(e) => {
           updateFilter((currentFilter) => ({
             ...currentFilter,
-            text: e.trim(),
+            moniker: e.trim(),
           }));
         }}
+        placeholder={t('search validator')}
       />
+
+      <Spacer paddingVertical={8} />
 
       <FlashList
         data={data}
@@ -62,4 +75,4 @@ const Staking: FC<NavProps> = (props) => {
   );
 };
 
-export default Staking;
+export default SelectValidator;
