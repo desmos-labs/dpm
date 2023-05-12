@@ -11,6 +11,7 @@ import selectValidator from './selectValidator.json';
 import sendTokens from './sendTokens.json';
 import settings from './settings.json';
 import transaction from './transaction.json';
+import validatorDetails from './validatorDetails.json';
 import walletConnect from './walletConnect.json';
 import web3auth from './web3auth.json';
 
@@ -27,6 +28,7 @@ const en = {
   sendTokens,
   settings,
   transaction,
+  validatorDetails,
   walletConnect,
   web3auth,
   ...messages,

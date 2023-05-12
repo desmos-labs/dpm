@@ -1,0 +1,8 @@
+{
+  "tombstoned": "Tombstoned",
+  "jailed": "Jailed",
+  "unbonded": "Unboned",
+  "unbonding": "Unbonding",
+  "active": "Active",
+  "unknown": "Unknown"
+}
