@@ -11,5 +11,8 @@
   "apr": "APR",
   "no. of delegator": "No. of Delegator",
   "last seen": "Last seen",
-  "error loading apr": "Error loading APR"
+  "error loading apr": "Error loading APR",
+  "error loading delegations": "Error loading delegations",
+  "error loading voting power": "Error loading voting power",
+  "stake": "Stake"
 }
