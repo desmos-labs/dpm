@@ -6,13 +6,10 @@ import { defaultProfilePicture } from 'assets/images';
  * @param validator {Validator} which avatar picture should be returned.
  */
 export const getValidatorAvatar = (validator: Validator) => {
-  if (
-    validator.profile?.profilePicture !== undefined &&
-    validator.profile.profilePicture.length > 0
-  ) {
-    return { uri: validator.profile.profilePicture };
+  if ((validator.profile?.profilePicture?.length ?? 0) > 0) {
+    return { uri: validator.profile!.profilePicture };
   }
-  return validator.avatarUrl && validator.avatarUrl.length > 0
+  return (validator.avatarUrl?.length ?? 0) > 0
     ? { uri: validator.avatarUrl }
     : defaultProfilePicture;
 };
