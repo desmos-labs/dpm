@@ -41,7 +41,7 @@ const CheckMnemonic: FC<NavProps> = (props) => {
   const [availableWords, setAvailableWords] = useState<string[]>([...words]);
 
   const accountsAddresses = useStoredAccountsAddresses();
-  const saveAccount = useSaveGeneratedAccount();
+  const saveAccount = useSaveGeneratedAccount(false);
   const selectAccount = useSelectAccount();
 
   const onWordSelected = useCallback((word: string) => {

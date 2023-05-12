@@ -23,7 +23,7 @@ const useImportNewAccount = (chains: SupportedChain[], ignoreAddresses?: string[
   const { t } = useTranslation('account');
   const navigation = useNavigation<StackNavigationProp<RootNavigatorParamList>>();
   const [, setImportAccountState] = useRecoilState(importAccountAppState);
-  const saveAccount = useSaveGeneratedAccount();
+  const saveAccount = useSaveGeneratedAccount(true);
 
   return useCallback(() => {
     const selectedChain: SupportedChain | undefined = chains.length === 1 ? chains[0] : undefined;

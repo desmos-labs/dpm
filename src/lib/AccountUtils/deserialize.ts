@@ -12,8 +12,25 @@ import {
 import { WalletType } from 'types/wallet';
 import { stringToPath } from '@cosmjs/crypto/build/slip10';
 import { fromHex } from '@cosmjs/encoding';
+import deviceInfoModule from 'react-native-device-info';
 
 const ACCOUNT_ALGOS = ['secp256k1', 'ed25519', 'sr25519'];
+
+/**
+ * Function to extract the account creation time from the serialized account.
+ * NOTE: The creationTime field has been added after the version 2.0 of DPM
+ * so there can be accounts without the creationTime field in such cases
+ * to approximate the account creation time will be used the application
+ * installation time.
+ * @param account - Account from which the date will be extracted.
+ */
+const deserializeCreationTime = (account: Partial<SerializableAccount>): Date => {
+  const { creationTime } = account;
+  // The account creation time is a filed that has been added after the version
+  // 2.0 so there can be account without it, to have an approximation of when
+  // the user created such account we can use the first install time.
+  return creationTime ?? new Date(deviceInfoModule.getFirstInstallTimeSync());
+};
 
 export const deserializeMnemonicAccount = (
   account: Partial<SerializableMnemonicAccount>,
@@ -50,6 +67,7 @@ export const deserializeMnemonicAccount = (
     algo: account.algo,
     hdPath,
     pubKey,
+    creationTime: deserializeCreationTime(account),
   };
 };
 
@@ -90,6 +108,7 @@ export const deserializeLedgerAccount = (
     hdPath,
     pubKey,
     ledgerAppName: account.ledgerAppName,
+    creationTime: deserializeCreationTime(account),
   };
 };
 
@@ -127,6 +146,7 @@ export const deserializeWeb3AuthAccount = (
     algo: account.algo,
     pubKey,
     loginProvider: account.loginProvider,
+    creationTime: deserializeCreationTime(account),
   };
 };
 

@@ -4,6 +4,7 @@ import { useActiveAccount } from '@recoil/activeAccount';
 import { getAccountSupportedMethods } from 'lib/WalletConnectUtils';
 import { useStoreWalletConnectSession } from '@recoil/walletConnectSessions';
 import { WalletConnectSessionProposal } from 'types/walletConnect';
+import useTrackWalletConnectSessionEstablished from 'hooks/analytics/useTrackWalletConnectSessionEstablished';
 
 /**
  * Hook that provides a function to accept a session request.
@@ -12,6 +13,7 @@ const useWalletConnectApproveSessionProposal = () => {
   const wcClient = useWalletConnectClient();
   const activeAccount = useActiveAccount();
   const storeSession = useStoreWalletConnectSession();
+  const trackSessinEstablished = useTrackWalletConnectSessionEstablished();
 
   return useCallback(
     async (proposal: WalletConnectSessionProposal) => {
@@ -41,6 +43,7 @@ const useWalletConnectApproveSessionProposal = () => {
       });
 
       const session = await approveResponse.acknowledged();
+      trackSessinEstablished(session);
       storeSession(activeAccount.address, {
         accountAddress: activeAccount.address,
         topic: session.topic,
@@ -51,7 +54,7 @@ const useWalletConnectApproveSessionProposal = () => {
         url: session.peer.metadata.url,
       });
     },
-    [activeAccount, storeSession, wcClient],
+    [activeAccount, storeSession, wcClient, trackSessinEstablished],
   );
 };
 
