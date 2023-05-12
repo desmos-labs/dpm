@@ -1,3 +1,6 @@
 {
-  "stake": "Stake"
+  "stake": "Stake",
+  "staking will lock your tokens_one": "* Staking will lock your coins for {{ count }} day",
+  "staking will lock your tokens_other": "* Staking will lock your coins for {{ count }} days",
+  "stake to": "Stake to"
 }
