@@ -70,7 +70,9 @@ const SendTokens = () => {
       touchableWithoutFeedbackDisabled={false}
     >
       {/* Address */}
-      <Typography.Subtitle>{t('recipient address')}</Typography.Subtitle>
+      <Typography.Subtitle style={styles.topMarginSmall}>
+        {t('recipient address')}
+      </Typography.Subtitle>
       <TextInput
         style={styles.topMarginSmall}
         placeholder={t('insert address')}
@@ -81,11 +83,11 @@ const SendTokens = () => {
       />
 
       {/* Amount */}
-      <Typography.Subtitle>{t('amount')}</Typography.Subtitle>
-      <CoinAmountInput onChange={onAmountChange} />
+      <Typography.Subtitle style={styles.topMarginSmall}>{t('amount')}</Typography.Subtitle>
+      <CoinAmountInput onChange={onAmountChange} containerStyle={styles.topMarginSmall} />
 
       {/* Transaction note / memo */}
-      <Typography.Subtitle style={styles.topMarginMedium}>{t('tx note')}</Typography.Subtitle>
+      <Typography.Subtitle style={styles.topMarginSmall}>{t('tx note')}</Typography.Subtitle>
       <TextInput
         style={[styles.topMarginSmall, styles.memoInput]}
         placeholder={t('tx description')}
