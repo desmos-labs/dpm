@@ -24,6 +24,7 @@ export type ValidatorDetailsParams = {
 type NavProps = StackScreenProps<RootNavigatorParamList, ROUTES.VALIDATOR_DETAILS>;
 
 const ValidatorDetails: FC<NavProps> = (props) => {
+  const { navigation } = props;
   const { validator } = props.route.params;
   const styles = useStyles();
   const { t } = useTranslation('validatorDetails');
@@ -76,9 +77,10 @@ const ValidatorDetails: FC<NavProps> = (props) => {
   // -------- ACTIONS -----------
 
   const onStakePressed = React.useCallback(() => {
-    // TODO: Implement this action.
-    console.log('Navigate to stake to validator screen', validator);
-  }, [validator]);
+    navigation.navigate(ROUTES.STAKE, {
+      validator,
+    });
+  }, [navigation, validator]);
 
   return (
     <StyledSafeAreaView topBar={<TopBar stackProps={props} />}>

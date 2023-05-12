@@ -11,6 +11,7 @@ import profile from './profile.json';
 import selectValidator from './selectValidator.json';
 import sendTokens from './sendTokens.json';
 import settings from './settings.json';
+import stake from './stake.json';
 import transaction from './transaction.json';
 import validatorDetails from './validatorDetails.json';
 import walletConnect from './walletConnect.json';
@@ -28,6 +29,7 @@ const en = {
   selectValidator,
   sendTokens,
   settings,
+  stake,
   transaction,
   validatorDetails,
   walletConnect,

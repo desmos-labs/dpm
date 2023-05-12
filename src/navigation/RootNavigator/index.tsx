@@ -48,6 +48,7 @@ import { Platform } from 'react-native';
 import { useUpdateAccountsProfiles } from 'hooks/profile/useUpdateAccountsProfiles';
 import SelectValidator, { SelectValidatorParams } from 'screens/SelectValidator';
 import ValidatorDetails, { ValidatorDetailsParams } from 'screens/ValidatorDetails';
+import Stake, { StakingParams } from 'screens/Stake';
 
 export type RootNavigatorParamList = {
   [ROUTES.DEV_SCREEN]: undefined;
@@ -95,6 +96,7 @@ export type RootNavigatorParamList = {
   // ------------ Staking related screens ---------------
   [ROUTES.SELECT_VALIDATOR]: SelectValidatorParams;
   [ROUTES.VALIDATOR_DETAILS]: ValidatorDetailsParams;
+  [ROUTES.STAKE]: StakingParams;
 };
 
 const Stack = createStackNavigator<RootNavigatorParamList>();
@@ -216,6 +218,7 @@ const RootNavigator = () => {
       {/* Staking related screens */}
       <Stack.Screen name={ROUTES.SELECT_VALIDATOR} component={SelectValidator} />
       <Stack.Screen name={ROUTES.VALIDATOR_DETAILS} component={ValidatorDetails} />
+      <Stack.Screen name={ROUTES.STAKE} component={Stake} />
     </Stack.Navigator>
   );
 };

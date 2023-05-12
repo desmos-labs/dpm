@@ -171,6 +171,11 @@ enum ROUTES {
    * to delegate some tokens to them.
    */
   VALIDATOR_DETAILS = 'VALIDATOR_DETAILS',
+  /**
+   * Screen that allows the user to delegate an amount of tokens
+   * to a previously selected validator.
+   */
+  STAKE = 'STAKE',
 }
 
 export default ROUTES;
