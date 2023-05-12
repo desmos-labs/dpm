@@ -1,4 +1,4 @@
-import { useApolloClient } from '@apollo/client';
+import { useLazyQuery } from '@apollo/client';
 import React from 'react';
 import { Validator } from 'types/validator';
 import GetValidators from 'services/graphql/queries/GetValidators';
@@ -17,7 +17,7 @@ interface FetchValidatorFilter {
  * to fetch the validators.
  */
 export const useFetchValidators = () => {
-  const client = useApolloClient();
+  const [getValidators] = useLazyQuery(GetValidators);
   const getGqlValidatorsProfile = useGetGqlValidatorsProfile();
 
   return React.useCallback(
@@ -26,8 +26,7 @@ export const useFetchValidators = () => {
       limit: number,
       filter?: FetchValidatorFilter,
     ): Promise<PaginatedResult<Validator>> => {
-      const { data } = await client.query({
-        query: GetValidators,
+      const { data } = await getValidators({
         variables: {
           offset,
           limit,
@@ -51,6 +50,6 @@ export const useFetchValidators = () => {
         endReached: validators.length < limit,
       };
     },
-    [client, getGqlValidatorsProfile],
+    [getValidators, getGqlValidatorsProfile],
   );
 };

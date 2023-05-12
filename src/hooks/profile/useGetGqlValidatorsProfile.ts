@@ -1,4 +1,4 @@
-import { useApolloClient } from '@apollo/client';
+import { useLazyQuery } from '@apollo/client';
 import React from 'react';
 import GetProfileForAddresses from 'services/graphql/queries/GetProfileForAddresses';
 import { DesmosProfile } from 'types/desmos';
@@ -9,7 +9,7 @@ import { convertGraphQLProfile } from 'lib/GraphQLUtils';
  * validator fetched from GraphQL.
  */
 const useGetGqlValidatorsProfile = () => {
-  const client = useApolloClient();
+  const [getProfileForAddresses] = useLazyQuery(GetProfileForAddresses);
 
   return React.useCallback(
     async (validators: any[]) => {
@@ -17,8 +17,7 @@ const useGetGqlValidatorsProfile = () => {
         (validator: any) => validator.validator_info.self_delegate_address,
       );
 
-      const { data: profilesData } = await client.query({
-        query: GetProfileForAddresses,
+      const { data: profilesData } = await getProfileForAddresses({
         variables: {
           addresses: selfDelegateAddresses,
         },
@@ -35,7 +34,7 @@ const useGetGqlValidatorsProfile = () => {
 
       return profiles;
     },
-    [client],
+    [getProfileForAddresses],
   );
 };
 
