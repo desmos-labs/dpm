@@ -1,4 +1,5 @@
 import messages from './messages';
+import components from './components';
 import account from './account.json';
 import chainLinks from './chainLinks.json';
 import common from './common.json';
@@ -32,6 +33,7 @@ const en = {
   walletConnect,
   web3auth,
   ...messages,
+  ...components,
 };
 
 export default en;
