@@ -14,6 +14,7 @@ import { useNavigation } from '@react-navigation/native';
 import { safeParseInt } from 'lib/FormatUtils';
 import CoinAmountInput from 'components/CoinAmountInput';
 import { Coin } from '@desmoslabs/desmjs-types/cosmos/base/v1beta1/coin';
+import TxMemoInput from 'components/TxMemoInput';
 import useStyles from './useStyles';
 import useSendTokens from './useHooks';
 
@@ -87,16 +88,8 @@ const SendTokens = () => {
       <CoinAmountInput onChange={onAmountChange} containerStyle={styles.topMarginSmall} />
 
       {/* Transaction note / memo */}
-      <Typography.Subtitle style={styles.topMarginSmall}>{t('tx note')}</Typography.Subtitle>
-      <TextInput
-        style={[styles.topMarginSmall, styles.memoInput]}
-        placeholder={t('tx description')}
-        value={memo}
-        onChangeText={onMemoChange}
-        numberOfLines={4}
-        maxLength={5000}
-        multiline
-      />
+      <Typography.Subtitle style={styles.topMarginSmall}>{t('tx:memo')}</Typography.Subtitle>
+      <TxMemoInput style={styles.topMarginSmall} value={memo} onChangeText={onMemoChange} />
 
       {/* Spacer */}
       <Flexible.Padding flex={1} />
