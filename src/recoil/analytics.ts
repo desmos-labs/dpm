@@ -4,6 +4,7 @@ import { AnalyticsStatus } from 'types/analytics';
 
 const DefaultAnalyticsStatus: AnalyticsStatus = {
   trackedOldCreatedAccount: false,
+  userIdentified: false,
 };
 
 /**
