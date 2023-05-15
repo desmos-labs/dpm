@@ -131,9 +131,9 @@ export const formatHiddenValue = (value: string): string => {
 export const capitalize = (value: string): string => value.charAt(0).toUpperCase() + value.slice(1);
 
 /**
- * Round a float number to have only the provided number of decimals.
- * @param value - The value to round.
- * @param decimals - Amount of decimals that will have the rounded number.
+ * Round a float number to have only the specified number of decimals digits.
+ * @param value - Number that needs to be rounded to a certain number of decimal places.
+ * @param decimals - The number of decimal places to which the value needs to be rounded.
  */
 export const roundFloat = (value: number, decimals: number): number => {
   const roundFactor = 10 ** decimals;
