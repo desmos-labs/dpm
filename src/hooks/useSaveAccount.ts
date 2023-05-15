@@ -19,6 +19,8 @@ import LoadingModal from 'modals/LoadingModal';
 import ErrorModal from 'modals/ErrorModal';
 import { useSetActiveAccountAddress } from '@recoil/activeAccount';
 import { DPMImages } from 'types/images';
+import { ok, Result } from 'neverthrow';
+import { SecureStorageError } from 'lib/SecureStorage/errors';
 
 /**
  * Hook to save a new account to the device.
@@ -79,7 +81,10 @@ const useSaveAccount = () => {
 
   // Callback to save the account
   const saveAccount = useCallback(
-    async (account: AccountWithWallet, password: string) => {
+    async (
+      account: AccountWithWallet,
+      password: string,
+    ): Promise<Result<void, SecureStorageError>> => {
       setSavingAccount(true);
 
       // Show the loading modal
@@ -91,7 +96,7 @@ const useSaveAccount = () => {
       const saveResult = await saveWallet(account.wallet, password);
       if (saveResult.isErr()) {
         onError(account);
-        return;
+        return saveResult;
       }
 
       if (savingFirstAccount) {
@@ -99,7 +104,7 @@ const useSaveAccount = () => {
         const passwordResult = await setUserPassword(password);
         if (passwordResult.isErr()) {
           onError(account);
-          return;
+          return saveResult;
         }
       }
 
@@ -121,6 +126,7 @@ const useSaveAccount = () => {
 
       // Stop the loading indicator
       setSavingAccount(false);
+      return ok(undefined);
     },
     [
       hideLoadingModal,

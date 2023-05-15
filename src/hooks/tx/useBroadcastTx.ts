@@ -6,6 +6,7 @@ import { err, ResultAsync } from 'neverthrow';
 import { useTranslation } from 'react-i18next';
 import useModal from 'hooks/useModal';
 import LoadingModal from 'modals/LoadingModal';
+import { assertIsDeliverTxSuccess } from '@cosmjs/stargate/build/stargateclient';
 
 export default function useBroadcastTx() {
   const { t } = useTranslation('transaction');
@@ -32,7 +33,14 @@ export default function useBroadcastTx() {
 
       // Broadcast the transaction.
       const broadcastResult = await ResultAsync.fromPromise(
-        client.broadcastTx(TxRaw.encode(signatureResult.txRaw).finish()),
+        client.broadcastTx(TxRaw.encode(signatureResult.txRaw).finish()).then((response) => {
+          // Since we are wrapping the broadcast tx into a Result and the DeliverTxResponse
+          // can also represent a failed broadcast we should assert that the response
+          // is successful so that if the broadcast failed the final result
+          // will be an Error with the failure message.
+          assertIsDeliverTxSuccess(response);
+          return response;
+        }),
         (e: any) => Error(`failed to broadcast tx: ${e}`),
       );
 

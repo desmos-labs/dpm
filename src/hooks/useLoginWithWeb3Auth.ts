@@ -12,7 +12,7 @@ import { Platform } from 'react-native';
 
 const useLoginWithWeb3Auth = (chain: SupportedChain, ignoreAddresses: string[]) => {
   const selectAccount = useSelectAccount();
-  const saveAccount = useSaveGeneratedAccount();
+  const saveAccount = useSaveGeneratedAccount(false);
   const setAppState = useSetAppState();
 
   return useCallback(

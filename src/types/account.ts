@@ -28,6 +28,10 @@ export interface BaseAccount {
    * Account public key type.
    */
   readonly algo: Algo;
+  /**
+   * Timestamp when this account has been created.
+   */
+  readonly creationTime: Date;
 }
 
 /**

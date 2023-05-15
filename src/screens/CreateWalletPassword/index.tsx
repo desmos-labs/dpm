@@ -13,6 +13,7 @@ import ROUTES from 'navigation/routes';
 import { AccountWithWallet } from 'types/account';
 import Spacer from 'components/Spacer';
 import useSaveAccount from 'hooks/useSaveAccount';
+import useTrackNewAccountAdded from 'hooks/analytics/useTrackNewAccountAdded';
 import PasswordComplexityScore from './components/PasswordComplexityScore';
 import useStyles from './useStyles';
 
@@ -20,6 +21,10 @@ export type NavProps = StackScreenProps<RootNavigatorParamList, ROUTES.CREATE_WA
 
 export interface CreateWalletPasswordParams {
   account: AccountWithWallet;
+  /**
+   * Tells if the account is a new one or if has been imported.
+   */
+  isImported: boolean;
 }
 
 /**
@@ -33,13 +38,14 @@ const CreateWalletPassword = (props: NavProps) => {
 
   const { route } = props;
   const { params } = route;
-  const { account } = params;
+  const { account, isImported } = params;
 
   // --------------------------------------------------------------------------------------
   // --- Hooks
   // --------------------------------------------------------------------------------------
 
   const { saveAccount } = useSaveAccount();
+  const trackNewAccountAdded = useTrackNewAccountAdded(isImported);
 
   // --------------------------------------------------------------------------------------
   // --- Local state
@@ -70,11 +76,14 @@ const CreateWalletPassword = (props: NavProps) => {
 
   const onContinuePressed = useCallback(async () => {
     if (password === confirmationPassword) {
-      saveAccount(account, password);
+      const saveResult = await saveAccount(account, password);
+      if (saveResult.isOk()) {
+        trackNewAccountAdded(account.account);
+      }
     } else {
       setErrorMessage(t('wrong confirmation password'));
     }
-  }, [password, confirmationPassword, saveAccount, account, t]);
+  }, [password, confirmationPassword, saveAccount, account, t, trackNewAccountAdded]);
 
   // --------------------------------------------------------------------------------------
   // --- Screen rendering

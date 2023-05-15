@@ -8,6 +8,7 @@ import { StdFee } from '@cosmjs/amino';
 import { useCurrentChainGasPrice, useCurrentChainInfo } from '@recoil/settings';
 import { err, ok, Result } from 'neverthrow';
 import useBroadcastTx from 'hooks/tx/useBroadcastTx';
+import useTrackTransactionPerformed from 'hooks/analytics/useTrackTransactionPerformed';
 
 export const useEstimateFees = () => {
   const [estimatingFees, setEstimatingFees] = useState(false);
@@ -61,6 +62,7 @@ export const useSignAndBroadcastTx = () => {
   const unlockWallet = useUnlockWallet();
   const signTx = useSignTx();
   const broadcastTx = useBroadcastTx();
+  const trackTransactionPerformed = useTrackTransactionPerformed();
 
   return useCallback(
     async (
@@ -85,8 +87,13 @@ export const useSignAndBroadcastTx = () => {
         return err(signResult.error);
       }
 
-      return broadcastTx(wallet, signResult.value);
+      const broadcastResult = await broadcastTx(wallet, signResult.value);
+      if (broadcastResult.isOk()) {
+        trackTransactionPerformed(messages, fees);
+      }
+
+      return broadcastResult;
     },
-    [activeAccount, broadcastTx, signTx, unlockWallet],
+    [activeAccount, broadcastTx, signTx, unlockWallet, trackTransactionPerformed],
   );
 };

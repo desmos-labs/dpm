@@ -4,6 +4,7 @@ import { getMMKV, MMKVKEYS, setMMKV } from 'lib/MMKVStorage';
 import { Account } from 'types/account';
 import { deserializeAccounts } from 'lib/AccountUtils/deserialize';
 import { serializeAccounts } from 'lib/AccountUtils/serialize';
+import useIdentifyUser from 'hooks/analytics/useIdentifyUser';
 
 /**
  * An atom that holds all the accounts stored in the application.
@@ -25,6 +26,8 @@ export const accountsAppState = atom<Record<string, Account>>({
  */
 export const useStoreAccount = () => {
   const [, setAccounts] = useRecoilState(accountsAppState);
+  const identifyUser = useIdentifyUser();
+
   return React.useCallback(
     (account: Account) => {
       setAccounts((curValue) => {
@@ -32,10 +35,14 @@ export const useStoreAccount = () => {
           ...curValue,
         };
         newValue[account.address] = account;
+
+        // Identify the user with the new stored accounts.
+        identifyUser(Object.keys(newValue));
+
         return newValue;
       });
     },
-    [setAccounts],
+    [setAccounts, identifyUser],
   );
 };
 
@@ -81,6 +88,8 @@ export const useStoredAccountsNumber = () => useRecoilValue(storedAccountsNumber
  */
 export const useDeleteAccount = () => {
   const setAccounts = useSetRecoilState(accountsAppState);
+  const identifyUser = useIdentifyUser();
+
   return useCallback(
     (address: string) => {
       setAccounts((storedAccounts) => {
@@ -88,10 +97,14 @@ export const useDeleteAccount = () => {
           ...storedAccounts,
         };
         delete newValue[address];
+
+        // Identify the user with the new stored accounts.
+        identifyUser(Object.keys(newValue));
+
         return newValue;
       });
     },
-    [setAccounts],
+    [setAccounts, identifyUser],
   );
 };
 
