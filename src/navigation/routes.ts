@@ -160,6 +160,12 @@ enum ROUTES {
    * screen.
    */
   UNLOCK_APPLICATION = 'UNLOCK_APPLICATION',
+
+  // -------- STAKING RELATED ROUTES ------------------------
+  /**
+   * Screen that allow the user to select a validator.
+   */
+  SELECT_VALIDATOR = 'SELECT_VALIDATOR',
 }
 
 export default ROUTES;

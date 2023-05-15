@@ -7,6 +7,7 @@ import landing from './landing.json';
 import ledgerScan from './ledgerScan.json';
 import legal from './legal.json';
 import profile from './profile.json';
+import selectValidator from './selectValidator.json';
 import sendTokens from './sendTokens.json';
 import settings from './settings.json';
 import transaction from './transaction.json';
@@ -22,6 +23,7 @@ const en = {
   ledgerScan,
   legal,
   profile,
+  selectValidator,
   sendTokens,
   settings,
   transaction,
