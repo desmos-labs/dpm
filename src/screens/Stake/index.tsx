@@ -15,13 +15,10 @@ import CoinAmountInput from 'components/CoinAmountInput';
 import { Coin } from '@desmoslabs/desmjs-types/cosmos/base/v1beta1/coin';
 import Flexible from 'components/Flexible';
 import Button from 'components/Button';
-import useBroadcastTx from 'hooks/useBroadcastTx';
-import { MsgDelegateEncodeObject } from '@cosmjs/stargate';
-import { MsgDelegateTypeUrl } from '@desmoslabs/desmjs';
-import { useActiveAccountAddress } from '@recoil/activeAccount';
 import TxMemoInput from 'components/TxMemoInput';
 import useStakingUnbondingDays from 'hooks/staking/useStakingUnbondingDays';
 import StyledActivityIndicator from 'components/StyledActivityIndicator';
+import { useDelegateTokens } from 'screens/Stake/hooks';
 import useStyles from './useStyles';
 
 export type StakingParams = {
@@ -31,17 +28,15 @@ export type StakingParams = {
 type NavProps = StackScreenProps<RootNavigatorParamList, ROUTES.STAKE>;
 
 const Stake: React.FC<NavProps> = (props) => {
-  const { navigation } = props;
   const { t } = useTranslation('stake');
   const { validator } = props.route.params;
   const styles = useStyles();
-  const broadcastTx = useBroadcastTx();
-  const currentAccountAddress = useActiveAccountAddress()!;
   const {
     data: unbondingTime,
     loading: loadingUnbondingTime,
     error: errorUnbondingTime,
   } = useStakingUnbondingDays();
+  const delegateTokens = useDelegateTokens();
 
   // -------- SCREEN STATE --------
   const [stakeAmount, setStakeAmount] = React.useState<Coin | undefined>(undefined);
@@ -58,35 +53,9 @@ const Stake: React.FC<NavProps> = (props) => {
 
   const onNextPressed = React.useCallback(() => {
     if (stakeAmount !== undefined) {
-      broadcastTx(
-        [
-          {
-            typeUrl: MsgDelegateTypeUrl,
-            value: {
-              amount: stakeAmount,
-              validatorAddress: validator.operatorAddress,
-              delegatorAddress: currentAccountAddress,
-            },
-          } as MsgDelegateEncodeObject,
-        ],
-        {
-          memo,
-          onSuccess: () =>
-            navigation.reset({
-              index: 0,
-              routes: [{ name: ROUTES.HOME_TABS }],
-            }),
-        },
-      );
+      delegateTokens(stakeAmount, validator.operatorAddress, memo);
     }
-  }, [
-    broadcastTx,
-    currentAccountAddress,
-    stakeAmount,
-    validator.operatorAddress,
-    memo,
-    navigation,
-  ]);
+  }, [delegateTokens, stakeAmount, validator.operatorAddress, memo]);
 
   return (
     <StyledSafeAreaView topBar={<TopBar stackProps={props} title={t('stake')} />} padding={0}>

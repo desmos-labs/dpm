@@ -39,3 +39,5 @@ export const scanQRButton = require('./scanQRButton.png');
 export const splashScreenBackground = require('./splashBackground.png');
 export const tickGreyIcon = require('./tick-grey.png');
 export const tickOrangeIcon = require('./tick-orange.png');
+export const txFailed = require('./txFailed.png');
+export const txSuccess = require('./txSuccess.png');

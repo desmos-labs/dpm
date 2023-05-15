@@ -4,6 +4,8 @@ import { StackNavigationProp } from '@react-navigation/stack';
 import { useCallback } from 'react';
 import ROUTES from 'navigation/routes';
 import { RootNavigatorParamList } from 'navigation/RootNavigator';
+import { ImageSourcePropType } from 'react-native';
+import { DPMImages } from 'types/images';
 
 export interface BroadcastTxCallbacks {
   onSuccess?: () => void;
@@ -12,6 +14,10 @@ export interface BroadcastTxCallbacks {
 }
 
 export interface BroadcastTxOptions extends BroadcastTxCallbacks {
+  customSuccessMessage?: string;
+  customSuccessImage?: ImageSourcePropType | DPMImages;
+  customFailedMessage?: string;
+  customFailedImage?: ImageSourcePropType | DPMImages;
   memo?: string;
 }
 
@@ -25,6 +31,10 @@ const useBroadcastTx = (): ((msgs: EncodeObject[], options?: BroadcastTxOptions)
       navigation.navigate(ROUTES.BROADCAST_TX, {
         messages: msgs,
         memo: options?.memo,
+        customSuccessImage: options?.customSuccessImage,
+        customSuccessMessage: options?.customSuccessMessage,
+        customFailedImage: options?.customFailedImage,
+        customFailedMessage: options?.customFailedMessage,
         onSuccess: options?.onSuccess,
         onCancel: options?.onCancel,
         onError: options?.onError,
