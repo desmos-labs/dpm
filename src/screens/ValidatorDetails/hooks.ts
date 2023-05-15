@@ -4,7 +4,7 @@ import GetValidatorTotalDelegations from 'services/graphql/queries/GetValidatorT
 import GetTotalVotingPower from 'services/graphql/queries/GetTotalVotingPower';
 
 /**
- * Hooks that provides the total number of delegations toward a validator.
+ * Hook that provides the total number of delegations toward a validator.
  * @param validatorAddress - Validator operator address.
  */
 export const useTotalValidatorDelegations = (validatorAddress: string) => {
@@ -30,7 +30,7 @@ export const useTotalValidatorDelegations = (validatorAddress: string) => {
 };
 
 /**
- * Hooks that provides the total chain voting power.
+ * Hook that provides the total chain voting power.
  */
 export const useTotalVotingPower = () => {
   const { data, loading, error } = useQuery(GetTotalVotingPower, {
