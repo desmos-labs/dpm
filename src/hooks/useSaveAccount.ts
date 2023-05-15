@@ -10,7 +10,6 @@ import {
 import { useHasAccount, useStoreAccount } from '@recoil/accounts';
 import useModal from 'hooks/useModal';
 import { useTranslation } from 'react-i18next';
-import ROUTES from 'navigation/routes';
 import { useNavigation } from '@react-navigation/native';
 import { StackNavigationProp } from '@react-navigation/stack/lib/typescript/src/types';
 import { RootNavigatorParamList } from 'navigation/RootNavigator';
@@ -21,6 +20,7 @@ import { useSetActiveAccountAddress } from '@recoil/activeAccount';
 import { DPMImages } from 'types/images';
 import { ok, Result } from 'neverthrow';
 import { SecureStorageError } from 'lib/SecureStorage/errors';
+import useResetToHomeScreen from 'hooks/navigation/useResetToHomeScreen';
 
 /**
  * Hook to save a new account to the device.
@@ -51,12 +51,7 @@ const useSaveAccount = () => {
   }, [navigation]);
 
   // Callback to be used when the saving is completed
-  const onContinuePressed = useCallback(() => {
-    navigation.reset({
-      index: 0,
-      routes: [{ name: ROUTES.HOME_TABS }],
-    });
-  }, [navigation]);
+  const onContinuePressed = useResetToHomeScreen();
 
   // Callback to be used when the saving fails
   const onError = useCallback(

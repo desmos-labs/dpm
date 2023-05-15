@@ -1,18 +1,16 @@
 import useBroadcastTx from 'hooks/useBroadcastTx';
 import React from 'react';
-import { NavigationProp, useNavigation } from '@react-navigation/native';
-import { RootNavigatorParamList } from 'navigation/RootNavigator';
 import { MsgDelegateTypeUrl } from '@desmoslabs/desmjs';
 import { MsgDelegateEncodeObject } from '@cosmjs/stargate';
-import ROUTES from 'navigation/routes';
 import { Coin } from '@desmoslabs/desmjs-types/cosmos/base/v1beta1/coin';
 import { useActiveAccountAddress } from '@recoil/activeAccount';
 import { useTranslation } from 'react-i18next';
+import useResetToHomeScreen from 'hooks/navigation/useResetToHomeScreen';
 
 export const useDelegateTokens = () => {
   const { t } = useTranslation('stake');
   const broadcastTx = useBroadcastTx();
-  const navigation = useNavigation<NavigationProp<RootNavigatorParamList>>();
+  const resetToHome = useResetToHomeScreen();
   const currentAccountAddress = useActiveAccountAddress();
 
   return React.useCallback(
@@ -32,14 +30,10 @@ export const useDelegateTokens = () => {
           memo,
           customSuccessMessage: t('your DSM has been staked'),
           customFailedMessage: t("your DSM hasn't been staked"),
-          onSuccess: () =>
-            navigation.reset({
-              index: 0,
-              routes: [{ name: ROUTES.HOME_TABS }],
-            }),
+          onSuccess: resetToHome,
         },
       );
     },
-    [broadcastTx, currentAccountAddress, t, navigation],
+    [broadcastTx, currentAccountAddress, t, resetToHome],
   );
 };
