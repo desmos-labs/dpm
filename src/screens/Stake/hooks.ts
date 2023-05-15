@@ -7,6 +7,10 @@ import { useActiveAccountAddress } from '@recoil/activeAccount';
 import { useTranslation } from 'react-i18next';
 import useResetToHomeScreen from 'hooks/navigation/useResetToHomeScreen';
 
+/**
+ * Hook that provides a function to delegate an amount of Coin
+ * to a validator.
+ */
 export const useDelegateTokens = () => {
   const { t } = useTranslation('stake');
   const broadcastTx = useBroadcastTx();
