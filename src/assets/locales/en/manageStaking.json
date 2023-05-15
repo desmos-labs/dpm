@@ -2,5 +2,6 @@
   "manage staking": "Manage Staking",
   "staked": "Staked",
   "restaking": "Restaking",
-  "unbonding": "Unbonding"
+  "unbonding": "Unbonding",
+  "total staked": "Total Staked"
 }
