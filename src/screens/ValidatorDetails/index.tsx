@@ -67,13 +67,6 @@ const ValidatorDetails: FC<NavProps> = (props) => {
     return `${formatNumber(percentage)}%`;
   }, [totalVotingPowerLoading, totalVotingPowerError, totalVotingPower, validator.votingPower, t]);
 
-  const lastSeen = React.useMemo(
-    () =>
-      // TODO: Wait for details on how this field should be computed.
-      '???',
-    [],
-  );
-
   // -------- ACTIONS -----------
 
   const onStakePressed = React.useCallback(() => {
@@ -116,7 +109,6 @@ const ValidatorDetails: FC<NavProps> = (props) => {
               : totalDelegations?.toString() ?? 'N/A'
           }
         />
-        <ValidatorInfoField label={t('last seen')} value={lastSeen} />
       </ScrollView>
 
       <Button style={styles.stakeButton} mode={'contained'} onPress={onStakePressed}>
