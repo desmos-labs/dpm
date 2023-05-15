@@ -5,12 +5,33 @@ import StyledActivityIndicator from 'components/StyledActivityIndicator';
 import useStyles from './useStyles';
 
 export interface ValidatorInfoFieldProps {
+  /**
+   * Label that describe the displayed value.
+   */
   label: string;
+  /**
+   * The value to be displayed. if this value is an url such as http://desmos.network
+   * will be displayed using the theme primary color and when the user
+   * clicks on it the application will navigate to the url.
+   */
   value: string;
+  /**
+   * Extra information about the displayed value.
+   */
   extraInfo?: string;
+  /**
+   * If true shows an activity indicator to tell the user that the value
+   * is being computed.
+   */
   loading?: boolean;
 }
 
+/**
+ * Component to show some information of a validator.
+ * This component will have a label that describe the showed value
+ * the value to display and an extra info field to provide more information
+ * about the displayed value.
+ */
 const ValidatorInfoField: React.FC<ValidatorInfoFieldProps> = ({
   label,
   value,
@@ -21,6 +42,9 @@ const ValidatorInfoField: React.FC<ValidatorInfoFieldProps> = ({
 
   const url = React.useMemo(() => {
     try {
+      // Check if the provided value is a url, if the value is an url
+      // this component will show the value in a different way and
+      // will allow the user to navigate to the url on press.
       // eslint-disable-next-line no-new
       return new URL(value);
     } catch (e) {
