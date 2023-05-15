@@ -176,6 +176,11 @@ enum ROUTES {
    * to a previously selected validator.
    */
   STAKE = 'STAKE',
+  /**
+   * Screen that allows the user to see its delegations, redelegations
+   * and unbonding delegations.
+   */
+  MANAGE_STAKING = 'MANAGE_STAKING',
 }
 
 export default ROUTES;
