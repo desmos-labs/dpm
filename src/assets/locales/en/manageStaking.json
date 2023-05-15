@@ -1,3 +1,6 @@
 {
-  "manage staking": "Manage Staking"
+  "manage staking": "Manage Staking",
+  "staked": "Staked",
+  "restaking": "Restaking",
+  "unbonding": "Unbonding"
 }
