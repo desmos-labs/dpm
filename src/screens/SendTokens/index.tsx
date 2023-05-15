@@ -47,10 +47,6 @@ const SendTokens = () => {
     }
   }, []);
 
-  const onMemoChange = useCallback((changedMemo: string) => {
-    setMemo(changedMemo);
-  }, []);
-
   /**
    * Called when the transaction has been sent successfully
    */
@@ -89,7 +85,7 @@ const SendTokens = () => {
 
       {/* Transaction note / memo */}
       <Typography.Subtitle style={styles.topMarginSmall}>{t('tx:memo')}</Typography.Subtitle>
-      <TxMemoInput style={styles.topMarginSmall} value={memo} onChangeText={onMemoChange} />
+      <TxMemoInput style={styles.topMarginSmall} value={memo} onChange={setMemo} />
 
       {/* Spacer */}
       <Flexible.Padding flex={1} />
