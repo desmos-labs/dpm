@@ -16,9 +16,9 @@ export interface CoinAmountInputProps {
    * Callback called when the amount changes.
    * @param amount - Current amount represented as coin, if undefined means
    * that the input has been cleared.
-   * @param isValid - Tells if the amount is valid, to be valida the amount
+   * @param isValid - Tells if the amount is valid, to be valid the amount
    * must be defined and less equals than the current active user available
-   * amount.
+   * balance.
    */
   onChange?: (amount: Coin | undefined, isValid: boolean) => any;
   /**
@@ -29,8 +29,8 @@ export interface CoinAmountInputProps {
 }
 
 /**
- * Component that let the user input an amount of coins that can be
- * at least the maximum available coins that the current active user have.
+ * Component that let the user input an amount of coin that can be
+ * at least the maximum available balance that the current active user have.
  */
 const CoinAmountInput: React.FC<CoinAmountInputProps> = ({ onChange, containerStyle }) => {
   const styles = useStyles();
