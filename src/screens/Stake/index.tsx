@@ -20,6 +20,8 @@ import { MsgDelegateEncodeObject } from '@cosmjs/stargate';
 import { MsgDelegateTypeUrl } from '@desmoslabs/desmjs';
 import { useActiveAccountAddress } from '@recoil/activeAccount';
 import TxMemoInput from 'components/TxMemoInput';
+import useStakingUnbondingDays from 'hooks/staking/useStakingUnbondingDays';
+import StyledActivityIndicator from 'components/StyledActivityIndicator';
 import useStyles from './useStyles';
 
 export type StakingParams = {
@@ -35,6 +37,11 @@ const Stake: React.FC<NavProps> = (props) => {
   const styles = useStyles();
   const broadcastTx = useBroadcastTx();
   const currentAccountAddress = useActiveAccountAddress()!;
+  const {
+    data: unbondingTime,
+    loading: loadingUnbondingTime,
+    error: errorUnbondingTime,
+  } = useStakingUnbondingDays();
 
   // -------- SCREEN STATE --------
   const [stakeAmount, setStakeAmount] = React.useState<Coin | undefined>(undefined);
@@ -84,11 +91,17 @@ const Stake: React.FC<NavProps> = (props) => {
   return (
     <StyledSafeAreaView topBar={<TopBar stackProps={props} title={t('stake')} />} padding={0}>
       {/* Staking lock period warning message */}
-      <View style={styles.stakingMessageContainer}>
-        <Typography.Caption style={styles.stakingMessage}>
-          {t('staking will lock your tokens', { count: 14 })}
-        </Typography.Caption>
-      </View>
+      {errorUnbondingTime === undefined && (
+        <View style={styles.stakingMessageContainer}>
+          {loadingUnbondingTime ? (
+            <StyledActivityIndicator />
+          ) : (
+            <Typography.Caption style={styles.stakingMessage}>
+              {t('staking will lock your tokens', { count: unbondingTime })}
+            </Typography.Caption>
+          )}
+        </View>
+      )}
 
       {/*
         Add this container view to restore the default StyledSafeAreaView
