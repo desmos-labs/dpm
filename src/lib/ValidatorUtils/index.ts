@@ -25,7 +25,5 @@ export const getValidatorName = (validator: Validator) =>
  * Returns the biography associated to the provided validator.
  * @param validator {Validator} which biography should be returned.
  */
-export const getValidatorBio = (validator: Validator) => {
-  console.log(validator.profile?.bio, validator);
-  return (validator.profile?.bio?.length ?? 0) > 0 ? validator.profile?.bio : validator.details;
-};
+export const getValidatorBio = (validator: Validator) =>
+  (validator.profile?.bio?.length ?? 0) > 0 ? validator.profile?.bio : validator.details;
