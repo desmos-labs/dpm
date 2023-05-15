@@ -13,7 +13,7 @@ const useStakingUnbondingDays = () => {
       return undefined;
     }
 
-    const ubondingTimeNs = data.staking_params[0]?.params.unbonding_time ?? 0;
+    const ubondingTimeNs = data.staking_params[0]?.params?.unbonding_time ?? 0;
     // Convert unbonding time from ns to days.
     return ubondingTimeNs / (1_000_000_000 * 3600 * 24);
   }, [data, error, loading]);
