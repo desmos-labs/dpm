@@ -28,6 +28,7 @@ export const noProfileDarkIcon = require('./noProfile-dark.png');
 export const noProfileLightIcon = require('./noProfile-light.png');
 export const noTransactionDarkIcon = require('./noTransaction-dark.png');
 export const noTransactionLightIcon = require('./noTransaction-light.png');
+export const noValidators = require('./noValidators.png');
 export const resultFailDarkIcon = require('./resultFail-dark.png');
 export const resultFailLightIcon = require('./resultFail-light.png');
 export const resultPasswordSuccess = require('./resultPasswordSuccess.png');
