@@ -14,6 +14,7 @@ import { useEstimateFees, useSignAndBroadcastTx } from 'screens/BroadcastTx/hook
 import { DPMImages } from 'types/images';
 import { DeliverTxResponse } from '@desmoslabs/desmjs';
 import useOnScreenDetached from 'hooks/useOnScreenDetached';
+import { ImageSourcePropType } from 'react-native';
 import useStyles from './useStyles';
 
 enum BroadcastStatus {
@@ -41,6 +42,10 @@ type BroadcastTxStatus = CancelledBroadcastTx | SuccessBroadcastTx | FailedBroad
 export interface BroadcastTxParams {
   messages: EncodeObject[];
   memo?: string;
+  customSuccessMessage?: string;
+  customSuccessImage?: ImageSourcePropType | DPMImages;
+  customFailedMessage?: string;
+  customFailedImage?: ImageSourcePropType | DPMImages;
   onSuccess?: (tx: DeliverTxResponse) => any;
   onCancel?: () => any;
   onError?: () => any;
@@ -50,7 +55,17 @@ type NavProps = StackScreenProps<RootNavigatorParamList, ROUTES.BROADCAST_TX>;
 
 const BroadcastTx: React.FC<NavProps> = (props) => {
   const { navigation, route } = props;
-  const { messages, memo, onSuccess, onCancel, onError } = route.params;
+  const {
+    messages,
+    memo,
+    customSuccessMessage,
+    customSuccessImage,
+    customFailedMessage,
+    customFailedImage,
+    onSuccess,
+    onCancel,
+    onError,
+  } = route.params;
   const { t } = useTranslation('transaction');
   const styles = useStyles();
 
@@ -89,25 +104,25 @@ const BroadcastTx: React.FC<NavProps> = (props) => {
 
   const showSuccessModal = React.useCallback(() => {
     showModal(SingleButtonModal, {
-      image: DPMImages.Success,
+      image: customSuccessImage ?? DPMImages.TxSuccess,
       title: t('common:success'),
-      message: `${t('tx sent successfully')}!`,
+      message: customSuccessMessage ?? `${t('tx sent successfully')}!`,
       actionLabel: t('common:continue'),
       action: () => navigation.goBack(),
     });
-  }, [showModal, t, navigation]);
+  }, [showModal, customSuccessImage, t, customSuccessMessage, navigation]);
 
   const showErrorModal = React.useCallback(
     (error: string) => {
       showModal(SingleButtonModal, {
-        image: DPMImages.Fail,
+        image: customFailedImage ?? DPMImages.TxFailed,
         title: t('common:failure'),
-        message: error,
+        message: customFailedMessage ?? error,
         actionLabel: t('common:continue'),
         action: () => navigation.goBack(),
       });
     },
-    [showModal, t, navigation],
+    [showModal, customFailedImage, t, customFailedMessage, navigation],
   );
 
   const confirmBroadcast = React.useCallback(async () => {

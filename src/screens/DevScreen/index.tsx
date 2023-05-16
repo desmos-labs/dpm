@@ -7,7 +7,14 @@ import ROUTES from 'navigation/routes';
 import { FlatList, Text, TouchableOpacity } from 'react-native';
 import Spacer from 'components/Spacer';
 import { usePostHog } from 'posthog-react-native';
+import useShowModal from 'hooks/useShowModal';
+import SingleButtonModal from 'modals/SingleButtonModal';
+import { DPMImages } from 'types/images';
 import useStyles from './useStyles';
+
+enum DevRoutes {
+  SINGLE_BUTTON_MODAL = 'SINGLE_BUTTON_MODAL',
+}
 
 const routesToRender = [
   ROUTES.SPLASH_SCREEN,
@@ -17,6 +24,8 @@ const routesToRender = [
   ROUTES.SETTINGS,
   ROUTES.UNLOCK_APPLICATION,
   ROUTES.SELECT_VALIDATOR,
+  ROUTES.VALIDATOR_DETAILS,
+  DevRoutes.SINGLE_BUTTON_MODAL,
 ];
 
 type NavProps = StackScreenProps<RootNavigatorParamList, ROUTES.DEV_SCREEN>;
@@ -25,6 +34,7 @@ const DevScreen: FC<NavProps> = ({ navigation }) => {
   const { navigate } = navigation;
   const styles = useStyles();
   const postHog = usePostHog()!;
+  const showModal = useShowModal();
 
   const itemSeparator = React.useCallback(() => <Spacer paddingVertical={4} />, []);
 
@@ -39,6 +49,25 @@ const DevScreen: FC<NavProps> = ({ navigation }) => {
               onValidatorSelected: console.log,
             });
             break;
+          case ROUTES.VALIDATOR_DETAILS:
+            navigate(ROUTES.SELECT_VALIDATOR, {
+              onValidatorSelected: (validator) => {
+                navigate(ROUTES.VALIDATOR_DETAILS, {
+                  validator,
+                });
+              },
+            });
+            break;
+
+          case DevRoutes.SINGLE_BUTTON_MODAL:
+            showModal(SingleButtonModal, {
+              image: DPMImages.TxSuccess,
+              title: 'Test title',
+              message: 'SingleButtonModal test message',
+              actionLabel: 'Close',
+            });
+            break;
+
           default:
             navigate(item);
             break;

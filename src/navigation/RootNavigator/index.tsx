@@ -47,6 +47,8 @@ import Legal, { LegalParams } from 'screens/Legal';
 import { Platform } from 'react-native';
 import { useUpdateAccountsProfiles } from 'hooks/profile/useUpdateAccountsProfiles';
 import SelectValidator, { SelectValidatorParams } from 'screens/SelectValidator';
+import ValidatorDetails, { ValidatorDetailsParams } from 'screens/ValidatorDetails';
+import Stake, { StakingParams } from 'screens/Stake';
 
 export type RootNavigatorParamList = {
   [ROUTES.DEV_SCREEN]: undefined;
@@ -93,6 +95,8 @@ export type RootNavigatorParamList = {
 
   // ------------ Staking related screens ---------------
   [ROUTES.SELECT_VALIDATOR]: SelectValidatorParams;
+  [ROUTES.VALIDATOR_DETAILS]: ValidatorDetailsParams;
+  [ROUTES.STAKE]: StakingParams;
 };
 
 const Stack = createStackNavigator<RootNavigatorParamList>();
@@ -180,7 +184,6 @@ const RootNavigator = () => {
         component={WalletConnectSessionProposal}
       />
       <Stack.Screen name={ROUTES.WALLET_CONNECT_REQUEST} component={WalletConnectRequest} />
-      <Stack.Screen name={ROUTES.SELECT_VALIDATOR} component={SelectValidator} />
 
       <Stack.Screen name={ROUTES.PROFILE} component={Profile} />
       <Stack.Screen name={ROUTES.EDIT_PROFILE} component={EditProfile} />
@@ -211,6 +214,11 @@ const RootNavigator = () => {
       <Stack.Screen name={ROUTES.UNLOCK_APPLICATION} component={UnlockApplication} />
 
       <Stack.Screen name={ROUTES.MARKDOWN_TEXT} component={MarkdownText} />
+
+      {/* Staking related screens */}
+      <Stack.Screen name={ROUTES.SELECT_VALIDATOR} component={SelectValidator} />
+      <Stack.Screen name={ROUTES.VALIDATOR_DETAILS} component={ValidatorDetails} />
+      <Stack.Screen name={ROUTES.STAKE} component={Stake} />
     </Stack.Navigator>
   );
 };

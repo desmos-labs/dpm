@@ -9,6 +9,8 @@ export enum DPMImages {
   ConnectLedger,
   PasswordSuccess,
   Ledger,
+  TxFailed,
+  TxSuccess,
 }
 
 export enum DPMAnimations {

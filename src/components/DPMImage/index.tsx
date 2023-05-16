@@ -21,6 +21,8 @@ import {
   resultPasswordSuccess,
   resultSuccessDarkIcon,
   resultSuccessLightIcon,
+  txFailed,
+  txSuccess,
 } from 'assets/images';
 import FastImage from 'react-native-fast-image';
 
@@ -58,6 +60,10 @@ const DpmImage = (props: DPMImageProps) => {
           return darkTheme ? connectLedgerDarkIcon : connectLedgerLightIcon;
         case DPMImages.Ledger:
           return ledgerIcon;
+        case DPMImages.TxFailed:
+          return txFailed;
+        case DPMImages.TxSuccess:
+          return txSuccess;
         default:
           return desmosIconWhite;
       }

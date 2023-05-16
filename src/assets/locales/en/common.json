@@ -27,5 +27,6 @@
   "website": "Website",
   "days distance_zero": "Today",
   "days distance_one": "{{ count }} Day Ago",
-  "days distance_other": "{{ count }} Days Ago"
+  "days distance_other": "{{ count }} Days Ago",
+  "no results": "No results"
 }

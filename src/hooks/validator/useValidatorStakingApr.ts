@@ -4,7 +4,7 @@ import GetValidatorAprData from 'services/graphql/queries/GetValidatorAprData';
 import React from 'react';
 import { Coin } from '@desmoslabs/desmjs';
 import { useCurrentChainInfo } from '@recoil/settings';
-import { safeParseInt, safePartFloat } from 'lib/FormatUtils';
+import { roundFloat, safeParseInt, safePartFloat } from 'lib/FormatUtils';
 
 /**
  * Hook that provides the staking apr of a validator.
@@ -33,8 +33,7 @@ const useValidatorStakingApr = (validator: Validator) => {
 
     const validatorApr = stakingApr * (1 - validator.commission);
     const validatorAprPercentage = validatorApr * 100;
-    // Round to 2 decimals
-    return Math.round((validatorAprPercentage + Number.EPSILON) * 100) / 100;
+    return roundFloat(validatorAprPercentage, 2);
   }, [validator, data, loading, error, chainInfo]);
 
   return { data: apr, loading, error };

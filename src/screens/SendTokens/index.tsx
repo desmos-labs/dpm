@@ -11,10 +11,10 @@ import Button from 'components/Button';
 import { RootNavigatorParamList } from 'navigation/RootNavigator';
 import ROUTES from 'navigation/routes';
 import { useNavigation } from '@react-navigation/native';
-import useActiveAccountBalance from 'hooks/useActiveAccountBalance';
-import { useCurrentChainInfo } from '@recoil/settings';
-import { View } from 'react-native';
-import { formatCoin, formatNumber, safePartFloat } from 'lib/FormatUtils';
+import { safeParseInt } from 'lib/FormatUtils';
+import CoinAmountInput from 'components/CoinAmountInput';
+import { Coin } from '@desmoslabs/desmjs-types/cosmos/base/v1beta1/coin';
+import TxMemoInput from 'components/TxMemoInput';
 import useStyles from './useStyles';
 import useSendTokens from './useHooks';
 
@@ -25,21 +25,13 @@ const SendTokens = () => {
   const styles = useStyles();
   const navigation = useNavigation();
 
-  const chainInfo = useCurrentChainInfo();
-  const { loading, balance } = useActiveAccountBalance();
-  const spendable = useMemo(
-    () => balance.find((coin) => coin.denom === chainInfo.stakeCurrency.coinMinimalDenom),
-    [chainInfo, balance],
-  );
-
   const [address, setAddress] = useState('');
   const [isAddressValid, setIsAddressValid] = useState(true);
-  const [amount, setAmount] = useState('');
-  const [isAmountValid, setIsAmountValid] = useState(true);
+  const [sendAmount, setSendAmount] = React.useState<Coin | undefined>();
   const [memo, setMemo] = useState('');
   const sendEnabled = useMemo(
-    () => address.length > 0 && isAddressValid && amount.length > 0 && isAmountValid,
-    [address.length, amount.length, isAddressValid, isAmountValid],
+    () => address.length > 0 && isAddressValid && sendAmount !== undefined,
+    [address.length, isAddressValid, sendAmount],
   );
 
   const onAddressChange = useCallback((newAddress: string) => {
@@ -47,47 +39,37 @@ const SendTokens = () => {
     setIsAddressValid(newAddress.length > 0 && validateDesmosAddress(newAddress));
   }, []);
 
-  const onAmountChange = useCallback(
-    (changedAmount: string) => {
-      const value = safePartFloat(changedAmount);
-      const accountBalance = safePartFloat(spendable?.amount || '0');
-      setAmount(changedAmount);
-      setIsAmountValid(value * 1_000_000 <= accountBalance);
-    },
-    [spendable],
-  );
-
-  const onMaxPressed = useCallback(() => {
-    setAmount(formatNumber(safePartFloat(spendable?.amount) / 1_000_000));
-  }, [spendable]);
-
-  const onMemoChange = useCallback((changedMemo: string) => {
-    setMemo(changedMemo);
+  const onAmountChange = useCallback((newAmount: Coin | undefined, isValid: boolean) => {
+    if (isValid) {
+      setSendAmount(newAmount);
+    } else {
+      setSendAmount(undefined);
+    }
   }, []);
 
   /**
    * Called when the transaction has been sent successfully
    */
   const onSendSuccess = useCallback(() => {
-    // Clean all the inputs
-    setAddress('');
-    setAmount('');
-    setMemo('');
     navigation.goBack();
   }, [navigation]);
 
   const sendTokens = useSendTokens({ onSuccess: onSendSuccess });
   const onNextPressed = useCallback(async () => {
-    await sendTokens(address, safePartFloat(amount) * 1_000_000, memo);
-  }, [address, amount, memo, sendTokens]);
+    if (sendAmount) {
+      await sendTokens(address, safeParseInt(sendAmount.amount), memo);
+    }
+  }, [address, sendAmount, memo, sendTokens]);
 
   return (
     <StyledSafeAreaView
-      topBar={<TopBar stackProps={{ navigation }} title={t('send')} />}
+      topBar={<TopBar stackProps={{ navigation }} title={t('common:send')} />}
       touchableWithoutFeedbackDisabled={false}
     >
       {/* Address */}
-      <Typography.Subtitle>{t('recipient address')}</Typography.Subtitle>
+      <Typography.Subtitle style={styles.topMarginSmall}>
+        {t('recipient address')}
+      </Typography.Subtitle>
       <TextInput
         style={styles.topMarginSmall}
         placeholder={t('insert address')}
@@ -98,39 +80,12 @@ const SendTokens = () => {
       />
 
       {/* Amount */}
-      <Typography.Subtitle>{t('amount')}</Typography.Subtitle>
-      <TextInput
-        style={styles.topMarginSmall}
-        placeholder={t('insert amount')}
-        value={amount}
-        keyboardType="numeric"
-        onChangeText={onAmountChange}
-        numberOfLines={1}
-        error={!isAmountValid}
-        rightElement={<Button onPress={onMaxPressed}>{t('max')}</Button>}
-      />
-
-      {/* Spendable amount */}
-      <View style={styles.spendableContainer}>
-        <Typography.Body>{t('common:available')}:</Typography.Body>
-        {!loading && spendable && (
-          <Typography.Body style={styles.spendableAmountValue}>
-            {formatCoin(spendable)}
-          </Typography.Body>
-        )}
-      </View>
+      <Typography.Subtitle style={styles.topMarginSmall}>{t('amount')}</Typography.Subtitle>
+      <CoinAmountInput onChange={onAmountChange} containerStyle={styles.topMarginSmall} />
 
       {/* Transaction note / memo */}
-      <Typography.Subtitle style={styles.topMarginMedium}>{t('tx note')}</Typography.Subtitle>
-      <TextInput
-        style={[styles.topMarginSmall, styles.memoInput]}
-        placeholder={t('tx description')}
-        value={memo}
-        onChangeText={onMemoChange}
-        numberOfLines={4}
-        maxLength={5000}
-        multiline
-      />
+      <Typography.Subtitle style={styles.topMarginSmall}>{t('tx:memo')}</Typography.Subtitle>
+      <TxMemoInput style={styles.topMarginSmall} value={memo} onChange={setMemo} />
 
       {/* Spacer */}
       <Flexible.Padding flex={1} />

@@ -20,3 +20,10 @@ export const getValidatorAvatar = (validator: Validator) => {
  */
 export const getValidatorName = (validator: Validator) =>
   validator.profile?.nickname ? validator.profile?.nickname : validator.moniker;
+
+/**
+ * Returns the biography associated to the provided validator.
+ * @param validator {Validator} which biography should be returned.
+ */
+export const getValidatorBio = (validator: Validator) =>
+  (validator.profile?.bio?.length ?? 0) > 0 ? validator.profile?.bio : validator.details;

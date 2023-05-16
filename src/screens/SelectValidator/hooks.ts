@@ -26,7 +26,7 @@ export const useFetchValidators = () => {
       limit: number,
       filter?: FetchValidatorFilter,
     ): Promise<PaginatedResult<Validator>> => {
-      const { data } = await getValidators({
+      const { data, error } = await getValidators({
         variables: {
           offset,
           limit,
@@ -35,6 +35,10 @@ export const useFetchValidators = () => {
           voting_power_order: filter?.votingPowerOrder,
         },
       });
+
+      if (error) {
+        throw error;
+      }
 
       const profiles = await getGqlValidatorsProfile(data.validator);
 

@@ -55,8 +55,9 @@ export function usePaginatedData<T, F>(
   const [currentOffset, setCurrentOffset] = React.useState(0);
   const [data, setData] = React.useState<T[]>([]);
   const [filter, setFilter] = React.useState<F | undefined>(initialFilter);
-  const [loading, setLoading] = React.useState(false);
+  const [loading, setLoading] = React.useState(true);
   const [refreshing, setRefreshing] = React.useState(false);
+  const [error, setError] = React.useState<Error>();
 
   const fetchMore = React.useCallback(
     async (overrideOffset?: number, resetState?: boolean) => {
@@ -73,13 +74,18 @@ export function usePaginatedData<T, F>(
       while (fetchedItems.length < config.itemsPerPage && !stopFetch) {
         // Compute how many items we need to fetch
         const fetchLimit = config.itemsPerPage - fetchedItems.length;
-
-        // eslint-disable-next-line no-await-in-loop
-        const { endReached, data: fetchedData } = await fetchFunction(
-          fetchOffset,
-          fetchLimit,
-          filter,
-        );
+        let endReached: boolean | undefined;
+        let fetchedData: T[];
+        try {
+          // eslint-disable-next-line no-await-in-loop
+          const fetchResult = await fetchFunction(fetchOffset, fetchLimit, filter);
+          fetchedData = fetchResult.data;
+          endReached = fetchResult.endReached;
+        } catch (e) {
+          setError(e);
+          fetchedData = [];
+          endReached = true;
+        }
         // Store the fetched items.
         fetchedItems.push(...fetchedData);
         fetchOffset += fetchLimit;
@@ -97,6 +103,7 @@ export function usePaginatedData<T, F>(
   );
 
   const refresh = React.useCallback(async () => {
+    setError(undefined);
     setRefreshing(true);
     await fetchMore(0, true);
     setRefreshing(false);
@@ -149,5 +156,6 @@ export function usePaginatedData<T, F>(
     loading,
     refreshing,
     updateFilter,
+    error,
   };
 }
