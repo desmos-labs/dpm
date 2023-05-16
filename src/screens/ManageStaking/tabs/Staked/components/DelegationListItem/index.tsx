@@ -1,72 +1,53 @@
 import React from 'react';
 import { Delegation } from 'types/distribution';
-import { View } from 'react-native';
+import { TouchableOpacity, View } from 'react-native';
 import Typography from 'components/Typography';
 import { formatCoins } from 'lib/FormatUtils';
 import useValidator from 'hooks/validator/useValidator';
-import AvatarImage from 'components/AvatarImage';
-import { getValidatorAvatar, getValidatorName } from 'lib/ValidatorUtils';
-import { defaultProfilePicture } from 'assets/images';
 import TypographyContentLoaders from 'components/ContentLoaders/Typography';
 import Spacer from 'components/Spacer';
 import useValidatorRewards from 'hooks/staking/useValidatorRewards';
+import ValidatorNameWithStatus from 'components/ValidatorNameWithStatus';
 import useStyles from './useStyles';
 
 export interface DelegationListItemProps {
   readonly delegation: Delegation;
+  readonly onPress?: (delegation: Delegation) => any;
 }
 
-const DelegationListItem: React.FC<DelegationListItemProps> = ({ delegation }) => {
+const DelegationListItem: React.FC<DelegationListItemProps> = ({ delegation, onPress }) => {
   const styles = useStyles();
-  const {
-    data: validator,
-    loading: loadingValidator,
-    error: errorValidator,
-  } = useValidator(delegation.validatorAddress);
+  const { data: validator, loading: loadingValidator } = useValidator(delegation.validatorAddress);
   const { data: rewards, loading: loadingRewards } = useValidatorRewards(
     delegation.validatorAddress,
   );
 
+  const onDelegationPress = React.useCallback(() => {
+    if (onPress !== undefined) {
+      onPress(delegation);
+    }
+  }, [delegation, onPress]);
+
   return (
-    <View style={styles.root}>
-      {errorValidator === undefined && (
-        <View style={styles.validatorDetailsContainer}>
-          <AvatarImage
-            source={validator ? getValidatorAvatar(validator) : defaultProfilePicture}
-            loading={loadingValidator}
-            size={40}
-          />
-          <Spacer paddingHorizontal={6} />
-          <View>
-            {loadingValidator ? (
-              <TypographyContentLoaders.Body width={100} />
-            ) : (
-              <Typography.Body>{getValidatorName(validator!)}</Typography.Body>
-            )}
-            {loadingValidator ? (
-              <TypographyContentLoaders.Body width={100} />
-            ) : (
-              <Typography.Body>{validator!.status}</Typography.Body>
-            )}
-          </View>
+    <TouchableOpacity onPress={onDelegationPress}>
+      <View style={styles.root}>
+        <ValidatorNameWithStatus validator={validator} loading={loadingValidator} />
+        <Spacer paddingVertical={8} />
+
+        <View style={styles.dataField}>
+          <Typography.Body>Staked</Typography.Body>
+          <Typography.Body>{formatCoins(delegation.coins)}</Typography.Body>
         </View>
-      )}
-
-      <Spacer paddingVertical={8} />
-
-      <View style={styles.dataField}>
-        <Typography.Body>Staked</Typography.Body>
-        <Typography.Body>{formatCoins(delegation.coins)}</Typography.Body>
+        <View style={styles.dataField}>
+          <Typography.Body>Rewards</Typography.Body>
+          {loadingRewards ? (
+            <TypographyContentLoaders.Body width={200} />
+          ) : (
+            <Typography.Body>{formatCoins(rewards)}</Typography.Body>
+          )}
+        </View>
       </View>
-      <View style={styles.dataField}>
-        <Typography.Body>Rewards</Typography.Body>
-        {loadingRewards ? (
-          <TypographyContentLoaders.Body width={200} />
-        ) : (
-          <Typography.Body>{formatCoins(rewards)}</Typography.Body>
-        )}
-      </View>
-    </View>
+    </TouchableOpacity>
   );
 };
 

@@ -13,8 +13,8 @@ import { useTranslation } from 'react-i18next';
 import useValidatorStakingApr from 'hooks/validator/useValidatorStakingApr';
 import { useTotalValidatorDelegations, useTotalVotingPower } from 'screens/ValidatorDetails/hooks';
 import { formatNumber, roundFloat } from 'lib/FormatUtils';
+import ValidatorNameWithStatus from 'components/ValidatorNameWithStatus';
 import useStyles from './useStyles';
-import DetailsHeader from './components/DetailsHeader';
 import ValidatorInfoField from './components/ValidatorInfoField';
 
 export type ValidatorDetailsParams = {
@@ -78,7 +78,7 @@ const ValidatorDetails: FC<NavProps> = (props) => {
   return (
     <StyledSafeAreaView topBar={<TopBar stackProps={props} />}>
       {/* Validator avatar and online status */}
-      <DetailsHeader validator={validator} />
+      <ValidatorNameWithStatus validator={validator} />
 
       {/* Validator description */}
       <Markdown>{validatorDescription}</Markdown>
