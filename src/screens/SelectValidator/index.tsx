@@ -60,7 +60,6 @@ const SelectValidator: FC<NavProps> = (props) => {
       <Spacer paddingVertical={8} />
 
       <FlashList
-        style={{ backgroundColor: 'red' }}
         data={data}
         renderItem={renderValidator}
         refreshing={refreshing}
