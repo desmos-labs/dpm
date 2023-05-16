@@ -7,6 +7,13 @@ import { View } from 'react-native';
 import { formatCoins } from 'lib/FormatUtils';
 import TypographyContentLoaders from 'components/ContentLoaders/Typography';
 import Spacer from 'components/Spacer';
+import { usePaginatedData } from 'hooks/usePaginatedData';
+import { useFetchDelegations } from 'screens/ManageStaking/tabs/Staked/hooks';
+import { FlashList } from '@shopify/flash-list';
+import StyledActivityIndicator from 'components/StyledActivityIndicator';
+import { ListRenderItemInfo } from '@shopify/flash-list/src/FlashListProps';
+import { Delegation } from 'types/distribution';
+import DelegationListItem from './components/DelegationListItem';
 import useStyles from './useStyles';
 
 const StakedTab: React.FC = () => {
@@ -17,6 +24,20 @@ const StakedTab: React.FC = () => {
     loading: totalDelegatedLoading,
     error: totalDelegatedError,
   } = useTotalDelegatedAmount();
+
+  const fetchDelegations = useFetchDelegations();
+  const { data, loading, fetchMore, refresh, refreshing } = usePaginatedData(fetchDelegations, {
+    itemsPerPage: 50,
+  });
+  const renderDelegation = React.useCallback(
+    (itemInfo: ListRenderItemInfo<Delegation>) => (
+      <>
+        <DelegationListItem delegation={itemInfo.item} />
+        <Spacer paddingVertical={8} />
+      </>
+    ),
+    [],
+  );
 
   return (
     <StyledSafeAreaView>
@@ -34,6 +55,26 @@ const StakedTab: React.FC = () => {
           )}
         </View>
       )}
+
+      <Spacer paddingVertical={8} />
+
+      {/* Delegation list */}
+      <FlashList
+        data={data}
+        renderItem={renderDelegation}
+        refreshing={refreshing}
+        onRefresh={refresh}
+        onEndReached={fetchMore}
+        onEndReachedThreshold={0.4}
+        estimatedItemSize={148}
+        ListFooterComponent={
+          <StyledActivityIndicator
+            animating={loading && !refreshing}
+            hidesWhenStopped
+            size="small"
+          />
+        }
+      />
     </StyledSafeAreaView>
   );
 };

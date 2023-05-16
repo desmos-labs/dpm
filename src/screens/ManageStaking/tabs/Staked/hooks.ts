@@ -1,94 +1,42 @@
 import { useLazyQuery } from '@apollo/client';
 import React from 'react';
-import { Validator } from 'types/validator';
-import { PaginatedResult, usePaginatedData } from 'hooks/usePaginatedData';
-import { convertGraphQLValidator } from 'lib/GraphQLUtils';
-import GetValidatorsByAddresses from 'services/graphql/queries/GetValidatorsByAddresses';
-import useGetGqlValidatorsProfile from 'hooks/profile/useGetGqlValidatorsProfile';
-import useUserDelegations from 'hooks/staking/useUserDelegations';
+import { FetchDataFunction } from 'hooks/usePaginatedData';
+import { convertGraphQLDelegation } from 'lib/GraphQLUtils';
+import { useActiveAccountAddress } from '@recoil/activeAccount';
+import GetAccountDelegations from 'services/graphql/queries/GetAccountDelegations';
+import { Delegation } from 'types/distribution';
 
-interface FetchDelegationsFilter {
-  delegatedValidators: string[];
-}
+export const useFetchDelegations = () => {
+  const activeAccountAddress = useActiveAccountAddress();
 
-const useFetchValidatorsByAddresses = () => {
-  const [getValidatorByAddresses] = useLazyQuery(GetValidatorsByAddresses);
-  const getGqlValidatorsProfile = useGetGqlValidatorsProfile();
+  const [getAccountDelegations] = useLazyQuery(GetAccountDelegations);
 
-  return React.useCallback(
-    async (
-      offset: number,
-      limit: number,
-      filter?: FetchDelegationsFilter,
-    ): Promise<PaginatedResult<Validator>> => {
-      const { data } = await getValidatorByAddresses({
+  return React.useCallback<FetchDataFunction<Delegation, undefined>>(
+    async (offset: number, limit: number) => {
+      if (activeAccountAddress === undefined) {
+        throw new Error("Can't get delegations if no accounts are selected");
+      }
+
+      const { data, error } = await getAccountDelegations({
         variables: {
+          address: activeAccountAddress,
           offset,
           limit,
-          operatorAddresses: filter?.delegatedValidators ?? [],
         },
       });
 
-      const profiles = await getGqlValidatorsProfile(data.validator);
+      if (error !== undefined) {
+        throw error;
+      }
 
-      const validators = data.validator.map((validator: any) =>
-        convertGraphQLValidator(
-          validator,
-          profiles[validator.validator_info.self_delegate_address],
-        ),
-      ) as Validator[];
+      const convertedData: Delegation[] =
+        data.action_delegation.delegations.map(convertGraphQLDelegation);
 
       return {
-        data: validators,
+        data: convertedData,
+        endReached: convertedData.length < limit,
       };
     },
-    [getValidatorByAddresses, getGqlValidatorsProfile],
-  );
-};
-
-export const usePaginatedDelegatedValidators = () => {
-  const fetchDelegations = useFetchValidatorsByAddresses();
-  const {
-    data: validators,
-    loading: loadingValidators,
-    refreshing: refreshingValidators,
-    fetchMore: fetchMoreValidators,
-    updateFilter: updateValidatorsFilter,
-  } = usePaginatedData(fetchDelegations, {
-    itemsPerPage: 50,
-  });
-
-  const {
-    delegations,
-    loading: loadingDelegations,
-    refetch: refetchDelegations,
-  } = useUserDelegations();
-
-  React.useEffect(() => {
-    if (!loadingDelegations && delegations !== undefined) {
-      updateValidatorsFilter({
-        delegatedValidators: delegations.map((d) => d.validatorAddress),
-      });
-    }
-  }, [loadingDelegations, delegations, updateValidatorsFilter]);
-
-  return React.useMemo(
-    () => ({
-      validators,
-      delegations,
-      refresh: refetchDelegations,
-      loading: loadingDelegations || loadingValidators,
-      refreshing: refreshingValidators || loadingDelegations,
-      fetchMore: fetchMoreValidators,
-    }),
-    [
-      delegations,
-      fetchMoreValidators,
-      loadingDelegations,
-      loadingValidators,
-      refetchDelegations,
-      refreshingValidators,
-      validators,
-    ],
+    [activeAccountAddress, getAccountDelegations],
   );
 };

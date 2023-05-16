@@ -1,7 +1,7 @@
 import { gql } from '@apollo/client';
 
 /**
- * Query to get a validator informations.
+ * Query to get a validator information.
  * @example
  * const { data, loading, error } = useQuery(GetTransactionsByAddress, {
  *   variables: {
@@ -16,6 +16,23 @@ const GetValidatorInfo = gql`
         moniker
         avatar_url
         details
+      }
+      validator_descriptions {
+        avatar_url
+        details
+        moniker
+        website
+      }
+      validator_voting_powers {
+        voting_power
+      }
+      validator_commissions {
+        commission
+      }
+      validator_statuses {
+        status
+        jailed
+        tombstoned
       }
       validator_info {
         operator_address

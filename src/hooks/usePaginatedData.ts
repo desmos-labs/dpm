@@ -92,10 +92,11 @@ export function usePaginatedData<T, F>(
         stopFetch = endReached ?? fetchedData.length < fetchLimit;
       }
 
-      // Update the stored items.
-      setData((currentData) => (resetState ? fetchedItems : [...currentData, ...fetchedItems]));
       // Update the current offset.
       setCurrentOffset(fetchOffset);
+
+      // Update the stored items.
+      setData((currentData) => (resetState ? fetchedItems : [...currentData, ...fetchedItems]));
 
       setLoading(false);
     },
