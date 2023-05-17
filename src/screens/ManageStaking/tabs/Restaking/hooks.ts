@@ -24,7 +24,7 @@ export const useFetchAccountRedelegations = () => {
         },
         // We want network only so that if the user perform the pull to refresh
         // gesture this query will return the new redelegations.
-        nextFetchPolicy: 'network-only',
+        fetchPolicy: 'network-only',
       });
 
       if (error) {
