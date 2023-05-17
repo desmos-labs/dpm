@@ -23,12 +23,20 @@ const StakedTab: React.FC = () => {
     totalDelegated,
     loading: totalDelegatedLoading,
     error: totalDelegatedError,
+    refetch: refetchTotalDelegatedAmount,
   } = useTotalDelegatedAmount();
 
   const fetchDelegations = useFetchDelegations();
-  const { data, loading, fetchMore, refresh, refreshing } = usePaginatedData(fetchDelegations, {
+  const {
+    data,
+    loading,
+    fetchMore,
+    refresh: refreshDelegations,
+    refreshing,
+  } = usePaginatedData(fetchDelegations, {
     itemsPerPage: 50,
   });
+
   const renderDelegation = React.useCallback(
     (itemInfo: ListRenderItemInfo<Delegation>) => (
       <>
@@ -38,6 +46,11 @@ const StakedTab: React.FC = () => {
     ),
     [],
   );
+
+  const refreshData = React.useCallback(() => {
+    refreshDelegations();
+    refetchTotalDelegatedAmount();
+  }, [refetchTotalDelegatedAmount, refreshDelegations]);
 
   return (
     <StyledSafeAreaView>
@@ -63,7 +76,7 @@ const StakedTab: React.FC = () => {
         data={data}
         renderItem={renderDelegation}
         refreshing={refreshing}
-        onRefresh={refresh}
+        onRefresh={refreshData}
         onEndReached={fetchMore}
         onEndReachedThreshold={0.4}
         estimatedItemSize={148}
