@@ -13,6 +13,8 @@ import useTotalRedelegatingAmount from 'hooks/staking/useTotalRedelegatingAmount
 import { View } from 'react-native';
 import TypographyContentLoaders from 'components/ContentLoaders/Typography';
 import { formatCoin } from 'lib/FormatUtils';
+import EmptyList from 'components/EmptyList';
+import { DPMImages } from 'types/images';
 import { useFetchAccountRedelegations } from './hooks';
 import useStyeles from './useStyles';
 
@@ -32,7 +34,7 @@ const RestakingTab: React.FC = () => {
     refreshing,
     loading,
     fetchMore,
-    error,
+    error: redelegationsError,
   } = usePaginatedData(fecthRedelegations, {
     itemsPerPage: 20,
   });
@@ -73,12 +75,21 @@ const RestakingTab: React.FC = () => {
 
       {/* User redelegations list */}
       <FlashList
-        renderItem={renderItem}
         data={data}
-        onEndReached={fetchMore}
+        renderItem={renderItem}
         refreshing={refreshing}
         onRefresh={refreshData}
+        onEndReached={fetchMore}
+        onEndReachedThreshold={0.4}
         estimatedItemSize={251}
+        ListEmptyComponent={
+          !loading && !refreshing ? (
+            <EmptyList
+              message={redelegationsError?.message ?? t("common:it's empty")}
+              image={redelegationsError ? DPMImages.NoData : DPMImages.EmptyList}
+            />
+          ) : null
+        }
         ListFooterComponent={
           <StyledActivityIndicator
             animating={loading && !refreshing}

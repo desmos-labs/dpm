@@ -13,12 +13,17 @@ import { FlashList } from '@shopify/flash-list';
 import StyledActivityIndicator from 'components/StyledActivityIndicator';
 import { ListRenderItemInfo } from '@shopify/flash-list/src/FlashListProps';
 import { Delegation } from 'types/distribution';
+import EmptyList from 'components/EmptyList';
+import { useCurrentChainInfo } from '@recoil/settings';
+import { DPMImages } from 'types/images';
 import DelegationListItem from './components/DelegationListItem';
 import useStyles from './useStyles';
 
 const StakedTab: React.FC = () => {
   const { t } = useTranslation('manageStaking');
   const styles = useStyles();
+
+  const currentChainInfo = useCurrentChainInfo();
   const {
     totalDelegated,
     loading: totalDelegatedLoading,
@@ -33,6 +38,7 @@ const StakedTab: React.FC = () => {
     fetchMore,
     refresh: refreshDelegations,
     refreshing,
+    error: delegationsError,
   } = usePaginatedData(fetchDelegations, {
     itemsPerPage: 50,
   });
@@ -80,6 +86,19 @@ const StakedTab: React.FC = () => {
         onEndReached={fetchMore}
         onEndReachedThreshold={0.4}
         estimatedItemSize={148}
+        ListEmptyComponent={
+          !loading && !refreshing ? (
+            <EmptyList
+              message={
+                delegationsError?.message ??
+                t("you haven't staked any coin yes", {
+                  coin: currentChainInfo.stakeCurrency.coinDenom,
+                })
+              }
+              image={delegationsError ? DPMImages.NoData : DPMImages.EmptyList}
+            />
+          ) : null
+        }
         ListFooterComponent={
           <StyledActivityIndicator
             animating={loading && !refreshing}

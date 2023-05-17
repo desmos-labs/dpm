@@ -3,5 +3,6 @@
   "staked": "Staked",
   "restaking": "Restaking",
   "unbonding": "Unbonding",
-  "total staked": "Total Staked"
+  "total staked": "Total Staked",
+  "you haven't staked any coin yes": "You haven't staked any {{ coin }} yet"
 }

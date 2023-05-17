@@ -12,7 +12,8 @@ import StyledActivityIndicator from 'components/StyledActivityIndicator';
 import TextInput from 'components/TextInput';
 import { useTranslation } from 'react-i18next';
 import Spacer from 'components/Spacer';
-import NoValidators from 'screens/SelectValidator/components/NoValidators';
+import EmptyList from 'components/EmptyList';
+import { DPMImages } from 'types/images';
 import ValidatorListItem from './components/ValidatorListItem';
 import { useFetchValidators } from './hooks';
 
@@ -67,7 +68,11 @@ const SelectValidator: FC<NavProps> = (props) => {
         onEndReached={fetchMore}
         onEndReachedThreshold={0.8}
         estimatedItemSize={100}
-        ListEmptyComponent={!loading && !refreshing ? <NoValidators error={error} /> : null}
+        ListEmptyComponent={
+          !loading && !refreshing ? (
+            <EmptyList message={error?.message ?? t('no results')} image={DPMImages.NoData} />
+          ) : null
+        }
         ListFooterComponent={
           <StyledActivityIndicator
             animating={loading && !refreshing}

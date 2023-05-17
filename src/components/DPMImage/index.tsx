@@ -9,9 +9,11 @@ import {
   connectMnemonicDarkIcon,
   connectMnemonicLightIcon,
   desmosIconWhite,
+  emptyList,
   ledgerIcon,
   noConnectionDarkIcon,
   noConnectionLightIcon,
+  noData,
   noProfileDarkIcon,
   noProfileLightIcon,
   noTransactionDarkIcon,
@@ -64,6 +66,10 @@ const DpmImage = (props: DPMImageProps) => {
           return txFailed;
         case DPMImages.TxSuccess:
           return txSuccess;
+        case DPMImages.EmptyList:
+          return emptyList;
+        case DPMImages.NoData:
+          return noData;
         default:
           return desmosIconWhite;
       }
