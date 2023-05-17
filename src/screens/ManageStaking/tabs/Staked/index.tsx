@@ -62,7 +62,7 @@ const StakedTab: React.FC = () => {
           {totalDelegatedLoading ? (
             <TypographyContentLoaders.Body width={200} />
           ) : (
-            <Typography.Body style={{ fontWeight: 'bold' }}>
+            <Typography.Body style={styles.totalStakedAmount}>
               {formatCoins(totalDelegated)}
             </Typography.Body>
           )}

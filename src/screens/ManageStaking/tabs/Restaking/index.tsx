@@ -62,7 +62,7 @@ const RestakingTab: React.FC = () => {
           {loadingTotalRedelegating ? (
             <TypographyContentLoaders.Body width={200} />
           ) : (
-            <Typography.Body style={{ fontWeight: 'bold' }}>
+            <Typography.Body style={styles.totalDelegateddAmount}>
               {formatCoin(totalRedelegating!)}
             </Typography.Body>
           )}

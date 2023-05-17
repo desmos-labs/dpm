@@ -6,6 +6,9 @@ const useStyles = makeStyle(() => ({
     flexDirection: 'row',
     alignItems: 'center',
   },
+  totalStakedAmount: {
+    fontWeight: 'bold',
+  },
 }));
 
 export default useStyles;
