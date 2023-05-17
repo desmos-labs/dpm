@@ -1,6 +1,6 @@
 import { coin } from '@cosmjs/amino';
 import { safePartFloat } from 'lib/FormatUtils';
-import { Delegation, PendingReward, Redelegation } from 'types/distribution';
+import { Delegation, PendingReward, Redelegation, UnbondingDelegation } from 'types/distribution';
 
 /**
  * Format an incoming delegation data from the server into a format that is easier to parse by the app.
@@ -41,5 +41,22 @@ export function convertGraphQLRedelegation(redelegation: any): Redelegation[] {
         balance: e.balance,
         completionTime: new Date(e.completion_time),
       } as Redelegation),
+  );
+}
+
+/**
+ * Format an incoming unbonding delegation data from the server into a format that is easier to parse by the app.
+ * @param unbondingDelegation - Unbonding delegation data retrieved from the server.
+ * @return {UnbondingDelegation} - A formatted UnbondingDelegation object.
+ */
+export function convertGraphQLUnbondingDelegation(unbondingDelegation: any): UnbondingDelegation[] {
+  return unbondingDelegation.entries.map(
+    (e: any) =>
+      ({
+        delegatorAddress: unbondingDelegation.delegator_address,
+        validatorAddress: unbondingDelegation.validator_address,
+        balance: e.balance,
+        completionTime: new Date(e.completion_time),
+      } as UnbondingDelegation),
   );
 }

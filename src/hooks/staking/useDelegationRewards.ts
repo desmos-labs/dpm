@@ -13,7 +13,8 @@ const useDelegationRewards = (accountAddress?: string) => {
     throw new Error("Can't get delegation rewards if address is undefined");
   }
 
-  const { data, loading, error } = useQuery(GetAccountPendingRewards, {
+  const { data, loading, error, refetch } = useQuery(GetAccountPendingRewards, {
+    fetchPolicy: 'network-only',
     variables: {
       address,
     },
@@ -35,6 +36,7 @@ const useDelegationRewards = (accountAddress?: string) => {
     data: convertedPendingRewards,
     loading,
     error,
+    refetch,
   };
 };
 

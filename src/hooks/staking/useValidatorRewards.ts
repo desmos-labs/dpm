@@ -5,7 +5,7 @@ import { coin } from '@cosmjs/amino';
 
 const useValidatorRewards = (validatorOperatorAddress?: string) => {
   const chainInfo = useCurrentChainInfo();
-  const { data: rewards, loading, error } = useDelegationRewards();
+  const { data: rewards, loading, error, refetch } = useDelegationRewards();
 
   const validatorRewards = React.useMemo(() => {
     if (rewards === undefined) {
@@ -25,6 +25,7 @@ const useValidatorRewards = (validatorOperatorAddress?: string) => {
     data: validatorRewards,
     loading,
     error,
+    refetch,
   };
 };
 

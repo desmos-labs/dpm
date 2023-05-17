@@ -27,3 +27,13 @@ export interface Redelegation {
   balance: string;
   completionTime: Date;
 }
+
+/**
+ * Interface that represents an unbonding delegation.
+ */
+export interface UnbondingDelegation {
+  readonly delegatorAddress: string;
+  readonly validatorAddress: string;
+  readonly balance: string;
+  readonly completionTime: Date;
+}

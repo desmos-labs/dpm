@@ -12,7 +12,8 @@ import { gql } from '@apollo/client';
  * });
  */
 const GetAccountUnbondingDelegations = gql`
-  query GetAccountUnbondingDelegation($address: String!, $limit: Int = 100, $offset: Int = 0) {
+  query GetAccountUnbondingDelegation($address: String!, $limit: Int = 100, $offset: Int = 0)
+  @api(name: forbole) {
     action_unbonding_delegation(address: $address, limit: $limit, offset: $offset) {
       unbonding_delegations
     }
