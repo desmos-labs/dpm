@@ -3,6 +3,8 @@ import { useQuery } from '@apollo/client';
 import GetAccountDelegationTotal from 'services/graphql/queries/GetAccountDelegationsTotal';
 import React from 'react';
 import { coin } from '@cosmjs/amino';
+import { useCurrentChainInfo } from '@recoil/settings';
+import { Coin } from '@desmoslabs/desmjs-types/cosmos/base/v1beta1/coin';
 
 /**
  * Hook that provides the total amount of coins delegated from an account.
@@ -12,6 +14,7 @@ import { coin } from '@cosmjs/amino';
 const useTotalDelegatedAmount = (userAddress?: string) => {
   const activeAccountAddress = useActiveAccountAddress();
   const address = userAddress ?? activeAccountAddress;
+  const chainInfo = useCurrentChainInfo();
 
   if (address === undefined) {
     throw new Error("can't get staked amount without an active account or a provided address");
@@ -27,8 +30,16 @@ const useTotalDelegatedAmount = (userAddress?: string) => {
     if (loading || error || data === undefined) {
       return undefined;
     }
-    return data.action_delegation_total.coins.map((c: any) => coin(c.amount, c.denom));
-  }, [data, error, loading]);
+    const converted: Coin[] = data.action_delegation_total.coins.map((c: any) =>
+      coin(c.amount, c.denom),
+    );
+
+    if (converted.length === 0) {
+      // If the user don't have any delegation fallback to a zero amount.
+      converted.push(coin(0, chainInfo.stakeCurrency.coinMinimalDenom));
+    }
+    return converted;
+  }, [chainInfo.stakeCurrency.coinMinimalDenom, data, error, loading]);
 
   return {
     totalDelegated,
