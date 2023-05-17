@@ -112,7 +112,7 @@ const ValidatorDetails: FC<NavProps> = (props) => {
       </ScrollView>
 
       <Button style={styles.stakeButton} mode={'contained'} onPress={onStakePressed}>
-        {t('stake')}
+        {t('staking:stake')}
       </Button>
     </StyledSafeAreaView>
   );

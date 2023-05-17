@@ -14,6 +14,7 @@ import selectValidator from './selectValidator.json';
 import sendTokens from './sendTokens.json';
 import settings from './settings.json';
 import stake from './stake.json';
+import staking from './staking.json';
 import transaction from './transaction.json';
 import tx from './tx.json';
 import validatorDetails from './validatorDetails.json';
@@ -35,6 +36,7 @@ const en = {
   sendTokens,
   settings,
   stake,
+  staking,
   transaction,
   tx,
   validatorDetails,

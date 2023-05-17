@@ -16,6 +16,8 @@ import { Delegation } from 'types/distribution';
 import EmptyList from 'components/EmptyList';
 import { useCurrentChainInfo } from '@recoil/settings';
 import { DPMImages } from 'types/images';
+import Button from 'components/Button';
+import useStakeFlow from 'hooks/staking/useStakeFlow';
 import DelegationListItem from './components/DelegationListItem';
 import useStyles from './useStyles';
 
@@ -42,6 +44,8 @@ const StakedTab: React.FC = () => {
   } = usePaginatedData(fetchDelegations, {
     itemsPerPage: 50,
   });
+
+  const stake = useStakeFlow();
 
   const renderDelegation = React.useCallback(
     (itemInfo: ListRenderItemInfo<Delegation>) => (
@@ -96,6 +100,13 @@ const StakedTab: React.FC = () => {
                 })
               }
               image={delegationsError ? DPMImages.NoData : DPMImages.EmptyList}
+              extraComponent={
+                delegationsError === undefined ? (
+                  <Button mode={'outlined'} onPress={stake}>
+                    {t('staking:stake')}
+                  </Button>
+                ) : undefined
+              }
             />
           ) : null
         }

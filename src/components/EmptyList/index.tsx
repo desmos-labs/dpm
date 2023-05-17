@@ -9,9 +9,10 @@ import useStyles from './useStyles';
 export interface EmptyListProps {
   message: string;
   image: DPMImages;
+  extraComponent?: React.ReactNode;
 }
 
-const EmptyList: React.FC<EmptyListProps> = ({ message, image }) => {
+const EmptyList: React.FC<EmptyListProps> = ({ message, image, extraComponent }) => {
   const styles = useStyles();
 
   return (
@@ -20,6 +21,12 @@ const EmptyList: React.FC<EmptyListProps> = ({ message, image }) => {
       <DpmImage style={styles.image} source={image} resizeMode={'contain'} />
       <Spacer paddingVertical={16} />
       <Typography.Body>{message}</Typography.Body>
+      {extraComponent !== undefined && (
+        <>
+          <Spacer paddingVertical={16} />
+          {extraComponent}
+        </>
+      )}
     </View>
   );
 };
