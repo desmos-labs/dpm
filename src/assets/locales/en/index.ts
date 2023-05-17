@@ -9,6 +9,7 @@ import ledgerScan from './ledgerScan.json';
 import legal from './legal.json';
 import manageStaking from './manageStaking.json';
 import profile from './profile.json';
+import restaking from './restaking.json';
 import selectValidator from './selectValidator.json';
 import sendTokens from './sendTokens.json';
 import settings from './settings.json';
@@ -29,6 +30,7 @@ const en = {
   legal,
   manageStaking,
   profile,
+  restaking,
   selectValidator,
   sendTokens,
   settings,

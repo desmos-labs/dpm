@@ -1,6 +1,6 @@
 import { coin } from '@cosmjs/amino';
 import { safePartFloat } from 'lib/FormatUtils';
-import { Delegation, PendingReward } from 'types/distribution';
+import { Delegation, PendingReward, Redelegation } from 'types/distribution';
 
 /**
  * Format an incoming delegation data from the server into a format that is easier to parse by the app.
@@ -24,4 +24,22 @@ export function convertGraphQLPendingReward(reward: any): PendingReward {
     validatorAddress: reward.validator_address,
     coins: reward.coins.map((c: any) => coin(Math.trunc(safePartFloat(c.amount)), c.denom)),
   };
+}
+
+/**
+ * Format an incoming redelegation data from the server into a format that is easier to parse by the app.
+ * @param redelegation - Redelegation data retrieved from the server.
+ * @return {Redelegation} - A formatted Redelegation object.
+ */
+export function convertGraphQLRedelegation(redelegation: any): Redelegation[] {
+  return redelegation.entries.map(
+    (e: any) =>
+      ({
+        delegatorAddress: redelegation.delegator_address,
+        validatorDstAddress: redelegation.validator_dst_address,
+        validatorSrcAddress: redelegation.validator_src_address,
+        balance: e.balance,
+        completionTime: new Date(e.completion_time),
+      } as Redelegation),
+  );
 }

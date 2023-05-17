@@ -16,3 +16,14 @@ export interface PendingReward {
   coins: Coin[];
   validatorAddress: string;
 }
+
+/**
+ * Interface that represents a user redelegation from a validator to another.
+ */
+export interface Redelegation {
+  delegatorAddress: string;
+  validatorDstAddress: string;
+  validatorSrcAddress: string;
+  balance: string;
+  completionTime: Date;
+}
