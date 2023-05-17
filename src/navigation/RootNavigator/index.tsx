@@ -50,6 +50,7 @@ import SelectValidator, { SelectValidatorParams } from 'screens/SelectValidator'
 import ValidatorDetails, { ValidatorDetailsParams } from 'screens/ValidatorDetails';
 import Stake, { StakingParams } from 'screens/Stake';
 import ManageStaking from 'screens/ManageStaking';
+import ValidatorStakingInfo, { ValidatorStakingInfoParams } from 'screens/ValidatorStakingInfo';
 
 export type RootNavigatorParamList = {
   [ROUTES.DEV_SCREEN]: undefined;
@@ -99,6 +100,7 @@ export type RootNavigatorParamList = {
   [ROUTES.VALIDATOR_DETAILS]: ValidatorDetailsParams;
   [ROUTES.STAKE]: StakingParams;
   [ROUTES.MANAGE_STAKING]: undefined;
+  [ROUTES.VALIDATOR_STAKING_INFO]: ValidatorStakingInfoParams;
 };
 
 const Stack = createStackNavigator<RootNavigatorParamList>();
@@ -222,6 +224,7 @@ const RootNavigator = () => {
       <Stack.Screen name={ROUTES.VALIDATOR_DETAILS} component={ValidatorDetails} />
       <Stack.Screen name={ROUTES.STAKE} component={Stake} />
       <Stack.Screen name={ROUTES.MANAGE_STAKING} component={ManageStaking} />
+      <Stack.Screen name={ROUTES.VALIDATOR_STAKING_INFO} component={ValidatorStakingInfo} />
     </Stack.Navigator>
   );
 };

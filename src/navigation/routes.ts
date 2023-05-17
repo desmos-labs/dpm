@@ -181,6 +181,19 @@ enum ROUTES {
    * and unbonding delegations.
    */
   MANAGE_STAKING = 'MANAGE_STAKING',
+  /**
+   * Screen that shows the staking info of a validator like:
+   * - Amount of coins that the user delegated to the validator;
+   * - Current redelegation from the validator torward other ones;
+   * - Unbonding delegations;
+   * - Pending rewards.
+   * and let the user perform those actions:
+   * - Claim pending rewards;
+   * - Stake more tokens toward the validator;
+   * - Redelegate some tokens to another validator;
+   * - Unbond some tokens from the validator.
+   */
+  VALIDATOR_STAKING_INFO = 'VALIDATOR_STAKING_INFO',
 }
 
 export default ROUTES;

@@ -18,12 +18,17 @@ import { useCurrentChainInfo } from '@recoil/settings';
 import { DPMImages } from 'types/images';
 import Button from 'components/Button';
 import useStakeFlow from 'hooks/staking/useStakeFlow';
-import DelegationListItem from './components/DelegationListItem';
+import { useNavigation } from '@react-navigation/native';
+import { StackNavigationProp } from '@react-navigation/stack/lib/typescript/src/types';
+import { RootNavigatorParamList } from 'navigation/RootNavigator';
+import ROUTES from 'navigation/routes';
 import useStyles from './useStyles';
+import DelegationListItem from './components/DelegationListItem';
 
 const StakedTab: React.FC = () => {
   const { t } = useTranslation('manageStaking');
   const styles = useStyles();
+  const navigation = useNavigation<StackNavigationProp<RootNavigatorParamList>>();
 
   const currentChainInfo = useCurrentChainInfo();
   const {
@@ -47,14 +52,23 @@ const StakedTab: React.FC = () => {
 
   const stake = useStakeFlow();
 
+  const navigateToValidatorInfo = React.useCallback(
+    (delegation: Delegation) => {
+      navigation.navigate(ROUTES.VALIDATOR_STAKING_INFO, {
+        validatorOperatorAddress: delegation.validatorAddress,
+      });
+    },
+    [navigation],
+  );
+
   const renderDelegation = React.useCallback(
     (itemInfo: ListRenderItemInfo<Delegation>) => (
       <>
-        <DelegationListItem delegation={itemInfo.item} />
+        <DelegationListItem delegation={itemInfo.item} onPress={navigateToValidatorInfo} />
         <Spacer paddingVertical={8} />
       </>
     ),
-    [],
+    [navigateToValidatorInfo],
   );
 
   const refreshData = React.useCallback(() => {
