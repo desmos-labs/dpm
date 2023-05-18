@@ -25,6 +25,7 @@ import RestakeToItem from 'screens/ValidatorStakingInfo/components/RestakeToItem
 import StyledActivityIndicator from 'components/StyledActivityIndicator';
 import Divider from 'components/Divider';
 import UnbondingDelegationItem from 'screens/ValidatorStakingInfo/components/UnbondingDelegationItem';
+import { useRestake } from 'screens/ValidatorStakingInfo/hooks';
 import useStyles from './useStyles';
 
 export interface ValidatorStakingInfoParams {
@@ -97,10 +98,7 @@ const ValidatorStakingInfo: React.FC<NavProps> = (props) => {
     });
   }, [navigation, validator]);
 
-  const onRestakePressed = React.useCallback(() => {
-    // TODO: Implement restake
-    console.warn('implement me');
-  }, []);
+  const onRestakePressed = useRestake(validatorOperatorAddress);
 
   const onUnbondPressed = React.useCallback(() => {
     // TODO: Implement unbond

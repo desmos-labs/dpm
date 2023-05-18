@@ -194,6 +194,11 @@ enum ROUTES {
    * - Unbond some tokens from the validator.
    */
   VALIDATOR_STAKING_INFO = 'VALIDATOR_STAKING_INFO',
+  /**
+   * Screen that let the user redelegate an amount of tokens from a validator
+   * to another one.
+   */
+  REDELEGATE = 'REDELEGATE',
 }
 
 export default ROUTES;

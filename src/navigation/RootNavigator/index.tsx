@@ -51,6 +51,7 @@ import ValidatorDetails, { ValidatorDetailsParams } from 'screens/ValidatorDetai
 import Stake, { StakingParams } from 'screens/Stake';
 import ManageStaking from 'screens/ManageStaking';
 import ValidatorStakingInfo, { ValidatorStakingInfoParams } from 'screens/ValidatorStakingInfo';
+import Redelegate, { RedelegateParams } from 'screens/Redelegate';
 
 export type RootNavigatorParamList = {
   [ROUTES.DEV_SCREEN]: undefined;
@@ -101,6 +102,7 @@ export type RootNavigatorParamList = {
   [ROUTES.STAKE]: StakingParams;
   [ROUTES.MANAGE_STAKING]: undefined;
   [ROUTES.VALIDATOR_STAKING_INFO]: ValidatorStakingInfoParams;
+  [ROUTES.REDELEGATE]: RedelegateParams;
 };
 
 const Stack = createStackNavigator<RootNavigatorParamList>();
@@ -225,6 +227,7 @@ const RootNavigator = () => {
       <Stack.Screen name={ROUTES.STAKE} component={Stake} />
       <Stack.Screen name={ROUTES.MANAGE_STAKING} component={ManageStaking} />
       <Stack.Screen name={ROUTES.VALIDATOR_STAKING_INFO} component={ValidatorStakingInfo} />
+      <Stack.Screen name={ROUTES.REDELEGATE} component={Redelegate} />
     </Stack.Navigator>
   );
 };
