@@ -87,6 +87,16 @@ const ValidatorStakingInfo: React.FC<NavProps> = (props) => {
     });
   }, [navigation, validator]);
 
+  const onValidatorPressed = React.useCallback(() => {
+    if (validator === undefined) {
+      return;
+    }
+
+    navigation.navigate(ROUTES.VALIDATOR_DETAILS, {
+      validator,
+    });
+  }, [navigation, validator]);
+
   const onRestakePressed = React.useCallback(() => {
     // TODO: Implement restake
     console.warn('implement me');
@@ -99,7 +109,11 @@ const ValidatorStakingInfo: React.FC<NavProps> = (props) => {
 
   return (
     <StyledSafeAreaView topBar={<TopBar stackProps={props} />}>
-      <ValidatorNameWithStatus validator={validator} loading={validatorLoading} />
+      <ValidatorNameWithStatus
+        validator={validator}
+        loading={validatorLoading}
+        onPress={onValidatorPressed}
+      />
 
       <ScrollView>
         {/* User total delegated amount torward the validator */}
