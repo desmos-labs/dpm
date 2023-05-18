@@ -18,6 +18,7 @@ import useStakingUnbondingDays from 'hooks/staking/useStakingUnbondingDays';
 import StyledActivityIndicator from 'components/StyledActivityIndicator';
 import { useDelegateTokens } from 'screens/Stake/hooks';
 import ValidatorCompact from 'components/ValidatorCompact';
+import { AmountLimit } from 'components/CoinAmountInput/limits';
 import useStyles from './useStyles';
 
 export type StakingParams = {
@@ -83,7 +84,15 @@ const Stake: React.FC<NavProps> = (props) => {
         <Spacer paddingVertical={8} />
 
         {/* Stake amount */}
-        <CoinAmountInput onChange={onStakeAmountChange} />
+        <CoinAmountInput
+          amountLimitConfig={React.useMemo(
+            () => ({
+              mode: AmountLimit.UserBalance,
+            }),
+            [],
+          )}
+          onChange={onStakeAmountChange}
+        />
 
         <Spacer paddingVertical={16} />
 

@@ -14,5 +14,7 @@
   "restake from": "Restake from",
   "pending rewards": "Pending rewards",
   "restaking": "Restaking",
-  "rewards": "Rewards"
+  "rewards": "Rewards",
+  "your tokens has been restaked successfully": "Your {{ tokens }} has been restaked successfully",
+  "your tokens hasn't been restaked successfully": "Your {{ tokens }} has been restaked unsuccessfully"
 }

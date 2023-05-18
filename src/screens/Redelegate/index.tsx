@@ -12,6 +12,10 @@ import Button from 'components/Button';
 import useValidator from 'hooks/validator/useValidator';
 import ValidatorCompact from 'components/ValidatorCompact';
 import Spacer from 'components/Spacer';
+import CoinAmountInput from 'components/CoinAmountInput';
+import { AmountLimit } from 'components/CoinAmountInput/limits';
+import { Coin } from '@desmoslabs/desmjs';
+import { useRedelegateTokes } from 'screens/Redelegate/hooks';
 
 export interface RedelegateParams {
   /**
@@ -31,9 +35,26 @@ const Redelegate: React.FC<NavProps> = (props) => {
   const { fromValidatorAddress, toValidatorAddress } = props.route.params;
   const { t } = useTranslation();
 
+  // -------- STATES --------
+
+  const [redelegateAmount, setRedelegateAmount] = React.useState<Coin>();
+  const [memo, setMemo] = React.useState<string>();
+
   // -------- HOOKS --------
+
   const { data: fromValidator, loading: lodingfromValidator } = useValidator(fromValidatorAddress);
   const { data: toValidator, loading: loadingToValidator } = useValidator(toValidatorAddress);
+  const redelegateTokens = useRedelegateTokes();
+
+  // -------- CALLBACKS ---------
+
+  const onAmountChange = React.useCallback((amount: Coin | undefined, isValid: boolean) => {
+    setRedelegateAmount(isValid ? amount : undefined);
+  }, []);
+
+  const onRedelegatePressed = React.useCallback(() => {
+    redelegateTokens(redelegateAmount, fromValidatorAddress, toValidatorAddress, memo);
+  }, [fromValidatorAddress, memo, redelegateAmount, redelegateTokens, toValidatorAddress]);
 
   return (
     <StyledSafeAreaView topBar={<TopBar stackProps={props} title={t('staking:restake')} />}>
@@ -46,16 +67,34 @@ const Redelegate: React.FC<NavProps> = (props) => {
       {/* Validator to which the user is restaking */}
       <Typography.Body1>{t('staking:restake to')}</Typography.Body1>
       <ValidatorCompact validator={toValidator} loading={loadingToValidator} />
-      {/* TODO: INPUT AMOUNT */}
+
+      <Spacer paddingVertical={8} />
+
+      <CoinAmountInput
+        amountLimitConfig={React.useMemo(
+          () => ({
+            mode: AmountLimit.DelegatedToValidator,
+            validatorAddress: fromValidatorAddress,
+          }),
+          [fromValidatorAddress],
+        )}
+        onChange={onAmountChange}
+      />
 
       {/* Tx memo input */}
       <Spacer paddingVertical={32} />
       <Typography.Body1>{t('tx:memo')}</Typography.Body1>
-      <TxMemoInput />
+      <TxMemoInput onChange={setMemo} />
 
       <Flexible.Padding flex={1} />
 
-      <Button mode={'contained'}>{t('common:next')}</Button>
+      <Button
+        mode={'contained'}
+        onPress={onRedelegatePressed}
+        disabled={redelegateAmount === undefined}
+      >
+        {t('common:next')}
+      </Button>
     </StyledSafeAreaView>
   );
 };
