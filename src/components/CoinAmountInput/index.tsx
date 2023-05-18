@@ -10,7 +10,7 @@ import { Coin } from '@desmoslabs/desmjs-types/cosmos/base/v1beta1/coin';
 import { coin } from '@cosmjs/amino';
 import { useAmountInputLimit } from 'components/CoinAmountInput/hooks';
 import useStyles from './useStyles';
-import { AmountLimitConfig } from './limits';
+import { AmountLimit, AmountLimitConfig } from './limits';
 
 export interface CoinAmountInputProps {
   /**
@@ -65,6 +65,13 @@ const CoinAmountInput: React.FC<CoinAmountInputProps> = ({
     () => 10 ** chainInfo.stakeCurrency.coinDecimals,
     [chainInfo],
   );
+  const amountLabel = React.useMemo(
+    () =>
+      amountLimitConfig.mode === AmountLimit.DelegatedToValidator
+        ? t('staking:staked')
+        : t('common:available'),
+    [amountLimitConfig, t],
+  );
 
   // -------- CALLBACKS --------
   const onAmountChange = React.useCallback(
@@ -113,9 +120,10 @@ const CoinAmountInput: React.FC<CoinAmountInputProps> = ({
         error={!isInputValid}
         rightElement={<Button onPress={onMaxPressed}>{t('max')}</Button>}
       />
+
       {/* Spendable amount */}
       <View style={styles.spendableContainer}>
-        <Typography.Body>{t('common:available')}:</Typography.Body>
+        <Typography.Body>{amountLabel}:</Typography.Body>
         {!loading && (
           <Typography.Body style={styles.spendableAmountValue}>
             {formatCoin(spendable)}
