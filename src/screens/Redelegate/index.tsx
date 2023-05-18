@@ -95,6 +95,7 @@ const Redelegate: React.FC<NavProps> = (props) => {
       >
         {t('common:next')}
       </Button>
+      <Spacer paddingVertical={16} />
     </StyledSafeAreaView>
   );
 };

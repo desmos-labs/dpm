@@ -36,9 +36,9 @@ const UnbondingDelegationItem: React.FC<UnbondingDelegationItemParams> = ({
   return (
     <View style={styles.root}>
       <Typography.Body1>{unbondingAmount}</Typography.Body1>
-      <Typography.Body1 style={styles.unbondingCompletionText}>
+      <Typography.Body style={styles.unbondingCompletionText}>
         {unbondingCompletitionTime}
-      </Typography.Body1>
+      </Typography.Body>
     </View>
   );
 };

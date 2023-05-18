@@ -54,9 +54,9 @@ const RestakeToItem: React.FC<RestakeToItemParams> = ({ redelegation }) => {
       )}
       <View style={styles.valuesContainer}>
         <Typography.Body1>{redelegatedAmount}</Typography.Body1>
-        <Typography.Body1 style={styles.redelegationCompletionText}>
+        <Typography.Body style={styles.redelegationCompletionText}>
           {redelegationEndDate}
-        </Typography.Body1>
+        </Typography.Body>
       </View>
     </View>
   );

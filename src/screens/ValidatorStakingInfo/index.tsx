@@ -113,6 +113,8 @@ const ValidatorStakingInfo: React.FC<NavProps> = (props) => {
         onPress={onValidatorPressed}
       />
 
+      <Spacer paddingVertical={8} />
+
       <ScrollView>
         {/* User total delegated amount torward the validator */}
         <View style={styles.inlineDataField}>
@@ -126,10 +128,10 @@ const ValidatorStakingInfo: React.FC<NavProps> = (props) => {
         <Divider />
 
         {/* User redelegations from this validator torward other ones */}
-        <View style={styles.dataField}>
-          <Typography.Body>{t('restake to')}</Typography.Body>
+        <View style={redelegationsLoading ? styles.inlineDataField : styles.dataField}>
+          <Typography.Body1>{t('restake to')}</Typography.Body1>
           {redelegationsLoading ? (
-            <StyledActivityIndicator style={{ alignSelf: 'center' }} />
+            <StyledActivityIndicator />
           ) : (
             redelegations?.map((r, i) => (
               <RestakeToItem redelegation={r} key={`redelegation-${i}`} />
@@ -140,16 +142,16 @@ const ValidatorStakingInfo: React.FC<NavProps> = (props) => {
 
         {/* User unbonding tokens from this validator */}
         <View style={styles.inlineDataField}>
-          <Typography.Body>{t('unbonding')}</Typography.Body>
+          <Typography.Body1>{t('unbonding')}</Typography.Body1>
           {loadingUnbondingTokens ? (
-            <StyledActivityIndicator style={{ alignSelf: 'center' }} />
+            <StyledActivityIndicator />
           ) : (
             <View>
               {unbondingTokens?.map((u, i, a) => (
-                <>
-                  <UnbondingDelegationItem unbondingDelegation={u} key={`unbonding-${i}`} />
+                <View key={`unbonding-${i}`}>
+                  <UnbondingDelegationItem unbondingDelegation={u} />
                   {i + 1 < a.length ? <Spacer paddingVertical={8} /> : null}
-                </>
+                </View>
               ))}
             </View>
           )}
@@ -158,11 +160,11 @@ const ValidatorStakingInfo: React.FC<NavProps> = (props) => {
 
         {/* User pending rewards torward the validator */}
         <View style={styles.inlineDataField}>
-          <Typography.Body>{t('pending rewards')}</Typography.Body>
+          <Typography.Body1>{t('pending rewards')}</Typography.Body1>
           {pendingRewardsLoading || pendingRewards === undefined ? (
             <TypographyContentLoaders.Body width={200} />
           ) : (
-            <Typography.Body>{formatCoins(pendingRewards)}</Typography.Body>
+            <Typography.Body1>{formatCoins(pendingRewards)}</Typography.Body1>
           )}
         </View>
         <Divider />
@@ -186,6 +188,7 @@ const ValidatorStakingInfo: React.FC<NavProps> = (props) => {
           {t('unbond')}
         </Button>
       </View>
+      <Spacer paddingVertical={16} />
     </StyledSafeAreaView>
   );
 };

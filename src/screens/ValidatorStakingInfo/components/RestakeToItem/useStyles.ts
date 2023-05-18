@@ -15,7 +15,7 @@ const useStyles = makeStyle((theme) => ({
   valuesContainer: {
     display: 'flex',
     flexDirection: 'column',
-    justifyContent: 'flex-end',
+    alignItems: 'flex-end',
   },
   redelegationCompletionText: {
     color: theme.colors.primary,
