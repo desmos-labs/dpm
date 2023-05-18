@@ -1,4 +1,6 @@
 {
   "delegate": "Delegate",
-  "withdraw rewards": "Withdraw rewards"
+  "withdraw rewards": "Withdraw rewards",
+  "redelegate": "Redelegate",
+  "amount": "Amount"
 }

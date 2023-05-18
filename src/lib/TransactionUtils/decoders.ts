@@ -1,6 +1,7 @@
 import { EncodeObject } from '@cosmjs/proto-signing';
 import { QueriedMessage } from 'lib/TransactionUtils/types';
 import {
+  MsgBeginRedelegateEncodeObject,
   MsgDelegateEncodeObject,
   MsgSendEncodeObject,
   MsgVoteEncodeObject,
@@ -27,6 +28,7 @@ import {
   MsgAddUserToUserGroupTypeUrl,
   MsgAnswerPollEncodeObject,
   MsgAnswerPollTypeUrl,
+  MsgBeginRedelegateTypeUrl,
   MsgCreatePostEncodeObject,
   MsgCreatePostTypeUrl,
   MsgCreateReportEncodeObject,
@@ -35,6 +37,7 @@ import {
   MsgCreateSectionTypeUrl,
   MsgCreateUserGroupEncodeObject,
   MsgCreateUserGroupTypeUrl,
+  MsgDelegateTypeUrl,
   MsgDeletePostEncodeObject,
   MsgDeletePostTypeUrl,
   MsgDeleteReportEncodeObject,
@@ -273,15 +276,26 @@ const decodeGovMessage = (type: string, value: any): EncodeObject | undefined =>
 
 const decodeStakingMessage = (type: string, value: any): EncodeObject | undefined => {
   switch (type) {
-    case '/cosmos.staking.v1beta1.MsgDelegate':
+    case MsgDelegateTypeUrl:
       return {
-        typeUrl: '/cosmos.staking.v1beta1.MsgDelegate',
+        typeUrl: MsgDelegateTypeUrl,
         value: {
           amount: value.amount,
           delegatorAddress: value.delegator_address,
           validatorAddress: value.validator_address,
         },
       } as MsgDelegateEncodeObject;
+
+    case MsgBeginRedelegateTypeUrl:
+      return {
+        typeUrl: MsgBeginRedelegateTypeUrl,
+        value: {
+          amount: value.amount,
+          delegatorAddress: value.delegator_address,
+          validatorSrcAddress: value.validator_src_address,
+          validatorDstAddress: value.validator_dst_address,
+        },
+      } as MsgBeginRedelegateEncodeObject;
 
     default:
       return undefined;
