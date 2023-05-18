@@ -16,7 +16,6 @@ import settings from './settings.json';
 import stake from './stake.json';
 import staking from './staking.json';
 import transaction from './transaction.json';
-import tx from './tx.json';
 import validatorDetails from './validatorDetails.json';
 import walletConnect from './walletConnect.json';
 import web3auth from './web3auth.json';
@@ -38,7 +37,6 @@ const en = {
   stake,
   staking,
   transaction,
-  tx,
   validatorDetails,
   walletConnect,
   web3auth,

@@ -83,7 +83,7 @@ const Redelegate: React.FC<NavProps> = (props) => {
 
       {/* Tx memo input */}
       <Spacer paddingVertical={32} />
-      <Typography.Body1>{t('tx:memo')}</Typography.Body1>
+      <Typography.Body1>{t('transaction:memo')}</Typography.Body1>
       <TxMemoInput onChange={setMemo} />
 
       <Flexible.Padding flex={1} />

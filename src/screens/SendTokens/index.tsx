@@ -94,7 +94,9 @@ const SendTokens = () => {
       />
 
       {/* Transaction note / memo */}
-      <Typography.Subtitle style={styles.topMarginSmall}>{t('tx:memo')}</Typography.Subtitle>
+      <Typography.Subtitle style={styles.topMarginSmall}>
+        {t('transaction:memo')}
+      </Typography.Subtitle>
       <TxMemoInput style={styles.topMarginSmall} value={memo} onChange={setMemo} />
 
       {/* Spacer */}

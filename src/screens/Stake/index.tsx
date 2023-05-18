@@ -97,7 +97,7 @@ const Stake: React.FC<NavProps> = (props) => {
         <Spacer paddingVertical={16} />
 
         {/* Tx memo input */}
-        <Typography.Body>{t('tx:memo')}</Typography.Body>
+        <Typography.Body>{t('transaction:memo')}</Typography.Body>
         <TxMemoInput value={memo} onChange={setMemo} />
 
         <Flexible.Padding flex={1} />
