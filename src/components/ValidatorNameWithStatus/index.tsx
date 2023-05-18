@@ -17,7 +17,7 @@ export interface ValidatorNameWithStatusPros {
 
 const ValidatorNameWithStatus: React.FC<ValidatorNameWithStatusPros> = ({ validator, loading }) => {
   const styles = useStyles();
-  const { t } = useTranslation('validatorDetails');
+  const { t } = useTranslation('staking');
 
   const isValidatorActive = React.useMemo(() => {
     if (!validator) {

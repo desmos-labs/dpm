@@ -31,9 +31,9 @@ const ManageStaking: React.FC<NavProps> = (props) => {
 
   const [index, setIndex] = React.useState(0);
   const [routes] = React.useState([
-    { key: ManageStakingTabs.STAKED, title: t('staked') },
-    { key: ManageStakingTabs.RESTAKING, title: t('restaking') },
-    { key: ManageStakingTabs.UNBONDING, title: t('unbonding') },
+    { key: ManageStakingTabs.STAKED, title: t('staking:staked') },
+    { key: ManageStakingTabs.RESTAKING, title: t('staking:restaking') },
+    { key: ManageStakingTabs.UNBONDING, title: t('staking:unbonding') },
   ]);
 
   return (

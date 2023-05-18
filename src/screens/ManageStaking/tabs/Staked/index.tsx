@@ -109,7 +109,7 @@ const StakedTab: React.FC = () => {
             <EmptyList
               message={
                 delegationsError?.message ??
-                t("you haven't staked any coin yes", {
+                t("you haven't staked any coin yet", {
                   coin: currentChainInfo.stakeCurrency.coinDenom,
                 })
               }

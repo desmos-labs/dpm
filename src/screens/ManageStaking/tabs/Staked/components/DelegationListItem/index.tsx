@@ -8,6 +8,7 @@ import TypographyContentLoaders from 'components/ContentLoaders/Typography';
 import Spacer from 'components/Spacer';
 import useValidatorRewards from 'hooks/staking/useValidatorRewards';
 import ValidatorNameWithStatus from 'components/ValidatorNameWithStatus';
+import { useTranslation } from 'react-i18next';
 import useStyles from './useStyles';
 
 export interface DelegationListItemProps {
@@ -17,6 +18,7 @@ export interface DelegationListItemProps {
 
 const DelegationListItem: React.FC<DelegationListItemProps> = ({ delegation, onPress }) => {
   const styles = useStyles();
+  const { t } = useTranslation('staking');
   const { data: validator, loading: loadingValidator } = useValidator(delegation.validatorAddress);
   const { data: rewards, loading: loadingRewards } = useValidatorRewards(
     delegation.validatorAddress,
@@ -35,11 +37,11 @@ const DelegationListItem: React.FC<DelegationListItemProps> = ({ delegation, onP
         <Spacer paddingVertical={8} />
 
         <View style={styles.dataField}>
-          <Typography.Body>Staked</Typography.Body>
+          <Typography.Body>{t('staked')}</Typography.Body>
           <Typography.Body>{formatCoins(delegation.coins)}</Typography.Body>
         </View>
         <View style={styles.dataField}>
-          <Typography.Body>Rewards</Typography.Body>
+          <Typography.Body>{t('rewards')}</Typography.Body>
           {loadingRewards ? (
             <TypographyContentLoaders.Body width={200} />
           ) : (

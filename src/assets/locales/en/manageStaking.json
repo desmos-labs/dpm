@@ -1,8 +1,5 @@
 {
   "manage staking": "Manage Staking",
-  "staked": "Staked",
-  "restaking": "Restaking",
-  "unbonding": "Unbonding",
   "total staked": "Total Staked",
-  "you haven't staked any coin yes": "You haven't staked any {{ coin }} yet"
+  "you haven't staked any coin yet": "You haven't staked any {{ coin }} yet"
 }

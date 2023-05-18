@@ -36,7 +36,7 @@ type NavProps = StackScreenProps<RootNavigatorParamList, ROUTES.VALIDATOR_STAKIN
 const ValidatorStakingInfo: React.FC<NavProps> = (props) => {
   const { navigation } = props;
   const { validatorOperatorAddress } = props.route.params;
-  const { t } = useTranslation('validatorStakingInfo');
+  const { t } = useTranslation('staking');
   const styles = useStyles();
 
   // -------- VARIABLE --------
@@ -162,7 +162,7 @@ const ValidatorStakingInfo: React.FC<NavProps> = (props) => {
       </Button>
       <Spacer paddingVertical={8} />
       <Button mode="contained" onPress={onStakePressed}>
-        {t('staking:stake')}
+        {t('stake')}
       </Button>
       <Spacer paddingVertical={8} />
       <View style={styles.inlineButtonsContainer}>

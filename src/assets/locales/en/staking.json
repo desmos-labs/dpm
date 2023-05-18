@@ -2,5 +2,17 @@
   "stake": "Stake",
   "claim rewards": "Claim rewards",
   "restake": "Restake",
-  "unbond": "Unbond"
+  "unbond": "Unbond",
+  "staked": "Staked",
+  "unbonding": "Unbonding",
+  "tombstoned": "Tombstoned",
+  "jailed": "Jailed",
+  "unbonded": "Unboned",
+  "active": "Active",
+  "unknown": "Unknown",
+  "restake to": "Restake to",
+  "restake from": "Restake from",
+  "pending rewards": "Pending rewards",
+  "restaking": "Restaking",
+  "rewards": "Rewards"
 }
