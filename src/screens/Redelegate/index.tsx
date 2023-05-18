@@ -10,6 +10,8 @@ import TxMemoInput from 'components/TxMemoInput';
 import Flexible from 'components/Flexible';
 import Button from 'components/Button';
 import useValidator from 'hooks/validator/useValidator';
+import ValidatorCompact from 'components/ValidatorCompact';
+import Spacer from 'components/Spacer';
 
 export interface RedelegateParams {
   /**
@@ -35,10 +37,19 @@ const Redelegate: React.FC<NavProps> = (props) => {
 
   return (
     <StyledSafeAreaView topBar={<TopBar stackProps={props} title={t('staking:restake')} />}>
+      {/* Validator from which the user is restaking from */}
       <Typography.Body1>{t('staking:restake from')}</Typography.Body1>
+      <ValidatorCompact validator={fromValidator} loading={lodingfromValidator} />
+
+      <Spacer paddingVertical={16} />
+
+      {/* Validator to which the user is restaking */}
       <Typography.Body1>{t('staking:restake to')}</Typography.Body1>
+      <ValidatorCompact validator={toValidator} loading={loadingToValidator} />
+      {/* TODO: INPUT AMOUNT */}
 
       {/* Tx memo input */}
+      <Spacer paddingVertical={32} />
       <Typography.Body1>{t('tx:memo')}</Typography.Body1>
       <TxMemoInput />
 
