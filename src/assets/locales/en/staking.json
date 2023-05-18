@@ -16,5 +16,7 @@
   "restaking": "Restaking",
   "rewards": "Rewards",
   "your tokens has been restaked successfully": "Your {{ tokens }} has been restaked successfully",
-  "your tokens hasn't been restaked successfully": "Your {{ tokens }} has been restaked unsuccessfully"
+  "your tokens hasn't been restaked successfully": "Your {{ tokens }} has been restaked unsuccessfully",
+  "rewards claimed successfully": "You rewards has been claimed successfully",
+  "rewards claimed unsuccessfully": "You rewards has been claimed unsuccessfully"
 }

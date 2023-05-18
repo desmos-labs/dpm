@@ -6,6 +6,42 @@ import useShowModal from 'hooks/useShowModal';
 import SingleButtonModal from 'modals/SingleButtonModal';
 import { DPMImages } from 'types/images';
 import { useTranslation } from 'react-i18next';
+import useBroadcastTx, { BroadcastTxCallbacks } from 'hooks/useBroadcastTx';
+import { useActiveAccountAddress } from '@recoil/activeAccount';
+import { MsgWithdrawDelegatorRewardTypeUrl } from '@desmoslabs/desmjs';
+import { MsgWithdrawDelegatorRewardEncodeObject } from '@cosmjs/stargate';
+
+/**
+ * Hook that provides a function to claim the pending staking rewards
+ * from a validator.
+ */
+export const useClaimPendingRewards = (fromValidator: string) => {
+  const { t } = useTranslation('staking');
+  const activeAccountAddress = useActiveAccountAddress()!;
+  const broadcastTx = useBroadcastTx();
+
+  return React.useCallback(
+    (callbacks?: BroadcastTxCallbacks) => {
+      broadcastTx(
+        [
+          {
+            typeUrl: MsgWithdrawDelegatorRewardTypeUrl,
+            value: {
+              validatorAddress: fromValidator,
+              delegatorAddress: activeAccountAddress,
+            },
+          } as MsgWithdrawDelegatorRewardEncodeObject,
+        ],
+        {
+          ...callbacks,
+          customSuccessMessage: t('rewards claimed successfully'),
+          customFailedMessage: t('rewards claimed unsuccessfully'),
+        },
+      );
+    },
+    [activeAccountAddress, broadcastTx, fromValidator, t],
+  );
+};
 
 /**
  * Hook that provides a function to initiate the restake flow that let
@@ -37,5 +73,5 @@ export const useRestake = (fromValidator: string) => {
         }
       },
     });
-  }, [navigation, fromValidator]);
+  }, [navigation, fromValidator, showModal, t]);
 };

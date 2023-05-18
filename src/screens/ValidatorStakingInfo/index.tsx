@@ -17,15 +17,11 @@ import { useTranslation } from 'react-i18next';
 import useValidatorUnbondingDelegations from 'hooks/staking/useValidatorUnbondingDelegations';
 import Button from 'components/Button';
 import Spacer from 'components/Spacer';
-import useBroadcastTx from 'hooks/useBroadcastTx';
-import { useActiveAccountAddress } from '@recoil/activeAccount';
-import { MsgWithdrawDelegatorRewardEncodeObject } from '@cosmjs/stargate';
-import { MsgWithdrawDelegatorRewardTypeUrl } from '@desmoslabs/desmjs';
 import RestakeToItem from 'screens/ValidatorStakingInfo/components/RestakeToItem';
 import StyledActivityIndicator from 'components/StyledActivityIndicator';
 import Divider from 'components/Divider';
 import UnbondingDelegationItem from 'screens/ValidatorStakingInfo/components/UnbondingDelegationItem';
-import { useRestake } from 'screens/ValidatorStakingInfo/hooks';
+import { useClaimPendingRewards, useRestake } from 'screens/ValidatorStakingInfo/hooks';
 import useStyles from './useStyles';
 
 export interface ValidatorStakingInfoParams {
@@ -40,12 +36,8 @@ const ValidatorStakingInfo: React.FC<NavProps> = (props) => {
   const { t } = useTranslation('staking');
   const styles = useStyles();
 
-  // -------- VARIABLE --------
-  const activeAccountAddress = useActiveAccountAddress()!;
-
   // --------- HOOKS ---------
 
-  const broadcastTx = useBroadcastTx();
   const { data: validator, loading: validatorLoading } = useValidator(validatorOperatorAddress);
   const { data: totalStaked, loading: totalStakedLoading } =
     useValidatorStakedAmount(validatorOperatorAddress);
@@ -58,25 +50,15 @@ const ValidatorStakingInfo: React.FC<NavProps> = (props) => {
     loading: pendingRewardsLoading,
     refetch: validatorRewardsRefetch,
   } = useAccountValidatorPendingStakingRewards(validatorOperatorAddress);
+  const claimPendingRewards = useClaimPendingRewards(validatorOperatorAddress);
 
   // -------- CALLBACKS --------
 
   const onClaimRewardsPressed = React.useCallback(() => {
-    broadcastTx(
-      [
-        {
-          typeUrl: MsgWithdrawDelegatorRewardTypeUrl,
-          value: {
-            validatorAddress: validatorOperatorAddress,
-            delegatorAddress: activeAccountAddress,
-          },
-        } as MsgWithdrawDelegatorRewardEncodeObject,
-      ],
-      {
-        onSuccess: validatorRewardsRefetch,
-      },
-    );
-  }, [activeAccountAddress, broadcastTx, validatorOperatorAddress, validatorRewardsRefetch]);
+    claimPendingRewards({
+      onSuccess: validatorRewardsRefetch,
+    });
+  }, [claimPendingRewards, validatorRewardsRefetch]);
 
   const onStakePressed = React.useCallback(() => {
     if (validator === undefined) {
