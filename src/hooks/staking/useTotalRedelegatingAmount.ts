@@ -10,9 +10,10 @@ import { useCurrentChainInfo } from '@recoil/settings';
 import { coin } from '@cosmjs/amino';
 
 /**
- * Hook that provides the total amount of coins that a user is currently redelegating.
- * @param userAddress - Account address, if undefined will be used the address
- * of the current active user.
+ * Hook that provides the total amount of coins that a user
+ * is currently redelegating.
+ * @param userAddress - Address of the account whose total will be calculated,
+ * if undefined will be used the address of the current active user.
  */
 const useTotalRedelegatingAmount = (userAddress?: string) => {
   const activeAccountAddress = useActiveAccountAddress();

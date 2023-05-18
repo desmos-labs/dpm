@@ -7,7 +7,7 @@ import { MessageDetailsComponent } from 'components/Messages/BaseMessage';
 import { formatCoin } from 'lib/FormatUtils';
 
 /**
- * Displays the full details of a MsgWithdrawDelegatorRewards.
+ * Displays the full details of a MsgBeginRedelegate.
  * @constructor
  */
 const MsgBeginRedelegateDetails: MessageDetailsComponent<MsgBeginRedelegateEncodeObject> = ({

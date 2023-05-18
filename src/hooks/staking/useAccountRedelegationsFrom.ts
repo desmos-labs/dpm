@@ -6,12 +6,13 @@ import { useActiveAccountAddress } from '@recoil/activeAccount';
 import GetAccountRedelegations from 'services/graphql/queries/GetAccountRedelegations';
 
 /**
- * Hook that provides the redelegation from a validator torward other ones.
- * @param validatorOperatorAddress - Validator operator address.
- * @param accountAddress - Account that performed the redelegations, if undefined
- * will be used the active account address.
+ * Hook that provides the redelegation of a user from a validator torward other ones.
+ * @param validatorOperatorAddress - Validator operator address from which
+ * the user redelegated the tokens.
+ * @param accountAddress - Account address from which the redelegation
+ * will be fetched, if undefined will be used the current active account address.
  */
-const useRedelegationsFrom = (validatorOperatorAddress: string, accountAddress?: string) => {
+const useAccountRedelegationsFrom = (validatorOperatorAddress: string, accountAddress?: string) => {
   const activeAccountAddress = useActiveAccountAddress();
   const address = accountAddress ?? activeAccountAddress;
 
@@ -46,4 +47,4 @@ const useRedelegationsFrom = (validatorOperatorAddress: string, accountAddress?:
   };
 };
 
-export default useRedelegationsFrom;
+export default useAccountRedelegationsFrom;

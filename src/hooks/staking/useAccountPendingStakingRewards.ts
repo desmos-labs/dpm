@@ -5,7 +5,13 @@ import React from 'react';
 import { convertGraphQLPendingReward } from 'lib/GraphQLUtils';
 import { PendingReward } from 'types/distribution';
 
-const useDelegationRewards = (accountAddress?: string) => {
+/**
+ * Hook that provides all the pending staking rewards of user.
+ * @param accountAddress - Address of the account from which to get the
+ * pending rewards, if its undefined will be used the current active
+ * account address.
+ */
+const useAccountPendingStakingRewards = (accountAddress?: string) => {
   const activeAccountAddress = useActiveAccountAddress();
   const address = accountAddress ?? activeAccountAddress;
 
@@ -40,4 +46,4 @@ const useDelegationRewards = (accountAddress?: string) => {
   };
 };
 
-export default useDelegationRewards;
+export default useAccountPendingStakingRewards;

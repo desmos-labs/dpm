@@ -8,7 +8,7 @@ import { convertGraphQLRedelegation } from 'lib/GraphQLUtils';
 
 /**
  * Hook that provides the function to fetch the paginated redelegations
- * of the current active user.
+ * of the current active account.
  */
 export const useFetchAccountRedelegations = () => {
   const [getAccountRedelegations] = useLazyQuery(GetAccountRedelegations);

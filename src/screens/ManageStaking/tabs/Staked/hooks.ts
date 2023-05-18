@@ -6,6 +6,10 @@ import { useActiveAccountAddress } from '@recoil/activeAccount';
 import GetAccountDelegations from 'services/graphql/queries/GetAccountDelegations';
 import { Delegation } from 'types/distribution';
 
+/**
+ * Hook that provides the function to fetch the paginated delegations
+ * that the current active account has performed.
+ */
 export const useFetchDelegations = () => {
   const activeAccountAddress = useActiveAccountAddress();
 

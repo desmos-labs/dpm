@@ -6,8 +6,8 @@ import StyledSafeAreaView from 'components/StyledSafeAreaView';
 import TopBar from 'components/TopBar';
 import useValidator from 'hooks/validator/useValidator';
 import ValidatorNameWithStatus from 'components/ValidatorNameWithStatus';
-import useValidatorRewards from 'hooks/staking/useValidatorRewards';
-import useRedelegationsFrom from 'hooks/staking/useRedelegationsFrom';
+import useAccountValidatorPendingStakingRewards from 'hooks/staking/useAccountValidatorPendingStakingRewards';
+import useAccountRedelegationsFrom from 'hooks/staking/useAccountRedelegationsFrom';
 import { ScrollView, View } from 'react-native';
 import Typography from 'components/Typography';
 import { formatCoins } from 'lib/FormatUtils';
@@ -50,14 +50,14 @@ const ValidatorStakingInfo: React.FC<NavProps> = (props) => {
   const { data: totalStaked, loading: totalStakedLoading } =
     useValidatorStakedAmount(validatorOperatorAddress);
   const { data: redelegations, loading: redelegationsLoading } =
-    useRedelegationsFrom(validatorOperatorAddress);
+    useAccountRedelegationsFrom(validatorOperatorAddress);
   const { data: unbondingTokens, loading: loadingUnbondingTokens } =
     useValidatorUnbondingDelegations(validatorOperatorAddress);
   const {
     data: pendingRewards,
     loading: pendingRewardsLoading,
     refetch: validatorRewardsRefetch,
-  } = useValidatorRewards(validatorOperatorAddress);
+  } = useAccountValidatorPendingStakingRewards(validatorOperatorAddress);
 
   // -------- CALLBACKS --------
 

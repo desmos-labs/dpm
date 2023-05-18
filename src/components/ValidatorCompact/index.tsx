@@ -10,11 +10,27 @@ import TypographyContentLoaders from 'components/ContentLoaders/Typography';
 import useStyles from './useStyles';
 
 export interface ValidatorCompactProps {
+  /**
+   * Validator to be displayed.
+   */
   validator?: Validator;
+  /**
+   * If true the component will shows some animations
+   * to inform the user that the validator it is being fetched.
+   */
   loading?: boolean;
+  /**
+   * Callback called when the user press on the component.
+   */
   onPress?: () => any;
 }
 
+/**
+ * Component that displays in a raw a validator avatar with its name.
+ * This component its intended to be used in screens where the user is
+ * performing actions torward a validator like, select the amount of coins
+ * to delegate, redelegate or unbond.
+ */
 const ValidatorCompact: React.FC<ValidatorCompactProps> = ({ validator, loading, onPress }) => {
   const styles = useStyles();
 

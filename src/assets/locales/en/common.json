@@ -29,8 +29,6 @@
   "days distance_one": "{{ count }} Day Ago",
   "days distance_other": "{{ count }} Days Ago",
   "no results": "No results",
-  "from": "From",
-  "to": "To",
   "in days_zero": "Today",
   "in days_one": "in {{ count }} day",
   "in days_other": "in {{ count }} days",

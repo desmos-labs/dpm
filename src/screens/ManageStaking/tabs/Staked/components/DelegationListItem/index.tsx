@@ -6,7 +6,7 @@ import { formatCoins } from 'lib/FormatUtils';
 import useValidator from 'hooks/validator/useValidator';
 import TypographyContentLoaders from 'components/ContentLoaders/Typography';
 import Spacer from 'components/Spacer';
-import useValidatorRewards from 'hooks/staking/useValidatorRewards';
+import useAccountValidatorPendingStakingRewards from 'hooks/staking/useAccountValidatorPendingStakingRewards';
 import ValidatorNameWithStatus from 'components/ValidatorNameWithStatus';
 import { useTranslation } from 'react-i18next';
 import useStyles from './useStyles';
@@ -20,7 +20,7 @@ const DelegationListItem: React.FC<DelegationListItemProps> = ({ delegation, onP
   const styles = useStyles();
   const { t } = useTranslation('staking');
   const { data: validator, loading: loadingValidator } = useValidator(delegation.validatorAddress);
-  const { data: rewards, loading: loadingRewards } = useValidatorRewards(
+  const { data: rewards, loading: loadingRewards } = useAccountValidatorPendingStakingRewards(
     delegation.validatorAddress,
   );
 
@@ -33,13 +33,17 @@ const DelegationListItem: React.FC<DelegationListItemProps> = ({ delegation, onP
   return (
     <TouchableOpacity onPress={onDelegationPress}>
       <View style={styles.root}>
+        {/* Validator details */}
         <ValidatorNameWithStatus validator={validator} loading={loadingValidator} />
         <Spacer paddingVertical={8} />
 
+        {/* Amount of coins that the user staked torward the validator */}
         <View style={styles.dataField}>
           <Typography.Body>{t('staked')}</Typography.Body>
           <Typography.Body>{formatCoins(delegation.coins)}</Typography.Body>
         </View>
+
+        {/* Amount of coins that the user can claim from this validator */}
         <View style={styles.dataField}>
           <Typography.Body>{t('rewards')}</Typography.Body>
           {loadingRewards ? (

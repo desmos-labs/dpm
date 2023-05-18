@@ -8,8 +8,8 @@ import { Coin } from '@desmoslabs/desmjs-types/cosmos/base/v1beta1/coin';
 
 /**
  * Hook that provides the total amount of coins delegated from an account.
- * @param userAddress - Account address, if undefined will be used the address
- * of the current active user.
+ * @param userAddress - Address of the account whose total will be calculated,
+ * if undefined will be used the address of the current active user.
  */
 const useTotalDelegatedAmount = (userAddress?: string) => {
   const activeAccountAddress = useActiveAccountAddress();

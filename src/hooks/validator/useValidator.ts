@@ -6,7 +6,7 @@ import GetProfileForAddress from 'services/graphql/queries/GetProfileForAddress'
 import { Validator } from 'types/validator';
 
 /**
- * Hook that provides the function to fetch the validator info alongside its
+ * Hook that provides a function to fetch the validator info alongside its
  * Desmos profile.
  */
 const useGetValidatorQuery = () => {

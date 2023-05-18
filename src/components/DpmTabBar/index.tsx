@@ -3,6 +3,9 @@ import { Route, TabBarProps } from 'react-native-tab-view';
 import { Animated, TouchableOpacity, View } from 'react-native';
 import useStyles from './useStyles';
 
+/**
+ * Component that implement a custom TabBar having the application style.
+ */
 function DpmTabBar<T extends Route>(tabProps: TabBarProps<T>): ReactElement<any, any> | null {
   const styles = useStyles();
   const inputRange = React.useMemo(

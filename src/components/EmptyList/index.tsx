@@ -7,11 +7,26 @@ import { DPMImages } from 'types/images';
 import useStyles from './useStyles';
 
 export interface EmptyListProps {
-  message: string;
+  /**
+   * Image displayed in the component.
+   */
   image: DPMImages;
+  /**
+   * Message displayed below the image.
+   */
+  message: string;
+  /**
+   * Optional user provided component that will be displayed below the
+   * message.
+   */
   extraComponent?: React.ReactNode;
 }
 
+/**
+ * Component that can be used as ListEmptyComponent of a FlashList.
+ * This component will show an image, a message and an optional user
+ * defined component below the message text.
+ */
 const EmptyList: React.FC<EmptyListProps> = ({ message, image, extraComponent }) => {
   const styles = useStyles();
 

@@ -6,7 +6,7 @@ import ROUTES from 'navigation/routes';
 
 /**
  * Hook that provides a function that let the user
- * select a validator and then stake some coins toward that validator.
+ * select a validator and then stake some coins toward the selected validator.
  */
 const useStakeFlow = () => {
   const navigation = useNavigation<StackNavigationProp<RootNavigatorParamList>>();

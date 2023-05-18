@@ -34,13 +34,13 @@ const RedelegationListItem: React.FC<RedelegationListItemProps> = ({ redelegatio
   return (
     <View style={styles.root}>
       {/* From validator info */}
-      <Typography.Body>{t('common:from')}</Typography.Body>
+      <Typography.Body>{t('transaction:from')}</Typography.Body>
       <ValidatorNameWithStatus loading={loadingSrcValidator} validator={srcValidator} />
 
       <Spacer paddingVertical={8} />
 
       {/* To validator info */}
-      <Typography.Body>{t('common:to')}</Typography.Body>
+      <Typography.Body>{t('transaction:to')}</Typography.Body>
       <ValidatorNameWithStatus loading={loadingDestValidator} validator={destValidator} />
 
       <Spacer paddingVertical={8} />

@@ -16,10 +16,10 @@ const MsgDeleteRelationshipListItem: MessageListItemComponent<
       <View>
         <Typography.Body>{t('delete relationship')}</Typography.Body>
         <Typography.Caption numberOfLines={1} ellipsizeMode="middle">
-          {t('common:from')} {message.value.signer}
+          {t('transaction:from')} {message.value.signer}
         </Typography.Caption>
         <Typography.Caption numberOfLines={1} ellipsizeMode="middle">
-          {t('common:to')} {message.value.counterparty}
+          {t('transaction:to')} {message.value.counterparty}
         </Typography.Caption>
       </View>
     ),

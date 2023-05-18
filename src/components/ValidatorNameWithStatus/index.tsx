@@ -13,11 +13,26 @@ import Flexible from 'components/Flexible';
 import useStyles from './useStyles';
 
 export interface ValidatorNameWithStatusPros {
+  /**
+   * Validator to be displayed.
+   */
   validator?: Validator;
+  /**
+   * If true the component will shows some animations
+   * to inform the user that the validator it is being fetched.
+   */
   loading?: boolean;
+  /**
+   * Callback called when the user press on the component.
+   */
   onPress?: () => void;
 }
 
+/**
+ * Component that display the validator image, name and its status.
+ * This component its intended to be used in screens where we are showing
+ * information about a validator.
+ */
 const ValidatorNameWithStatus: React.FC<ValidatorNameWithStatusPros> = ({
   validator,
   loading,

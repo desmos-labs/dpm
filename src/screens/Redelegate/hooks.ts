@@ -7,6 +7,10 @@ import { useTranslation } from 'react-i18next';
 import { useCurrentChainInfo } from '@recoil/settings';
 import useResetToHomeScreen from 'hooks/navigation/useResetToHomeScreen';
 
+/**
+ * Hook that provides a function to build and broadcast the
+ * MsgBeginRedelegate.
+ */
 export const useRedelegateTokes = () => {
   const broadcastTx = useBroadcastTx();
   const activeAccountAddress = useActiveAccountAddress()!;

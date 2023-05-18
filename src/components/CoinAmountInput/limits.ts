@@ -1,6 +1,5 @@
 /**
- * Enum that defines what amount will be used as limit from this
- * component.
+ * Enum that defines what amount will be used as limit upper limit.
  */
 export enum AmountLimit {
   /**
@@ -17,7 +16,7 @@ export enum AmountLimit {
 
 /**
  * Interface that represents a limit that will use the
- * current active user balance.
+ * current active account balance.
  */
 export interface UserAmountLimitConfig {
   readonly mode: AmountLimit.UserBalance;
