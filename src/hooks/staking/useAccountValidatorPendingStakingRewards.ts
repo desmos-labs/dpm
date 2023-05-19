@@ -9,7 +9,7 @@ import { coin } from '@cosmjs/amino';
  * @param validatorOperatorAddress - Validator from which the rewards can be
  * claimed.
  * @param accountAddress - Address of the account that can claim the
- * rewards, if undefined will be used the current active account address.
+ * rewards. If undefined, the current active account address will be used instead.
  */
 const useAccountValidatorPendingStakingRewards = (
   validatorOperatorAddress: string,
