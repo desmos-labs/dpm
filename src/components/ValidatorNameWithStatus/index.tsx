@@ -29,9 +29,9 @@ export interface ValidatorNameWithStatusPros {
 }
 
 /**
- * Component that display the validator image, name and its status.
- * This component its intended to be used in screens where we are showing
- * information about a validator.
+ * Component that displays the validator image, name and its status.
+ * This component is intended to be used inside screens where we are showing
+ * the information about a validator.
  */
 const ValidatorNameWithStatus: React.FC<ValidatorNameWithStatusPros> = ({
   validator,
