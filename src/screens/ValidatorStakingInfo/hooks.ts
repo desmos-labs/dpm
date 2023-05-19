@@ -75,3 +75,21 @@ export const useRestake = (fromValidator: string) => {
     });
   }, [navigation, fromValidator, showModal, t]);
 };
+
+/**
+ * Hook that provides a function to initiate the unbond tokens flow that let
+ * the user select the amount of tokens to unbond from a validator.
+ */
+export const useUnbondTokens = (fromValidator: string) => {
+  const navigation = useNavigation<NavigationProp<RootNavigatorParamList>>();
+
+  return React.useCallback(
+    (onSuccess?: () => any) => {
+      navigation.navigate(ROUTES.UNBOND_TOKENS, {
+        fromValidator,
+        onSuccess,
+      });
+    },
+    [navigation, fromValidator],
+  );
+};

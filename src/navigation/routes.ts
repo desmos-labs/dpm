@@ -199,6 +199,10 @@ enum ROUTES {
    * to another one.
    */
   REDELEGATE = 'REDELEGATE',
+  /**
+   * Screen that let the user unbond an amount of tokens from a validator.
+   */
+  UNBOND_TOKENS = 'UNBOND_TOKENS',
 }
 
 export default ROUTES;

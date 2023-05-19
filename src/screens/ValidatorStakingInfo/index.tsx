@@ -21,7 +21,11 @@ import RestakeToItem from 'screens/ValidatorStakingInfo/components/RestakeToItem
 import StyledActivityIndicator from 'components/StyledActivityIndicator';
 import Divider from 'components/Divider';
 import UnbondingDelegationItem from 'screens/ValidatorStakingInfo/components/UnbondingDelegationItem';
-import { useClaimPendingRewards, useRestake } from 'screens/ValidatorStakingInfo/hooks';
+import {
+  useClaimPendingRewards,
+  useRestake,
+  useUnbondTokens,
+} from 'screens/ValidatorStakingInfo/hooks';
 import useStyles from './useStyles';
 
 export interface ValidatorStakingInfoParams {
@@ -54,18 +58,28 @@ const ValidatorStakingInfo: React.FC<NavProps> = (props) => {
   // --------- HOOKS ---------
 
   const { data: validator, loading: validatorLoading } = useValidator(validatorOperatorAddress);
+
   const { data: totalStaked, loading: totalStakedLoading } =
     useValidatorStakedAmount(validatorOperatorAddress);
+
   const { data: redelegations, loading: redelegationsLoading } =
     useAccountRedelegationsFrom(validatorOperatorAddress);
-  const { data: unbondingTokens, loading: loadingUnbondingTokens } =
-    useValidatorUnbondingDelegations(validatorOperatorAddress);
+
+  const {
+    data: unbondingTokens,
+    loading: loadingUnbondingTokens,
+    refetch: refetchUnbondigDelegations,
+  } = useValidatorUnbondingDelegations(validatorOperatorAddress);
+
   const {
     data: pendingRewards,
     loading: pendingRewardsLoading,
     refetch: validatorRewardsRefetch,
   } = useAccountValidatorPendingStakingRewards(validatorOperatorAddress);
+
   const claimPendingRewards = useClaimPendingRewards(validatorOperatorAddress);
+
+  const unbondTokens = useUnbondTokens(validatorOperatorAddress);
 
   // -------- CALLBACKS --------
 
@@ -98,9 +112,8 @@ const ValidatorStakingInfo: React.FC<NavProps> = (props) => {
   const onRestakePressed = useRestake(validatorOperatorAddress);
 
   const onUnbondPressed = React.useCallback(() => {
-    // TODO: Implement unbond
-    console.warn('implement me');
-  }, []);
+    unbondTokens(refetchUnbondigDelegations);
+  }, [refetchUnbondigDelegations, unbondTokens]);
 
   return (
     <StyledSafeAreaView topBar={<TopBar stackProps={props} />}>
