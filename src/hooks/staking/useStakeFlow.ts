@@ -5,8 +5,8 @@ import React from 'react';
 import ROUTES from 'navigation/routes';
 
 /**
- * Hook that provides a function that let the user
- * select a validator and then stake some coins toward the selected validator.
+ * Hook that provides a function that lets the user select a validator 
+ * and then stake some coins to it.
  */
 const useStakeFlow = () => {
   const navigation = useNavigation<StackNavigationProp<RootNavigatorParamList>>();
