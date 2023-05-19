@@ -23,7 +23,7 @@ const useValidatorStakedAmount = (validatorOperatorAddress: string, accountAddre
     throw new Error("Can't find the user delegations if the address is undefined");
   }
 
-  const { data, loading, error } = useQuery(GetAccountDelegations, {
+  const { data, loading, error, refetch } = useQuery(GetAccountDelegations, {
     fetchPolicy: 'network-only',
     variables: {
       address,
@@ -45,6 +45,7 @@ const useValidatorStakedAmount = (validatorOperatorAddress: string, accountAddre
   return {
     data: redelegations,
     loading,
+    refetch,
     error,
   };
 };

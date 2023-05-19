@@ -20,7 +20,7 @@ const useAccountRedelegationsFrom = (validatorOperatorAddress: string, accountAd
     throw new Error("Can't find the user redelegation if the address is undefined");
   }
 
-  const { data, loading, error } = useQuery(GetAccountRedelegations, {
+  const { data, loading, error, refetch } = useQuery(GetAccountRedelegations, {
     fetchPolicy: 'network-only',
     variables: {
       address,
@@ -43,6 +43,7 @@ const useAccountRedelegationsFrom = (validatorOperatorAddress: string, accountAd
   return {
     data: redelegations,
     loading,
+    refetch,
     error,
   };
 };

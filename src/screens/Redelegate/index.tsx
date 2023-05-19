@@ -27,6 +27,10 @@ export interface RedelegateParams {
    * Validator operator address to which the tokens will be redelegated.
    */
   readonly toValidatorAddress: string;
+  /**
+   * Callback called if on redelegate transaction successes.
+   */
+  readonly onSuccess?: () => any;
 }
 
 type NavProps = StackScreenProps<RootNavigatorParamList, ROUTES.REDELEGATE>;
@@ -36,7 +40,7 @@ type NavProps = StackScreenProps<RootNavigatorParamList, ROUTES.REDELEGATE>;
  * of coins from a validato to another one.
  */
 const Redelegate: React.FC<NavProps> = (props) => {
-  const { fromValidatorAddress, toValidatorAddress } = props.route.params;
+  const { fromValidatorAddress, toValidatorAddress, onSuccess } = props.route.params;
   const { t } = useTranslation();
 
   // -------- STATES --------
@@ -57,8 +61,15 @@ const Redelegate: React.FC<NavProps> = (props) => {
   }, []);
 
   const onRedelegatePressed = React.useCallback(() => {
-    redelegateTokens(redelegateAmount, fromValidatorAddress, toValidatorAddress, memo);
-  }, [fromValidatorAddress, memo, redelegateAmount, redelegateTokens, toValidatorAddress]);
+    redelegateTokens(redelegateAmount, fromValidatorAddress, toValidatorAddress, memo, onSuccess);
+  }, [
+    fromValidatorAddress,
+    memo,
+    redelegateAmount,
+    redelegateTokens,
+    toValidatorAddress,
+    onSuccess,
+  ]);
 
   return (
     <StyledSafeAreaView topBar={<TopBar stackProps={props} title={t('staking:restake')} />}>

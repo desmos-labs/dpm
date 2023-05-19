@@ -23,13 +23,14 @@ import useStyles from './useStyles';
 
 export type StakingParams = {
   validator: Validator;
+  onSuccess?: () => any;
 };
 
 type NavProps = StackScreenProps<RootNavigatorParamList, ROUTES.STAKE>;
 
 const Stake: React.FC<NavProps> = (props) => {
   const { t } = useTranslation('stake');
-  const { validator } = props.route.params;
+  const { validator, onSuccess } = props.route.params;
   const styles = useStyles();
   const {
     data: unbondingTime,
@@ -53,9 +54,9 @@ const Stake: React.FC<NavProps> = (props) => {
 
   const onNextPressed = React.useCallback(() => {
     if (stakeAmount !== undefined) {
-      delegateTokens(stakeAmount, validator.operatorAddress, memo);
+      delegateTokens(stakeAmount, validator.operatorAddress, memo, onSuccess);
     }
-  }, [delegateTokens, stakeAmount, validator.operatorAddress, memo]);
+  }, [delegateTokens, stakeAmount, validator.operatorAddress, memo, onSuccess]);
 
   return (
     <StyledSafeAreaView topBar={<TopBar stackProps={props} title={t('stake')} />} padding={0}>

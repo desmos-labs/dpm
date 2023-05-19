@@ -32,7 +32,6 @@ export interface UnbondTokensParams {
 type NavProps = StackScreenProps<RootNavigatorParamList, ROUTES.UNBOND_TOKENS>;
 
 const UnbondTokens: React.FC<NavProps> = (props) => {
-  const { navigation } = props;
   const { fromValidator, onSuccess } = props.route.params;
   const { t } = useTranslation('staking');
 
@@ -57,15 +56,8 @@ const UnbondTokens: React.FC<NavProps> = (props) => {
       return;
     }
 
-    undelegateTokens(fromValidator, amount, memo, {
-      onSuccess: () => {
-        navigation.goBack();
-        if (onSuccess) {
-          onSuccess();
-        }
-      },
-    });
-  }, [amount, undelegateTokens, fromValidator, memo, navigation, onSuccess]);
+    undelegateTokens(fromValidator, amount, memo, { onSuccess });
+  }, [amount, undelegateTokens, fromValidator, memo, onSuccess]);
 
   return (
     <StyledSafeAreaView topBar={<TopBar stackProps={props} title={t('unbond')} />}>
