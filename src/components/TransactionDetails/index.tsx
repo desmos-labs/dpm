@@ -67,7 +67,10 @@ const TransactionDetails: React.FC<TransactionDetailsProps> = (props) => {
           )}
           {success !== undefined && (
             <>
-              <LabeledValue label={t('status')} value={success ? t('common:success') : t('fail')} />
+              <LabeledValue
+                label={t('status')}
+                value={success ? t('common:success') : t('common:fail')}
+              />
               <Divider />
             </>
           )}
