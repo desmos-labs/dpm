@@ -10,8 +10,8 @@ import { UnbondingDelegation } from 'types/distribution';
  * are currently unbonding from a validator.
  * @param validatorOperatorAddress - Validator from which the unbonding
  * tokens will be fetched.
- * @param accountAddress - Accounts whose unbonding tokens we are interested
- * in retrieving, if undefined will be used the active account address.
+ * @param accountAddress - Address of the account for which the amount will be retrieved.
+ * If undefined, the active account address will be used instead.
  */
 const useValidatorUnbondingDelegations = (
   validatorOperatorAddress: string,
