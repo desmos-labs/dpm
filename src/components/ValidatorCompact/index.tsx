@@ -26,9 +26,9 @@ export interface ValidatorCompactProps {
 }
 
 /**
- * Component that displays in a raw a validator avatar with its name.
- * This component its intended to be used in screens where the user is
- * performing actions torward a validator like, select the amount of coins
+ * Component that displays a validator avatar and its name in a row format.
+ * This component is intended to be used inside screens where the user is
+ * performing an action torward a validator such as selecting the amount of coins
  * to delegate, redelegate or unbond.
  */
 const ValidatorCompact: React.FC<ValidatorCompactProps> = ({ validator, loading, onPress }) => {
