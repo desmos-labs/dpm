@@ -9,7 +9,7 @@ export interface Delegation {
 }
 
 /**
- * Interface that represents a pending stacking reward that
+ * Interface that represents a pending staking reward that
  * can be claimed from a validator.
  */
 export interface PendingReward {
