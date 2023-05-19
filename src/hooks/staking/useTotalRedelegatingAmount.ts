@@ -68,7 +68,7 @@ const useTotalRedelegatingAmount = (userAddress?: string) => {
           );
 
         if (fetchedData.length < 100) {
-          // We fetched a partial page, this means that the backend don't have
+          // We fetched a partial page, this means that the backend doesn't have
           // other elements, end the loop.
           completed = true;
         } else {
