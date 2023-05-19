@@ -187,7 +187,7 @@ enum ROUTES {
    * - Current redelegation from the validator torward other ones;
    * - Unbonding delegations;
    * - Pending rewards.
-   * and let the user perform those actions:
+   * and lets the user perform the following actions:
    * - Claim pending rewards;
    * - Stake more tokens toward the validator;
    * - Redelegate some tokens to another validator;
