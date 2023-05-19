@@ -24,8 +24,8 @@ export interface CoinAmountInputProps {
    * @param amount - Current amount represented as coin, if undefined means
    * that the input has been cleared.
    * @param isValid - Tells if the amount is valid, to be valid the amount
-   * must be defined and less equals than what the user have select as limit
-   * with the amountLimitConfig prop.
+   * must be defined and less or equals to what the user has selected as limit
+   * and is specified inside the `amountLimitConfig` prop.
    */
   onChange?: (amount: Coin | undefined, isValid: boolean) => any;
   /**
