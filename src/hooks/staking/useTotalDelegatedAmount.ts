@@ -40,7 +40,7 @@ const useTotalDelegatedAmount = (userAddress?: string) => {
     );
 
     if (converted.length === 0) {
-      // If the user don't have any delegation fallback to a zero amount.
+      // If the user doesn't have any delegation, fallback to a zero amount.
       converted.push(coin(0, chainInfo.stakeCurrency.coinMinimalDenom));
     }
     return converted;
