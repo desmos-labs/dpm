@@ -53,7 +53,7 @@ const RedelegationListItem: React.FC<RedelegationListItemProps> = ({ redelegatio
 
       {/* Restake completion info */}
       <View style={styles.dataField}>
-        <Typography.Body>{t('expected delivery')}</Typography.Body>
+        <Typography.Body>{t('staking:expected delivery')}</Typography.Body>
         <View style={styles.dataFieldMultipleValue}>
           <Typography.Body>{format(redelegation.completionTime, 'dd MMM, hh:mm')}</Typography.Body>
           <Typography.Body style={styles.daysToComplete}>
