@@ -22,7 +22,7 @@ export const useFetchDelegations = () => {
       }
 
       const { data, error } = await getAccountDelegations({
-        // We want only network so that if the user refetch the data
+        // We use network-only so that if the user refetch the data
         // with the pull to refresh gesture this function will provide the
         // most recent data and not the cached one.
         fetchPolicy: 'network-only',
