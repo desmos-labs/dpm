@@ -18,8 +18,8 @@ export interface ValidatorNameWithStatusPros {
    */
   validator?: Validator;
   /**
-   * If true the component will shows some animations
-   * to inform the user that the validator it is being fetched.
+   * If true, the component will show some animations
+   * to inform the user that the validator is being fetched.
    */
   loading?: boolean;
   /**
