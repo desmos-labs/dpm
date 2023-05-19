@@ -10,8 +10,18 @@ import { Input } from 'cosmjs-types/cosmos/bank/v1beta1/bank';
  * @param locale - The locale to us, if empty use the current one.
  */
 export const getDecimalSeparator = (locale?: string) => {
-  // Get the thousands and decimal separator characters used in the locale.
+  // Get the decimal separator characters used in the locale.
   const [, separator] = (1.1).toLocaleString(locale);
+  return separator;
+};
+
+/**
+ * Gets the thousands separator used on the provided locale.
+ * @param locale - The locale to us, if empty use the current one.
+ */
+export const getThousandsSeparator = (locale?: string) => {
+  // Get the thousands separator characters used in the locale.
+  const [, separator] = (1000).toLocaleString(locale);
   return separator;
 };
 
@@ -21,10 +31,19 @@ export const getDecimalSeparator = (locale?: string) => {
  * @param locale - The locale to us, if empty use the current one.
  */
 export const safePartFloat = (value: string | undefined, locale?: string) => {
-  const separator = getDecimalSeparator(locale);
+  const decimalSeparator = getDecimalSeparator(locale);
+  const thousandsSeparator = getThousandsSeparator(locale);
 
   // Remove thousands separators, and put a point where the decimal separator occurs
-  const string = Array.from(value || '0', (c) => (c === separator ? '.' : c)).join('');
+  const string = Array.from(value || '0', (c) => {
+    if (c === thousandsSeparator) {
+      return '';
+    }
+    if (c === decimalSeparator) {
+      return '.';
+    }
+    return c;
+  }).join('');
   const parsed = parseFloat(string);
   return Number.isNaN(parsed) ? 0 : parsed;
 };
