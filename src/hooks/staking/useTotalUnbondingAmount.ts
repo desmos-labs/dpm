@@ -7,7 +7,7 @@ import { Coin } from '@desmoslabs/desmjs-types/cosmos/base/v1beta1/coin';
 import GetAccountUnbondingDelegationTotal from 'services/graphql/queries/GetAccountUnbondingDelegationTotal';
 
 /**
- * Hook that provides the total amount of coins that are unbonding of an account.
+ * Hook that provides the total amount of coins that an account is unbonding.
  * @param userAddress - Address of the account whose total will be calculated,
  * if undefined will be used the address of the current active user.
  */
