@@ -9,8 +9,8 @@ import GetAccountRedelegations from 'services/graphql/queries/GetAccountRedelega
  * Hook that provides the redelegation of a user from a validator torward other ones.
  * @param validatorOperatorAddress - Validator operator address from which
  * the user redelegated the tokens.
- * @param accountAddress - Account address from which the redelegation
- * will be fetched, if undefined will be used the current active account address.
+ * @param accountAddress - Account address for which the redelegation(s)
+ * will be fetched. If undefined, the current active account address will be used instead.
  */
 const useAccountRedelegationsFrom = (validatorOperatorAddress: string, accountAddress?: string) => {
   const activeAccountAddress = useActiveAccountAddress();
