@@ -14,9 +14,17 @@ import Spacer from 'components/Spacer';
 import useStyles from './useStyles';
 
 export interface RestakeToItemParams {
+  /**
+   * Redelegation to be displayed.
+   */
   readonly redelegation: Redelegation;
 }
 
+/**
+ * Component that shows the following information of a `Redelegation` object:
+ * - Amount of coins being redelegate;
+ * - Date of when the redelegation completes.
+ */
 const RestakeToItem: React.FC<RestakeToItemParams> = ({ redelegation }) => {
   const chainInfo = useCurrentChainInfo();
   const styles = useStyles();
@@ -40,6 +48,7 @@ const RestakeToItem: React.FC<RestakeToItemParams> = ({ redelegation }) => {
 
   return (
     <View style={styles.root}>
+      {/* Validator details */}
       {loadingValidator ? (
         <ThemedContentLoader>
           <Circle r={24} x={24} y={24} />
@@ -52,6 +61,8 @@ const RestakeToItem: React.FC<RestakeToItemParams> = ({ redelegation }) => {
           <Typography.Body1>{getValidatorName(validator!)}</Typography.Body1>
         </View>
       )}
+
+      {/* Redelegation information */}
       <View style={styles.valuesContainer}>
         <Typography.Body1>{redelegatedAmount}</Typography.Body1>
         <Typography.Body style={styles.redelegationCompletionText}>

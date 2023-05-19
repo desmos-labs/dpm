@@ -12,10 +12,21 @@ import { useTranslation } from 'react-i18next';
 import useStyles from './useStyles';
 
 export interface DelegationListItemProps {
+  /**
+   * Delegation object to display.
+   */
   readonly delegation: Delegation;
+  /**
+   * Callback that is called when the user press on this component.
+   */
   readonly onPress?: (delegation: Delegation) => any;
 }
 
+/**
+ * Component that shows the following information of a `Delegation` object:
+ * - Amount of staked coins torward the validator;
+ * - Amount of staking rewards that the user can claim.
+ */
 const DelegationListItem: React.FC<DelegationListItemProps> = ({ delegation, onPress }) => {
   const styles = useStyles();
   const { t } = useTranslation('staking');

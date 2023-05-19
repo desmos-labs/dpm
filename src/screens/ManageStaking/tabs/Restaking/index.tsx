@@ -18,6 +18,9 @@ import { DPMImages } from 'types/images';
 import { useFetchAccountRedelegations } from './hooks';
 import useStyeles from './useStyles';
 
+/**
+ * Component that shows the current active account's pending redelegations.
+ */
 const RestakingTab: React.FC = () => {
   const { t } = useTranslation('restaking');
   const styles = useStyeles();

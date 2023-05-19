@@ -25,6 +25,9 @@ import ROUTES from 'navigation/routes';
 import useStyles from './useStyles';
 import DelegationListItem from './components/DelegationListItem';
 
+/**
+ * Component that shows the current active account's delegations.
+ */
 const StakedTab: React.FC = () => {
   const { t } = useTranslation('manageStaking');
   const styles = useStyles();

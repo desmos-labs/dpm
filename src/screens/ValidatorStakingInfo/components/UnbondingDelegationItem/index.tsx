@@ -8,9 +8,17 @@ import Typography from 'components/Typography';
 import useStyles from './useStyles';
 
 export interface UnbondingDelegationItemParams {
+  /**
+   * Unbonding delegation to be displayed.
+   */
   readonly unbondingDelegation: UnbondingDelegation;
 }
 
+/**
+ * Component the following information of a `UnbondingDelegation` object:
+ * - Amount of coins being unbonded.
+ * - Date of when the unbond procedure completes.
+ */
 const UnbondingDelegationItem: React.FC<UnbondingDelegationItemParams> = ({
   unbondingDelegation,
 }) => {

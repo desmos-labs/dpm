@@ -31,6 +31,10 @@ export interface RedelegateParams {
 
 type NavProps = StackScreenProps<RootNavigatorParamList, ROUTES.REDELEGATE>;
 
+/**
+ * Screen that allows the user to pick an amount and redelegate an amount
+ * of coins from a validato to another one.
+ */
 const Redelegate: React.FC<NavProps> = (props) => {
   const { fromValidatorAddress, toValidatorAddress } = props.route.params;
   const { t } = useTranslation();
