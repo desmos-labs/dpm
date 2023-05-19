@@ -11,8 +11,8 @@ import { Coin } from '@desmoslabs/desmjs-types/cosmos/base/v1beta1/coin';
 /**
  * Hook that provides the amount of coins that a user delegated toward a validator.
  * @param validatorOperatorAddress - Validator whose delegations will be fetched.
- * @param accountAddress - Account that performed the delegations, if undefined
- * will be used the current active account address.
+ * @param accountAddress - Account that performed the delegations. 
+ * If undefined, the current active account address will be used instead.
  */
 const useValidatorStakedAmount = (validatorOperatorAddress: string, accountAddress?: string) => {
   const chainInfo = useCurrentChainInfo();
