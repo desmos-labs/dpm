@@ -2,5 +2,6 @@
   "delegate": "Delegate",
   "withdraw rewards": "Withdraw rewards",
   "redelegate": "Redelegate",
-  "amount": "Amount"
+  "amount": "Amount",
+  "undelegate": "Undelegate"
 }
