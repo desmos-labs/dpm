@@ -44,7 +44,7 @@ export const useClaimPendingRewards = (fromValidator: string) => {
 };
 
 /**
- * Hook that provides a function to initiate the restake flow that let
+ * Hook that provides a function to initiate the restake flow that lets
  * the user select a validator and then select the amount of tokens to
  * redelegate from the provided validator address to the selected one.
  */
