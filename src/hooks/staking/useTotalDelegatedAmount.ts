@@ -24,9 +24,10 @@ const useTotalDelegatedAmount = (userAddress?: string) => {
     variables: {
       address,
     },
-    // Use network-only otherwise if the user returns to a screen where this hook
-    // has been used after performing a delegation the total amount
-    // will be different from the amount staked on chain.
+    // Use network-only to avoid on-chain amounts sync issues. 
+    // This might happen if the user returns to a screen where this hook
+    // has been used after performing a delegation. In this case, the total 
+    // amount will be different from the amount staked on chain.
     fetchPolicy: 'network-only',
   });
 
