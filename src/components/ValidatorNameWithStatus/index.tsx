@@ -23,7 +23,7 @@ export interface ValidatorNameWithStatusPros {
    */
   loading?: boolean;
   /**
-   * Callback called when the user press on the component.
+   * Callback called when the user presses on the component.
    */
   onPress?: () => void;
 }
