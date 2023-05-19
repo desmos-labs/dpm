@@ -6,7 +6,7 @@ import GetAccountUnbondingDelegations from 'services/graphql/queries/GetAccountU
 import { UnbondingDelegation } from 'types/distribution';
 
 /**
- * Hook that provides the tokens of an account that
+ * Hook that provides the amount of tokens that
  * are currently unbonding from a validator.
  * @param validatorOperatorAddress - Validator from which the unbonding
  * tokens will be fetched.
