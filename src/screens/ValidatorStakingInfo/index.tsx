@@ -25,11 +25,26 @@ import { useClaimPendingRewards, useRestake } from 'screens/ValidatorStakingInfo
 import useStyles from './useStyles';
 
 export interface ValidatorStakingInfoParams {
+  /**
+   * Validator operator address whose information will be shown.
+   */
   readonly validatorOperatorAddress: string;
 }
 
 type NavProps = StackScreenProps<RootNavigatorParamList, ROUTES.VALIDATOR_STAKING_INFO>;
 
+/**
+ * Screen that shows the staking info of a validator like:
+ * - Amount of coins that the user delegated to the validator;
+ * - Current redelegation from the validator torward other ones;
+ * - Unbonding delegations;
+ * - Pending rewards.
+ * and lets the user perform the following actions:
+ * - Claim pending rewards;
+ * - Stake more tokens toward the validator;
+ * - Redelegate some tokens to another validator;
+ * - Unbond some tokens from the validator.
+ */
 const ValidatorStakingInfo: React.FC<NavProps> = (props) => {
   const { navigation } = props;
   const { validatorOperatorAddress } = props.route.params;
