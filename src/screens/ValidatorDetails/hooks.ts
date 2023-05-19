@@ -2,6 +2,11 @@ import { useQuery } from '@apollo/client';
 import React from 'react';
 import GetValidatorTotalDelegations from 'services/graphql/queries/GetValidatorTotalDelegations';
 import GetTotalVotingPower from 'services/graphql/queries/GetTotalVotingPower';
+import { NavigationProp, useNavigation } from '@react-navigation/native';
+import { RootNavigatorParamList } from 'navigation/RootNavigator';
+import useReturnToCurrentScreen from 'hooks/useReturnToCurrentScreen';
+import ROUTES from 'navigation/routes';
+import { Validator } from 'types/validator';
 
 /**
  * Hook that provides the total number of delegations toward a validator.
@@ -48,5 +53,23 @@ export const useTotalVotingPower = () => {
   return React.useMemo(
     () => ({ data: totalVotingPower, loading, error }),
     [totalVotingPower, loading, error],
+  );
+};
+
+/**
+ * Hook that provides a function to stake some coins torward a validator.
+ */
+export const useStake = () => {
+  const navigation = useNavigation<NavigationProp<RootNavigatorParamList>>();
+  const returnToCurrentScreen = useReturnToCurrentScreen();
+
+  return React.useCallback(
+    (validator: Validator) => {
+      navigation.navigate(ROUTES.STAKE, {
+        validator,
+        onSuccess: returnToCurrentScreen,
+      });
+    },
+    [navigation, returnToCurrentScreen],
   );
 };

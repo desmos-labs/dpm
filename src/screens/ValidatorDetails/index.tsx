@@ -11,7 +11,11 @@ import { ScrollView } from 'react-native';
 import Button from 'components/Button';
 import { useTranslation } from 'react-i18next';
 import useValidatorStakingApr from 'hooks/validator/useValidatorStakingApr';
-import { useTotalValidatorDelegations, useTotalVotingPower } from 'screens/ValidatorDetails/hooks';
+import {
+  useStake,
+  useTotalValidatorDelegations,
+  useTotalVotingPower,
+} from 'screens/ValidatorDetails/hooks';
 import { formatNumber, roundFloat } from 'lib/FormatUtils';
 import ValidatorNameWithStatus from 'components/ValidatorNameWithStatus';
 import useStyles from './useStyles';
@@ -28,17 +32,24 @@ const ValidatorDetails: FC<NavProps> = (props) => {
   const { validator } = props.route.params;
   const styles = useStyles();
   const { t } = useTranslation('validatorDetails');
+
+  // -------- HOOKS --------
+
   const { data: apr, loading: aprLoading, error: aprError } = useValidatorStakingApr(validator);
+
   const {
     data: totalDelegations,
     loading: totalDelegationsLoading,
     error: totalDelegationsError,
   } = useTotalValidatorDelegations(validator.operatorAddress);
+
   const {
     data: totalVotingPower,
     loading: totalVotingPowerLoading,
     error: totalVotingPowerError,
   } = useTotalVotingPower();
+
+  const stakeCoins = useStake();
 
   // -------- FIELDS VALUES ------------
 
@@ -70,10 +81,8 @@ const ValidatorDetails: FC<NavProps> = (props) => {
   // -------- ACTIONS -----------
 
   const onStakePressed = React.useCallback(() => {
-    navigation.navigate(ROUTES.STAKE, {
-      validator,
-    });
-  }, [navigation, validator]);
+    stakeCoins(validator);
+  }, [stakeCoins, validator]);
 
   return (
     <StyledSafeAreaView topBar={<TopBar stackProps={props} />}>
