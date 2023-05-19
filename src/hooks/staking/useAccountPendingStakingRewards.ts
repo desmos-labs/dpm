@@ -6,10 +6,10 @@ import { convertGraphQLPendingReward } from 'lib/GraphQLUtils';
 import { PendingReward } from 'types/distribution';
 
 /**
- * Hook that provides all the pending staking rewards of user.
- * @param accountAddress - Address of the account from which to get the
- * pending rewards, if its undefined will be used the current active
- * account address.
+ * Hook that provides all the pending staking rewards of a user.
+ * @param accountAddress - Address of the account for which to get the
+ * pending rewards. If its undefined, the current active account address
+ * will be used instead.
  */
 const useAccountPendingStakingRewards = (accountAddress?: string) => {
   const activeAccountAddress = useActiveAccountAddress();
