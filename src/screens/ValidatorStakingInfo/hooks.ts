@@ -79,39 +79,42 @@ export const useStakeCoins = () => {
  * the user select a validator and then select the amount of tokens to
  * redelegate from the provided validator address to the selected one.
  */
-export const useRestake = (fromValidator: string, onSuccess?: () => any) => {
+export const useRestake = (fromValidator: string) => {
   const navigation = useNavigation<NavigationProp<RootNavigatorParamList>>();
   const showModal = useShowModal();
   const { t } = useTranslation();
   const returnToCurrentScreen = useReturnToCurrentScreen();
 
-  return React.useCallback(() => {
-    navigation.navigate(ROUTES.SELECT_VALIDATOR, {
-      onValidatorSelected: (validator) => {
-        if (validator.operatorAddress === fromValidator) {
-          showModal(SingleButtonModal, {
-            title: t('common:error'),
-            message: t(
-              "selectValidator:can't select this validator, you are redelegating from this one",
-            ),
-            image: DPMImages.Fail,
-            actionLabel: t('common:hide'),
-          });
-        } else {
-          navigation.navigate(ROUTES.REDELEGATE, {
-            fromValidatorAddress: fromValidator,
-            toValidatorAddress: validator.operatorAddress,
-            onSuccess: () => {
-              returnToCurrentScreen();
-              if (onSuccess) {
-                onSuccess();
-              }
-            },
-          });
-        }
-      },
-    });
-  }, [navigation, fromValidator, showModal, t, returnToCurrentScreen, onSuccess]);
+  return React.useCallback(
+    (onSuccess?: () => any) => {
+      navigation.navigate(ROUTES.SELECT_VALIDATOR, {
+        onValidatorSelected: (validator) => {
+          if (validator.operatorAddress === fromValidator) {
+            showModal(SingleButtonModal, {
+              title: t('common:error'),
+              message: t(
+                "selectValidator:can't select this validator, you are redelegating from this one",
+              ),
+              image: DPMImages.Fail,
+              actionLabel: t('common:hide'),
+            });
+          } else {
+            navigation.navigate(ROUTES.REDELEGATE, {
+              fromValidatorAddress: fromValidator,
+              toValidatorAddress: validator.operatorAddress,
+              onSuccess: () => {
+                returnToCurrentScreen();
+                if (onSuccess) {
+                  onSuccess();
+                }
+              },
+            });
+          }
+        },
+      });
+    },
+    [navigation, fromValidator, showModal, t, returnToCurrentScreen],
+  );
 };
 
 /**
