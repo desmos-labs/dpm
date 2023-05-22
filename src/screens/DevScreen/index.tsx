@@ -114,6 +114,9 @@ const DevScreen: FC<NavProps> = ({ navigation }) => {
       <Button mode="contained" onPress={testPostHogEvent}>
         Send PostHog test event
       </Button>
+
+      <Spacer paddingVertical={4} />
+
       <Button mode="contained" onPress={testSentry}>
         Test Sentry
       </Button>
