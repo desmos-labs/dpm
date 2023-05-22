@@ -17,10 +17,10 @@
   "rewards": "Rewards",
   "unbond from": "Unbond from",
   "expected delivery": "Expected delivery",
-  "your tokens has been restaked successfully": "Your {{ tokens }} has been restaked successfully",
-  "your tokens hasn't been restaked successfully": "Your {{ tokens }} has been restaked unsuccessfully",
-  "rewards claimed successfully": "You rewards has been claimed successfully",
-  "rewards claimed unsuccessfully": "You rewards has been claimed unsuccessfully",
-  "your tokens has been unbonded successfully": "Your {{ tokens }} has been unbonded successfully",
-  "your tokens hasn't been unbonded successfully": "Your {{ tokens }} has been unbonded unsuccessfully"
+  "your tokens has been restaked successfully": "Your {{ tokens }} have been restaked successfully",
+  "your tokens hasn't been restaked successfully": "Your {{ tokens }} have not been restaked",
+  "rewards claimed successfully": "You rewards have been claimed successfully",
+  "rewards claimed unsuccessfully": "You rewards have not been claimed",
+  "your tokens has been unbonded successfully": "Your {{ tokens }} have been unbonded successfully",
+  "your tokens hasn't been unbonded successfully": "Your {{ tokens }} have not been unbonded"
 }
