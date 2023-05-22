@@ -4,6 +4,7 @@ import {
   MsgBeginRedelegateEncodeObject,
   MsgDelegateEncodeObject,
   MsgSendEncodeObject,
+  MsgUndelegateEncodeObject,
   MsgVoteEncodeObject,
   MsgWithdrawDelegatorRewardEncodeObject,
 } from '@cosmjs/stargate';
@@ -90,6 +91,7 @@ import {
   MsgSetUserPermissionsTypeUrl,
   MsgSupportStandardReasonEncodeObject,
   MsgSupportStandardReasonTypeUrl,
+  MsgUndelegateTypeUrl,
   MsgUnlinkChainAccountEncodeObject,
   MsgUnlinkChainAccountTypeUrl,
   PeriodicAllowanceTypeUrl,
@@ -296,6 +298,16 @@ const decodeStakingMessage = (type: string, value: any): EncodeObject | undefine
           validatorDstAddress: value.validator_dst_address,
         },
       } as MsgBeginRedelegateEncodeObject;
+
+    case MsgUndelegateTypeUrl:
+      return {
+        typeUrl: MsgUndelegateTypeUrl,
+        value: {
+          amount: value.amount,
+          delegatorAddress: value.delegator_address,
+          validatorAddress: value.validator_address,
+        },
+      } as MsgUndelegateEncodeObject;
 
     default:
       return undefined;

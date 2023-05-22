@@ -14,6 +14,7 @@ const useStyles = makeStyle((theme) => ({
     display: 'flex',
     flexDirection: 'row',
     alignItems: 'center',
+    maxWidth: '80%',
   },
   extraInfo: {
     marginRight: theme.spacing.xs,

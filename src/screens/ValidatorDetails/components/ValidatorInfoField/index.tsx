@@ -77,7 +77,12 @@ const ValidatorInfoField: React.FC<ValidatorInfoFieldProps> = ({
           {extraInfo !== undefined && (
             <Typography.Caption style={styles.extraInfo}>{extraInfo}</Typography.Caption>
           )}
-          <Typography.Body style={url ? styles.url : undefined} onPress={onValuePressed}>
+          <Typography.Body
+            style={url ? styles.url : undefined}
+            onPress={onValuePressed}
+            ellipsizeMode={'tail'}
+            numberOfLines={1}
+          >
             {valueText}
           </Typography.Body>
         </View>

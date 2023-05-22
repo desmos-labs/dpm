@@ -13,9 +13,19 @@ import { differenceInDays, format } from 'date-fns';
 import useStyles from './useStyles';
 
 export interface RedelegationListItemProps {
+  /**
+   * Redelegation to be displayed.
+   */
   readonly redelegation: Redelegation;
 }
 
+/**
+ * Component that shows the following information of a `Redelegation` object:
+ * - Validator from which the delegation will be redelegated;
+ * - Validator to which the delegation will be redelegated;
+ * - Amount that is being redelegated;
+ * - Date time of when the redelegation completes.
+ */
 const RedelegationListItem: React.FC<RedelegationListItemProps> = ({ redelegation }) => {
   const styles = useStyles();
   const { t } = useTranslation('restaking');
@@ -53,7 +63,7 @@ const RedelegationListItem: React.FC<RedelegationListItemProps> = ({ redelegatio
 
       {/* Restake completion info */}
       <View style={styles.dataField}>
-        <Typography.Body>{t('expected delivery')}</Typography.Body>
+        <Typography.Body>{t('staking:expected delivery')}</Typography.Body>
         <View style={styles.dataFieldMultipleValue}>
           <Typography.Body>{format(redelegation.completionTime, 'dd MMM, hh:mm')}</Typography.Body>
           <Typography.Body style={styles.daysToComplete}>

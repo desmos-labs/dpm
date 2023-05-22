@@ -24,7 +24,7 @@ const useValidatorUnbondingDelegations = (
     throw new Error("Can't find the user delegations if the address is undefined");
   }
 
-  const { data, loading, error } = useQuery(GetAccountUnbondingDelegations, {
+  const { data, loading, error, refetch } = useQuery(GetAccountUnbondingDelegations, {
     fetchPolicy: 'network-only',
     variables: {
       address,
@@ -48,6 +48,7 @@ const useValidatorUnbondingDelegations = (
     data: unbondingAmounts,
     loading,
     error,
+    refetch,
   };
 };
 

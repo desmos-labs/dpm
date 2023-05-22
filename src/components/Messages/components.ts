@@ -51,6 +51,7 @@ import {
   MsgSetUserPermissionsTypeUrl,
   MsgSupportStandardReasonTypeUrl,
   MsgUnblockUserTypeUrl,
+  MsgUndelegateTypeUrl,
   MsgUnlinkApplicationTypeUrl,
   MsgUnlinkChainAccountTypeUrl,
   MsgVoteTypeUrl,
@@ -62,6 +63,7 @@ import MsgVoteComponents from './gov/MsgVote';
 import MsgDelegateComponents from './staking/MsgDelegate';
 import MsgWithdrawDelegatorRewardsComponents from './distribution/MsgWithdrawDelegatorRewards';
 import MsgBeginRedelegateComponents from './distribution/MsgBeginRedelegate';
+import MsgUndelegateComponents from './distribution/MsgUndelegate';
 import MsgSaveProfileComponents from './profiles/MsgSaveProfile';
 import MsgLinkChainAccountComponents from './profiles/MsgLinkChainAccount';
 import MsgUnlinkChainAccountComponents from './profiles/MsgUnlinkChainAccount';
@@ -128,6 +130,7 @@ export const messageDetailsComponents: Record<string, MessageComponents<any>> = 
   // x/staking
   [MsgDelegateTypeUrl]: MsgDelegateComponents,
   [MsgBeginRedelegateTypeUrl]: MsgBeginRedelegateComponents,
+  [MsgUndelegateTypeUrl]: MsgUndelegateComponents,
 
   // x/feegrant
   [MsgGrantAllowanceTypeUrl]: MsgGrantAllowanceComponents,

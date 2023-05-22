@@ -21,7 +21,12 @@ import RestakeToItem from 'screens/ValidatorStakingInfo/components/RestakeToItem
 import StyledActivityIndicator from 'components/StyledActivityIndicator';
 import Divider from 'components/Divider';
 import UnbondingDelegationItem from 'screens/ValidatorStakingInfo/components/UnbondingDelegationItem';
-import { useClaimPendingRewards, useRestake } from 'screens/ValidatorStakingInfo/hooks';
+import {
+  useClaimPendingRewards,
+  useRestake,
+  useStakeCoins,
+  useUnbondTokens,
+} from 'screens/ValidatorStakingInfo/hooks';
 import useStyles from './useStyles';
 
 export interface ValidatorStakingInfoParams {
@@ -54,36 +59,40 @@ const ValidatorStakingInfo: React.FC<NavProps> = (props) => {
   // --------- HOOKS ---------
 
   const { data: validator, loading: validatorLoading } = useValidator(validatorOperatorAddress);
-  const { data: totalStaked, loading: totalStakedLoading } =
-    useValidatorStakedAmount(validatorOperatorAddress);
-  const { data: redelegations, loading: redelegationsLoading } =
-    useAccountRedelegationsFrom(validatorOperatorAddress);
-  const { data: unbondingTokens, loading: loadingUnbondingTokens } =
-    useValidatorUnbondingDelegations(validatorOperatorAddress);
+
+  const {
+    data: totalStaked,
+    loading: totalStakedLoading,
+    refetch: refetchTotalStaked,
+  } = useValidatorStakedAmount(validatorOperatorAddress);
+
+  const {
+    data: redelegations,
+    loading: redelegationsLoading,
+    refetch: refetchDelegations,
+  } = useAccountRedelegationsFrom(validatorOperatorAddress);
+
+  const {
+    data: unbondingTokens,
+    loading: loadingUnbondingTokens,
+    refetch: refetchUnbondigDelegations,
+  } = useValidatorUnbondingDelegations(validatorOperatorAddress);
+
   const {
     data: pendingRewards,
     loading: pendingRewardsLoading,
-    refetch: validatorRewardsRefetch,
+    refetch: refetchValidatorRewards,
   } = useAccountValidatorPendingStakingRewards(validatorOperatorAddress);
+
+  const stakeCoins = useStakeCoins();
+
   const claimPendingRewards = useClaimPendingRewards(validatorOperatorAddress);
 
+  const restakeTokens = useRestake(validatorOperatorAddress);
+
+  const unbondTokens = useUnbondTokens(validatorOperatorAddress);
+
   // -------- CALLBACKS --------
-
-  const onClaimRewardsPressed = React.useCallback(() => {
-    claimPendingRewards({
-      onSuccess: validatorRewardsRefetch,
-    });
-  }, [claimPendingRewards, validatorRewardsRefetch]);
-
-  const onStakePressed = React.useCallback(() => {
-    if (validator === undefined) {
-      return;
-    }
-
-    navigation.navigate(ROUTES.STAKE, {
-      validator,
-    });
-  }, [navigation, validator]);
 
   const onValidatorPressed = React.useCallback(() => {
     if (validator === undefined) {
@@ -95,12 +104,33 @@ const ValidatorStakingInfo: React.FC<NavProps> = (props) => {
     });
   }, [navigation, validator]);
 
-  const onRestakePressed = useRestake(validatorOperatorAddress);
+  const onClaimRewardsPressed = React.useCallback(() => {
+    claimPendingRewards(refetchValidatorRewards);
+  }, [claimPendingRewards, refetchValidatorRewards]);
+
+  const onStakePressed = React.useCallback(() => {
+    if (validator === undefined) {
+      return;
+    }
+
+    stakeCoins(validator, refetchTotalStaked);
+  }, [refetchTotalStaked, stakeCoins, validator]);
+
+  const onRestakePressed = React.useCallback(() => {
+    const onSuccess = () => {
+      refetchTotalStaked();
+      refetchDelegations();
+    };
+    restakeTokens(onSuccess);
+  }, [refetchDelegations, refetchTotalStaked, restakeTokens]);
 
   const onUnbondPressed = React.useCallback(() => {
-    // TODO: Implement unbond
-    console.warn('implement me');
-  }, []);
+    const onSuccess = () => {
+      refetchUnbondigDelegations();
+      refetchTotalStaked();
+    };
+    unbondTokens(onSuccess);
+  }, [refetchTotalStaked, refetchUnbondigDelegations, unbondTokens]);
 
   return (
     <StyledSafeAreaView topBar={<TopBar stackProps={props} />}>
