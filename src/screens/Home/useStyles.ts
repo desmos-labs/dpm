@@ -16,37 +16,23 @@ const useStyles = makeStyle((theme) => ({
     color: theme.colors.primary,
     fontWeight: 'bold',
   },
-  background: {
-    position: 'absolute',
-    width: '100%',
-    height: '100%',
-  },
-  topBar: {
-    backgroundColor: 'transparent',
-  },
   avatarImage: {
     marginRight: 16,
   },
-  userBalance: {
-    marginHorizontal: 13,
-  },
   transactionsContainer: {
-    backgroundColor: theme.colors.background2,
     paddingHorizontal: theme.spacing.m,
     borderTopLeftRadius: theme.roundness,
     borderTopRightRadius: theme.roundness,
-    marginTop: theme.spacing.l,
     flex: 1,
   },
-  transactionList: {
-    marginTop: 16,
+  noTransactionsView: {
+    display: 'flex',
+    flex: 1,
+    alignItems: 'center',
   },
-  airdropBanner: {
-    position: 'absolute',
-    zIndex: 2,
-    bottom: 0,
-    width: '100%',
-    height: 80,
+  noTransactionsImage: {
+    marginTop: 42,
+    height: 180,
   },
 }));
 
