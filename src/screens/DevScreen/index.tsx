@@ -10,6 +10,7 @@ import { usePostHog } from 'posthog-react-native';
 import useShowModal from 'hooks/useShowModal';
 import SingleButtonModal from 'modals/SingleButtonModal';
 import { DPMImages } from 'types/images';
+import * as Sentry from '@sentry/react-native';
 import useStyles from './useStyles';
 
 enum DevRoutes {
@@ -88,6 +89,10 @@ const DevScreen: FC<NavProps> = ({ navigation }) => {
     postHog.capture('Test event');
   }, [postHog]);
 
+  const testSentry = React.useCallback(() => {
+    Sentry.captureException(new Error('Test error'));
+  }, []);
+
   return (
     <StyledSafeAreaView>
       <FlatList
@@ -108,6 +113,9 @@ const DevScreen: FC<NavProps> = ({ navigation }) => {
 
       <Button mode="contained" onPress={testPostHogEvent}>
         Send PostHog test event
+      </Button>
+      <Button mode="contained" onPress={testSentry}>
+        Test Sentry
       </Button>
     </StyledSafeAreaView>
   );
