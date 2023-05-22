@@ -13,15 +13,15 @@ import { Coin } from '@desmoslabs/desmjs';
 import { sumCoins } from 'lib/CoinsUtils';
 import useTotalAccountPendingStakingRewards from 'hooks/staking/useTotalAccountPendingStakingRewards';
 import ListHeaderAction from 'screens/Home/components/ListHeaderAction';
-import { useNavigation } from '@react-navigation/native';
+import { useFocusEffect, useNavigation } from '@react-navigation/native';
 import { StackNavigationProp } from '@react-navigation/stack/lib/typescript/src/types';
 import { RootNavigatorParamList } from 'navigation/RootNavigator';
 import ROUTES from 'navigation/routes';
+import useBalanceFiatAmount from 'hooks/balance/useCoinsFiatAmouont';
+import { useClaimAllRewards } from 'screens/Home/components/ListHeader/hooks';
 import useStyles from './useStyles';
 
-export interface ListHeaderProps {}
-
-const ListHeader: React.FC<ListHeaderProps> = () => {
+const ListHeader: React.FC = () => {
   const styles = useStyles();
   const { t } = useTranslation('account');
   const navigation = useNavigation<StackNavigationProp<RootNavigatorParamList>>();
@@ -43,6 +43,8 @@ const ListHeader: React.FC<ListHeaderProps> = () => {
     refetch: refetchStakingRewards,
   } = useTotalAccountPendingStakingRewards();
 
+  const claimAllRewards = useClaimAllRewards();
+
   // -------- DATA --------
 
   const totalBalance = React.useMemo<Coin[]>(() => {
@@ -51,6 +53,12 @@ const ListHeader: React.FC<ListHeaderProps> = () => {
     }
     return sumCoins(balance, totalDelegated);
   }, [balance, loadingBalance, loadingTotalDelegated, totalDelegated]);
+
+  const {
+    amount: fiatAmount,
+    symbol: fiatSymbol,
+    loading: loadingFiatAmount,
+  } = useBalanceFiatAmount(totalBalance);
 
   // -------- CALLBACKS --------
 
@@ -61,6 +69,24 @@ const ListHeader: React.FC<ListHeaderProps> = () => {
   const onManagePressed = React.useCallback(() => {
     navigation.navigate(ROUTES.MANAGE_STAKING);
   }, [navigation]);
+
+  const refreshData = React.useCallback(() => {
+    refetchBalance();
+    refetchTotalDelegated();
+    refetchStakingRewards();
+  }, [refetchBalance, refetchStakingRewards, refetchTotalDelegated]);
+
+  const onClaimAllRewards = React.useCallback(() => {
+    claimAllRewards(refreshData);
+  }, [claimAllRewards, refreshData]);
+
+  // -------- EFFECTS --------
+
+  useFocusEffect(
+    React.useCallback(() => {
+      refreshData();
+    }, [refreshData]),
+  );
 
   return (
     <View style={styles.root}>
@@ -76,10 +102,14 @@ const ListHeader: React.FC<ListHeaderProps> = () => {
 
       {/* User total balance in fiat value */}
       <Typography.Subtitle2>{t('total balance')}</Typography.Subtitle2>
-      <Typography.H1>amount $</Typography.H1>
+      {loadingBalance || loadingFiatAmount ? (
+        <TypographyContentLoaders.H1 width={200} />
+      ) : (
+        <Typography.H1>{`${fiatAmount} ${fiatSymbol}`}</Typography.H1>
+      )}
 
       {/* Uset total tokens balance */}
-      {loadingBalance || loadingTotalDelegated ? (
+      {loadingBalance || loadingTotalDelegated || loadingTotalDelegated ? (
         <TypographyContentLoaders.Subtitle2 width={200} />
       ) : (
         <Typography.Subtitle2>{formatCoins(totalBalance)}</Typography.Subtitle2>
@@ -105,6 +135,7 @@ const ListHeader: React.FC<ListHeaderProps> = () => {
         loading={loadingStakingRewards}
         value={formatCoins(stakingRewards)}
         buttonText={t('common:claim')}
+        onButtonPressed={onClaimAllRewards}
       />
 
       <Spacer paddingVertical={8} />

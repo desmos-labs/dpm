@@ -1,5 +1,5 @@
 import { Coin } from '@desmoslabs/desmjs';
-import { safePartFloat } from 'lib/FormatUtils';
+import { safeParseFloat } from 'lib/FormatUtils';
 import { coin } from '@cosmjs/amino';
 
 /**
@@ -12,12 +12,12 @@ export const sumCoins = (coinsA: Coin[] | undefined, coinsB?: Coin[] | undefined
 
   coinsA?.forEach((c) => {
     const currentValue = denomsAmounts[c.denom] ?? 0;
-    denomsAmounts[c.denom] = currentValue + safePartFloat(c.amount);
+    denomsAmounts[c.denom] = currentValue + safeParseFloat(c.amount);
   });
 
   coinsB?.forEach((c) => {
     const currentValue = denomsAmounts[c.denom] ?? 0;
-    denomsAmounts[c.denom] = currentValue + safePartFloat(c.amount);
+    denomsAmounts[c.denom] = currentValue + safeParseFloat(c.amount);
   });
 
   return Object.keys(denomsAmounts).map((k) => coin(denomsAmounts[k], k));
