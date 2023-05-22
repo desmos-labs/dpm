@@ -28,7 +28,6 @@ export type ValidatorDetailsParams = {
 type NavProps = StackScreenProps<RootNavigatorParamList, ROUTES.VALIDATOR_DETAILS>;
 
 const ValidatorDetails: FC<NavProps> = (props) => {
-  const { navigation } = props;
   const { validator } = props.route.params;
   const styles = useStyles();
   const { t } = useTranslation('validatorDetails');
