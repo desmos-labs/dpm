@@ -61,6 +61,7 @@ jobs:
           ENV_WALLET_CONNECT_PROJECT_ID: ${{ secrets.ENV_WALLET_CONNECT_PROJECT_ID }}
           ENV_WEB3_AUTH_CLIENT_ID_MAINNET: ${{ secrets.ENV_WEB3_AUTH_CLIENT_ID_MAINNET }}
           ENV_POSTHOG_API_KEY: ${{ secrets.ENV_POSTHOG_API_KEY }}
+          ENV_SENTRY_AUTH_TOKEN: ${{ secrets.ENV_SENTRY_AUTH_TOKEN }}
 
       - name: Build bundle 🔨
         run: bundle exec fastlane android build_bundle
