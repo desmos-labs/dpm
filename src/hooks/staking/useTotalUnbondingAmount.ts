@@ -35,7 +35,7 @@ const useTotalDelegatedAmount = (userAddress?: string) => {
     const coins: Coin[] = data?.action_unbonding_delegation_total?.coins ?? [];
 
     if (coins.length === 0) {
-      // If the user don't have any unbonding tokens fallback to a zero amount.
+      // If the user doesn't have any unbonding tokens fallback to a zero amount.
       coins.push(coin(0, chainInfo.stakeCurrency.coinMinimalDenom));
     }
 
