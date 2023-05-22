@@ -84,7 +84,7 @@ const StakedTab: React.FC = () => {
       {/* Total staked amount */}
       {totalDelegatedError === undefined && (
         <View style={styles.totalStaked}>
-          <Typography.Body>{t('total staked')}</Typography.Body>
+          <Typography.Body>{t('staking:total staked')}</Typography.Body>
           <Spacer paddingHorizontal={8} />
           {totalDelegatedLoading ? (
             <TypographyContentLoaders.Body width={200} />

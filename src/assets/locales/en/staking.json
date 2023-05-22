@@ -22,5 +22,6 @@
   "rewards claimed successfully": "You rewards have been claimed successfully",
   "rewards claimed unsuccessfully": "You rewards have not been claimed",
   "your tokens has been unbonded successfully": "Your {{ tokens }} have been unbonded successfully",
-  "your tokens hasn't been unbonded successfully": "Your {{ tokens }} have not been unbonded"
+  "your tokens hasn't been unbonded successfully": "Your {{ tokens }} have not been unbonded",
+  "total staked": "Total Staked"
 }
