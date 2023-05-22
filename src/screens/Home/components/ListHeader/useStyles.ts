@@ -4,20 +4,16 @@ const useStyles = makeStyle((theme) => ({
   root: {
     alignItems: 'center',
   },
-  actionContainer: {
-    display: 'flex',
+  addressContainer: {
+    displaye: 'flex',
     flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    alignSelf: 'flex-start',
-    padding: theme.spacing.m,
-    borderRadius: theme.roundness,
     backgroundColor: theme.colors.surface,
+    borderRadius: theme.roundness,
+    alignItems: 'center',
+    paddingHorizontal: theme.spacing.m,
   },
-  actionValues: {
-    display: 'flex',
-    flex: 1,
-    flexDirection: 'column',
+  address: {
+    maxWidth: '50%',
   },
 }));
 

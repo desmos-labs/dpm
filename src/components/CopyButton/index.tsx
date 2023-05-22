@@ -8,7 +8,7 @@ export interface CopyButtonProps extends Omit<IconButtonProps, 'icon'> {
   value: string;
 }
 
-const CopyButton = (props: CopyButtonProps) => {
+const CopyButton: React.FC<CopyButtonProps> = (props) => {
   const { t } = useTranslation();
   const { value } = props;
   const showSnackBar = useShowSnackBar();
@@ -19,7 +19,13 @@ const CopyButton = (props: CopyButtonProps) => {
   }, [value, showSnackBar, t]);
 
   return (
-    <IconButton icon="content-copy" color="#ffffff" size={16} onPress={onCopyPressed} {...props} />
+    <IconButton
+      icon="content-copy"
+      color={'#ffffff'}
+      size={16}
+      onPress={onCopyPressed}
+      {...props}
+    />
   );
 };
 

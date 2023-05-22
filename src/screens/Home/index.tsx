@@ -29,7 +29,7 @@ export type NavProps = CompositeScreenProps<
 
 const Home: React.FC<NavProps> = (props) => {
   const { navigation } = props;
-  const { t } = useTranslation();
+  const { t } = useTranslation('account');
   const theme = useTheme();
   const styles = useStyles();
   const { openDrawer } = useDrawerContext();

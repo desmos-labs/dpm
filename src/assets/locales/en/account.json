@@ -2,11 +2,8 @@
   "account created": "Account created",
   "error saving account": "An error occurred while saving the account",
   "saving account": "Saving account",
-
   "account saved": "Account saved",
   "account ready to be used": "Your account is now ready to be used",
-
-
   "generating account": "Generating account",
   "accounts": "Accounts",
   "add account": "Add account",
@@ -51,5 +48,6 @@
   "confirm password": "Confirm password",
   "wrong confirmation password": "Confirmation password doesn't match",
   "password complexity hint": "Min length: 6 characters. It's recommended to mix alphanumeric and special characters",
-  "connect chain": "Connect chain"
+  "connect chain": "Connect chain",
+  "total balance": "Total balance"
 }

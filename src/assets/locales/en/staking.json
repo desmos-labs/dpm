@@ -23,5 +23,6 @@
   "rewards claimed unsuccessfully": "You rewards have not been claimed",
   "your tokens has been unbonded successfully": "Your {{ tokens }} have been unbonded successfully",
   "your tokens hasn't been unbonded successfully": "Your {{ tokens }} have not been unbonded",
-  "total staked": "Total Staked"
+  "total staked": "Total Staked",
+  "total staking rewards": "Total staking rewards"
 }

@@ -32,5 +32,7 @@
   "in days_zero": "Today",
   "in days_one": "in {{ count }} day",
   "in days_other": "in {{ count }} days",
-  "it's empty": "It's empty"
+  "it's empty": "It's empty",
+  "claim": "Claim",
+  "manage": "Manage"
 }
