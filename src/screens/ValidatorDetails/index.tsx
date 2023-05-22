@@ -22,11 +22,18 @@ import useStyles from './useStyles';
 import ValidatorInfoField from './components/ValidatorInfoField';
 
 export type ValidatorDetailsParams = {
+  /**
+   * Validator whose details will be shown.
+   */
   validator: Validator;
 };
 
 type NavProps = StackScreenProps<RootNavigatorParamList, ROUTES.VALIDATOR_DETAILS>;
 
+/**
+ * Screen that shows the details of a validator allowing the user
+ * to delegate some tokens to them.
+ */
 const ValidatorDetails: FC<NavProps> = (props) => {
   const { validator } = props.route.params;
   const styles = useStyles();

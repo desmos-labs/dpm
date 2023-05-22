@@ -31,6 +31,9 @@ export interface UnbondTokensParams {
 
 type NavProps = StackScreenProps<RootNavigatorParamList, ROUTES.UNBOND_TOKENS>;
 
+/**
+ * Screen that let the user unbond an amount of tokens from a validator.
+ */
 const UnbondTokens: React.FC<NavProps> = (props) => {
   const { fromValidator, onSuccess } = props.route.params;
   const { t } = useTranslation('staking');

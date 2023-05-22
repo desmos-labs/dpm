@@ -13,10 +13,22 @@ import { differenceInDays, format } from 'date-fns';
 import useStyles from './useStyles';
 
 export interface UnbondingDelegationListItemProps {
+  /**
+   * Delegations to be displayed.
+   */
   readonly unbondingDelegation: UnbondingDelegation;
+  /**
+   * Callback called if the user press on the component.
+   */
   readonly onPress?: (delegation: UnbondingDelegation) => any;
 }
 
+/**
+ * Component that shows the following information of a `UnbondingDelegation` object:
+ * - Validator from which the tokens are being unbonded;
+ * - Amount of tokens being unbonded;
+ * - Date time of when the unbond operation completes.
+ */
 const UnbondingDelegationListItem: React.FC<UnbondingDelegationListItemProps> = ({
   unbondingDelegation,
   onPress,

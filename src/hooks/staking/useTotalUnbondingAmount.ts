@@ -8,8 +8,8 @@ import GetAccountUnbondingDelegationTotal from 'services/graphql/queries/GetAcco
 
 /**
  * Hook that provides the total amount of coins that an account is unbonding.
- * @param userAddress - Address of the account whose total will be calculated,
- * if undefined will be used the address of the current active user.
+ * @param userAddress - Address of the account for which the amount will be calculated.
+ * If undefined, the address of the current active user will be used instead.
  */
 const useTotalDelegatedAmount = (userAddress?: string) => {
   const activeAccountAddress = useActiveAccountAddress();

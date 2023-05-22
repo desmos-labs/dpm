@@ -22,12 +22,22 @@ import { AmountLimit } from 'components/CoinAmountInput/limits';
 import useStyles from './useStyles';
 
 export type StakingParams = {
+  /**
+   * Validator to which tokens will be delegated.
+   */
   validator: Validator;
+  /**
+   * Callback called if the transaction to stake the tokens
+   * will be successfully executed.
+   */
   onSuccess?: () => any;
 };
 
 type NavProps = StackScreenProps<RootNavigatorParamList, ROUTES.STAKE>;
 
+/**
+ * Screen that let a user stake some coins toward a validator.
+ */
 const Stake: React.FC<NavProps> = (props) => {
   const { t } = useTranslation('stake');
   const { validator, onSuccess } = props.route.params;
