@@ -4,21 +4,28 @@ import Button from 'components/Button';
 import { StyleProp, View, ViewStyle } from 'react-native';
 import Typography from 'components/Typography';
 import { formatCoin, formatNumber, safePartFloat } from 'lib/FormatUtils';
-import useActiveAccountBalance from 'hooks/useActiveAccountBalance';
 import { useCurrentChainInfo } from '@recoil/settings';
 import { useTranslation } from 'react-i18next';
 import { Coin } from '@desmoslabs/desmjs-types/cosmos/base/v1beta1/coin';
 import { coin } from '@cosmjs/amino';
+import { useAmountInputLimit } from 'components/CoinAmountInput/hooks';
 import useStyles from './useStyles';
+import { AmountLimit, AmountLimitConfig } from './limits';
 
 export interface CoinAmountInputProps {
+  /**
+   * How this component defines the maximum amount that the user can input.
+   * Note: to avoid unnecessary query to get the limit this value must be
+   * memoized with a React.useMemo.
+   */
+  amountLimitConfig: AmountLimitConfig;
   /**
    * Callback called when the amount changes.
    * @param amount - Current amount represented as coin, if undefined means
    * that the input has been cleared.
    * @param isValid - Tells if the amount is valid, to be valid the amount
-   * must be defined and less equals than the current active user available
-   * balance.
+   * must be defined and less or equals to what the user has selected as limit
+   * and is specified inside the `amountLimitConfig` prop.
    */
   onChange?: (amount: Coin | undefined, isValid: boolean) => any;
   /**
@@ -32,7 +39,11 @@ export interface CoinAmountInputProps {
  * Component that let the user input an amount of coin that can be
  * at least the maximum available balance that the current active user have.
  */
-const CoinAmountInput: React.FC<CoinAmountInputProps> = ({ onChange, containerStyle }) => {
+const CoinAmountInput: React.FC<CoinAmountInputProps> = ({
+  amountLimitConfig,
+  onChange,
+  containerStyle,
+}) => {
   const styles = useStyles();
   const { t } = useTranslation('components.coinAmountInput');
 
@@ -41,20 +52,25 @@ const CoinAmountInput: React.FC<CoinAmountInputProps> = ({ onChange, containerSt
   const [isInputValid, setIsInputValid] = React.useState(true);
 
   // -------- HOOKS --------
-  const { loading, balance } = useActiveAccountBalance();
+  const { loading, amount } = useAmountInputLimit(amountLimitConfig);
   const chainInfo = useCurrentChainInfo();
 
   // -------- CONSTANTS --------
   const spendable = React.useMemo(
-    () =>
-      balance.find((c) => c.denom === chainInfo.stakeCurrency.coinMinimalDenom) ??
-      coin(0, chainInfo.stakeCurrency.coinMinimalDenom),
-    [chainInfo, balance],
+    () => amount ?? coin(0, chainInfo.stakeCurrency.coinMinimalDenom),
+    [chainInfo, amount],
   );
   // Factor to convert the input value to the stake currency coin.
   const currencyConversionFactor = React.useMemo(
     () => 10 ** chainInfo.stakeCurrency.coinDecimals,
     [chainInfo],
+  );
+  const amountLabel = React.useMemo(
+    () =>
+      amountLimitConfig.mode === AmountLimit.DelegatedToValidator
+        ? t('staking:staked')
+        : t('common:available'),
+    [amountLimitConfig, t],
   );
 
   // -------- CALLBACKS --------
@@ -104,9 +120,10 @@ const CoinAmountInput: React.FC<CoinAmountInputProps> = ({ onChange, containerSt
         error={!isInputValid}
         rightElement={<Button onPress={onMaxPressed}>{t('max')}</Button>}
       />
+
       {/* Spendable amount */}
       <View style={styles.spendableContainer}>
-        <Typography.Body>{t('common:available')}:</Typography.Body>
+        <Typography.Body>{amountLabel}:</Typography.Body>
         {!loading && (
           <Typography.Body style={styles.spendableAmountValue}>
             {formatCoin(spendable)}

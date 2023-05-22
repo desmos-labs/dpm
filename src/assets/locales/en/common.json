@@ -28,5 +28,9 @@
   "days distance_zero": "Today",
   "days distance_one": "{{ count }} Day Ago",
   "days distance_other": "{{ count }} Days Ago",
-  "no results": "No results"
+  "no results": "No results",
+  "in days_zero": "Today",
+  "in days_one": "in {{ count }} day",
+  "in days_other": "in {{ count }} days",
+  "it's empty": "It's empty"
 }

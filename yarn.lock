@@ -10713,6 +10713,11 @@ react-native-mmkv@^2.5.1:
   resolved "https://registry.npmjs.org/react-native-mmkv/-/react-native-mmkv-2.5.1.tgz#29fc462077fab16a5e1b79570fbf8acaac9d87b4"
   integrity sha512-5eQu25z3H6zf6w0NkJoTuFEFrbOu6luZxZ6+rK1W+XwY/rjPSFZFQPVtMaz3im90RbILFXXM/KrFGZrpaJJRoQ==
 
+react-native-pager-view@^6.2.0:
+  version "6.2.0"
+  resolved "https://registry.npmjs.org/react-native-pager-view/-/react-native-pager-view-6.2.0.tgz#51380d93fbe47f6380dc71d613a787bf27a4ca37"
+  integrity sha512-pf9OnL/Tkr+5s4Gjmsn7xh91PtJLDa6qxYa/bmtUhd/+s4cQdWQ8DIFoOFghwZIHHHwVdWtoXkp6HtpjN+r20g==
+
 react-native-paper@^4.12.1:
   version "4.12.1"
   resolved "https://registry.yarnpkg.com/react-native-paper/-/react-native-paper-4.12.1.tgz#9c0c6236f40ab0bf02dd2d42e0264125d2f9d48a"
@@ -10775,6 +10780,13 @@ react-native-svg@^13.7.0:
   dependencies:
     css-select "^5.1.0"
     css-tree "^1.1.3"
+
+react-native-tab-view@^3.5.1:
+  version "3.5.1"
+  resolved "https://registry.npmjs.org/react-native-tab-view/-/react-native-tab-view-3.5.1.tgz#2ad454afc0e186b43ea8b89053f39180d480d48b"
+  integrity sha512-qdrS5t+AEhfuKQyuCXkwHu4IVppkuTvzWWlkSZKrPaSkjjIa32xrsGxt1UW9YDdro2w4AMw5hKn1hFmg/5mvzA==
+  dependencies:
+    use-latest-callback "^0.1.5"
 
 react-native-url-polyfill@^1.3.0:
   version "1.3.0"
@@ -12333,6 +12345,11 @@ url@0.11.0:
   dependencies:
     punycode "1.3.2"
     querystring "0.2.0"
+
+use-latest-callback@^0.1.5:
+  version "0.1.6"
+  resolved "https://registry.npmjs.org/use-latest-callback/-/use-latest-callback-0.1.6.tgz#3fa6e7babbb5f9bfa24b5094b22939e1e92ebcf6"
+  integrity sha512-VO/P91A/PmKH9bcN9a7O3duSuxe6M14ZoYXgA6a8dab8doWNdhiIHzEkX/jFeTTRBsX0Ubk6nG4q2NIjNsj+bg==
 
 use-sync-external-store@^1.0.0:
   version "1.2.0"

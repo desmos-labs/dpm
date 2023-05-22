@@ -16,7 +16,7 @@ const MsgRequestDtagTransferListItem: MessageListItemComponent<
       <View>
         <Typography.Body>{t('request dtag transfer')}</Typography.Body>
         <Typography.Caption numberOfLines={1} ellipsizeMode="middle">
-          {t('common:to')} {message.value.receiver}
+          {t('transaction:to')} {message.value.receiver}
         </Typography.Caption>
       </View>
     ),

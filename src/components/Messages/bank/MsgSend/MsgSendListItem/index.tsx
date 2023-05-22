@@ -29,7 +29,7 @@ const MsgSendListItem: MessageListItemComponent<MsgSendEncodeObject> = ({ messag
           </Typography.Body1>
           <View style={styles.toAddress}>
             <Typography.Caption numberOfLines={1} ellipsizeMode="middle">
-              {t('common:to')} {value.toAddress}
+              {t('transaction:to')} {value.toAddress}
             </Typography.Caption>
           </View>
         </View>

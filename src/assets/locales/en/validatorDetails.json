@@ -1,10 +1,4 @@
 {
-  "tombstoned": "Tombstoned",
-  "jailed": "Jailed",
-  "unbonded": "Unboned",
-  "unbonding": "Unbonding",
-  "active": "Active",
-  "unknown": "Unknown",
   "website": "Website",
   "voting power": "Voting power",
   "commission": "Commission",
@@ -13,5 +7,4 @@
   "error loading apr": "Error loading APR",
   "error loading delegations": "Error loading delegations",
   "error loading voting power": "Error loading voting power",
-  "stake": "Stake"
 }

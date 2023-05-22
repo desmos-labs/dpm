@@ -9,7 +9,7 @@ import { gql } from '@apollo/client';
  * });
  */
 const GetAccountPendingRewards = gql`
-  query GetAccountPendingRewards($address: String!) {
+  query GetAccountPendingRewards($address: String!) @api(name: forbole) {
     action_delegation_reward(address: $address) {
       coins
       validator_address

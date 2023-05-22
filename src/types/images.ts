@@ -11,6 +11,8 @@ export enum DPMImages {
   Ledger,
   TxFailed,
   TxSuccess,
+  EmptyList,
+  NoData,
 }
 
 export enum DPMAnimations {

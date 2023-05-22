@@ -1,0 +1,22 @@
+{
+  "stake": "Stake",
+  "claim rewards": "Claim rewards",
+  "restake": "Restake",
+  "unbond": "Unbond",
+  "staked": "Staked",
+  "unbonding": "Unbonding",
+  "tombstoned": "Tombstoned",
+  "jailed": "Jailed",
+  "unbonded": "Unboned",
+  "active": "Active",
+  "unknown": "Unknown",
+  "restake to": "Restake to",
+  "restake from": "Restake from",
+  "pending rewards": "Pending rewards",
+  "restaking": "Restaking",
+  "rewards": "Rewards",
+  "your tokens has been restaked successfully": "Your {{ tokens }} have been restaked successfully",
+  "your tokens hasn't been restaked successfully": "Your {{ tokens }} have been restaked unsuccessfully",
+  "rewards claimed successfully": "You rewards have been claimed successfully",
+  "rewards claimed unsuccessfully": "You rewards have been claimed unsuccessfully"
+}

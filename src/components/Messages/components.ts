@@ -6,6 +6,7 @@ import {
   MsgAddRegisteredReactionTypeUrl,
   MsgAddUserToUserGroupTypeUrl,
   MsgAnswerPollTypeUrl,
+  MsgBeginRedelegateTypeUrl,
   MsgBlockUserTypeUrl,
   MsgCancelDTagTransferRequestTypeUrl,
   MsgCreatePostTypeUrl,
@@ -60,6 +61,7 @@ import MsgMultiSendComponents from './bank/MsgMultiSend';
 import MsgVoteComponents from './gov/MsgVote';
 import MsgDelegateComponents from './staking/MsgDelegate';
 import MsgWithdrawDelegatorRewardsComponents from './distribution/MsgWithdrawDelegatorRewards';
+import MsgBeginRedelegateComponents from './distribution/MsgBeginRedelegate';
 import MsgSaveProfileComponents from './profiles/MsgSaveProfile';
 import MsgLinkChainAccountComponents from './profiles/MsgLinkChainAccount';
 import MsgUnlinkChainAccountComponents from './profiles/MsgUnlinkChainAccount';
@@ -125,6 +127,7 @@ export const messageDetailsComponents: Record<string, MessageComponents<any>> = 
 
   // x/staking
   [MsgDelegateTypeUrl]: MsgDelegateComponents,
+  [MsgBeginRedelegateTypeUrl]: MsgBeginRedelegateComponents,
 
   // x/feegrant
   [MsgGrantAllowanceTypeUrl]: MsgGrantAllowanceComponents,

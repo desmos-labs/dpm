@@ -12,7 +12,8 @@ import { gql } from '@apollo/client';
  * });
  */
 const GetAccountDelegations = gql`
-  query GetAccountDelegations($address: String!, $limit: Int = 100, $offset: Int = 0) {
+  query GetAccountDelegations($address: String!, $limit: Int = 100, $offset: Int = 0)
+  @api(name: forbole) {
     action_delegation(address: $address, limit: $limit, offset: $offset) {
       delegations
     }

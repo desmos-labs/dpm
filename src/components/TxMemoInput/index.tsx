@@ -40,7 +40,7 @@ const TxMemoInput: React.FC<TxtMemoInputProps> = ({
   onChange,
 }) => {
   const styles = useStyles();
-  const { t } = useTranslation('tx');
+  const { t } = useTranslation('transaction');
 
   return (
     <TextInput

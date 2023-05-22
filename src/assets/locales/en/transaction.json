@@ -1,7 +1,6 @@
 {
   "fee": "Fee",
   "gas": "Gas",
-  "memo": "Memo",
   "today": "Today",
   "tx details": "Transaction details",
   "view on explorer": "View on Desmos explorer",
@@ -12,5 +11,7 @@
   "time": "Time",
   "status": "Status",
   "to": "To",
-  "from": "From"
+  "from": "From",
+  "memo": "Note (Memo)",
+  "memo placeholder": "Description (optional)"
 }

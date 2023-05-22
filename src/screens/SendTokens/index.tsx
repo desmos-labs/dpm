@@ -15,6 +15,7 @@ import { safeParseInt } from 'lib/FormatUtils';
 import CoinAmountInput from 'components/CoinAmountInput';
 import { Coin } from '@desmoslabs/desmjs-types/cosmos/base/v1beta1/coin';
 import TxMemoInput from 'components/TxMemoInput';
+import { AmountLimit } from 'components/CoinAmountInput/limits';
 import useStyles from './useStyles';
 import useSendTokens from './useHooks';
 
@@ -81,10 +82,21 @@ const SendTokens = () => {
 
       {/* Amount */}
       <Typography.Subtitle style={styles.topMarginSmall}>{t('amount')}</Typography.Subtitle>
-      <CoinAmountInput onChange={onAmountChange} containerStyle={styles.topMarginSmall} />
+      <CoinAmountInput
+        amountLimitConfig={React.useMemo(
+          () => ({
+            mode: AmountLimit.UserBalance,
+          }),
+          [],
+        )}
+        onChange={onAmountChange}
+        containerStyle={styles.topMarginSmall}
+      />
 
       {/* Transaction note / memo */}
-      <Typography.Subtitle style={styles.topMarginSmall}>{t('tx:memo')}</Typography.Subtitle>
+      <Typography.Subtitle style={styles.topMarginSmall}>
+        {t('transaction:memo')}
+      </Typography.Subtitle>
       <TxMemoInput style={styles.topMarginSmall} value={memo} onChange={setMemo} />
 
       {/* Spacer */}

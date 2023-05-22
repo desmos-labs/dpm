@@ -15,14 +15,6 @@ const useStyles = makeStyle((theme) => ({
     flex: 1,
     padding: theme.spacing.m,
   },
-  validatorDetailsContainer: {
-    display: 'flex',
-    flexDirection: 'row',
-    alignItems: 'center',
-    backgroundColor: theme.colors.surface,
-    padding: theme.spacing.s,
-    borderRadius: theme.roundness,
-  },
   nextButton: {
     marginBottom: theme.spacing.xl,
   },

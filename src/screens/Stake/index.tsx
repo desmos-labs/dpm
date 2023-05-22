@@ -8,8 +8,6 @@ import TopBar from 'components/TopBar';
 import { useTranslation } from 'react-i18next';
 import { View } from 'react-native';
 import Typography from 'components/Typography';
-import AvatarImage from 'components/AvatarImage';
-import { getValidatorAvatar, getValidatorName } from 'lib/ValidatorUtils';
 import Spacer from 'components/Spacer';
 import CoinAmountInput from 'components/CoinAmountInput';
 import { Coin } from '@desmoslabs/desmjs-types/cosmos/base/v1beta1/coin';
@@ -19,6 +17,8 @@ import TxMemoInput from 'components/TxMemoInput';
 import useStakingUnbondingDays from 'hooks/staking/useStakingUnbondingDays';
 import StyledActivityIndicator from 'components/StyledActivityIndicator';
 import { useDelegateTokens } from 'screens/Stake/hooks';
+import ValidatorCompact from 'components/ValidatorCompact';
+import { AmountLimit } from 'components/CoinAmountInput/limits';
 import useStyles from './useStyles';
 
 export type StakingParams = {
@@ -79,21 +79,25 @@ const Stake: React.FC<NavProps> = (props) => {
       <View style={styles.content}>
         {/* Information of the validator to which the user id performing the delegation */}
         <Typography.Body>{t('stake to')}</Typography.Body>
-        <View style={styles.validatorDetailsContainer}>
-          <AvatarImage source={getValidatorAvatar(validator)} size={32} />
-          <Spacer paddingHorizontal={8} />
-          <Typography.Body>{getValidatorName(validator)}</Typography.Body>
-        </View>
+        <ValidatorCompact validator={validator} />
 
         <Spacer paddingVertical={8} />
 
         {/* Stake amount */}
-        <CoinAmountInput onChange={onStakeAmountChange} />
+        <CoinAmountInput
+          amountLimitConfig={React.useMemo(
+            () => ({
+              mode: AmountLimit.UserBalance,
+            }),
+            [],
+          )}
+          onChange={onStakeAmountChange}
+        />
 
         <Spacer paddingVertical={16} />
 
         {/* Tx memo input */}
-        <Typography.Body>{t('tx:memo')}</Typography.Body>
+        <Typography.Body>{t('transaction:memo')}</Typography.Body>
         <TxMemoInput value={memo} onChange={setMemo} />
 
         <Flexible.Padding flex={1} />
