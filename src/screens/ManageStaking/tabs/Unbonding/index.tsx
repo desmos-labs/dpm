@@ -19,8 +19,12 @@ import UnbondingDelegationListItem from 'screens/ManageStaking/tabs/Unbonding/co
 import { NavigationProp, useNavigation } from '@react-navigation/native';
 import { RootNavigatorParamList } from 'navigation/RootNavigator';
 import ROUTES from 'navigation/routes';
+import Button from 'components/Button';
 import useStyles from './useStyles';
 
+/**
+ * Component that shows the current active account's unbonding delegations.
+ */
 const UnbondingTab: React.FC = () => {
   const navigation = useNavigation<NavigationProp<RootNavigatorParamList>>();
   const { t } = useTranslation('unbonding');
@@ -106,6 +110,13 @@ const UnbondingTab: React.FC = () => {
             <EmptyList
               message={errorUnbondingDelegations?.message ?? t("common:it's empty")}
               image={errorUnbondingDelegations ? DPMImages.NoData : DPMImages.EmptyList}
+              extraComponent={
+                errorUnbondingDelegations !== undefined && (
+                  <Button mode="outlined" onPress={refreshData}>
+                    {t('common:retry')}
+                  </Button>
+                )
+              }
             />
           ) : null
         }

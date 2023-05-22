@@ -122,7 +122,11 @@ const StakedTab: React.FC = () => {
                   <Button mode={'outlined'} onPress={stake}>
                     {t('staking:stake')}
                   </Button>
-                ) : undefined
+                ) : (
+                  <Button mode={'outlined'} onPress={refreshData}>
+                    {t('common:retry')}
+                  </Button>
+                )
               }
             />
           ) : null

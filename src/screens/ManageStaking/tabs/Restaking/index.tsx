@@ -15,6 +15,7 @@ import TypographyContentLoaders from 'components/ContentLoaders/Typography';
 import { formatCoin } from 'lib/FormatUtils';
 import EmptyList from 'components/EmptyList';
 import { DPMImages } from 'types/images';
+import Button from 'components/Button';
 import { useFetchAccountRedelegations } from './hooks';
 import useStyeles from './useStyles';
 
@@ -90,6 +91,13 @@ const RestakingTab: React.FC = () => {
             <EmptyList
               message={redelegationsError?.message ?? t("common:it's empty")}
               image={redelegationsError ? DPMImages.NoData : DPMImages.EmptyList}
+              extraComponent={
+                redelegationsError !== undefined && (
+                  <Button mode={'outlined'} onPress={refreshData}>
+                    {t('common:retry')}
+                  </Button>
+                )
+              }
             />
           ) : null
         }
