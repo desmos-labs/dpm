@@ -43,3 +43,12 @@ export const getAddress = (chain: SupportedChain, account: AccountWithWallet) =>
 export const getChainSupportedWalletTypes = (chain: SupportedChain): WalletType[] =>
   // Return all since at the moment all the chains support those methods.
   [WalletType.Mnemonic, WalletType.Ledger];
+
+/**
+ * Find the currency with the given {@param denom} inside the
+ * list of currencies of chains that the application supports.
+ */
+export const findCurrencyByMinDenom = (denom: string) =>
+  SupportedChains.flatMap((chain) => chain.chainInfo ?? [])
+    .flatMap((info) => info.currencies ?? [])
+    .find((value) => value.coinMinimalDenom === denom);

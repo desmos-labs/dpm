@@ -4,7 +4,7 @@ import GetValidatorAprData from 'services/graphql/queries/GetValidatorAprData';
 import React from 'react';
 import { Coin } from '@desmoslabs/desmjs';
 import { useCurrentChainInfo } from '@recoil/settings';
-import { roundFloat, safeParseInt, safePartFloat } from 'lib/FormatUtils';
+import { roundFloat, safeParseFloat, safeParseInt } from 'lib/FormatUtils';
 
 /**
  * Hook that provides the staking apr of a validator.
@@ -22,7 +22,7 @@ const useValidatorStakingApr = (validator: Validator) => {
     }
 
     const inflation: number = data.inflation[0].value;
-    const communityTax = safePartFloat(data.distribution_params[0].params.community_tax);
+    const communityTax = safeParseFloat(data.distribution_params[0].params.community_tax);
     const supply = safeParseInt(
       (data.supply[0].coins as Coin[]).find(
         (c) => c.denom === chainInfo.stakeCurrency.coinMinimalDenom,

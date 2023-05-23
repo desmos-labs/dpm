@@ -1,5 +1,5 @@
 import { coin } from '@cosmjs/amino';
-import { safePartFloat } from 'lib/FormatUtils';
+import { safeParseFloat } from 'lib/FormatUtils';
 import { Delegation, PendingReward, Redelegation, UnbondingDelegation } from 'types/distribution';
 
 /**
@@ -22,7 +22,7 @@ export function convertGraphQLDelegation(delegation: any): Delegation {
 export function convertGraphQLPendingReward(reward: any): PendingReward {
   return {
     validatorAddress: reward.validator_address,
-    coins: reward.coins.map((c: any) => coin(Math.trunc(safePartFloat(c.amount)), c.denom)),
+    coins: reward.coins.map((c: any) => coin(Math.trunc(safeParseFloat(c.amount)), c.denom)),
   };
 }
 

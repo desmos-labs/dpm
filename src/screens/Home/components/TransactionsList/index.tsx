@@ -4,19 +4,45 @@ import { GroupedTransactions } from 'types/transactions';
 import TransactionsListItem from 'screens/Home/components/TransactionsListItem';
 import { FlashList } from '@shopify/flash-list';
 import TransactionsListSectionHeader from 'screens/Home/components/TransactionsListSectionHeader';
-import StyledActivityIndicator from 'components/StyledActivityIndicator';
 import { useTheme } from 'react-native-paper';
 import useStyles from './useStyles';
 
 export interface TransactionsListProps {
+  /**
+   * Component rendered at the top of all the items.
+   * Can be a React Component (e.g. `SomeComponent`), or a React element (e.g. `<SomeComponent />`).
+   */
+  readonly headerComponent?: React.ComponentType<any> | React.ReactElement | null | undefined;
+  /**
+   * Component rendered when the list is empty.
+   * Can be a React Component (e.g. `SomeComponent`), or a React element (e.g. `<SomeComponent />`).
+   */
+  readonly emptyComponent?: React.ComponentType<any> | React.ReactElement | null | undefined;
+  /**
+   * If true display an animation that inform the user that the
+   * messages are being loaded.
+   */
   readonly loading: boolean;
+  /**
+   * List of grouped messages.
+   */
   readonly transactions: GroupedTransactions[];
+  /**
+   * Function to load more elements.
+   */
   readonly onFetchMore: () => void;
+  /**
+   * Function to refresh the items begin displayed.
+   */
   readonly onRefresh: () => void;
 }
 
+/**
+ * Component that shows the current active account's list of messages executed
+ * grouped by the day of execution.
+ */
 const TransactionsList = (props: TransactionsListProps) => {
-  const { loading, transactions, onFetchMore, onRefresh } = props;
+  const { loading, transactions, onFetchMore, onRefresh, headerComponent, emptyComponent } = props;
   const styles = useStyles();
   const theme = useTheme();
   const [onEndReachedCalledDuringMomentum, setOnEndReachedCalledDuringMomentum] = useState(false);
@@ -47,8 +73,10 @@ const TransactionsList = (props: TransactionsListProps) => {
   //   })
   //   .filter((item) => item !== null) as number[];
 
-  return sections && !loading ? (
+  return (
     <FlashList
+      ListHeaderComponent={headerComponent}
+      ListEmptyComponent={emptyComponent}
       data={sections}
       renderItem={renderItem}
       keyExtractor={(item, index) =>
@@ -75,8 +103,6 @@ const TransactionsList = (props: TransactionsListProps) => {
       showsVerticalScrollIndicator
       estimatedItemSize={60}
     />
-  ) : (
-    <StyledActivityIndicator />
   );
 };
 

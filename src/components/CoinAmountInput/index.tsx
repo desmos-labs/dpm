@@ -3,7 +3,7 @@ import TextInput from 'components/TextInput';
 import Button from 'components/Button';
 import { StyleProp, View, ViewStyle } from 'react-native';
 import Typography from 'components/Typography';
-import { formatCoin, formatNumber, safePartFloat } from 'lib/FormatUtils';
+import { formatCoin, formatNumber, safeParseFloat } from 'lib/FormatUtils';
 import { useCurrentChainInfo } from '@recoil/settings';
 import { useTranslation } from 'react-i18next';
 import { Coin } from '@desmoslabs/desmjs-types/cosmos/base/v1beta1/coin';
@@ -76,8 +76,8 @@ const CoinAmountInput: React.FC<CoinAmountInputProps> = ({
   // -------- CALLBACKS --------
   const onAmountChange = React.useCallback(
     (changedAmount: string) => {
-      const parsedAmount = safePartFloat(changedAmount);
-      const accountBalance = safePartFloat(spendable.amount);
+      const parsedAmount = safeParseFloat(changedAmount);
+      const accountBalance = safeParseFloat(spendable.amount);
       // Convert the amount from the chain denom to the minimal denom.
       const convertedAmount = Math.trunc(parsedAmount * currencyConversionFactor);
       const amountAllowed = convertedAmount <= accountBalance;
@@ -101,7 +101,9 @@ const CoinAmountInput: React.FC<CoinAmountInputProps> = ({
   );
 
   const onMaxPressed = React.useCallback(() => {
-    const maxInputAmount = formatNumber(safePartFloat(spendable.amount) / currencyConversionFactor);
+    const maxInputAmount = formatNumber(
+      safeParseFloat(spendable.amount) / currencyConversionFactor,
+    );
     setInputAmount(maxInputAmount);
 
     if (onChange !== undefined) {

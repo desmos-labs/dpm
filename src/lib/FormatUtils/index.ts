@@ -30,7 +30,7 @@ export const getThousandsSeparator = (locale?: string) => {
  * @param value - Value to be parsed
  * @param locale - The locale to us, if empty use the current one.
  */
-export const safePartFloat = (value: string | undefined, locale?: string) => {
+export const safeParseFloat = (value: string | undefined, locale?: string) => {
   const decimalSeparator = getDecimalSeparator(locale);
   const thousandsSeparator = getThousandsSeparator(locale);
 
@@ -79,7 +79,7 @@ export const formatNumber = (value: number): string =>
 export const formatCoin = (amount: Coin): string => {
   const currencies = getChainCurrencies();
   const convertedAmount = convertCoin(amount, 6, currencies) || amount;
-  const humanReadableAmount = formatNumber(safePartFloat(convertedAmount.amount));
+  const humanReadableAmount = formatNumber(safeParseFloat(convertedAmount.amount));
   return `${humanReadableAmount} ${convertedAmount.denom.toUpperCase()}`;
 };
 

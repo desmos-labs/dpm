@@ -1,46 +1,46 @@
 import { StackScreenProps } from '@react-navigation/stack';
-import React, { useCallback } from 'react';
+import React from 'react';
 import { useTranslation } from 'react-i18next';
-import { Image, Text, View } from 'react-native';
+import { Text, View } from 'react-native';
 import { useTheme } from 'react-native-paper';
-import Typography from 'components/Typography';
 import StyledSafeAreaView from 'components/StyledSafeAreaView';
 import TopBar from 'components/TopBar';
 import { useSetting } from '@recoil/settings';
 import { RootNavigatorParamList } from 'navigation/RootNavigator';
 import ROUTES from 'navigation/routes';
 import { DesmosMainnet } from '@desmoslabs/desmjs';
-import { homeBackgroundDark, homeBackgroundLight } from 'assets/images';
-import AccountProfilePic from 'screens/Home/components/AccountProfilePic';
-import { useActiveAccount } from '@recoil/activeAccount';
-import useActiveAccountBalance from 'hooks/useActiveAccountBalance';
 import { CompositeScreenProps, useFocusEffect } from '@react-navigation/native';
 import { BottomTabScreenProps } from '@react-navigation/bottom-tabs';
 import { HomeTabsParamList } from 'navigation/RootNavigator/HomeTabs';
 import useDrawerContext from 'lib/AppDrawer/context';
-import AccountTransactions from 'screens/Home/components/AccountTransactions';
 import useActiveAccountTransactions from 'hooks/useActiveAccountTransactions';
 import useProfileGivenAddress from 'hooks/useProfileGivenAddress';
+import AccountBalances from 'screens/Home/components/AccountBalances';
+import TransactionsList from 'screens/Home/components/TransactionsList';
+import { DPMImages } from 'types/images';
+import EmptyList from 'components/EmptyList';
+import ProfileImage from 'components/ProfileImage';
+import Typography from 'components/Typography';
 import useStyles from './useStyles';
-import AccountBalance from './components/AccountBalance';
 
 export type NavProps = CompositeScreenProps<
   StackScreenProps<RootNavigatorParamList>,
   BottomTabScreenProps<HomeTabsParamList, ROUTES.HOME>
 >;
 
+/**
+ * Screen that shows the user's balances and transactions history
+ * and let him stake or send some tokens.
+ */
 const Home: React.FC<NavProps> = (props) => {
   const { navigation } = props;
-  const { t } = useTranslation();
+  const { t } = useTranslation('account');
   const theme = useTheme();
   const styles = useStyles();
   const { openDrawer } = useDrawerContext();
 
   const chainName = useSetting('chainName');
-
-  const account = useActiveAccount();
   const { profile, refetch: updateProfile } = useProfileGivenAddress();
-  const { balance, loading: balanceLoading, refetch: updateBalance } = useActiveAccountBalance();
   const {
     transactions,
     loading: transactionsLoading,
@@ -52,18 +52,9 @@ const Home: React.FC<NavProps> = (props) => {
   useFocusEffect(
     React.useCallback(() => {
       updateProfile();
-      updateBalance();
       reloadTransactions();
-    }, [updateProfile, updateBalance, reloadTransactions]),
+    }, [updateProfile, reloadTransactions]),
   );
-
-  const onFetchMoreTxs = useCallback(() => {
-    fetchMoreTransactions();
-  }, [fetchMoreTransactions]);
-
-  const onReloadTxs = useCallback(() => {
-    reloadTransactions();
-  }, [reloadTransactions]);
 
   return (
     <StyledSafeAreaView padding={0} noIosPadding>
@@ -74,46 +65,34 @@ const Home: React.FC<NavProps> = (props) => {
         </View>
       )}
 
-      {/* Background image */}
-      <Image
-        source={theme.dark ? homeBackgroundDark : homeBackgroundLight}
-        resizeMode="stretch"
-        style={styles.background}
-      />
-
       {/* Top bar */}
       <TopBar
-        style={styles.topBar}
-        leftIconColor={theme.colors.icon['5']}
+        leftIconColor={theme.colors.icon['1']}
+        title={profile?.nickname ?? profile?.dtag}
         stackProps={{ ...props, navigation: { ...navigation, openDrawer } }}
-        rightElement={<AccountProfilePic profile={profile} />}
-      />
-
-      {/* Account balance */}
-      <AccountBalance
-        style={styles.userBalance}
-        account={account}
-        profile={profile}
-        balance={balance}
-        loading={balanceLoading}
+        rightElement={<ProfileImage size={30} profile={profile} style={styles.avatarImage} />}
       />
 
       {/* Transactions list */}
       <View style={styles.transactionsContainer}>
-        <View
-          style={{
-            zIndex: 2,
-            backgroundColor: theme.colors.background2,
-            paddingVertical: theme.spacing.m,
-          }}
-        >
-          <Typography.Subtitle>{t('transactions')}</Typography.Subtitle>
-        </View>
-        <AccountTransactions
-          transactions={transactions}
+        <TransactionsList
+          headerComponent={
+            <>
+              <AccountBalances />
+              <Typography.Body1>{t('common:transactions')}</Typography.Body1>
+            </>
+          }
+          emptyComponent={
+            <EmptyList
+              topPadding={0}
+              image={DPMImages.NoTransaction}
+              message={t('no transactions')}
+            />
+          }
           loading={transactionsLoading}
-          onFetchMore={onFetchMoreTxs}
-          onReload={onReloadTxs}
+          transactions={transactions}
+          onFetchMore={fetchMoreTransactions}
+          onRefresh={reloadTransactions}
         />
       </View>
     </StyledSafeAreaView>
