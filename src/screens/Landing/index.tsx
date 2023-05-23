@@ -73,7 +73,7 @@ const Landing = ({ navigation }: NavProps) => {
       message: t('to use this application you must accept the ToS and the privacy policy'),
       actionLabel: t('common:ok'),
     });
-  }, [showModal]);
+  }, [showModal, t]);
 
   const onCreateAccount = React.useCallback(() => {
     if (showLegalSection && !tosAccepted) {
