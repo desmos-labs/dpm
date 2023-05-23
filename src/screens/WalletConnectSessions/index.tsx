@@ -18,6 +18,9 @@ import useStyles from './useStyles';
 
 export type NavProps = StackScreenProps<RootNavigatorParamList, ROUTES.WALLET_CONNECT_SESSIONS>;
 
+/**
+ * Screen that shows the current active account's WalletConnect sessions.
+ */
 const WalletConnectSessions = (props: NavProps) => {
   const { navigation } = props;
   const { t } = useTranslation();

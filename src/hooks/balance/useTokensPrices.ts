@@ -15,7 +15,7 @@ import { CoinFiatValue } from 'types/prices';
  */
 const getPrices = (data: any, coins: Coin[]) => {
   const prices = convertGraphQLTokenPrice(data);
-  return coins.map((coin) => {
+  return coins.map<CoinFiatValue>((coin) => {
     const currency = findCurrencyByMinDenom(coin.denom);
 
     // Can't find a currency for this denom, we can't get the price of the
@@ -25,12 +25,13 @@ const getPrices = (data: any, coins: Coin[]) => {
         denom: coin.denom,
         amount: coin.amount,
         fiatValue: 0,
-      } as CoinFiatValue;
+      };
     }
 
-    const currencyPrice = prices.find(
-      (p) => p.denom.toLowerCase() === currency.coinDenom.toLowerCase(),
-    );
+    // Compare the denoms in a case-insensitive way because the currency.coinDenom
+    // can be all upper case or PascalCase while the TokenPrice received
+    // from the server is all lowercase.
+    const currencyPrice = prices.find((p) => p.denom === currency.coinDenom.toLowerCase());
 
     // Can't find the price for this currency fallback to 0
     if (currencyPrice === undefined) {
@@ -43,6 +44,8 @@ const getPrices = (data: any, coins: Coin[]) => {
 
     // Factor to convert the coin from its minimal denom to the currency denom.
     const coinConversionFactory = 10 ** currency.coinDecimals;
+
+    // Convert the coin amount.
     const coinAmount = safeParseFloat(coin.amount) / coinConversionFactory;
 
     return {
@@ -63,7 +66,9 @@ const useTokensPrices = (coins: Coin[]) => {
       denoms: DesmosMainnet.currencies.map((currency) => currency.coinMinimalDenom),
     },
   });
+
   const prices = React.useMemo(() => getPrices(data, coins), [data, coins]);
+
   return {
     prices,
     loading,

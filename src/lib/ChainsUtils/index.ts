@@ -45,7 +45,8 @@ export const getChainSupportedWalletTypes = (chain: SupportedChain): WalletType[
   [WalletType.Mnemonic, WalletType.Ledger];
 
 /**
- * Find the currency with the given {@param denom} inside the list of currencies of the supported chains.
+ * Find the currency with the given {@param denom} inside the
+ * list of currencies of chains that the application supports.
  */
 export const findCurrencyByMinDenom = (denom: string) =>
   SupportedChains.flatMap((chain) => chain.chainInfo ?? [])

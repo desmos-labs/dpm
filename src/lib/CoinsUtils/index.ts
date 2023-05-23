@@ -3,22 +3,20 @@ import { safeParseFloat } from 'lib/FormatUtils';
 import { coin } from '@cosmjs/amino';
 
 /**
- * Sum two array of Coin by their denom.
+ * Function to all the coins of an array or to sum two array of coins.
  * @param coinsA - First array to sum.
  * @param coinsB - Second array to sum.
  */
 export const sumCoins = (coinsA: Coin[] | undefined, coinsB?: Coin[] | undefined): Coin[] => {
   const denomsAmounts: Record<string, number> = {};
 
-  coinsA?.forEach((c) => {
+  const performSum = (c: Coin) => {
     const currentValue = denomsAmounts[c.denom] ?? 0;
     denomsAmounts[c.denom] = currentValue + safeParseFloat(c.amount);
-  });
+  };
 
-  coinsB?.forEach((c) => {
-    const currentValue = denomsAmounts[c.denom] ?? 0;
-    denomsAmounts[c.denom] = currentValue + safeParseFloat(c.amount);
-  });
+  coinsA?.forEach(performSum);
+  coinsB?.forEach(performSum);
 
   return Object.keys(denomsAmounts).map((k) => coin(denomsAmounts[k], k));
 };
