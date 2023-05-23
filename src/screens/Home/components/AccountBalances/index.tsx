@@ -155,7 +155,7 @@ const AccountBalances: React.FC = () => {
         <Typography.Subtitle2>{formatCoins(totalBalance)}</Typography.Subtitle2>
       )}
 
-      <Spacer paddingVertical={25} />
+      <Spacer paddingVertical={32} />
 
       {/* User available tokens */}
       <AccountBalancesAction
