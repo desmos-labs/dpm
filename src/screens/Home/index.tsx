@@ -15,11 +15,12 @@ import { HomeTabsParamList } from 'navigation/RootNavigator/HomeTabs';
 import useDrawerContext from 'lib/AppDrawer/context';
 import useActiveAccountTransactions from 'hooks/useActiveAccountTransactions';
 import useProfileGivenAddress from 'hooks/useProfileGivenAddress';
-import ListHeader from 'screens/Home/components/ListHeader';
+import AccountBalances from 'screens/Home/components/AccountBalances';
 import TransactionsList from 'screens/Home/components/TransactionsList';
 import { DPMImages } from 'types/images';
 import EmptyList from 'components/EmptyList';
 import ProfileImage from 'components/ProfileImage';
+import Typography from 'components/Typography';
 import useStyles from './useStyles';
 
 export type NavProps = CompositeScreenProps<
@@ -27,6 +28,10 @@ export type NavProps = CompositeScreenProps<
   BottomTabScreenProps<HomeTabsParamList, ROUTES.HOME>
 >;
 
+/**
+ * Screen that shows the user's balances and transactions history
+ * and let him stake or send some tokens.
+ */
 const Home: React.FC<NavProps> = (props) => {
   const { navigation } = props;
   const { t } = useTranslation('account');
@@ -71,7 +76,12 @@ const Home: React.FC<NavProps> = (props) => {
       {/* Transactions list */}
       <View style={styles.transactionsContainer}>
         <TransactionsList
-          headerComponent={<ListHeader />}
+          headerComponent={
+            <>
+              <AccountBalances />
+              <Typography.Body1>{t('common:transactions')}</Typography.Body1>
+            </>
+          }
           emptyComponent={
             <EmptyList
               topPadding={0}

@@ -6,6 +6,10 @@ import { MsgWithdrawDelegatorRewardTypeUrl } from '@desmoslabs/desmjs';
 import { useActiveAccountAddress } from '@recoil/activeAccount';
 import { useTranslation } from 'react-i18next';
 
+/**
+ * Hook that provides a function to claim all the current active user's
+ * pending staking rewards.
+ */
 export const useClaimAllRewards = () => {
   const { t } = useTranslation('staking');
   const activeAccountAddress = useActiveAccountAddress()!;

@@ -7,21 +7,35 @@ import useActiveAccountBalance from 'hooks/useActiveAccountBalance';
 import { useTranslation } from 'react-i18next';
 import CopyButton from 'components/CopyButton';
 import TypographyContentLoaders from 'components/ContentLoaders/Typography';
-import { formatCoins } from 'lib/FormatUtils';
+import { formatCoins, safeParseFloat } from 'lib/FormatUtils';
 import useTotalDelegatedAmount from 'hooks/staking/useTotalDelegatedAmount';
 import { Coin } from '@desmoslabs/desmjs';
 import { sumCoins } from 'lib/CoinsUtils';
 import useTotalAccountPendingStakingRewards from 'hooks/staking/useTotalAccountPendingStakingRewards';
-import ListHeaderAction from 'screens/Home/components/ListHeaderAction';
+import AccountBalancesAction from 'screens/Home/components/AccountBalancesAction';
 import { useFocusEffect, useNavigation } from '@react-navigation/native';
 import { StackNavigationProp } from '@react-navigation/stack/lib/typescript/src/types';
 import { RootNavigatorParamList } from 'navigation/RootNavigator';
 import ROUTES from 'navigation/routes';
 import useBalanceFiatAmount from 'hooks/balance/useCoinsFiatAmouont';
-import { useClaimAllRewards } from 'screens/Home/components/ListHeader/hooks';
+import useStakeFlow from 'hooks/staking/useStakeFlow';
+import { useClaimAllRewards } from './hooks';
 import useStyles from './useStyles';
 
-const ListHeader: React.FC = () => {
+/**
+ * Component that shows those information of the current active account:
+ * - Total balance in fiat value;
+ * - Total balance in tokens;
+ * - Total available tokens;
+ * - Total amount of token staked;
+ * - Total pending staking rewards.
+ * This component also allows the user to perform the following actions:
+ * - Send some coins;
+ * - Stake some coins if the user don't have any delegation;
+ * - Manage the delegations if the user have at least one delegation;
+ * - Claim all the pending staking rewards.
+ */
+const AccountBalances: React.FC = () => {
   const styles = useStyles();
   const { t } = useTranslation('account');
   const navigation = useNavigation<StackNavigationProp<RootNavigatorParamList>>();
@@ -43,6 +57,8 @@ const ListHeader: React.FC = () => {
     refetch: refetchStakingRewards,
   } = useTotalAccountPendingStakingRewards();
 
+  const startStakeFlow = useStakeFlow();
+
   const claimAllRewards = useClaimAllRewards();
 
   // -------- DATA --------
@@ -60,15 +76,39 @@ const ListHeader: React.FC = () => {
     loading: loadingFiatAmount,
   } = useBalanceFiatAmount(totalBalance);
 
+  const userHaveDelegations = React.useMemo(() => {
+    if (loadingTotalDelegated || totalDelegated === undefined) {
+      return false;
+    }
+
+    return totalDelegated.length >= 1 && safeParseFloat(totalDelegated[0].amount) > 0;
+  }, [loadingTotalDelegated, totalDelegated]);
+
+  const totalStakedButtonText = React.useMemo(() => {
+    if (loadingTotalDelegated || totalDelegated === undefined) {
+      return '...';
+    }
+
+    return userHaveDelegations ? t('common:manage') : t('staking:stake');
+  }, [loadingTotalDelegated, t, totalDelegated, userHaveDelegations]);
+
   // -------- CALLBACKS --------
 
   const onSendPressed = React.useCallback(() => {
     navigation.navigate(ROUTES.SEND_TOKENS);
   }, [navigation]);
 
-  const onManagePressed = React.useCallback(() => {
-    navigation.navigate(ROUTES.MANAGE_STAKING);
-  }, [navigation]);
+  const onTotalStakedButtonPressed = React.useCallback(() => {
+    if (loadingTotalDelegated || totalDelegated === undefined) {
+      return;
+    }
+
+    if (userHaveDelegations) {
+      navigation.navigate(ROUTES.MANAGE_STAKING);
+    } else {
+      startStakeFlow();
+    }
+  }, [loadingTotalDelegated, navigation, startStakeFlow, totalDelegated, userHaveDelegations]);
 
   const refreshData = React.useCallback(() => {
     refetchBalance();
@@ -77,8 +117,8 @@ const ListHeader: React.FC = () => {
   }, [refetchBalance, refetchStakingRewards, refetchTotalDelegated]);
 
   const onClaimAllRewards = React.useCallback(() => {
-    claimAllRewards(refreshData);
-  }, [claimAllRewards, refreshData]);
+    claimAllRewards();
+  }, [claimAllRewards]);
 
   // -------- EFFECTS --------
 
@@ -118,7 +158,7 @@ const ListHeader: React.FC = () => {
       <Spacer paddingVertical={25} />
 
       {/* User available tokens */}
-      <ListHeaderAction
+      <AccountBalancesAction
         label={t('common:available')}
         loading={loadingBalance}
         value={formatCoins(balance)}
@@ -129,30 +169,34 @@ const ListHeader: React.FC = () => {
 
       <Spacer paddingVertical={8} />
 
-      {/* User pending staking rewards */}
-      <ListHeaderAction
-        label={t('staking:total staking rewards')}
-        loading={loadingStakingRewards}
-        value={formatCoins(stakingRewards)}
-        buttonText={t('common:claim')}
-        onButtonPressed={onClaimAllRewards}
-      />
-
-      <Spacer paddingVertical={8} />
-
       {/* User total staked amount */}
-      <ListHeaderAction
+      <AccountBalancesAction
         label={t('staking:total staked')}
         loading={loadingTotalDelegated}
         value={formatCoins(totalDelegated)}
-        buttonText={t('common:manage')}
-        buttonColor={'#1EC490'}
-        onButtonPressed={onManagePressed}
+        buttonText={totalStakedButtonText}
+        onButtonPressed={onTotalStakedButtonPressed}
       />
+
+      {userHaveDelegations && (
+        <>
+          <Spacer paddingVertical={8} />
+
+          {/* User pending staking rewards */}
+          <AccountBalancesAction
+            label={t('staking:total staking rewards')}
+            loading={loadingStakingRewards}
+            value={formatCoins(stakingRewards)}
+            buttonText={t('common:claim')}
+            buttonColor={'#1EC490'}
+            onButtonPressed={onClaimAllRewards}
+          />
+        </>
+      )}
 
       <Spacer paddingVertical={25} />
     </View>
   );
 };
 
-export default ListHeader;
+export default AccountBalances;
