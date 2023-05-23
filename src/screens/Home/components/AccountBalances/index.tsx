@@ -135,7 +135,7 @@ const AccountBalances: React.FC = () => {
         <Typography.Subtitle2 style={styles.address} numberOfLines={1} ellipsizeMode={'middle'}>
           {activeAccountAddress}
         </Typography.Subtitle2>
-        <CopyButton value={activeAccountAddress} color={'#000000'} />
+        <CopyButton value={activeAccountAddress} />
       </View>
 
       <Spacer paddingVertical={32} />
