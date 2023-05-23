@@ -2,5 +2,7 @@
   "create wallet": "Create Wallet",
   "or login with": "Or login with",
   "show more": "Show more",
-  "by using this app you accept the tos and privacy policy": "By using this app you accept the <tos>ToS</tos> and the <privacy>Privacy Policy</privacy>"
+  "i've read and accepted the tos and privacy policy": "I've read and accepted the <tos>ToS</tos> and the <privacy>Privacy Policy</privacy>",
+  "terms of service": "Terms of Service",
+  "to use this application you must accept the ToS and the privacy policy": "Please accept our Terms of Service and Privacy Policy to continue using the application."
 }

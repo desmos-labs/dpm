@@ -1,5 +1,5 @@
 import { StackScreenProps } from '@react-navigation/stack';
-import React, { useCallback, useEffect, useMemo, useRef } from 'react';
+import React, { useMemo, useRef } from 'react';
 import { Trans, useTranslation } from 'react-i18next';
 import { Animated, ImageBackground, Platform, Text, View } from 'react-native';
 import StyledSafeAreaView from 'components/StyledSafeAreaView';
@@ -9,7 +9,7 @@ import { RootNavigatorParamList } from 'navigation/RootNavigator';
 import ROUTES from 'navigation/routes';
 import useImportNewAccount from 'hooks/useImportNewAccount';
 import { DesmosChain } from 'config/LinkableChains';
-import { applicationsIconsMap, desmosLogoWhite, homeBackgroundLight } from 'assets/images';
+import { applicationsIconsMap, desmosLogoWhite, landingBackground } from 'assets/images';
 import { useStoredAccountsAddresses } from '@recoil/accounts';
 import FastImage from 'react-native-fast-image';
 import Spacer from 'components/Spacer';
@@ -20,6 +20,8 @@ import useShowModal from 'hooks/useShowModal';
 import Web3AuthLoginProvidersModal from 'modals/Web3AuthLoginProvidersModal';
 import useShowToS from 'hooks/legal/useShowToS';
 import useShowPrivacyPolicy from 'hooks/legal/useShowPrivacyPolicy';
+import DpmCheckBox from 'components/CheckBox';
+import SingleButtonModal from 'modals/SingleButtonModal';
 import useStyles from './useStyles';
 
 export type NavProps = StackScreenProps<RootNavigatorParamList, ROUTES.LANDING>;
@@ -28,11 +30,16 @@ const Landing = ({ navigation }: NavProps) => {
   const { t } = useTranslation('landing');
   const styles = useStyles();
 
+  // -------- HOOKS --------
+
   const accountsAddresses = useStoredAccountsAddresses();
   const importNewAccount = useImportNewAccount([DesmosChain], accountsAddresses);
   const loginWithWeb3Auth = useLoginWithWeb3Auth(DesmosChain, accountsAddresses);
   const showModal = useShowModal();
 
+  // -------- STATES --------
+
+  const [tosAccepted, setToSAccepted] = React.useState(false);
   const animate = !navigation.canGoBack();
   const initialOpacity = animate ? 0 : 1;
   const iconOpacity = useRef(new Animated.Value(initialOpacity)).current;
@@ -53,7 +60,72 @@ const Landing = ({ navigation }: NavProps) => {
     return loginProviders;
   }, []);
 
-  useEffect(() => {
+  const showLegalSection = React.useMemo(
+    () => accountsAddresses.length === 0,
+    [accountsAddresses.length],
+  );
+
+  // -------- CALLBACKS --------
+
+  const showAcceptLegalPopup = React.useCallback(() => {
+    showModal(SingleButtonModal, {
+      title: t('terms of service'),
+      message: t('to use this application you must accept the ToS and the privacy policy'),
+      actionLabel: t('common:ok'),
+    });
+  }, [showModal]);
+
+  const onCreateAccount = React.useCallback(() => {
+    if (showLegalSection && !tosAccepted) {
+      showAcceptLegalPopup();
+    } else {
+      navigation.navigate({
+        name: ROUTES.CREATE_NEW_MNEMONIC,
+        params: undefined,
+      });
+    }
+  }, [navigation, showAcceptLegalPopup, showLegalSection, tosAccepted]);
+
+  const onImportAccount = React.useCallback(async () => {
+    if (showLegalSection && !tosAccepted) {
+      showAcceptLegalPopup();
+    } else {
+      importNewAccount();
+    }
+  }, [importNewAccount, showAcceptLegalPopup, showLegalSection, tosAccepted]);
+
+  const importFromSocial = React.useCallback(
+    (social: Web3AuthLoginProvider) => {
+      if (showLegalSection && !tosAccepted) {
+        showAcceptLegalPopup();
+      } else {
+        loginWithWeb3Auth(social);
+      }
+    },
+    [loginWithWeb3Auth, showAcceptLegalPopup, showLegalSection, tosAccepted],
+  );
+
+  const showOtherSocialLogin = React.useCallback(() => {
+    if (showLegalSection && !tosAccepted) {
+      showAcceptLegalPopup();
+    } else {
+      showModal(Web3AuthLoginProvidersModal, {
+        onSelect: loginWithWeb3Auth,
+      });
+    }
+  }, [showLegalSection, tosAccepted, showAcceptLegalPopup, showModal, loginWithWeb3Auth]);
+
+  const showToS = useShowToS();
+
+  const showPrivacyPolicy = useShowPrivacyPolicy();
+
+  const goBack = React.useCallback(() => {
+    navigation.goBack();
+  }, [navigation]);
+
+  // -------- EFFECTS --------
+
+  React.useEffect(() => {
     if (animate) {
       Animated.sequence([
         Animated.timing(iconOpacity, {
@@ -75,41 +147,9 @@ const Landing = ({ navigation }: NavProps) => {
     }
   }, [animate, iconOpacity, profileManagerTextOpacity, buttonsOpacity]);
 
-  const onCreateAccount = useCallback(() => {
-    navigation.navigate({
-      name: ROUTES.CREATE_NEW_MNEMONIC,
-      params: undefined,
-    });
-  }, [navigation]);
-
-  const onImportAccount = useCallback(async () => {
-    importNewAccount();
-  }, [importNewAccount]);
-
-  const importFromSocial = useCallback(
-    (social: Web3AuthLoginProvider) => {
-      loginWithWeb3Auth(social);
-    },
-    [loginWithWeb3Auth],
-  );
-
-  const showOtherSocialLogin = useCallback(() => {
-    showModal(Web3AuthLoginProvidersModal, {
-      onSelect: loginWithWeb3Auth,
-    });
-  }, [showModal, loginWithWeb3Auth]);
-
-  const showToS = useShowToS();
-
-  const showPrivacyPolicy = useShowPrivacyPolicy();
-
-  const goBack = useCallback(() => {
-    navigation.goBack();
-  }, [navigation]);
-
   return (
     <StyledSafeAreaView style={styles.root} noIosPadding>
-      <ImageBackground source={homeBackgroundLight} resizeMode="stretch" style={styles.background}>
+      <ImageBackground source={landingBackground} resizeMode="stretch" style={styles.background}>
         {navigation.canGoBack() ? (
           <IconButton style={styles.backArrow} icon="back" onPress={goBack} color="#ffffff" />
         ) : null}
@@ -141,7 +181,8 @@ const Landing = ({ navigation }: NavProps) => {
             {/* Create new wallet */}
             <Button
               style={styles.buttons}
-              mode="outlined"
+              labelStyle={styles.buttonsLabel}
+              mode="contained"
               color="#ffffff"
               onPress={onCreateAccount}
             >
@@ -153,7 +194,8 @@ const Landing = ({ navigation }: NavProps) => {
             {/* Import wallet */}
             <Button
               style={styles.buttons}
-              mode="outlined"
+              labelStyle={styles.buttonsLabel}
+              mode="contained"
               color="#ffffff"
               onPress={onImportAccount}
             >
@@ -203,26 +245,31 @@ const Landing = ({ navigation }: NavProps) => {
         </View>
 
         {/* Footer */}
-        <Animated.View
-          style={{
-            opacity: buttonsOpacity,
-            ...styles.footer,
-          }}
-        >
-          <Typography.Caption style={styles.legalText}>
-            <Trans
-              t={t}
-              i18nKey={'by using this app you accept the tos and privacy policy'}
-              components={{
-                tos: <Typography.Caption style={styles.clickableText} onPress={showToS} />,
-                privacy: (
-                  <Typography.Caption style={styles.clickableText} onPress={showPrivacyPolicy} />
-                ),
-              }}
-            />
-          </Typography.Caption>
-          <Spacer paddingVertical={16} />
-        </Animated.View>
+        {showLegalSection && (
+          <Animated.View
+            style={{
+              opacity: buttonsOpacity,
+              ...styles.footer,
+            }}
+          >
+            <DpmCheckBox status={tosAccepted} onPress={() => setToSAccepted(!tosAccepted)} />
+
+            <Typography.Caption style={styles.legalText}>
+              <Trans
+                t={t}
+                i18nKey={"i've read and accepted the tos and privacy policy"}
+                components={{
+                  tos: <Typography.Caption style={styles.clickableText} onPress={showToS} />,
+                  privacy: (
+                    <Typography.Caption style={styles.clickableText} onPress={showPrivacyPolicy} />
+                  ),
+                }}
+              />
+            </Typography.Caption>
+          </Animated.View>
+        )}
+
+        <Spacer paddingVertical={24} />
       </ImageBackground>
     </StyledSafeAreaView>
   );
