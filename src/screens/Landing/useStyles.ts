@@ -41,6 +41,9 @@ const useStyle = makeStyle((theme) => ({
   buttons: {
     justifyContent: 'center',
   },
+  buttonsLabel: {
+    color: theme.colors.primary,
+  },
   loginWithContainer: {
     display: 'flex',
     flexDirection: 'row',
@@ -69,13 +72,18 @@ const useStyle = makeStyle((theme) => ({
   footer: {
     display: 'flex',
     alignItems: 'center',
+    flexDirection: 'row',
+    maxWidth: '80%',
+    width: '80%',
+    alignSelf: 'center',
   },
   legalText: {
     color: '#ffffff',
+    // set flexShrink to avoid the text overflow the container.
+    flexShrink: 1,
   },
   clickableText: {
-    color: '#ffffff',
-    textDecorationLine: 'underline',
+    color: theme.colors.accent,
   },
 }));
 

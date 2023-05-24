@@ -8,6 +8,7 @@ const useStyles = makeStyle((theme) => ({
     flexDirection: 'column',
     justifyContent: 'center',
     alignItems: 'center',
+    paddingHorizontal: '10%',
   },
   content: {
     backgroundColor: theme.colors.popupSurface,

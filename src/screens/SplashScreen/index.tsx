@@ -2,7 +2,7 @@ import React, { useEffect, useRef } from 'react';
 import { Animated, ImageBackground, Platform, Text } from 'react-native';
 import StyledSafeAreaView from 'components/StyledSafeAreaView';
 import FastImage from 'react-native-fast-image';
-import { desmosLogoWhite } from 'assets/images';
+import { desmosLogoWhite, landingBackground } from 'assets/images';
 import useStyles from './useStyles';
 
 const SplashScreen: React.FC = () => {
@@ -37,11 +37,7 @@ const SplashScreen: React.FC = () => {
 
   return (
     <StyledSafeAreaView style={styles.root} noIosPadding>
-      <ImageBackground
-        source={require('assets/images/homeBackground-light.png')}
-        resizeMode="stretch"
-        style={styles.background}
-      >
+      <ImageBackground source={landingBackground} resizeMode="stretch" style={styles.background}>
         <Animated.View
           style={{
             ...styles.icon,
