@@ -22,7 +22,8 @@ const useValidatorStakingApr = (validator: Validator) => {
     }
 
     const inflation: number = data.inflation[0].value;
-    const communityTax = safeParseFloat(data.distribution_params[0].params.community_tax);
+    // Use en-US locale since the value is represented in this locale.
+    const communityTax = safeParseFloat(data.distribution_params[0].params.community_tax, 'en-US');
     const supply = safeParseInt(
       (data.supply[0].coins as Coin[]).find(
         (c) => c.denom === chainInfo.stakeCurrency.coinMinimalDenom,

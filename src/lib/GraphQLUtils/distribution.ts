@@ -22,7 +22,10 @@ export function convertGraphQLDelegation(delegation: any): Delegation {
 export function convertGraphQLPendingReward(reward: any): PendingReward {
   return {
     validatorAddress: reward.validator_address,
-    coins: reward.coins.map((c: any) => coin(Math.trunc(safeParseFloat(c.amount)), c.denom)),
+    coins: reward.coins.map((c: any) =>
+      // Use en-US locale since the value is represented in this locale.
+      coin(Math.trunc(safeParseFloat(c.amount, 'en-US')), c.denom),
+    ),
   };
 }
 

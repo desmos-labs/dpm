@@ -12,6 +12,8 @@ import RNBootSplash from 'react-native-bootsplash';
 import SnackBarProvider from 'lib/SnackBarProvider';
 import DesmosPostHogProvider from 'components/DesmosPostHogProvider';
 import * as Sentry from '@sentry/react-native';
+import numbro from 'numbro';
+import { getDecimalSeparator, getThousandsSeparator } from 'lib/FormatUtils';
 
 Object.assign(process.env, { SENTRY_AUTH_TOKEN });
 Sentry.init({
@@ -21,6 +23,20 @@ Sentry.init({
   // hot reloading the code and there are some errors.
   enabled: !__DEV__,
 });
+
+// Init numbro with the appropriate decimal separators.
+const languageData = numbro.languageData();
+numbro.registerLanguage(
+  {
+    ...languageData,
+    delimiters: {
+      ...languageData.delimiters,
+      decimal: getDecimalSeparator(),
+      thousands: getThousandsSeparator(),
+    },
+  },
+  true,
+);
 
 const AppLockLogic = () => {
   useLockApplicationOnBlur();

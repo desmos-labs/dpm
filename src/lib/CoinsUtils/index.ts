@@ -12,7 +12,7 @@ export const sumCoins = (coinsA: Coin[] | undefined, coinsB?: Coin[] | undefined
 
   const performSum = (c: Coin) => {
     const currentValue = denomsAmounts[c.denom] ?? 0;
-    denomsAmounts[c.denom] = currentValue + safeParseFloat(c.amount);
+    denomsAmounts[c.denom] = currentValue + safeParseFloat(c.amount, 'en-US');
   };
 
   coinsA?.forEach(performSum);

@@ -46,7 +46,8 @@ const getPrices = (data: any, coins: Coin[]) => {
     const coinConversionFactory = 10 ** currency.coinDecimals;
 
     // Convert the coin amount.
-    const coinAmount = safeParseFloat(coin.amount) / coinConversionFactory;
+    // Use en-US locale since the value is represented in this locale.
+    const coinAmount = safeParseFloat(coin.amount, 'en-US') / coinConversionFactory;
 
     return {
       denom: coin.denom,

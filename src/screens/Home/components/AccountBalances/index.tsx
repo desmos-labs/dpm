@@ -81,7 +81,7 @@ const AccountBalances: React.FC = () => {
       return false;
     }
 
-    return totalDelegated.length >= 1 && safeParseFloat(totalDelegated[0].amount) > 0;
+    return totalDelegated.length >= 1 && safeParseFloat(totalDelegated[0].amount, 'en-US') > 0;
   }, [loadingTotalDelegated, totalDelegated]);
 
   const totalStakedButtonText = React.useMemo(() => {

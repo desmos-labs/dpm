@@ -79,7 +79,7 @@ export const formatNumber = (value: number): string =>
 export const formatCoin = (amount: Coin): string => {
   const currencies = getChainCurrencies();
   const convertedAmount = convertCoin(amount, 6, currencies) || amount;
-  const humanReadableAmount = formatNumber(safeParseFloat(convertedAmount.amount));
+  const humanReadableAmount = formatNumber(safeParseFloat(convertedAmount.amount, 'en-US'));
   return `${humanReadableAmount} ${convertedAmount.denom.toUpperCase()}`;
 };
 
@@ -157,4 +157,14 @@ export const capitalize = (value: string): string => value.charAt(0).toUpperCase
 export const roundFloat = (value: number, decimals: number): number => {
   const roundFactor = 10 ** decimals;
   return Math.round((value + Number.EPSILON) * roundFactor) / roundFactor;
+};
+
+/**
+ * Checks if the provided string is a valid number.
+ * Note: This function don't allow the presence of the thousand separator.
+ * @param value - The value to check.
+ */
+export const isStringNumberValid = (value: string): boolean => {
+  const testRe = new RegExp(`^[0-9]+${getDecimalSeparator()}?([0-9]+)?$`);
+  return testRe.test(value);
 };

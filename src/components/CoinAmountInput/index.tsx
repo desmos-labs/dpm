@@ -3,7 +3,7 @@ import TextInput from 'components/TextInput';
 import Button from 'components/Button';
 import { StyleProp, View, ViewStyle } from 'react-native';
 import Typography from 'components/Typography';
-import { formatCoin, formatNumber, safeParseFloat } from 'lib/FormatUtils';
+import { formatCoin, formatNumber, isStringNumberValid, safeParseFloat } from 'lib/FormatUtils';
 import { useCurrentChainInfo } from '@recoil/settings';
 import { useTranslation } from 'react-i18next';
 import { Coin } from '@desmoslabs/desmjs-types/cosmos/base/v1beta1/coin';
@@ -76,11 +76,16 @@ const CoinAmountInput: React.FC<CoinAmountInputProps> = ({
   // -------- CALLBACKS --------
   const onAmountChange = React.useCallback(
     (changedAmount: string) => {
+      // Test the number format only if the input is not empty.
+      const isNumberValid = changedAmount.length === 0 || isStringNumberValid(changedAmount);
+
+      // Parse this with the user's locale.
       const parsedAmount = safeParseFloat(changedAmount);
-      const accountBalance = safeParseFloat(spendable.amount);
+      // Use en-US locale since the value is represented in this locale.
+      const accountBalance = safeParseFloat(spendable.amount, 'en-US');
       // Convert the amount from the chain denom to the minimal denom.
       const convertedAmount = Math.trunc(parsedAmount * currencyConversionFactor);
-      const amountAllowed = convertedAmount <= accountBalance;
+      const amountAllowed = isNumberValid && convertedAmount <= accountBalance;
       setInputAmount(changedAmount);
       setIsInputValid(amountAllowed);
 
@@ -89,7 +94,7 @@ const CoinAmountInput: React.FC<CoinAmountInputProps> = ({
           changedAmount.length > 0
             ? coin(convertedAmount, chainInfo.stakeCurrency.coinMinimalDenom)
             : undefined;
-        onChange(newCoin, amountAllowed && newCoin !== undefined);
+        onChange(newCoin, isNumberValid && amountAllowed && newCoin !== undefined);
       }
     },
     [
@@ -102,9 +107,11 @@ const CoinAmountInput: React.FC<CoinAmountInputProps> = ({
 
   const onMaxPressed = React.useCallback(() => {
     const maxInputAmount = formatNumber(
-      safeParseFloat(spendable.amount) / currencyConversionFactor,
+      // Use en-US locale since the value is represented in this locale.
+      safeParseFloat(spendable.amount, 'en-US') / currencyConversionFactor,
     );
     setInputAmount(maxInputAmount);
+    setIsInputValid(true);
 
     if (onChange !== undefined) {
       onChange(spendable, true);
