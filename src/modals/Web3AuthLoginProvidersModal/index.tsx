@@ -44,25 +44,21 @@ const Web3AuthLoginProvidersModal: React.FC<ModalComponentProps<Web3AuthLoginPro
     <View style={styles.root}>
       <View style={styles.header}>
         <View>
-          <Typography.Title style={styles.title}>{t('more options')}</Typography.Title>
+          <Typography.Title>{t('more options')}</Typography.Title>
           <Spacer paddingVertical={8} />
-          <Typography.Subtitle style={styles.title}>
-            {t('select login provider')}
-          </Typography.Subtitle>
+          <Typography.Subtitle>{t('select login provider')}</Typography.Subtitle>
         </View>
         <IconButton icon={'close'} onPress={closeModal} color={'#5C5C5C'} />
       </View>
 
       <Spacer paddingVertical={8} />
 
-      <View style={styles.list}>
-        <FlashList
-          data={Object.values(Web3AuthLoginProvider)}
-          renderItem={renderItem}
-          estimatedItemSize={40}
-          ItemSeparatorComponent={ListItemSeparator}
-        />
-      </View>
+      <FlashList
+        data={Object.values(Web3AuthLoginProvider)}
+        renderItem={renderItem}
+        estimatedItemSize={40}
+        ItemSeparatorComponent={ListItemSeparator}
+      />
     </View>
   );
 };

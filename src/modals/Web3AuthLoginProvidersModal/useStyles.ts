@@ -8,15 +8,10 @@ const useStyles = makeStyle((theme) => ({
     paddingTop: theme.spacing.m,
   },
   header: {
+    marginTop: theme.spacing.xs,
     display: 'flex',
     flexDirection: 'row',
     justifyContent: 'space-between',
-  },
-  title: {
-    marginTop: theme.spacing.xs,
-  },
-  list: {
-    flex: 1,
   },
 }));
 
