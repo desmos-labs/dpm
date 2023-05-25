@@ -11,10 +11,12 @@ import useShowModal from 'hooks/useShowModal';
 import SingleButtonModal from 'modals/SingleButtonModal';
 import { DPMImages } from 'types/images';
 import * as Sentry from '@sentry/react-native';
+import { ModalMode } from 'modals/ModalScreen';
 import useStyles from './useStyles';
 
 enum DevRoutes {
   SINGLE_BUTTON_MODAL = 'SINGLE_BUTTON_MODAL',
+  BOTTOM_MODAL = 'BOTTOM_MODAL',
 }
 
 const routesToRender = [
@@ -28,6 +30,7 @@ const routesToRender = [
   ROUTES.VALIDATOR_DETAILS,
   ROUTES.MANAGE_STAKING,
   DevRoutes.SINGLE_BUTTON_MODAL,
+  DevRoutes.BOTTOM_MODAL,
 ];
 
 type NavProps = StackScreenProps<RootNavigatorParamList, ROUTES.DEV_SCREEN>;
@@ -68,6 +71,21 @@ const DevScreen: FC<NavProps> = ({ navigation }) => {
               message: 'SingleButtonModal test message',
               actionLabel: 'Close',
             });
+            break;
+
+          case DevRoutes.BOTTOM_MODAL:
+            showModal(
+              SingleButtonModal,
+              {
+                image: DPMImages.TxSuccess,
+                title: 'Test title',
+                message: 'SingleButtonModal test message',
+                actionLabel: 'Close',
+              },
+              {
+                mode: ModalMode.BottomSheet,
+              },
+            );
             break;
 
           default:
