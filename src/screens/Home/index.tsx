@@ -48,6 +48,14 @@ const Home: React.FC<NavProps> = (props) => {
     fetchMore: fetchMoreTransactions,
   } = useActiveAccountTransactions();
 
+  // -------- CALLBACKS --------
+
+  const showProfileDetails = React.useCallback(() => {
+    navigation.navigate(ROUTES.PROFILE);
+  }, [navigation]);
+
+  // ------- EFFECTS --------
+
   // Load the initial data
   useFocusEffect(
     React.useCallback(() => {
@@ -70,7 +78,14 @@ const Home: React.FC<NavProps> = (props) => {
         leftIconColor={theme.colors.icon['1']}
         title={profile?.nickname ?? profile?.dtag}
         stackProps={{ ...props, navigation: { ...navigation, openDrawer } }}
-        rightElement={<ProfileImage size={30} profile={profile} style={styles.avatarImage} />}
+        rightElement={
+          <ProfileImage
+            size={34}
+            profile={profile}
+            style={styles.avatarImage}
+            onPress={showProfileDetails}
+          />
+        }
       />
 
       {/* Transactions list */}
