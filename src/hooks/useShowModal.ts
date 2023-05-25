@@ -3,7 +3,7 @@ import { StackNavigationProp } from '@react-navigation/stack';
 import { useCallback } from 'react';
 import { RootNavigatorParamList } from 'navigation/RootNavigator';
 import ROUTES from 'navigation/routes';
-import { ModalComponent } from 'modals/ModalScreen';
+import { ModalComponent, ModalConfig } from 'modals/ModalScreen';
 
 /**
  * Hook that provide a function to display a ModalComponent.
@@ -11,12 +11,13 @@ import { ModalComponent } from 'modals/ModalScreen';
 const useShowModal = () => {
   const navigation = useNavigation<StackNavigationProp<RootNavigatorParamList>>();
   return useCallback(
-    <P>(modal: ModalComponent<P>, params: P) => {
+    <P>(modal: ModalComponent<P>, params: P, config?: ModalConfig) => {
       navigation.navigate({
         name: ROUTES.MODAL,
         params: {
           component: modal,
           params,
+          config,
         },
       });
     },

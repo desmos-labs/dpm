@@ -65,7 +65,7 @@ const useStyle = makeStyle((theme) => ({
     justifyContent: 'center',
   },
   socialButton: {
-    backgroundColor: theme.colors.background,
+    backgroundColor: '#ffffff',
     borderRadius: theme.roundness * 3,
     margin: theme.spacing.s,
   },
