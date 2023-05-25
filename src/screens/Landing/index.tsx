@@ -22,6 +22,7 @@ import useShowToS from 'hooks/legal/useShowToS';
 import useShowPrivacyPolicy from 'hooks/legal/useShowPrivacyPolicy';
 import DpmCheckBox from 'components/CheckBox';
 import SingleButtonModal from 'modals/SingleButtonModal';
+import { ModalMode } from 'modals/ModalScreen';
 import useStyles from './useStyles';
 
 export type NavProps = StackScreenProps<RootNavigatorParamList, ROUTES.LANDING>;
@@ -109,9 +110,15 @@ const Landing = ({ navigation }: NavProps) => {
     if (showLegalSection && !tosAccepted) {
       showAcceptLegalPopup();
     } else {
-      showModal(Web3AuthLoginProvidersModal, {
-        onSelect: loginWithWeb3Auth,
-      });
+      showModal(
+        Web3AuthLoginProvidersModal,
+        {
+          onSelect: loginWithWeb3Auth,
+        },
+        {
+          mode: ModalMode.BottomSheet,
+        },
+      );
     }
   }, [showLegalSection, tosAccepted, showAcceptLegalPopup, showModal, loginWithWeb3Auth]);
 

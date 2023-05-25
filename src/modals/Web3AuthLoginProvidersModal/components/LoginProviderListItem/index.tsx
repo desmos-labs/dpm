@@ -24,7 +24,7 @@ const LoginProviderListItem: FC<LoginProviderListItemProps> = ({ loginProvider, 
         resizeMode={'contain'}
       />
       <Spacer paddingHorizontal={4} />
-      <Typography.Caption>{itemText}</Typography.Caption>
+      <Typography.Body1>{itemText}</Typography.Body1>
     </TouchableOpacity>
   );
 };

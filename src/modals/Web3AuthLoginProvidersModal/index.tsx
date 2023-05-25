@@ -8,8 +8,8 @@ import { FlashList } from '@shopify/flash-list';
 import { ListRenderItemInfo } from '@shopify/flash-list/src/FlashListProps';
 import ListItemSeparator from 'components/ListItemSeparator';
 import Spacer from 'components/Spacer';
-import Button from 'components/Button';
 import LoginProviderListItem from 'modals/Web3AuthLoginProvidersModal/components/LoginProviderListItem';
+import { IconButton } from 'react-native-paper';
 import useStyles from './useStyles';
 
 export type Web3AuthLoginProviderParams = {
@@ -42,7 +42,16 @@ const Web3AuthLoginProvidersModal: React.FC<ModalComponentProps<Web3AuthLoginPro
 
   return (
     <View style={styles.root}>
-      <Typography.Title style={styles.title}>{t('select login provider')}</Typography.Title>
+      <View style={styles.header}>
+        <View>
+          <Typography.Title style={styles.title}>{t('more options')}</Typography.Title>
+          <Spacer paddingVertical={8} />
+          <Typography.Subtitle style={styles.title}>
+            {t('select login provider')}
+          </Typography.Subtitle>
+        </View>
+        <IconButton icon={'close'} onPress={closeModal} color={'#5C5C5C'} />
+      </View>
 
       <Spacer paddingVertical={8} />
 
@@ -54,10 +63,6 @@ const Web3AuthLoginProvidersModal: React.FC<ModalComponentProps<Web3AuthLoginPro
           ItemSeparatorComponent={ListItemSeparator}
         />
       </View>
-
-      <Spacer paddingVertical={8} />
-
-      <Button onPress={closeModal}>{t('common:cancel')}</Button>
     </View>
   );
 };
