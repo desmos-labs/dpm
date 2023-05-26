@@ -50,7 +50,7 @@ public class MainActivity extends ReactActivity {
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     RNBootSplash.init(this);
-    super.onCreate(savedInstanceState);
+    super.onCreate(null);
   }
 
   @Override
