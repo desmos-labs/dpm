@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { MutableRefObject } from 'react';
 import { View } from 'react-native';
 import Typography from 'components/Typography';
 import Spacer from 'components/Spacer';
@@ -13,7 +13,7 @@ import { Coin } from '@desmoslabs/desmjs';
 import { sumCoins } from 'lib/CoinsUtils';
 import useTotalAccountPendingStakingRewards from 'hooks/staking/useTotalAccountPendingStakingRewards';
 import AccountBalancesAction from 'screens/Home/components/AccountBalancesAction';
-import { useFocusEffect, useNavigation } from '@react-navigation/native';
+import { useNavigation } from '@react-navigation/native';
 import { StackNavigationProp } from '@react-navigation/stack/lib/typescript/src/types';
 import { RootNavigatorParamList } from 'navigation/RootNavigator';
 import ROUTES from 'navigation/routes';
@@ -21,6 +21,23 @@ import useBalanceFiatAmount from 'hooks/balance/useCoinsFiatAmouont';
 import useStakeFlow from 'hooks/staking/useStakeFlow';
 import { useClaimAllRewards } from './hooks';
 import useStyles from './useStyles';
+
+/**
+ * Interface to interact with this component from a parent component.
+ */
+export interface AccountBalanceRef {
+  /**
+   * Updates the displayed balances.
+   */
+  updateBalances(): void;
+}
+
+export interface AccountBalancesProps {
+  /**
+   * Reference to this component.
+   */
+  readonly reference?: MutableRefObject<AccountBalanceRef | undefined>;
+}
 
 /**
  * Component that shows those information of the current active account:
@@ -35,7 +52,7 @@ import useStyles from './useStyles';
  * - Manage the delegations if the user have at least one delegation;
  * - Claim all the pending staking rewards.
  */
-const AccountBalances: React.FC = () => {
+const AccountBalances: React.FC<AccountBalancesProps> = ({ reference }) => {
   const styles = useStyles();
   const { t } = useTranslation('account');
   const navigation = useNavigation<StackNavigationProp<RootNavigatorParamList>>();
@@ -122,11 +139,20 @@ const AccountBalances: React.FC = () => {
 
   // -------- EFFECTS --------
 
-  useFocusEffect(
-    React.useCallback(() => {
-      refreshData();
-    }, [refreshData]),
-  );
+  React.useEffect(() => {
+    if (reference !== undefined) {
+      // eslint-disable-next-line no-param-reassign
+      reference.current = {
+        updateBalances: refreshData,
+      };
+    }
+    return () => {
+      if (reference !== undefined) {
+        // eslint-disable-next-line no-param-reassign
+        reference.current = undefined;
+      }
+    };
+  }, [reference, refreshData]);
 
   return (
     <View style={styles.root}>
@@ -149,7 +175,7 @@ const AccountBalances: React.FC = () => {
       )}
 
       {/* Uset total tokens balance */}
-      {loadingBalance || loadingTotalDelegated || loadingTotalDelegated ? (
+      {loadingBalance || loadingTotalDelegated ? (
         <TypographyContentLoaders.Subtitle2 width={200} />
       ) : (
         <Typography.Subtitle2>{formatCoins(totalBalance)}</Typography.Subtitle2>
