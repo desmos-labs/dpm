@@ -21,7 +21,11 @@ const useAccountRedelegationsFrom = (validatorOperatorAddress: string, accountAd
   }
 
   const { data, loading, error, refetch } = useQuery(GetAccountRedelegations, {
-    fetchPolicy: 'network-only',
+    // Use cache-and-network to avoid on-chain sync issues.
+    // This might happen if the user returns to a screen where this hook
+    // has been used after performing a redelegation. In this case, the redelegations
+    // will be different from the on chain redelegations.
+    fetchPolicy: 'cache-and-network',
     variables: {
       address,
     },

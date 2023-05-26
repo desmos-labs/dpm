@@ -24,7 +24,11 @@ const useValidatorStakedAmount = (validatorOperatorAddress: string, accountAddre
   }
 
   const { data, loading, error, refetch } = useQuery(GetAccountDelegations, {
-    fetchPolicy: 'network-only',
+    // Use cache-and-network to avoid on-chain amounts sync issues.
+    // This might happen if the user returns to a screen where this hook
+    // has been used after delegating or redelegating some tokens.
+    // In those cases, the total amount will be different from the amount on chain.
+    fetchPolicy: 'cache-and-network',
     variables: {
       address,
     },

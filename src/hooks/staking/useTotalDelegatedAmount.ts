@@ -24,18 +24,15 @@ const useTotalDelegatedAmount = (userAddress?: string) => {
     variables: {
       address,
     },
-    // Use network-only to avoid on-chain amounts sync issues.
+    // Use cache-and-network to avoid on-chain amounts sync issues.
     // This might happen if the user returns to a screen where this hook
     // has been used after performing a delegation. In this case, the total
     // amount will be different from the amount staked on chain.
-    fetchPolicy: 'network-only',
+    fetchPolicy: 'cache-and-network',
   });
 
   const totalDelegated = React.useMemo(() => {
-    if (loading || error || data === undefined) {
-      return undefined;
-    }
-    const converted: Coin[] = data.action_delegation_total.coins.map((c: any) =>
+    const converted: Coin[] = data?.action_delegation_total?.coins.map((c: any) =>
       coin(c.amount, c.denom),
     );
 
@@ -44,7 +41,7 @@ const useTotalDelegatedAmount = (userAddress?: string) => {
       converted.push(coin(0, chainInfo.stakeCurrency.coinMinimalDenom));
     }
     return converted;
-  }, [chainInfo.stakeCurrency.coinMinimalDenom, data, error, loading]);
+  }, [chainInfo.stakeCurrency.coinMinimalDenom, data]);
 
   return {
     totalDelegated,

@@ -20,20 +20,19 @@ const useAccountPendingStakingRewards = (accountAddress?: string) => {
   }
 
   const { data, loading, error, refetch } = useQuery(GetAccountPendingRewards, {
-    fetchPolicy: 'network-only',
+    // Use cache-and-network to avoid on-chain amounts sync issues.
+    // This might happen if the user returns to a screen where this hook
+    // has been used after claiming the rewards. In this case, the total
+    // amount will be different from the amount on chain.
+    fetchPolicy: 'cache-and-network',
     variables: {
       address,
     },
   });
 
   const convertedPendingRewards = React.useMemo(() => {
-    if (data === undefined) {
-      return undefined;
-    }
-
-    const convertedRewards: PendingReward[] = data.action_delegation_reward.map(
-      convertGraphQLPendingReward,
-    );
+    const convertedRewards: PendingReward[] =
+      data?.action_delegation_reward?.map(convertGraphQLPendingReward) ?? [];
 
     return convertedRewards;
   }, [data]);

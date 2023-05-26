@@ -1,5 +1,5 @@
 import { StackScreenProps } from '@react-navigation/stack';
-import React from 'react';
+import React, { useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Text, View } from 'react-native';
 import { useTheme } from 'react-native-paper';
@@ -15,7 +15,7 @@ import { HomeTabsParamList } from 'navigation/RootNavigator/HomeTabs';
 import useDrawerContext from 'lib/AppDrawer/context';
 import useActiveAccountTransactions from 'hooks/useActiveAccountTransactions';
 import useProfileGivenAddress from 'hooks/useProfileGivenAddress';
-import AccountBalances from 'screens/Home/components/AccountBalances';
+import AccountBalances, { AccountBalanceRef } from 'screens/Home/components/AccountBalances';
 import TransactionsList from 'screens/Home/components/TransactionsList';
 import { DPMImages } from 'types/images';
 import EmptyList from 'components/EmptyList';
@@ -48,21 +48,25 @@ const Home: React.FC<NavProps> = (props) => {
     fetchMore: fetchMoreTransactions,
   } = useActiveAccountTransactions();
 
+  // -------- REFS ---------
+
+  const accountBalanceRef = useRef<AccountBalanceRef>();
+
   // -------- CALLBACKS --------
 
   const showProfileDetails = React.useCallback(() => {
     navigation.navigate(ROUTES.PROFILE);
   }, [navigation]);
 
+  const refreshData = React.useCallback(() => {
+    updateProfile();
+    reloadTransactions();
+    accountBalanceRef.current?.updateBalances();
+  }, [updateProfile, reloadTransactions]);
+
   // ------- EFFECTS --------
 
-  // Load the initial data
-  useFocusEffect(
-    React.useCallback(() => {
-      updateProfile();
-      reloadTransactions();
-    }, [updateProfile, reloadTransactions]),
-  );
+  useFocusEffect(refreshData);
 
   return (
     <StyledSafeAreaView padding={0} noIosPadding>
@@ -93,7 +97,7 @@ const Home: React.FC<NavProps> = (props) => {
         <TransactionsList
           headerComponent={
             <>
-              <AccountBalances />
+              <AccountBalances reference={accountBalanceRef} />
               <Typography.Body1>{t('common:transactions')}</Typography.Body1>
             </>
           }
@@ -107,7 +111,7 @@ const Home: React.FC<NavProps> = (props) => {
           loading={transactionsLoading}
           transactions={transactions}
           onFetchMore={fetchMoreTransactions}
-          onRefresh={reloadTransactions}
+          onRefresh={refreshData}
         />
       </View>
     </StyledSafeAreaView>

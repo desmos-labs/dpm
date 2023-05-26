@@ -28,7 +28,11 @@ const useTotalRedelegatingAmount = (userAddress?: string) => {
   }
 
   const [fetchRedelegations] = useLazyQuery(GetAccountRedelegations, {
-    fetchPolicy: 'network-only',
+    // Use cache-and-network to avoid on-chain amounts sync issues.
+    // This might happen if the user returns to a screen where this hook
+    // has been used after doing a redelegation. In this case, the total
+    // amount will be different from the amount on chain.
+    fetchPolicy: 'cache-and-network',
   });
 
   const fetchAllRedelegations = React.useCallback(async () => {
