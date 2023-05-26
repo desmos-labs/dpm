@@ -28,7 +28,7 @@ const useTotalRedelegatingAmount = (userAddress?: string) => {
   }
 
   const [fetchRedelegations] = useLazyQuery(GetAccountRedelegations, {
-    fetchPolicy: 'network-only',
+    fetchPolicy: 'cache-and-network',
   });
 
   const fetchAllRedelegations = React.useCallback(async () => {

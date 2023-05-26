@@ -24,11 +24,11 @@ const useTotalDelegatedAmount = (userAddress?: string) => {
     variables: {
       address,
     },
-    // Use network-only in order to avoid any inconsistency with on-chain data.
+    // Use cache-and-network in order to avoid any inconsistency with on-chain data.
     // This might happen if the user returns to a screen where this hook
     // has been used after performing an unbonding action. In this case the total
     // amount shown will be different from the amount staked on chain.
-    fetchPolicy: 'network-only',
+    fetchPolicy: 'cache-and-network',
   });
 
   const totalUnbonding = React.useMemo(() => {

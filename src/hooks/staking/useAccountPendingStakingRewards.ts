@@ -20,20 +20,15 @@ const useAccountPendingStakingRewards = (accountAddress?: string) => {
   }
 
   const { data, loading, error, refetch } = useQuery(GetAccountPendingRewards, {
-    fetchPolicy: 'network-only',
+    fetchPolicy: 'cache-and-network',
     variables: {
       address,
     },
   });
 
   const convertedPendingRewards = React.useMemo(() => {
-    if (data === undefined) {
-      return undefined;
-    }
-
-    const convertedRewards: PendingReward[] = data.action_delegation_reward.map(
-      convertGraphQLPendingReward,
-    );
+    const convertedRewards: PendingReward[] =
+      data?.action_delegation_reward?.map(convertGraphQLPendingReward) ?? [];
 
     return convertedRewards;
   }, [data]);

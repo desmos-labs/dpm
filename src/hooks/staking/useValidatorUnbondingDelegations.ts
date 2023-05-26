@@ -25,7 +25,7 @@ const useValidatorUnbondingDelegations = (
   }
 
   const { data, loading, error, refetch } = useQuery(GetAccountUnbondingDelegations, {
-    fetchPolicy: 'network-only',
+    fetchPolicy: 'cache-and-network',
     variables: {
       address,
     },

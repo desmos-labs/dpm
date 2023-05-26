@@ -24,7 +24,7 @@ const useValidatorStakedAmount = (validatorOperatorAddress: string, accountAddre
   }
 
   const { data, loading, error, refetch } = useQuery(GetAccountDelegations, {
-    fetchPolicy: 'network-only',
+    fetchPolicy: 'cache-and-network',
     variables: {
       address,
     },

@@ -26,6 +26,7 @@ const useActiveAccountTransactions = () => {
 
   const { data, loading, fetchMore, refetch } = useQuery(GetTransactionsByAddress, {
     variables: getQueryVariables(address, 0),
+    fetchPolicy: 'cache-and-network',
   });
 
   const transactions: GroupedTransactions[] | undefined = React.useMemo(

@@ -21,7 +21,7 @@ const useAccountRedelegationsFrom = (validatorOperatorAddress: string, accountAd
   }
 
   const { data, loading, error, refetch } = useQuery(GetAccountRedelegations, {
-    fetchPolicy: 'network-only',
+    fetchPolicy: 'cache-and-network',
     variables: {
       address,
     },
