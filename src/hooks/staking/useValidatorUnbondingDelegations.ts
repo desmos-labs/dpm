@@ -25,6 +25,10 @@ const useValidatorUnbondingDelegations = (
   }
 
   const { data, loading, error, refetch } = useQuery(GetAccountUnbondingDelegations, {
+    // Use cache-and-network to avoid on-chain sync issues.
+    // This might happen if the user returns to a screen where this hook
+    // has been used after unbonding some tokens. In this case, the unbonding
+    // delegations will be different from the ones on chain.
     fetchPolicy: 'cache-and-network',
     variables: {
       address,
