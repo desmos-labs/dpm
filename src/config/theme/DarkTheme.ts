@@ -36,6 +36,13 @@ const DarkTheme: ReactNativePaper.Theme = {
       background: '#25282D',
       foreground: '#34383E',
     },
+    button: {
+      primary: '#C35B47',
+      primaryHover: '#B33821',
+      secondary: '#407AEC',
+      secondaryHover: '#265FCC',
+      disabled: 'rgba(237, 108, 83, 0.4)',
+    },
     text: '#E6E6E6',
     disabled: '#9d9d9d',
   },

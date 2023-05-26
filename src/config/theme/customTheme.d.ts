@@ -42,6 +42,14 @@ declare global {
       foreground: string;
     }
 
+    interface ButtonColors {
+      primary: string;
+      primaryHover: string;
+      secondary: string;
+      secondaryHover: string;
+      disabled: string;
+    }
+
     interface ThemeColors {
       background2: string;
       /**
@@ -64,6 +72,10 @@ declare global {
        * complexity of a password.
        */
       passwordComplexity: ComplexityHintColors;
+      /**
+       * Color used for the buttons.
+       */
+      button: ButtonColors;
     }
 
     interface Spacing {

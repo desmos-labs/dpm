@@ -4,6 +4,10 @@ enum ROUTES {
    */
   DEV_SCREEN = 'DEV_SCREEN',
   /**
+   * Dev screen to showcase the components styles.
+   */
+  COMPONENTS_DEMO = 'COMPONENTS_DEMO',
+  /**
    * Show the application splash screen.
    */
   SPLASH_SCREEN = 'SPLASH_SCREEN',

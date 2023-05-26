@@ -12,7 +12,8 @@
     "lint": "eslint --ext .js,.jsx,.ts,.tsx src",
     "check-dependencies": "rnx-dep-check",
     "fix-dependencies": "rnx-dep-check --write",
-    "adb-reverse-tcp": "adb reverse tcp:8081 tcp:8081"
+    "adb-reverse-tcp": "adb reverse tcp:8081 tcp:8081",
+    "generate-splash": "react-native generate-bootsplash --background-color=#FF6C3E --logo-width=150 ./src/assets/images/desmosLogo-white.png"
   },
   "dependencies": {
     "@apollo/client": "3.6.6",

@@ -3,6 +3,9 @@ import { Button as MaterialButton, useTheme } from 'react-native-paper';
 import useStyles from './useStyles';
 import ButtonProps from './props';
 
+/**
+ * Component that shows a button that follows the application styles and theme.
+ */
 const Button: React.FC<ButtonProps> = (props) => {
   const {
     mode,
@@ -19,18 +22,31 @@ const Button: React.FC<ButtonProps> = (props) => {
   } = props;
   const theme = useTheme();
   const styles = useStyles(props);
-  const accentColor = accent ? theme.colors.accent : theme.colors.primary;
+
+  // -------- VARIABLES --------
+
+  const btnColor = React.useMemo(() => {
+    if (color) {
+      return color;
+    }
+
+    if (disabled) {
+      return theme.colors.button.disabled;
+    }
+
+    return accent ? theme.colors.button.secondary : theme.colors.button.primary;
+  }, [color, accent, theme, disabled]);
+
   return (
     <MaterialButton
       icon={icon}
-      color={color || accentColor}
-      onPress={onPress}
+      color={btnColor}
+      onPress={disabled ? undefined : onPress}
       mode={mode}
       labelStyle={[styles.labelStyle, labelStyle]}
       style={[styles.btnStyle, style]}
       contentStyle={[styles.contentStyle, contentStyle]}
       loading={loading}
-      disabled={disabled}
     >
       {children}
     </MaterialButton>
