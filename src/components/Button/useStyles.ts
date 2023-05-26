@@ -2,15 +2,16 @@ import { makeStyleWithProps } from 'config/theme';
 import ButtonProps from './props';
 
 const useStyles = makeStyleWithProps((props: ButtonProps, theme) => {
-  const accent = props.accent ? theme.colors.accent : theme.colors.primary;
-  const color = props.color ? props.color : accent;
+  // Theme color.
+  const themeColor = props.accent ? theme.colors.button.secondary : theme.colors.button.primary;
+  const color = props.color ? props.color : themeColor;
 
   let labelColor = props.mode === 'contained' ? theme.colors.font['5'] : color;
   let borderColor = color;
   if (props.disabled) {
-    borderColor = theme.colors.font['3'];
+    borderColor = theme.colors.button.disabled;
     if (props.mode !== 'contained') {
-      labelColor = theme.colors.font['3'];
+      labelColor = theme.colors.button.disabled;
     }
   }
 

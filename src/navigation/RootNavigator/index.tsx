@@ -53,9 +53,11 @@ import ManageStaking from 'screens/ManageStaking';
 import ValidatorStakingInfo, { ValidatorStakingInfoParams } from 'screens/ValidatorStakingInfo';
 import Redelegate, { RedelegateParams } from 'screens/Redelegate';
 import UnbondTokens, { UnbondTokensParams } from 'screens/UnbondTokens';
+import ComponentsDemo from 'screens/ComponentsDemo';
 
 export type RootNavigatorParamList = {
   [ROUTES.DEV_SCREEN]: undefined;
+  [ROUTES.COMPONENTS_DEMO]: undefined;
   [ROUTES.SPLASH_SCREEN]: undefined;
   [ROUTES.LANDING]: undefined;
   [ROUTES.LEGAL]: LegalParams;
@@ -146,6 +148,7 @@ const RootNavigator = () => {
       screenOptions={{ headerShown: false }}
     >
       {__DEV__ && <Stack.Screen name={ROUTES.DEV_SCREEN} component={DevScreen} />}
+      {__DEV__ && <Stack.Screen name={ROUTES.COMPONENTS_DEMO} component={ComponentsDemo} />}
       <Stack.Screen
         name={ROUTES.SPLASH_SCREEN}
         component={SplashScreen}
