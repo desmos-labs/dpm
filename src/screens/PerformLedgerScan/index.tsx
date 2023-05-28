@@ -22,7 +22,7 @@ export type NavProps = StackScreenProps<ConnectToLedgerStackParamList, ROUTES.PE
 const PerformLedgerScan: React.FC<NavProps> = ({ navigation, route }) => {
   const { ledgerApp, onConnect, onCancel } = route.params;
   const styles = useStyles();
-  const { t } = useTranslation('ledgerScan');
+  const { t } = useTranslation('ledger');
   const { scan, scanning, devices, scanError } = useBleScan();
   const [authorized, setAuthorized] = useState(false);
   const [doFirstScan, setDoFirstScan] = useState(true);
