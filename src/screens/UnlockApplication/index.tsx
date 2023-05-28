@@ -16,6 +16,7 @@ import { BiometricAuthorizations } from 'types/settings';
 import { useSetAppState } from '@recoil/appState';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import useGetPasswordFromBiometrics from 'hooks/useGetPasswordFromBiometrics';
+import Spacer from 'components/Spacer';
 import useStyles from './useStyles';
 
 // Development related
@@ -157,6 +158,14 @@ const UnlockApplication: React.FC<NavProps> = (props) => {
         placeholder={t('common:password')}
         autoFocus={!areBiometricsEnabled}
       />
+      {areBiometricsEnabled && (
+        <>
+          <Spacer paddingVertical={8} />
+          <Button mode="text" onPress={unlockWithBiometrics} disabled={loading}>
+            {t('common:use biometrics')}
+          </Button>
+        </>
+      )}
       <Typography.Body style={styles.errorMsg}>{error}</Typography.Body>
       <Padding flex={1} />
       <KeyboardAvoidingView

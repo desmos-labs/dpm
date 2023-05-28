@@ -18,6 +18,7 @@ import { useSetting } from '@recoil/settings';
 import { BiometricAuthorizations } from 'types/settings';
 import useGetPasswordFromBiometrics from 'hooks/useGetPasswordFromBiometrics';
 import { isInvalidPasswordError } from 'lib/SecureStorage/errors';
+import Spacer from 'components/Spacer';
 import useStyles from './useStyles';
 
 export interface UnlockWalletParams {
@@ -152,6 +153,14 @@ const UnlockWallet: React.FC<Props> = (props) => {
           autoFocus={!unlockWithBiometrics}
           onSubmitEditing={unlockWalletWithWithPassword}
         />
+        {unlockWithBiometrics && (
+          <>
+            <Spacer paddingVertical={8} />
+            <Button mode="text" onPress={unlockWalletWithBiometrics} disabled={loading}>
+              {t('common:use biometrics')}
+            </Button>
+          </>
+        )}
         <Typography.Body style={styles.errorMsg}>{error}</Typography.Body>
         <Padding flex={1} />
         <KeyboardAvoidingView

@@ -34,5 +34,6 @@
   "in days_other": "in {{ count }} days",
   "it's empty": "It's empty",
   "claim": "Claim",
-  "manage": "Manage"
+  "manage": "Manage",
+  "use biometrics": "Use biometrics"
 }
