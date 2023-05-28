@@ -32,9 +32,8 @@ const useTotalDelegatedAmount = (userAddress?: string) => {
   });
 
   const totalDelegated = React.useMemo(() => {
-    const converted: Coin[] = data?.action_delegation_total?.coins.map((c: any) =>
-      coin(c.amount, c.denom),
-    );
+    const converted: Coin[] =
+      data?.action_delegation_total?.coins.map((c: any) => coin(c.amount, c.denom)) ?? [];
 
     if (converted.length === 0) {
       // If the user doesn't have any delegation, fallback to a zero amount.
