@@ -108,6 +108,11 @@ const UnlockWallet: React.FC<Props> = (props) => {
 
   const unlockWalletWithBiometrics = useCallback(async () => {
     const biometricPassword = await getPasswordFromBiometrics();
+    // User cancel the biometric unlock procedure.
+    if (biometricPassword === undefined) {
+      setLoading(false);
+      return;
+    }
     await unlockWallet(biometricPassword);
   }, [getPasswordFromBiometrics, unlockWallet]);
 

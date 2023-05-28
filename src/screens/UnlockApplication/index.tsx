@@ -126,6 +126,12 @@ const UnlockApplication: React.FC<NavProps> = (props) => {
 
   const unlockWithBiometrics = useCallback(async () => {
     const biometricPassword = await getPasswordFromBiometrics();
+    // User cancel the unlock procedure.
+    if (biometricPassword === undefined) {
+      setLoading(false);
+      return;
+    }
+
     unlockApplication(biometricPassword);
   }, [getPasswordFromBiometrics, unlockApplication]);
 

@@ -9,7 +9,7 @@ import { SerializableWallet, Wallet } from 'types/wallet';
 import { serializeWallet } from 'lib/WalletUtils/serialize';
 import { deserializeWallet } from 'lib/WalletUtils/deserialize';
 import { BiometricAuthorizations } from 'types/settings';
-import { err, ok, Result } from 'neverthrow';
+import { err, ok, Result, ResultAsync } from 'neverthrow';
 import {
   CorruptedDataError,
   EncryptionFailedError,
@@ -64,10 +64,19 @@ async function getItem<T>(
 ): Promise<Result<T | undefined, SecureStorageError>> {
   const moreOptions = options?.biometrics === true ? { ...defaultOptions } : null;
 
-  const data = await Keychain.getGenericPassword({
-    service: key,
-    ...moreOptions,
-  });
+  const getDataResult = await ResultAsync.fromPromise(
+    Keychain.getGenericPassword({
+      service: key,
+      ...moreOptions,
+    }),
+    (e) => new UnknownSecureStorageError(`error while getting data ${e}`),
+  );
+
+  if (getDataResult.isErr()) {
+    return err(getDataResult.error);
+  }
+
+  const data = getDataResult.value;
 
   if (!data) {
     return ok(undefined);
