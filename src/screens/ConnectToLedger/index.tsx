@@ -13,7 +13,7 @@ import BluetoothTransport from '@ledgerhq/react-native-hw-transport-ble';
 import { DPMAnimations, DPMImages } from 'types/images';
 import ROUTES from 'navigation/routes';
 import { ConnectToLedgerStackParamList } from 'navigation/RootNavigator/ConnectToLedgerStack';
-import { useConnectToLedger } from './hooks';
+import { LedgerConnectionPhase, useConnectToLedger } from './hooks';
 import useStyles from './useStyles';
 
 export interface ConnectToLedgerParams {
@@ -29,12 +29,28 @@ const ConnectToLedger: React.FC<Props> = ({ navigation, route }) => {
   const styles = useStyles();
 
   const { bleLedger, ledgerApp, onConnect } = route.params;
-  const { connecting, connected, connectionError, transport, retry } = useConnectToLedger(
-    bleLedger,
-    ledgerApp,
-  );
+  const { connecting, connectionPhase, connected, connectionError, transport, retry } =
+    useConnectToLedger(bleLedger, ledgerApp);
 
-  const status = connected ? t('connected') : t('error');
+  // -------- VARIABLES --------
+  const connectionStatus = React.useMemo(() => {
+    if (connecting) {
+      switch (connectionPhase) {
+        case LedgerConnectionPhase.OpeningTransport:
+          return t('ledger:opening transport');
+        case LedgerConnectionPhase.RequestingAppOpen:
+          return t('ledger:please approve application open request');
+        case LedgerConnectionPhase.RequestingAppClose:
+          return t('ledger:closing wrong application');
+        default:
+          return t('connecting');
+      }
+    } else if (connected) {
+      return t('connected');
+    } else {
+      return t('error');
+    }
+  }, [connected, connecting, connectionPhase, t]);
   const statusButton = connected ? t('next') : t('retry');
   const statusImage = connected ? (
     <DpmImage style={styles.image} source={DPMImages.Success} />
@@ -70,9 +86,7 @@ const ConnectToLedger: React.FC<Props> = ({ navigation, route }) => {
         statusImage
       )}
 
-      <Typography.Subtitle style={styles.status}>
-        {connecting ? t('connecting') : status}
-      </Typography.Subtitle>
+      <Typography.Subtitle style={styles.status}>{connectionStatus}</Typography.Subtitle>
 
       <Typography.Body style={styles.errorMessage}>{connectionError}</Typography.Body>
 
