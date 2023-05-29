@@ -143,7 +143,7 @@ const CheckWalletPassword = (props: NavProps) => {
         value={password}
         onChangeText={onPasswordChange}
         onSubmitEditing={onContinuePressed}
-        autoFocus={unlockWalletWithBiometrics}
+        autoFocus={!unlockWalletWithBiometrics}
       />
       {unlockWalletWithBiometrics && (
         <>
