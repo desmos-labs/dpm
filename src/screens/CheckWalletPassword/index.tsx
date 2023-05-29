@@ -11,11 +11,12 @@ import { RootNavigatorParamList } from 'navigation/RootNavigator';
 import ROUTES from 'navigation/routes';
 import { AccountWithWallet } from 'types/account';
 import { checkUserPassword } from 'lib/SecureStorage';
-import { useSettings } from '@recoil/settings';
+import { useSetting } from '@recoil/settings';
 import { BiometricAuthorizations } from 'types/settings';
 import useGetPasswordFromBiometrics from 'hooks/useGetPasswordFromBiometrics';
 import useSaveAccount from 'hooks/useSaveAccount';
 import useTrackNewAccountAdded from 'hooks/analytics/useTrackNewAccountAdded';
+import Spacer from 'components/Spacer';
 import useStyles from './useStyles';
 
 export interface CheckWalletPasswordParams {
@@ -51,7 +52,7 @@ const CheckWalletPassword = (props: NavProps) => {
   // --- Hooks
   // --------------------------------------------------------------------------------------
 
-  const appSettings = useSettings();
+  const unlockWalletWithBiometrics = useSetting('unlockWalletWithBiometrics');
   const getPasswordFromBiometrics = useGetPasswordFromBiometrics(
     BiometricAuthorizations.UnlockWallet,
   );
@@ -115,7 +116,7 @@ const CheckWalletPassword = (props: NavProps) => {
   // --------------------------------------------------------------------------------------
 
   React.useEffect(() => {
-    if (appSettings.unlockWalletWithBiometrics) {
+    if (unlockWalletWithBiometrics) {
       setTimeout(continueWithBiometrics, 500);
     }
 
@@ -142,8 +143,16 @@ const CheckWalletPassword = (props: NavProps) => {
         value={password}
         onChangeText={onPasswordChange}
         onSubmitEditing={onContinuePressed}
-        autoFocus={!appSettings.unlockWalletWithBiometrics}
+        autoFocus={!unlockWalletWithBiometrics}
       />
+      {unlockWalletWithBiometrics && (
+        <>
+          <Spacer paddingVertical={8} />
+          <Button mode="text" onPress={continueWithBiometrics} disabled={checkingPassword}>
+            {t('common:use biometrics')}
+          </Button>
+        </>
+      )}
       <Typography.Body style={styles.errorParagraph}>{errorMessage}</Typography.Body>
       <KeyboardAvoidingView
         keyboardVerticalOffset={Platform.OS === 'ios' ? 110 : 0}
