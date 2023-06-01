@@ -15,6 +15,7 @@ import { BiometricAuthorizations } from 'types/settings';
 import useDeletePasswordFromBiometrics from 'hooks/useDelletPasswordFromBiometrics';
 import useShowPrivacyPolicy from 'hooks/legal/useShowPrivacyPolicy';
 import useShowToS from 'hooks/legal/useShowToS';
+import { usePostHog } from 'posthog-react-native';
 import useStyles from './useStyles';
 
 export type NavProps = StackScreenProps<RootNavigatorParamList, ROUTES.SETTINGS>;
@@ -50,6 +51,7 @@ const Settings = (props: NavProps) => {
   // --------------------------------------------------------------------------------------
 
   const [biometricsSupported, setBiometricsSupported] = React.useState(false);
+  const postHog = usePostHog();
 
   // --------------------------------------------------------------------------------------
   // --- Actions
@@ -114,8 +116,18 @@ const Settings = (props: NavProps) => {
   );
 
   const handleAnalyticsToggle = React.useCallback(() => {
-    setAnalyticsEnabled((enabled) => !enabled);
-  }, [setAnalyticsEnabled]);
+    setAnalyticsEnabled((enabled) => {
+      const newState = !enabled;
+      if (postHog) {
+        if (newState) {
+          postHog.optIn();
+        } else {
+          postHog.optOut();
+        }
+      }
+      return newState;
+    });
+  }, [postHog, setAnalyticsEnabled]);
 
   // --------------------------------------------------------------------------------------
   // --- Effects
