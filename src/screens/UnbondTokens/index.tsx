@@ -16,6 +16,7 @@ import TxMemoInput from 'components/TxMemoInput';
 import Flexible from 'components/Flexible';
 import Button from 'components/Button';
 import { useUndelegateTokes } from 'screens/UnbondTokens/hooks';
+import DKeyboardAvoidingView from 'components/DKeyboardAvoidingView';
 
 export interface UnbondTokensParams {
   /**
@@ -63,7 +64,10 @@ const UnbondTokens: React.FC<NavProps> = (props) => {
   }, [amount, undelegateTokens, fromValidator, memo, onSuccess]);
 
   return (
-    <StyledSafeAreaView topBar={<TopBar stackProps={props} title={t('unbond')} />}>
+    <StyledSafeAreaView
+      topBar={<TopBar stackProps={props} title={t('unbond')} />}
+      touchableWithoutFeedbackDisabled={false}
+    >
       {/* Validator info */}
       <Typography.Body1>{t('Unbond from')}</Typography.Body1>
       <ValidatorCompact validator={validator} loading={loadingValidator} />
@@ -87,9 +91,11 @@ const UnbondTokens: React.FC<NavProps> = (props) => {
 
       <Flexible.Padding flex={1} />
 
-      <Button mode={'contained'} disabled={amount === undefined} onPress={onNextPressed}>
-        {t('common:next')}
-      </Button>
+      <DKeyboardAvoidingView>
+        <Button mode={'contained'} disabled={amount === undefined} onPress={onNextPressed}>
+          {t('common:next')}
+        </Button>
+      </DKeyboardAvoidingView>
     </StyledSafeAreaView>
   );
 };

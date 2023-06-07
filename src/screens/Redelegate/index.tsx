@@ -16,6 +16,7 @@ import CoinAmountInput from 'components/CoinAmountInput';
 import { AmountLimit } from 'components/CoinAmountInput/limits';
 import { Coin } from '@desmoslabs/desmjs';
 import { useRedelegateTokes } from 'screens/Redelegate/hooks';
+import DKeyboardAvoidingView from 'components/DKeyboardAvoidingView';
 
 export interface RedelegateParams {
   /**
@@ -72,7 +73,10 @@ const Redelegate: React.FC<NavProps> = (props) => {
   ]);
 
   return (
-    <StyledSafeAreaView topBar={<TopBar stackProps={props} title={t('staking:restake')} />}>
+    <StyledSafeAreaView
+      topBar={<TopBar stackProps={props} title={t('staking:restake')} />}
+      touchableWithoutFeedbackDisabled={false}
+    >
       {/* Validator from which the user is restaking from */}
       <Typography.Body1>{t('staking:restake from')}</Typography.Body1>
       <ValidatorCompact validator={fromValidator} loading={lodingfromValidator} />
@@ -103,13 +107,15 @@ const Redelegate: React.FC<NavProps> = (props) => {
 
       <Flexible.Padding flex={1} />
 
-      <Button
-        mode={'contained'}
-        onPress={onRedelegatePressed}
-        disabled={redelegateAmount === undefined}
-      >
-        {t('common:next')}
-      </Button>
+      <DKeyboardAvoidingView>
+        <Button
+          mode={'contained'}
+          onPress={onRedelegatePressed}
+          disabled={redelegateAmount === undefined}
+        >
+          {t('common:next')}
+        </Button>
+      </DKeyboardAvoidingView>
       <Spacer paddingVertical={16} />
     </StyledSafeAreaView>
   );
