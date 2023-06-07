@@ -1,5 +1,5 @@
 import { MediaTypeUrl, PollTypeUrl } from '@desmoslabs/desmjs';
-import { Media, Poll } from '@desmoslabs/desmjs-types/desmos/posts/v2/models';
+import { Media, Poll } from '@desmoslabs/desmjs-types/desmos/posts/v3/models';
 import { Any } from 'cosmjs-types/google/protobuf/any';
 import { err, ok, Result } from 'neverthrow';
 

@@ -1,5 +1,5 @@
 import { useTranslation } from 'react-i18next';
-import { Entities } from '@desmoslabs/desmjs-types/desmos/posts/v2/models';
+import { Entities } from '@desmoslabs/desmjs-types/desmos/posts/v3/models';
 import React from 'react';
 import { MessageDetailsField } from 'components/Messages/BaseMessage/BaseMessageDetails';
 
