@@ -16,6 +16,13 @@ describe('PromiseTimeout', () => {
     expect(wrappedResult.isTimedOut()).toBe(true);
   });
 
+  it('onTimeoutFallback provides the computed value', async () => {
+    const testPromise = delay(1000).then(() => 42);
+    const result = await PromiseTimeout.wrap(testPromise, 2000).onTimeoutFallback(1337);
+
+    expect(result).toBe(42);
+  });
+
   it('onTimeoutFallback provides the fallback value', async () => {
     const testPromise = delay(2000).then(() => 42);
     const result = await PromiseTimeout.wrap(testPromise, 1000).onTimeoutFallback(1337);
@@ -30,6 +37,27 @@ describe('PromiseTimeout', () => {
     const result = await PromiseTimeout.wrap(testPromise, 1000).onTimeoutFallback(1337, true);
 
     expect(result).toBe(1337);
+  });
+
+  it('correctly call catch if the wrapped promise fails', async () => {
+    const testPromise = new Promise((resolve, reject) => {
+      reject(new Error('test error'));
+    });
+    const result = await PromiseTimeout.wrap(testPromise, 1000).catch(() => 42);
+
+    expect(result).toBe(42);
+  });
+
+  it('correctly call finally', async () => {
+    const testFn = jest.fn();
+    const testPromise = new Promise((resolve, reject) => {
+      reject(new Error('test error'));
+    });
+    await PromiseTimeout.wrap(testPromise, 1000)
+      .catch(() => 42)
+      .finally(testFn);
+
+    expect(testFn.mock.calls.length).toBe(1);
   });
 
   it('CompletedResult implements the ResultI correctly', () => {
