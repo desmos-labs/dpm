@@ -10,7 +10,7 @@ import Button from 'components/Button';
 import { RootNavigatorParamList } from 'navigation/RootNavigator';
 import ROUTES from 'navigation/routes';
 import { EncodeObject } from '@cosmjs/proto-signing';
-import { useEstimateFees, useSignAndBroadcastTx } from 'screens/BroadcastTx/hooks';
+import { useEstimateFee, useSignAndBroadcastTx } from 'screens/BroadcastTx/hooks';
 import { DPMImages } from 'types/images';
 import { DeliverTxResponse } from '@desmoslabs/desmjs';
 import useOnScreenDetached from 'hooks/useOnScreenDetached';
@@ -71,7 +71,7 @@ const BroadcastTx: React.FC<NavProps> = (props) => {
 
   const broadcastTx = useSignAndBroadcastTx();
   const showModal = useShowModal();
-  const { estimateFees, estimatingFees, estimatedFees } = useEstimateFees();
+  const { estimateFees, estimatingFee, areFeeApproximated, estimatedFee } = useEstimateFee();
 
   const [broadcastingTx, setBroadcastingTx] = useState(false);
   const [broadcastTxStatus, setBroadcastTxStatus] = useState<BroadcastTxStatus>({
@@ -81,6 +81,16 @@ const BroadcastTx: React.FC<NavProps> = (props) => {
   useEffect(() => {
     estimateFees(messages, memo);
   }, [estimateFees, memo, messages]);
+
+  const buttonText = React.useMemo(() => {
+    if (estimatingFee) {
+      return t('computing fee');
+    }
+    if (broadcastingTx) {
+      return t('broadcasting tx');
+    }
+    return t('common:confirm');
+  }, [t, estimatingFee, broadcastingTx]);
 
   useOnScreenDetached(() => {
     switch (broadcastTxStatus.status) {
@@ -126,9 +136,9 @@ const BroadcastTx: React.FC<NavProps> = (props) => {
   );
 
   const confirmBroadcast = React.useCallback(async () => {
-    if (estimatedFees !== undefined) {
+    if (estimatedFee !== undefined) {
       setBroadcastingTx(true);
-      const broadcastResult = await broadcastTx(messages, estimatedFees, memo);
+      const broadcastResult = await broadcastTx(messages, estimatedFee, memo);
       if (broadcastResult.isOk()) {
         const deliveredTx = broadcastResult.value;
         if (deliveredTx !== undefined) {
@@ -144,24 +154,25 @@ const BroadcastTx: React.FC<NavProps> = (props) => {
       }
       setBroadcastingTx(false);
     }
-  }, [broadcastTx, estimatedFees, memo, messages, showErrorModal, showSuccessModal]);
+  }, [broadcastTx, estimatedFee, memo, messages, showErrorModal, showSuccessModal]);
 
   return (
     <StyledSafeAreaView topBar={<TopBar stackProps={props} title={t('tx details')} />}>
       <TransactionDetails
         messages={messages}
         memo={memo}
-        estimatingFee={estimatingFees}
-        fee={estimatedFees}
+        estimatingFee={estimatingFee}
+        fee={estimatedFee}
+        approximatedFee={areFeeApproximated}
       />
       <Button
         style={styles.nextBtn}
         mode="contained"
         onPress={confirmBroadcast}
-        loading={broadcastingTx}
-        disabled={broadcastingTx || estimatingFees}
+        loading={broadcastingTx || estimatingFee}
+        disabled={broadcastingTx || estimatingFee}
       >
-        {!broadcastingTx ? t('common:confirm') : t('broadcasting tx')}
+        {buttonText}
       </Button>
     </StyledSafeAreaView>
   );

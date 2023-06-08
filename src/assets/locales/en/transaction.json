@@ -13,5 +13,6 @@
   "to": "To",
   "from": "From",
   "memo": "Note (Memo)",
-  "memo placeholder": "Description (optional)"
+  "memo placeholder": "Description (optional)",
+  "computing fee": "Calculating fee"
 }

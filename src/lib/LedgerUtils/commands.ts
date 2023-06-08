@@ -2,14 +2,7 @@ import BluetoothTransport from '@ledgerhq/react-native-hw-transport-ble';
 import { err, Result, ResultAsync } from 'neverthrow';
 import { convertErrorToLedgerError, isUnknownLedgerError } from 'lib/LedgerUtils/errors';
 import { ApplicationOpenRejectedError, LedgerError } from 'types/ledger';
-
-async function delay(ms: number): Promise<void> {
-  return new Promise((resolve) => {
-    setTimeout(() => {
-      resolve();
-    }, ms);
-  });
-}
+import { delay } from 'lib/PromiseUtils';
 
 /**
  * Establish a connection to a Ledger device.

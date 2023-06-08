@@ -4,6 +4,8 @@ import { PostHogProvider } from 'posthog-react-native';
 import { POSTHOG_API_KEY } from '@env';
 import useTrackPreviouslyCreatedAccounts from 'hooks/analytics/useTrackPreviouslyCreatedAccounts';
 import useTrackAppOpened from 'hooks/analytics/useTrackAppOpened';
+import { DefaultPosthogFeatureFlags } from 'types/appFeatureFlags';
+import useSyncPosthog from 'hooks/analytics/useEnableAnalytics';
 
 export interface Props {
   children: React.ReactNode;
@@ -13,6 +15,7 @@ export interface Props {
  * Component to execute analytics operation on application start.
  */
 const InternalPostHogComponent: React.FC<Props> = ({ children }) => {
+  useSyncPosthog();
   useTrackPreviouslyCreatedAccounts();
   useTrackAppOpened();
 
@@ -23,6 +26,9 @@ const DesmosPostHogProvider: React.FC<Props> = ({ children }) => (
     apiKey={POSTHOG_API_KEY}
     options={{
       host: 'https://app.posthog.com',
+      bootstrap: {
+        featureFlags: DefaultPosthogFeatureFlags,
+      },
     }}
     debug={__DEV__}
     autocapture={{

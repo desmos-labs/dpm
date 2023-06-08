@@ -17,13 +17,20 @@ export type TransactionDetailsProps = {
    */
   messages: readonly EncodeObject[];
   /**
-   * True if the fees are still being estimaded.
+   * True if the fees are still being estimated.
    */
   estimatingFee?: boolean;
   /**
    * Fees to be shown to the user.
    */
   fee?: StdFee | Fee;
+  /**
+   * Tells if the fee have been approximated.
+   * If this field is true, the user will see a `~`
+   * before the fee amount to easily understand that the
+   * fees have been approximated.
+   */
+  approximatedFee?: boolean;
   /**
    * Memo associated with the transaction.
    */
@@ -43,9 +50,12 @@ const TransactionDetails: React.FC<TransactionDetailsProps> = (props) => {
   const { t } = useTranslation('transaction');
   const styles = useStyles();
 
-  const { memo, messages, fee, success, dateTime, style, estimatingFee } = props;
+  const { memo, messages, fee, success, dateTime, style, estimatingFee, approximatedFee } = props;
 
-  const txFex = useMemo(() => formatCoins(fee?.amount), [fee]);
+  const txFex = useMemo(() => {
+    const formattedCoins = formatCoins(fee?.amount);
+    return approximatedFee ? `~${formattedCoins}` : formattedCoins;
+  }, [approximatedFee, fee?.amount]);
 
   return (
     <View style={styles.root}>

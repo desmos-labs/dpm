@@ -12,6 +12,8 @@ import SingleButtonModal from 'modals/SingleButtonModal';
 import { DPMImages } from 'types/images';
 import * as Sentry from '@sentry/react-native';
 import { ModalMode } from 'modals/ModalScreen';
+import Typography from 'components/Typography';
+import useAppFeatureFlags from 'hooks/featureflags/useAppFeatureFlags';
 import useStyles from './useStyles';
 
 enum DevRoutes {
@@ -41,6 +43,7 @@ const DevScreen: FC<NavProps> = ({ navigation }) => {
   const styles = useStyles();
   const postHog = usePostHog()!;
   const showModal = useShowModal();
+  const appFeatureFlags = useAppFeatureFlags();
 
   const itemSeparator = React.useCallback(() => <Spacer paddingVertical={4} />, []);
 
@@ -121,6 +124,12 @@ const DevScreen: FC<NavProps> = ({ navigation }) => {
         renderItem={renderItem}
         ItemSeparatorComponent={itemSeparator}
       />
+
+      <Spacer paddingVertical={4} />
+
+      {/* Display the current application feature flags */}
+      <Typography.Subtitle>Feature flags</Typography.Subtitle>
+      <Typography.Caption>{JSON.stringify(appFeatureFlags, undefined, 4)}</Typography.Caption>
 
       <Spacer paddingVertical={4} />
 
