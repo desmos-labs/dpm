@@ -71,7 +71,7 @@ const BroadcastTx: React.FC<NavProps> = (props) => {
 
   const broadcastTx = useSignAndBroadcastTx();
   const showModal = useShowModal();
-  const { estimateFees, estimatingFees, estimatedFees } = useEstimateFees();
+  const { estimateFees, estimatingFees, areFeeApproximated, estimatedFees } = useEstimateFees();
 
   const [broadcastingTx, setBroadcastingTx] = useState(false);
   const [broadcastTxStatus, setBroadcastTxStatus] = useState<BroadcastTxStatus>({
@@ -81,6 +81,16 @@ const BroadcastTx: React.FC<NavProps> = (props) => {
   useEffect(() => {
     estimateFees(messages, memo);
   }, [estimateFees, memo, messages]);
+
+  const buttonText = React.useMemo(() => {
+    if (estimatingFees) {
+      return t('computing fee');
+    }
+    if (broadcastingTx) {
+      return t('broadcasting tx');
+    }
+    return t('common:confirm');
+  }, [t, estimatingFees, broadcastingTx]);
 
   useOnScreenDetached(() => {
     switch (broadcastTxStatus.status) {
@@ -153,15 +163,16 @@ const BroadcastTx: React.FC<NavProps> = (props) => {
         memo={memo}
         estimatingFee={estimatingFees}
         fee={estimatedFees}
+        approximatedFee={areFeeApproximated}
       />
       <Button
         style={styles.nextBtn}
         mode="contained"
         onPress={confirmBroadcast}
-        loading={broadcastingTx}
+        loading={broadcastingTx || estimatingFees}
         disabled={broadcastingTx || estimatingFees}
       >
-        {!broadcastingTx ? t('common:confirm') : t('broadcasting tx')}
+        {buttonText}
       </Button>
     </StyledSafeAreaView>
   );

@@ -9,9 +9,12 @@ import { useCurrentChainGasPrice, useCurrentChainInfo } from '@recoil/settings';
 import { err, ok, Result } from 'neverthrow';
 import useBroadcastTx from 'hooks/tx/useBroadcastTx';
 import useTrackTransactionPerformed from 'hooks/analytics/useTrackTransactionPerformed';
+import { calculateFee } from '@cosmjs/stargate';
+import { PromiseTimeout } from 'lib/PromiseUtils';
 
 export const useEstimateFees = () => {
   const [estimatingFees, setEstimatingFees] = useState(false);
+  const [areFeeApproximated, setAreFeeApproximated] = useState(false);
   const [estimatedFees, setEstimatedFees] = useState<StdFee>();
   const activeAccount = useActiveAccount()!;
   const chainInfo = useCurrentChainInfo();
@@ -20,26 +23,32 @@ export const useEstimateFees = () => {
   const estimateFees = useCallback(
     async (messages: EncodeObject[], memo: string = '') => {
       setEstimatingFees(true);
+      setAreFeeApproximated(false);
       setEstimatedFees(undefined);
-      let client: DesmosClient | undefined;
 
-      try {
-        client = await DesmosClient.connect(chainInfo.rpcUrl, {
-          gasPrice,
-        });
+      // Compute a fallback fee amount.
+      const fallbackFee = calculateFee(200000, gasPrice!);
 
-        const fees = await client.estimateTxFee(activeAccount.address, messages, {
+      const feeEstimationPromise = DesmosClient.connect(chainInfo.rpcUrl, {
+        gasPrice,
+      }).then((c) =>
+        c.estimateTxFee(activeAccount.address, messages, {
           publicKey: {
             algo: activeAccount.algo,
             bytes: activeAccount.pubKey,
           },
           memo,
-        });
-        setEstimatedFees(fees);
-      } finally {
-        client?.disconnect();
-        setEstimatingFees(false);
-      }
+        }),
+      );
+
+      const computedFee = await PromiseTimeout.wrap(feeEstimationPromise, 5000).onTimeoutFallback(
+        fallbackFee,
+        true,
+      );
+
+      setEstimatedFees(computedFee);
+      setAreFeeApproximated(computedFee === fallbackFee);
+      setEstimatingFees(false);
     },
     [activeAccount, chainInfo.rpcUrl, gasPrice],
   );
@@ -47,6 +56,7 @@ export const useEstimateFees = () => {
   return {
     estimateFees,
     estimatingFees,
+    areFeeApproximated,
     estimatedFees,
   };
 };
