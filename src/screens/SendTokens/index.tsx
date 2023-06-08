@@ -16,6 +16,7 @@ import CoinAmountInput from 'components/CoinAmountInput';
 import { Coin } from '@desmoslabs/desmjs-types/cosmos/base/v1beta1/coin';
 import TxMemoInput from 'components/TxMemoInput';
 import { AmountLimit } from 'components/CoinAmountInput/limits';
+import DKeyboardAvoidingView from 'components/DKeyboardAvoidingView';
 import useStyles from './useStyles';
 import useSendTokens from './useHooks';
 
@@ -103,9 +104,11 @@ const SendTokens = () => {
       <Flexible.Padding flex={1} />
 
       {/* Send button */}
-      <Button mode="contained" disabled={!sendEnabled} onPress={onNextPressed}>
-        {t('common:next')}
-      </Button>
+      <DKeyboardAvoidingView>
+        <Button mode="contained" disabled={!sendEnabled} onPress={onNextPressed}>
+          {t('common:next')}
+        </Button>
+      </DKeyboardAvoidingView>
     </StyledSafeAreaView>
   );
 };
