@@ -6,11 +6,14 @@ import { DeliverTxResponse, DesmosClient } from '@desmoslabs/desmjs';
 import useSignTx, { SignMode } from 'hooks/tx/useSignTx';
 import { StdFee } from '@cosmjs/amino';
 import { useCurrentChainGasPrice, useCurrentChainInfo } from '@recoil/settings';
-import { err, ok, Result } from 'neverthrow';
+import { err, ok, Result, ResultAsync } from 'neverthrow';
 import useBroadcastTx from 'hooks/tx/useBroadcastTx';
 import useTrackTransactionPerformed from 'hooks/analytics/useTrackTransactionPerformed';
 import { calculateFee } from '@cosmjs/stargate';
 import { PromiseTimeout } from 'lib/PromiseUtils';
+import useAppFeatureFlags from 'hooks/featureflags/useAppFeatureFlags';
+import { usePostHog } from 'posthog-react-native';
+import { Timer } from 'lib/Timer';
 
 export const useEstimateFees = () => {
   const [estimatingFees, setEstimatingFees] = useState(false);
@@ -19,6 +22,9 @@ export const useEstimateFees = () => {
   const activeAccount = useActiveAccount()!;
   const chainInfo = useCurrentChainInfo();
   const gasPrice = useCurrentChainGasPrice();
+  const { feeEstimationTimeoutMs, gasOnFeeEstimationTimeout, trackFeeEstimation } =
+    useAppFeatureFlags();
+  const postHog = usePostHog();
 
   const estimateFees = useCallback(
     async (messages: EncodeObject[], memo: string = '') => {
@@ -27,30 +33,67 @@ export const useEstimateFees = () => {
       setEstimatedFees(undefined);
 
       // Compute a fallback fee amount.
-      const fallbackFee = calculateFee(200000, gasPrice!);
+      const fallbackFee = calculateFee(gasOnFeeEstimationTimeout, gasPrice!);
 
-      const feeEstimationPromise = DesmosClient.connect(chainInfo.rpcUrl, {
-        gasPrice,
-      }).then((c) =>
-        c.estimateTxFee(activeAccount.address, messages, {
-          publicKey: {
-            algo: activeAccount.algo,
-            bytes: activeAccount.pubKey,
-          },
-          memo,
-        }),
+      const feeEstimationPromise = PromiseTimeout.wrap(
+        DesmosClient.connect(chainInfo.rpcUrl, {
+          gasPrice,
+        }).then((c) =>
+          c.estimateTxFee(activeAccount.address, messages, {
+            publicKey: {
+              algo: activeAccount.algo,
+              bytes: activeAccount.pubKey,
+            },
+            memo,
+          }),
+        ),
+        feeEstimationTimeoutMs,
       );
 
-      const computedFee = await PromiseTimeout.wrap(feeEstimationPromise, 5000).onTimeoutFallback(
-        fallbackFee,
-        true,
+      // Create a new time to track the estimation fee execution time.
+      const timer = new Timer();
+      const feeEstimationResult = await ResultAsync.fromPromise(feeEstimationPromise, (e) =>
+        Error(`Error while estimating the fees: ${e}`),
       );
+      // Get the current timer value in ms.
+      const executionTime = timer.currentMs();
 
-      setEstimatedFees(computedFee);
-      setAreFeeApproximated(computedFee === fallbackFee);
+      let estimatedFee: StdFee;
+      if (feeEstimationResult.isOk()) {
+        // The fee estimation completed without errors.
+        const timeoutResult = feeEstimationResult.value;
+
+        // Check if the estimation has completed in the required amount of
+        // time or if it has exced the allowed execution time.
+        if (timeoutResult.isCompleted()) {
+          if (trackFeeEstimation) {
+            postHog?.capture('Transaction Fee Estimated', {
+              'Estimation Time Milliseconds': executionTime,
+            });
+          }
+          estimatedFee = timeoutResult.data;
+        } else {
+          if (trackFeeEstimation) {
+            postHog?.capture('Transaction Fee Estimation Timeout');
+          }
+          estimatedFee = fallbackFee;
+        }
+      } else {
+        estimatedFee = fallbackFee;
+      }
+
+      setEstimatedFees(estimatedFee);
+      setAreFeeApproximated(estimatedFee === fallbackFee);
       setEstimatingFees(false);
     },
-    [activeAccount, chainInfo.rpcUrl, gasPrice],
+    [
+      activeAccount,
+      chainInfo.rpcUrl,
+      feeEstimationTimeoutMs,
+      gasOnFeeEstimationTimeout,
+      gasPrice,
+      postHog,
+    ],
   );
 
   return {
