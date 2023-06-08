@@ -26,9 +26,9 @@ export type TransactionDetailsProps = {
   fee?: StdFee | Fee;
   /**
    * Tells if the fee have been approximated.
-   * If this field is true will be show a `~`
-   * before the fee amount to inform the user that the
-   * fee have been approximated.
+   * If this field is true, the user will see a `~`
+   * before the fee amount to easily understand that the
+   * fees have been approximated.
    */
   approximatedFee?: boolean;
   /**
