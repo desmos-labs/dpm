@@ -145,7 +145,7 @@ import {
   MsgDeletePost,
   MsgEditPost,
   MsgRemovePostAttachment,
-} from '@desmoslabs/desmjs-types/desmos/posts/v2/msgs';
+} from '@desmoslabs/desmjs-types/desmos/posts/v3/msgs';
 import {
   Attachment,
   Entities,
@@ -155,7 +155,7 @@ import {
   postReferenceTypeFromJSON,
   replySettingFromJSON,
   Url,
-} from '@desmoslabs/desmjs-types/desmos/posts/v2/models';
+} from '@desmoslabs/desmjs-types/desmos/posts/v3/models';
 import {
   MsgAddReaction,
   MsgAddRegisteredReaction,
@@ -564,10 +564,9 @@ const decodeSubspaceMessage = (type: string, value: any): EncodeObject | undefin
         value: MsgEditSubspace.fromPartial({
           subspaceId: Long.fromString(value.subspace_id),
           name: value.name,
+          description: value.description,
           owner: value.owner,
           signer: value.signer,
-          description: value.description,
-          treasury: value.treasury,
         }),
       } as MsgEditSubspaceEncodeObject;
 
