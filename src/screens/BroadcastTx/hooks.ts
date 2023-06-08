@@ -15,10 +15,10 @@ import useAppFeatureFlags from 'hooks/featureflags/useAppFeatureFlags';
 import { usePostHog } from 'posthog-react-native';
 import { Timer } from 'lib/Timer';
 
-export const useEstimateFees = () => {
-  const [estimatingFees, setEstimatingFees] = useState(false);
+export const useEstimateFee = () => {
+  const [estimatingFee, setEstimatingFee] = useState(false);
   const [areFeeApproximated, setAreFeeApproximated] = useState(false);
-  const [estimatedFees, setEstimatedFees] = useState<StdFee>();
+  const [estimatedFee, setEstimatedFee] = useState<StdFee>();
   const activeAccount = useActiveAccount()!;
   const chainInfo = useCurrentChainInfo();
   const gasPrice = useCurrentChainGasPrice();
@@ -28,9 +28,9 @@ export const useEstimateFees = () => {
 
   const estimateFees = useCallback(
     async (messages: EncodeObject[], memo: string = '') => {
-      setEstimatingFees(true);
+      setEstimatingFee(true);
       setAreFeeApproximated(false);
-      setEstimatedFees(undefined);
+      setEstimatedFee(undefined);
 
       // Compute a fallback fee amount.
       const fallbackFee = calculateFee(gasOnFeeEstimationTimeout, gasPrice!);
@@ -58,7 +58,7 @@ export const useEstimateFees = () => {
       // Get the current timer value in ms.
       const executionTime = timer.currentMs();
 
-      let estimatedFee: StdFee;
+      let computedFee: StdFee;
       if (feeEstimationResult.isOk()) {
         // The fee estimation completed without errors.
         const timeoutResult = feeEstimationResult.value;
@@ -71,22 +71,23 @@ export const useEstimateFees = () => {
               'Estimation Time Milliseconds': executionTime,
             });
           }
-          estimatedFee = timeoutResult.data;
+          computedFee = timeoutResult.data;
         } else {
           if (trackFeeEstimation) {
             postHog?.capture('Transaction Fee Estimation Timeout');
           }
-          estimatedFee = fallbackFee;
+          computedFee = fallbackFee;
         }
       } else {
-        estimatedFee = fallbackFee;
+        computedFee = fallbackFee;
       }
 
-      setEstimatedFees(estimatedFee);
-      setAreFeeApproximated(estimatedFee === fallbackFee);
-      setEstimatingFees(false);
+      setEstimatedFee(computedFee);
+      setAreFeeApproximated(computedFee === fallbackFee);
+      setEstimatingFee(false);
     },
     [
+      trackFeeEstimation,
       activeAccount,
       chainInfo.rpcUrl,
       feeEstimationTimeoutMs,
@@ -98,9 +99,9 @@ export const useEstimateFees = () => {
 
   return {
     estimateFees,
-    estimatingFees,
+    estimatingFee,
     areFeeApproximated,
-    estimatedFees,
+    estimatedFee,
   };
 };
 
