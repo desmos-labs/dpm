@@ -47,7 +47,10 @@ const SelectValidator: FC<NavProps> = (props) => {
   );
 
   return (
-    <StyledSafeAreaView topBar={<TopBar stackProps={props} title={t('active validators')} />}>
+    <StyledSafeAreaView
+      topBar={<TopBar stackProps={props} title={t('active validators')} />}
+      touchableWithoutFeedbackDisabled={false}
+    >
       <TextInput
         onChangeText={(e) => {
           updateFilter((currentFilter) => ({

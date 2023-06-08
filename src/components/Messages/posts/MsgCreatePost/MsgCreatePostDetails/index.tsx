@@ -6,7 +6,7 @@ import BaseMessageDetails, {
 } from 'components/Messages/BaseMessage/BaseMessageDetails';
 import { msgGeneralIcon } from 'assets/images';
 import { MessageDetailsComponent } from 'components/Messages/BaseMessage';
-import { replySettingToJSON } from '@desmoslabs/desmjs-types/desmos/posts/v2/models';
+import { replySettingToJSON } from '@desmoslabs/desmjs-types/desmos/posts/v3/models';
 import useGetGeneratePostAttachmentsDetailFields from 'components/Messages/posts/hooks/useGetGeneratePostAttachmentsDetailFields';
 import useGetGeneratePostEntitiesDetailFields from 'components/Messages/posts/hooks/useGetGeneratePostEntitiesDetailFields';
 

@@ -143,7 +143,10 @@ const UnlockWallet: React.FC<Props> = (props) => {
 
   return (
     <View style={styles.root}>
-      <StyledSafeAreaView topBar={<TopBar stackProps={props} title={t('wallet password')} />}>
+      <StyledSafeAreaView
+        topBar={<TopBar stackProps={props} title={t('wallet password')} />}
+        touchableWithoutFeedbackDisabled={false}
+      >
         <Typography.Subtitle>{t('enter wallet password')}</Typography.Subtitle>
         <SecureTextInput
           style={styles.password}

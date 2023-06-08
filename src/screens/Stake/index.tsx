@@ -19,6 +19,7 @@ import StyledActivityIndicator from 'components/StyledActivityIndicator';
 import { useDelegateTokens } from 'screens/Stake/hooks';
 import ValidatorCompact from 'components/ValidatorCompact';
 import { AmountLimit } from 'components/CoinAmountInput/limits';
+import DKeyboardAvoidingView from 'components/DKeyboardAvoidingView';
 import useStyles from './useStyles';
 
 export type StakingParams = {
@@ -69,7 +70,11 @@ const Stake: React.FC<NavProps> = (props) => {
   }, [delegateTokens, stakeAmount, validator.operatorAddress, memo, onSuccess]);
 
   return (
-    <StyledSafeAreaView topBar={<TopBar stackProps={props} title={t('stake')} />} padding={0}>
+    <StyledSafeAreaView
+      topBar={<TopBar stackProps={props} title={t('stake')} />}
+      padding={0}
+      touchableWithoutFeedbackDisabled={false}
+    >
       {/* Staking lock period warning message */}
       {errorUnbondingTime === undefined && (
         <View style={styles.stakingMessageContainer}>
@@ -113,14 +118,16 @@ const Stake: React.FC<NavProps> = (props) => {
 
         <Flexible.Padding flex={1} />
 
-        <Button
-          mode={'contained'}
-          style={styles.nextButton}
-          onPress={onNextPressed}
-          disabled={stakeAmount === undefined}
-        >
-          {t('common:next')}
-        </Button>
+        <DKeyboardAvoidingView>
+          <Button
+            mode={'contained'}
+            style={styles.nextButton}
+            onPress={onNextPressed}
+            disabled={stakeAmount === undefined}
+          >
+            {t('common:next')}
+          </Button>
+        </DKeyboardAvoidingView>
       </View>
     </StyledSafeAreaView>
   );

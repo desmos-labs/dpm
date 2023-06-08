@@ -1,0 +1,64 @@
+--- a/node_modules/react-native-bootsplash/android/src/main/java/com/zoontek/rnbootsplash/RNBootSplashModule.java
++++ b/node_modules/react-native-bootsplash/android/src/main/java/com/zoontek/rnbootsplash/RNBootSplashModule.java
+@@ -72,33 +72,34 @@ public class RNBootSplashModule extends ReactContextBaseJavaModule {
+       }
+     });
+
+-    mSplashScreen.setOnExitAnimationListener(new SplashScreen.OnExitAnimationListener() {
+-      @Override
+-      public void onSplashScreenExit(@NonNull final SplashScreenViewProvider splashScreenViewProvider) {
+-        final View splashScreenView = splashScreenViewProvider.getView();
+-
+-        splashScreenView
+-          .animate()
+-          // Crappy hack to avoid automatic layout transitions
+-          .setDuration(mShouldFade ? mAnimationDuration: 0)
+-          .setStartDelay(mShouldFade ? 0 : mAnimationDuration)
+-          .alpha(0.0f)
+-          .setInterpolator(new AccelerateInterpolator())
+-          .setListener(new AnimatorListenerAdapter() {
+-            @Override
+-            public void onAnimationEnd(Animator animation) {
+-              super.onAnimationEnd(animation);
+-
+-              if (Build.VERSION.SDK_INT < Build.VERSION_CODES.S) {
+-                splashScreenViewProvider.remove();
+-              } else {
+-                // Avoid calling applyThemesSystemBarAppearance
+-                ((SplashScreenView) splashScreenView).remove();
+-              }
+-            }
+-          }).start();
+-      }
+-    });
++    // Disabled fade out animation to avoid crashe on Android > 12
++    //mSplashScreen.setOnExitAnimationListener(new SplashScreen.OnExitAnimationListener() {
++    //  @Override
++    //  public void onSplashScreenExit(@NonNull final SplashScreenViewProvider splashScreenViewProvider) {
++    //    final View splashScreenView = splashScreenViewProvider.getView();
++    //
++    //    splashScreenView
++    //      .animate()
++    //      // Crappy hack to avoid automatic layout transitions
++    //      .setDuration(mShouldFade ? mAnimationDuration: 0)
++    //      .setStartDelay(mShouldFade ? 0 : mAnimationDuration)
++    //      .alpha(0.0f)
++    //      .setInterpolator(new AccelerateInterpolator())
++    //      .setListener(new AnimatorListenerAdapter() {
++    //        @Override
++    //        public void onAnimationEnd(Animator animation) {
++    //          super.onAnimationEnd(animation);
++    //
++    //          if (Build.VERSION.SDK_INT < Build.VERSION_CODES.S) {
++    //            splashScreenViewProvider.remove();
++    //          } else {
++    //            // Avoid calling applyThemesSystemBarAppearance
++    //            ((SplashScreenView) splashScreenView).remove();
++    //          }
++    //        }
++    //      }).start();
++    //  }
++    // });
+   }
+
+   private void clearPromiseQueue() {
