@@ -1,3 +1,19 @@
+# Version 2.1.1
+## Features
+- Add support to Desmos `v5.x.x`
+
+## Bug Fixes
+- Fixed a bug that cause the application to not broadcast a transaction if the fee estimation times out;
+- Fixed a bug on iOS that prevent the keyboard close on some screens.
+
+# Version 2.1.0
+## Features
+- New Home screen design;
+- Add possibility to stake, unstake, redelegate and claim your staking rewards;
+- Add support to Desmos `v5.x.x`
+
+## Bug Fixes
+
 # Version 2.0.0
 ## Features
 - Add support to import an account with the `m/44/118/0/0` using a Ledger device;
@@ -11,18 +27,3 @@
 
 ## Bug Fixes
 
-# Version 2.1.0
-## Features
-- New Home screen design;
-- Add possibility to stake, unstake, redelegate and claim your staking rewards;
-- Add support to Desmos `v5.x.x`
-
-## Bug Fixes
-
-
-# Version 2.1.1
-## Features
-- Add support to Desmos `v5.x.x`
-
-## Bug Fixes
-- Fixed a bug that cause the application to not broadcast a transaction if the fee estimation times out.
