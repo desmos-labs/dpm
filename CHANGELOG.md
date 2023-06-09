@@ -10,3 +10,19 @@
 - Add support to visualize user's linked applications in the profile screen.
 
 ## Bug Fixes
+
+# Version 2.1.0
+## Features
+- New Home screen design;
+- Add possibility to stake, unstake, redelegate and claim your staking rewards;
+- Add support to Desmos `v5.x.x`
+
+## Bug Fixes
+
+
+# Version 2.1.1
+## Features
+- Add support to Desmos `v5.x.x`
+
+## Bug Fixes
+- Fixed a bug that cause the application to not broadcast a transaction if the fee estimation times out.
