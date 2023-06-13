@@ -76,10 +76,6 @@ const useTrackTransactionPerformed = () => {
 
   return React.useCallback(
     (msgs: EncodeObject[]) => {
-      if (isTestnetEvent) {
-        return;
-      }
-
       // Remove duplicated items, this can happen when the
       // user for example withdraw from multiple validators,
       // to avoid reporting multiple time the same action we filter out
@@ -102,7 +98,11 @@ const useTrackTransactionPerformed = () => {
         .filter((e) => e !== undefined) as [[string, Record<string, any>]];
 
       events.forEach(([event, properties]) => {
-        trackEvent(event, properties);
+        // Add the chain to the properties
+        const completeProperties = { ...properties };
+        completeProperties.Chain = isTestnetEvent ? 'Testnet' : 'Mainnet';
+
+        trackEvent(event, completeProperties);
       });
     },
     [isTestnetEvent, trackEvent],
