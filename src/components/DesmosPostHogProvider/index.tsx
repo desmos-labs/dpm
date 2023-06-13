@@ -21,6 +21,7 @@ const InternalPostHogComponent: React.FC<Props> = ({ children }) => {
 
   return <>{children}</>;
 };
+
 const DesmosPostHogProvider: React.FC<Props> = ({ children }) => (
   <PostHogProvider
     apiKey={POSTHOG_API_KEY}
