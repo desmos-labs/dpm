@@ -1,7 +1,7 @@
 import React from 'react';
 import { EncodeObject } from '@cosmjs/proto-signing';
-import useIsTestnetEvent from 'hooks/analytics/useIsTestnetEvent';
-import { Profiles } from '@desmoslabs/desmjs';
+import useIsTestnetTransaction from 'hooks/analytics/useIsTestnetTransaction';
+import { Profiles } from "@desmoslabs/desmjs";
 import {
   EVENT_DELEGATE_TOKENS,
   EVENT_LINK_CHAIN,
@@ -72,7 +72,7 @@ const mapMessageToEvents = (msg: EncodeObject): [string, Record<string, any>] | 
  */
 const useTrackTransactionPerformed = () => {
   const trackEvent = useTrackEvent();
-  const isTestnetEvent = useIsTestnetEvent();
+  const isTestnetEvent = useIsTestnetTransaction();
 
   return React.useCallback(
     (msgs: EncodeObject[]) => {
