@@ -6,6 +6,8 @@ import { RootNavigatorParamList } from 'navigation/RootNavigator';
 import ROUTES from 'navigation/routes';
 import { useNavigation, useRoute } from '@react-navigation/native';
 import EditProfileButton from 'screens/Profile/components/EditProfileButton';
+import useTrackScreen from 'hooks/analytics/useTrackScreen';
+import { Screens } from 'types/analytics';
 import useProfileGivenAddress from 'hooks/profile/useProfileGivenAddress';
 import useChainLinksGivenAddress from 'hooks/chainlinks/useChainLinksGivenAddress';
 import useApplicationLinksGivenAddress from 'hooks/applinks/useApplicationLinksGivenAddress';
@@ -54,6 +56,8 @@ const Profile = () => {
   const [refreshing, setRefreshing] = React.useState(false);
 
   // -------- HOOKS --------
+
+  useTrackScreen(Screens.Profile, { 'Is owner': !visitingProfile });
 
   const {
     profile,

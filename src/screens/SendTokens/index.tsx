@@ -17,6 +17,8 @@ import { Coin } from '@desmoslabs/desmjs-types/cosmos/base/v1beta1/coin';
 import TxMemoInput from 'components/TxMemoInput';
 import { AmountLimit } from 'components/CoinAmountInput/limits';
 import DKeyboardAvoidingView from 'components/DKeyboardAvoidingView';
+import useTrackScreen from 'hooks/analytics/useTrackScreen';
+import { Screens } from 'types/analytics';
 import useStyles from './useStyles';
 import useSendTokens from './useHooks';
 
@@ -26,6 +28,8 @@ const SendTokens = () => {
   const { t } = useTranslation('sendTokens');
   const styles = useStyles();
   const navigation = useNavigation();
+
+  useTrackScreen(Screens.SendTokens);
 
   const [address, setAddress] = useState('');
   const [isAddressValid, setIsAddressValid] = useState(true);

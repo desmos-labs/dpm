@@ -15,6 +15,8 @@ import { IconButton, useTheme } from 'react-native-paper';
 import useShowModal from 'hooks/useShowModal';
 import SingleButtonModal from 'modals/SingleButtonModal';
 import { DPMImages } from 'types/images';
+import useTrackScreen from 'hooks/analytics/useTrackScreen';
+import { Screens } from 'types/analytics';
 import { useSaveProfile, useValidationHooks } from './useHooks';
 import InlineInput from './components/InlineInput';
 import useStyles from './useStyles';
@@ -31,6 +33,8 @@ const EditProfile = () => {
   const navigation = useNavigation<NavProps['navigation']>();
   const { params } = useRoute<NavProps['route']>();
   const { t } = useTranslation('profile');
+
+  useTrackScreen(Screens.ProfileEdit);
 
   const profile = params?.profile;
 
