@@ -149,7 +149,7 @@ export const useSignAndBroadcastTx = () => {
       });
 
       if (signResult.isErr()) {
-        trackEvent(EVENT_TRANSACTION_SIGNING_FAILED);
+        trackEvent(EVENT_TRANSACTION_SIGNING_FAILED, { Error: signResult.error });
         return err(signResult.error);
       }
 
