@@ -34,7 +34,7 @@ export interface PostHogFeatureFlags extends Record<string, string | boolean> {
 /**
  * Default feature flags values if not provided from posthog.
  */
-export const DefaultPosthogFeatureFlags: PostHogFeatureFlags = {
+export const DefaultPostHogFeatureFlags: PostHogFeatureFlags = {
   trackFeeEstimation: false,
   feeEstimationTimeoutMs: '5000',
   gasOnFeeEstimationTimeout: '200000',

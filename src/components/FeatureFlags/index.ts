@@ -1,6 +1,6 @@
 import {
   AppFeatureFlags,
-  DefaultPosthogFeatureFlags,
+  DefaultPostHogFeatureFlags,
   PostHogFeatureFlags,
 } from 'types/appFeatureFlags';
 
@@ -13,7 +13,7 @@ export const convertPostHogFeatureFlags = (
   featureFlags: PostHogFeatureFlags | undefined,
 ): AppFeatureFlags => {
   const safeFeatureFlags = {
-    ...DefaultPosthogFeatureFlags,
+    ...DefaultPostHogFeatureFlags,
     ...featureFlags,
   };
   return {

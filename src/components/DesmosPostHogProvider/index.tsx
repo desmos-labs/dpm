@@ -4,7 +4,7 @@ import { PostHogProvider } from 'posthog-react-native';
 import { POSTHOG_API_KEY } from '@env';
 import useTrackPreviouslyCreatedAccounts from 'hooks/analytics/useTrackPreviouslyCreatedAccounts';
 import useTrackAppOpened from 'hooks/analytics/useTrackAppOpened';
-import { DefaultPosthogFeatureFlags } from 'types/appFeatureFlags';
+import { DefaultPostHogFeatureFlags } from 'types/appFeatureFlags';
 import useSyncPosthog from 'hooks/analytics/useEnableAnalytics';
 
 export interface Props {
@@ -27,7 +27,7 @@ const DesmosPostHogProvider: React.FC<Props> = ({ children }) => (
     options={{
       host: 'https://eu.posthog.com',
       bootstrap: {
-        featureFlags: DefaultPosthogFeatureFlags,
+        featureFlags: DefaultPostHogFeatureFlags,
       },
     }}
     debug={__DEV__}
