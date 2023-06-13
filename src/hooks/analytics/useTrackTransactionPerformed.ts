@@ -1,4 +1,3 @@
-import { usePostHog } from 'posthog-react-native';
 import React from 'react';
 import { EncodeObject } from '@cosmjs/proto-signing';
 import useIsTestnetEvent from 'hooks/analytics/useIsTestnetEvent';
@@ -13,6 +12,7 @@ import {
   EVENT_UNLINK_CHAIN,
   EVENT_WITHDRAW_REWARDS,
 } from 'types/analytics';
+import useTrackEvent from 'hooks/analytics/useTrackEvent';
 
 /**
  * Convert a msg to a PostHog event that can be sent to the server to
@@ -70,12 +70,12 @@ const mapMessageToEvents = (msg: EncodeObject): [string, Record<string, any>] | 
  * performed from the user.
  */
 const useTrackTransactionPerformed = () => {
-  const postHog = usePostHog();
+  const trackEvent = useTrackEvent();
   const isTestnetEvent = useIsTestnetEvent();
 
   return React.useCallback(
     async (msgs: EncodeObject[]) => {
-      if (!postHog || isTestnetEvent) {
+      if (isTestnetEvent) {
         return;
       }
 
@@ -101,10 +101,10 @@ const useTrackTransactionPerformed = () => {
         .filter((e) => e !== undefined) as [[string, Record<string, any>]];
 
       events.forEach(([event, properties]) => {
-        postHog.capture(event, properties);
+        trackEvent(event, properties);
       });
     },
-    [postHog, isTestnetEvent],
+    [isTestnetEvent, trackEvent],
   );
 };
 
