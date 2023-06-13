@@ -159,7 +159,7 @@ export const useSignAndBroadcastTx = () => {
         trackEvent(EVENT_TRANSACTION_BROADCAST_SUCCESSFUL);
         trackTransactionPerformed(messages);
       } else {
-        trackEvent(EVENT_TRANSACTION_BROADCAST_FAILED);
+        trackEvent(EVENT_TRANSACTION_BROADCAST_FAILED, { Error: broadcastResult.error });
       }
 
       return broadcastResult;
