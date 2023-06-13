@@ -16,6 +16,7 @@ import { usePostHog } from 'posthog-react-native';
 import { Timer } from 'lib/Timer';
 import useTrackEvent from 'hooks/analytics/useTrackEvent';
 import { Events } from 'types/analytics';
+import useTransactionProperties from 'hooks/analytics/useTransactionProperties';
 
 export const useEstimateFee = () => {
   const [estimatingFee, setEstimatingFee] = useState(false);
@@ -119,6 +120,7 @@ export const useSignAndBroadcastTx = () => {
   const signTx = useSignTx();
   const broadcastTx = useBroadcastTx();
 
+  const transactionProperties = useTransactionProperties();
   const trackEvent = useTrackEvent();
   const trackTransactionPerformed = useTrackTransactionPerformed();
 
@@ -134,7 +136,10 @@ export const useSignAndBroadcastTx = () => {
         return ok(undefined);
       }
 
-      trackEvent(Events.TransactionSigning, { 'Wallet Type': wallet.type });
+      trackEvent(Events.TransactionSigning, {
+        ...transactionProperties,
+        'Wallet Type': wallet.type,
+      });
       const signResult = await signTx(wallet, {
         mode: SignMode.Online,
         messages,
@@ -143,21 +148,35 @@ export const useSignAndBroadcastTx = () => {
       });
 
       if (signResult.isErr()) {
-        trackEvent(Events.TransactionSignFailed, { Error: signResult.error });
+        trackEvent(Events.TransactionSignFailed, {
+          ...transactionProperties,
+          Error: signResult.error,
+        });
         return err(signResult.error);
       }
 
-      trackEvent(Events.TransactionBroadcasting);
+      trackEvent(Events.TransactionBroadcasting, transactionProperties);
       const broadcastResult = await broadcastTx(wallet, signResult.value);
       if (broadcastResult.isOk()) {
-        trackEvent(Events.TransactionBroadcastSuccess);
+        trackEvent(Events.TransactionBroadcastSuccess, transactionProperties);
         trackTransactionPerformed(messages);
       } else {
-        trackEvent(Events.TransactionBroadcastFail, { Error: broadcastResult.error });
+        trackEvent(Events.TransactionBroadcastFail, {
+          ...transactionProperties,
+          Error: broadcastResult.error,
+        });
       }
 
       return broadcastResult;
     },
-    [unlockWallet, activeAccount, trackEvent, signTx, broadcastTx, trackTransactionPerformed],
+    [
+      unlockWallet,
+      activeAccount,
+      trackEvent,
+      transactionProperties,
+      signTx,
+      broadcastTx,
+      trackTransactionPerformed,
+    ],
   );
 };

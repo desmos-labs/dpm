@@ -1,19 +1,9 @@
 import React from 'react';
 import { EncodeObject } from '@cosmjs/proto-signing';
-import useIsTestnetTransaction from 'hooks/analytics/useIsTestnetTransaction';
-import { Profiles } from "@desmoslabs/desmjs";
-import {
-  EVENT_DELEGATE_TOKENS,
-  EVENT_LINK_CHAIN,
-  EVENT_REDELEGATE_TOKENS,
-  EVENT_SAVE_PROFILE,
-  EVENT_SEND_TOKENS,
-  EVENT_UNDELEGATE_TOKENS,
-  EVENT_UNLINK_CHAIN,
-  EVENT_WITHDRAW_REWARDS,
-} from 'types/analytics';
+import { Profiles } from '@desmoslabs/desmjs';
 import useTrackEvent from 'hooks/analytics/useTrackEvent';
 import { Events } from 'types/analytics';
+import useTransactionProperties from 'hooks/analytics/useTransactionProperties';
 
 /**
  * Convert a msg to a PostHog event that can be sent to the server to
@@ -72,7 +62,7 @@ const mapMessageToEvents = (msg: EncodeObject): [string, Record<string, any>] | 
  */
 const useTrackTransactionPerformed = () => {
   const trackEvent = useTrackEvent();
-  const isTestnetEvent = useIsTestnetTransaction();
+  const transactionProperties = useTransactionProperties();
 
   return React.useCallback(
     (msgs: EncodeObject[]) => {
@@ -98,14 +88,12 @@ const useTrackTransactionPerformed = () => {
         .filter((e) => e !== undefined) as [[string, Record<string, any>]];
 
       events.forEach(([event, properties]) => {
-        // Add the chain to the properties
-        const completeProperties = { ...properties };
-        completeProperties.Chain = isTestnetEvent ? 'Testnet' : 'Mainnet';
-
+        // Add the transaction properties to the event properties
+        const completeProperties = { ...transactionProperties, ...properties };
         trackEvent(event, completeProperties);
       });
     },
-    [isTestnetEvent, trackEvent],
+    [trackEvent, transactionProperties],
   );
 };
 
