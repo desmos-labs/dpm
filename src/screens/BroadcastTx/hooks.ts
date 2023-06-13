@@ -14,6 +14,14 @@ import { PromiseTimeout } from 'lib/PromiseUtils';
 import useAppFeatureFlags from 'hooks/featureflags/useAppFeatureFlags';
 import { usePostHog } from 'posthog-react-native';
 import { Timer } from 'lib/Timer';
+import useTrackEvent from 'hooks/analytics/useTrackEvent';
+import {
+  EVENT_TRANSACTION_BROADCAST_FAILED,
+  EVENT_TRANSACTION_BROADCAST_SUCCESSFUL,
+  EVENT_TRANSACTION_BROADCASTING,
+  EVENT_TRANSACTION_SIGNING,
+  EVENT_TRANSACTION_SIGNING_FAILED,
+} from 'types/analytics';
 
 export const useEstimateFee = () => {
   const [estimatingFee, setEstimatingFee] = useState(false);
@@ -116,6 +124,8 @@ export const useSignAndBroadcastTx = () => {
   const unlockWallet = useUnlockWallet();
   const signTx = useSignTx();
   const broadcastTx = useBroadcastTx();
+
+  const trackEvent = useTrackEvent();
   const trackTransactionPerformed = useTrackTransactionPerformed();
 
   return useCallback(
@@ -130,6 +140,7 @@ export const useSignAndBroadcastTx = () => {
         return ok(undefined);
       }
 
+      trackEvent(EVENT_TRANSACTION_SIGNING, { 'Wallet Type': wallet.type });
       const signResult = await signTx(wallet, {
         mode: SignMode.Online,
         messages,
@@ -138,16 +149,21 @@ export const useSignAndBroadcastTx = () => {
       });
 
       if (signResult.isErr()) {
+        trackEvent(EVENT_TRANSACTION_SIGNING_FAILED);
         return err(signResult.error);
       }
 
+      trackEvent(EVENT_TRANSACTION_BROADCASTING);
       const broadcastResult = await broadcastTx(wallet, signResult.value);
       if (broadcastResult.isOk()) {
+        trackEvent(EVENT_TRANSACTION_BROADCAST_SUCCESSFUL);
         trackTransactionPerformed(messages);
+      } else {
+        trackEvent(EVENT_TRANSACTION_BROADCAST_FAILED);
       }
 
       return broadcastResult;
     },
-    [activeAccount, broadcastTx, signTx, unlockWallet, trackTransactionPerformed],
+    [unlockWallet, activeAccount, trackEvent, signTx, broadcastTx, trackTransactionPerformed],
   );
 };

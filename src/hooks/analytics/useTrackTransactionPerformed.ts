@@ -74,7 +74,7 @@ const useTrackTransactionPerformed = () => {
   const isTestnetEvent = useIsTestnetEvent();
 
   return React.useCallback(
-    async (msgs: EncodeObject[]) => {
+    (msgs: EncodeObject[]) => {
       if (isTestnetEvent) {
         return;
       }

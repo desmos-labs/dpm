@@ -26,8 +26,7 @@ export const EVENT_WALLET_CONNECT_SESSION_ESTABLISHED = 'WalletConnect Session E
 
 // Transaction events
 export const EVENT_TRANSACTION_SIGNING = 'Signing Transaction';
-export const EVENT_TRANSACTION_SIGNED = 'Transaction Signed';
-export const EVENT_TRANSACTION_SIGN_FAILED = 'Transaction Sign Failed';
+export const EVENT_TRANSACTION_SIGNING_FAILED = 'Transaction Sign Failed';
 export const EVENT_TRANSACTION_BROADCASTING = 'Broadcasting Transaction';
 export const EVENT_TRANSACTION_BROADCAST_SUCCESSFUL = 'Transaction Broadcasted Successfully';
 export const EVENT_TRANSACTION_BROADCAST_FAILED = 'Transaction Broadcast Failed';
