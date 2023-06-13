@@ -2,8 +2,8 @@ import React from 'react';
 import { Account } from 'types/account';
 import useGetProfile from 'hooks/profile/useGetProfile';
 import { WalletType } from 'types/wallet';
-import { EVENT_ACCOUNT_CREATED, EVENT_ACCOUNT_IMPORTED } from 'types/analytics';
 import useTrackEvent from 'hooks/analytics/useTrackEvent';
+import { Events } from 'types/analytics';
 
 /**
  * Hook to track that a new account has been added from the user.
@@ -36,7 +36,7 @@ const useTrackNewAccountAdded = (isImported: boolean) => {
         properties.Web3AuthProvider = account.loginProvider;
       }
 
-      trackEvent(isImported ? EVENT_ACCOUNT_IMPORTED : EVENT_ACCOUNT_CREATED, properties);
+      trackEvent(isImported ? Events.AccountImported : Events.AccountCreated, properties);
     },
     [isImported, trackEvent, getProfile],
   );

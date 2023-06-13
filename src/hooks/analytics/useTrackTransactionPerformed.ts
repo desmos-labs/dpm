@@ -13,6 +13,7 @@ import {
   EVENT_WITHDRAW_REWARDS,
 } from 'types/analytics';
 import useTrackEvent from 'hooks/analytics/useTrackEvent';
+import { Events } from 'types/analytics';
 
 /**
  * Convert a msg to a PostHog event that can be sent to the server to
@@ -28,10 +29,10 @@ const mapMessageToEvents = (msg: EncodeObject): [string, Record<string, any>] | 
   switch (msgName) {
     // Profile messages
     case 'MsgSaveProfile':
-      return [EVENT_SAVE_PROFILE, {}];
+      return [Events.SaveProfile, {}];
     case 'MsgLinkChainAccount':
       return [
-        EVENT_LINK_CHAIN,
+        Events.LinkChain,
         {
           'Chain Name': (msg as Profiles.v3.MsgLinkChainAccountEncodeObject).value.chainConfig
             ?.name,
@@ -39,7 +40,7 @@ const mapMessageToEvents = (msg: EncodeObject): [string, Record<string, any>] | 
       ];
     case 'MsgUnlinkChainAccount':
       return [
-        EVENT_UNLINK_CHAIN,
+        Events.UnlinkChain,
         {
           'Chain Name': (msg as Profiles.v3.MsgUnlinkChainAccountEncodeObject).value.chainName,
         },
@@ -47,19 +48,19 @@ const mapMessageToEvents = (msg: EncodeObject): [string, Record<string, any>] | 
 
     // Staking messages
     case 'MsgDelegate':
-      return [EVENT_DELEGATE_TOKENS, {}];
+      return [Events.DelegateTokens, {}];
     case 'MsgBeginRedelegate':
-      return [EVENT_REDELEGATE_TOKENS, {}];
+      return [Events.RedelegateTokens, {}];
     case 'MsgUndelegate':
-      return [EVENT_UNDELEGATE_TOKENS, {}];
+      return [Events.UndelegateTokens, {}];
 
     // Distribution messages
     case 'MsgWithdrawDelegatorReward':
-      return [EVENT_WITHDRAW_REWARDS, {}];
+      return [Events.WithdrawRewards, {}];
 
     // Bank messages
     case 'MsgSend':
-      return [EVENT_SEND_TOKENS, {}];
+      return [Events.EventSendTokens, {}];
     default:
       return undefined;
   }

@@ -15,13 +15,7 @@ import useAppFeatureFlags from 'hooks/featureflags/useAppFeatureFlags';
 import { usePostHog } from 'posthog-react-native';
 import { Timer } from 'lib/Timer';
 import useTrackEvent from 'hooks/analytics/useTrackEvent';
-import {
-  EVENT_TRANSACTION_BROADCAST_FAILED,
-  EVENT_TRANSACTION_BROADCAST_SUCCESSFUL,
-  EVENT_TRANSACTION_BROADCASTING,
-  EVENT_TRANSACTION_SIGNING,
-  EVENT_TRANSACTION_SIGNING_FAILED,
-} from 'types/analytics';
+import { Events } from 'types/analytics';
 
 export const useEstimateFee = () => {
   const [estimatingFee, setEstimatingFee] = useState(false);
@@ -140,7 +134,7 @@ export const useSignAndBroadcastTx = () => {
         return ok(undefined);
       }
 
-      trackEvent(EVENT_TRANSACTION_SIGNING, { 'Wallet Type': wallet.type });
+      trackEvent(Events.TransactionSigning, { 'Wallet Type': wallet.type });
       const signResult = await signTx(wallet, {
         mode: SignMode.Online,
         messages,
@@ -149,17 +143,17 @@ export const useSignAndBroadcastTx = () => {
       });
 
       if (signResult.isErr()) {
-        trackEvent(EVENT_TRANSACTION_SIGNING_FAILED, { Error: signResult.error });
+        trackEvent(Events.TransactionSignFailed, { Error: signResult.error });
         return err(signResult.error);
       }
 
-      trackEvent(EVENT_TRANSACTION_BROADCASTING);
+      trackEvent(Events.TransactionBroadcasting);
       const broadcastResult = await broadcastTx(wallet, signResult.value);
       if (broadcastResult.isOk()) {
-        trackEvent(EVENT_TRANSACTION_BROADCAST_SUCCESSFUL);
+        trackEvent(Events.TransactionBroadcastSuccess);
         trackTransactionPerformed(messages);
       } else {
-        trackEvent(EVENT_TRANSACTION_BROADCAST_FAILED, { Error: broadcastResult.error });
+        trackEvent(Events.TransactionBroadcastFail, { Error: broadcastResult.error });
       }
 
       return broadcastResult;

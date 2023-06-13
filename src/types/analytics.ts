@@ -14,38 +14,40 @@ export type AnalyticsStatus = {
   userIdentified: boolean;
 };
 
-// Application events
-export const EVENT_APPLICATION_OPENED = 'Application Opened';
+export enum Events {
+  // Application events
+  ApplicationOpened = 'Application Opened',
 
-// Wallet events
-export const EVENT_ACCOUNT_CREATED = 'Wallet Created';
-export const EVENT_ACCOUNT_IMPORTED = 'Wallet Imported';
+  // Wallet events
+  AccountCreated = 'Wallet Created',
+  AccountImported = 'Wallet Imported',
 
-// WalletConnect events
-export const EVENT_WALLET_CONNECT_SESSION_ESTABLISHED = 'WalletConnect Session Established';
+  // WalletConnect events
+  WalletConnectSessionEstablished = 'WalletConnect Session Established',
 
-// Transaction events
-export const EVENT_TRANSACTION_SIGNING = 'Signing Transaction';
-export const EVENT_TRANSACTION_SIGNING_FAILED = 'Transaction Sign Failed';
-export const EVENT_TRANSACTION_BROADCASTING = 'Broadcasting Transaction';
-export const EVENT_TRANSACTION_BROADCAST_SUCCESSFUL = 'Transaction Broadcasted Successfully';
-export const EVENT_TRANSACTION_BROADCAST_FAILED = 'Transaction Broadcast Failed';
+  // Transaction events
+  TransactionSigning = 'Signing Transaction',
+  TransactionSignFailed = 'Transaction Sign Failed',
+  TransactionBroadcasting = 'Broadcasting Transaction',
+  TransactionBroadcastSuccess = 'Transaction Broadcasted Successfully',
+  TransactionBroadcastFail = 'Transaction Broadcast Failed',
 
-// Profile events
-export const EVENT_SAVE_PROFILE = 'Save Profile';
-export const EVENT_LINK_CHAIN = 'Link Chain Account';
-export const EVENT_UNLINK_CHAIN = 'Unlink Chain Account';
+  // Profile events
+  SaveProfile = 'Save Profile',
+  LinkChain = 'Link Chain Account',
+  UnlinkChain = 'Unlink Chain Account',
 
-// Bank events
-export const EVENT_SEND_TOKENS = 'Send Tokens';
+  // Bank events
+  EventSendTokens = 'Send Tokens',
 
-// Staking events
-export const EVENT_DELEGATE_TOKENS = 'Delegate Tokens';
-export const EVENT_UNDELEGATE_TOKENS = 'Undelegate Tokens';
-export const EVENT_REDELEGATE_TOKENS = 'Redelegate Tokens';
+  // Staking events
+  DelegateTokens = 'Delegate Tokens',
+  UndelegateTokens = 'Undelegate Tokens',
+  RedelegateTokens = 'Redelegate Tokens',
 
-// Distribution events
-export const EVENT_WITHDRAW_REWARDS = 'Withdraw Rewards';
+  // Distribution events
+  WithdrawRewards = 'Withdraw Rewards',
+}
 
 // Screen names
 export enum Screens {

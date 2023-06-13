@@ -1,7 +1,7 @@
 import React from 'react';
 import { SessionTypes } from '@walletconnect/types';
-import { EVENT_WALLET_CONNECT_SESSION_ESTABLISHED } from 'types/analytics';
 import useTrackEvent from 'hooks/analytics/useTrackEvent';
+import { Events } from 'types/analytics';
 
 /**
  * Hook that provides a function to track when a user approve a
@@ -12,7 +12,7 @@ const useTrackWalletConnectSessionEstablished = () => {
 
   return React.useCallback(
     (session: SessionTypes.Struct) => {
-      trackEvent(EVENT_WALLET_CONNECT_SESSION_ESTABLISHED, {
+      trackEvent(Events.WalletConnectSessionEstablished, {
         CreationTime: new Date().toISOString(),
         ApplicationName: session.peer.metadata.name,
         Namespaces: session.requiredNamespaces,
