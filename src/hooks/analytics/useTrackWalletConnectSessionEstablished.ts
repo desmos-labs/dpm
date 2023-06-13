@@ -1,8 +1,7 @@
 import { usePostHog } from 'posthog-react-native';
 import React from 'react';
 import { SessionTypes } from '@walletconnect/types';
-
-const EVENT_WALLET_CONNECT_SESSION_ESTABLISHED = 'WalletConnect Session Established';
+import { EVENT_WALLET_CONNECT_SESSION_ESTABLISHED } from 'types/analytics';
 
 /**
  * Hook that provides a function to track when a user approve a

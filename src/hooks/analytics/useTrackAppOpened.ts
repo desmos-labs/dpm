@@ -1,8 +1,7 @@
 import { usePostHog } from 'posthog-react-native';
 import React from 'react';
 import { AppState, NativeEventSubscription } from 'react-native';
-
-const APPLICATION_OPENED_EVENT = 'Application Opened';
+import { EVENT_APPLICATION_OPENED } from 'types/analytics';
 
 /**
  * Hook to track when the user opens the applications.
@@ -15,12 +14,12 @@ const useTrackAppOpened = () => {
     let subscription: NativeEventSubscription | undefined;
     if (!appStarted && postHog) {
       if (AppState.currentState === 'active') {
-        postHog.capture(APPLICATION_OPENED_EVENT);
+        postHog.capture(EVENT_APPLICATION_OPENED);
         setAppStarted(true);
       } else {
         subscription = AppState.addEventListener('change', (state) => {
           if (state === 'active') {
-            postHog.capture(APPLICATION_OPENED_EVENT);
+            postHog.capture(EVENT_APPLICATION_OPENED);
           }
         });
       }

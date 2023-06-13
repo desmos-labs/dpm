@@ -3,6 +3,16 @@ import React from 'react';
 import { EncodeObject } from '@cosmjs/proto-signing';
 import useIsTestnetEvent from 'hooks/analytics/useIsTestnetEvent';
 import { Profiles } from '@desmoslabs/desmjs';
+import {
+  EVENT_DELEGATE_TOKENS,
+  EVENT_LINK_CHAIN,
+  EVENT_REDELEGATE_TOKENS,
+  EVENT_SAVE_PROFILE,
+  EVENT_SEND_TOKENS,
+  EVENT_UNDELEGATE_TOKENS,
+  EVENT_UNLINK_CHAIN,
+  EVENT_WITHDRAW_REWARDS,
+} from 'types/analytics';
 
 /**
  * Convert a msg to a PostHog event that can be sent to the server to
@@ -18,10 +28,10 @@ const mapMessageToEvents = (msg: EncodeObject): [string, Record<string, any>] | 
   switch (msgName) {
     // Profile messages
     case 'MsgSaveProfile':
-      return ['Save Profile', {}];
+      return [EVENT_SAVE_PROFILE, {}];
     case 'MsgLinkChainAccount':
       return [
-        'Link Chain Account',
+        EVENT_LINK_CHAIN,
         {
           'Chain Name': (msg as Profiles.v3.MsgLinkChainAccountEncodeObject).value.chainConfig
             ?.name,
@@ -29,7 +39,7 @@ const mapMessageToEvents = (msg: EncodeObject): [string, Record<string, any>] | 
       ];
     case 'MsgUnlinkChainAccount':
       return [
-        'Unlink Chain Account',
+        EVENT_UNLINK_CHAIN,
         {
           'Chain Name': (msg as Profiles.v3.MsgUnlinkChainAccountEncodeObject).value.chainName,
         },
@@ -37,17 +47,19 @@ const mapMessageToEvents = (msg: EncodeObject): [string, Record<string, any>] | 
 
     // Staking messages
     case 'MsgDelegate':
-      return ['Delegate Tokens', {}];
-    case 'MsgWithdrawDelegatorReward':
-      return ['Withdraw Rewards', {}];
+      return [EVENT_DELEGATE_TOKENS, {}];
     case 'MsgBeginRedelegate':
-      return ['Redelegate Tokens', {}];
+      return [EVENT_REDELEGATE_TOKENS, {}];
     case 'MsgUndelegate':
-      return ['Undelegate Tokens', {}];
+      return [EVENT_UNDELEGATE_TOKENS, {}];
+
+    // Distribution messages
+    case 'MsgWithdrawDelegatorReward':
+      return [EVENT_WITHDRAW_REWARDS, {}];
 
     // Bank messages
     case 'MsgSend':
-      return ['Send Tokens', {}];
+      return [EVENT_SEND_TOKENS, {}];
     default:
       return undefined;
   }
