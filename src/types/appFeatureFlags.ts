@@ -25,7 +25,7 @@ export interface AppFeatureFlags {
  * Interface that represents the feature flags returned
  * from posthog.
  */
-export interface PostHogFeatureFlags extends Record<keyof AppFeatureFlags, string | boolean> {
+export interface PostHogFeatureFlags extends Record<string, string | boolean> {
   trackFeeEstimation: boolean;
   feeEstimationTimeoutMs: string;
   gasOnFeeEstimationTimeout: string;
