@@ -4,7 +4,6 @@ import { useTranslation } from 'react-i18next';
 import BaseMessageDetails, {
   MessageDetailsField,
 } from 'components/Messages/BaseMessage/BaseMessageDetails';
-import { msgGeneralIcon } from 'assets/images';
 import { MessageDetailsComponent } from 'components/Messages/BaseMessage';
 
 /**
@@ -36,9 +35,7 @@ const MsgDeleteReportDetails: MessageDetailsComponent<MsgDeleteReportEncodeObjec
     [tSubspaces, t, message, tCommon],
   );
 
-  return (
-    <BaseMessageDetails icon={msgGeneralIcon} iconSubtitle={t('delete report')} fields={fields} />
-  );
+  return <BaseMessageDetails message={message} fields={fields} />;
 };
 
 export default MsgDeleteReportDetails;

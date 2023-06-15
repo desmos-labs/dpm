@@ -3,8 +3,8 @@ import React, { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { formatCoins } from 'lib/FormatUtils';
 import BaseMessageDetails from 'components/Messages/BaseMessage/BaseMessageDetails';
-import { msgSendIcon } from 'assets/images';
 import { MessageDetailsComponent } from 'components/Messages/BaseMessage';
+import Typography from 'components/Typography';
 
 /**
  * Displays the full details of a MsgSend.
@@ -16,8 +16,7 @@ const MsgSendDetails: MessageDetailsComponent<MsgSendEncodeObject> = ({ message 
 
   return (
     <BaseMessageDetails
-      icon={msgSendIcon}
-      iconSubtitle={convertedAmount}
+      message={message}
       fields={[
         {
           label: t('transaction:from'),
@@ -32,7 +31,11 @@ const MsgSendDetails: MessageDetailsComponent<MsgSendEncodeObject> = ({ message 
           value: convertedAmount,
         },
       ]}
-    />
+    >
+      <Typography.Regular14>
+        {value.fromAddress} sent {convertedAmount} to {value.toAddress}
+      </Typography.Regular14>
+    </BaseMessageDetails>
   );
 };
 

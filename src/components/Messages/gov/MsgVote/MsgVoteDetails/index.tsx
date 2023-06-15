@@ -3,7 +3,6 @@ import React, { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { VoteOption } from 'cosmjs-types/cosmos/gov/v1beta1/gov';
 import BaseMessageDetails from 'components/Messages/BaseMessage/BaseMessageDetails';
-import { msgVoteIcon } from 'assets/images';
 import { MessageDetailsComponent } from 'components/Messages/BaseMessage';
 
 /**
@@ -36,11 +35,7 @@ const MsgVoteDetails: MessageDetailsComponent<MsgVoteEncodeObject> = ({ message 
   const proposalId = useMemo(() => value.proposalId?.toString() ?? '??', [value]);
   return (
     <BaseMessageDetails
-      icon={msgVoteIcon}
-      iconSubtitle={t('vote proposal number with vote', {
-        number: proposalId,
-        vote: voteValue,
-      })}
+      message={message}
       fields={[
         {
           label: t('proposal number'),

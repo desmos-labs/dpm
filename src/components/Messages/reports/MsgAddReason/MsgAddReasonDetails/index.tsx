@@ -4,7 +4,6 @@ import { useTranslation } from 'react-i18next';
 import BaseMessageDetails, {
   MessageDetailsField,
 } from 'components/Messages/BaseMessage/BaseMessageDetails';
-import { msgGeneralIcon } from 'assets/images';
 import { MessageDetailsComponent } from 'components/Messages/BaseMessage';
 
 /**
@@ -40,9 +39,7 @@ const MsgAddReasonDetails: MessageDetailsComponent<MsgAddReasonEncodeObject> = (
     [tSubspaces, t, message, tCommon],
   );
 
-  return (
-    <BaseMessageDetails icon={msgGeneralIcon} iconSubtitle={t('add reason')} fields={fields} />
-  );
+  return <BaseMessageDetails message={message} fields={fields} />;
 };
 
 export default MsgAddReasonDetails;

@@ -2,7 +2,6 @@ import { MsgAddPostAttachmentEncodeObject } from '@desmoslabs/desmjs';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import BaseMessageDetails from 'components/Messages/BaseMessage/BaseMessageDetails';
-import { msgGeneralIcon } from 'assets/images';
 import { MessageDetailsComponent } from 'components/Messages/BaseMessage';
 import useGetGeneratePostAttachmentDetailFields from 'components/Messages/posts/hooks/useGetGeneratePostAttachmentsDetailFields';
 
@@ -36,13 +35,7 @@ const MsgAddPostAttachment: MessageDetailsComponent<MsgAddPostAttachmentEncodeOb
     [tSubspaces, message, t, generateAttachmentFields],
   );
 
-  return (
-    <BaseMessageDetails
-      icon={msgGeneralIcon}
-      iconSubtitle={t('add post attachment')}
-      fields={fields}
-    />
-  );
+  return <BaseMessageDetails message={message} fields={fields} />;
 };
 
 export default MsgAddPostAttachment;

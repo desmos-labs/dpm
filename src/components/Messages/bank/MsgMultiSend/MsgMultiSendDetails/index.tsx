@@ -1,6 +1,5 @@
 import React, { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
-import { msgSendIcon } from 'assets/images';
 import { formatCoins, formatMultiSendInput } from 'lib/FormatUtils';
 import { MsgMultiSendEncodeObject } from '@desmoslabs/desmjs';
 import BaseMessageDetails from 'components/Messages/BaseMessage/BaseMessageDetails';
@@ -38,7 +37,7 @@ const MsgMultiSendDetails: MessageDetailsComponent<MsgMultiSendEncodeObject> = (
       .reduce((oldValue, sum) => [...oldValue, ...sum], []);
   }, [value.outputs, t]);
 
-  return <BaseMessageDetails icon={msgSendIcon} iconSubtitle={amounts} fields={[...outputs]} />;
+  return <BaseMessageDetails message={message} fields={[...outputs]} />;
 };
 
 export default MsgMultiSendDetails;

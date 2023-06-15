@@ -4,7 +4,6 @@ import { useTranslation } from 'react-i18next';
 import BaseMessageDetails, {
   MessageDetailsField,
 } from 'components/Messages/BaseMessage/BaseMessageDetails';
-import { msgGeneralIcon } from 'assets/images';
 import { MessageDetailsComponent } from 'components/Messages/BaseMessage';
 import { replySettingToJSON } from '@desmoslabs/desmjs-types/desmos/posts/v3/models';
 import useGetGeneratePostAttachmentsDetailFields from 'components/Messages/posts/hooks/useGetGeneratePostAttachmentsDetailFields';
@@ -70,9 +69,7 @@ const MsgCreatePostDetails: MessageDetailsComponent<MsgCreatePostEncodeObject> =
     [tSubspces, message, t, getEntitiesFields, getAttachmentFields],
   );
 
-  return (
-    <BaseMessageDetails icon={msgGeneralIcon} iconSubtitle={t('create post')} fields={fields} />
-  );
+  return <BaseMessageDetails message={message} fields={fields} />;
 };
 
 export default MsgCreatePostDetails;

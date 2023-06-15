@@ -1,7 +1,6 @@
 import { MessageDetailsComponentProps } from 'components/Messages/BaseMessage';
 import React from 'react';
 import BaseMessageDetails from 'components/Messages/BaseMessage/BaseMessageDetails';
-import { msgGeneralIcon } from 'assets/images';
 import { useTranslation } from 'react-i18next';
 import { MsgRevokeEncodeObject } from '@desmoslabs/desmjs';
 
@@ -33,13 +32,7 @@ const MsgRevokeDetails: React.FC<MsgRevokeDetailsProps> = ({ message }) => {
     return fields;
   }, [message.value.grantee, message.value.granter, message.value.msgTypeUrl, t, tFeeGrant]);
 
-  return (
-    <BaseMessageDetails
-      icon={msgGeneralIcon}
-      iconSubtitle={t('revoke grant')}
-      fields={computedFields}
-    />
-  );
+  return <BaseMessageDetails message={message} fields={computedFields} />;
 };
 
 export default MsgRevokeDetails;

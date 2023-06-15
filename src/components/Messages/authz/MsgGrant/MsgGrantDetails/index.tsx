@@ -3,7 +3,6 @@ import React from 'react';
 import BaseMessageDetails, {
   MessageDetailsField,
 } from 'components/Messages/BaseMessage/BaseMessageDetails';
-import { msgGeneralIcon } from 'assets/images';
 import { useTranslation } from 'react-i18next';
 import { MsgGrantEncodeObject } from '@desmoslabs/desmjs';
 import { useGetGrantFields } from './hooks';
@@ -35,9 +34,7 @@ const MsgGrantDetails: MessageDetailsComponent<MsgGrantEncodeObject> = ({ messag
     getGrantFields,
   ]);
 
-  return (
-    <BaseMessageDetails icon={msgGeneralIcon} iconSubtitle={t('grant')} fields={computedFields} />
-  );
+  return <BaseMessageDetails message={message} fields={computedFields} />;
 };
 
 export default MsgGrantDetails;

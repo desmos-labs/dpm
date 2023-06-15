@@ -3,7 +3,6 @@ import { MsgDelegateEncodeObject } from '@cosmjs/stargate';
 import React, { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useCurrentChainInfo } from '@recoil/settings';
-import { msgDelegateIcon } from 'assets/images';
 import BaseMessageDetails from 'components/Messages/BaseMessage/BaseMessageDetails';
 import { MessageDetailsComponent } from 'components/Messages/BaseMessage';
 
@@ -30,8 +29,7 @@ const MsgDelegateDetails: MessageDetailsComponent<MsgDelegateEncodeObject> = ({ 
 
   return (
     <BaseMessageDetails
-      icon={msgDelegateIcon}
-      iconSubtitle={`${t('delegate')} ${amount}`}
+      message={message}
       fields={[
         {
           label: t('sendTokens:amount'),

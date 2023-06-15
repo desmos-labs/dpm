@@ -1,12 +1,10 @@
 import React, { useCallback, useMemo } from 'react';
 import { MsgLinkChainAccountEncodeObject } from '@desmoslabs/desmjs';
-import { View } from 'react-native';
 import { useTranslation } from 'react-i18next';
 import SupportedChains from 'config/LinkableChains';
 import { Bech32Address } from '@desmoslabs/desmjs-types/desmos/profiles/v3/models_chain_links';
 import BaseMessageDetails from 'components/Messages/BaseMessage/BaseMessageDetails';
-import { cosmosIcon, desmosIcon, disconnectIcon } from 'assets/images';
-import FastImage from 'react-native-fast-image';
+import { cosmosIcon } from 'assets/images';
 import { MessageDetailsComponent } from 'components/Messages/BaseMessage';
 import useStyles from './useStyles';
 
@@ -44,13 +42,7 @@ const MsgLinkChainAccountDetails: MessageDetailsComponent<MsgLinkChainAccountEnc
 
   return (
     <BaseMessageDetails
-      customIconView={
-        <View style={styles.customIconView}>
-          <FastImage style={styles.chainLinkIcon} source={desmosIcon} />
-          <FastImage style={styles.disconnectIcon} source={disconnectIcon} />
-          <FastImage style={styles.chainLinkIcon} source={chainIcon} />
-        </View>
-      }
+      message={message}
       fields={[
         {
           label: t('transaction:from'),

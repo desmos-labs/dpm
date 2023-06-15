@@ -4,7 +4,6 @@ import { useTranslation } from 'react-i18next';
 import BaseMessageDetails, {
   MessageDetailsField,
 } from 'components/Messages/BaseMessage/BaseMessageDetails';
-import { msgGeneralIcon } from 'assets/images';
 import { MessageDetailsComponent } from 'components/Messages/BaseMessage';
 import useGetGeneratePostEntitiesDetailFields from 'components/Messages/posts/hooks/useGetGeneratePostEntitiesDetailFields';
 
@@ -46,7 +45,7 @@ const MsgEditPostDetails: MessageDetailsComponent<MsgEditPostEncodeObject> = ({ 
     [tSubspces, message, t, getEntitiesFields],
   );
 
-  return <BaseMessageDetails icon={msgGeneralIcon} iconSubtitle={t('edit post')} fields={fields} />;
+  return <BaseMessageDetails message={message} fields={fields} />;
 };
 
 export default MsgEditPostDetails;

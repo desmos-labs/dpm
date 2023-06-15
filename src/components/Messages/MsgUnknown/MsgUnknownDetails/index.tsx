@@ -2,7 +2,6 @@ import { EncodeObject } from '@cosmjs/proto-signing';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import BaseMessageDetails from 'components/Messages/BaseMessage/BaseMessageDetails';
-import { msgUnknownIcon } from 'assets/images';
 import { MessageDetailsComponent } from 'components/Messages/BaseMessage';
 
 /**
@@ -14,8 +13,7 @@ export const MsgUnknownDetails: MessageDetailsComponent<EncodeObject> = ({ messa
 
   return (
     <BaseMessageDetails
-      icon={msgUnknownIcon}
-      iconSubtitle={message.typeUrl.split('.').pop()}
+      message={message}
       fields={[
         {
           label: t('message type'),

@@ -1,7 +1,6 @@
 import { MessageDetailsComponent } from 'components/Messages/BaseMessage';
 import React from 'react';
 import BaseMessageDetails from 'components/Messages/BaseMessage/BaseMessageDetails';
-import { msgGeneralIcon } from 'assets/images';
 import { useTranslation } from 'react-i18next';
 import { MsgBlockUserEncodeObject } from '@desmoslabs/desmjs';
 
@@ -10,8 +9,7 @@ const MsgBlockUserDetails: MessageDetailsComponent<MsgBlockUserEncodeObject> = (
 
   return (
     <BaseMessageDetails
-      icon={msgGeneralIcon}
-      iconSubtitle={t('block user')}
+      message={message}
       fields={[
         {
           label: t('blocker'),

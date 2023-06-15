@@ -2,7 +2,6 @@ import React from 'react';
 import { MsgDeleteProfileEncodeObject } from '@desmoslabs/desmjs';
 import { useTranslation } from 'react-i18next';
 import BaseMessageDetails from 'components/Messages/BaseMessage/BaseMessageDetails';
-import { msgGeneralIcon } from 'assets/images';
 import { MessageDetailsComponent } from 'components/Messages/BaseMessage';
 
 /**
@@ -17,8 +16,7 @@ const MsgDeleteProfileDetails: MessageDetailsComponent<MsgDeleteProfileEncodeObj
 
   return (
     <BaseMessageDetails
-      icon={msgGeneralIcon}
-      iconSubtitle={t('delete profile')}
+      message={message}
       fields={[
         {
           label: t('creator'),

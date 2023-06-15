@@ -4,7 +4,6 @@ import { useTranslation } from 'react-i18next';
 import BaseMessageDetails, {
   MessageDetailsField,
 } from 'components/Messages/BaseMessage/BaseMessageDetails';
-import { msgGeneralIcon } from 'assets/images';
 import { MessageDetailsComponent } from 'components/Messages/BaseMessage';
 import useGetGenerateReportTargetFields from 'components/Messages/reports/MsgCreateReport/MsgCreateReportDetails/hooks';
 
@@ -43,9 +42,7 @@ const MsgCreateReportDetails: MessageDetailsComponent<MsgCreateReportEncodeObjec
     [tSubspaces, t, message, getGenerateReportTargetFields],
   );
 
-  return (
-    <BaseMessageDetails icon={msgGeneralIcon} iconSubtitle={t('create report')} fields={fields} />
-  );
+  return <BaseMessageDetails message={message} fields={fields} />;
 };
 
 export default MsgCreateReportDetails;

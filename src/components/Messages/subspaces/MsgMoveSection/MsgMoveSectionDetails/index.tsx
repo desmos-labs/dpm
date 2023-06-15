@@ -2,7 +2,6 @@ import { MsgMoveSectionEncodeObject } from '@desmoslabs/desmjs';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import BaseMessageDetails from 'components/Messages/BaseMessage/BaseMessageDetails';
-import { msgGeneralIcon } from 'assets/images';
 import { MessageDetailsComponent } from 'components/Messages/BaseMessage';
 
 /**
@@ -32,9 +31,7 @@ const MsgMoveSectionDetails: MessageDetailsComponent<MsgMoveSectionEncodeObject>
     [t, message],
   );
 
-  return (
-    <BaseMessageDetails icon={msgGeneralIcon} iconSubtitle={t('move section')} fields={fields} />
-  );
+  return <BaseMessageDetails message={message} fields={fields} />;
 };
 
 export default MsgMoveSectionDetails;

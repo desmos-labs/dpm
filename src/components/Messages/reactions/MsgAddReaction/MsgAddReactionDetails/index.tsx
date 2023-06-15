@@ -2,7 +2,6 @@ import { MsgAddReactionEncodeObject } from '@desmoslabs/desmjs';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import BaseMessageDetails from 'components/Messages/BaseMessage/BaseMessageDetails';
-import { msgGeneralIcon } from 'assets/images';
 import { MessageDetailsComponent } from 'components/Messages/BaseMessage';
 import useGetReactionValueFields from 'components/Messages/reactions/MsgAddReaction/MsgAddReactionDetails/hooks';
 
@@ -38,9 +37,7 @@ const MsgAddReactionDetails: MessageDetailsComponent<MsgAddReactionEncodeObject>
     [tSubspaces, message, tPosts, getReactionValueFields, tCommon],
   );
 
-  return (
-    <BaseMessageDetails icon={msgGeneralIcon} iconSubtitle={t('add reaction')} fields={fields} />
-  );
+  return <BaseMessageDetails message={message} fields={fields} />;
 };
 
 export default MsgAddReactionDetails;

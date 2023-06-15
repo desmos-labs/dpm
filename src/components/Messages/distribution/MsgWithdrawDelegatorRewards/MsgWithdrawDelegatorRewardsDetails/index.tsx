@@ -2,7 +2,6 @@ import { MsgWithdrawDelegatorRewardEncodeObject } from '@cosmjs/stargate';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import BaseMessageDetails from 'components/Messages/BaseMessage/BaseMessageDetails';
-import { msgWithdrawIcon } from 'assets/images';
 import { MessageDetailsComponent } from 'components/Messages/BaseMessage';
 
 /**
@@ -17,8 +16,7 @@ const MsgWithdrawDelegatorRewardsDetails: MessageDetailsComponent<
 
   return (
     <BaseMessageDetails
-      icon={msgWithdrawIcon}
-      iconSubtitle={t('withdraw rewards')}
+      message={message}
       fields={[
         {
           label: t('transaction:from'),

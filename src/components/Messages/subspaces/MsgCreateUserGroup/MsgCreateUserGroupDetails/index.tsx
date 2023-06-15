@@ -2,7 +2,6 @@ import { MsgCreateUserGroupEncodeObject } from '@desmoslabs/desmjs';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import BaseMessageDetails from 'components/Messages/BaseMessage/BaseMessageDetails';
-import { msgGeneralIcon } from 'assets/images';
 import { MessageDetailsComponent } from 'components/Messages/BaseMessage';
 
 /**
@@ -48,13 +47,7 @@ const MsgCreateUserGroupDetails: MessageDetailsComponent<MsgCreateUserGroupEncod
     [t, message],
   );
 
-  return (
-    <BaseMessageDetails
-      icon={msgGeneralIcon}
-      iconSubtitle={t('create user group')}
-      fields={fields}
-    />
-  );
+  return <BaseMessageDetails message={message} fields={fields} />;
 };
 
 export default MsgCreateUserGroupDetails;

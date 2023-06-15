@@ -1,7 +1,6 @@
 import { MessageDetailsComponent } from 'components/Messages/BaseMessage';
 import React from 'react';
 import BaseMessageDetails from 'components/Messages/BaseMessage/BaseMessageDetails';
-import { msgGeneralIcon } from 'assets/images';
 import { useTranslation } from 'react-i18next';
 import { MsgCancelDTagTransferRequestEncodeObject } from '@desmoslabs/desmjs';
 
@@ -12,8 +11,7 @@ const MsgCancelDTagTransferDetails: MessageDetailsComponent<
 
   return (
     <BaseMessageDetails
-      icon={msgGeneralIcon}
-      iconSubtitle={t('cancel dtag transfer')}
+      message={message}
       fields={[
         {
           label: t('transaction:from'),

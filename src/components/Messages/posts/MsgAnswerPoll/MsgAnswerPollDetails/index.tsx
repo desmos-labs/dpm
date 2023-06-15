@@ -2,7 +2,6 @@ import { MsgAnswerPollEncodeObject } from '@desmoslabs/desmjs';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import BaseMessageDetails from 'components/Messages/BaseMessage/BaseMessageDetails';
-import { msgGeneralIcon } from 'assets/images';
 import { MessageDetailsComponent } from 'components/Messages/BaseMessage';
 
 /**
@@ -40,9 +39,7 @@ const MsgAnswerPollDetails: MessageDetailsComponent<MsgAnswerPollEncodeObject> =
     [tSubspaces, message, t, tCommon],
   );
 
-  return (
-    <BaseMessageDetails icon={msgGeneralIcon} iconSubtitle={t('answer poll')} fields={fields} />
-  );
+  return <BaseMessageDetails message={message} fields={fields} />;
 };
 
 export default MsgAnswerPollDetails;

@@ -3,7 +3,6 @@ import { MsgRevokeAllowanceEncodeObject } from '@desmoslabs/desmjs';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import BaseMessageDetails from 'components/Messages/BaseMessage/BaseMessageDetails';
-import { msgGeneralIcon } from 'assets/images';
 
 const MsgRevokeAllowanceDetails: MessageDetailsComponent<MsgRevokeAllowanceEncodeObject> = ({
   message,
@@ -13,8 +12,7 @@ const MsgRevokeAllowanceDetails: MessageDetailsComponent<MsgRevokeAllowanceEncod
 
   return (
     <BaseMessageDetails
-      icon={msgGeneralIcon}
-      iconSubtitle={t('revoke allowance')}
+      message={message}
       fields={[
         {
           label: t('granter'),

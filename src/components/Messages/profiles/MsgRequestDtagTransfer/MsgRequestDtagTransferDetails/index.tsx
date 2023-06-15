@@ -2,7 +2,6 @@ import { MessageDetailsComponent } from 'components/Messages/BaseMessage';
 import { MsgRequestDTagTransferEncodeObject } from '@desmoslabs/desmjs';
 import React from 'react';
 import BaseMessageDetails from 'components/Messages/BaseMessage/BaseMessageDetails';
-import { msgGeneralIcon } from 'assets/images';
 import { useTranslation } from 'react-i18next';
 
 const MsgRequestDtagTransferDetails: MessageDetailsComponent<
@@ -12,8 +11,7 @@ const MsgRequestDtagTransferDetails: MessageDetailsComponent<
 
   return (
     <BaseMessageDetails
-      icon={msgGeneralIcon}
-      iconSubtitle={t('request dtag transfer')}
+      message={message}
       fields={[
         {
           label: t('transaction:from'),
