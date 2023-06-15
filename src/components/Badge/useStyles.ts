@@ -3,7 +3,7 @@ import BadgeProps from './props';
 
 const useStyles = makeStyleWithProps((props: BadgeProps, theme) => ({
   root: {
-    backgroundColor: `${theme.colors.primary}10`,
+    backgroundColor: theme.colors.primary100,
     paddingVertical: 4,
     paddingHorizontal: 8,
     borderRadius: theme.roundness,
