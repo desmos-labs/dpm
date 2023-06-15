@@ -1,6 +1,6 @@
-import { Message } from 'types/transactions';
 import { useTranslation } from 'react-i18next';
 import React from 'react';
+import { EncodeObject } from '@cosmjs/proto-signing';
 
 const NameMap: Record<string, string> = {
   // Authz module
@@ -97,9 +97,9 @@ const NameMap: Record<string, string> = {
 };
 
 /**
- * Hook that provides a human-readable name of the provided {@link Message}.
+ * Hook that provides a human-readable name of the provided {@link EncodeObject}.
  */
-const useMessageName = (message: Message) => {
+const useMessageName = (message: EncodeObject) => {
   const { t } = useTranslation();
 
   return React.useMemo(() => {
