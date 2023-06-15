@@ -45,6 +45,9 @@ const DarkTheme: ReactNativePaper.Theme = {
     },
     text: '#E6E6E6',
     disabled: '#9d9d9d',
+    // New style colors
+    primary100: '#FFF0EC',
+    neutral300: '#E8E8E8',
   },
 };
 
