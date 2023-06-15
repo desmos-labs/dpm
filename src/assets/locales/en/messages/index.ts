@@ -3,6 +3,7 @@ import bank from './bank.json';
 import common from './common.json';
 import distribution from './distribution.json';
 import gov from './gov.json';
+import ibc from './ibc.json';
 import posts from './posts.json';
 import profiles from './profiles.json';
 import reactions from './reactions.json';
@@ -19,6 +20,7 @@ const messages = {
   'messages.common': common,
   'messages.distribution': distribution,
   'messages.gov': gov,
+  'messages.ibc': ibc,
   'messages.posts': posts,
   'messages.profiles': profiles,
   'messages.reactions': reactions,

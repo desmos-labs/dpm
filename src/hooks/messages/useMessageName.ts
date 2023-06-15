@@ -46,6 +46,10 @@ const useMessageName = (message: Message) => {
       case 'MsgVote':
         return t('messages.gov:vote');
 
+      // IBC
+      case 'MsgTransfer':
+        return t('messages.ibc:ibc transfer');
+
       // Posts module
       case 'MsgCreatePost':
         return t('messages.posts:create post');
