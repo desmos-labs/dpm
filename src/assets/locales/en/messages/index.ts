@@ -1,6 +1,7 @@
 import authz from './authz.json';
 import bank from './bank.json';
 import common from './common.json';
+import distribution from './distribution.json';
 import gov from './gov.json';
 import posts from './posts.json';
 import profiles from './profiles.json';
@@ -16,6 +17,7 @@ const messages = {
   'messages.authz': authz,
   'messages.bank': bank,
   'messages.common': common,
+  'messages.distribution': distribution,
   'messages.gov': gov,
   'messages.posts': posts,
   'messages.profiles': profiles,

@@ -12,7 +12,7 @@ import { MessageDetailsComponent } from 'components/Messages/BaseMessage';
 const MsgWithdrawDelegatorRewardsDetails: MessageDetailsComponent<
   MsgWithdrawDelegatorRewardEncodeObject
 > = ({ message }) => {
-  const { t } = useTranslation('messages.staking');
+  const { t } = useTranslation('messages.distribution');
   const { value } = message;
 
   return (
