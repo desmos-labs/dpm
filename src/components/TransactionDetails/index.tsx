@@ -63,7 +63,12 @@ const TransactionDetails: React.FC<TransactionDetailsProps> = (props) => {
   }, [approximatedFee, fee?.amount]);
 
   const renderMessages = React.useCallback<ListRenderItem<EncodeObject>>(
-    ({ item }) => <MessageDetails message={item} />,
+    ({ item }) => (
+      <>
+        <MessageDetails message={item} />
+        <Spacer paddingVertical={8} />
+      </>
+    ),
     [],
   );
 
