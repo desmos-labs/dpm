@@ -9,6 +9,12 @@ import {
   TypographyConfigH1,
   TypographyConfigH2,
   TypographyConfigH4,
+  TypographyConfigRegular10,
+  TypographyConfigRegular12,
+  TypographyConfigRegular14,
+  TypographyConfigSemiBold16,
+  TypographyConfigSemiBold18,
+  TypographyConfigSemiBold30,
   TypographyConfigSubtitle,
   TypographyConfigSubtitle2,
   TypographyConfigTitle,
@@ -42,6 +48,13 @@ const TypographyContentLoaders = {
   H1: createComponent(TypographyConfigH1),
   H2: createComponent(TypographyConfigH2),
   H4: createComponent(TypographyConfigH4),
+  // New styles
+  Regular10: createComponent(TypographyConfigRegular10),
+  Regular12: createComponent(TypographyConfigRegular12),
+  Regular14: createComponent(TypographyConfigRegular14),
+  SemiBold16: createComponent(TypographyConfigSemiBold16),
+  SemiBold18: createComponent(TypographyConfigSemiBold18),
+  SemiBold30: createComponent(TypographyConfigSemiBold30),
 };
 
 export default TypographyContentLoaders;
