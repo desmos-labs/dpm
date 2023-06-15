@@ -1,29 +1,66 @@
 import { EncodeObject } from '@cosmjs/proto-signing';
-import { Fee } from 'cosmjs-types/cosmos/tx/v1beta1/tx';
+import { StdFee } from '@cosmjs/amino';
+import { Coin } from '@desmoslabs/desmjs';
 
 /**
  * Generic message contained inside a transaction.
  */
-export interface Message extends EncodeObject {
-  readonly index: number;
-}
+export interface Message extends EncodeObject {}
 
 /**
  * Transaction that has been previously broadcast.
  */
 export interface Transaction {
+  readonly messages: Message[];
   readonly hash: string;
   readonly success: boolean;
   readonly timestamp: string;
-  readonly messages: Message[];
-  readonly memo?: string;
-  readonly fee?: Fee;
+  readonly fee: StdFee;
 }
 
 /**
- * Group of transactions that has been grouped by date.
+ * Type that represents the messages contained in a transaction
+ * obtained from GQL.
  */
-export interface GroupedTransactions {
-  readonly date: string;
-  readonly transactions: Transaction[];
+export interface GQLRawMessage extends Record<string, any> {
+  readonly '@type': string;
+}
+
+/**
+ * Interface that represents fee of a transaction obtained
+ * from GQL.
+ */
+export interface GQLTransactionFee {
+  readonly amount: Coin[];
+  readonly gas_limit: string;
+  readonly payer?: string;
+  readonly granter?: string;
+}
+
+/**
+ * Interface that represents a transaction obtained from GQL.
+ */
+export interface GQLTransaction {
+  readonly messages: GQLRawMessage[];
+  readonly hash: string;
+  readonly success: boolean;
+  readonly block: {
+    readonly timestamp: string;
+  };
+  readonly fee: GQLTransactionFee;
+}
+
+/**
+ * Interface that represents the messages obtained from GQL.
+ */
+export interface GQLMessage {
+  transaction: GQLTransaction;
+}
+
+/**
+ * Interface that represents the result of the `GetTransactionsByAddress`
+ * GQL query.
+ */
+export interface GQLGetTransactionsByAddress {
+  messages: GQLMessage[];
 }

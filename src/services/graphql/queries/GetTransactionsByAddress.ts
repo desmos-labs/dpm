@@ -1,10 +1,11 @@
 import { gql } from '@apollo/client';
+import TransactionFields from './fragments/TransactionFields';
 
 /**
  * @example
  * const { data, loading, error } = useQuery(GetTransactionsByAddress, {
  *   variables: {
- *      address: // value for 'address'
+ *      addresses: // value for 'address'
  *      limit: // value for 'limit'
  *      offset: // value for 'offset'
  *      types: // value for 'types'
@@ -12,26 +13,19 @@ import { gql } from '@apollo/client';
  * });
  */
 const GetTransactionsByAddress = gql`
+  ${TransactionFields}
   query Transactions(
-    $address: _text
+    $addresses: _text
     $limit: bigint = 20
     $offset: bigint = 0
     $types: _text = "{}"
   ) @api(name: forbole) {
     messages: messages_by_address(
-      args: { addresses: $address, types: $types, limit: $limit, offset: $offset }
+      args: { addresses: $addresses, types: $types, limit: $limit, offset: $offset }
+      where: { index: { _eq: "0" } }
     ) {
-      index
-      type
-      value
       transaction {
-        hash
-        success
-        memo
-        fee
-        block {
-          timestamp
-        }
+        ...TransactionFields
       }
     }
   }
