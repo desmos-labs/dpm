@@ -16,6 +16,7 @@ export interface Transaction {
   readonly success: boolean;
   readonly timestamp: string;
   readonly fee: StdFee;
+  readonly memo?: string;
 }
 
 /**
@@ -47,6 +48,7 @@ export interface GQLTransaction {
     readonly timestamp: string;
   };
   readonly fee: GQLTransactionFee;
+  readonly memo?: string;
 }
 
 /**

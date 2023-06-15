@@ -9,6 +9,7 @@ const TransactionFields = gql`
       timestamp
     }
     messages
+    memo
   }
 `;
 

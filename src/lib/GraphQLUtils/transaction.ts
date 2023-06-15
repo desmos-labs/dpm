@@ -25,4 +25,5 @@ export const convertGqlMessageToTransaction = (gqlMessage: GQLMessage): Transact
   success: gqlMessage.transaction.success,
   timestamp: gqlMessage.transaction.block.timestamp,
   fee: convertGqlFee(gqlMessage.transaction.fee),
+  memo: gqlMessage.transaction.memo,
 });
