@@ -130,7 +130,7 @@ import {
   StakeAuthorization,
 } from 'cosmjs-types/cosmos/staking/v1beta1/authz';
 import { Coin } from 'cosmjs-types/cosmos/base/v1beta1/coin';
-import { StakeAuthorizationTypeUrl } from 'types/cosmos-staking';
+import { StakeAuthorizationTypeUrl } from 'types/cosmos';
 import { MsgGrantAllowance } from 'cosmjs-types/cosmos/feegrant/v1beta1/tx';
 import {
   AllowedMsgAllowance,

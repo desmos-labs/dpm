@@ -11,9 +11,8 @@ import { format } from 'date-fns';
 import Flexible from 'components/Flexible';
 import Spacer from 'components/Spacer';
 import Badge from 'components/Badge';
-import { formatCoin } from 'lib/FormatUtils';
-import { coin } from '@cosmjs/amino';
 import useMessageName from 'hooks/messages/useMessageName';
+import useMessagesAmount from 'hooks/messages/useGetMessageAmount';
 import useStyles from './useStyles';
 
 export interface TransactionsListItemProps {
@@ -32,11 +31,7 @@ const TransactionsListItem = (props: TransactionsListItemProps) => {
 
   const badgeLabel = useMessageName(transaction.messages[0]);
 
-  const amount = React.useMemo(
-    // TODO: Implement the logic to resolve the transaction amount.
-    () => formatCoin(coin('10000', 'udaric')),
-    [],
-  );
+  const amount = useMessagesAmount(transaction.messages);
 
   // -------- CALLBACKS --------
 
