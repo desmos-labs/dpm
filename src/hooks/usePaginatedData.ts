@@ -51,8 +51,10 @@ export function usePaginatedData<T, F>(
   config: PaginatedDataConfig,
   initialFilter?: F,
 ) {
+  // Variables saved as ref to prevent the recreation of fetchMore
+  const currentOffsetRef = useRef(0);
+
   const firstExecution = useRef(true);
-  const [currentOffset, setCurrentOffset] = React.useState(0);
   const [data, setData] = React.useState<T[]>([]);
   const [filter, setFilter] = React.useState<F | undefined>(initialFilter);
   const [loading, setLoading] = React.useState(true);
@@ -65,7 +67,7 @@ export function usePaginatedData<T, F>(
       // Temp var where we keep the fetched items until we have them all.
       const fetchedItems: T[] = [];
       // Current offset.
-      let fetchOffset = overrideOffset ?? currentOffset;
+      let fetchOffset = overrideOffset ?? currentOffsetRef.current;
       let stopFetch = false;
 
       // Loop to fetch exactly itemsPerPage elements even if the fetchFunction
@@ -93,14 +95,14 @@ export function usePaginatedData<T, F>(
       }
 
       // Update the current offset.
-      setCurrentOffset(fetchOffset);
+      currentOffsetRef.current = fetchOffset;
 
       // Update the stored items.
       setData((currentData) => (resetState ? fetchedItems : [...currentData, ...fetchedItems]));
 
       setLoading(false);
     },
-    [currentOffset, fetchFunction, filter, config.itemsPerPage],
+    [fetchFunction, filter, config.itemsPerPage],
   );
 
   const refresh = React.useCallback(async () => {

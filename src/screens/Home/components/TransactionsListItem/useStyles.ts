@@ -1,16 +1,36 @@
 import { makeStyle } from 'config/theme';
 
-const useStyles = (isBegin: boolean, isEnd: boolean) =>
-  makeStyle((theme) => ({
-    root: {
-      borderBottomWidth: 1,
-      borderColor: theme.colors.background2,
-      backgroundColor: theme.colors.surface2,
-      borderTopLeftRadius: isBegin ? 8 : 0,
-      borderTopRightRadius: isBegin ? 8 : 0,
-      borderBottomLeftRadius: isEnd ? 8 : 0,
-      borderBottomRightRadius: isEnd ? 8 : 0,
-    },
-  }))();
+const useStyles = makeStyle((theme) => ({
+  root: {
+    borderWidth: 1,
+    borderColor: theme.colors.background2,
+    backgroundColor: theme.colors.surface2,
+    borderRadius: theme.roundness,
+    padding: theme.spacing.m,
+  },
+  header: {
+    display: 'flex',
+    flexDirection: 'row',
+    flex: 1,
+    alignItems: 'center',
+  },
+  transactionHash: {
+    color: theme.colors.primary,
+    maxWidth: '25%',
+  },
+  msgCounter: {
+    paddingStart: 4,
+    color: theme.colors.accent,
+  },
+  inlineField: {
+    display: 'flex',
+    flexDirection: 'row',
+    flex: 1,
+    alignItems: 'baseline',
+  },
+  fieldLabel: {
+    flex: 1,
+  },
+}));
 
 export default useStyles;
