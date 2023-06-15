@@ -13,7 +13,7 @@ export type MessageDetailsProps = {
 const MessageDetails = (props: MessageDetailsProps) => {
   const { message } = props;
   const messageComponents = messageDetailsComponents[message.typeUrl] || MsgUnknownComponents;
-  const DetailsComponent = messageComponents.details;
+  const DetailsComponent = messageComponents;
   return <DetailsComponent message={message} />;
 };
 
