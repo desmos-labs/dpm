@@ -3,8 +3,8 @@ import { makeStyle } from 'config/theme';
 const useStyles = makeStyle((theme) => ({
   root: {
     borderWidth: 1,
-    borderColor: theme.colors.background2,
-    backgroundColor: theme.colors.surface2,
+    borderColor: theme.colors.neutral300,
+    backgroundColor: theme.colors.background,
     borderRadius: theme.roundness,
     padding: theme.spacing.m,
   },
