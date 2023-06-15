@@ -1,17 +1,23 @@
 import { EncodeObject } from '@cosmjs/proto-signing';
-import { format } from 'date-fns';
 import React, { useMemo } from 'react';
-import { useTranslation } from 'react-i18next';
-import { Pressable, ScrollView, StyleProp, View, ViewStyle } from 'react-native';
+import { StyleProp, View, ViewStyle } from 'react-native';
 import { StdFee } from '@cosmjs/amino';
-import Divider from 'components/Divider';
-import LabeledValue from 'components/LabeledValue';
 import { formatCoins } from 'lib/FormatUtils';
 import { Fee } from 'cosmjs-types/cosmos/tx/v1beta1/tx';
 import MessageDetails from 'components/Messages/MessageDetails';
+import { FlashList } from '@shopify/flash-list';
+import { ListRenderItem } from '@shopify/flash-list/src/FlashListProps';
+import Spacer from 'components/Spacer';
+import Typography from 'components/Typography';
+import { useTranslation } from 'react-i18next';
 import useStyles from './useStyles';
+import TransactionInformation from './components/TransactionInformation';
 
 export type TransactionDetailsProps = {
+  /**
+   * Optional transaction hash to display.
+   */
+  hash?: string;
   /**
    * Messages to be displayed to the user.
    */
@@ -49,44 +55,40 @@ export type TransactionDetailsProps = {
 const TransactionDetails: React.FC<TransactionDetailsProps> = (props) => {
   const { t } = useTranslation('transaction');
   const styles = useStyles();
-
-  const { memo, messages, fee, success, dateTime, style, estimatingFee, approximatedFee } = props;
+  const { messages, hash, memo, fee, success, dateTime, estimatingFee, approximatedFee } = props;
 
   const txFex = useMemo(() => {
     const formattedCoins = formatCoins(fee?.amount);
     return approximatedFee ? `~${formattedCoins}` : formattedCoins;
   }, [approximatedFee, fee?.amount]);
 
+  const renderMessages = React.useCallback<ListRenderItem<EncodeObject>>(
+    ({ item }) => <MessageDetails message={item} />,
+    [],
+  );
+
   return (
     <View style={styles.root}>
-      <ScrollView style={style}>
-        <Pressable>
-          {messages.map((msg: EncodeObject, i: number) => (
-            <View key={`view_${i * 2}`}>
-              <MessageDetails key={`msg_${i * 2}`} message={msg} />
-              <Divider key={`divider_${i * 2}`} />
-            </View>
-          ))}
-          <LabeledValue label={t('fee')} value={txFex} loading={estimatingFee} />
-          <Divider />
-          {dateTime && (
-            <>
-              <LabeledValue label={t('time')} value={format(dateTime, 'dd MMM yyyy, HH:mm:ss')} />
-              <Divider />
-            </>
-          )}
-          {success !== undefined && (
-            <>
-              <LabeledValue
-                label={t('status')}
-                value={success ? t('common:success') : t('common:fail')}
-              />
-              <Divider />
-            </>
-          )}
-          <LabeledValue label={t('memo')} value={(memo?.length ?? 0) > 0 ? memo : ''} />
-        </Pressable>
-      </ScrollView>
+      <FlashList
+        ListHeaderComponent={
+          <>
+            <TransactionInformation
+              hash={hash}
+              memo={memo}
+              estimatingFee={estimatingFee}
+              fee={txFex}
+              dateTime={dateTime}
+              success={success}
+            />
+            <Spacer paddingVertical={16} />
+            <Typography.SemiBold16>{t('messages')}</Typography.SemiBold16>
+            <Spacer paddingVertical={8} />
+          </>
+        }
+        data={messages}
+        renderItem={renderMessages}
+        estimatedItemSize={202}
+      />
     </View>
   );
 };

@@ -36,6 +36,7 @@ const TxDetails = (props: NavProps) => {
   return (
     <StyledSafeAreaView topBar={<TopBar stackProps={props} title={t('tx details')} />}>
       <TransactionDetails
+        hash={transaction.hash}
         messages={transaction.messages}
         memo={transaction.memo}
         fee={transaction.fee}

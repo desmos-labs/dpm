@@ -44,3 +44,7 @@ export const tickGreyIcon = require('./tick-grey.png');
 export const tickOrangeIcon = require('./tick-orange.png');
 export const txFailed = require('./txFailed.png');
 export const txSuccess = require('./txSuccess.png');
+
+// Icons
+export const successIcon = require('./icons/successIcon.png');
+export const failIcon = require('./icons/failIcon.png');
