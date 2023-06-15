@@ -128,3 +128,19 @@ export const TypographyConfigSemiBold16: TextStyle = {
   lineHeight: 24,
   letterSpacing: 0,
 };
+
+export const TypographyConfigSemiBold18: TextStyle = {
+  fontFamily: 'Poppins-SemiBold',
+  fontWeight: '600',
+  fontSize: 18,
+  lineHeight: 27,
+  letterSpacing: 0,
+};
+
+export const TypographyConfigSemiBold30: TextStyle = {
+  fontFamily: 'Poppins-SemiBold',
+  fontWeight: '600',
+  fontSize: 30,
+  lineHeight: 45,
+  letterSpacing: 0,
+};
