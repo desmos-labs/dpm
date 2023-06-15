@@ -94,3 +94,37 @@ export const TypographyConfigH4: TextStyle = {
   lineHeight: 32,
   letterSpacing: 0.0015,
 };
+
+// New styles
+
+export const TypographyConfigRegular10: TextStyle = {
+  fontFamily: 'Poppins',
+  fontSize: 10,
+  fontWeight: '400',
+  lineHeight: 15,
+  letterSpacing: 0,
+};
+
+export const TypographyConfigRegular12: TextStyle = {
+  fontFamily: 'Poppins',
+  fontSize: 12,
+  fontWeight: '400',
+  lineHeight: 18,
+  letterSpacing: 0,
+};
+
+export const TypographyConfigRegular14: TextStyle = {
+  fontFamily: 'Poppins',
+  fontWeight: '400',
+  fontSize: 14,
+  lineHeight: 21,
+  letterSpacing: 0,
+};
+
+export const TypographyConfigSemiBold16: TextStyle = {
+  fontFamily: 'Poppins-SemiBold',
+  fontWeight: '600',
+  fontSize: 16,
+  lineHeight: 24,
+  letterSpacing: 0,
+};
