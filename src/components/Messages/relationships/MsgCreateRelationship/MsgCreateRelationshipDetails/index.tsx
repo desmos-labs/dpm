@@ -8,7 +8,7 @@ import { MsgCreateRelationshipEncodeObject } from '@desmoslabs/desmjs';
 const MsgCreateRelationshipDetails: MessageDetailsComponent<MsgCreateRelationshipEncodeObject> = ({
   message,
 }) => {
-  const { t } = useTranslation('messages.profiles');
+  const { t } = useTranslation('messages.relationships');
 
   return (
     <BaseMessageDetails
@@ -24,7 +24,7 @@ const MsgCreateRelationshipDetails: MessageDetailsComponent<MsgCreateRelationshi
           value: message.value.counterparty,
         },
         {
-          label: t('subspace id'),
+          label: t('messages.subspaces:subspace id'),
           value: message.value.subspaceId.toString(),
         },
       ]}

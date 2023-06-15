@@ -26,7 +26,7 @@ const MsgBlockUserDetails: MessageDetailsComponent<MsgBlockUserEncodeObject> = (
           value: message.value.reason,
         },
         {
-          label: t('subspace id'),
+          label: t('messages.subspaces:subspace id'),
           value: message.value.subspaceId.toString(),
         },
       ]}

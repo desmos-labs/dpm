@@ -25,7 +25,7 @@ const MsgUnlinkChainAccountListItem: MessageListItemComponent<
       date={date}
       renderContent={() => (
         <View>
-          <Typography.Body1>{t('tx type unlink chain account')}</Typography.Body1>
+          <Typography.Body1>{t('unlink chain account')}</Typography.Body1>
           <View style={styles.target}>
             <Typography.Caption numberOfLines={1} ellipsizeMode="middle">
               {value.target}

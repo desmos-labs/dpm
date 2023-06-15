@@ -36,7 +36,7 @@ const MsgLinkChainAccountListItem: MessageListItemComponent<MsgLinkChainAccountE
       date={date}
       renderContent={() => (
         <View>
-          <Typography.Body1>{t('tx type link chain account')}</Typography.Body1>
+          <Typography.Body1>{t('link chain account')}</Typography.Body1>
           <View style={styles.chainAccount}>
             <Typography.Caption numberOfLines={1} ellipsizeMode="middle">
               {t('to')} {chainAccount}

@@ -11,7 +11,7 @@ const MsgUnblockUserListItem: MessageListItemComponent<MsgUnblockUserEncodeObjec
   date,
   message,
 }) => {
-  const { t } = useTranslation('messages.profiles');
+  const { t } = useTranslation('messages.relationships');
   const renderContent = React.useCallback(
     () => (
       <View>

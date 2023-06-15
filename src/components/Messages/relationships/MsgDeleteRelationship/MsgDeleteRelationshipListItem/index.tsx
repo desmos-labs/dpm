@@ -10,7 +10,7 @@ import { MsgDeleteRelationshipEncodeObject } from '@desmoslabs/desmjs';
 const MsgDeleteRelationshipListItem: MessageListItemComponent<
   MsgDeleteRelationshipEncodeObject
 > = ({ date, message }) => {
-  const { t } = useTranslation('messages.profiles');
+  const { t } = useTranslation('messages.relationships');
   const renderContent = React.useCallback(
     () => (
       <View>

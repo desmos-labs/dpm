@@ -22,7 +22,7 @@ const MsgDeleteProfileListItem: MessageListItemComponent<MsgDeleteProfileEncodeO
       date={date}
       renderContent={() => (
         <View>
-          <Typography.Body1>{t('tx type delete profile')}</Typography.Body1>
+          <Typography.Body1>{t('delete profile')}</Typography.Body1>
         </View>
       )}
     />
