@@ -5,8 +5,8 @@ import { getMessageAmount } from 'lib/MessageUtils';
 import { formatCoins } from 'lib/FormatUtils';
 
 /**
- * Hook that provides a function to extract the
- * amount of coins present inside a message.
+ * Hook to extract the total amount of coins from
+ * the provided list of messages.
  */
 const useMessagesAmount = (messages: Message[]) =>
   React.useMemo(() => {

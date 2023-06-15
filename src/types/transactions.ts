@@ -27,8 +27,7 @@ export interface GQLRawMessage extends Record<string, any> {
 }
 
 /**
- * Interface that represents fee of a transaction obtained
- * from GQL.
+ * Interface that represents a transaction fee obtained from GQL.
  */
 export interface GQLTransactionFee {
   readonly amount: Coin[];
@@ -51,15 +50,14 @@ export interface GQLTransaction {
 }
 
 /**
- * Interface that represents the messages obtained from GQL.
+ * Interface that represents a messages obtained from GQL.
  */
 export interface GQLMessage {
   transaction: GQLTransaction;
 }
 
 /**
- * Interface that represents the result of the `GetTransactionsByAddress`
- * GQL query.
+ * Interface that represents the result of the `GetTransactionsByAddress` query.
  */
 export interface GQLGetTransactionsByAddress {
   messages: GQLMessage[];

@@ -2,6 +2,9 @@ import { Message } from 'types/transactions';
 import { useTranslation } from 'react-i18next';
 import React from 'react';
 
+/**
+ * Hook that provides a human-readable name of the provided {@link Message}.
+ */
 const useMessageName = (message: Message) => {
   const { t } = useTranslation();
 

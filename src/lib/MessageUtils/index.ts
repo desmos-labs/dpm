@@ -21,11 +21,17 @@ import {
   MsgUndelegate,
 } from 'cosmjs-types/cosmos/staking/v1beta1/tx';
 
+/**
+ * Converts a {@link Coin} into a list of {@link Coin}.
+ * If the provided coin is undefined this function will return an empty list.
+ * @param c - The {@link Coin} object to convert.
+ */
 const coinToCoins = (c?: Coin): Coin[] => (c ? [c] : []);
 
 /**
  * Hook that provides a function to extract the
- * amount of coins present inside a message.
+ * amount of coins present inside a {@link Message}.
+ * @param message - The message from which the total amount will be extracted.
  */
 export const getMessageAmount = (message: Message) => {
   switch (message.typeUrl) {

@@ -6,6 +6,10 @@ import { FetchDataFunction, usePaginatedData } from 'hooks/usePaginatedData';
 import { GQLGetTransactionsByAddress, Transaction } from 'types/transactions';
 import { convertGqlMessageToTransaction } from 'lib/GraphQLUtils/transaction';
 
+/**
+ * Hook that provides a {@link FetchDataFunction} for the {@link usePaginatedData}
+ * hook to fetch the list of {@link Transaction} performed from the current active user.
+ */
 const useFetchCurrentUserTransactions = () => {
   const activeAccountAddress = useActiveAccountAddress();
 
@@ -39,6 +43,10 @@ const useFetchCurrentUserTransactions = () => {
   );
 };
 
+/**
+ * Hook that provides the current active account transactions and the
+ * functions to fetch the data in a paginated manner with a FlashList.
+ */
 export const useActiveAccountTransactions = () => {
   const fetchCurrentUserTransactions = useFetchCurrentUserTransactions();
 
