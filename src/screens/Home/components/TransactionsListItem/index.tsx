@@ -13,6 +13,7 @@ import Spacer from 'components/Spacer';
 import Badge from 'components/Badge';
 import { formatCoin } from 'lib/FormatUtils';
 import { coin } from '@cosmjs/amino';
+import useMessageName from 'hooks/messages/useMessageName';
 import useStyles from './useStyles';
 
 export interface TransactionsListItemProps {
@@ -29,11 +30,7 @@ const TransactionsListItem = (props: TransactionsListItemProps) => {
 
   const txDate = React.useMemo(() => new Date(transaction.timestamp), [transaction.timestamp]);
 
-  const badgeLabel = React.useMemo(
-    // TODO: Properly resolve the message name.
-    () => transaction.messages[0].typeUrl.split('.').pop()!,
-    [transaction.messages],
-  );
+  const badgeLabel = useMessageName(transaction.messages[0]);
 
   const amount = React.useMemo(
     // TODO: Implement the logic to resolve the transaction amount.
@@ -66,7 +63,7 @@ const TransactionsListItem = (props: TransactionsListItemProps) => {
           <Flexible.Padding flex={1} />
 
           {/* Information about the messages inside the transaction */}
-          <Badge text={badgeLabel} />
+          <Badge text={badgeLabel} capitalize />
           {transaction.messages.length > 1 && (
             <Typography.Regular10 style={styles.msgCounter}>{`+${
               transaction.messages.length - 1

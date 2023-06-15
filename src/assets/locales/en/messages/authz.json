@@ -1,5 +1,6 @@
 {
   "grant": "Grant",
+  "exec": "Exec",
   "revoke grant": "Revoke grant",
   "authorization": "Authorization",
   "expiration": "Expiration",
