@@ -7,16 +7,21 @@ import { coin } from '@cosmjs/amino';
 import { Transaction } from 'types/transactions';
 import ROUTES from 'navigation/routes';
 import {
+  AllowedMsgAllowanceTypeUrl,
+  BasicAllowanceTypeUrl,
   GenericAuthorizationTypeUrl,
   MsgEditPostTypeUrl,
   MsgFundCommunityPoolTypeUrl,
+  MsgGrantAllowanceTypeUrl,
   MsgGrantTypeUrl,
   MsgMultiSendTypeUrl,
+  MsgRevokeAllowanceTypeUrl,
   MsgRevokeTypeUrl,
   MsgSendTypeUrl,
   MsgSetWithdrawAddressTypeUrl,
   MsgWithdrawDelegatorRewardTypeUrl,
   MsgWithdrawValidatorCommissionTypeUrl,
+  PeriodicAllowanceTypeUrl,
 } from '@desmoslabs/desmjs';
 import { MsgExec, MsgGrant, MsgRevoke } from 'cosmjs-types/cosmos/authz/v1beta1/tx';
 import { GenericAuthorization, Grant } from 'cosmjs-types/cosmos/authz/v1beta1/authz';
@@ -28,6 +33,12 @@ import {
   MsgWithdrawDelegatorReward,
   MsgWithdrawValidatorCommission,
 } from 'cosmjs-types/cosmos/distribution/v1beta1/tx';
+import { MsgGrantAllowance, MsgRevokeAllowance } from 'cosmjs-types/cosmos/feegrant/v1beta1/tx';
+import {
+  AllowedMsgAllowance,
+  BasicAllowance,
+  PeriodicAllowance,
+} from 'cosmjs-types/cosmos/feegrant/v1beta1/feegrant';
 
 const TEST_ADDRESS1 = 'desmos1nm6kh6jwqmsezwtnmgdd4w4tzyk9f8gvqu5en0';
 const TEST_ADDRESS2 = 'desmos1jvw63nnapa899l753dh4znw5u6kc9zycpc043v';
@@ -141,6 +152,87 @@ const useShowTestTransaction = () => {
         value: MsgFundCommunityPool.fromPartial({
           amount: [coin('10000000', 'udaric')],
           depositor: 'desmos1depositor',
+        }),
+      },
+
+      // Fee grant module
+      {
+        typeUrl: MsgGrantAllowanceTypeUrl,
+        value: MsgGrantAllowance.fromPartial({
+          granter: 'desmos1granter',
+          grantee: 'desmos1grantee',
+          allowance: {
+            typeUrl: BasicAllowanceTypeUrl,
+            value: BasicAllowance.encode(
+              BasicAllowance.fromPartial({
+                expiration: {
+                  seconds: 200000,
+                },
+                spendLimit: [coin(2000, 'udaric')],
+              }),
+            ).finish(),
+          },
+        }),
+      },
+      {
+        typeUrl: MsgGrantAllowanceTypeUrl,
+        value: MsgGrantAllowance.fromPartial({
+          granter: 'desmos1granter',
+          grantee: 'desmos1grantee',
+          allowance: {
+            typeUrl: PeriodicAllowanceTypeUrl,
+            value: PeriodicAllowance.encode(
+              PeriodicAllowance.fromPartial({
+                basic: {
+                  spendLimit: [coin(200000, 'udaric')],
+                  expiration: {
+                    seconds: 2000000,
+                  },
+                },
+                period: {
+                  seconds: 1000000,
+                },
+                periodReset: {
+                  seconds: 5000000,
+                },
+                periodCanSpend: [coin(20000, 'udaric')],
+                periodSpendLimit: [coin(1000, 'udaric')],
+              }),
+            ).finish(),
+          },
+        }),
+      },
+      {
+        typeUrl: MsgGrantAllowanceTypeUrl,
+        value: MsgGrantAllowance.fromPartial({
+          granter: 'desmos1granter',
+          grantee: 'desmos1grantee',
+          allowance: {
+            typeUrl: AllowedMsgAllowanceTypeUrl,
+            value: AllowedMsgAllowance.encode(
+              AllowedMsgAllowance.fromPartial({
+                allowance: {
+                  typeUrl: BasicAllowanceTypeUrl,
+                  value: BasicAllowance.encode(
+                    BasicAllowance.fromPartial({
+                      expiration: {
+                        seconds: 200000,
+                      },
+                      spendLimit: [coin(2000, 'udaric')],
+                    }),
+                  ).finish(),
+                },
+                allowedMessages: [MsgSendTypeUrl, MsgSendTypeUrl, MsgSendTypeUrl],
+              }),
+            ).finish(),
+          },
+        }),
+      },
+      {
+        typeUrl: MsgRevokeAllowanceTypeUrl,
+        value: MsgRevokeAllowance.fromPartial({
+          granter: 'desmos1granter',
+          grantee: 'desmos1grantee',
         }),
       },
     ];

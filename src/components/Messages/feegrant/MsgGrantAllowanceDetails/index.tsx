@@ -7,13 +7,15 @@ import {
   timestampToDate,
 } from '@desmoslabs/desmjs';
 import React from 'react';
-import { useTranslation } from 'react-i18next';
+import { Trans, useTranslation } from 'react-i18next';
 import BaseMessageDetails from 'components/Messages/BaseMessage/BaseMessageDetails';
 import { parseAllowance } from 'lib/EncodeObjectUtils/feegrant';
 import { formatCoins } from 'lib/FormatUtils';
 import * as datefns from 'date-fns';
 import { Any } from 'cosmjs-types/google/protobuf/any';
 import { TFunction } from 'i18next';
+import Typography from 'components/Typography';
+import CopiableAddress from 'components/CopiableAddress';
 
 /**
  * Function to generate the fields of an allowance.
@@ -146,22 +148,22 @@ const MsgGrantAllowanceDetails: MessageDetailsComponent<MsgGrantAllowanceEncodeO
   const { t } = useTranslation('messages.feegrant');
   const { granter, grantee, allowance } = message.value;
 
-  const allowanceFields = React.useMemo(() => {
-    const fields: Array<{ label: string; value: string }> = [
-      {
-        label: t('granter'),
-        value: granter,
-      },
-      {
-        label: t('grantee'),
-        value: grantee,
-      },
-    ];
-    fields.push(...allowanceToFields(allowance, t));
-    return fields;
-  }, [t, granter, grantee, allowance]);
+  const allowanceFields = React.useMemo(() => allowanceToFields(allowance, t), [t, allowance]);
 
-  return <BaseMessageDetails message={message} fields={allowanceFields} />;
+  return (
+    <BaseMessageDetails message={message} fields={allowanceFields}>
+      <Typography.Regular14>
+        <Trans
+          ns="messages.feegrant"
+          i18nKey="grant allowance description"
+          components={[
+            <CopiableAddress address={granter} />,
+            <CopiableAddress address={grantee} />,
+          ]}
+        />
+      </Typography.Regular14>
+    </BaseMessageDetails>
+  );
 };
 
 export default MsgGrantAllowanceDetails;

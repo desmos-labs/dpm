@@ -1,29 +1,29 @@
 import { MessageDetailsComponent } from 'components/Messages/BaseMessage';
 import { MsgRevokeAllowanceEncodeObject } from '@desmoslabs/desmjs';
 import React from 'react';
-import { useTranslation } from 'react-i18next';
+import { Trans } from 'react-i18next';
 import BaseMessageDetails from 'components/Messages/BaseMessage/BaseMessageDetails';
+import CopiableAddress from 'components/CopiableAddress';
+import Typography from 'components/Typography';
 
 const MsgRevokeAllowanceDetails: MessageDetailsComponent<MsgRevokeAllowanceEncodeObject> = ({
   message,
 }) => {
-  const { t } = useTranslation('messages.feegrant');
   const { granter, grantee } = message.value;
 
   return (
-    <BaseMessageDetails
-      message={message}
-      fields={[
-        {
-          label: t('granter'),
-          value: granter,
-        },
-        {
-          label: t('grantee'),
-          value: grantee,
-        },
-      ]}
-    />
+    <BaseMessageDetails message={message}>
+      <Typography.Regular14>
+        <Trans
+          ns="messages.feegrant"
+          i18nKey="revoke grant allowance description"
+          components={[
+            <CopiableAddress address={granter} />,
+            <CopiableAddress address={grantee} />,
+          ]}
+        />
+      </Typography.Regular14>
+    </BaseMessageDetails>
   );
 };
 
