@@ -1,40 +1,30 @@
 import { MessageDetailsComponent } from 'components/Messages/BaseMessage';
 import React from 'react';
-import BaseMessageDetails, {
-  MessageDetailsField,
-} from 'components/Messages/BaseMessage/BaseMessageDetails';
-import { useTranslation } from 'react-i18next';
+import BaseMessageDetails from 'components/Messages/BaseMessage/BaseMessageDetails';
+import { Trans, useTranslation } from 'react-i18next';
 import { MsgGrantEncodeObject } from '@desmoslabs/desmjs';
-import { useGetGrantFields } from './hooks';
+import Typography from 'components/Typography';
+import CopiableAddress from 'components/CopiableAddress';
+import { useGrantFields } from './hooks';
 
 const MsgGrantDetails: MessageDetailsComponent<MsgGrantEncodeObject> = ({ message }) => {
   const { t } = useTranslation('messages.authz');
-  const { t: tFeeGrant } = useTranslation('messages.feegrant');
-  const getGrantFields = useGetGrantFields();
+  const grantFields = useGrantFields(message.value.grant);
 
-  const computedFields = React.useMemo(() => {
-    const fields: Array<MessageDetailsField> = [
-      {
-        label: tFeeGrant('granter'),
-        value: message.value.granter,
-      },
-      {
-        label: tFeeGrant('grantee'),
-        value: message.value.grantee,
-      },
-    ];
-    fields.push(...getGrantFields(message.value.grant));
-
-    return fields;
-  }, [
-    tFeeGrant,
-    message.value.granter,
-    message.value.grantee,
-    message.value.grant,
-    getGrantFields,
-  ]);
-
-  return <BaseMessageDetails message={message} fields={computedFields} />;
+  return (
+    <BaseMessageDetails message={message} fields={grantFields}>
+      <Typography.Regular14>
+        <Trans
+          t={t}
+          i18nKey="grant allowance description"
+          components={[
+            <CopiableAddress address={message.value.granter} />,
+            <CopiableAddress address={message.value.grantee} />,
+          ]}
+        />
+      </Typography.Regular14>
+    </BaseMessageDetails>
+  );
 };
 
 export default MsgGrantDetails;

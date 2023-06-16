@@ -10,5 +10,6 @@
   "max tokens": "Max tokens",
   "spend limit": "Spend limit",
   "message": "Message",
-  "subspaces": "Subspaces"
+  "subspaces": "Subspaces",
+  "grant allowance description": "<0/> allowed <1/> to execute on its behalf"
 }
