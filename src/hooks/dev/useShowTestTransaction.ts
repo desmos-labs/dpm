@@ -10,9 +10,10 @@ import {
   GenericAuthorizationTypeUrl,
   MsgEditPostTypeUrl,
   MsgGrantTypeUrl,
+  MsgRevokeTypeUrl,
   MsgSendTypeUrl,
 } from '@desmoslabs/desmjs';
-import { MsgExec, MsgGrant } from 'cosmjs-types/cosmos/authz/v1beta1/tx';
+import { MsgExec, MsgGrant, MsgRevoke } from 'cosmjs-types/cosmos/authz/v1beta1/tx';
 import { GenericAuthorization, Grant } from 'cosmjs-types/cosmos/authz/v1beta1/authz';
 import { MsgExecTypeUrl } from 'types/cosmos';
 import { MsgSend } from 'cosmjs-types/cosmos/bank/v1beta1/tx';
@@ -62,6 +63,14 @@ const useShowTestTransaction = () => {
               ).finish(),
             },
           ],
+        }),
+      },
+      {
+        typeUrl: MsgRevokeTypeUrl,
+        value: MsgRevoke.fromPartial({
+          granter: TEST_ADDRESS2,
+          grantee: TEST_ADDRESS1,
+          msgTypeUrl: MsgSendTypeUrl,
         }),
       },
     ];
