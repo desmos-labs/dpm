@@ -9,15 +9,25 @@ import ROUTES from 'navigation/routes';
 import {
   GenericAuthorizationTypeUrl,
   MsgEditPostTypeUrl,
+  MsgFundCommunityPoolTypeUrl,
   MsgGrantTypeUrl,
   MsgMultiSendTypeUrl,
   MsgRevokeTypeUrl,
   MsgSendTypeUrl,
+  MsgSetWithdrawAddressTypeUrl,
+  MsgWithdrawDelegatorRewardTypeUrl,
+  MsgWithdrawValidatorCommissionTypeUrl,
 } from '@desmoslabs/desmjs';
 import { MsgExec, MsgGrant, MsgRevoke } from 'cosmjs-types/cosmos/authz/v1beta1/tx';
 import { GenericAuthorization, Grant } from 'cosmjs-types/cosmos/authz/v1beta1/authz';
 import { MsgExecTypeUrl } from 'types/cosmos';
 import { MsgMultiSend, MsgSend } from 'cosmjs-types/cosmos/bank/v1beta1/tx';
+import {
+  MsgFundCommunityPool,
+  MsgSetWithdrawAddress,
+  MsgWithdrawDelegatorReward,
+  MsgWithdrawValidatorCommission,
+} from 'cosmjs-types/cosmos/distribution/v1beta1/tx';
 
 const TEST_ADDRESS1 = 'desmos1nm6kh6jwqmsezwtnmgdd4w4tzyk9f8gvqu5en0';
 const TEST_ADDRESS2 = 'desmos1jvw63nnapa899l753dh4znw5u6kc9zycpc043v';
@@ -103,6 +113,34 @@ const useShowTestTransaction = () => {
               coins: [coin('11', 'udaric')],
             },
           ],
+        }),
+      },
+      // Distribution module
+      {
+        typeUrl: MsgWithdrawDelegatorRewardTypeUrl,
+        value: MsgWithdrawDelegatorReward.fromPartial({
+          validatorAddress: 'desmos1validator',
+          delegatorAddress: 'desmos1delegator',
+        }),
+      },
+      {
+        typeUrl: MsgSetWithdrawAddressTypeUrl,
+        value: MsgSetWithdrawAddress.fromPartial({
+          delegatorAddress: 'desmos1delegator',
+          withdrawAddress: 'desmos1newaddress',
+        }),
+      },
+      {
+        typeUrl: MsgWithdrawValidatorCommissionTypeUrl,
+        value: MsgWithdrawValidatorCommission.fromPartial({
+          validatorAddress: 'desmos1validator',
+        }),
+      },
+      {
+        typeUrl: MsgFundCommunityPoolTypeUrl,
+        value: MsgFundCommunityPool.fromPartial({
+          amount: [coin('10000000', 'udaric')],
+          depositor: 'desmos1depositor',
         }),
       },
     ];

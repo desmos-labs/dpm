@@ -28,6 +28,7 @@ import {
   MsgEditSectionTypeUrl,
   MsgEditSubspaceTypeUrl,
   MsgEditUserGroupTypeUrl,
+  MsgFundCommunityPoolTypeUrl,
   MsgGrantAllowanceTypeUrl,
   MsgGrantTypeUrl,
   MsgLinkApplicationTypeUrl,
@@ -49,6 +50,7 @@ import {
   MsgSetReactionsParamsTypeUrl,
   MsgSetUserGroupPermissionsTypeUrl,
   MsgSetUserPermissionsTypeUrl,
+  MsgSetWithdrawAddressTypeUrl,
   MsgSupportStandardReasonTypeUrl,
   MsgUnblockUserTypeUrl,
   MsgUndelegateTypeUrl,
@@ -56,6 +58,7 @@ import {
   MsgUnlinkChainAccountTypeUrl,
   MsgVoteTypeUrl,
   MsgWithdrawDelegatorRewardTypeUrl,
+  MsgWithdrawValidatorCommissionTypeUrl,
 } from '@desmoslabs/desmjs';
 import { MsgExecTypeUrl } from 'types/cosmos';
 import MsgExecDetails from 'components/Messages/authz/MsgExecDetails';
@@ -117,6 +120,9 @@ import MsgRemoveRegisteredReactionComponentDetails from './reactions/MsgRemoveRe
 import MsgDeleteReportComponentDetails from './reports/MsgDeleteReportDetails';
 import MsgSupportStandardReasonComponentDetails from './reports/MsgSupportStandardReasonDetails';
 import MsgRemoveReasonComponentDetails from './reports/MsgRemoveReasonDetails';
+import MsgSetWithdrawAddressDetails from './distribution/MsgSetWithdrawAddressDetails';
+import MsgWithdrawValidatorCommissionDetails from './distribution/MsgWithdrawValidatorCommissionDetails';
+import MsgFundCommunityPoolDetails from './distribution/MsgFundCommunityPoolDetails';
 
 export const messageDetailsComponents: Record<string, MessageDetailsComponent<any>> = {
   // x/authz
@@ -130,6 +136,9 @@ export const messageDetailsComponents: Record<string, MessageDetailsComponent<an
 
   // x/distribution
   [MsgWithdrawDelegatorRewardTypeUrl]: MsgWithdrawDelegatorRewardsComponentDetails,
+  [MsgSetWithdrawAddressTypeUrl]: MsgSetWithdrawAddressDetails,
+  [MsgWithdrawValidatorCommissionTypeUrl]: MsgWithdrawValidatorCommissionDetails,
+  [MsgFundCommunityPoolTypeUrl]: MsgFundCommunityPoolDetails,
 
   // x/gov
   [MsgVoteTypeUrl]: MsgVoteComponentDetails,
