@@ -1,9 +1,12 @@
-import React, { useMemo } from 'react';
-import { useTranslation } from 'react-i18next';
-import { formatCoins, formatMultiSendInput } from 'lib/FormatUtils';
+import React from 'react';
+import { Trans, useTranslation } from 'react-i18next';
+import { formatCoins } from 'lib/FormatUtils';
 import { MsgMultiSendEncodeObject } from '@desmoslabs/desmjs';
 import BaseMessageDetails from 'components/Messages/BaseMessage/BaseMessageDetails';
 import { MessageDetailsComponent } from 'components/Messages/BaseMessage';
+import CopiableAddress from 'components/CopiableAddress';
+import Typography from 'components/Typography';
+import Spacer from 'components/Spacer';
 
 /**
  * Displays the full details of a MsgMultiSend
@@ -11,33 +14,35 @@ import { MessageDetailsComponent } from 'components/Messages/BaseMessage';
  */
 const MsgMultiSendDetails: MessageDetailsComponent<MsgMultiSendEncodeObject> = ({ message }) => {
   const { t } = useTranslation('messages.bank');
-  const { value } = message;
-  const amounts = useMemo(() => formatMultiSendInput(value.inputs), [value.inputs]);
 
-  const outputs = useMemo(() => {
-    const multiOutputs = value.outputs ?? [];
-    return multiOutputs
-      .map((output) => {
-        const serializedCoins = formatCoins(output.coins);
-        return {
-          amount: serializedCoins,
-          to: output.address,
-        };
-      })
-      .map((serializedOutput) => [
-        {
-          label: t('transaction:to'),
-          value: serializedOutput.to,
-        },
-        {
-          label: t('sendTokens:amount'),
-          value: serializedOutput.amount,
-        },
-      ])
-      .reduce((oldValue, sum) => [...oldValue, ...sum], []);
-  }, [value.outputs, t]);
+  const mergedInputOutput = React.useMemo(
+    () =>
+      message.value.outputs.map((output, index) => {
+        const sourceAddress = message.value.inputs[index]?.address ?? t('common:you');
+        const destAddress = output.address;
+        const amount = formatCoins(output.coins);
+        return (
+          <>
+            {index > 0 && <Spacer paddingVertical={4} />}
+            <Typography.Regular14 key={`send-entry-${index}`}>
+              <Trans
+                ns={'messages.bank'}
+                i18nKey={'send description'}
+                components={[
+                  <CopiableAddress address={sourceAddress} />,
+                  <Typography.SemiBold14 />,
+                  <CopiableAddress address={destAddress} />,
+                ]}
+                values={{ amount }}
+              />
+            </Typography.Regular14>
+          </>
+        );
+      }),
+    [],
+  );
 
-  return <BaseMessageDetails message={message} fields={[...outputs]} />;
+  return <BaseMessageDetails message={message} children={mergedInputOutput} />;
 };
 
 export default MsgMultiSendDetails;

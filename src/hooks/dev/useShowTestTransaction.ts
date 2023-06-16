@@ -10,13 +10,14 @@ import {
   GenericAuthorizationTypeUrl,
   MsgEditPostTypeUrl,
   MsgGrantTypeUrl,
+  MsgMultiSendTypeUrl,
   MsgRevokeTypeUrl,
   MsgSendTypeUrl,
 } from '@desmoslabs/desmjs';
 import { MsgExec, MsgGrant, MsgRevoke } from 'cosmjs-types/cosmos/authz/v1beta1/tx';
 import { GenericAuthorization, Grant } from 'cosmjs-types/cosmos/authz/v1beta1/authz';
 import { MsgExecTypeUrl } from 'types/cosmos';
-import { MsgSend } from 'cosmjs-types/cosmos/bank/v1beta1/tx';
+import { MsgMultiSend, MsgSend } from 'cosmjs-types/cosmos/bank/v1beta1/tx';
 
 const TEST_ADDRESS1 = 'desmos1nm6kh6jwqmsezwtnmgdd4w4tzyk9f8gvqu5en0';
 const TEST_ADDRESS2 = 'desmos1jvw63nnapa899l753dh4znw5u6kc9zycpc043v';
@@ -71,6 +72,37 @@ const useShowTestTransaction = () => {
           granter: TEST_ADDRESS2,
           grantee: TEST_ADDRESS1,
           msgTypeUrl: MsgSendTypeUrl,
+        }),
+      },
+
+      // Bank module
+      {
+        typeUrl: MsgSendTypeUrl,
+        value: MsgSend.fromPartial({
+          fromAddress: TEST_ADDRESS1,
+          toAddress: TEST_ADDRESS2,
+          amount: [coin('10000', 'udaric')],
+        }),
+      },
+      {
+        typeUrl: MsgMultiSendTypeUrl,
+        value: MsgMultiSend.fromPartial({
+          inputs: [
+            {
+              address: TEST_ADDRESS1,
+              coins: [coin('0', 'udaric')],
+            },
+          ],
+          outputs: [
+            {
+              address: TEST_ADDRESS2,
+              coins: [coin('10', 'udaric')],
+            },
+            {
+              address: TEST_ADDRESS2,
+              coins: [coin('11', 'udaric')],
+            },
+          ],
         }),
       },
     ];
