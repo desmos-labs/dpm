@@ -1,9 +1,11 @@
 import { makeStyle } from 'config/theme';
 
 const useStyles = makeStyle((theme) => ({
-  root: {
-    padding: theme.spacing.s,
-    alignItems: 'flex-start',
+  container: {
+    width: 150,
+  },
+  text: {
+    color: theme.colors.accent,
   },
 }));
 
