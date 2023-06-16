@@ -3,7 +3,7 @@ import React from 'react';
 import { useTranslation } from 'react-i18next';
 import BaseMessageDetails from 'components/Messages/BaseMessage/BaseMessageDetails';
 import { MessageDetailsComponent } from 'components/Messages/BaseMessage';
-import useGetReactionValueFields from 'components/Messages/reactions/MsgAddReaction/MsgAddReactionDetails/hooks';
+import useGetReactionValueFields from './hooks';
 
 /**
  * Displays the full details of a MsgAddReaction
@@ -12,7 +12,6 @@ import useGetReactionValueFields from 'components/Messages/reactions/MsgAddReact
 const MsgAddReactionDetails: MessageDetailsComponent<MsgAddReactionEncodeObject> = ({
   message,
 }) => {
-  const { t } = useTranslation('messages.reactions');
   const { t: tSubspaces } = useTranslation('messages.subspaces');
   const { t: tPosts } = useTranslation('messages.posts');
   const { t: tCommon } = useTranslation('messages.common');

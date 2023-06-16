@@ -5,7 +5,7 @@ import BaseMessageDetails, {
   MessageDetailsField,
 } from 'components/Messages/BaseMessage/BaseMessageDetails';
 import { MessageDetailsComponent } from 'components/Messages/BaseMessage';
-import useGetGenerateReportTargetFields from 'components/Messages/reports/MsgCreateReport/MsgCreateReportDetails/hooks';
+import useGetGenerateReportTargetFields from './hooks';
 
 /**
  * Displays the full details of a MsgCreateReport
