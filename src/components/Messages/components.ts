@@ -23,6 +23,7 @@ import {
   MsgDeleteSectionTypeUrl,
   MsgDeleteSubspaceTypeUrl,
   MsgDeleteUserGroupTypeUrl,
+  MsgDepositTypeUrl,
   MsgEditPostTypeUrl,
   MsgEditRegisteredReactionTypeUrl,
   MsgEditSectionTypeUrl,
@@ -51,6 +52,7 @@ import {
   MsgSetUserGroupPermissionsTypeUrl,
   MsgSetUserPermissionsTypeUrl,
   MsgSetWithdrawAddressTypeUrl,
+  MsgSubmitProposalTypeUrl,
   MsgSupportStandardReasonTypeUrl,
   MsgUnblockUserTypeUrl,
   MsgUndelegateTypeUrl,
@@ -62,6 +64,8 @@ import {
 } from '@desmoslabs/desmjs';
 import { MsgExecTypeUrl } from 'types/cosmos';
 import MsgExecDetails from 'components/Messages/authz/MsgExecDetails';
+import MsgSubmitProposalDetails from 'components/Messages/gov/MsgSubmitProposalDetails';
+import MsgDepositDetails from 'components/Messages/gov/MsgDepositDetails';
 import MsgSendComponentDetails from './bank/MsgSendDetails';
 import MsgMultiSendComponentDetails from './bank/MsgMultiSendDetails';
 import MsgVoteComponentDetails from './gov/MsgVoteDetails';
@@ -141,6 +145,8 @@ export const messageDetailsComponents: Record<string, MessageDetailsComponent<an
   [MsgFundCommunityPoolTypeUrl]: MsgFundCommunityPoolDetails,
 
   // x/gov
+  [MsgSubmitProposalTypeUrl]: MsgSubmitProposalDetails,
+  [MsgDepositTypeUrl]: MsgDepositDetails,
   [MsgVoteTypeUrl]: MsgVoteComponentDetails,
 
   // x/staking

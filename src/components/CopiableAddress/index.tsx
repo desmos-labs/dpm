@@ -9,7 +9,7 @@ export interface Props {
   /**
    * The address to display.
    */
-  readonly address: string;
+  readonly address?: string;
 }
 
 /**
@@ -22,8 +22,10 @@ const CopiableAddress: React.FC<Props> = ({ address }) => {
   const styles = useStyles();
 
   const onPress = React.useCallback(() => {
-    Clipboard.setString(address);
-    showSnackBar(t('value copied'));
+    if (address !== undefined) {
+      Clipboard.setString(address);
+      showSnackBar(t('value copied'));
+    }
   }, [t, address, showSnackBar]);
 
   return (

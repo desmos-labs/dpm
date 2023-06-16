@@ -5,5 +5,8 @@
   "yes": "Yes",
   "no": "No",
   "abstain": "Abstain",
-  "no with veto": "No with veto"
+  "no with veto": "No with veto",
+  "submit proposal description": "<0/> submit a proposal with initial deposit <1>{{ initialDeposit }}</1>",
+  "deposit description": "<0/> deposit <1>{{ depositAmount }}</1> on proposal <2>{{ proposalId }}</2>",
+  "vote description": "<0/> vote <1>{{ vote }}</1> on proposal <2>{{ proposalId }}</2>"
 }

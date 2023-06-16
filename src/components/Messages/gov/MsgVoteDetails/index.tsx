@@ -1,9 +1,11 @@
 import { MsgVoteEncodeObject } from '@cosmjs/stargate';
 import React, { useMemo } from 'react';
-import { useTranslation } from 'react-i18next';
+import { Trans, useTranslation } from 'react-i18next';
 import { VoteOption } from 'cosmjs-types/cosmos/gov/v1beta1/gov';
 import BaseMessageDetails from 'components/Messages/BaseMessage/BaseMessageDetails';
 import { MessageDetailsComponent } from 'components/Messages/BaseMessage';
+import CopiableAddress from 'components/CopiableAddress';
+import Typography from 'components/Typography';
 
 /**
  * Displays the full details of a MsgVote
@@ -13,7 +15,7 @@ const MsgVoteDetails: MessageDetailsComponent<MsgVoteEncodeObject> = ({ message 
   const { t } = useTranslation('messages.gov');
   const { value } = message;
 
-  const voteValue = useMemo(() => {
+  const vote = useMemo(() => {
     switch (value.option) {
       case VoteOption.VOTE_OPTION_YES:
         return t('yes');
@@ -33,20 +35,22 @@ const MsgVoteDetails: MessageDetailsComponent<MsgVoteEncodeObject> = ({ message 
   }, [value, t]);
 
   const proposalId = useMemo(() => value.proposalId?.toString() ?? '??', [value]);
+
   return (
-    <BaseMessageDetails
-      message={message}
-      fields={[
-        {
-          label: t('proposal number'),
-          value: proposalId,
-        },
-        {
-          label: t('vote'),
-          value: voteValue,
-        },
-      ]}
-    />
+    <BaseMessageDetails message={message}>
+      <Typography.Regular14>
+        <Trans
+          ns="messages.gov"
+          i18nKey="vote description"
+          components={[
+            <CopiableAddress address={message.value.voter} />,
+            <Typography.SemiBold14 />,
+            <Typography.SemiBold14 />,
+          ]}
+          values={{ vote, proposalId }}
+        />
+      </Typography.Regular14>
+    </BaseMessageDetails>
   );
 };
 

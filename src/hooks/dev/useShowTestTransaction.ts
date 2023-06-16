@@ -10,6 +10,7 @@ import {
   AllowedMsgAllowanceTypeUrl,
   BasicAllowanceTypeUrl,
   GenericAuthorizationTypeUrl,
+  MsgDepositTypeUrl,
   MsgEditPostTypeUrl,
   MsgFundCommunityPoolTypeUrl,
   MsgGrantAllowanceTypeUrl,
@@ -19,6 +20,8 @@ import {
   MsgRevokeTypeUrl,
   MsgSendTypeUrl,
   MsgSetWithdrawAddressTypeUrl,
+  MsgSubmitProposalTypeUrl,
+  MsgVoteTypeUrl,
   MsgWithdrawDelegatorRewardTypeUrl,
   MsgWithdrawValidatorCommissionTypeUrl,
   PeriodicAllowanceTypeUrl,
@@ -39,6 +42,8 @@ import {
   BasicAllowance,
   PeriodicAllowance,
 } from 'cosmjs-types/cosmos/feegrant/v1beta1/feegrant';
+import { MsgDeposit, MsgSubmitProposal, MsgVote } from 'cosmjs-types/cosmos/gov/v1beta1/tx';
+import { VoteOption } from 'cosmjs-types/cosmos/gov/v1beta1/gov';
 
 const TEST_ADDRESS1 = 'desmos1nm6kh6jwqmsezwtnmgdd4w4tzyk9f8gvqu5en0';
 const TEST_ADDRESS2 = 'desmos1jvw63nnapa899l753dh4znw5u6kc9zycpc043v';
@@ -233,6 +238,55 @@ const useShowTestTransaction = () => {
         value: MsgRevokeAllowance.fromPartial({
           granter: 'desmos1granter',
           grantee: 'desmos1grantee',
+        }),
+      },
+
+      // Gov module
+      {
+        typeUrl: MsgSubmitProposalTypeUrl,
+        value: MsgSubmitProposal.fromPartial({
+          proposer: 'desmos1proposer',
+          initialDeposit: [coin(10000, 'udaric')],
+        }),
+      },
+      {
+        typeUrl: MsgDepositTypeUrl,
+        value: MsgDeposit.fromPartial({
+          depositor: 'desmos1depositor',
+          amount: [coin(10000, 'udaric')],
+          proposalId: 42,
+        }),
+      },
+      {
+        typeUrl: MsgVoteTypeUrl,
+        value: MsgVote.fromPartial({
+          voter: 'desmos1voter',
+          option: VoteOption.VOTE_OPTION_ABSTAIN,
+          proposalId: 42,
+        }),
+      },
+      {
+        typeUrl: MsgVoteTypeUrl,
+        value: MsgVote.fromPartial({
+          voter: 'desmos1voter',
+          option: VoteOption.VOTE_OPTION_YES,
+          proposalId: 42,
+        }),
+      },
+      {
+        typeUrl: MsgVoteTypeUrl,
+        value: MsgVote.fromPartial({
+          voter: 'desmos1voter',
+          option: VoteOption.VOTE_OPTION_NO,
+          proposalId: 42,
+        }),
+      },
+      {
+        typeUrl: MsgVoteTypeUrl,
+        value: MsgVote.fromPartial({
+          voter: 'desmos1voter',
+          option: VoteOption.VOTE_OPTION_NO_WITH_VETO,
+          proposalId: 42,
         }),
       },
     ];
