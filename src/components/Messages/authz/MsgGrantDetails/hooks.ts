@@ -99,76 +99,74 @@ function useGetGenericSubspaceAuthorizationFields() {
   );
 }
 
-export function useGetGrantFields() {
+export function useGrantFields(grant: Grant | undefined) {
   const { t } = useTranslation('messages.authz');
   const stakeAuthorizationFields = useGetStakeAuthorizationFields();
   const sendAuthorizationFields = useGetSendAuthorizationFields();
   const genericAuthorizationFields = useGetGenericAuthorizationFields();
   const genericSubspaceAuthorizationFields = useGetGenericSubspaceAuthorizationFields();
 
-  return React.useCallback(
-    (grant: Grant | undefined) => {
-      if (grant === undefined) {
-        return [];
-      }
-      const fields: Array<MessageDetailsField> = [];
+  return React.useMemo(() => {
+    if (grant === undefined) {
+      return [];
+    }
+    const fields: Array<MessageDetailsField> = [];
 
+    fields.push({
+      label: t('authorization'),
+      value: grant.authorization?.typeUrl,
+    });
+
+    if (grant.authorization?.typeUrl !== undefined && grant.authorization?.value !== undefined) {
+      switch (grant.authorization?.typeUrl) {
+        case StakeAuthorizationTypeUrl:
+          fields.push(
+            ...stakeAuthorizationFields(StakeAuthorization.decode(grant.authorization.value)),
+          );
+          break;
+
+        case SendAuthorizationTypeUrl:
+          fields.push(
+            ...sendAuthorizationFields(SendAuthorization.decode(grant.authorization.value)),
+          );
+          break;
+
+        case GenericAuthorizationTypeUrl:
+          fields.push(
+            ...genericAuthorizationFields(GenericAuthorization.decode(grant.authorization.value)),
+          );
+          break;
+
+        case GenericSubspaceAuthorizationTypeUrl:
+          fields.push(
+            ...genericSubspaceAuthorizationFields(
+              GenericSubspaceAuthorization.decode(grant.authorization.value),
+            ),
+          );
+          break;
+
+        default:
+          // Keep this to have a warning in development.
+          // eslint-disable-next-line no-console
+          console.warn("can't generate fields for grant", grant.authorization.typeUrl);
+          break;
+      }
+    }
+
+    if (grant.expiration !== undefined) {
       fields.push({
-        label: t('authorization'),
-        value: grant.authorization?.typeUrl,
+        label: t('expiration'),
+        value: format(timestampToDate(grant.expiration), 'dd MMM yyyy, HH:mm:ss'),
       });
+    }
 
-      if (grant.authorization?.typeUrl !== undefined && grant.authorization?.value !== undefined) {
-        switch (grant.authorization?.typeUrl) {
-          case StakeAuthorizationTypeUrl:
-            fields.push(
-              ...stakeAuthorizationFields(StakeAuthorization.decode(grant.authorization.value)),
-            );
-            break;
-
-          case SendAuthorizationTypeUrl:
-            fields.push(
-              ...sendAuthorizationFields(SendAuthorization.decode(grant.authorization.value)),
-            );
-            break;
-
-          case GenericAuthorizationTypeUrl:
-            fields.push(
-              ...genericAuthorizationFields(GenericAuthorization.decode(grant.authorization.value)),
-            );
-            break;
-
-          case GenericSubspaceAuthorizationTypeUrl:
-            fields.push(
-              ...genericSubspaceAuthorizationFields(
-                GenericSubspaceAuthorization.decode(grant.authorization.value),
-              ),
-            );
-            break;
-
-          default:
-            // Keep this to have a warning in development.
-            // eslint-disable-next-line no-console
-            console.warn("can't generate fields for grant", grant.authorization.typeUrl);
-            break;
-        }
-      }
-
-      if (grant.expiration !== undefined) {
-        fields.push({
-          label: t('expiration'),
-          value: format(timestampToDate(grant.expiration), 'dd MMM yyyy, HH:mm:ss'),
-        });
-      }
-
-      return fields;
-    },
-    [
-      genericAuthorizationFields,
-      genericSubspaceAuthorizationFields,
-      sendAuthorizationFields,
-      stakeAuthorizationFields,
-      t,
-    ],
-  );
+    return fields;
+  }, [
+    grant,
+    genericAuthorizationFields,
+    genericSubspaceAuthorizationFields,
+    sendAuthorizationFields,
+    stakeAuthorizationFields,
+    t,
+  ]);
 }
