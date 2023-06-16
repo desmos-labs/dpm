@@ -62,10 +62,11 @@ import {
   MsgWithdrawDelegatorRewardTypeUrl,
   MsgWithdrawValidatorCommissionTypeUrl,
 } from '@desmoslabs/desmjs';
-import { MsgExecTypeUrl } from 'types/cosmos';
+import { MsgExecTypeUrl, MsgTransferTypeUrl } from 'types/cosmos';
 import MsgExecDetails from 'components/Messages/authz/MsgExecDetails';
 import MsgSubmitProposalDetails from 'components/Messages/gov/MsgSubmitProposalDetails';
 import MsgDepositDetails from 'components/Messages/gov/MsgDepositDetails';
+import MsgTransferDetails from 'components/Messages/ibc/MsgTransferDetails';
 import MsgSendComponentDetails from './bank/MsgSendDetails';
 import MsgMultiSendComponentDetails from './bank/MsgMultiSendDetails';
 import MsgVoteComponentDetails from './gov/MsgVoteDetails';
@@ -148,6 +149,9 @@ export const messageDetailsComponents: Record<string, MessageDetailsComponent<an
   [MsgSubmitProposalTypeUrl]: MsgSubmitProposalDetails,
   [MsgDepositTypeUrl]: MsgDepositDetails,
   [MsgVoteTypeUrl]: MsgVoteComponentDetails,
+
+  // x/ibc
+  [MsgTransferTypeUrl]: MsgTransferDetails,
 
   // x/staking
   [MsgDelegateTypeUrl]: MsgDelegateComponentDetails,

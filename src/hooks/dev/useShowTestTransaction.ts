@@ -28,7 +28,7 @@ import {
 } from '@desmoslabs/desmjs';
 import { MsgExec, MsgGrant, MsgRevoke } from 'cosmjs-types/cosmos/authz/v1beta1/tx';
 import { GenericAuthorization, Grant } from 'cosmjs-types/cosmos/authz/v1beta1/authz';
-import { MsgExecTypeUrl } from 'types/cosmos';
+import { MsgExecTypeUrl, MsgTransferTypeUrl } from 'types/cosmos';
 import { MsgMultiSend, MsgSend } from 'cosmjs-types/cosmos/bank/v1beta1/tx';
 import {
   MsgFundCommunityPool,
@@ -44,6 +44,7 @@ import {
 } from 'cosmjs-types/cosmos/feegrant/v1beta1/feegrant';
 import { MsgDeposit, MsgSubmitProposal, MsgVote } from 'cosmjs-types/cosmos/gov/v1beta1/tx';
 import { VoteOption } from 'cosmjs-types/cosmos/gov/v1beta1/gov';
+import { MsgTransfer } from 'cosmjs-types/ibc/applications/transfer/v1/tx';
 
 const TEST_ADDRESS1 = 'desmos1nm6kh6jwqmsezwtnmgdd4w4tzyk9f8gvqu5en0';
 const TEST_ADDRESS2 = 'desmos1jvw63nnapa899l753dh4znw5u6kc9zycpc043v';
@@ -287,6 +288,24 @@ const useShowTestTransaction = () => {
           voter: 'desmos1voter',
           option: VoteOption.VOTE_OPTION_NO_WITH_VETO,
           proposalId: 42,
+        }),
+      },
+
+      // IBC
+      {
+        typeUrl: MsgTransferTypeUrl,
+        value: MsgTransfer.fromPartial({
+          sender: 'desmos1sender',
+          receiver: 'desmos1receiver',
+          memo: 'ibc memo',
+          sourcePort: 'source port',
+          sourceChannel: 'source channel',
+          token: coin('1000000000', 'udaric'),
+          timeoutHeight: {
+            revisionNumber: 2,
+            revisionHeight: 3000,
+          },
+          timeoutTimestamp: new Date().getTime(),
         }),
       },
     ];
