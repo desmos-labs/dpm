@@ -4,6 +4,8 @@ import Typography from 'components/Typography';
 import { EncodeObject } from '@cosmjs/proto-signing';
 import useMessageName from 'hooks/messages/useMessageName';
 import useMessageIcon from 'hooks/messages/useMessageIcon';
+import Divider from 'components/Divider';
+import LabeledValue from 'components/LabeledValue';
 import useStyles from './useStyles';
 
 export interface MessageDetailsField {
@@ -19,11 +21,13 @@ export type BaseMessageDetailsProps = {
 
 const BaseMessageDetails: React.FC<React.PropsWithChildren<BaseMessageDetailsProps>> = ({
   message,
+  fields,
   children,
 }) => {
   const styles = useStyles();
   const name = useMessageName(message);
   const icon = useMessageIcon(message);
+  const toShowFields = React.useMemo(() => fields?.filter((f) => f.hide !== true) ?? [], [fields]);
 
   return (
     <View style={styles.root}>
@@ -32,6 +36,14 @@ const BaseMessageDetails: React.FC<React.PropsWithChildren<BaseMessageDetailsPro
         <Typography.Regular14 style={styles.headerLabel}>{name}</Typography.Regular14>
       </View>
       <View style={styles.messageValue}>{children}</View>
+      <View>
+        {toShowFields.map((field, index) => (
+          <View key={`field-${index}`}>
+            <Divider />
+            <LabeledValue style={styles.messageField} label={field.label} value={field.value} />
+          </View>
+        ))}
+      </View>
     </View>
   );
 };

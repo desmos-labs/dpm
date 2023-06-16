@@ -26,6 +26,9 @@ const useStyles = makeStyle((theme) => ({
   messageValue: {
     padding: theme.spacing.m,
   },
+  messageField: {
+    padding: theme.spacing.m,
+  },
 }));
 
 export default useStyles;
