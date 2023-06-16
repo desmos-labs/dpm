@@ -57,6 +57,8 @@ import {
   MsgVoteTypeUrl,
   MsgWithdrawDelegatorRewardTypeUrl,
 } from '@desmoslabs/desmjs';
+import { MsgExecTypeUrl } from 'types/cosmos';
+import MsgExecDetails from 'components/Messages/authz/MsgExecDetails';
 import MsgSendComponentDetails from './bank/MsgSendDetails';
 import MsgMultiSendComponentDetails from './bank/MsgMultiSendDetails';
 import MsgVoteComponentDetails from './gov/MsgVoteDetails';
@@ -117,6 +119,11 @@ import MsgSupportStandardReasonComponentDetails from './reports/MsgSupportStanda
 import MsgRemoveReasonComponentDetails from './reports/MsgRemoveReasonDetails';
 
 export const messageDetailsComponents: Record<string, MessageDetailsComponent<any>> = {
+  // x/authz
+  [MsgGrantTypeUrl]: MsgGrantComponentDetails,
+  [MsgExecTypeUrl]: MsgExecDetails,
+  [MsgRevokeTypeUrl]: MsgRevokeComponentDetails,
+
   // x/bank
   [MsgSendTypeUrl]: MsgSendComponentDetails,
   [MsgMultiSendTypeUrl]: MsgMultiSendComponentDetails,
@@ -135,10 +142,6 @@ export const messageDetailsComponents: Record<string, MessageDetailsComponent<an
   // x/feegrant
   [MsgGrantAllowanceTypeUrl]: MsgGrantAllowanceComponentDetails,
   [MsgRevokeAllowanceTypeUrl]: MsgRevokeAllowanceComponentDetails,
-
-  // x/authz
-  [MsgGrantTypeUrl]: MsgGrantComponentDetails,
-  [MsgRevokeTypeUrl]: MsgRevokeComponentDetails,
 
   // x/profiles
   [MsgSaveProfileTypeUrl]: MsgSaveProfileComponentDetails,

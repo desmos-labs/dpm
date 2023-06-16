@@ -10,9 +10,12 @@ import {
   GenericAuthorizationTypeUrl,
   MsgEditPostTypeUrl,
   MsgGrantTypeUrl,
+  MsgSendTypeUrl,
 } from '@desmoslabs/desmjs';
-import { MsgGrant } from 'cosmjs-types/cosmos/authz/v1beta1/tx';
+import { MsgExec, MsgGrant } from 'cosmjs-types/cosmos/authz/v1beta1/tx';
 import { GenericAuthorization, Grant } from 'cosmjs-types/cosmos/authz/v1beta1/authz';
+import { MsgExecTypeUrl } from 'types/cosmos';
+import { MsgSend } from 'cosmjs-types/cosmos/bank/v1beta1/tx';
 
 const TEST_ADDRESS1 = 'desmos1nm6kh6jwqmsezwtnmgdd4w4tzyk9f8gvqu5en0';
 const TEST_ADDRESS2 = 'desmos1jvw63nnapa899l753dh4znw5u6kc9zycpc043v';
@@ -41,6 +44,24 @@ const useShowTestTransaction = () => {
               ).finish(),
             },
           }),
+        }),
+      },
+      {
+        typeUrl: MsgExecTypeUrl,
+        value: MsgExec.fromPartial({
+          grantee: 'desmos1grantee',
+          msgs: [
+            {
+              typeUrl: MsgSendTypeUrl,
+              value: MsgSend.encode(
+                MsgSend.fromPartial({
+                  fromAddress: TEST_ADDRESS1,
+                  toAddress: TEST_ADDRESS2,
+                  amount: [coin('0', 'udaric')],
+                }),
+              ).finish(),
+            },
+          ],
         }),
       },
     ];

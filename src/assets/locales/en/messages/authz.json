@@ -11,5 +11,7 @@
   "spend limit": "Spend limit",
   "message": "Message",
   "subspaces": "Subspaces",
-  "grant allowance description": "<0/> allowed <1/> to execute on its behalf"
+  "grant allowance description": "<0/> allowed <1/> to execute on its behalf",
+  "exec description": "Executed on behalf of <0/>",
+  "executed message": "Executed message"
 }
