@@ -1,10 +1,12 @@
 import { MsgSupportStandardReasonEncodeObject } from '@desmoslabs/desmjs';
 import React from 'react';
-import { useTranslation } from 'react-i18next';
+import { Trans, useTranslation } from 'react-i18next';
 import BaseMessageDetails, {
   MessageDetailsField,
 } from 'components/Messages/BaseMessage/BaseMessageDetails';
 import { MessageDetailsComponent } from 'components/Messages/BaseMessage';
+import Typography from 'components/Typography';
+import CopiableAddress from 'components/CopiableAddress';
 
 /**
  * Displays the full details of a MsgSupportStandardReason
@@ -35,7 +37,25 @@ const MsgSupportStandardReasonDetails: MessageDetailsComponent<
     [tSubspaces, t, message, tCommon],
   );
 
-  return <BaseMessageDetails message={message} fields={fields} />;
+  return (
+    <BaseMessageDetails message={message}>
+      <Typography.Regular14>
+        <Trans
+          ns="messages.reports"
+          i18nKey="support standard reason description"
+          components={[
+            <CopiableAddress address={message.value.signer} />,
+            <Typography.SemiBold14 />,
+            <Typography.SemiBold14 />,
+          ]}
+          values={{
+            subspaceId: message.value.subspaceId,
+            reasonId: message.value.standardReasonId,
+          }}
+        />
+      </Typography.Regular14>
+    </BaseMessageDetails>
+  );
 };
 
 export default MsgSupportStandardReasonDetails;

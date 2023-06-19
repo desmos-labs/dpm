@@ -1,10 +1,12 @@
 import { MsgAddReasonEncodeObject } from '@desmoslabs/desmjs';
 import React from 'react';
-import { useTranslation } from 'react-i18next';
+import { Trans, useTranslation } from 'react-i18next';
 import BaseMessageDetails, {
   MessageDetailsField,
 } from 'components/Messages/BaseMessage/BaseMessageDetails';
 import { MessageDetailsComponent } from 'components/Messages/BaseMessage';
+import Typography from 'components/Typography';
+import CopiableAddress from 'components/CopiableAddress';
 
 /**
  * Displays the full details of a MsgAddReason
@@ -12,15 +14,9 @@ import { MessageDetailsComponent } from 'components/Messages/BaseMessage';
  */
 const MsgAddReasonDetails: MessageDetailsComponent<MsgAddReasonEncodeObject> = ({ message }) => {
   const { t } = useTranslation('messages.reports');
-  const { t: tSubspaces } = useTranslation('messages.subspaces');
-  const { t: tCommon } = useTranslation('messages.common');
 
   const fields = React.useMemo<MessageDetailsField[]>(
     () => [
-      {
-        label: tSubspaces('subspace id'),
-        value: message.value.subspaceId.toString(),
-      },
       {
         label: t('title'),
         value: message.value.title,
@@ -31,15 +27,27 @@ const MsgAddReasonDetails: MessageDetailsComponent<MsgAddReasonEncodeObject> = (
         value: message.value.description,
         hide: message.value.description.length === 0,
       },
-      {
-        label: tCommon('signer'),
-        value: message.value.signer,
-      },
     ],
-    [tSubspaces, t, message, tCommon],
+    [t, message],
   );
 
-  return <BaseMessageDetails message={message} fields={fields} />;
+  return (
+    <BaseMessageDetails message={message} fields={fields}>
+      <Typography.Regular14>
+        <Trans
+          ns="messages.reports"
+          i18nKey="add reason description"
+          components={[
+            <CopiableAddress address={message.value.signer} />,
+            <Typography.SemiBold14 />,
+          ]}
+          values={{
+            subspaceId: message.value.subspaceId,
+          }}
+        />
+      </Typography.Regular14>
+    </BaseMessageDetails>
+  );
 };
 
 export default MsgAddReasonDetails;

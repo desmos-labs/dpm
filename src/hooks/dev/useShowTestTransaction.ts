@@ -21,9 +21,11 @@ import {
   MsgCancelDTagTransferRequestTypeUrl,
   MsgCreatePostTypeUrl,
   MsgCreateRelationshipTypeUrl,
+  MsgCreateReportTypeUrl,
   MsgDeletePostTypeUrl,
   MsgDeleteProfileTypeUrl,
   MsgDeleteRelationshipTypeUrl,
+  MsgDeleteReportTypeUrl,
   MsgDepositTypeUrl,
   MsgEditPostTypeUrl,
   MsgFundCommunityPoolTypeUrl,
@@ -50,8 +52,10 @@ import {
   MsgWithdrawValidatorCommissionTypeUrl,
   PeriodicAllowanceTypeUrl,
   PollTypeUrl,
+  PostTargetTypeUrl,
   RegisteredReactionValueTypeUrl,
   timestampFromDate,
+  UserTargetTypeUrl,
 } from '@desmoslabs/desmjs';
 import { MsgExec, MsgGrant, MsgRevoke } from 'cosmjs-types/cosmos/authz/v1beta1/tx';
 import { GenericAuthorization, Grant } from 'cosmjs-types/cosmos/authz/v1beta1/authz';
@@ -126,6 +130,20 @@ import {
   MsgBlockUserTypeUrl,
   MsgUnblockUserTypeUrl,
 } from '@desmoslabs/desmjs/build/const/relationships';
+import {
+  MsgAddReason,
+  MsgCreateReport,
+  MsgDeleteReport,
+  MsgRemoveReason,
+  MsgSupportStandardReason,
+} from '@desmoslabs/desmjs-types/desmos/reports/v1/msgs';
+import { PostTarget, UserTarget } from '@desmoslabs/desmjs-types/desmos/reports/v1/models';
+import {
+  MsgAddReasonTypeUrl,
+  MsgRemoveReasonTypeUrl,
+  MsgSupportStandardReasonTypeUrl,
+} from '@desmoslabs/desmjs/build/const/reports';
+import Long from 'long';
 
 const TEST_ADDRESS1 = 'desmos1nm6kh6jwqmsezwtnmgdd4w4tzyk9f8gvqu5en0';
 const TEST_ADDRESS2 = 'desmos1jvw63nnapa899l753dh4znw5u6kc9zycpc043v';
@@ -706,6 +724,75 @@ const useShowTestTransaction = () => {
           subspaceId: 1,
           blocker: 'desmos1blocker',
           blocked: 'desmos1blocked',
+        }),
+      },
+
+      // Reports
+      {
+        typeUrl: MsgCreateReportTypeUrl,
+        value: MsgCreateReport.fromPartial({
+          subspaceId: 1,
+          message: 'test user report',
+          target: {
+            typeUrl: UserTargetTypeUrl,
+            value: UserTarget.encode(
+              UserTarget.fromPartial({
+                user: 'desmos1user',
+              }),
+            ).finish(),
+          },
+          reporter: 'desmos1reporter',
+          reasonsIds: [0, 1, 2],
+        }),
+      },
+      {
+        typeUrl: MsgCreateReportTypeUrl,
+        value: MsgCreateReport.fromPartial({
+          subspaceId: 1,
+          message: 'test post report',
+          target: {
+            typeUrl: PostTargetTypeUrl,
+            value: PostTarget.encode(
+              PostTarget.fromPartial({
+                postId: 2,
+              }),
+            ).finish(),
+          },
+          reporter: 'desmos1reporter',
+          reasonsIds: [0, 1, 2],
+        }),
+      },
+      {
+        typeUrl: MsgDeleteReportTypeUrl,
+        value: MsgDeleteReport.fromPartial({
+          subspaceId: 1,
+          reportId: 2,
+          signer: 'desmos1signer',
+        }),
+      },
+      {
+        typeUrl: MsgSupportStandardReasonTypeUrl,
+        value: MsgSupportStandardReason.fromPartial({
+          subspaceId: 1,
+          standardReasonId: 2,
+          signer: 'desmos1signer',
+        }),
+      },
+      {
+        typeUrl: MsgAddReasonTypeUrl,
+        value: MsgAddReason.fromPartial({
+          subspaceId: Long.fromNumber(1),
+          title: 'reason title',
+          description: 'reason description',
+          signer: 'desmos1signer',
+        }),
+      },
+      {
+        typeUrl: MsgRemoveReasonTypeUrl,
+        value: MsgRemoveReason.fromPartial({
+          subspaceId: Long.fromNumber(1),
+          reasonId: 2,
+          signer: 'desmos1signer',
         }),
       },
     ];
