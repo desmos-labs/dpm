@@ -20,8 +20,10 @@ import {
   MsgAnswerPollTypeUrl,
   MsgCancelDTagTransferRequestTypeUrl,
   MsgCreatePostTypeUrl,
+  MsgCreateRelationshipTypeUrl,
   MsgDeletePostTypeUrl,
   MsgDeleteProfileTypeUrl,
+  MsgDeleteRelationshipTypeUrl,
   MsgDepositTypeUrl,
   MsgEditPostTypeUrl,
   MsgFundCommunityPoolTypeUrl,
@@ -114,6 +116,16 @@ import {
   MsgEditRegisteredReactionTypeUrl,
   MsgRemoveRegisteredReactionTypeUrl,
 } from '@desmoslabs/desmjs/build/const/reactions';
+import {
+  MsgBlockUser,
+  MsgCreateRelationship,
+  MsgDeleteRelationship,
+  MsgUnblockUser,
+} from '@desmoslabs/desmjs-types/desmos/relationships/v1/msgs';
+import {
+  MsgBlockUserTypeUrl,
+  MsgUnblockUserTypeUrl,
+} from '@desmoslabs/desmjs/build/const/relationships';
 
 const TEST_ADDRESS1 = 'desmos1nm6kh6jwqmsezwtnmgdd4w4tzyk9f8gvqu5en0';
 const TEST_ADDRESS2 = 'desmos1jvw63nnapa899l753dh4znw5u6kc9zycpc043v';
@@ -659,6 +671,41 @@ const useShowTestTransaction = () => {
           registeredReaction: {
             enabled: true,
           },
+        }),
+      },
+
+      // Relationships
+      {
+        typeUrl: MsgCreateRelationshipTypeUrl,
+        value: MsgCreateRelationship.fromPartial({
+          subspaceId: 1,
+          signer: 'desmos1signer',
+          counterparty: 'desmos1counterparty',
+        }),
+      },
+      {
+        typeUrl: MsgDeleteRelationshipTypeUrl,
+        value: MsgDeleteRelationship.fromPartial({
+          subspaceId: 1,
+          signer: 'desmos1signer',
+          counterparty: 'desmos1counterparty',
+        }),
+      },
+      {
+        typeUrl: MsgBlockUserTypeUrl,
+        value: MsgBlockUser.fromPartial({
+          subspaceId: 1,
+          blocker: 'desmos1blocker',
+          blocked: 'desmos1blocked',
+          reason: 'block reason',
+        }),
+      },
+      {
+        typeUrl: MsgUnblockUserTypeUrl,
+        value: MsgUnblockUser.fromPartial({
+          subspaceId: 1,
+          blocker: 'desmos1blocker',
+          blocked: 'desmos1blocked',
         }),
       },
     ];

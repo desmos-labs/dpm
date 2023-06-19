@@ -92,7 +92,7 @@ const TransactionDetails: React.FC<TransactionDetailsProps> = (props) => {
         }
         data={messages}
         renderItem={renderMessages}
-        estimatedItemSize={202}
+        estimatedItemSize={220}
       />
     </View>
   );
