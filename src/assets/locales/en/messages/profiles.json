@@ -26,5 +26,15 @@
   "source port": "Source port",
   "timeout height": "Timeout height",
   "timeout timestamp": "Timeout timestamp",
-  "signer": "Signer"
+  "signer": "Signer",
+  "save profile description": "<0/> save their profile",
+  "delete profile description": "<0/> delete their profile",
+  "request dtag transfer description": "<0/> request the DTag of <1/>",
+  "accept dtag transfer description": "<0/> transfers their DTag to <1/>",
+  "refuse dtag transfer description": "<0/> refuse to transfers their DTag to <1/>",
+  "cancel dtag transfer description": "<0/> cancel the DTag transfer request sent to <1/>",
+  "link application description": "<0/> link their <1>{{ application }}</1> account having username <2>{{ username }}</2> to their profile",
+  "unlink application description": "<0/> unlink their <1>{{ application }}</1> account from their profile",
+  "link chain account description": "<0/> link their <1>{{ chain }}</1> account <2/> to their profile",
+  "unlink chain account description": "<0/> unlink their <1>{{ chain }}</1> account <2/> from their profile"
 }

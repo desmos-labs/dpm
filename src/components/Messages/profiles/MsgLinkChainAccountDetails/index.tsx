@@ -1,12 +1,20 @@
-import React, { useCallback, useMemo } from 'react';
-import { MsgLinkChainAccountEncodeObject } from '@desmoslabs/desmjs';
-import { useTranslation } from 'react-i18next';
-import SupportedChains from 'config/LinkableChains';
-import { Bech32Address } from '@desmoslabs/desmjs-types/desmos/profiles/v3/models_chain_links';
+import React, { useMemo } from 'react';
+import {
+  Base58AddressTypeUrl,
+  Bech32AddressTypeUrl,
+  HexAddressTypeUrl,
+  MsgLinkChainAccountEncodeObject,
+} from '@desmoslabs/desmjs';
+import { Trans } from 'react-i18next';
+import {
+  Base58Address,
+  Bech32Address,
+  HexAddress,
+} from '@desmoslabs/desmjs-types/desmos/profiles/v3/models_chain_links';
 import BaseMessageDetails from 'components/Messages/BaseMessage/BaseMessageDetails';
-import { cosmosIcon } from 'assets/images';
 import { MessageDetailsComponent } from 'components/Messages/BaseMessage';
-import useStyles from './useStyles';
+import Typography from 'components/Typography';
+import CopiableAddress from 'components/CopiableAddress';
 
 /**
  * Displays the full details of a MsgLinkChainAccount.
@@ -15,45 +23,37 @@ import useStyles from './useStyles';
 const MsgLinkChainAccountDetails: MessageDetailsComponent<MsgLinkChainAccountEncodeObject> = ({
   message,
 }) => {
-  const styles = useStyles();
-  const { t } = useTranslation('messages.profiles');
-  const { value } = message;
-  const getLinkableChainInfoByName = useCallback(
-    (chainName: string) => SupportedChains.find((chain) => chainName === chain.chainConfig.name),
-    [],
-  );
-
-  const bech32Address = useMemo(() => {
-    const { chainAddress } = value;
-    if (chainAddress !== undefined) {
-      return Bech32Address.decode(chainAddress.value);
+  const linkedAddress = useMemo(() => {
+    const { chainAddress } = message.value;
+    switch (chainAddress?.typeUrl) {
+      case Bech32AddressTypeUrl:
+        return Bech32Address.decode(chainAddress.value).value;
+      case Base58AddressTypeUrl:
+        return Base58Address.decode(chainAddress.value).value;
+      case HexAddressTypeUrl:
+        return HexAddress.decode(chainAddress.value).value;
+      default:
+        return undefined;
     }
-    return undefined;
-  }, [value]);
-
-  const chainName = value.chainConfig?.name;
-  const chainIcon = useMemo(() => {
-    const chain = chainName !== undefined ? getLinkableChainInfoByName(chainName) : undefined;
-    if (chain !== undefined) {
-      return chain.icon;
-    }
-    return cosmosIcon;
-  }, [chainName, getLinkableChainInfoByName]);
+  }, [message.value]);
 
   return (
-    <BaseMessageDetails
-      message={message}
-      fields={[
-        {
-          label: t('transaction:from'),
-          value: value.signer,
-        },
-        {
-          label: t('connect to'),
-          value: bech32Address?.value ?? '',
-        },
-      ]}
-    />
+    <BaseMessageDetails message={message}>
+      <Typography.Regular14>
+        <Trans
+          ns="messages.profiles"
+          i18nKey="link chain account description"
+          components={[
+            <CopiableAddress address={message.value.signer} />,
+            <Typography.SemiBold14 />,
+            <CopiableAddress address={linkedAddress} />,
+          ]}
+          values={{
+            chain: message.value.chainConfig?.name,
+          }}
+        />
+      </Typography.Regular14>
+    </BaseMessageDetails>
   );
 };
 

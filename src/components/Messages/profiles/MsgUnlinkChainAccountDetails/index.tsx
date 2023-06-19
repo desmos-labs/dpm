@@ -1,11 +1,10 @@
 import { MsgUnlinkChainAccountEncodeObject } from '@desmoslabs/desmjs';
-import React, { useCallback, useMemo } from 'react';
-import { useTranslation } from 'react-i18next';
-import SupportedChains from 'config/LinkableChains';
-import { cosmosIcon } from 'assets/images';
+import React from 'react';
+import { Trans } from 'react-i18next';
 import BaseMessageDetails from 'components/Messages/BaseMessage/BaseMessageDetails';
 import { MessageDetailsComponent } from 'components/Messages/BaseMessage';
-import useStyles from './useStyles';
+import Typography from 'components/Typography';
+import CopiableAddress from 'components/CopiableAddress';
 
 /**
  * Displays the full details of a MsgUnlinkChainAccount
@@ -13,35 +12,23 @@ import useStyles from './useStyles';
  */
 const MsgUnlinkChainAccountDetails: MessageDetailsComponent<MsgUnlinkChainAccountEncodeObject> = ({
   message,
-}) => {
-  const { t } = useTranslation('messages.profiles');
-  const styles = useStyles();
-  const { value } = message;
-  const getLinkableChainInfoByName = useCallback(
-    (chainName: string) => SupportedChains.find((chain) => chainName === chain.chainConfig.name),
-    [],
-  );
-
-  const { chainName } = value;
-  const chainIcon = useMemo(() => {
-    const chain = chainName !== undefined ? getLinkableChainInfoByName(chainName) : undefined;
-    if (chain !== undefined) {
-      return chain.icon;
-    }
-    return cosmosIcon;
-  }, [chainName, getLinkableChainInfoByName]);
-
-  return (
-    <BaseMessageDetails
-      message={message}
-      fields={[
-        {
-          label: t('unlinked account'),
-          value: value.target,
-        },
-      ]}
-    />
-  );
-};
+}) => (
+  <BaseMessageDetails message={message}>
+    <Typography.Regular14>
+      <Trans
+        ns="messages.profiles"
+        i18nKey="unlink chain account description"
+        components={[
+          <CopiableAddress address={message.value.owner} />,
+          <Typography.SemiBold14 />,
+          <CopiableAddress address={message.value.target} />,
+        ]}
+        values={{
+          chain: message.value.chainName,
+        }}
+      />
+    </Typography.Regular14>
+  </BaseMessageDetails>
+);
 
 export default MsgUnlinkChainAccountDetails;

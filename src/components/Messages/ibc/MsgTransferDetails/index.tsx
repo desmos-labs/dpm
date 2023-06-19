@@ -1,22 +1,13 @@
 import { MsgTransferEncodeObject } from '@cosmjs/stargate';
 import React, { useMemo } from 'react';
 import { Trans, useTranslation } from 'react-i18next';
-import { formatCoin } from 'lib/FormatUtils';
+import { formatCoin, formatIbcTimeoutTimestamp } from 'lib/FormatUtils';
 import BaseMessageDetails, {
   MessageDetailsField,
 } from 'components/Messages/BaseMessage/BaseMessageDetails';
 import { MessageDetailsComponent } from 'components/Messages/BaseMessage';
 import Typography from 'components/Typography';
 import CopiableAddress from 'components/CopiableAddress';
-import { format } from 'date-fns';
-import Long from 'long';
-
-const getIbcTimeoutTimestamp = (nanosecondsSinceEpoch: Long | undefined) => {
-  if (nanosecondsSinceEpoch !== undefined) {
-    return format(new Date(nanosecondsSinceEpoch.toNumber()), 'dd MMM yyyy, HH:mm:ss');
-  }
-  return undefined;
-};
 
 /**
  * Displays the full details of a MsgTransfer.
@@ -61,7 +52,7 @@ const MsgTransfer: MessageDetailsComponent<MsgTransferEncodeObject> = ({ message
       },
       {
         label: t('timeout timestamp'),
-        value: getIbcTimeoutTimestamp(timeoutTimestamp),
+        value: formatIbcTimeoutTimestamp(timeoutTimestamp),
         hide: timeoutTimestamp === undefined,
       },
     ],

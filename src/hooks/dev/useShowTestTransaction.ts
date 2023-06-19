@@ -9,24 +9,35 @@ import ROUTES from 'navigation/routes';
 import {
   AllowedMsgAllowanceTypeUrl,
   BasicAllowanceTypeUrl,
+  Bech32AddressTypeUrl,
   GenericAuthorizationTypeUrl,
   MediaTypeUrl,
+  MsgAcceptDTagTransferRequestTypeUrl,
   MsgAddPostAttachmentTypeUrl,
   MsgAnswerPollTypeUrl,
+  MsgCancelDTagTransferRequestTypeUrl,
   MsgCreatePostTypeUrl,
   MsgDeletePostTypeUrl,
+  MsgDeleteProfileTypeUrl,
   MsgDepositTypeUrl,
   MsgEditPostTypeUrl,
   MsgFundCommunityPoolTypeUrl,
   MsgGrantAllowanceTypeUrl,
   MsgGrantTypeUrl,
+  MsgLinkApplicationTypeUrl,
+  MsgLinkChainAccountTypeUrl,
   MsgMultiSendTypeUrl,
+  MsgRefuseDTagTransferRequestTypeUrl,
   MsgRemovePostAttachmentTypeUrl,
+  MsgRequestDTagTransferTypeUrl,
   MsgRevokeAllowanceTypeUrl,
   MsgRevokeTypeUrl,
+  MsgSaveProfileTypeUrl,
   MsgSendTypeUrl,
   MsgSetWithdrawAddressTypeUrl,
   MsgSubmitProposalTypeUrl,
+  MsgUnlinkApplicationTypeUrl,
+  MsgUnlinkChainAccountTypeUrl,
   MsgVoteTypeUrl,
   MsgWithdrawDelegatorRewardTypeUrl,
   MsgWithdrawValidatorCommissionTypeUrl,
@@ -62,6 +73,25 @@ import {
   MsgRemovePostAttachment,
 } from '@desmoslabs/desmjs-types/desmos/posts/v3/msgs';
 import { Media, Poll, ReplySetting } from '@desmoslabs/desmjs-types/desmos/posts/v3/models';
+import {
+  MsgAcceptDTagTransferRequest,
+  MsgCancelDTagTransferRequest,
+  MsgRefuseDTagTransferRequest,
+  MsgRequestDTagTransfer,
+} from '@desmoslabs/desmjs-types/desmos/profiles/v3/msgs_dtag_requests';
+import {
+  MsgDeleteProfile,
+  MsgSaveProfile,
+} from '@desmoslabs/desmjs-types/desmos/profiles/v3/msgs_profile';
+import {
+  MsgLinkApplication,
+  MsgUnlinkApplication,
+} from '@desmoslabs/desmjs-types/desmos/profiles/v3/msgs_app_links';
+import {
+  MsgLinkChainAccount,
+  MsgUnlinkChainAccount,
+} from '@desmoslabs/desmjs-types/desmos/profiles/v3/msgs_chain_links';
+import { Bech32Address } from '@desmoslabs/desmjs-types/desmos/profiles/v3/models_chain_links';
 
 const TEST_ADDRESS1 = 'desmos1nm6kh6jwqmsezwtnmgdd4w4tzyk9f8gvqu5en0';
 const TEST_ADDRESS2 = 'desmos1jvw63nnapa899l753dh4znw5u6kc9zycpc043v';
@@ -422,6 +452,106 @@ const useShowTestTransaction = () => {
           postId: 1,
           subspaceId: 2,
           attachmentId: 3,
+        }),
+      },
+
+      // Profiles
+      {
+        typeUrl: MsgSaveProfileTypeUrl,
+        value: MsgSaveProfile.fromPartial({
+          creator: 'desmos1creator',
+          bio: 'new bio',
+          dtag: 'dtag',
+          nickname: 'nickname',
+          coverPicture: 'https://image.com/cover_picture.png',
+          profilePicture: 'https://image.com/profile_picture.png',
+        }),
+      },
+      {
+        typeUrl: MsgDeleteProfileTypeUrl,
+        value: MsgDeleteProfile.fromPartial({
+          creator: 'desmos1creator',
+        }),
+      },
+      {
+        typeUrl: MsgRequestDTagTransferTypeUrl,
+        value: MsgRequestDTagTransfer.fromPartial({
+          sender: 'desmos1sender',
+          receiver: 'desmos1receiver',
+        }),
+      },
+      {
+        typeUrl: MsgAcceptDTagTransferRequestTypeUrl,
+        value: MsgAcceptDTagTransferRequest.fromPartial({
+          sender: 'desmos1sender',
+          receiver: 'desmos1receiver',
+          newDtag: 'new-DTag',
+        }),
+      },
+      {
+        typeUrl: MsgRefuseDTagTransferRequestTypeUrl,
+        value: MsgRefuseDTagTransferRequest.fromPartial({
+          sender: 'desmos1sender',
+          receiver: 'desmos1receiver',
+        }),
+      },
+      {
+        typeUrl: MsgCancelDTagTransferRequestTypeUrl,
+        value: MsgCancelDTagTransferRequest.fromPartial({
+          sender: 'desmos1sender',
+          receiver: 'desmos1receiver',
+        }),
+      },
+      {
+        typeUrl: MsgLinkApplicationTypeUrl,
+        value: MsgLinkApplication.fromPartial({
+          sender: 'desmos1sender',
+          sourcePort: 'source port',
+          sourceChannel: 'source channel',
+          timeoutHeight: {
+            revisionNumber: 1,
+            revisionHeight: 2,
+          },
+          timeoutTimestamp: new Date().getTime(),
+          linkData: {
+            username: 'test',
+            application: 'twitter',
+          },
+          callData: 'test call data',
+        }),
+      },
+      {
+        typeUrl: MsgUnlinkApplicationTypeUrl,
+        value: MsgUnlinkApplication.fromPartial({
+          signer: 'desmos1signer',
+          application: 'twitter',
+          username: 'test',
+        }),
+      },
+      {
+        typeUrl: MsgLinkChainAccountTypeUrl,
+        value: MsgLinkChainAccount.fromPartial({
+          signer: 'desmos1signer',
+          chainConfig: {
+            name: 'cosmos',
+          },
+          chainAddress: {
+            typeUrl: Bech32AddressTypeUrl,
+            value: Bech32Address.encode(
+              Bech32Address.fromPartial({
+                value: 'cosmos1linked',
+                prefix: 'cosmos',
+              }),
+            ).finish(),
+          },
+        }),
+      },
+      {
+        typeUrl: MsgUnlinkChainAccountTypeUrl,
+        value: MsgUnlinkChainAccount.fromPartial({
+          owner: 'desmos1owner',
+          target: 'cosmos1linked',
+          chainName: 'cosmos',
         }),
       },
     ];

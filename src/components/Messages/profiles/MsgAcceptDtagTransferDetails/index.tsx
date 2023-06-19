@@ -1,32 +1,38 @@
 import { MessageDetailsComponent } from 'components/Messages/BaseMessage';
 import { MsgAcceptDTagTransferRequestEncodeObject } from '@desmoslabs/desmjs';
 import React from 'react';
-import { useTranslation } from 'react-i18next';
+import { Trans, useTranslation } from 'react-i18next';
 import BaseMessageDetails from 'components/Messages/BaseMessage/BaseMessageDetails';
+import Typography from 'components/Typography';
+import CopiableAddress from 'components/CopiableAddress';
 
 const MsgAcceptDtagTransferDetails: MessageDetailsComponent<
   MsgAcceptDTagTransferRequestEncodeObject
 > = ({ message }) => {
   const { t } = useTranslation('messages.profiles');
+  const fields = React.useMemo(
+    () => [
+      {
+        label: t('new dtag'),
+        value: message.value.newDtag,
+      },
+    ],
+    [t, message.value.newDtag],
+  );
 
   return (
-    <BaseMessageDetails
-      message={message}
-      fields={[
-        {
-          label: t('transaction:from'),
-          value: message.value.sender,
-        },
-        {
-          label: t('transaction:to'),
-          value: message.value.receiver,
-        },
-        {
-          label: t('new dtag'),
-          value: message.value.newDtag,
-        },
-      ]}
-    />
+    <BaseMessageDetails message={message} fields={fields}>
+      <Typography.Regular14>
+        <Trans
+          ns="messages.profiles"
+          i18nKey="accept dtag transfer description"
+          components={[
+            <CopiableAddress address={message.value.receiver} />,
+            <CopiableAddress address={message.value.sender} />,
+          ]}
+        />
+      </Typography.Regular14>
+    </BaseMessageDetails>
   );
 };
 
