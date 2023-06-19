@@ -1,5 +1,5 @@
 import { EncodeObject } from '@cosmjs/proto-signing';
-import { QueriedMessage } from 'lib/TransactionUtils/types';
+import { GQLRawMessage, Message } from 'types/transactions';
 import {
   MsgBeginRedelegateEncodeObject,
   MsgDelegateEncodeObject,
@@ -105,7 +105,6 @@ import {
 import { Bech32Address } from '@desmoslabs/desmjs-types/desmos/profiles/v3/models_chain_links';
 import { Any } from 'cosmjs-types/google/protobuf/any';
 import { PubKey } from 'cosmjs-types/cosmos/crypto/secp256k1/keys';
-import { Message } from 'types/transactions';
 import { MsgGrant, MsgRevoke } from 'cosmjs-types/cosmos/authz/v1beta1/tx';
 import {
   MsgAddUserToUserGroup,
@@ -131,7 +130,7 @@ import {
   StakeAuthorization,
 } from 'cosmjs-types/cosmos/staking/v1beta1/authz';
 import { Coin } from 'cosmjs-types/cosmos/base/v1beta1/coin';
-import { StakeAuthorizationTypeUrl } from 'types/cosmos-staking';
+import { StakeAuthorizationTypeUrl } from 'types/cosmos';
 import { MsgGrantAllowance } from 'cosmjs-types/cosmos/feegrant/v1beta1/tx';
 import {
   AllowedMsgAllowance,
@@ -1115,29 +1114,22 @@ const converters = [
   decodeReportsMessage,
 ];
 
-const decodeQueriedMessage = (message: QueriedMessage): Message => {
-  const type = message.type.startsWith('/') ? message.type : `/${message.type}`;
-  const { value } = message;
+const decodeGqlRawMessage = (message: GQLRawMessage): Message => {
+  const type = message['@type'].startsWith('/') ? message['@type'] : `/${message['@type']}`;
 
   let converted: EncodeObject | undefined;
   for (let i = 0; i < converters.length; i += 1) {
-    converted = converters[i](type, value);
+    converted = converters[i](type, message);
     if (converted) break;
   }
 
-  if (converted) {
-    return {
-      index: message.index,
-      ...converted,
-    };
-  }
-
   // console.warn('Unsupported message type while parsing tx from GraphQL', type, message);
-  return {
-    index: message.index,
-    typeUrl: type,
-    value,
-  };
+  return (
+    converted ?? {
+      typeUrl: type,
+      value: message,
+    }
+  );
 };
 
-export default decodeQueriedMessage;
+export default decodeGqlRawMessage;

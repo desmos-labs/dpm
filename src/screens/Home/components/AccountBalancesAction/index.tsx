@@ -56,11 +56,11 @@ const AccountBalancesAction: React.FC<ListHeaderActionProps> = ({
   return (
     <View style={styles.actionContainer}>
       <View style={styles.actionValues}>
-        <Typography.Subtitle2>{label}</Typography.Subtitle2>
+        <Typography.Regular14>{label}</Typography.Regular14>
         {loading ? (
-          <TypographyContentLoaders.Subtitle2 width={200} />
+          <TypographyContentLoaders.Regular14 width={200} />
         ) : (
-          <Typography.Subtitle2>{value}</Typography.Subtitle2>
+          <Typography.SemiBold16>{value}</Typography.SemiBold16>
         )}
       </View>
       <Button

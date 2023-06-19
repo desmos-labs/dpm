@@ -1,0 +1,10 @@
+{
+  "create relationship": "Create relationship",
+  "delete relationship": "Delete relationship",
+  "block user": "Block user",
+  "unblock user": "Unblock user",
+  "blocked": "Blocked",
+  "blocker": "Blocker",
+  "block reason": "Block reason",
+  "unblocked": "Unblocked"
+}

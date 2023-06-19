@@ -13,14 +13,19 @@ import { CompositeScreenProps, useFocusEffect } from '@react-navigation/native';
 import { BottomTabScreenProps } from '@react-navigation/bottom-tabs';
 import { HomeTabsParamList } from 'navigation/RootNavigator/HomeTabs';
 import useDrawerContext from 'lib/AppDrawer/context';
-import useActiveAccountTransactions from 'hooks/useActiveAccountTransactions';
 import useProfileGivenAddress from 'hooks/useProfileGivenAddress';
 import AccountBalances, { AccountBalanceRef } from 'screens/Home/components/AccountBalances';
-import TransactionsList from 'screens/Home/components/TransactionsList';
 import { DPMImages } from 'types/images';
 import EmptyList from 'components/EmptyList';
 import ProfileImage from 'components/ProfileImage';
 import Typography from 'components/Typography';
+import { FlashList } from '@shopify/flash-list';
+import StyledActivityIndicator from 'components/StyledActivityIndicator';
+import { ListRenderItem } from '@shopify/flash-list/src/FlashListProps';
+import { Transaction } from 'types/transactions';
+import TransactionsListItem from 'screens/Home/components/TransactionsListItem';
+import Spacer from 'components/Spacer';
+import { useActiveAccountTransactions } from './hooks';
 import useStyles from './useStyles';
 
 export type NavProps = CompositeScreenProps<
@@ -42,9 +47,10 @@ const Home: React.FC<NavProps> = (props) => {
   const chainName = useSetting('chainName');
   const { profile, refetch: updateProfile } = useProfileGivenAddress();
   const {
-    transactions,
+    data: transactions,
     loading: transactionsLoading,
-    refetch: reloadTransactions,
+    refresh: refreshTransactions,
+    refreshing: refreshingTransactions,
     fetchMore: fetchMoreTransactions,
   } = useActiveAccountTransactions();
 
@@ -60,9 +66,19 @@ const Home: React.FC<NavProps> = (props) => {
 
   const refreshData = React.useCallback(() => {
     updateProfile();
-    reloadTransactions();
+    refreshTransactions();
     accountBalanceRef.current?.updateBalances();
-  }, [updateProfile, reloadTransactions]);
+  }, [updateProfile, refreshTransactions]);
+
+  const renderTransactionItem = React.useCallback<ListRenderItem<Transaction>>(
+    ({ item }) => (
+      <>
+        <TransactionsListItem transaction={item} />
+        <Spacer paddingVertical={8} />
+      </>
+    ),
+    [],
+  );
 
   // ------- EFFECTS --------
 
@@ -94,24 +110,31 @@ const Home: React.FC<NavProps> = (props) => {
 
       {/* Transactions list */}
       <View style={styles.transactionsContainer}>
-        <TransactionsList
-          headerComponent={
+        <FlashList
+          data={transactions}
+          onEndReached={fetchMoreTransactions}
+          onEndReachedThreshold={0.4}
+          onRefresh={refreshData}
+          refreshing={refreshingTransactions}
+          renderItem={renderTransactionItem}
+          estimatedItemSize={100}
+          ListHeaderComponent={
             <>
               <AccountBalances reference={accountBalanceRef} />
-              <Typography.Body1>{t('common:transactions')}</Typography.Body1>
+              <Typography.SemiBold16>{t('common:transactions')}</Typography.SemiBold16>
+              <Spacer paddingVertical={8} />
             </>
           }
-          emptyComponent={
-            <EmptyList
-              topPadding={0}
-              image={DPMImages.NoTransaction}
-              message={t('no transactions')}
-            />
+          ListEmptyComponent={
+            transactionsLoading || refreshTransactions ? undefined : (
+              <EmptyList
+                topPadding={0}
+                image={DPMImages.NoTransaction}
+                message={t('no transactions')}
+              />
+            )
           }
-          loading={transactionsLoading}
-          transactions={transactions}
-          onFetchMore={fetchMoreTransactions}
-          onRefresh={refreshData}
+          ListFooterComponent={transactionsLoading ? <StyledActivityIndicator /> : undefined}
         />
       </View>
     </StyledSafeAreaView>

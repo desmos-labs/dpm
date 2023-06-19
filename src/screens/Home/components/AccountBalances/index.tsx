@@ -158,30 +158,30 @@ const AccountBalances: React.FC<AccountBalancesProps> = ({ reference }) => {
     <View style={styles.root}>
       {/* User address */}
       <View style={styles.addressContainer}>
-        <Typography.Subtitle2 style={styles.address} numberOfLines={1} ellipsizeMode={'middle'}>
+        <Typography.Regular14 style={styles.address} numberOfLines={1} ellipsizeMode={'middle'}>
           {activeAccountAddress}
-        </Typography.Subtitle2>
+        </Typography.Regular14>
         <CopyButton value={activeAccountAddress} />
       </View>
 
-      <Spacer paddingVertical={32} />
+      <Spacer paddingVertical={24} />
 
       {/* User total balance in fiat value */}
-      <Typography.Subtitle2>{t('total balance')}</Typography.Subtitle2>
+      <Typography.Regular14>{t('total balance')}</Typography.Regular14>
       {loadingBalance || loadingFiatAmount ? (
-        <TypographyContentLoaders.H1 width={200} />
+        <TypographyContentLoaders.SemiBold30 width={200} />
       ) : (
-        <Typography.H1>{`${fiatAmount} ${fiatSymbol}`}</Typography.H1>
+        <Typography.SemiBold30>{`${fiatAmount} ${fiatSymbol}`}</Typography.SemiBold30>
       )}
 
       {/* Uset total tokens balance */}
       {loadingBalance || loadingTotalDelegated ? (
-        <TypographyContentLoaders.Subtitle2 width={200} />
+        <TypographyContentLoaders.Regular14 width={200} />
       ) : (
-        <Typography.Subtitle2>{formatCoins(totalBalance)}</Typography.Subtitle2>
+        <Typography.Regular14>{formatCoins(totalBalance)}</Typography.Regular14>
       )}
 
-      <Spacer paddingVertical={32} />
+      <Spacer paddingVertical={24} />
 
       {/* User available tokens */}
       <AccountBalancesAction

@@ -1,7 +1,8 @@
 {
+  "create validator": "Create validator",
+  "edit validator": "Edit validator",
   "delegate": "Delegate",
-  "withdraw rewards": "Withdraw rewards",
+  "undelegate": "Undelegate",
   "redelegate": "Redelegate",
-  "amount": "Amount",
-  "undelegate": "Undelegate"
+  "amount": "Amount"
 }

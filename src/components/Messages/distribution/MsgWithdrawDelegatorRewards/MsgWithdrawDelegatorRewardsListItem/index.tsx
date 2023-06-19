@@ -15,7 +15,7 @@ import useStyles from './useStyles';
 const MsgWithdrawDelegatorRewardsListItem: MessageListItemComponent<
   MsgWithdrawDelegatorRewardEncodeObject
 > = ({ message, date }) => {
-  const { t } = useTranslation('messages.staking');
+  const { t } = useTranslation('messages.distribution');
   const styles = useStyles();
   const { value } = message;
 

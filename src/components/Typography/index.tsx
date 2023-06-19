@@ -11,6 +11,12 @@ import {
   TypographyConfigH1,
   TypographyConfigH2,
   TypographyConfigH4,
+  TypographyConfigRegular10,
+  TypographyConfigRegular12,
+  TypographyConfigRegular14,
+  TypographyConfigSemiBold16,
+  TypographyConfigSemiBold18,
+  TypographyConfigSemiBold30,
   TypographyConfigSubtitle,
   TypographyConfigSubtitle2,
   TypographyConfigTitle,
@@ -48,6 +54,13 @@ const Typography = {
   H1: createTextComponent(() => TypographyConfigH1),
   H2: createTextComponent(() => TypographyConfigH2),
   H4: createTextComponent(() => TypographyConfigH4),
+  // New styles
+  Regular10: createTextComponent(() => TypographyConfigRegular10),
+  Regular12: createTextComponent(() => TypographyConfigRegular12),
+  Regular14: createTextComponent(() => TypographyConfigRegular14),
+  SemiBold16: createTextComponent(() => TypographyConfigSemiBold16),
+  SemiBold18: createTextComponent(() => TypographyConfigSemiBold18),
+  SemiBold30: createTextComponent(() => TypographyConfigSemiBold30),
 };
 
 export default Typography;

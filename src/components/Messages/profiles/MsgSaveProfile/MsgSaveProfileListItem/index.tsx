@@ -19,7 +19,7 @@ const MsgSaveProfileListItem: MessageListItemComponent<MsgSaveProfileEncodeObjec
       date={date}
       renderContent={() => (
         <View>
-          <Typography.Body1>{t('tx type save profile')}</Typography.Body1>
+          <Typography.Body1>{t('save profile')}</Typography.Body1>
         </View>
       )}
     />

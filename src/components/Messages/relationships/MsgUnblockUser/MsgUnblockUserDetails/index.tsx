@@ -8,7 +8,7 @@ import { MsgUnblockUserEncodeObject } from '@desmoslabs/desmjs';
 const MsgUnblockUserDetails: MessageDetailsComponent<MsgUnblockUserEncodeObject> = ({
   message,
 }) => {
-  const { t } = useTranslation('messages.profiles');
+  const { t } = useTranslation('messages.relationships');
 
   return (
     <BaseMessageDetails
@@ -24,7 +24,7 @@ const MsgUnblockUserDetails: MessageDetailsComponent<MsgUnblockUserEncodeObject>
           value: message.value.blocked,
         },
         {
-          label: t('subspace id'),
+          label: t('messages.subspaces:subspace id'),
           value: message.value.subspaceId.toString(),
         },
       ]}

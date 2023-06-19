@@ -7,7 +7,7 @@ import { formatCoin, formatCoins } from 'lib/FormatUtils';
 import { SendAuthorization } from 'cosmjs-types/cosmos/bank/v1beta1/authz';
 import { GenericAuthorization, Grant } from 'cosmjs-types/cosmos/authz/v1beta1/authz';
 import { GenericSubspaceAuthorization } from '@desmoslabs/desmjs-types/desmos/subspaces/v3/authz/authz';
-import { StakeAuthorizationTypeUrl } from 'types/cosmos-staking';
+import { StakeAuthorizationTypeUrl } from 'types/cosmos';
 import {
   GenericAuthorizationTypeUrl,
   GenericSubspaceAuthorizationTypeUrl,
