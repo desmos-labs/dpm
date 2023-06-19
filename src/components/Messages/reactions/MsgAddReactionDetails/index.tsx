@@ -1,8 +1,10 @@
 import { MsgAddReactionEncodeObject } from '@desmoslabs/desmjs';
 import React from 'react';
-import { useTranslation } from 'react-i18next';
+import { Trans } from 'react-i18next';
 import BaseMessageDetails from 'components/Messages/BaseMessage/BaseMessageDetails';
 import { MessageDetailsComponent } from 'components/Messages/BaseMessage';
+import Typography from 'components/Typography';
+import CopiableAddress from 'components/CopiableAddress';
 import useGetReactionValueFields from './hooks';
 
 /**
@@ -12,31 +14,31 @@ import useGetReactionValueFields from './hooks';
 const MsgAddReactionDetails: MessageDetailsComponent<MsgAddReactionEncodeObject> = ({
   message,
 }) => {
-  const { t: tSubspaces } = useTranslation('messages.subspaces');
-  const { t: tPosts } = useTranslation('messages.posts');
-  const { t: tCommon } = useTranslation('messages.common');
   const getReactionValueFields = useGetReactionValueFields();
-
   const fields = React.useMemo(
-    () => [
-      {
-        label: tSubspaces('subspace id'),
-        value: message.value.subspaceId.toString(),
-      },
-      {
-        label: tPosts('post id'),
-        value: message.value.postId.toString(),
-      },
-      ...getReactionValueFields(message.value.value),
-      {
-        label: tCommon('user'),
-        value: message.value.user,
-      },
-    ],
-    [tSubspaces, message, tPosts, getReactionValueFields, tCommon],
+    () => getReactionValueFields(message.value.value),
+    [getReactionValueFields, message.value.value],
   );
 
-  return <BaseMessageDetails message={message} fields={fields} />;
+  return (
+    <BaseMessageDetails message={message} fields={fields}>
+      <Typography.Regular14>
+        <Trans
+          ns="messages.reactions"
+          i18nKey="add reaction description"
+          components={[
+            <CopiableAddress address={message.value.user} />,
+            <Typography.SemiBold14 />,
+            <Typography.SemiBold14 />,
+          ]}
+          values={{
+            postId: message.value.postId,
+            subspaceId: message.value.subspaceId,
+          }}
+        />
+      </Typography.Regular14>
+    </BaseMessageDetails>
+  );
 };
 
 export default MsgAddReactionDetails;

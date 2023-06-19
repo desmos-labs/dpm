@@ -10,10 +10,13 @@ import {
   AllowedMsgAllowanceTypeUrl,
   BasicAllowanceTypeUrl,
   Bech32AddressTypeUrl,
+  FreeTextValueTypeUrl,
   GenericAuthorizationTypeUrl,
   MediaTypeUrl,
   MsgAcceptDTagTransferRequestTypeUrl,
   MsgAddPostAttachmentTypeUrl,
+  MsgAddReactionTypeUrl,
+  MsgAddRegisteredReactionTypeUrl,
   MsgAnswerPollTypeUrl,
   MsgCancelDTagTransferRequestTypeUrl,
   MsgCreatePostTypeUrl,
@@ -29,11 +32,13 @@ import {
   MsgMultiSendTypeUrl,
   MsgRefuseDTagTransferRequestTypeUrl,
   MsgRemovePostAttachmentTypeUrl,
+  MsgRemoveReactionTypeUrl,
   MsgRequestDTagTransferTypeUrl,
   MsgRevokeAllowanceTypeUrl,
   MsgRevokeTypeUrl,
   MsgSaveProfileTypeUrl,
   MsgSendTypeUrl,
+  MsgSetReactionsParamsTypeUrl,
   MsgSetWithdrawAddressTypeUrl,
   MsgSubmitProposalTypeUrl,
   MsgUnlinkApplicationTypeUrl,
@@ -43,6 +48,7 @@ import {
   MsgWithdrawValidatorCommissionTypeUrl,
   PeriodicAllowanceTypeUrl,
   PollTypeUrl,
+  RegisteredReactionValueTypeUrl,
   timestampFromDate,
 } from '@desmoslabs/desmjs';
 import { MsgExec, MsgGrant, MsgRevoke } from 'cosmjs-types/cosmos/authz/v1beta1/tx';
@@ -92,6 +98,22 @@ import {
   MsgUnlinkChainAccount,
 } from '@desmoslabs/desmjs-types/desmos/profiles/v3/msgs_chain_links';
 import { Bech32Address } from '@desmoslabs/desmjs-types/desmos/profiles/v3/models_chain_links';
+import {
+  MsgAddReaction,
+  MsgAddRegisteredReaction,
+  MsgEditRegisteredReaction,
+  MsgRemoveReaction,
+  MsgRemoveRegisteredReaction,
+  MsgSetReactionsParams,
+} from '@desmoslabs/desmjs-types/desmos/reactions/v1/msgs';
+import {
+  FreeTextValue,
+  RegisteredReactionValue,
+} from '@desmoslabs/desmjs-types/desmos/reactions/v1/models';
+import {
+  MsgEditRegisteredReactionTypeUrl,
+  MsgRemoveRegisteredReactionTypeUrl,
+} from '@desmoslabs/desmjs/build/const/reactions';
 
 const TEST_ADDRESS1 = 'desmos1nm6kh6jwqmsezwtnmgdd4w4tzyk9f8gvqu5en0';
 const TEST_ADDRESS2 = 'desmos1jvw63nnapa899l753dh4znw5u6kc9zycpc043v';
@@ -552,6 +574,91 @@ const useShowTestTransaction = () => {
           owner: 'desmos1owner',
           target: 'cosmos1linked',
           chainName: 'cosmos',
+        }),
+      },
+
+      // Reactions
+      {
+        typeUrl: MsgAddReactionTypeUrl,
+        value: MsgAddReaction.fromPartial({
+          user: 'desmos1user',
+          postId: 1,
+          subspaceId: 1,
+          value: {
+            typeUrl: FreeTextValueTypeUrl,
+            value: FreeTextValue.encode(
+              FreeTextValue.fromPartial({
+                text: 'text reaction',
+              }),
+            ).finish(),
+          },
+        }),
+      },
+      {
+        typeUrl: MsgAddReactionTypeUrl,
+        value: MsgAddReaction.fromPartial({
+          user: 'desmos1user',
+          subspaceId: 1,
+          postId: 2,
+          value: {
+            typeUrl: RegisteredReactionValueTypeUrl,
+            value: RegisteredReactionValue.encode(
+              RegisteredReactionValue.fromPartial({
+                registeredReactionId: 2,
+              }),
+            ).finish(),
+          },
+        }),
+      },
+      {
+        typeUrl: MsgRemoveReactionTypeUrl,
+        value: MsgRemoveReaction.fromPartial({
+          user: 'desmos1user',
+          subspaceId: 1,
+          postId: 2,
+          reactionId: 3,
+        }),
+      },
+      {
+        typeUrl: MsgAddRegisteredReactionTypeUrl,
+        value: MsgAddRegisteredReaction.fromPartial({
+          user: 'desmos1user',
+          subspaceId: 1,
+          displayValue: 'test',
+          shorthandCode: 'shorCode',
+        }),
+      },
+      {
+        typeUrl: MsgEditRegisteredReactionTypeUrl,
+        value: MsgEditRegisteredReaction.fromPartial({
+          user: 'desmos1user',
+          subspaceId: 1,
+          registeredReactionId: 2,
+          displayValue: 'new value',
+          shorthandCode: 'new shorthandCode',
+        }),
+      },
+      {
+        typeUrl: MsgRemoveRegisteredReactionTypeUrl,
+        value: MsgRemoveRegisteredReaction.fromPartial({
+          user: 'desmos1user',
+          subspaceId: 1,
+          registeredReactionId: 2,
+        }),
+      },
+      {
+        typeUrl: MsgSetReactionsParamsTypeUrl,
+        value: MsgSetReactionsParams.fromPartial({
+          user: 'desmos1user',
+          subspaceId: 1,
+          freeText: {
+            enabled: true,
+            regEx: 'regex',
+            maxLength: 42,
+          },
+          registeredReaction: {
+            enabled: true,
+          },
         }),
       },
     ];

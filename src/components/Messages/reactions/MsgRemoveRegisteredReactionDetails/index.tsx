@@ -1,8 +1,10 @@
 import { MsgRemoveRegisteredReactionEncodeObject } from '@desmoslabs/desmjs';
 import React from 'react';
-import { useTranslation } from 'react-i18next';
+import { Trans, useTranslation } from 'react-i18next';
 import BaseMessageDetails from 'components/Messages/BaseMessage/BaseMessageDetails';
 import { MessageDetailsComponent } from 'components/Messages/BaseMessage';
+import Typography from 'components/Typography';
+import CopiableAddress from 'components/CopiableAddress';
 
 /**
  * Displays the full details of a MsgRemoveRegisteredReaction
@@ -33,7 +35,25 @@ const MsgRemoveRegisteredReactionDetails: MessageDetailsComponent<
     [tSubspaces, message, t, tCommon],
   );
 
-  return <BaseMessageDetails message={message} fields={fields} />;
+  return (
+    <BaseMessageDetails message={message} fields={fields}>
+      <Typography.Regular14>
+        <Trans
+          ns="messages.reactions"
+          i18nKey="remove registered reaction description"
+          components={[
+            <CopiableAddress address={message.value.user} />,
+            <Typography.SemiBold14 />,
+            <Typography.SemiBold14 />,
+          ]}
+          values={{
+            reactionId: message.value.registeredReactionId,
+            subspaceId: message.value.subspaceId,
+          }}
+        />
+      </Typography.Regular14>
+    </BaseMessageDetails>
+  );
 };
 
 export default MsgRemoveRegisteredReactionDetails;

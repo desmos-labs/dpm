@@ -1,10 +1,12 @@
 import { MsgSetReactionsParamsEncodeObject } from '@desmoslabs/desmjs';
 import React from 'react';
-import { useTranslation } from 'react-i18next';
+import { Trans, useTranslation } from 'react-i18next';
 import BaseMessageDetails, {
   MessageDetailsField,
 } from 'components/Messages/BaseMessage/BaseMessageDetails';
 import { MessageDetailsComponent } from 'components/Messages/BaseMessage';
+import Typography from 'components/Typography';
+import CopiableAddress from 'components/CopiableAddress';
 
 /**
  * Displays the full details of a MsgSetReactionsParams
@@ -14,15 +16,9 @@ const MsgSetReactionsDetails: MessageDetailsComponent<MsgSetReactionsParamsEncod
   message,
 }) => {
   const { t } = useTranslation('messages.reactions');
-  const { t: tSubspaces } = useTranslation('messages.subspaces');
-  const { t: tCommon } = useTranslation('messages.common');
 
   const fields = React.useMemo(
     (): MessageDetailsField[] => [
-      {
-        label: tSubspaces('subspace id'),
-        value: message.value.subspaceId.toString(),
-      },
       {
         label: t('registered reactions enabled'),
         value: message.value.registeredReaction?.enabled?.toString(),
@@ -43,15 +39,24 @@ const MsgSetReactionsDetails: MessageDetailsComponent<MsgSetReactionsParamsEncod
         value: message.value.freeText?.regEx,
         hide: message.value.freeText?.regEx === undefined,
       },
-      {
-        label: tCommon('user'),
-        value: message.value.user,
-      },
     ],
-    [t, tSubspaces, message, tCommon],
+    [t, message],
   );
 
-  return <BaseMessageDetails message={message} fields={fields} />;
+  return (
+    <BaseMessageDetails message={message} fields={fields}>
+      <Typography.Regular14>
+        <Trans
+          ns="messages.reactions"
+          i18nKey="set reactions params description"
+          components={[<CopiableAddress address={message.value.user} />, <Typography.SemiBold14 />]}
+          values={{
+            subspaceId: message.value.subspaceId,
+          }}
+        />
+      </Typography.Regular14>
+    </BaseMessageDetails>
+  );
 };
 
 export default MsgSetReactionsDetails;
