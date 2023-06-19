@@ -15,6 +15,7 @@ import {
   MsgCreateSectionTypeUrl,
   MsgCreateSubspaceTypeUrl,
   MsgCreateUserGroupTypeUrl,
+  MsgCreateValidatorTypeUrl,
   MsgDelegateTypeUrl,
   MsgDeletePostTypeUrl,
   MsgDeleteProfileTypeUrl,
@@ -29,6 +30,7 @@ import {
   MsgEditSectionTypeUrl,
   MsgEditSubspaceTypeUrl,
   MsgEditUserGroupTypeUrl,
+  MsgEditValidatorTypeUrl,
   MsgFundCommunityPoolTypeUrl,
   MsgGrantAllowanceTypeUrl,
   MsgGrantTypeUrl,
@@ -67,6 +69,8 @@ import MsgExecDetails from 'components/Messages/authz/MsgExecDetails';
 import MsgSubmitProposalDetails from 'components/Messages/gov/MsgSubmitProposalDetails';
 import MsgDepositDetails from 'components/Messages/gov/MsgDepositDetails';
 import MsgTransferDetails from 'components/Messages/ibc/MsgTransferDetails';
+import MsgCreateValidatorDetails from 'components/Messages/staking/MsgCreateValidatorDetails';
+import MsgEditValidatorDetails from 'components/Messages/staking/MsgEditValidatorDetails';
 import MsgSendComponentDetails from './bank/MsgSendDetails';
 import MsgMultiSendComponentDetails from './bank/MsgMultiSendDetails';
 import MsgVoteComponentDetails from './gov/MsgVoteDetails';
@@ -157,6 +161,8 @@ export const messageDetailsComponents: Record<string, MessageDetailsComponent<an
   [MsgDelegateTypeUrl]: MsgDelegateComponentDetails,
   [MsgBeginRedelegateTypeUrl]: MsgBeginRedelegateComponentDetails,
   [MsgUndelegateTypeUrl]: MsgUndelegateComponentDetails,
+  [MsgCreateValidatorTypeUrl]: MsgCreateValidatorDetails,
+  [MsgEditValidatorTypeUrl]: MsgEditValidatorDetails,
 
   // x/feegrant
   [MsgGrantAllowanceTypeUrl]: MsgGrantAllowanceComponentDetails,

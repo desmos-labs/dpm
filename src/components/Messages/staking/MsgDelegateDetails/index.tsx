@@ -1,50 +1,39 @@
-import { convertCoin } from '@desmoslabs/desmjs';
 import { MsgDelegateEncodeObject } from '@cosmjs/stargate';
 import React, { useMemo } from 'react';
-import { useTranslation } from 'react-i18next';
-import { useCurrentChainInfo } from '@recoil/settings';
+import { Trans } from 'react-i18next';
 import BaseMessageDetails from 'components/Messages/BaseMessage/BaseMessageDetails';
 import { MessageDetailsComponent } from 'components/Messages/BaseMessage';
+import Typography from 'components/Typography';
+import CopiableAddress from 'components/CopiableAddress';
+import { formatCoin } from 'lib/FormatUtils';
 
 /**
  * Displays the full details of a MsgDelegate
  * @constructor
  */
 const MsgDelegateDetails: MessageDetailsComponent<MsgDelegateEncodeObject> = ({ message }) => {
-  const { t } = useTranslation('messages.staking');
-  const chainInfo = useCurrentChainInfo();
-  const { value } = message;
-
-  const amount = useMemo(() => {
-    const totalAmount = value.amount;
-    if (totalAmount !== undefined) {
-      const converted = convertCoin(totalAmount, 6, chainInfo.currencies);
-      if (converted !== null) {
-        return `${converted.amount} ${converted.denom.toUpperCase()}`;
-      }
-      return '';
-    }
-    return '';
-  }, [value.amount, chainInfo.currencies]);
+  const amount = useMemo(
+    () => (message.value.amount ? formatCoin(message.value.amount) : ''),
+    [message.value.amount],
+  );
 
   return (
-    <BaseMessageDetails
-      message={message}
-      fields={[
-        {
-          label: t('sendTokens:amount'),
-          value: amount,
-        },
-        {
-          label: t('transaction:from'),
-          value: value.delegatorAddress ?? '',
-        },
-        {
-          label: t('transaction:to'),
-          value: value.validatorAddress ?? '',
-        },
-      ]}
-    />
+    <BaseMessageDetails message={message}>
+      <Typography.Regular14>
+        <Trans
+          ns="messages.staking"
+          i18nKey="delegate description"
+          components={[
+            <CopiableAddress address={message.value.delegatorAddress} />,
+            <Typography.SemiBold14 />,
+            <CopiableAddress address={message.value.validatorAddress} />,
+          ]}
+          values={{
+            amount,
+          }}
+        />
+      </Typography.Regular14>
+    </BaseMessageDetails>
   );
 };
 

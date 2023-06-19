@@ -22,12 +22,15 @@ import {
   MsgCreatePostTypeUrl,
   MsgCreateRelationshipTypeUrl,
   MsgCreateReportTypeUrl,
+  MsgCreateValidatorTypeUrl,
+  MsgDelegateTypeUrl,
   MsgDeletePostTypeUrl,
   MsgDeleteProfileTypeUrl,
   MsgDeleteRelationshipTypeUrl,
   MsgDeleteReportTypeUrl,
   MsgDepositTypeUrl,
   MsgEditPostTypeUrl,
+  MsgEditValidatorTypeUrl,
   MsgFundCommunityPoolTypeUrl,
   MsgGrantAllowanceTypeUrl,
   MsgGrantTypeUrl,
@@ -144,6 +147,18 @@ import {
   MsgSupportStandardReasonTypeUrl,
 } from '@desmoslabs/desmjs/build/const/reports';
 import Long from 'long';
+import {
+  MsgBeginRedelegate,
+  MsgCreateValidator,
+  MsgDelegate,
+  MsgEditValidator,
+  MsgUndelegate,
+} from 'cosmjs-types/cosmos/staking/v1beta1/tx';
+import { PubKey as Secp256k1PubKey } from 'cosmjs-types/cosmos/crypto/secp256k1/keys';
+import {
+  MsgBeginRedelegateTypeUrl,
+  MsgUndelegateTypeUrl,
+} from '@desmoslabs/desmjs/build/const/cosmos/staking';
 
 const TEST_ADDRESS1 = 'desmos1nm6kh6jwqmsezwtnmgdd4w4tzyk9f8gvqu5en0';
 const TEST_ADDRESS2 = 'desmos1jvw63nnapa899l753dh4znw5u6kc9zycpc043v';
@@ -793,6 +808,77 @@ const useShowTestTransaction = () => {
           subspaceId: Long.fromNumber(1),
           reasonId: 2,
           signer: 'desmos1signer',
+        }),
+      },
+
+      // Staking
+      {
+        typeUrl: MsgCreateValidatorTypeUrl,
+        value: MsgCreateValidator.fromPartial({
+          value: coin(2, 'udaric'),
+          delegatorAddress: 'delegatoraddress',
+          validatorAddress: 'validatoraddress',
+          description: {
+            moniker: 'moniker',
+            details: 'details',
+            website: 'https://validator-site.com',
+            identity: 'identity',
+            securityContact: 'email@security.com',
+          },
+          commission: {
+            rate: '0',
+            maxRate: '0',
+            maxChangeRate: '1',
+          },
+          minSelfDelegation: '100',
+          pubkey: {
+            typeUrl: '/cosmos.crypto.secp256k1.PubKey',
+            value: Secp256k1PubKey.encode(
+              Secp256k1PubKey.fromPartial({
+                key: Uint8Array.from([0, 1, 2, 3, 4, 5, 6, 7]),
+              }),
+            ).finish(),
+          },
+        }),
+      },
+      {
+        typeUrl: MsgEditValidatorTypeUrl,
+        value: MsgEditValidator.fromPartial({
+          validatorAddress: 'validatoraddress',
+          description: {
+            moniker: 'moniker',
+            details: 'details',
+            website: 'https://validator-site.com',
+            identity: 'identity',
+            securityContact: 'email@security.com',
+          },
+          minSelfDelegation: '1',
+          commissionRate: '0.1',
+        }),
+      },
+      {
+        typeUrl: MsgDelegateTypeUrl,
+        value: MsgDelegate.fromPartial({
+          validatorAddress: 'validatoraddress',
+          delegatorAddress: 'delegator',
+          amount: coin('10000', 'udaric'),
+        }),
+      },
+      {
+        typeUrl: MsgUndelegateTypeUrl,
+        value: MsgUndelegate.fromPartial({
+          validatorAddress: 'validatoraddress',
+          delegatorAddress: 'delegator',
+          amount: coin('10000', 'udaric'),
+        }),
+      },
+      {
+        typeUrl: MsgBeginRedelegateTypeUrl,
+        value: MsgBeginRedelegate.fromPartial({
+          validatorSrcAddress: 'srcvalidatoraddress',
+          validatorDstAddress: 'dstvalidatoraddress',
+          delegatorAddress: 'delegator',
+          amount: coin('10000', 'udaric'),
         }),
       },
     ];
