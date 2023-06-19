@@ -1,6 +1,6 @@
 import { MsgCreatePostEncodeObject } from '@desmoslabs/desmjs';
 import React from 'react';
-import { useTranslation } from 'react-i18next';
+import { Trans, useTranslation } from 'react-i18next';
 import BaseMessageDetails, {
   MessageDetailsField,
 } from 'components/Messages/BaseMessage/BaseMessageDetails';
@@ -8,6 +8,8 @@ import { MessageDetailsComponent } from 'components/Messages/BaseMessage';
 import { replySettingToJSON } from '@desmoslabs/desmjs-types/desmos/posts/v3/models';
 import useGetGeneratePostAttachmentsDetailFields from 'components/Messages/posts/hooks/useGetGeneratePostAttachmentsDetailFields';
 import useGetGeneratePostEntitiesDetailFields from 'components/Messages/posts/hooks/useGetGeneratePostEntitiesDetailFields';
+import Typography from 'components/Typography';
+import CopiableAddress from 'components/CopiableAddress';
 
 /**
  * Displays the full details of a MsgCreatePost
@@ -22,8 +24,9 @@ const MsgCreatePostDetails: MessageDetailsComponent<MsgCreatePostEncodeObject> =
   const fields = React.useMemo<MessageDetailsField[]>(
     () => [
       {
-        label: tSubspces('subspace id'),
-        value: message.value.subspaceId.toString(),
+        label: t('text'),
+        value: message.value.text,
+        hide: message.value.text.length === 0,
       },
       {
         label: tSubspces('section id'),
@@ -33,11 +36,6 @@ const MsgCreatePostDetails: MessageDetailsComponent<MsgCreatePostEncodeObject> =
         label: t('external id'),
         value: message.value.externalId,
         hide: message.value.externalId.length === 0,
-      },
-      {
-        label: t('text'),
-        value: message.value.text,
-        hide: message.value.text.length === 0,
       },
       {
         label: t('tags'),
@@ -61,15 +59,25 @@ const MsgCreatePostDetails: MessageDetailsComponent<MsgCreatePostEncodeObject> =
         hide: message.value.referencedPosts.length === 0,
       },
       ...message.value.attachments.flatMap((a) => getAttachmentFields(a)),
-      {
-        label: t('author'),
-        value: message.value.author,
-      },
     ],
     [tSubspces, message, t, getEntitiesFields, getAttachmentFields],
   );
 
-  return <BaseMessageDetails message={message} fields={fields} />;
+  return (
+    <BaseMessageDetails message={message} fields={fields}>
+      <Typography.Regular14>
+        <Trans
+          ns="messages.posts"
+          i18nKey="create post description"
+          components={[
+            <CopiableAddress address={message.value.author} />,
+            <Typography.SemiBold14 />,
+          ]}
+          values={{ subspaceId: message.value.subspaceId }}
+        />
+      </Typography.Regular14>
+    </BaseMessageDetails>
+  );
 };
 
 export default MsgCreatePostDetails;

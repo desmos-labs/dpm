@@ -1,11 +1,13 @@
 import { MsgEditPostEncodeObject } from '@desmoslabs/desmjs';
 import React from 'react';
-import { useTranslation } from 'react-i18next';
+import { Trans, useTranslation } from 'react-i18next';
 import BaseMessageDetails, {
   MessageDetailsField,
 } from 'components/Messages/BaseMessage/BaseMessageDetails';
 import { MessageDetailsComponent } from 'components/Messages/BaseMessage';
 import useGetGeneratePostEntitiesDetailFields from 'components/Messages/posts/hooks/useGetGeneratePostEntitiesDetailFields';
+import Typography from 'components/Typography';
+import CopiableAddress from 'components/CopiableAddress';
 
 /**
  * Displays the full details of a MsgEditPost
@@ -13,19 +15,10 @@ import useGetGeneratePostEntitiesDetailFields from 'components/Messages/posts/ho
  */
 const MsgEditPostDetails: MessageDetailsComponent<MsgEditPostEncodeObject> = ({ message }) => {
   const { t } = useTranslation('messages.posts');
-  const { t: tSubspces } = useTranslation('messages.subspaces');
   const getEntitiesFields = useGetGeneratePostEntitiesDetailFields();
 
   const fields = React.useMemo<MessageDetailsField[]>(
     () => [
-      {
-        label: tSubspces('subspace id'),
-        value: message.value.subspaceId.toString(),
-      },
-      {
-        label: t('post id'),
-        value: message.value.postId.toString(),
-      },
       {
         label: t('text'),
         value: message.value.text,
@@ -37,15 +30,29 @@ const MsgEditPostDetails: MessageDetailsComponent<MsgEditPostEncodeObject> = ({ 
         value: message.value.tags.join('\n'),
         hide: message.value.tags.length === 0,
       },
-      {
-        label: t('editor'),
-        value: message.value.editor,
-      },
     ],
-    [tSubspces, message, t, getEntitiesFields],
+    [message, t, getEntitiesFields],
   );
 
-  return <BaseMessageDetails message={message} fields={fields} />;
+  return (
+    <BaseMessageDetails message={message} fields={fields}>
+      <Typography.Regular14>
+        <Trans
+          ns="messages.posts"
+          i18nKey="edit post description"
+          components={[
+            <CopiableAddress address={message.value.editor} />,
+            <Typography.SemiBold14 />,
+            <Typography.SemiBold14 />,
+          ]}
+          values={{
+            subspaceId: message.value.subspaceId,
+            postId: message.value.postId,
+          }}
+        />
+      </Typography.Regular14>
+    </BaseMessageDetails>
+  );
 };
 
 export default MsgEditPostDetails;

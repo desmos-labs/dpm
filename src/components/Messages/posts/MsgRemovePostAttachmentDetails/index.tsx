@@ -1,8 +1,10 @@
 import { MsgRemovePostAttachmentEncodeObject } from '@desmoslabs/desmjs';
 import React from 'react';
-import { useTranslation } from 'react-i18next';
+import { Trans } from 'react-i18next';
 import BaseMessageDetails from 'components/Messages/BaseMessage/BaseMessageDetails';
 import { MessageDetailsComponent } from 'components/Messages/BaseMessage';
+import Typography from 'components/Typography';
+import CopiableAddress from 'components/CopiableAddress';
 
 /**
  * Displays the full details of a MsgRemovePostAttachment
@@ -10,33 +12,26 @@ import { MessageDetailsComponent } from 'components/Messages/BaseMessage';
  */
 const MsgRemovePostAttachmentDetails: MessageDetailsComponent<
   MsgRemovePostAttachmentEncodeObject
-> = ({ message }) => {
-  const { t } = useTranslation('messages.posts');
-  const { t: tSubspaces } = useTranslation('messages.subspaces');
-
-  const fields = React.useMemo(
-    () => [
-      {
-        label: tSubspaces('subspace id'),
-        value: message.value.subspaceId.toString(),
-      },
-      {
-        label: t('post id'),
-        value: message.value.postId.toString(),
-      },
-      {
-        label: t('attachment id'),
-        value: message.value.attachmentId.toString(),
-      },
-      {
-        label: t('editor'),
-        value: message.value.editor,
-      },
-    ],
-    [tSubspaces, t, message],
-  );
-
-  return <BaseMessageDetails message={message} fields={fields} />;
-};
+> = ({ message }) => (
+  <BaseMessageDetails message={message}>
+    <Typography.Regular14>
+      <Trans
+        ns="messages.posts"
+        i18nKey="remove post attachment description"
+        components={[
+          <CopiableAddress address={message.value.editor} />,
+          <Typography.SemiBold14 />,
+          <Typography.SemiBold14 />,
+          <Typography.SemiBold14 />,
+        ]}
+        values={{
+          attachmentId: message.value.attachmentId,
+          postId: message.value.postId,
+          subspaceId: message.value.subspaceId,
+        }}
+      />
+    </Typography.Regular14>
+  </BaseMessageDetails>
+);
 
 export default MsgRemovePostAttachmentDetails;

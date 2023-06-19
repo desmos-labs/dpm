@@ -10,12 +10,18 @@ import {
   AllowedMsgAllowanceTypeUrl,
   BasicAllowanceTypeUrl,
   GenericAuthorizationTypeUrl,
+  MediaTypeUrl,
+  MsgAddPostAttachmentTypeUrl,
+  MsgAnswerPollTypeUrl,
+  MsgCreatePostTypeUrl,
+  MsgDeletePostTypeUrl,
   MsgDepositTypeUrl,
   MsgEditPostTypeUrl,
   MsgFundCommunityPoolTypeUrl,
   MsgGrantAllowanceTypeUrl,
   MsgGrantTypeUrl,
   MsgMultiSendTypeUrl,
+  MsgRemovePostAttachmentTypeUrl,
   MsgRevokeAllowanceTypeUrl,
   MsgRevokeTypeUrl,
   MsgSendTypeUrl,
@@ -25,6 +31,8 @@ import {
   MsgWithdrawDelegatorRewardTypeUrl,
   MsgWithdrawValidatorCommissionTypeUrl,
   PeriodicAllowanceTypeUrl,
+  PollTypeUrl,
+  timestampFromDate,
 } from '@desmoslabs/desmjs';
 import { MsgExec, MsgGrant, MsgRevoke } from 'cosmjs-types/cosmos/authz/v1beta1/tx';
 import { GenericAuthorization, Grant } from 'cosmjs-types/cosmos/authz/v1beta1/authz';
@@ -45,6 +53,15 @@ import {
 import { MsgDeposit, MsgSubmitProposal, MsgVote } from 'cosmjs-types/cosmos/gov/v1beta1/tx';
 import { VoteOption } from 'cosmjs-types/cosmos/gov/v1beta1/gov';
 import { MsgTransfer } from 'cosmjs-types/ibc/applications/transfer/v1/tx';
+import {
+  MsgAddPostAttachment,
+  MsgAnswerPoll,
+  MsgCreatePost,
+  MsgDeletePost,
+  MsgEditPost,
+  MsgRemovePostAttachment,
+} from '@desmoslabs/desmjs-types/desmos/posts/v3/msgs';
+import { Media, Poll, ReplySetting } from '@desmoslabs/desmjs-types/desmos/posts/v3/models';
 
 const TEST_ADDRESS1 = 'desmos1nm6kh6jwqmsezwtnmgdd4w4tzyk9f8gvqu5en0';
 const TEST_ADDRESS2 = 'desmos1jvw63nnapa899l753dh4znw5u6kc9zycpc043v';
@@ -306,6 +323,105 @@ const useShowTestTransaction = () => {
             revisionHeight: 3000,
           },
           timeoutTimestamp: new Date().getTime(),
+        }),
+      },
+
+      // Posts
+      {
+        typeUrl: MsgAddPostAttachmentTypeUrl,
+        value: MsgAddPostAttachment.fromPartial({
+          editor: 'desmos1editor',
+          postId: 1,
+          content: {
+            typeUrl: PollTypeUrl,
+            value: Poll.encode(
+              Poll.fromPartial({
+                allowsAnswerEdits: true,
+                allowsMultipleAnswers: true,
+                question: 'test question',
+                providedAnswers: [{ text: '1' }, { text: '2' }],
+                endDate: timestampFromDate(new Date()),
+              }),
+            ).finish(),
+          },
+        }),
+      },
+      {
+        typeUrl: MsgAnswerPollTypeUrl,
+        value: MsgAnswerPoll.fromPartial({
+          signer: 'desmos1signer',
+          subspaceId: 1,
+          postId: 2,
+          pollId: 3,
+          answersIndexes: [1, 2, 3],
+        }),
+      },
+      {
+        typeUrl: MsgCreatePostTypeUrl,
+        value: MsgCreatePost.fromPartial({
+          author: 'desmos1author',
+          subspaceId: 1,
+          sectionId: 0,
+          text: 'test post',
+          replySettings: ReplySetting.REPLY_SETTING_EVERYONE,
+          attachments: [
+            {
+              typeUrl: PollTypeUrl,
+              value: Poll.encode(
+                Poll.fromPartial({
+                  allowsAnswerEdits: true,
+                  allowsMultipleAnswers: true,
+                  question: 'test question',
+                  providedAnswers: [{ text: '1' }, { text: '2' }],
+                  endDate: timestampFromDate(new Date()),
+                }),
+              ).finish(),
+            },
+            {
+              typeUrl: MediaTypeUrl,
+              value: Media.encode(
+                Media.fromPartial({
+                  uri: 'https://test-uri.com',
+                  mimeType: 'image/png',
+                }),
+              ).finish(),
+            },
+          ],
+        }),
+      },
+      {
+        typeUrl: MsgDeletePostTypeUrl,
+        value: MsgDeletePost.fromPartial({
+          signer: 'desmos1signer',
+          postId: 1,
+          subspaceId: 2,
+        }),
+      },
+      {
+        typeUrl: MsgEditPostTypeUrl,
+        value: MsgEditPost.fromPartial({
+          editor: 'desmos1editor',
+          postId: 1,
+          subspaceId: 2,
+          text: 'new text',
+          entities: {
+            hashtags: [
+              {
+                start: 0,
+                end: 2,
+                tag: '#new',
+              },
+            ],
+          },
+        }),
+      },
+      {
+        typeUrl: MsgRemovePostAttachmentTypeUrl,
+        value: MsgRemovePostAttachment.fromPartial({
+          editor: 'desmos1editor',
+          postId: 1,
+          subspaceId: 2,
+          attachmentId: 3,
         }),
       },
     ];
