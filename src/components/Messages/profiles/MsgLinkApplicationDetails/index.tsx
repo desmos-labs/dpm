@@ -26,8 +26,12 @@ const MsgLinkApplicationDetails: MessageDetailsComponent<MsgLinkApplicationEncod
         value: message.value.sourcePort,
       },
       {
-        label: t('timeout height'),
-        value: message.value.timeoutHeight?.revisionHeight?.toString(),
+        label: t('messages.ibc:timeout height'),
+        value: t('messages.ibc:timeout height details', {
+          height: message.value.timeoutHeight?.revisionHeight,
+          revision: message.value.timeoutHeight?.revisionNumber,
+        }),
+        hide: message.value.timeoutHeight === undefined,
       },
       {
         label: t('timeout timestamp'),
