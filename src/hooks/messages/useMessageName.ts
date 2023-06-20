@@ -93,7 +93,7 @@ const NameMap: Record<string, string> = {
   MsgDeleteUserGroup: 'messages.subspaces:delete user group',
   MsgAddUserToUserGroup: 'messages.subspaces:add user to group',
   MsgRemoveUserFromUserGroup: 'messages.subspaces:remove user from group',
-  MsgSetUserPermissions: 'messages.subspaces:set user permissions"',
+  MsgSetUserPermissions: 'messages.subspaces:set user permissions',
 };
 
 /**

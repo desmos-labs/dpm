@@ -1,8 +1,10 @@
 import { MsgEditSectionEncodeObject } from '@desmoslabs/desmjs';
 import React from 'react';
-import { useTranslation } from 'react-i18next';
+import { Trans, useTranslation } from 'react-i18next';
 import BaseMessageDetails from 'components/Messages/BaseMessage/BaseMessageDetails';
 import { MessageDetailsComponent } from 'components/Messages/BaseMessage';
+import Typography from 'components/Typography';
+import CopiableAddress from 'components/CopiableAddress';
 
 /**
  * Displays the full details of a MsgEditSection
@@ -16,30 +18,37 @@ const MsgEditSectionDetails: MessageDetailsComponent<MsgEditSectionEncodeObject>
   const fields = React.useMemo(
     () => [
       {
-        label: t('subspace id'),
-        value: message.value.subspaceId.toString(),
-      },
-      {
-        label: t('section id'),
-        value: message.value.sectionId.toString(),
-      },
-      {
         label: t('name'),
         value: message.value.name,
       },
       {
         label: t('description'),
         value: message.value.description,
-      },
-      {
-        label: t('editor'),
-        value: message.value.editor,
+        hide: message.value.description === undefined || message.value.description === '',
       },
     ],
     [t, message],
   );
 
-  return <BaseMessageDetails message={message} fields={fields} />;
+  return (
+    <BaseMessageDetails message={message} fields={fields}>
+      <Typography.Regular14>
+        <Trans
+          ns="messages.subspaces"
+          i18nKey="edit section description"
+          components={[
+            <CopiableAddress address={message.value.editor} />,
+            <Typography.SemiBold14 />,
+            <Typography.SemiBold14 />,
+          ]}
+          values={{
+            subspaceId: message.value.subspaceId,
+            sectionId: message.value.sectionId,
+          }}
+        />
+      </Typography.Regular14>
+    </BaseMessageDetails>
+  );
 };
 
 export default MsgEditSectionDetails;

@@ -1,8 +1,10 @@
 import { MsgCreateSectionEncodeObject } from '@desmoslabs/desmjs';
 import React from 'react';
-import { useTranslation } from 'react-i18next';
+import { Trans, useTranslation } from 'react-i18next';
 import BaseMessageDetails from 'components/Messages/BaseMessage/BaseMessageDetails';
 import { MessageDetailsComponent } from 'components/Messages/BaseMessage';
+import Typography from 'components/Typography';
+import CopiableAddress from 'components/CopiableAddress';
 
 /**
  * Displays the full details of a MsgCreateSection
@@ -16,30 +18,38 @@ const MsgCreateSectionDetails: MessageDetailsComponent<MsgCreateSectionEncodeObj
   const fields = React.useMemo(
     () => [
       {
-        label: t('subspace id'),
-        value: message.value.subspaceId.toString(),
-      },
-      {
-        label: t('name'),
-        value: message.value.name,
-      },
-      {
         label: t('description'),
         value: message.value.description,
+        hide: message.value.description?.length === 0,
       },
       {
         label: t('parent id'),
         value: message.value.parentId?.toString(),
-      },
-      {
-        label: t('creator'),
-        value: message.value.creator,
+        hide: message.value.parentId === undefined,
       },
     ],
     [t, message],
   );
 
-  return <BaseMessageDetails message={message} fields={fields} />;
+  return (
+    <BaseMessageDetails message={message} fields={fields}>
+      <Typography.Regular14>
+        <Trans
+          ns="messages.subspaces"
+          i18nKey="create section description"
+          components={[
+            <CopiableAddress address={message.value.creator} />,
+            <Typography.SemiBold14 />,
+            <Typography.SemiBold14 />,
+          ]}
+          values={{
+            subspaceId: message.value.subspaceId,
+            name: message.value.name,
+          }}
+        />
+      </Typography.Regular14>
+    </BaseMessageDetails>
+  );
 };
 
 export default MsgCreateSectionDetails;
