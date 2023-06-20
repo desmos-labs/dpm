@@ -5,5 +5,5 @@
   "timeout height": "Timeout height",
   "timeout height details": "Height {{ height }} revision {{ revision }}",
   "timeout timestamp": "Timeout timestamp",
-  "ibc transfer description": "<0/> send to <1/> <2>{{ transferAmount }}</2>"
+  "ibc transfer description": "<0/> sends to <1/> <2>{{ transferAmount }}</2>"
 }

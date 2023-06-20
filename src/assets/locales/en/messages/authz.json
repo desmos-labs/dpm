@@ -11,9 +11,9 @@
   "spend limit": "Spend limit",
   "message": "Message",
   "subspaces": "Subspaces",
-  "grant allowance description": "<0/> allowed <1/> to execute on its behalf",
-  "exec description": "Executed on behalf of <0/>",
   "executed message": "Executed message",
-  "grant revoke description": "<0/> revoked the grant to <1/>",
+  "grant allowance description": "<0/> allows <1/> to execute on its behalf",
+  "exec description": "Executes on behalf of <0/>",
+  "grant revoke description": "<0/> revokes the grant to <1/>",
   "removed authorization": "Removed authorization"
 }

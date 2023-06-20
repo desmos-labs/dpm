@@ -31,7 +31,6 @@
   "permissions": "Permissions",
   "default permissions": "Default permissions",
   "user": "User",
-
   "create subspace description": "<0/> creates subspace <1>{{ name }}</1>",
   "edit subspace description": "<0/> modifies subspace <1>{{ subspaceId }}</1>",
   "delete subspace description": "<0/> deletes subspace <1>{{ subspaceId }}</1>",
