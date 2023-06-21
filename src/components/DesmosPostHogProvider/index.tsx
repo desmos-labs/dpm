@@ -25,7 +25,7 @@ const DesmosPostHogProvider: React.FC<Props> = ({ children }) => (
   <PostHogProvider
     apiKey={POSTHOG_API_KEY}
     options={{
-      host: 'https://app.posthog.com',
+      host: 'https://eu.posthog.com',
       bootstrap: {
         featureFlags: DefaultPosthogFeatureFlags,
       },
