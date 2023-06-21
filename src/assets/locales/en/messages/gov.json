@@ -6,7 +6,7 @@
   "no": "No",
   "abstain": "Abstain",
   "no with veto": "No with veto",
-  "submit proposal description": "<0/> submits a proposal with initial deposit <1>{{ initialDeposit }}</1>",
-  "deposit description": "<0/> deposits <1>{{ depositAmount }}</1> on proposal <2>{{ proposalId }}</2>",
-  "vote description": "<0/> votes <1>{{ vote }}</1> on proposal <2>{{ proposalId }}</2>"
+  "submit proposal description": "<0/> submitted a proposal with initial deposit <1>{{ initialDeposit }}</1>",
+  "deposit description": "<0/> deposited <1>{{ depositAmount }}</1> on proposal <2>{{ proposalId }}</2>",
+  "vote description": "<0/> voted <1>{{ vote }}</1> on proposal <2>{{ proposalId }}</2>"
 }
