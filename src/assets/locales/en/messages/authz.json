@@ -12,7 +12,7 @@
   "message": "Message",
   "subspaces": "Subspaces",
   "action": "Action",
-  "grant allowance description": "Allow <1/> to execute an action on their behalf",
+  "grant allowance description": "Allow <1/> to execute an action on your behalf",
   "granted allowance description": "<0/> allowed <1/> to execute an action on their behalf",
   "exec description": "Exec an action on behalf of <0/>",
   "executed description": "Executed an action on behalf of <0/>",
