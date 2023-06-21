@@ -37,7 +37,7 @@
   "edited subspace description": "<0/> modified subspace <1>{{ subspaceId }}</1>",
   "delete subspace description": "Delete subspace <1>{{ subspaceId }}</1>",
   "deleted subspace description": "<0/> deleted subspace <1>{{ subspaceId }}</1>",
-  "create section description": "Creat section <1>{{ name }}</1> in subspace <2>{{ subspaceId }}</2>",
+  "create section description": "Create section <1>{{ name }}</1> in subspace <2>{{ subspaceId }}</2>",
   "created section description": "<0/> created section <1>{{ name }}</1> in subspace <2>{{ subspaceId }}</2>",
   "edit section description": "Modify section <1>{{ sectionId }}</1> of subspace <2>{{ subspaceId }}</2>",
   "edited section description": "<0/> modified section <1>{{ sectionId }}</1> of subspace <2>{{ subspaceId }}</2>",
