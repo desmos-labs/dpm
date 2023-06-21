@@ -29,10 +29,10 @@
   "attachment id": "Attachment id",
   "poll id": "Poll id",
   "answers indexes": "Answers indexes",
-  "add post attachment description": "Adds <0>{{ attachmentType }}</0> to post <1>{{ postId }}</1> on subspace <2>{{ subspaceId }}</2>",
-  "answer poll description": "<0/> answers poll <1>{{ pollId }}</1> of post <2>{{ postId }}</2> on subspace <3>{{ subspaceId }}</3>",
-  "create post description": "<0/> creates a post on subspace <1>{{ subspaceId }}</1>",
-  "delete post description": "<0/> deletes post <1>{{ postId }}</1> on subspace <2>{{ subspaceId }}</2>",
-  "edit post description": "<0/> edits post <1>{{ postId }}</1> on subspace <2>{{ subspaceId }}</2>",
-  "remove post attachment description": "<0/> removes attachment <1>{{ attachmentId }}</1> from post <2>{{ postId }}</2> on subspace <3>{{ subspaceId }}</3>"
+  "add post attachment description": "Added <0>{{ attachmentType }}</0> to post <1>{{ postId }}</1> on subspace <2>{{ subspaceId }}</2>",
+  "answer poll description": "<0/> answered poll <1>{{ pollId }}</1> of post <2>{{ postId }}</2> on subspace <3>{{ subspaceId }}</3>",
+  "create post description": "<0/> created a post on subspace <1>{{ subspaceId }}</1>",
+  "delete post description": "<0/> deleted post <1>{{ postId }}</1> on subspace <2>{{ subspaceId }}</2>",
+  "edit post description": "<0/> edited post <1>{{ postId }}</1> on subspace <2>{{ subspaceId }}</2>",
+  "remove post attachment description": "<0/> removed attachment <1>{{ attachmentId }}</1> from post <2>{{ postId }}</2> on subspace <3>{{ subspaceId }}</3>"
 }
