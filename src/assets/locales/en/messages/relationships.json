@@ -7,8 +7,8 @@
   "blocker": "Blocker",
   "block reason": "Block reason",
   "unblocked": "Unblocked",
-  "create relationship description": "<0/> starts following <1/> on subspace <2>{{ subspaceId }}</2>",
-  "delete relationship description": "<0/> unfollows <1/> on subspace <2>{{ subspaceId }}</2>",
-  "block user description": "<0/> blocks <1/> on subspace <2>{{ subspaceId }}</2>",
-  "unblock user description": "<0/> unblocks <1/> on subspace <2>{{ subspaceId }}</2>"
+  "create relationship description": "<0/> started following <1/> on subspace <2>{{ subspaceId }}</2>",
+  "delete relationship description": "<0/> unfollowed <1/> on subspace <2>{{ subspaceId }}</2>",
+  "block user description": "<0/> blocked <1/> on subspace <2>{{ subspaceId }}</2>",
+  "unblock user description": "<0/> unblocked <1/> on subspace <2>{{ subspaceId }}</2>"
 }
