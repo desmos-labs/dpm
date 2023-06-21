@@ -9,6 +9,7 @@ import { formatIbcTimeoutTimestamp } from 'lib/FormatUtils';
 
 const MsgLinkApplicationDetails: MessageDetailsComponent<MsgLinkApplicationEncodeObject> = ({
   message,
+  toBroadcastMessage,
 }) => {
   const { t } = useTranslation('messages.profiles');
   const fields = React.useMemo(
@@ -46,7 +47,9 @@ const MsgLinkApplicationDetails: MessageDetailsComponent<MsgLinkApplicationEncod
       <Typography.Regular14>
         <Trans
           ns="messages.profiles"
-          i18nKey="link application description"
+          i18nKey={
+            toBroadcastMessage ? 'link application description' : 'linked application description'
+          }
           components={[
             <CopiableAddress address={message.value.sender} />,
             <Typography.SemiBold14 />,

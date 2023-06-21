@@ -12,12 +12,15 @@ import CopiableAddress from 'components/CopiableAddress';
  */
 const MsgDeleteSubspaceDetails: MessageDetailsComponent<MsgDeleteSubspaceEncodeObject> = ({
   message,
+  toBroadcastMessage,
 }) => (
   <BaseMessageDetails message={message}>
     <Typography.Regular14>
       <Trans
         ns="messages.subspaces"
-        i18nKey="delete subspace description"
+        i18nKey={
+          toBroadcastMessage ? 'delete subspace description' : 'deleted subspace description'
+        }
         components={[<CopiableAddress address={message.value.signer} />, <Typography.SemiBold14 />]}
         values={{
           subspaceId: message.value.subspaceId,

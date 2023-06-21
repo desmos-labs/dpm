@@ -12,6 +12,7 @@ import CopiableAddress from 'components/CopiableAddress';
  */
 const MsgCreateUserGroupDetails: MessageDetailsComponent<MsgCreateUserGroupEncodeObject> = ({
   message,
+  toBroadcastMessage,
 }) => {
   const { t } = useTranslation('messages.subspaces');
 
@@ -45,7 +46,9 @@ const MsgCreateUserGroupDetails: MessageDetailsComponent<MsgCreateUserGroupEncod
       <Typography.Regular14>
         <Trans
           ns="messages.subspaces"
-          i18nKey="create user group description"
+          i18nKey={
+            toBroadcastMessage ? 'create user group description' : 'created user group description'
+          }
           components={[
             <CopiableAddress address={message.value.creator} />,
             <Typography.SemiBold14 />,

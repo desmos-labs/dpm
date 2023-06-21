@@ -12,12 +12,16 @@ import CopiableAddress from 'components/CopiableAddress';
  */
 const MsgRemovePostAttachmentDetails: MessageDetailsComponent<
   MsgRemovePostAttachmentEncodeObject
-> = ({ message }) => (
+> = ({ message, toBroadcastMessage }) => (
   <BaseMessageDetails message={message}>
     <Typography.Regular14>
       <Trans
         ns="messages.posts"
-        i18nKey="remove post attachment description"
+        i18nKey={
+          toBroadcastMessage
+            ? 'remove post attachment description'
+            : 'removed post attachment description'
+        }
         components={[
           <CopiableAddress address={message.value.editor} />,
           <Typography.SemiBold14 />,

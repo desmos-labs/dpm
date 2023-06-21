@@ -19,6 +19,7 @@ import { PostTarget, UserTarget } from '@desmoslabs/desmjs-types/desmos/reports/
  */
 const MsgCreateReportDetails: MessageDetailsComponent<MsgCreateReportEncodeObject> = ({
   message,
+  toBroadcastMessage,
 }) => {
   const { t } = useTranslation('messages.reports');
 
@@ -43,7 +44,11 @@ const MsgCreateReportDetails: MessageDetailsComponent<MsgCreateReportEncodeObjec
       return (
         <Trans
           ns="messages.reports"
-          i18nKey="create post report description"
+          i18nKey={
+            toBroadcastMessage
+              ? 'create post report description'
+              : 'created post report description'
+          }
           components={[
             <CopiableAddress address={message.value.reporter} />,
             <Typography.SemiBold14 />,
@@ -61,7 +66,11 @@ const MsgCreateReportDetails: MessageDetailsComponent<MsgCreateReportEncodeObjec
       return (
         <Trans
           ns="messages.reports"
-          i18nKey="create user report description"
+          i18nKey={
+            toBroadcastMessage
+              ? 'create user report description'
+              : 'created user report description'
+          }
           components={[
             <CopiableAddress address={message.value.reporter} />,
             <CopiableAddress address={userTarget.user} />,

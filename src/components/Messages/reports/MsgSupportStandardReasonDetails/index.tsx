@@ -12,12 +12,16 @@ import CopiableAddress from 'components/CopiableAddress';
  */
 const MsgSupportStandardReasonDetails: MessageDetailsComponent<
   MsgSupportStandardReasonEncodeObject
-> = ({ message }) => (
+> = ({ message, toBroadcastMessage }) => (
   <BaseMessageDetails message={message}>
     <Typography.Regular14>
       <Trans
         ns="messages.reports"
-        i18nKey="support standard reason description"
+        i18nKey={
+          toBroadcastMessage
+            ? 'support standard reason description'
+            : 'supported standard reason description'
+        }
         components={[
           <CopiableAddress address={message.value.signer} />,
           <Typography.SemiBold14 />,

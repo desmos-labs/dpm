@@ -13,7 +13,10 @@ import { View } from 'react-native';
  * Displays the full details of a MsgMultiSend
  * @constructor
  */
-const MsgMultiSendDetails: MessageDetailsComponent<MsgMultiSendEncodeObject> = ({ message }) => {
+const MsgMultiSendDetails: MessageDetailsComponent<MsgMultiSendEncodeObject> = ({
+  message,
+  toBroadcastMessage,
+}) => {
   const { t } = useTranslation('messages.bank');
 
   const mergedInputOutput = React.useMemo(
@@ -28,7 +31,7 @@ const MsgMultiSendDetails: MessageDetailsComponent<MsgMultiSendEncodeObject> = (
             <Typography.Regular14>
               <Trans
                 ns={'messages.bank'}
-                i18nKey={'send description'}
+                i18nKey={toBroadcastMessage ? 'send description' : 'sent description'}
                 components={[
                   <CopiableAddress address={sourceAddress} />,
                   <Typography.SemiBold14 />,
@@ -40,7 +43,7 @@ const MsgMultiSendDetails: MessageDetailsComponent<MsgMultiSendEncodeObject> = (
           </View>
         );
       }),
-    [],
+    [message.value.inputs, message.value.outputs, t, toBroadcastMessage],
   );
 
   return <BaseMessageDetails message={message} children={mergedInputOutput} />;

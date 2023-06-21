@@ -24,13 +24,16 @@ function msgExecJsonSerializer(this: Any, key: string, value: any) {
 /**
  * Component that shows the details of a {@link MsgExecEncodeObject}.
  */
-const MsgExecDetails: MessageDetailsComponent<MsgExecEncodeObject> = ({ message }) => {
+const MsgExecDetails: MessageDetailsComponent<MsgExecEncodeObject> = ({
+  message,
+  toBroadcastMessage,
+}) => {
   const { t } = useTranslation('messages.authz');
 
   const fields = React.useMemo<MessageDetailsField[]>(
     () =>
       message.value.msgs.map((m) => ({
-        label: t('executed message'),
+        label: t('action'),
         value: JSON.stringify(m, msgExecJsonSerializer, 2),
       })),
     [message.value.msgs, t],
@@ -40,8 +43,8 @@ const MsgExecDetails: MessageDetailsComponent<MsgExecEncodeObject> = ({ message 
     <BaseMessageDetails message={message} fields={fields}>
       <Typography.Regular14>
         <Trans
-          t={t}
-          i18nKey="exec description"
+          ns="messages.authz"
+          i18nKey={toBroadcastMessage ? 'exec description' : 'executed description'}
           components={[<CopiableAddress address={message.value.grantee} />]}
         />
       </Typography.Regular14>

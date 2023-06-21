@@ -12,12 +12,15 @@ import CopiableAddress from 'components/CopiableAddress';
  */
 const MsgMoveUserGroupDetails: MessageDetailsComponent<MsgMoveUserGroupEncodeObject> = ({
   message,
+  toBroadcastMessage,
 }) => (
   <BaseMessageDetails message={message}>
     <Typography.Regular14>
       <Trans
         ns="messages.subspaces"
-        i18nKey="move user group description"
+        i18nKey={
+          toBroadcastMessage ? 'move user group description' : 'moved user group description'
+        }
         components={[
           <CopiableAddress address={message.value.signer} />,
           <Typography.SemiBold14 />,

@@ -12,7 +12,10 @@ import CopiableAddress from 'components/CopiableAddress';
  * Displays the full details of a MsgAddReason
  * @constructor
  */
-const MsgAddReasonDetails: MessageDetailsComponent<MsgAddReasonEncodeObject> = ({ message }) => {
+const MsgAddReasonDetails: MessageDetailsComponent<MsgAddReasonEncodeObject> = ({
+  message,
+  toBroadcastMessage,
+}) => {
   const { t } = useTranslation('messages.reports');
 
   const fields = React.useMemo<MessageDetailsField[]>(
@@ -36,7 +39,7 @@ const MsgAddReasonDetails: MessageDetailsComponent<MsgAddReasonEncodeObject> = (
       <Typography.Regular14>
         <Trans
           ns="messages.reports"
-          i18nKey="add reason description"
+          i18nKey={toBroadcastMessage ? 'add reason description' : 'added reason description'}
           components={[
             <CopiableAddress address={message.value.signer} />,
             <Typography.SemiBold14 />,

@@ -8,12 +8,17 @@ import CopiableAddress from 'components/CopiableAddress';
 
 const MsgDeleteRelationshipDetails: MessageDetailsComponent<MsgDeleteRelationshipEncodeObject> = ({
   message,
+  toBroadcastMessage,
 }) => (
   <BaseMessageDetails message={message}>
     <Typography.Regular14>
       <Trans
         ns="messages.relationships"
-        i18nKey="delete relationship description"
+        i18nKey={
+          toBroadcastMessage
+            ? 'delete relationship description'
+            : 'deleted relationship description'
+        }
         components={[
           <CopiableAddress address={message.value.signer} />,
           <CopiableAddress address={message.value.counterparty} />,

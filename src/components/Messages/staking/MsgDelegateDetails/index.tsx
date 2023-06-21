@@ -11,7 +11,10 @@ import { formatCoin } from 'lib/FormatUtils';
  * Displays the full details of a MsgDelegate
  * @constructor
  */
-const MsgDelegateDetails: MessageDetailsComponent<MsgDelegateEncodeObject> = ({ message }) => {
+const MsgDelegateDetails: MessageDetailsComponent<MsgDelegateEncodeObject> = ({
+  message,
+  toBroadcastMessage,
+}) => {
   const amount = useMemo(
     () => (message.value.amount ? formatCoin(message.value.amount) : ''),
     [message.value.amount],
@@ -22,7 +25,7 @@ const MsgDelegateDetails: MessageDetailsComponent<MsgDelegateEncodeObject> = ({ 
       <Typography.Regular14>
         <Trans
           ns="messages.staking"
-          i18nKey="delegate description"
+          i18nKey={toBroadcastMessage ? 'delegate description' : 'delegated description'}
           components={[
             <CopiableAddress address={message.value.delegatorAddress} />,
             <Typography.SemiBold14 />,

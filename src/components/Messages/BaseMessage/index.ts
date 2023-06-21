@@ -5,6 +5,7 @@ import React from 'react';
  */
 export type MessageDetailsComponentProps<T> = {
   readonly message: T;
+  readonly toBroadcastMessage: boolean;
 };
 
 /**

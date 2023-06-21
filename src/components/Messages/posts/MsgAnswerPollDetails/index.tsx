@@ -10,7 +10,10 @@ import CopiableAddress from 'components/CopiableAddress';
  * Displays the full details of a MsgAnswerPoll
  * @constructor
  */
-const MsgAnswerPollDetails: MessageDetailsComponent<MsgAnswerPollEncodeObject> = ({ message }) => {
+const MsgAnswerPollDetails: MessageDetailsComponent<MsgAnswerPollEncodeObject> = ({
+  message,
+  toBroadcastMessage,
+}) => {
   const { t } = useTranslation('messages.posts');
 
   const fields = React.useMemo(
@@ -28,7 +31,7 @@ const MsgAnswerPollDetails: MessageDetailsComponent<MsgAnswerPollEncodeObject> =
       <Typography.Regular14>
         <Trans
           ns="messages.posts"
-          i18nKey="answer poll description"
+          i18nKey={toBroadcastMessage ? 'answer poll description' : 'answered poll description'}
           components={[
             <CopiableAddress address={message.value.signer} />,
             <Typography.SemiBold14 />,

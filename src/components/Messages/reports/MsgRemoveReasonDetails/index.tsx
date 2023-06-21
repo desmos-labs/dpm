@@ -12,12 +12,13 @@ import CopiableAddress from 'components/CopiableAddress';
  */
 const MsgRemoveReasonDetails: MessageDetailsComponent<MsgRemoveReasonEncodeObject> = ({
   message,
+  toBroadcastMessage,
 }) => (
   <BaseMessageDetails message={message}>
     <Typography.Regular14>
       <Trans
         ns="messages.reports"
-        i18nKey="remove reason description"
+        i18nKey={toBroadcastMessage ? 'remove reason description' : 'removed reason description'}
         components={[
           <CopiableAddress address={message.value.signer} />,
           <Typography.SemiBold14 />,

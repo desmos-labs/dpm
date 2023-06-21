@@ -12,6 +12,7 @@ import Typography from 'components/Typography';
  */
 const MsgSubmitProposalDetails: MessageDetailsComponent<MsgSubmitProposalEncodeObject> = ({
   message,
+  toBroadcastMessage,
 }) => {
   const initialDeposit = React.useMemo(
     () => formatCoins(message.value.initialDeposit),
@@ -23,7 +24,9 @@ const MsgSubmitProposalDetails: MessageDetailsComponent<MsgSubmitProposalEncodeO
       <Typography.Regular14>
         <Trans
           ns="messages.gov"
-          i18nKey="submit proposal description"
+          i18nKey={
+            toBroadcastMessage ? 'submit proposal description' : 'submitted proposal description'
+          }
           components={[
             <CopiableAddress address={message.value.proposer} />,
             <Typography.SemiBold14 />,

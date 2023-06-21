@@ -8,12 +8,16 @@ import CopiableAddress from 'components/CopiableAddress';
 
 const MsgRefuseDTagTransferDetails: MessageDetailsComponent<
   MsgRefuseDTagTransferRequestEncodeObject
-> = ({ message }) => (
+> = ({ message, toBroadcastMessage }) => (
   <BaseMessageDetails message={message}>
     <Typography.Regular14>
       <Trans
         ns="messages.profiles"
-        i18nKey="refuse dtag transfer description"
+        i18nKey={
+          toBroadcastMessage
+            ? 'refuse dtag transfer description'
+            : 'refused dtag transfer description'
+        }
         components={[
           <CopiableAddress address={message.value.receiver} />,
           <CopiableAddress address={message.value.sender} />,

@@ -13,6 +13,7 @@ import useGetReactionValueFields from './hooks';
  */
 const MsgAddReactionDetails: MessageDetailsComponent<MsgAddReactionEncodeObject> = ({
   message,
+  toBroadcastMessage,
 }) => {
   const getReactionValueFields = useGetReactionValueFields();
   const fields = React.useMemo(
@@ -25,7 +26,7 @@ const MsgAddReactionDetails: MessageDetailsComponent<MsgAddReactionEncodeObject>
       <Typography.Regular14>
         <Trans
           ns="messages.reactions"
-          i18nKey="add reaction description"
+          i18nKey={toBroadcastMessage ? 'add reaction description' : 'added reaction description'}
           components={[
             <CopiableAddress address={message.value.user} />,
             <Typography.SemiBold14 />,

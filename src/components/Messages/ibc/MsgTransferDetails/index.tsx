@@ -12,7 +12,10 @@ import CopiableAddress from 'components/CopiableAddress';
 /**
  * Displays the full details of a MsgTransfer.
  */
-const MsgTransfer: MessageDetailsComponent<MsgTransferEncodeObject> = ({ message }) => {
+const MsgTransfer: MessageDetailsComponent<MsgTransferEncodeObject> = ({
+  message,
+  toBroadcastMessage,
+}) => {
   const { t } = useTranslation('messages.ibc');
   const {
     token,
@@ -64,7 +67,7 @@ const MsgTransfer: MessageDetailsComponent<MsgTransferEncodeObject> = ({ message
       <Typography.Regular14>
         <Trans
           ns={'messages.ibc'}
-          i18nKey={'ibc transfer description'}
+          i18nKey={toBroadcastMessage ? 'ibc send description' : 'ibc sent description'}
           components={[
             <CopiableAddress address={sender} />,
             <CopiableAddress address={receiver} />,

@@ -1,5 +1,6 @@
 {
   "multi send": "Multi send",
   "send": "Send",
-  "send description": "<0/> sent <1>{{ amount }}</1> to <2/>"
+  "send description": "Send <1>{{ amount }}</1> to <2/>",
+  "sent description": "<0/> sent <1>{{ amount }}</1> to <2/>"
 }

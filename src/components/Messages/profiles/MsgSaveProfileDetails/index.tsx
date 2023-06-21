@@ -12,6 +12,7 @@ import CopiableAddress from 'components/CopiableAddress';
  */
 const MsgSaveProfileDetails: MessageDetailsComponent<MsgSaveProfileEncodeObject> = ({
   message,
+  toBroadcastMessage,
 }) => {
   const { t } = useTranslation('profile');
   const { value } = message;
@@ -47,7 +48,7 @@ const MsgSaveProfileDetails: MessageDetailsComponent<MsgSaveProfileEncodeObject>
       <Typography.Regular14>
         <Trans
           ns="messages.profiles"
-          i18nKey="save profile description"
+          i18nKey={toBroadcastMessage ? 'save profile description' : 'saved profile description'}
           components={[<CopiableAddress address={value.creator} />]}
         />
       </Typography.Regular14>

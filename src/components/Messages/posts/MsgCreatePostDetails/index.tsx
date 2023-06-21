@@ -15,7 +15,10 @@ import CopiableAddress from 'components/CopiableAddress';
  * Displays the full details of a MsgCreatePost
  * @constructor
  */
-const MsgCreatePostDetails: MessageDetailsComponent<MsgCreatePostEncodeObject> = ({ message }) => {
+const MsgCreatePostDetails: MessageDetailsComponent<MsgCreatePostEncodeObject> = ({
+  message,
+  toBroadcastMessage,
+}) => {
   const { t } = useTranslation('messages.posts');
   const { t: tSubspces } = useTranslation('messages.subspaces');
   const getEntitiesFields = useGetGeneratePostEntitiesDetailFields();
@@ -68,7 +71,7 @@ const MsgCreatePostDetails: MessageDetailsComponent<MsgCreatePostEncodeObject> =
       <Typography.Regular14>
         <Trans
           ns="messages.posts"
-          i18nKey="create post description"
+          i18nKey={toBroadcastMessage ? 'create post description' : 'created post description'}
           components={[
             <CopiableAddress address={message.value.author} />,
             <Typography.SemiBold14 />,

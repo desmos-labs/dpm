@@ -12,6 +12,7 @@ import CopiableAddress from 'components/CopiableAddress';
  */
 const MsgDeleteProfileDetails: MessageDetailsComponent<MsgDeleteProfileEncodeObject> = ({
   message,
+  toBroadcastMessage,
 }) => {
   const { value } = message;
 
@@ -20,7 +21,9 @@ const MsgDeleteProfileDetails: MessageDetailsComponent<MsgDeleteProfileEncodeObj
       <Typography.Regular14>
         <Trans
           ns="messages.profiles"
-          i18nKey="delete profile description"
+          i18nKey={
+            toBroadcastMessage ? 'delete profile description' : 'deleted profile description'
+          }
           components={[<CopiableAddress address={value.creator} />]}
         />
       </Typography.Regular14>

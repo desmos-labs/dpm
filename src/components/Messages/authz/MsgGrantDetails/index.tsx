@@ -7,7 +7,10 @@ import Typography from 'components/Typography';
 import CopiableAddress from 'components/CopiableAddress';
 import { useGrantFields } from './hooks';
 
-const MsgGrantDetails: MessageDetailsComponent<MsgGrantEncodeObject> = ({ message }) => {
+const MsgGrantDetails: MessageDetailsComponent<MsgGrantEncodeObject> = ({
+  message,
+  toBroadcastMessage,
+}) => {
   const { t } = useTranslation('messages.authz');
   const grantFields = useGrantFields(message.value.grant);
 
@@ -16,7 +19,9 @@ const MsgGrantDetails: MessageDetailsComponent<MsgGrantEncodeObject> = ({ messag
       <Typography.Regular14>
         <Trans
           t={t}
-          i18nKey="grant allowance description"
+          i18nKey={
+            toBroadcastMessage ? 'grant allowance description' : 'granted allowance description'
+          }
           components={[
             <CopiableAddress address={message.value.granter} />,
             <CopiableAddress address={message.value.grantee} />,

@@ -10,7 +10,10 @@ import CopiableAddress from 'components/CopiableAddress';
 /**
  * Displays the full details of a MsgSend.
  */
-const MsgSendDetails: MessageDetailsComponent<MsgSendEncodeObject> = ({ message }) => {
+const MsgSendDetails: MessageDetailsComponent<MsgSendEncodeObject> = ({
+  message,
+  toBroadcastMessage,
+}) => {
   const { value } = message;
   const convertedAmount = useMemo(() => formatCoins(value.amount), [value.amount]);
 
@@ -19,7 +22,7 @@ const MsgSendDetails: MessageDetailsComponent<MsgSendEncodeObject> = ({ message 
       <Typography.Regular14>
         <Trans
           ns={'messages.bank'}
-          i18nKey={'send description'}
+          i18nKey={toBroadcastMessage ? 'send description' : 'sent description'}
           components={[
             <CopiableAddress address={message.value.fromAddress ?? ''} />,
             <Typography.SemiBold14 />,

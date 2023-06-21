@@ -12,7 +12,7 @@ import CopiableAddress from 'components/CopiableAddress';
  */
 const MsgSetUserGroupPermissionsDetails: MessageDetailsComponent<
   MsgSetUserGroupPermissionsEncodeObject
-> = ({ message }) => {
+> = ({ message, toBroadcastMessage }) => {
   const { t } = useTranslation('messages.subspaces');
 
   const fields = React.useMemo(
@@ -30,7 +30,11 @@ const MsgSetUserGroupPermissionsDetails: MessageDetailsComponent<
       <Typography.Regular14>
         <Trans
           ns="messages.subspaces"
-          i18nKey="set user group permissions description"
+          i18nKey={
+            toBroadcastMessage
+              ? 'set user group permissions description'
+              : 'user set user group permissions description'
+          }
           components={[
             <CopiableAddress address={message.value.signer} />,
             <Typography.SemiBold14 />,

@@ -12,6 +12,7 @@ import CopiableAddress from 'components/CopiableAddress';
  */
 const MsgSetUserPermissionsDetails: MessageDetailsComponent<MsgSetUserPermissionsEncodeObject> = ({
   message,
+  toBroadcastMessage,
 }) => {
   const { t } = useTranslation('messages.subspaces');
 
@@ -30,7 +31,11 @@ const MsgSetUserPermissionsDetails: MessageDetailsComponent<MsgSetUserPermission
       <Typography.Regular14>
         <Trans
           ns="messages.subspaces"
-          i18nKey="set user permissions description"
+          i18nKey={
+            toBroadcastMessage
+              ? 'set user permissions description'
+              : 'user set user permissions description'
+          }
           components={[
             <CopiableAddress address={message.value.signer} />,
             <CopiableAddress address={message.value.user} />,

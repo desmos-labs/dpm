@@ -12,12 +12,16 @@ import { MsgSetWithdrawAddressEncodeObject } from 'types/cosmos';
  */
 const MsgWithdrawDelegatorRewardsDetails: MessageDetailsComponent<
   MsgSetWithdrawAddressEncodeObject
-> = ({ message }) => (
+> = ({ message, toBroadcastMessage }) => (
   <BaseMessageDetails message={message}>
     <Typography.Regular14>
       <Trans
         ns="messages.distribution"
-        i18nKey="set rewards address description"
+        i18nKey={
+          toBroadcastMessage
+            ? 'set rewards address description'
+            : 'set their rewards address description'
+        }
         components={[
           <CopiableAddress address={message.value.delegatorAddress} />,
           <CopiableAddress address={message.value.withdrawAddress} />,

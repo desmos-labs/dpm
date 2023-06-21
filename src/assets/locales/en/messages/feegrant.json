@@ -12,6 +12,8 @@
   "basic spend limit": "Basic allowance spend limit",
   "basic expiration": "Basic allowance expiration",
   "allowed messages": "Allowed messages",
-  "grant allowance description": "<0/> gave a fee grant to <1/>",
-  "revoke grant allowance description": "<0/> revoked all fee grants to <1/>"
+  "give grant allowance description": "Give fee grant to <1/>",
+  "gave grant allowance description": "<0/> gave a fee grant to <1/>",
+  "revoke grant allowance description": "Revoke all fee grants to <1/>",
+  "revoked grant allowance description": "<0/> revoked all fee grants to <1/>"
 }

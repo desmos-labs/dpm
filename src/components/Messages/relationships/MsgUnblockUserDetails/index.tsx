@@ -8,12 +8,13 @@ import CopiableAddress from 'components/CopiableAddress';
 
 const MsgUnblockUserDetails: MessageDetailsComponent<MsgUnblockUserEncodeObject> = ({
   message,
+  toBroadcastMessage,
 }) => (
   <BaseMessageDetails message={message}>
     <Typography.Regular14>
       <Trans
         ns="messages.relationships"
-        i18nKey="unblock user description"
+        i18nKey={toBroadcastMessage ? 'unblock user description' : 'unblocked user description'}
         components={[
           <CopiableAddress address={message.value.blocker} />,
           <CopiableAddress address={message.value.blocked} />,

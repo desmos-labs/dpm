@@ -12,12 +12,14 @@ import { MsgWithdrawValidatorCommissionEncodeObject } from 'types/cosmos';
  */
 const MsgWithdrawDelegatorRewardsDetails: MessageDetailsComponent<
   MsgWithdrawValidatorCommissionEncodeObject
-> = ({ message }) => (
+> = ({ message, toBroadcastMessage }) => (
   <BaseMessageDetails message={message}>
     <Typography.Regular14>
       <Trans
         ns="messages.distribution"
-        i18nKey="withdraw commission description"
+        i18nKey={
+          toBroadcastMessage ? 'withdraw commission description' : 'withdrew commission description'
+        }
         components={[<CopiableAddress address={message.value.validatorAddress} />]}
       />
     </Typography.Regular14>

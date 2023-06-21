@@ -15,10 +15,16 @@
   "free text reactions enabled": "Free text reactions enabled",
   "free text reactions max length": "Free text reactions max length",
   "free text reactions regex": "Free text reactions regex",
-  "add reaction description": "<0/> added a reaction to post <1>{{ postId }}</1> of subspace <2>{{ subspaceId }}</2>",
-  "remove reaction description": "<0/> removed reaction <1>{{ reactionId }}</1> from post <2>{{ postId }}</2> of subspace <3>{{ subspaceId }}</3>",
-  "add registered reaction description": "<0/> added a registered reaction to subspace <1>{{ subspaceId }}</1>",
-  "edit registered reaction description": "<0/> modified registered reaction <1>{{ reactionId }}</1> of subspace <2>{{ subspaceId }}</2>",
-  "remove registered reaction description": "<0/> removed registered reaction <1>{{ reactionId }}</1> from subspace <2>{{ subspaceId }}</2>",
-  "set reactions params description": "<0/> set the reactions params of subspace <1>{{ subspaceId }}</1>"
+  "add reaction description": "Add reaction to post <1>{{ postId }}</1> of subspace <2>{{ subspaceId }}</2>",
+  "added reaction description": "<0/> added a reaction to post <1>{{ postId }}</1> of subspace <2>{{ subspaceId }}</2>",
+  "remove reaction description": "Remove reaction <1>{{ reactionId }}</1> from post <2>{{ postId }}</2> of subspace <3>{{ subspaceId }}</3>",
+  "removed reaction description": "<0/> removed reaction <1>{{ reactionId }}</1> from post <2>{{ postId }}</2> of subspace <3>{{ subspaceId }}</3>",
+  "add registered reaction description": "Add a registered reaction to subspace <1>{{ subspaceId }}</1>",
+  "added registered reaction description": "<0/> added a registered reaction to subspace <1>{{ subspaceId }}</1>",
+  "edit registered reaction description": "Modify registered reaction <1>{{ reactionId }}</1> of subspace <2>{{ subspaceId }}</2>",
+  "edited registered reaction description": "<0/> modified registered reaction <1>{{ reactionId }}</1> of subspace <2>{{ subspaceId }}</2>",
+  "remove registered reaction description": "Remove registered reaction <1>{{ reactionId }}</1> from subspace <2>{{ subspaceId }}</2>",
+  "removed registered reaction description": "<0/> removed registered reaction <1>{{ reactionId }}</1> from subspace <2>{{ subspaceId }}</2>",
+  "set reactions params description": "Set reactions params of subspace <1>{{ subspaceId }}</1>",
+  "user set reactions params description": "<0/> set the reactions params of subspace <1>{{ subspaceId }}</1>"
 }

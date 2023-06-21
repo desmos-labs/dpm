@@ -14,6 +14,7 @@ import CopiableAddress from 'components/CopiableAddress';
  */
 const MsgSetReactionsDetails: MessageDetailsComponent<MsgSetReactionsParamsEncodeObject> = ({
   message,
+  toBroadcastMessage,
 }) => {
   const { t } = useTranslation('messages.reactions');
 
@@ -48,7 +49,11 @@ const MsgSetReactionsDetails: MessageDetailsComponent<MsgSetReactionsParamsEncod
       <Typography.Regular14>
         <Trans
           ns="messages.reactions"
-          i18nKey="set reactions params description"
+          i18nKey={
+            toBroadcastMessage
+              ? 'set reactions params description'
+              : 'user set reactions params description'
+          }
           components={[<CopiableAddress address={message.value.user} />, <Typography.SemiBold14 />]}
           values={{
             subspaceId: message.value.subspaceId,

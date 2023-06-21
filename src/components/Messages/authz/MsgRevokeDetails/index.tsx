@@ -8,7 +8,7 @@ import Typography from 'components/Typography';
 
 type MsgRevokeDetailsProps = MessageDetailsComponentProps<MsgRevokeEncodeObject>;
 
-const MsgRevokeDetails: React.FC<MsgRevokeDetailsProps> = ({ message }) => {
+const MsgRevokeDetails: React.FC<MsgRevokeDetailsProps> = ({ message, toBroadcastMessage }) => {
   const { t } = useTranslation('messages.authz');
 
   const computedFields = React.useMemo(
@@ -16,7 +16,7 @@ const MsgRevokeDetails: React.FC<MsgRevokeDetailsProps> = ({ message }) => {
       message.value.msgTypeUrl !== undefined
         ? [
             {
-              label: t('removed authorization'),
+              label: t('authorization'),
               value: message.value.msgTypeUrl,
             },
           ]
@@ -29,7 +29,7 @@ const MsgRevokeDetails: React.FC<MsgRevokeDetailsProps> = ({ message }) => {
       <Typography.Regular14>
         <Trans
           ns={'messages.authz'}
-          i18nKey={'grant revoke description'}
+          i18nKey={toBroadcastMessage ? 'grant revoke description' : 'grant revoked description'}
           components={[
             <CopiableAddress address={message.value.granter} />,
             <CopiableAddress address={message.value.grantee} />,

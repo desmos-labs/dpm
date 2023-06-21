@@ -5,6 +5,7 @@ import BaseMessageDetails from 'components/Messages/BaseMessage/BaseMessageDetai
 import { MessageDetailsComponent } from 'components/Messages/BaseMessage';
 import useGetGeneratePostAttachmentDetailFields from 'components/Messages/posts/hooks/useGetGeneratePostAttachmentsDetailFields';
 import Typography from 'components/Typography';
+import CopiableAddress from 'components/CopiableAddress';
 
 /**
  * Displays the full details of a MsgAddPostAttachment
@@ -12,6 +13,7 @@ import Typography from 'components/Typography';
  */
 const MsgAddPostAttachment: MessageDetailsComponent<MsgAddPostAttachmentEncodeObject> = ({
   message,
+  toBroadcastMessage,
 }) => {
   const generateAttachmentFields = useGetGeneratePostAttachmentDetailFields();
   const fields = React.useMemo(
@@ -24,8 +26,13 @@ const MsgAddPostAttachment: MessageDetailsComponent<MsgAddPostAttachmentEncodeOb
       <Typography.Regular14>
         <Trans
           ns="messages.posts"
-          i18nKey="add post attachment description"
+          i18nKey={
+            toBroadcastMessage
+              ? 'add post attachment description'
+              : 'added post attachment description'
+          }
           components={[
+            <CopiableAddress address={message.value.editor} />,
             <Typography.SemiBold14 />,
             <Typography.SemiBold14 />,
             <Typography.SemiBold14 />,

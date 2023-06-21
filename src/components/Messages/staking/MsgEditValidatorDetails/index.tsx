@@ -12,12 +12,13 @@ import { MsgEditValidatorEncodeObject } from '@cosmjs/stargate';
  */
 const MsgEditValidatorDetails: MessageDetailsComponent<MsgEditValidatorEncodeObject> = ({
   message,
+  toBroadcastMessage,
 }) => (
   <BaseMessageDetails message={message}>
     <Typography.Regular14>
       <Trans
         ns="messages.staking"
-        i18nKey="edit validator description"
+        i18nKey={toBroadcastMessage ? 'edit validator description' : 'edited validator description'}
         components={[<CopiableAddress address={message.value.validatorAddress} />]}
       />
     </Typography.Regular14>

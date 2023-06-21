@@ -12,12 +12,15 @@ import CopiableAddress from 'components/CopiableAddress';
  */
 const MsgDeleteUserGroupDetails: MessageDetailsComponent<MsgDeleteUserGroupEncodeObject> = ({
   message,
+  toBroadcastMessage,
 }) => (
   <BaseMessageDetails message={message}>
     <Typography.Regular14>
       <Trans
         ns="messages.subspaces"
-        i18nKey="delete user group description"
+        i18nKey={
+          toBroadcastMessage ? 'delete user group description' : 'deleted user group description'
+        }
         components={[
           <CopiableAddress address={message.value.signer} />,
           <Typography.SemiBold14 />,

@@ -13,6 +13,7 @@ import CopiableAddress from 'components/CopiableAddress';
  */
 const MsgBeginRedelegateDetails: MessageDetailsComponent<MsgBeginRedelegateEncodeObject> = ({
   message,
+  toBroadcastMessage,
 }) => {
   const amount = useMemo(
     () => (message.value.amount ? formatCoin(message.value.amount) : ''),
@@ -24,7 +25,7 @@ const MsgBeginRedelegateDetails: MessageDetailsComponent<MsgBeginRedelegateEncod
       <Typography.Regular14>
         <Trans
           ns="messages.staking"
-          i18nKey="redelegate description"
+          i18nKey={toBroadcastMessage ? 'redelegate description' : 'redelegated description'}
           components={[
             <CopiableAddress address={message.value.delegatorAddress} />,
             <Typography.SemiBold14 />,

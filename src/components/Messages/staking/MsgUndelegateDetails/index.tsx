@@ -11,7 +11,10 @@ import CopiableAddress from 'components/CopiableAddress';
  * Displays the full details of a MsgUndelegate.
  * @constructor
  */
-const MsgUndelegateDetails: MessageDetailsComponent<MsgUndelegateEncodeObject> = ({ message }) => {
+const MsgUndelegateDetails: MessageDetailsComponent<MsgUndelegateEncodeObject> = ({
+  message,
+  toBroadcastMessage,
+}) => {
   const amount = useMemo(
     () => (message.value.amount ? formatCoin(message.value.amount) : ''),
     [message.value.amount],
@@ -22,7 +25,7 @@ const MsgUndelegateDetails: MessageDetailsComponent<MsgUndelegateEncodeObject> =
       <Typography.Regular14>
         <Trans
           ns="messages.staking"
-          i18nKey="undelegate description"
+          i18nKey={toBroadcastMessage ? 'undelegate description' : 'undelegated description'}
           components={[
             <CopiableAddress address={message.value.delegatorAddress} />,
             <Typography.SemiBold14 />,

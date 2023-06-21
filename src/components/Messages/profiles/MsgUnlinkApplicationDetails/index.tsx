@@ -8,12 +8,15 @@ import CopiableAddress from 'components/CopiableAddress';
 
 const MsgUnlinkApplicationDetails: MessageDetailsComponent<MsgUnlinkApplicationEncodeObject> = ({
   message,
+  toBroadcastMessage,
 }) => (
   <BaseMessageDetails message={message}>
     <Typography.Regular14>
       <Trans
         ns="messages.profiles"
-        i18nKey="unlink application description"
+        i18nKey={
+          toBroadcastMessage ? 'unlink application description' : 'unlinked application description'
+        }
         components={[<CopiableAddress address={message.value.signer} />, <Typography.SemiBold14 />]}
         values={{
           application: message.value.application,

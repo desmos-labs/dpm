@@ -12,15 +12,11 @@ import CopiableAddress from 'components/CopiableAddress';
  */
 const MsgEditRegisteredReactionDetails: MessageDetailsComponent<
   MsgEditRegisteredReactionEncodeObject
-> = ({ message }) => {
+> = ({ message, toBroadcastMessage }) => {
   const { t } = useTranslation('messages.reactions');
 
   const fields = React.useMemo(
     () => [
-      {
-        label: t('registered reaction id'),
-        value: message.value.registeredReactionId.toString(),
-      },
       {
         label: t('shorthand code'),
         value: message.value.shorthandCode,
@@ -38,7 +34,11 @@ const MsgEditRegisteredReactionDetails: MessageDetailsComponent<
       <Typography.Regular14>
         <Trans
           ns="messages.reactions"
-          i18nKey="edit registered reaction description"
+          i18nKey={
+            toBroadcastMessage
+              ? 'edit registered reaction description'
+              : 'edited registered reaction description'
+          }
           components={[
             <CopiableAddress address={message.value.user} />,
             <Typography.SemiBold14 />,

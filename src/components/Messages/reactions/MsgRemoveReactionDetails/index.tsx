@@ -12,12 +12,15 @@ import CopiableAddress from 'components/CopiableAddress';
  */
 const MsgRemoveReactionDetails: MessageDetailsComponent<MsgRemoveReactionEncodeObject> = ({
   message,
+  toBroadcastMessage,
 }) => (
   <BaseMessageDetails message={message}>
     <Typography.Regular14>
       <Trans
         ns="messages.reactions"
-        i18nKey="remove reaction description"
+        i18nKey={
+          toBroadcastMessage ? 'remove reaction description' : 'removed reaction description'
+        }
         components={[
           <CopiableAddress address={message.value.user} />,
           <Typography.SemiBold14 />,

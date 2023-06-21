@@ -6,7 +6,10 @@ import { MsgBlockUserEncodeObject } from '@desmoslabs/desmjs';
 import Typography from 'components/Typography';
 import CopiableAddress from 'components/CopiableAddress';
 
-const MsgBlockUserDetails: MessageDetailsComponent<MsgBlockUserEncodeObject> = ({ message }) => {
+const MsgBlockUserDetails: MessageDetailsComponent<MsgBlockUserEncodeObject> = ({
+  message,
+  toBroadcastMessage,
+}) => {
   const { t } = useTranslation('messages.profiles');
 
   const fields = React.useMemo(
@@ -24,7 +27,7 @@ const MsgBlockUserDetails: MessageDetailsComponent<MsgBlockUserEncodeObject> = (
       <Typography.Regular14>
         <Trans
           ns="messages.relationships"
-          i18nKey="block user description"
+          i18nKey={toBroadcastMessage ? 'block user description' : 'blocked user description'}
           components={[
             <CopiableAddress address={message.value.blocker} />,
             <CopiableAddress address={message.value.blocked} />,

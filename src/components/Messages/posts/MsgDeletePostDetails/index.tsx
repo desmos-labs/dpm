@@ -10,12 +10,15 @@ import CopiableAddress from 'components/CopiableAddress';
  * Displays the full details of a MsgDeletePost
  * @constructor
  */
-const MsgDeletePostDetails: MessageDetailsComponent<MsgDeletePostEncodeObject> = ({ message }) => (
+const MsgDeletePostDetails: MessageDetailsComponent<MsgDeletePostEncodeObject> = ({
+  message,
+  toBroadcastMessage,
+}) => (
   <BaseMessageDetails message={message}>
     <Typography.Regular14>
       <Trans
         ns="messages.posts"
-        i18nKey="delete post description"
+        i18nKey={toBroadcastMessage ? 'delete post description' : 'deleted post description'}
         components={[
           <CopiableAddress address={message.value.signer} />,
           <Typography.SemiBold14 />,

@@ -3,8 +3,12 @@
   "set withdraw address": "Set withdraw address",
   "withdraw commission": "Withdraw commission",
   "fund community pool": "Fund community pool",
-  "withdraw rewards description": "<0/> withdrew the rewards from <1/>",
-  "set rewards address description": "<0/> set their withdraw address to <1/>",
-  "withdraw commission description": "Withdrew their commissions from <0/>",
-  "fund community pool description": "Sent <0>{{ amount }}</0> to the community pool"
+  "withdraw rewards description": "Withdraw rewards from <1/>",
+  "withdrew rewards description": "<0/> withdrew the rewards from <1/>",
+  "set rewards address description": "Set withdraw address to <1/>",
+  "set their rewards address description": "<0/> set their withdraw address to <1/>",
+  "withdraw commission description": "Withdraw commissions from <0/>",
+  "withdrew commission description": "Withdrew their commissions from <0/>",
+  "send to community pool description": "Send <1>{{ amount }}</1> to the community pool",
+  "sent to community pool description": "<0/> sent <1>{{ amount }}</1> to the community pool"
 }

@@ -144,6 +144,7 @@ function allowanceToFields(
 
 const MsgGrantAllowanceDetails: MessageDetailsComponent<MsgGrantAllowanceEncodeObject> = ({
   message,
+  toBroadcastMessage,
 }) => {
   const { t } = useTranslation('messages.feegrant');
   const { granter, grantee, allowance } = message.value;
@@ -155,7 +156,11 @@ const MsgGrantAllowanceDetails: MessageDetailsComponent<MsgGrantAllowanceEncodeO
       <Typography.Regular14>
         <Trans
           ns="messages.feegrant"
-          i18nKey="grant allowance description"
+          i18nKey={
+            toBroadcastMessage
+              ? 'give grant allowance description'
+              : 'gave grant allowance description'
+          }
           components={[
             <CopiableAddress address={granter} />,
             <CopiableAddress address={grantee} />,

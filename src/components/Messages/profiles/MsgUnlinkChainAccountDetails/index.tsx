@@ -12,12 +12,17 @@ import CopiableAddress from 'components/CopiableAddress';
  */
 const MsgUnlinkChainAccountDetails: MessageDetailsComponent<MsgUnlinkChainAccountEncodeObject> = ({
   message,
+  toBroadcastMessage,
 }) => (
   <BaseMessageDetails message={message}>
     <Typography.Regular14>
       <Trans
         ns="messages.profiles"
-        i18nKey="unlink chain account description"
+        i18nKey={
+          toBroadcastMessage
+            ? 'unlink chain account description'
+            : 'unlinked chain account description'
+        }
         components={[
           <CopiableAddress address={message.value.owner} />,
           <Typography.SemiBold14 />,

@@ -8,7 +8,7 @@ import CopiableAddress from 'components/CopiableAddress';
 
 const MsgAcceptDtagTransferDetails: MessageDetailsComponent<
   MsgAcceptDTagTransferRequestEncodeObject
-> = ({ message }) => {
+> = ({ message, toBroadcastMessage }) => {
   const { t } = useTranslation('messages.profiles');
   const fields = React.useMemo(
     () => [
@@ -25,7 +25,11 @@ const MsgAcceptDtagTransferDetails: MessageDetailsComponent<
       <Typography.Regular14>
         <Trans
           ns="messages.profiles"
-          i18nKey="accept dtag transfer description"
+          i18nKey={
+            toBroadcastMessage
+              ? 'accept dtag transfer description'
+              : 'accepted dtag transfer description'
+          }
           components={[
             <CopiableAddress address={message.value.receiver} />,
             <CopiableAddress address={message.value.sender} />,

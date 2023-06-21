@@ -11,7 +11,10 @@ import Typography from 'components/Typography';
  * Displays the full details of a MsgVote
  * @constructor
  */
-const MsgVoteDetails: MessageDetailsComponent<MsgVoteEncodeObject> = ({ message }) => {
+const MsgVoteDetails: MessageDetailsComponent<MsgVoteEncodeObject> = ({
+  message,
+  toBroadcastMessage,
+}) => {
   const { t } = useTranslation('messages.gov');
   const { value } = message;
 
@@ -41,7 +44,7 @@ const MsgVoteDetails: MessageDetailsComponent<MsgVoteEncodeObject> = ({ message 
       <Typography.Regular14>
         <Trans
           ns="messages.gov"
-          i18nKey="vote description"
+          i18nKey={toBroadcastMessage ? 'vote description' : 'voted description'}
           components={[
             <CopiableAddress address={message.value.voter} />,
             <Typography.SemiBold14 />,

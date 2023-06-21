@@ -8,6 +8,7 @@ import Typography from 'components/Typography';
 
 const MsgRevokeAllowanceDetails: MessageDetailsComponent<MsgRevokeAllowanceEncodeObject> = ({
   message,
+  toBroadcastMessage,
 }) => {
   const { granter, grantee } = message.value;
 
@@ -16,7 +17,11 @@ const MsgRevokeAllowanceDetails: MessageDetailsComponent<MsgRevokeAllowanceEncod
       <Typography.Regular14>
         <Trans
           ns="messages.feegrant"
-          i18nKey="revoke grant allowance description"
+          i18nKey={
+            toBroadcastMessage
+              ? 'revoke grant allowance description'
+              : 'revoked grant allowance description'
+          }
           components={[
             <CopiableAddress address={granter} />,
             <CopiableAddress address={grantee} />,

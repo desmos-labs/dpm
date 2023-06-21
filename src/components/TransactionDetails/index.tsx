@@ -65,11 +65,11 @@ const TransactionDetails: React.FC<TransactionDetailsProps> = (props) => {
   const renderMessages = React.useCallback<ListRenderItem<EncodeObject>>(
     ({ item }) => (
       <>
-        <MessageDetails message={item} />
+        <MessageDetails message={item} toBroadcastMessage={hash === undefined} />
         <Spacer paddingVertical={8} />
       </>
     ),
-    [],
+    [hash],
   );
 
   return (

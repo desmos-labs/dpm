@@ -13,7 +13,10 @@ import CopiableAddress from 'components/CopiableAddress';
  * Displays the full details of a MsgEditPost
  * @constructor
  */
-const MsgEditPostDetails: MessageDetailsComponent<MsgEditPostEncodeObject> = ({ message }) => {
+const MsgEditPostDetails: MessageDetailsComponent<MsgEditPostEncodeObject> = ({
+  message,
+  toBroadcastMessage,
+}) => {
   const { t } = useTranslation('messages.posts');
   const getEntitiesFields = useGetGeneratePostEntitiesDetailFields();
 
@@ -39,7 +42,7 @@ const MsgEditPostDetails: MessageDetailsComponent<MsgEditPostEncodeObject> = ({ 
       <Typography.Regular14>
         <Trans
           ns="messages.posts"
-          i18nKey="edit post description"
+          i18nKey={toBroadcastMessage ? 'edit post description' : 'edited post description'}
           components={[
             <CopiableAddress address={message.value.editor} />,
             <Typography.SemiBold14 />,

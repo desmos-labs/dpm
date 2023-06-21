@@ -12,12 +12,14 @@ import CopiableAddress from 'components/CopiableAddress';
  */
 const MsgWithdrawDelegatorRewardsDetails: MessageDetailsComponent<
   MsgWithdrawDelegatorRewardEncodeObject
-> = ({ message }) => (
+> = ({ message, toBroadcastMessage }) => (
   <BaseMessageDetails message={message}>
     <Typography.Regular14>
       <Trans
         ns="messages.distribution"
-        i18nKey="withdraw rewards description"
+        i18nKey={
+          toBroadcastMessage ? 'withdraw rewards description' : 'withdrew rewards description'
+        }
         components={[
           <CopiableAddress address={message.value.delegatorAddress ?? ''} />,
           <CopiableAddress address={message.value.validatorAddress ?? ''} />,

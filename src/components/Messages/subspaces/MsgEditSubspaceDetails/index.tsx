@@ -12,6 +12,7 @@ import CopiableAddress from 'components/CopiableAddress';
  */
 const MsgEditSubspaceDetails: MessageDetailsComponent<MsgEditSubspaceEncodeObject> = ({
   message,
+  toBroadcastMessage,
 }) => {
   const { t } = useTranslation('messages.subspaces');
 
@@ -40,7 +41,7 @@ const MsgEditSubspaceDetails: MessageDetailsComponent<MsgEditSubspaceEncodeObjec
       <Typography.Regular14>
         <Trans
           ns="messages.subspaces"
-          i18nKey="edit subspace description"
+          i18nKey={toBroadcastMessage ? 'edit subspace description' : 'edited subspace description'}
           components={[
             <CopiableAddress address={message.value.signer} />,
             <Typography.SemiBold14 />,
