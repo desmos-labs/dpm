@@ -1497,6 +1497,7 @@ const converters = [
   decodePostsMessage,
   decodeProfileMessage,
   decodeReactionsMessage,
+  decodeRelationshipMessage,
   decodeReportsMessage,
   decodeStakingMessage,
   decodeSubspaceMessage,
