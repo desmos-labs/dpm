@@ -28,19 +28,24 @@ const ImportAccountFromMnemonic: FC<NavProps> = (props) => {
   const styles = useStyles();
   const { t } = useTranslation('account');
 
-  const selectAccount = useSelectAccount();
+  // -------- HOOKS --------
 
+  const selectAccount = useSelectAccount();
   const importAccountState = useRecoilValue(importAccountAppState);
   const { ignoreAddresses, selectedChain, onSuccess } = importAccountState!;
+
+  // -------- STATES --------
 
   const [mnemonic, setMnemonic] = useState<string>('');
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
-  const onMnemonicChange = (changedMnemonic: string) => {
+  // -------- CALLBACKS --------
+
+  const onMnemonicChange = React.useCallback((changedMnemonic: string) => {
     const sanitizedMnemonic = sanitizeMnemonic(changedMnemonic, true);
     setMnemonic(sanitizedMnemonic);
     setErrorMessage(null);
-  };
+  }, []);
 
   const onNextPressed = useCallback(async () => {
     if (mnemonic === '') {
@@ -68,7 +73,7 @@ const ImportAccountFromMnemonic: FC<NavProps> = (props) => {
         const invalidWords = sanitizedMnemonic
           .split(' ')
           .filter((w) => w.length > 0 && EnglishMnemonic.wordlist.indexOf(w) === -1)
-          .join(',');
+          .join(', ');
 
         if (invalidWords.length > 0) {
           setErrorMessage(`${t('invalid words')}:\n${invalidWords}`);
@@ -79,12 +84,12 @@ const ImportAccountFromMnemonic: FC<NavProps> = (props) => {
     }
   }, [mnemonic, t, selectAccount, selectedChain, ignoreAddresses, onSuccess]);
 
-  const useDebugMnemonic = () => {
+  const useDebugMnemonic = React.useCallback(() => {
     setMnemonic(
       'hour harbor fame unaware bunker junk garment decrease federal vicious island smile warrior fame right suit portion skate analyst multiply magnet medal fresh sweet',
     );
     setErrorMessage(null);
-  };
+  }, []);
 
   return (
     <StyledSafeAreaView
@@ -107,6 +112,9 @@ const ImportAccountFromMnemonic: FC<NavProps> = (props) => {
         blurOnSubmit
         autoFocus
         onSubmitEditing={onNextPressed}
+        autoCapitalize="none"
+        autoCorrect={false}
+        error={errorMessage !== null}
       />
 
       {errorMessage !== null && (

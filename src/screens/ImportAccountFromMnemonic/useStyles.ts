@@ -16,8 +16,8 @@ const useStyles = makeStyle((theme) => ({
     marginTop: theme.spacing.s,
   },
   errorParagraph: {
-    marginBottom: theme.spacing.xs,
-    color: theme.colors.font.red,
+    marginTop: theme.spacing.s,
+    color: theme.colors.error,
   },
   nextBtn: {
     marginVertical: theme.spacing.xs,
