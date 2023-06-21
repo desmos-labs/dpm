@@ -61,9 +61,14 @@ export const LightTheme: ReactNativePaper.Theme = {
       disabled: 'rgba(237, 108, 83, 0.4)',
     },
     error: '#fd565f',
+
     // New style colors
     primary100: '#FFF0EC',
+    neutral900: '#0A0A0A',
+    neutral700: '#5C5C5C',
     neutral300: '#E8E8E8',
+    feedbackSuccess: '#1EC490',
+    feedbackError: '#E44A4A',
   },
 };
 

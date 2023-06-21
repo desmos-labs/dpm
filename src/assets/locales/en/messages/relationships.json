@@ -6,5 +6,13 @@
   "blocked": "Blocked",
   "blocker": "Blocker",
   "block reason": "Block reason",
-  "unblocked": "Unblocked"
+  "unblocked": "Unblocked",
+  "create relationship description": "Follow <1/> on subspace <2>{{ subspaceId }}</2>",
+  "created relationship description": "<0/> started following <1/> on subspace <2>{{ subspaceId }}</2>",
+  "delete relationship description": "Unfollow <1/> on subspace <2>{{ subspaceId }}</2>",
+  "deleted relationship description": "<0/> unfollowed <1/> on subspace <2>{{ subspaceId }}</2>",
+  "block user description": "Block <1/> on subspace <2>{{ subspaceId }}</2>",
+  "blocked user description": "<0/> blocked <1/> on subspace <2>{{ subspaceId }}</2>",
+  "unblock user description": "Unblock <1/> on subspace <2>{{ subspaceId }}</2>",
+  "unblocked user description": "<0/> unblocked <1/> on subspace <2>{{ subspaceId }}</2>"
 }

@@ -1,4 +1,5 @@
 {
+  "hash": "Hash",
   "fee": "Fee",
   "gas": "Gas",
   "today": "Today",
@@ -15,5 +16,6 @@
   "memo": "Note (Memo)",
   "memo placeholder": "Description (optional)",
   "computing fee": "Calculating fee",
-  "amount": "Amount"
+  "amount": "Amount",
+  "messages": "Messages"
 }

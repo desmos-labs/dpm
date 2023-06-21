@@ -44,3 +44,20 @@ export const tickGreyIcon = require('./tick-grey.png');
 export const tickOrangeIcon = require('./tick-orange.png');
 export const txFailed = require('./txFailed.png');
 export const txSuccess = require('./txSuccess.png');
+
+// Icons
+export const successIcon = require('./icons/successIcon.png');
+export const failIcon = require('./icons/failIcon.png');
+export const iconModuleAuthz = require('./icons/iconModuleAuthz.png');
+export const iconModuleBank = require('./icons/iconModuleBank.png');
+export const iconModuleCosmWasm = require('./icons/iconModuleCosmWasm.png');
+export const iconModuleDistribution = require('./icons/iconModuleDistribution.png');
+export const iconModuleFeegrant = require('./icons/iconModuleFeegrant.png');
+export const iconModuleGovernance = require('./icons/iconModuleGovernance.png');
+export const iconModulePosts = require('./icons/iconModulePosts.png');
+export const iconModuleProfiles = require('./icons/iconModuleProfiles.png');
+export const iconModuleReactions = require('./icons/iconModuleReactions.png');
+export const iconModuleRelationships = require('./icons/iconModuleRelationships.png');
+export const iconModuleReports = require('./icons/iconModuleReports.png');
+export const iconModuleStaking = require('./icons/iconModuleStaking.png');
+export const iconModuleSubspaces = require('./icons/iconModuleSubspaces.png');

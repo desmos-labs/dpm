@@ -1,11 +1,11 @@
-import React, { useMemo } from 'react';
-import { ImageSourcePropType, View } from 'react-native';
-import Divider from 'components/Divider';
+import React from 'react';
+import { Image, View } from 'react-native';
 import Typography from 'components/Typography';
+import { EncodeObject } from '@cosmjs/proto-signing';
+import useMessageName from 'hooks/messages/useMessageName';
+import useMessageIcon from 'hooks/messages/useMessageIcon';
+import Divider from 'components/Divider';
 import LabeledValue from 'components/LabeledValue';
-import FastImage from 'react-native-fast-image';
-import { getImageSource } from 'lib/ImageUtils';
-import { desmosLogoOrange } from 'assets/images';
 import useStyles from './useStyles';
 
 export interface MessageDetailsField {
@@ -15,32 +15,35 @@ export interface MessageDetailsField {
 }
 
 export type BaseMessageDetailsProps = {
-  icon?: ImageSourcePropType;
-  customIconView?: React.ReactElement;
-  iconSubtitle?: string;
+  message: EncodeObject;
   fields?: MessageDetailsField[];
 };
 
-const BaseMessageDetails = (props: BaseMessageDetailsProps) => {
-  const { icon, customIconView, iconSubtitle, fields } = props;
+const BaseMessageDetails: React.FC<React.PropsWithChildren<BaseMessageDetailsProps>> = ({
+  message,
+  fields,
+  children,
+}) => {
   const styles = useStyles();
-  const customIcon = customIconView !== undefined ? customIconView : null;
-  const iconSource = useMemo(() => (icon ? getImageSource(icon) : desmosLogoOrange), [icon]);
+  const name = useMessageName(message);
+  const icon = useMessageIcon(message);
+  const toShowFields = React.useMemo(() => fields?.filter((f) => f.hide !== true) ?? [], [fields]);
 
   return (
-    <View>
-      <View style={styles.txHeader}>
-        {customIcon ?? <FastImage style={styles.txIcon} source={iconSource} resizeMode="contain" />}
-        <Typography.Subtitle style={styles.headerAmount}>{iconSubtitle}</Typography.Subtitle>
+    <View style={styles.root}>
+      <View style={styles.header}>
+        <Image style={styles.headerIcon} source={icon} />
+        <Typography.Regular14 style={styles.headerLabel}>{name}</Typography.Regular14>
       </View>
-      {fields
-        ?.filter((f) => f.hide !== true)
-        ?.map((field, index) => (
-          <View key={`field-${index * 2}`}>
-            {index > 0 && <Divider />}
-            <LabeledValue label={field.label} value={field.value} />
+      <View style={styles.messageValue}>{children}</View>
+      <View>
+        {toShowFields.map((field, index) => (
+          <View key={`field-${index}`}>
+            <Divider />
+            <LabeledValue style={styles.messageField} label={field.label} value={field.value} />
           </View>
         ))}
+      </View>
     </View>
   );
 };

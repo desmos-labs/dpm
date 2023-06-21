@@ -4,5 +4,15 @@
   "delegate": "Delegate",
   "undelegate": "Undelegate",
   "redelegate": "Redelegate",
-  "amount": "Amount"
+  "amount": "Amount",
+  "create validator description": "Create validator <1/>",
+  "created validator description": "<0/> created validator <1/>",
+  "edit validator description": "Modify validator <0/>",
+  "edited validator description": "Modified validator <0/>",
+  "delegate description": "Delegate <1>{{ amount }}</1> to <2/>",
+  "delegated description": "<0/> delegated <1>{{ amount }}</1> to <2/>",
+  "undelegate description": "Undelegate <1>{{ amount }}</1> from <2/>",
+  "undelegated description": "<0/> undelegated <1>{{ amount }}</1> from <2/>",
+  "redelegate description": "Redelegate <1>{{ amount }}</1> from <2/> to <3/>",
+  "redelegated description": "<0/> redelegated <1>{{ amount }}</1> from <2/> to <3/>"
 }

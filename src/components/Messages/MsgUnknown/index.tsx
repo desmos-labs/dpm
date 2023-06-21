@@ -1,11 +1,17 @@
-import { MessageComponents } from 'components/Messages/BaseMessage';
 import { EncodeObject } from '@cosmjs/proto-signing';
-import MsgUnknownDetails from './MsgUnknownDetails';
-import MsgUnknownListItem from './MsgUnknownListItem';
+import React from 'react';
+import BaseMessageDetails from 'components/Messages/BaseMessage/BaseMessageDetails';
+import { MessageDetailsComponent } from 'components/Messages/BaseMessage';
+import Typography from 'components/Typography';
 
-const MsgUnknownComponents: MessageComponents<EncodeObject> = {
-  details: MsgUnknownDetails,
-  listItem: MsgUnknownListItem,
-};
+/**
+ * Displays the full details of an MsgUnknown message.
+ * @constructor
+ */
+export const MsgUnknownDetails: MessageDetailsComponent<EncodeObject> = ({ message }) => (
+  <BaseMessageDetails message={message}>
+    <Typography.Regular14>{JSON.stringify(message.value)}</Typography.Regular14>
+  </BaseMessageDetails>
+);
 
-export default MsgUnknownComponents;
+export default MsgUnknownDetails;

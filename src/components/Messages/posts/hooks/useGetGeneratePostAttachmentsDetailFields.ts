@@ -42,7 +42,7 @@ function generateAttachmentFields(
         },
         ...decodedAttachment.value.providedAnswers.flatMap((pollAnswer) =>
           pollAnswer.attachments.flatMap((pollAttachment) =>
-            generateAttachmentFields(pollAttachment.content, t),
+            generateAttachmentFields(pollAttachment, t),
           ),
         ),
         {

@@ -1,8 +1,7 @@
 import React from 'react';
-import { View } from 'react-native';
+import { StyleProp, View, ViewStyle } from 'react-native';
 import StyledActivityIndicator from 'components/StyledActivityIndicator';
 import Typography from '../Typography';
-import useStyles from './useStyles';
 
 export type LabeledValueProps = {
   /**
@@ -17,18 +16,21 @@ export type LabeledValueProps = {
    * Tels if the value is being loaded.
    */
   loading?: boolean;
+  /**
+   * View style.
+   */
+  style?: StyleProp<ViewStyle> | undefined;
 };
 
-const LabeledValue: React.FC<LabeledValueProps> = (props) => {
-  const { label, value, loading } = props;
-  const styles = useStyles();
-
-  return (
-    <View style={styles.root}>
-      <Typography.Subtitle>{label}</Typography.Subtitle>
-      {loading === true ? <StyledActivityIndicator /> : <Typography.Body>{value}</Typography.Body>}
-    </View>
-  );
-};
+const LabeledValue: React.FC<LabeledValueProps> = ({ label, value, loading, style }) => (
+  <View style={style}>
+    <Typography.SemiBold14>{label}</Typography.SemiBold14>
+    {loading === true ? (
+      <StyledActivityIndicator />
+    ) : (
+      <Typography.Regular14>{value}</Typography.Regular14>
+    )}
+  </View>
+);
 
 export default LabeledValue;

@@ -14,5 +14,17 @@
   "reported user": "Reported user",
   "standard reason id": "Standard reason id",
   "title": "Report reason title",
-  "description": "Report reason description"
+  "description": "Report reason description",
+  "create user report description": "Report <1/> on subspace <2>{{ subspaceId }}</2>",
+  "created user report description": "<0/> reported <1/> on subspace <2>{{ subspaceId }}</2>",
+  "create post report description": "Report post <1>{{ postId }}</1> on subspace <2>{{ subspaceId }}</2>",
+  "created post report description": "<0/> reported post <1>{{ postId }}</1> on subspace <2>{{ subspaceId }}</2>",
+  "delete report description": "Delete report <1>{{ reportId }}</1> on subspace <2>{{ subspaceId }}</2>",
+  "deleted report description": "<0/> deleteed report <1>{{ reportId }}</1> on subspace <2>{{ subspaceId }}</2>",
+  "support standard reason description": "Add support for standard reason <1>{{ reasonId }}</1> on subspace <2>{{ subspaceId }}</2>",
+  "supported standard reason description": "<0/> added support for standard reason <1>{{ reasonId }}</1> on subspace <2>{{ subspaceId }}</2>",
+  "add reason description": "Add a new report reason on subspace <1>{{ subspaceId }}</1>",
+  "added reason description": "<0/> added a new report reason on subspace <1>{{ subspaceId }}</1>",
+  "remove reason description": "Remove report reason <1>{{ reasonId }}</1> from subspace <2>{{ subspaceId }}</2>",
+  "removed reason description": "<0/> removed report reason <1>{{ reasonId }}</1> from subspace <2>{{ subspaceId }}</2>"
 }

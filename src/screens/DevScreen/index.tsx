@@ -14,11 +14,13 @@ import * as Sentry from '@sentry/react-native';
 import { ModalMode } from 'modals/ModalScreen';
 import Typography from 'components/Typography';
 import useAppFeatureFlags from 'hooks/featureflags/useAppFeatureFlags';
+import useShowTestTransaction from 'hooks/dev/useShowTestTransaction';
 import useStyles from './useStyles';
 
 enum DevRoutes {
   SINGLE_BUTTON_MODAL = 'SINGLE_BUTTON_MODAL',
   BOTTOM_MODAL = 'BOTTOM_MODAL',
+  TEST_TRANSACTION = 'TEST_TRANSACTION',
 }
 
 const routesToRender = [
@@ -34,6 +36,7 @@ const routesToRender = [
   ROUTES.COMPONENTS_DEMO,
   DevRoutes.SINGLE_BUTTON_MODAL,
   DevRoutes.BOTTOM_MODAL,
+  DevRoutes.TEST_TRANSACTION,
 ];
 
 type NavProps = StackScreenProps<RootNavigatorParamList, ROUTES.DEV_SCREEN>;
@@ -46,6 +49,7 @@ const DevScreen: FC<NavProps> = ({ navigation }) => {
   const appFeatureFlags = useAppFeatureFlags();
 
   const itemSeparator = React.useCallback(() => <Spacer paddingVertical={4} />, []);
+  const showTestTransaction = useShowTestTransaction();
 
   const renderItem = ({ item }: any) => (
     <TouchableOpacity
@@ -90,6 +94,10 @@ const DevScreen: FC<NavProps> = ({ navigation }) => {
                 mode: ModalMode.BottomSheet,
               },
             );
+            break;
+
+          case DevRoutes.TEST_TRANSACTION:
+            showTestTransaction();
             break;
 
           default:

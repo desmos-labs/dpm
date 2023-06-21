@@ -4,6 +4,8 @@ import { Slip10RawIndex } from '@cosmjs/crypto';
 import SupportedChains from 'config/LinkableChains';
 import numbro from 'numbro';
 import { Input } from 'cosmjs-types/cosmos/bank/v1beta1/bank';
+import Long from 'long';
+import { format } from 'date-fns';
 
 /**
  * Gets the decimal separator used on the provided locale.
@@ -167,4 +169,15 @@ export const roundFloat = (value: number, decimals: number): number => {
 export const isStringNumberValid = (value: string): boolean => {
   const testRe = new RegExp(`^[0-9]+${getDecimalSeparator()}?([0-9]+)?$`);
   return testRe.test(value);
+};
+
+/**
+ * Format an IBC timeout timestamp into a huma readable date.
+ * @param timestamp - The timestamp to format.
+ */
+export const formatIbcTimeoutTimestamp = (timestamp: Long | undefined) => {
+  if (timestamp !== undefined) {
+    return format(new Date(timestamp.toNumber()), 'dd MMM yyyy, HH:mm:ss');
+  }
+  return undefined;
 };

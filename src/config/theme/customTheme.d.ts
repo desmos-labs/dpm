@@ -78,7 +78,11 @@ declare global {
       button: ButtonColors;
       // New style colors
       primary100: string;
+      neutral900: string;
+      neutral700: string;
       neutral300: string;
+      feedbackSuccess: string;
+      feedbackError: string;
     }
 
     interface Spacing {
