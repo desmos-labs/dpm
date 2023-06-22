@@ -7,6 +7,8 @@ import { useTranslation } from 'react-i18next';
 import { SceneMap, TabView } from 'react-native-tab-view';
 import { useWindowDimensions } from 'react-native';
 import DpmTabBar from 'components/DpmTabBar';
+import Button from 'components/Button';
+import useStakeFlow from 'hooks/staking/useStakeFlow';
 import StakedTab from './tabs/Staked';
 import RestakingTab from './tabs/Restaking';
 import UnbondingTab from './tabs/Unbonding';
@@ -36,9 +38,19 @@ const ManageStaking: React.FC<NavProps> = (props) => {
     { key: ManageStakingTabs.UNBONDING, title: t('staking:unbonding') },
   ]);
 
+  const onStakePressed = useStakeFlow();
+
   return (
     <>
-      <TopBar stackProps={props} title={t('manage staking')} />
+      <TopBar
+        stackProps={props}
+        title={t('manage staking')}
+        rightElement={
+          <Button mode={'text'} onPress={onStakePressed}>
+            {t('stake:stake')}
+          </Button>
+        }
+      />
       <TabView
         navigationState={{ index, routes }}
         renderScene={renderScene}
