@@ -68,15 +68,6 @@ const Home: React.FC<NavProps> = (props) => {
     navigation.navigate(ROUTES.PROFILE);
   }, [navigation]);
 
-  const onTransactionPressed = React.useCallback(
-    (transaction: Transaction) => {
-      navigation.navigate(ROUTES.TRANSACTION_DETAILS, {
-        transaction,
-      });
-    },
-    [navigation],
-  );
-
   const refreshData = React.useCallback(() => {
     updateProfile();
     refreshTransactions();
@@ -86,11 +77,11 @@ const Home: React.FC<NavProps> = (props) => {
   const renderTransactionItem = React.useCallback<ListRenderItem<Transaction>>(
     ({ item }) => (
       <>
-        <TransactionsListItem transaction={item} onPress={onTransactionPressed} />
+        <TransactionsListItem transaction={item} />
         <Spacer paddingVertical={8} />
       </>
     ),
-    [onTransactionPressed],
+    [],
   );
 
   // ------- EFFECTS --------

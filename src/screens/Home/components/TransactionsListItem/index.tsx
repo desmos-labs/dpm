@@ -1,6 +1,10 @@
 import { TouchableOpacity, View } from 'react-native';
 import React, { useCallback } from 'react';
 import { Transaction } from 'types/transactions';
+import { useNavigation } from '@react-navigation/native';
+import { RootNavigatorParamList } from 'navigation/RootNavigator';
+import { StackNavigationProp } from '@react-navigation/stack';
+import ROUTES from 'navigation/routes';
 import Typography from 'components/Typography';
 import { useTranslation } from 'react-i18next';
 import { format } from 'date-fns';
@@ -16,16 +20,13 @@ export interface TransactionsListItemProps {
    * The transaction whose information will be displayed.
    */
   readonly transaction: Transaction;
-  /**
-   * Callback called when the user press on the transaction.
-   */
-  readonly onPress?: (t: Transaction) => any;
 }
 
 /**
  * Components that shows the information of a transaction.
  */
-const TransactionsListItem: React.FC<TransactionsListItemProps> = ({ transaction, onPress }) => {
+const TransactionsListItem: React.FC<TransactionsListItemProps> = ({ transaction }) => {
+  const navigation = useNavigation<StackNavigationProp<RootNavigatorParamList>>();
   const { t } = useTranslation('transaction');
   const styles = useStyles();
 
@@ -40,13 +41,13 @@ const TransactionsListItem: React.FC<TransactionsListItemProps> = ({ transaction
   // -------- CALLBACKS --------
 
   const onItemPress = useCallback(() => {
-    if (onPress !== undefined) {
-      onPress(transaction);
-    }
-  }, [onPress, transaction]);
+    navigation.navigate(ROUTES.TRANSACTION_DETAILS, {
+      transaction,
+    });
+  }, [navigation, transaction]);
 
   return (
-    <TouchableOpacity onPress={onItemPress} disabled={onPress === undefined}>
+    <TouchableOpacity onPress={onItemPress}>
       <View style={styles.root}>
         {/* Header */}
         <View style={styles.header}>
