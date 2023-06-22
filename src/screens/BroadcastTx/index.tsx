@@ -15,6 +15,7 @@ import { DPMImages } from 'types/images';
 import { DeliverTxResponse } from '@desmoslabs/desmjs';
 import useOnScreenDetached from 'hooks/useOnScreenDetached';
 import { ImageSourcePropType } from 'react-native';
+import { useSetHomeShouldReloadData } from '@recoil/home';
 import useStyles from './useStyles';
 
 enum BroadcastStatus {
@@ -77,6 +78,7 @@ const BroadcastTx: React.FC<NavProps> = (props) => {
   const [broadcastTxStatus, setBroadcastTxStatus] = useState<BroadcastTxStatus>({
     status: BroadcastStatus.Cancel,
   });
+  const setHomeShouldReloadData = useSetHomeShouldReloadData();
 
   useEffect(() => {
     estimateFees(messages, memo);
@@ -110,7 +112,7 @@ const BroadcastTx: React.FC<NavProps> = (props) => {
         }
         break;
     }
-  }, [broadcastTxStatus, onCancel, onError, onSuccess]);
+  }, [broadcastTxStatus, onCancel, onError, onSuccess, setHomeShouldReloadData]);
 
   const showSuccessModal = React.useCallback(() => {
     showModal(SingleButtonModal, {
@@ -143,6 +145,7 @@ const BroadcastTx: React.FC<NavProps> = (props) => {
         const deliveredTx = broadcastResult.value;
         if (deliveredTx !== undefined) {
           setBroadcastTxStatus({ status: BroadcastStatus.Success, deliveredTx });
+          setHomeShouldReloadData(true);
           showSuccessModal();
         } else {
           setBroadcastTxStatus({ status: BroadcastStatus.Cancel });
@@ -154,7 +157,15 @@ const BroadcastTx: React.FC<NavProps> = (props) => {
       }
       setBroadcastingTx(false);
     }
-  }, [broadcastTx, estimatedFee, memo, messages, showErrorModal, showSuccessModal]);
+  }, [
+    broadcastTx,
+    estimatedFee,
+    memo,
+    messages,
+    setHomeShouldReloadData,
+    showErrorModal,
+    showSuccessModal,
+  ]);
 
   return (
     <StyledSafeAreaView topBar={<TopBar stackProps={props} title={t('tx details')} />}>

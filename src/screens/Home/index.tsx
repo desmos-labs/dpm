@@ -25,6 +25,7 @@ import { ListRenderItem } from '@shopify/flash-list/src/FlashListProps';
 import { Transaction } from 'types/transactions';
 import TransactionsListItem from 'screens/Home/components/TransactionsListItem';
 import Spacer from 'components/Spacer';
+import { useHomeShouldReloadData, useSetHomeShouldReloadData } from '@recoil/home';
 import { useActiveAccountTransactions } from './hooks';
 import useStyles from './useStyles';
 
@@ -54,10 +55,12 @@ const Home: React.FC<NavProps> = (props) => {
     fetchMore: fetchMoreTransactions,
   } = useActiveAccountTransactions();
 
+  const homeShouldReloadData = useHomeShouldReloadData();
+  const setHomeShouldReloadData = useSetHomeShouldReloadData();
+
   // -------- REFS ---------
 
   const accountBalanceRef = useRef<AccountBalanceRef>();
-  const skipHomeRefreshRef = useRef(false);
 
   // -------- CALLBACKS --------
 
@@ -67,9 +70,6 @@ const Home: React.FC<NavProps> = (props) => {
 
   const onTransactionPressed = React.useCallback(
     (transaction: Transaction) => {
-      // Set this to true to avoid the useFocusEffect to refresh the
-      // transaction list when returning to this screen.
-      skipHomeRefreshRef.current = true;
       navigation.navigate(ROUTES.TRANSACTION_DETAILS, {
         transaction,
       });
@@ -97,12 +97,11 @@ const Home: React.FC<NavProps> = (props) => {
 
   useFocusEffect(
     React.useCallback(() => {
-      if (skipHomeRefreshRef.current) {
-        skipHomeRefreshRef.current = false;
-      } else {
+      if (homeShouldReloadData) {
         refreshData();
+        setHomeShouldReloadData(false);
       }
-    }, [refreshData]),
+    }, [homeShouldReloadData, refreshData, setHomeShouldReloadData]),
   );
 
   return (
