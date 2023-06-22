@@ -57,12 +57,25 @@ const Home: React.FC<NavProps> = (props) => {
   // -------- REFS ---------
 
   const accountBalanceRef = useRef<AccountBalanceRef>();
+  const skipHomeRefreshRef = useRef(false);
 
   // -------- CALLBACKS --------
 
   const showProfileDetails = React.useCallback(() => {
     navigation.navigate(ROUTES.PROFILE);
   }, [navigation]);
+
+  const onTransactionPressed = React.useCallback(
+    (transaction: Transaction) => {
+      // Set this to true to avoid the useFocusEffect to refresh the
+      // transaction list when returning to this screen.
+      skipHomeRefreshRef.current = true;
+      navigation.navigate(ROUTES.TRANSACTION_DETAILS, {
+        transaction,
+      });
+    },
+    [navigation],
+  );
 
   const refreshData = React.useCallback(() => {
     updateProfile();
@@ -73,16 +86,24 @@ const Home: React.FC<NavProps> = (props) => {
   const renderTransactionItem = React.useCallback<ListRenderItem<Transaction>>(
     ({ item }) => (
       <>
-        <TransactionsListItem transaction={item} />
+        <TransactionsListItem transaction={item} onPress={onTransactionPressed} />
         <Spacer paddingVertical={8} />
       </>
     ),
-    [],
+    [onTransactionPressed],
   );
 
   // ------- EFFECTS --------
 
-  useFocusEffect(refreshData);
+  useFocusEffect(
+    React.useCallback(() => {
+      if (skipHomeRefreshRef.current) {
+        skipHomeRefreshRef.current = false;
+      } else {
+        refreshData();
+      }
+    }, [refreshData]),
+  );
 
   return (
     <StyledSafeAreaView padding={0} noIosPadding>

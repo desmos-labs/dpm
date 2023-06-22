@@ -1,10 +1,6 @@
 import { TouchableOpacity, View } from 'react-native';
 import React, { useCallback } from 'react';
 import { Transaction } from 'types/transactions';
-import { useNavigation } from '@react-navigation/native';
-import { RootNavigatorParamList } from 'navigation/RootNavigator';
-import { StackNavigationProp } from '@react-navigation/stack';
-import ROUTES from 'navigation/routes';
 import Typography from 'components/Typography';
 import { useTranslation } from 'react-i18next';
 import { format } from 'date-fns';
@@ -16,13 +12,21 @@ import useMessagesAmount from 'hooks/messages/useGetMessageAmount';
 import useStyles from './useStyles';
 
 export interface TransactionsListItemProps {
+  /**
+   * The transaction whose information will be displayed.
+   */
   readonly transaction: Transaction;
+  /**
+   * Callback called when the user press on the transaction.
+   */
+  readonly onPress?: (t: Transaction) => any;
 }
 
-const TransactionsListItem = (props: TransactionsListItemProps) => {
-  const navigation = useNavigation<StackNavigationProp<RootNavigatorParamList>>();
+/**
+ * Components that shows the information of a transaction.
+ */
+const TransactionsListItem: React.FC<TransactionsListItemProps> = ({ transaction, onPress }) => {
   const { t } = useTranslation('transaction');
-  const { transaction } = props;
   const styles = useStyles();
 
   // -------- VARIABLES --------
@@ -35,14 +39,14 @@ const TransactionsListItem = (props: TransactionsListItemProps) => {
 
   // -------- CALLBACKS --------
 
-  const onPress = useCallback(() => {
-    navigation.navigate(ROUTES.TRANSACTION_DETAILS, {
-      transaction,
-    });
-  }, [navigation, transaction]);
+  const onItemPress = useCallback(() => {
+    if (onPress !== undefined) {
+      onPress(transaction);
+    }
+  }, [onPress, transaction]);
 
   return (
-    <TouchableOpacity onPress={onPress}>
+    <TouchableOpacity onPress={onItemPress} disabled={onPress === undefined}>
       <View style={styles.root}>
         {/* Header */}
         <View style={styles.header}>
