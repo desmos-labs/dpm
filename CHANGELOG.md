@@ -1,11 +1,11 @@
-# Version 2.1.2
+# Version 2.2.0
 ## Features
-- New transaction list UI;
-- New transaction detail UI.
+- New transaction list UI
+- New transaction details UI
 
 ## Bug fixes
-- Fixed a bug that cause the home to reload the transaction list after showing the detail of a transaction;
-- Fixed a bug that prevent the user to write their mnemonic.
+- Fixed a bug that caused the home to reload the transaction list after showing the detail of a transaction
+- Fixed a bug that prevented the user to write their mnemonic
 
 # Version 2.1.1
 ## Features
