@@ -25,6 +25,7 @@ import { ListRenderItem } from '@shopify/flash-list/src/FlashListProps';
 import { Transaction } from 'types/transactions';
 import TransactionsListItem from 'screens/Home/components/TransactionsListItem';
 import Spacer from 'components/Spacer';
+import { useHomeShouldReloadData, useSetHomeShouldReloadData } from '@recoil/home';
 import { useActiveAccountTransactions } from './hooks';
 import useStyles from './useStyles';
 
@@ -54,6 +55,9 @@ const Home: React.FC<NavProps> = (props) => {
     fetchMore: fetchMoreTransactions,
   } = useActiveAccountTransactions();
 
+  const homeShouldReloadData = useHomeShouldReloadData();
+  const setHomeShouldReloadData = useSetHomeShouldReloadData();
+
   // -------- REFS ---------
 
   const accountBalanceRef = useRef<AccountBalanceRef>();
@@ -82,7 +86,14 @@ const Home: React.FC<NavProps> = (props) => {
 
   // ------- EFFECTS --------
 
-  useFocusEffect(refreshData);
+  useFocusEffect(
+    React.useCallback(() => {
+      if (homeShouldReloadData) {
+        refreshData();
+        setHomeShouldReloadData(false);
+      }
+    }, [homeShouldReloadData, refreshData, setHomeShouldReloadData]),
+  );
 
   return (
     <StyledSafeAreaView padding={0} noIosPadding>

@@ -10,7 +10,10 @@ import useOnBackAction from './useOnBackAction';
 const useOnScreenDetached = (onDetach: () => any, deps: DependencyList) => {
   const backActionStateRef = useRef(false);
   const isFocused = useIsFocused();
-  const memoizedDetachCallback = useCallback(onDetach, [...deps, onDetach]);
+  // Safe to ignore the onDetach value since we want to memoize the provided
+  // onDetach function using the provided deps list.
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  const memoizedDetachCallback = useCallback(onDetach, [...deps]);
 
   useOnBackAction(() => {
     backActionStateRef.current = true;

@@ -16,13 +16,18 @@ import useMessagesAmount from 'hooks/messages/useGetMessageAmount';
 import useStyles from './useStyles';
 
 export interface TransactionsListItemProps {
+  /**
+   * The transaction whose information will be displayed.
+   */
   readonly transaction: Transaction;
 }
 
-const TransactionsListItem = (props: TransactionsListItemProps) => {
+/**
+ * Components that shows the information of a transaction.
+ */
+const TransactionsListItem: React.FC<TransactionsListItemProps> = ({ transaction }) => {
   const navigation = useNavigation<StackNavigationProp<RootNavigatorParamList>>();
   const { t } = useTranslation('transaction');
-  const { transaction } = props;
   const styles = useStyles();
 
   // -------- VARIABLES --------
@@ -35,14 +40,14 @@ const TransactionsListItem = (props: TransactionsListItemProps) => {
 
   // -------- CALLBACKS --------
 
-  const onPress = useCallback(() => {
+  const onItemPress = useCallback(() => {
     navigation.navigate(ROUTES.TRANSACTION_DETAILS, {
       transaction,
     });
   }, [navigation, transaction]);
 
   return (
-    <TouchableOpacity onPress={onPress}>
+    <TouchableOpacity onPress={onItemPress}>
       <View style={styles.root}>
         {/* Header */}
         <View style={styles.header}>

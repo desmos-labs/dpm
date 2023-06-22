@@ -10,6 +10,7 @@ import Typography from 'components/Typography';
 import Spacer from 'components/Spacer';
 import { RootNavigatorParamList } from 'navigation/RootNavigator';
 import ROUTES from 'navigation/routes';
+import { useSetHomeShouldReloadData } from '@recoil/home';
 import useStyles from './useStyles';
 
 type NavProps = StackScreenProps<RootNavigatorParamList, ROUTES.SETTINGS_SWITCH_CHAIN>;
@@ -20,12 +21,14 @@ const SettingsSwitchChain = (props: NavProps) => {
 
   const chainName = useSetting('chainName');
   const setChainName = useSetSetting('chainName');
+  const setHomeShouldReloadData = useSetHomeShouldReloadData();
 
   const changeChain = React.useCallback(
     (newChainName: string) => {
+      setHomeShouldReloadData(true);
       setChainName(newChainName);
     },
-    [setChainName],
+    [setChainName, setHomeShouldReloadData],
   );
 
   const values: RadioValue[] = React.useMemo(
