@@ -36,5 +36,6 @@
   "claim": "Claim",
   "manage": "Manage",
   "use biometrics": "Use biometrics",
-  "you": "You"
+  "you": "You",
+  "failure": "Failure"
 }

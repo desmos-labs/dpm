@@ -37,12 +37,16 @@ export const useFetchDelegations = () => {
         throw error;
       }
 
-      const convertedData: Delegation[] =
-        data.action_delegation.delegations.map(convertGraphQLDelegation);
+      const serverData = data?.action_delegation?.delegations ?? [];
+      const convertedData: Delegation[] = serverData
+        .map(convertGraphQLDelegation)
+        .filter(
+          (delegation: Delegation) => delegation.coins.filter((c) => c.amount !== '0').length > 0,
+        );
 
       return {
         data: convertedData,
-        endReached: convertedData.length < limit,
+        endReached: serverData.length < limit,
       };
     },
     [activeAccountAddress, getAccountDelegations],
