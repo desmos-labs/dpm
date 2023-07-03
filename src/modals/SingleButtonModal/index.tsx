@@ -36,7 +36,7 @@ export type SingleButtonModalParams = {
 
 const SingleButtonModal: React.FC<ModalComponentProps<SingleButtonModalParams>> = (props) => {
   const { params, closeModal } = props;
-  const styles = useStyles();
+  const styles = useStyles(props.params);
 
   const btnAction = useCallback(() => {
     closeModal();
@@ -46,7 +46,7 @@ const SingleButtonModal: React.FC<ModalComponentProps<SingleButtonModalParams>> 
   }, [params, closeModal]);
 
   return (
-    <View style={styles.root}>
+    <View>
       {params.image && <DpmImage style={styles.image} resizeMode="contain" source={params.image} />}
       <Typography.Title style={styles.title}>{params.title}</Typography.Title>
       <Typography.Body style={styles.message}>{params.message}</Typography.Body>

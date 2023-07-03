@@ -1,7 +1,7 @@
 import { StackScreenProps } from '@react-navigation/stack';
 import React, { useMemo, useRef } from 'react';
 import { Trans, useTranslation } from 'react-i18next';
-import { Animated, ImageBackground, Platform, Text, View } from 'react-native';
+import { Animated, ImageBackground, Platform, View } from 'react-native';
 import StyledSafeAreaView from 'components/StyledSafeAreaView';
 import IconButton from 'components/IconButton';
 import Button from 'components/Button';
@@ -175,7 +175,9 @@ const Landing = ({ navigation }: NavProps) => {
               opacity: profileManagerTextOpacity,
             }}
           >
-            <Text style={styles.profileManagerText}>Profile Manager</Text>
+            <Typography.Regular16 style={styles.profileManagerText}>
+              Desmos Profile Manager
+            </Typography.Regular16>
           </Animated.View>
 
           {/* Screen content */}
@@ -214,9 +216,9 @@ const Landing = ({ navigation }: NavProps) => {
             <View style={styles.loginWithContainer}>
               <View style={styles.loginDivider} />
               <Spacer paddingHorizontal={8} />
-              <Typography.Subtitle style={styles.loginWithLabel}>
+              <Typography.Regular16 style={styles.loginWithLabel}>
                 {t('or login with')}
-              </Typography.Subtitle>
+              </Typography.Regular16>
               <Spacer paddingHorizontal={8} />
               <View style={styles.loginDivider} />
             </View>

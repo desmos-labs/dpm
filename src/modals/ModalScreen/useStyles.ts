@@ -27,8 +27,7 @@ const useStyles = makeStyle((theme) => ({
   bottomContent: {
     borderTopLeftRadius: theme.roundness,
     borderTopRightRadius: theme.roundness,
-    paddingHorizontal: theme.spacing.l,
-    paddingBottom: theme.spacing.l,
+    padding: theme.spacing.l,
   },
   successImage: {
     width: 200,

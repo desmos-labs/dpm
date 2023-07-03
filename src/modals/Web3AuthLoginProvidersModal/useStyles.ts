@@ -5,10 +5,9 @@ const useStyles = makeStyle((theme) => ({
     display: 'flex',
     flexDirection: 'column',
     minHeight: '80%',
-    paddingTop: theme.spacing.m,
+    paddingBottom: theme.spacing.xl,
   },
   header: {
-    marginTop: theme.spacing.xs,
     display: 'flex',
     flexDirection: 'row',
     justifyContent: 'space-between',
