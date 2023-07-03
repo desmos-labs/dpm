@@ -80,10 +80,7 @@ const Landing = ({ navigation }: NavProps) => {
     if (showLegalSection && !tosAccepted) {
       showAcceptLegalPopup();
     } else {
-      navigation.navigate({
-        name: ROUTES.CREATE_NEW_MNEMONIC,
-        params: undefined,
-      });
+      navigation.navigate(ROUTES.SELECT_NEW_MNEMONIC_LENGTH);
     }
   }, [navigation, showAcceptLegalPopup, showLegalSection, tosAccepted]);
 

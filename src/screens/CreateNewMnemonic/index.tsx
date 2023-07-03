@@ -11,18 +11,24 @@ import { RootNavigatorParamList } from 'navigation/RootNavigator';
 import ROUTES from 'navigation/routes';
 import StyledActivityIndicator from 'components/StyledActivityIndicator';
 import MnemonicGrid from './components/MnemonicGrid';
-import InlineButton from './components/InlineButton';
 import useStyles from './useStyles';
+
+export interface CreateNewMnemonicParams {
+  /**
+   * Length of the mnemonic to generate.
+   */
+  readonly length: 12 | 24;
+}
 
 declare type NavProps = StackScreenProps<RootNavigatorParamList, ROUTES.CREATE_NEW_MNEMONIC>;
 
 const CreateNewMnemonic: FC<NavProps> = (props) => {
   const { navigation } = props;
+  const { length: mnemonicLength } = props.route.params;
   const styles = useStyles();
   const { t } = useTranslation('account');
 
   const [mnemonic, setMnemonic] = useState<string | null>(null);
-  const [mnemonicLength, setMnemonicLength] = useState<12 | 24>(24);
   const [generationDelay, setGenerationDelay] = useState(1500);
   const generatingMnemonic = mnemonic === null;
 
@@ -39,16 +45,6 @@ const CreateNewMnemonic: FC<NavProps> = (props) => {
       return randomMnemonic(length);
     },
     [generationDelay],
-  );
-
-  const changeMnemonicLength = useCallback(
-    async (newLength: 12 | 24) => {
-      setMnemonicLength(newLength);
-      setMnemonic(null);
-      const newMnemonic = await generateMnemonic(newLength);
-      setMnemonic(newMnemonic);
-    },
-    [generateMnemonic],
   );
 
   // Hook to launch the generation when the user enter on the screen
@@ -83,22 +79,7 @@ const CreateNewMnemonic: FC<NavProps> = (props) => {
           <StyledActivityIndicator />
         </View>
       ) : (
-        <>
-          <InlineButton
-            selected={mnemonicLength === 24 ? 0 : 1}
-            buttons={[
-              {
-                label: `24 ${t('words')}`,
-                onPress: () => changeMnemonicLength(24),
-              },
-              {
-                label: `12 ${t('words')}`,
-                onPress: () => changeMnemonicLength(12),
-              },
-            ]}
-          />
-          <MnemonicGrid style={styles.mnemonic} mnemonic={mnemonic!} />
-        </>
+        <MnemonicGrid style={styles.mnemonic} mnemonic={mnemonic!} />
       )}
       <Button
         onPress={onOkPressed}
