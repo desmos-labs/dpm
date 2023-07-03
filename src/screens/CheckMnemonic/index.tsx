@@ -1,7 +1,7 @@
 import { StackScreenProps } from '@react-navigation/stack';
 import React, { FC, useCallback, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { View } from 'react-native';
+import { Image, View } from 'react-native';
 import Typography from 'components/Typography';
 import _ from 'lodash';
 import MnemonicWordBadge from 'components/MnemonicWordBadge';
@@ -15,6 +15,7 @@ import useSaveGeneratedAccount from 'hooks/useSaveGeneratedAccount';
 import useSelectAccount from 'hooks/useSelectAccount';
 import { DesmosHdPath } from 'config/HdPaths';
 import { useStoredAccountsAddresses } from '@recoil/accounts';
+import { failIcon } from 'assets/images';
 import useStyles from './useStyles';
 
 declare type NavProps = StackScreenProps<RootNavigatorParamList, ROUTES.CHECK_MNEMONIC>;
@@ -74,7 +75,7 @@ const CheckMnemonic: FC<NavProps> = (props) => {
 
   const onCheckPressed = useCallback(async () => {
     if (selectedWords.length !== words.length) {
-      setErrorMessage(t('invalid recovery passphrase'));
+      setErrorMessage(t('invalid recovery passphrase order'));
     } else {
       const composedMnemonic = selectedWords.join(' ');
       if (receivedMnemonic === composedMnemonic) {
@@ -92,7 +93,7 @@ const CheckMnemonic: FC<NavProps> = (props) => {
           },
         );
       } else {
-        setErrorMessage(t('invalid recovery passphrase'));
+        setErrorMessage(t('invalid recovery passphrase order'));
       }
     }
   }, [
@@ -107,13 +108,16 @@ const CheckMnemonic: FC<NavProps> = (props) => {
   ]);
 
   return (
-    <StyledSafeAreaView
-      style={styles.root}
-      topBar={<TopBar stackProps={props} title={t('confirm recovery passphrase')} />}
-    >
+    <StyledSafeAreaView style={styles.root} topBar={<TopBar stackProps={props} />}>
+      <Typography.H5>{t('confirm recovery passphrase')}</Typography.H5>
       <Typography.Subtitle2>{t('select each word in order')}.</Typography.Subtitle2>
 
-      <View style={styles.selectedWordsContainer}>
+      <View
+        style={[
+          styles.selectedWordsContainer,
+          errorMessage ? styles.selectedWordsContainerError : undefined,
+        ]}
+      >
         {selectedWords.map((w, i) => (
           <MnemonicWordBadge
             style={styles.wordBadge}
@@ -134,7 +138,12 @@ const CheckMnemonic: FC<NavProps> = (props) => {
         ))}
       </View>
 
-      <Typography.Body style={styles.errorParagraph}>{errorMessage}</Typography.Body>
+      {errorMessage && (
+        <View style={styles.errorMessageContainer}>
+          <Image style={styles.errorImage} source={failIcon} resizeMode={'cover'} />
+          <Typography.Body style={styles.errorParagraph}>{errorMessage}</Typography.Body>
+        </View>
+      )}
       <Button onPress={onCheckPressed} mode="contained">
         {t('check')}
       </Button>

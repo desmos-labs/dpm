@@ -26,7 +26,9 @@ import {
   TypographyConfigTitle,
 } from './config';
 
-export type TypographyComponentProps = React.ComponentProps<typeof Text>;
+export type TypographyComponentProps = React.ComponentProps<typeof Text> & {
+  capitalize?: boolean;
+};
 
 function createTextComponent(
   styleProvider: (theme: ReactNativePaper.Theme) => TextStyle,
@@ -39,8 +41,9 @@ function createTextComponent(
     const commonStyle = useMemo<TextStyle>(
       () => ({
         color: theme.colors.font['1'],
+        textTransform: props.capitalize ? 'capitalize' : undefined,
       }),
-      [theme],
+      [props.capitalize, theme.colors.font],
     );
 
     return <Text {...props} style={StyleSheet.compose([commonStyle, themeStyle], style)} />;

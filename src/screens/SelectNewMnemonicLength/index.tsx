@@ -38,7 +38,7 @@ const SelectNewMnemonicLength: React.FC<NavProps> = (props) => {
   return (
     <StyledSafeAreaView topBar={<TopBar stackProps={props} />}>
       <Image style={styles.image} source={desmosLogoOrange} resizeMode={'contain'} />
-      <Typography.H5 style={styles.centeredText}>
+      <Typography.H5 style={styles.centeredText} capitalize>
         {t('account:secret recovery passphrase')}
       </Typography.H5>
       <Typography.Regular14 style={styles.centeredText}>

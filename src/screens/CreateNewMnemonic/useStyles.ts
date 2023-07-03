@@ -13,7 +13,6 @@ const useStyles = makeStyle((theme) => ({
     marginTop: theme.spacing.s,
   },
   saveMnemonicAdviceSubtitle: {
-    color: theme.colors.primary,
     fontFamily: 'Poppins-Bold',
     fontWeight: 'bold',
   },

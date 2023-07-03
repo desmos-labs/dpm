@@ -10,6 +10,7 @@ import TopBar from 'components/TopBar';
 import { RootNavigatorParamList } from 'navigation/RootNavigator';
 import ROUTES from 'navigation/routes';
 import StyledActivityIndicator from 'components/StyledActivityIndicator';
+import { delay } from 'lib/PromiseUtils';
 import MnemonicGrid from './components/MnemonicGrid';
 import useStyles from './useStyles';
 
@@ -28,24 +29,17 @@ const CreateNewMnemonic: FC<NavProps> = (props) => {
   const styles = useStyles();
   const { t } = useTranslation('account');
 
+  const isFirstGeneration = React.useRef(true);
   const [mnemonic, setMnemonic] = useState<string | null>(null);
-  const [generationDelay, setGenerationDelay] = useState(1500);
-  const generatingMnemonic = mnemonic === null;
+  const generatingMnemonic = React.useMemo(() => mnemonic === null, [mnemonic]);
 
-  const generateMnemonic = useCallback(
-    async (length: 12 | 24) => {
-      if (generationDelay > 0) {
-        return new Promise<string>((resolve) => {
-          setTimeout(() => {
-            resolve(randomMnemonic(length));
-          }, generationDelay);
-          setGenerationDelay(0);
-        });
-      }
-      return randomMnemonic(length);
-    },
-    [generationDelay],
-  );
+  const generateMnemonic = useCallback(async (length: 12 | 24) => {
+    if (isFirstGeneration.current) {
+      await delay(1500);
+      isFirstGeneration.current = false;
+    }
+    return randomMnemonic(length);
+  }, []);
 
   // Hook to launch the generation when the user enter on the screen
   useEffect(() => {
@@ -61,18 +55,17 @@ const CreateNewMnemonic: FC<NavProps> = (props) => {
   }, [navigation, mnemonic]);
 
   return (
-    <StyledSafeAreaView
-      style={styles.root}
-      topBar={<TopBar stackProps={props} title={t('secret recovery passphrase')} />}
-    >
-      <Typography.Subtitle style={styles.saveMnemonicAdvice}>
+    <StyledSafeAreaView style={styles.root} topBar={<TopBar stackProps={props} />}>
+      <Typography.H5 capitalize>{t('secret recovery passphrase')}</Typography.H5>
+      <Typography.Regular16 style={styles.saveMnemonicAdvice}>
         <Trans
+          ns="account"
           i18nKey="save recovery passphrase"
           components={{
             bold: <Typography.Subtitle style={styles.saveMnemonicAdviceSubtitle} />,
           }}
         />
-      </Typography.Subtitle>
+      </Typography.Regular16>
 
       {generatingMnemonic ? (
         <View style={styles.loadingView}>

@@ -18,6 +18,9 @@ const useStyles = makeStyle((theme) => ({
     flexGrow: 1,
     maxHeight: '50%',
   },
+  selectedWordsContainerError: {
+    borderColor: theme.colors.feedbackError,
+  },
   availableWordsContainer: {
     display: 'flex',
     flexDirection: 'row',
@@ -30,11 +33,21 @@ const useStyles = makeStyle((theme) => ({
     marginLeft: theme.spacing.s,
     marginRight: theme.spacing.s,
   },
-  errorParagraph: {
-    marginBottom: theme.spacing.s,
-    color: theme.colors.error,
+  errorMessageContainer: {
+    display: 'flex',
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingVertical: theme.spacing.s,
   },
-  saveButton: {},
+  errorParagraph: {
+    color: theme.colors.feedbackError,
+    marginLeft: theme.spacing.s,
+    marginTop: 2,
+  },
+  errorImage: {
+    width: 20,
+    height: 20,
+  },
 }));
 
 export default useStyles;
