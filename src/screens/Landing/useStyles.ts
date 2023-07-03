@@ -27,10 +27,7 @@ const useStyle = makeStyle((theme) => ({
   profileManagerText: {
     alignSelf: 'center',
     color: '#ffffff',
-    fontFamily: 'Poppins-Regular',
-    fontWeight: '600',
-    fontSize: 17,
-    lineHeight: 24,
+    marginTop: 26,
   },
   buttonsContainer: {
     display: 'flex',

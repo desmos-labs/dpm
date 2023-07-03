@@ -121,6 +121,14 @@ export const TypographyConfigRegular14: TextStyle = {
   letterSpacing: 0,
 };
 
+export const TypographyConfigRegular16: TextStyle = {
+  fontFamily: 'Poppins',
+  fontWeight: '400',
+  fontSize: 16,
+  lineHeight: 24,
+  letterSpacing: 0,
+};
+
 export const TypographyConfigSemiBold14: TextStyle = {
   fontFamily: 'Poppins-SemiBold',
   fontWeight: '600',
