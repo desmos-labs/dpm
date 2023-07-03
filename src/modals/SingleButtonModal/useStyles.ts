@@ -1,9 +1,7 @@
-import { makeStyle } from 'config/theme';
+import { makeStyleWithProps } from 'config/theme';
+import { SingleButtonModalParams } from 'modals/SingleButtonModal/index';
 
-const useStyles = makeStyle((theme) => ({
-  root: {
-    paddingTop: theme.spacing.l,
-  },
+const useStyles = makeStyleWithProps((props: SingleButtonModalParams, theme) => ({
   image: {
     alignSelf: 'center',
     width: 200,
@@ -11,7 +9,7 @@ const useStyles = makeStyle((theme) => ({
   },
   title: {
     textAlign: 'center',
-    marginTop: theme.spacing.l,
+    marginTop: props.image ? theme.spacing.l : undefined,
   },
   message: {
     textAlign: 'center',
