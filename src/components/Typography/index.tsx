@@ -11,6 +11,7 @@ import {
   TypographyConfigH1,
   TypographyConfigH2,
   TypographyConfigH4,
+  TypographyConfigH6,
   TypographyConfigRegular10,
   TypographyConfigRegular12,
   TypographyConfigRegular14,
@@ -56,6 +57,7 @@ const Typography = {
   H1: createTextComponent(() => TypographyConfigH1),
   H2: createTextComponent(() => TypographyConfigH2),
   H4: createTextComponent(() => TypographyConfigH4),
+  H6: createTextComponent(() => TypographyConfigH6),
   // New styles
   Regular10: createTextComponent(() => TypographyConfigRegular10),
   Regular12: createTextComponent(() => TypographyConfigRegular12),

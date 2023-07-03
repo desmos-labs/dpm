@@ -95,6 +95,14 @@ export const TypographyConfigH4: TextStyle = {
   letterSpacing: 0.0015,
 };
 
+export const TypographyConfigH6: TextStyle = {
+  fontFamily: 'Poppins-Medium',
+  fontStyle: 'normal',
+  fontWeight: '600',
+  fontSize: 20,
+  lineHeight: 30,
+};
+
 // New styles
 
 export const TypographyConfigRegular10: TextStyle = {

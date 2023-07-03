@@ -44,9 +44,8 @@ const Web3AuthLoginProvidersModal: React.FC<ModalComponentProps<Web3AuthLoginPro
     <View style={styles.root}>
       <View style={styles.header}>
         <View>
-          <Typography.Title>{t('more options')}</Typography.Title>
-          <Spacer paddingVertical={8} />
-          <Typography.Subtitle>{t('select login provider')}</Typography.Subtitle>
+          <Typography.H6>{t('more options')}</Typography.H6>
+          <Typography.Regular16>{t('select login provider')}</Typography.Regular16>
         </View>
         <IconButton icon={'close'} onPress={closeModal} color={'#5C5C5C'} />
       </View>
