@@ -110,8 +110,8 @@ const ConnectToLedger: React.FC<Props> = ({ navigation, route }) => {
     showModal(
       TextModal,
       {
-        title: t('hot to install application title', { application: ledgerApp.name }),
-        message: t('hot to install application message', { application: ledgerApp.name }),
+        title: t('how to install application title', { application: ledgerApp.name }),
+        message: t('how to install application message', { application: ledgerApp.name }),
       },
       {
         mode: ModalMode.BottomSheet,

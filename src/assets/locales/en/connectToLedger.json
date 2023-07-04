@@ -9,6 +9,6 @@
   "please open the application": "Please open the {{application}} application on the Ledger device",
   "please install the application": "Please install the {{application}} application on the Ledger device",
   "how to install application on ledger": "How to install {{ application }} app on the Ledger device?",
-  "hot to install application title": "How to install {{ application }} app on the Ledger",
-  "hot to install application message": "1. Open the \"Ledger Live\" application;\n\n2. Click on the \"My Ledger\" tab,\n\n3. Search \"{{ application }}\" in the App catalog;\n\n4.Click on the \"+\" button to start the installation;\n\n5. After the installation is done, you will see the {{ application }} app on your Ledger device."
+  "how to install application title": "How to install {{ application }} app on the Ledger",
+  "how to install application message": "1. Open the \"Ledger Live\" application;\n\n2. Click on the \"My Ledger\" tab,\n\n3. Search \"{{ application }}\" in the App catalog;\n\n4.Click on the \"+\" button to start the installation;\n\n5. After the installation is done, you will see the {{ application }} app on your Ledger device."
 }
