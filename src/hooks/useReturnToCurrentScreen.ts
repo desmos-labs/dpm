@@ -25,7 +25,10 @@ const useReturnToCurrentScreen = () => {
     }
 
     return { key: currentRoute.key, params: currentRoute.params };
-  }, [navigator]);
+    // Safe to ignore we want the current screen when we call this hook and
+    // not each time the navigator instance changes.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return useCallback(() => {
     const canNavigate =
