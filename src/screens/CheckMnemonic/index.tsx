@@ -16,6 +16,7 @@ import useSelectAccount from 'hooks/useSelectAccount';
 import { DesmosHdPath } from 'config/HdPaths';
 import { useStoredAccountsAddresses } from '@recoil/accounts';
 import { failIcon } from 'assets/images';
+import Flexible from 'components/Flexible';
 import useStyles from './useStyles';
 
 declare type NavProps = StackScreenProps<RootNavigatorParamList, ROUTES.CHECK_MNEMONIC>;
@@ -47,6 +48,7 @@ const CheckMnemonic: FC<NavProps> = (props) => {
 
   const onWordSelected = useCallback((word: string) => {
     setAvailableWords((currentAvailableWords) => {
+      setErrorMessage(null);
       const removeIndex = currentAvailableWords.indexOf(word);
       if (removeIndex >= 0) {
         const newAvailableWords = [...currentAvailableWords];
@@ -108,7 +110,7 @@ const CheckMnemonic: FC<NavProps> = (props) => {
   ]);
 
   return (
-    <StyledSafeAreaView style={styles.root} topBar={<TopBar stackProps={props} />}>
+    <StyledSafeAreaView topBar={<TopBar stackProps={props} />} scrollable={false}>
       <Typography.H5>{t('confirm recovery passphrase')}</Typography.H5>
       <Typography.Subtitle2>{t('select each word in order')}.</Typography.Subtitle2>
 
@@ -118,15 +120,18 @@ const CheckMnemonic: FC<NavProps> = (props) => {
           errorMessage ? styles.selectedWordsContainerError : undefined,
         ]}
       >
-        {selectedWords.map((w, i) => (
-          <MnemonicWordBadge
-            style={styles.wordBadge}
-            key={`${w}-${i * 2}`}
-            value={w}
-            onPress={onWordDeselected}
-          />
-        ))}
+        <View style={styles.selectedWords}>
+          {selectedWords.map((w, i) => (
+            <MnemonicWordBadge
+              style={styles.wordBadge}
+              key={`${w}-${i * 2}`}
+              value={w}
+              onPress={onWordDeselected}
+            />
+          ))}
+        </View>
       </View>
+
       <View style={styles.availableWordsContainer}>
         {availableWords.map((w, i) => (
           <MnemonicWordBadge
@@ -144,6 +149,9 @@ const CheckMnemonic: FC<NavProps> = (props) => {
           <Typography.Body style={styles.errorParagraph}>{errorMessage}</Typography.Body>
         </View>
       )}
+
+      <Flexible.Padding flex={1} />
+
       <Button onPress={onCheckPressed} mode="contained">
         {t('check')}
       </Button>
