@@ -1,7 +1,7 @@
 import { StackScreenProps } from '@react-navigation/stack';
 import React, { FC, useCallback, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Image, View } from 'react-native';
+import { View } from 'react-native';
 import Typography from 'components/Typography';
 import _ from 'lodash';
 import MnemonicWordBadge from 'components/MnemonicWordBadge';
@@ -15,8 +15,8 @@ import useSaveGeneratedAccount from 'hooks/useSaveGeneratedAccount';
 import useSelectAccount from 'hooks/useSelectAccount';
 import { DesmosHdPath } from 'config/HdPaths';
 import { useStoredAccountsAddresses } from '@recoil/accounts';
-import { failIcon } from 'assets/images';
 import Flexible from 'components/Flexible';
+import ErrorMessage from 'components/ErrorMessage';
 import useStyles from './useStyles';
 
 declare type NavProps = StackScreenProps<RootNavigatorParamList, ROUTES.CHECK_MNEMONIC>;
@@ -143,12 +143,7 @@ const CheckMnemonic: FC<NavProps> = (props) => {
         ))}
       </View>
 
-      {errorMessage && (
-        <View style={styles.errorMessageContainer}>
-          <Image style={styles.errorImage} source={failIcon} resizeMode={'cover'} />
-          <Typography.Body style={styles.errorParagraph}>{errorMessage}</Typography.Body>
-        </View>
-      )}
+      <ErrorMessage message={errorMessage} />
 
       <Flexible.Padding flex={1} />
 
