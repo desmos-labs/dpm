@@ -3,7 +3,6 @@ import React, { FC, useCallback, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { View } from 'react-native';
 import Typography from 'components/Typography';
-import _ from 'lodash';
 import MnemonicWordBadge from 'components/MnemonicWordBadge';
 import StyledSafeAreaView from 'components/StyledSafeAreaView';
 import TopBar from 'components/TopBar';
@@ -35,8 +34,7 @@ const CheckMnemonic: FC<NavProps> = (props) => {
   const { t } = useTranslation('account');
 
   const receivedMnemonic = mnemonic;
-
-  const words = useMemo(() => _.shuffle(receivedMnemonic.split(' ')), [receivedMnemonic]);
+  const words = useMemo(() => receivedMnemonic.split(' ').sort(), [receivedMnemonic]);
 
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const [selectedWords, setSelectedWords] = useState<string[]>([]);
@@ -67,7 +65,7 @@ const CheckMnemonic: FC<NavProps> = (props) => {
       if (removeIndex >= 0) {
         const newSelectedWords = [...currentSelectedWords];
         newSelectedWords.splice(removeIndex, 1);
-        setAvailableWords((currentAvailableWords) => [...currentAvailableWords, word]);
+        setAvailableWords((currentAvailableWords) => [...currentAvailableWords, word].sort());
         return newSelectedWords;
       }
 
@@ -112,7 +110,7 @@ const CheckMnemonic: FC<NavProps> = (props) => {
   return (
     <StyledSafeAreaView topBar={<TopBar stackProps={props} />} scrollable={false}>
       <Typography.H5>{t('confirm recovery passphrase')}</Typography.H5>
-      <Typography.Subtitle2>{t('select each word in order')}.</Typography.Subtitle2>
+      <Typography.Regular16>{t('select each word in order')}.</Typography.Regular16>
 
       <View
         style={[
