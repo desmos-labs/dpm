@@ -20,6 +20,7 @@ import {
   TypographyConfigSemiBold14,
   TypographyConfigSemiBold16,
   TypographyConfigSemiBold18,
+  TypographyConfigSemiBold20,
   TypographyConfigSemiBold30,
   TypographyConfigSubtitle,
   TypographyConfigSubtitle2,
@@ -71,6 +72,7 @@ const Typography = {
   SemiBold14: createTextComponent(() => TypographyConfigSemiBold14),
   SemiBold16: createTextComponent(() => TypographyConfigSemiBold16),
   SemiBold18: createTextComponent(() => TypographyConfigSemiBold18),
+  SemiBold20: createTextComponent(() => TypographyConfigSemiBold20),
   SemiBold30: createTextComponent(() => TypographyConfigSemiBold30),
 };
 

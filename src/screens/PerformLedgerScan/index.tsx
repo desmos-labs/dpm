@@ -134,9 +134,9 @@ const PerformLedgerScan: React.FC<NavProps> = ({ navigation, route }) => {
         speed={scanning ? 1 : 0}
         progress={scanning ? undefined : 0}
       />
-      <Typography.Subtitle style={styles.title}>{t('looking for devices')}</Typography.Subtitle>
+      <Typography.SemiBold20 style={styles.title}>{t('looking for devices')}</Typography.SemiBold20>
 
-      <Typography.Body style={styles.advice}>
+      <Typography.Regular14 style={styles.advice}>
         <Trans
           t={t}
           i18nKey="nano x unlock bluetooth check"
@@ -147,7 +147,7 @@ const PerformLedgerScan: React.FC<NavProps> = ({ navigation, route }) => {
             bold: <Typography.Subtitle />,
           }}
         />
-      </Typography.Body>
+      </Typography.Regular14>
 
       {errorMessage === undefined && authorized ? (
         <LedgerDeviceList ledgerApp={ledgerApp} devices={devices} onConnect={onConnect} />
