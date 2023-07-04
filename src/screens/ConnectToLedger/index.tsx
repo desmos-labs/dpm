@@ -59,6 +59,8 @@ const ConnectToLedger: React.FC<Props> = ({ navigation, route }) => {
           return t('connection failed');
         case LedgerErrorType.DeviceDisconnected:
           return t('device disconnected');
+        case LedgerErrorType.DeviceLocked:
+          return t('device locked');
         case LedgerErrorType.ApplicationOpenRejected:
           return t('application open request rejected');
         case LedgerErrorType.ApplicationNotInstalled:
@@ -81,6 +83,8 @@ const ConnectToLedger: React.FC<Props> = ({ navigation, route }) => {
         return t('connection failed');
       case LedgerErrorType.DeviceDisconnected:
         return t('device disconnected message');
+      case LedgerErrorType.DeviceLocked:
+        return t('device locked message');
       case LedgerErrorType.ApplicationOpenRejected:
         return t('please open the application', { application: ledgerApp.name });
       case LedgerErrorType.ApplicationNotInstalled:

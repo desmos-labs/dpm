@@ -2,6 +2,8 @@
   "connection failed": "Connection failed",
   "device disconnected": "Device disconnected",
   "device disconnected message": "The device has disconnected for unknown reasons",
+  "device locked": "Device locked",
+  "device locked message": "Please unlock your device",
   "application open request rejected" : "Application open request rejected",
   "application not installed" : "Application not installed",
   "please open the application": "Please open the {{application}} application on the Ledger device",

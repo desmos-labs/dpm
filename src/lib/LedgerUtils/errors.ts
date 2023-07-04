@@ -3,6 +3,7 @@ import {
   ApplicationOpenRejectedError,
   ConnectionFailedError,
   DeviceDisconnectedError,
+  DeviceLockedError,
   LedgerError,
   LedgerErrorType,
   NoApplicationOpenedError,
@@ -56,6 +57,10 @@ export const convertErrorToLedgerError = (e: unknown, fallbackMsg: string): Ledg
     return new ApplicationOpenRejectedError();
   }
 
+  if (castedError.message.endsWith('Status Code: 21781')) {
+    return new DeviceLockedError();
+  }
+
   return new UnknownLedgerError(castedError.message);
 };
 
@@ -65,6 +70,14 @@ export const convertErrorToLedgerError = (e: unknown, fallbackMsg: string): Ledg
  */
 export function isConnectionFailedError(error: LedgerError): error is ConnectionFailedError {
   return error.name === LedgerErrorType.ConnectionFailed;
+}
+
+/**
+ * Function to check if the provided error is an instance of DeviceLockedError.
+ * @param error - Error to check.
+ */
+export function isDeviceLockedError(error: LedgerError): error is DeviceLockedError {
+  return error.name === LedgerErrorType.DeviceLocked;
 }
 
 /**
