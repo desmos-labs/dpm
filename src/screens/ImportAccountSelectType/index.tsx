@@ -63,7 +63,9 @@ const ImportAccountSelectType = (props: NavProps) => {
   );
 
   return (
-    <StyledSafeAreaView topBar={<TopBar stackProps={{ navigation }} title={title} />}>
+    <StyledSafeAreaView topBar={<TopBar stackProps={{ navigation }} />}>
+      <Typography.H5 capitalize>{title}</Typography.H5>
+
       {/* Description */}
       <Typography.Body>{description}</Typography.Body>
 
@@ -72,16 +74,16 @@ const ImportAccountSelectType = (props: NavProps) => {
       {/* Connect with Mnemonic button */}
       <ImageButton
         image={DPMImages.ConnectMnemonic}
-        label={t('use secret recovery passphrase')}
+        label={t('secret recovery passphrase')}
         onPress={() => onImportModeSelected(WalletType.Mnemonic)}
       />
 
-      <Spacer paddingVertical={20} />
+      <Spacer paddingVertical={8} />
 
       {/* Connect with Ledger button */}
       <ImageButton
         image={DPMImages.ConnectLedger}
-        label={t('connect with ledger')}
+        label={t('connect ledger')}
         onPress={() => onImportModeSelected(WalletType.Ledger)}
       />
     </StyledSafeAreaView>

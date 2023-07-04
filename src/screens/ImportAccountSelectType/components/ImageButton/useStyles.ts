@@ -3,9 +3,9 @@ import { makeStyle } from 'config/theme';
 const useStyles = makeStyle((theme) => ({
   root: {
     display: 'flex',
-    flexDirection: 'column',
+    flexDirection: 'row',
     alignItems: 'center',
-    padding: theme.spacing.s,
+    padding: 24,
     backgroundColor: theme.colors.surface2,
     elevation: 5,
     shadowColor: '#000',
@@ -18,9 +18,12 @@ const useStyles = makeStyle((theme) => ({
     borderRadius: theme.roundness,
     marginHorizontal: theme.spacing.s,
   },
-  imageStyle: {
-    width: '100%',
-    height: 100,
+  image: {
+    height: 24,
+    width: 24,
+  },
+  label: {
+    marginStart: 16,
   },
 }));
 
