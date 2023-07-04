@@ -2,6 +2,7 @@ import { makeStyle } from 'config/theme';
 
 const useStyles = makeStyle((theme) => ({
   selectedWordsContainer: {
+    marginTop: theme.spacing.s,
     minHeight: '20%',
     borderStyle: 'solid',
     borderWidth: 1,
