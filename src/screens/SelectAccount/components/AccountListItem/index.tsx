@@ -5,6 +5,7 @@ import ProfileImage from 'components/ProfileImage';
 import Spacer from 'components/Spacer';
 import { getProfileDisplayName } from 'lib/ProfileUtils';
 import { useFetchProfile } from 'screens/SelectAccount/components/AccountListItem/useHooks';
+import { desmosLogoRound } from 'assets/images';
 import useStyles from './useStyles';
 
 export type AccountListItemProps = {
@@ -39,7 +40,12 @@ const AccountListItem = (props: AccountListItemProps) => {
         {/* <Typography.Body1 style={styles.number}>#{number}</Typography.Body1> */}
 
         {/* Profile image */}
-        <ProfileImage profile={profile} size={36} loading={profileLoading} />
+        <ProfileImage
+          profile={profile}
+          size={36}
+          loading={profileLoading}
+          overrideDefaultProfilePicture={desmosLogoRound}
+        />
 
         <Spacer paddingHorizontal={6} />
 

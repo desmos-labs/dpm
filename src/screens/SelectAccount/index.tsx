@@ -12,7 +12,7 @@ import {
   WalletPickerMode,
 } from 'screens/SelectAccount/components/AccountPicker/types';
 import { AccountWithWallet } from 'types/account';
-import useStyles from './useStyles';
+import Spacer from 'components/Spacer';
 import AccountPicker from './components/AccountPicker';
 
 export type SelectAccountParams = {
@@ -24,7 +24,6 @@ export type SelectAccountParams = {
 type NavProps = StackScreenProps<RootNavigatorParamList, ROUTES.SELECT_ACCOUNT>;
 
 const SelectAccount: FC<NavProps> = (props) => {
-  const styles = useStyles();
   const { t } = useTranslation('account');
 
   const { navigation } = props;
@@ -61,11 +60,13 @@ const SelectAccount: FC<NavProps> = (props) => {
 
   return (
     <StyledSafeAreaView
-      style={styles.root}
-      topBar={<TopBar stackProps={props} title={t('import account')} />}
+      topBar={<TopBar stackProps={props} />}
       touchableWithoutFeedbackDisabled={false}
     >
-      <Typography.Body>{descriptionText}.</Typography.Body>
+      <Typography.H5 capitalize>{t('select account')}</Typography.H5>
+      <Typography.Regular14>{descriptionText}.</Typography.Regular14>
+
+      <Spacer paddingVertical={8} />
 
       <AccountPicker onAccountSelected={setSelectedAccount} params={accountPickerParams} />
 
