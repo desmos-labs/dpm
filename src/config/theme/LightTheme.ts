@@ -60,7 +60,7 @@ export const LightTheme: ReactNativePaper.Theme = {
       secondaryHover: '#265FCC',
       disabled: 'rgba(237, 108, 83, 0.4)',
     },
-    error: '#fd565f',
+    error: '#E44A4A',
 
     // New style colors
     primary100: '#FFF0EC',
