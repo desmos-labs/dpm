@@ -1,9 +1,6 @@
 import { makeStyle } from 'config/theme';
 
 const useStyles = makeStyle((theme) => ({
-  root: {
-    paddingTop: 0,
-  },
   mnemonicInputLabel: {
     marginTop: theme.spacing.l,
     textTransform: 'capitalize',

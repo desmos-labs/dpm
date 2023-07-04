@@ -93,10 +93,10 @@ const ImportAccountFromMnemonic: FC<NavProps> = (props) => {
 
   return (
     <StyledSafeAreaView
-      style={styles.root}
-      topBar={<TopBar stackProps={props} title={t('import recovery passphrase')} />}
+      topBar={<TopBar stackProps={props} />}
       touchableWithoutFeedbackDisabled={false}
     >
+      <Typography.H5 capitalize>{t('import recovery passphrase')}</Typography.H5>
       <Typography.Body>{t('enter recovery passphrase')}.</Typography.Body>
 
       <Typography.Body style={styles.mnemonicInputLabel}>
