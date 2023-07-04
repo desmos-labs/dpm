@@ -2,7 +2,7 @@ import { makeStyle } from 'config/theme';
 
 const useStyles = makeStyle((theme) => ({
   selectedWordsContainer: {
-    minHeight: '35%',
+    minHeight: '20%',
     borderStyle: 'solid',
     borderWidth: 1,
     borderRadius: theme.roundness,
@@ -24,21 +24,6 @@ const useStyles = makeStyle((theme) => ({
   },
   wordBadge: {
     margin: theme.spacing.s,
-  },
-  errorMessageContainer: {
-    display: 'flex',
-    flexDirection: 'row',
-    alignItems: 'center',
-    paddingVertical: theme.spacing.s,
-  },
-  errorParagraph: {
-    color: theme.colors.feedbackError,
-    marginLeft: theme.spacing.s,
-    marginTop: 2,
-  },
-  errorImage: {
-    width: 20,
-    height: 20,
   },
 }));
 
