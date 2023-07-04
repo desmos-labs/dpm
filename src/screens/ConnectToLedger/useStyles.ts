@@ -2,8 +2,8 @@ import { makeStyle } from 'config/theme';
 
 const useStyles = makeStyle((theme) => ({
   image: {
-    width: '60%',
-    height: '30%',
+    width: 110,
+    height: 110,
     alignSelf: 'center',
   },
   animation: {
@@ -16,9 +16,13 @@ const useStyles = makeStyle((theme) => ({
   },
   errorMessage: {
     marginTop: theme.spacing.m,
-    color: theme.colors.error,
     textAlign: 'center',
     alignSelf: 'center',
+  },
+  installAppMessage: {
+    marginTop: theme.spacing.m,
+    color: theme.colors.primary,
+    textAlign: 'center',
   },
 }));
 

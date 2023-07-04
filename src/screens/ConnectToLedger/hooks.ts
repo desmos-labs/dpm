@@ -1,7 +1,7 @@
 import { LedgerConnector } from '@cosmjs/ledger-amino';
 import BluetoothTransport from '@ledgerhq/react-native-hw-transport-ble';
 import React, { useCallback, useEffect, useState } from 'react';
-import { BLELedger, LedgerApp, LedgerErrorType } from 'types/ledger';
+import { BLELedger, LedgerApp, LedgerError } from 'types/ledger';
 import { err, ok, ResultAsync } from 'neverthrow';
 import {
   convertErrorToLedgerError,
@@ -48,7 +48,7 @@ export function useConnectToLedger(ledger: BLELedger, ledgerApp: LedgerApp) {
   const [connectionPhase, setConnectionPhase] = React.useState(LedgerConnectionPhase.Unknown);
   const [connected, setConnected] = useState(false);
   const [transport, setTransport] = useState<BluetoothTransport | undefined>();
-  const [connectionError, setConnectionError] = useState<string | undefined>();
+  const [connectionError, setConnectionError] = useState<LedgerError | undefined>();
 
   const performConnection = React.useCallback(
     async (ledgerToConnect: BLELedger, ledgerAppToUse: LedgerApp) => {
@@ -111,22 +111,7 @@ export function useConnectToLedger(ledger: BLELedger, ledgerApp: LedgerApp) {
       const connectResult = await performConnection(ledgerToConnect, ledgerAppToUse);
 
       if (connectResult.isErr()) {
-        switch (connectResult.error.name) {
-          case LedgerErrorType.ConnectionFailed:
-            setConnectionError(t('connection failed'));
-            break;
-          case LedgerErrorType.DeviceDisconnected:
-            setConnectionError(t('device disconnected'));
-            break;
-          case LedgerErrorType.ApplicationOpenRejected:
-            setConnectionError(
-              t('please open the application', { application: ledgerAppToUse.name }),
-            );
-            break;
-          default:
-            setConnectionError(connectResult.error.message);
-            break;
-        }
+        setConnectionError(connectResult.error);
       } else {
         setTransport(connectResult.value);
         setConnected(true);
@@ -135,7 +120,7 @@ export function useConnectToLedger(ledger: BLELedger, ledgerApp: LedgerApp) {
       setConnecting(false);
       setConnectionPhase(LedgerConnectionPhase.Unknown);
     },
-    [performConnection, t],
+    [performConnection],
   );
 
   const retry = useCallback(

@@ -1,4 +1,5 @@
 import {
+  ApplicationNotInstalledError,
   ApplicationOpenRejectedError,
   ConnectionFailedError,
   DeviceDisconnectedError,
@@ -47,6 +48,14 @@ export const convertErrorToLedgerError = (e: unknown, fallbackMsg: string): Ledg
     return new WrongApplicationError(expectedApp, currentAppName);
   }
 
+  if (castedError.message.includes('(0x6807)')) {
+    return new ApplicationNotInstalledError();
+  }
+
+  if (castedError.message.includes('(0x5501)')) {
+    return new ApplicationOpenRejectedError();
+  }
+
   return new UnknownLedgerError(castedError.message);
 };
 
@@ -75,13 +84,23 @@ export function isWrongApplicationError(error: LedgerError): error is WrongAppli
 }
 
 /**
- * Function to check if the provided error is an instance of WrongApplicationError.
+ * Function to check if the provided error is an instance of ApplicationOpenRejectedError.
  * @param error - Error to check.
  */
 export function isApplicationOpenRejectedError(
   error: LedgerError,
 ): error is ApplicationOpenRejectedError {
   return error.name === LedgerErrorType.ApplicationOpenRejected;
+}
+
+/**
+ * Function to check if the provided error is an instance of ApplicationNotInstalledError.
+ * @param error - Error to check.
+ */
+export function isApplicationNotInstalledError(
+  error: LedgerError,
+): error is ApplicationNotInstalledError {
+  return error.name === LedgerErrorType.ApplicationNotInstalled;
 }
 
 /**
