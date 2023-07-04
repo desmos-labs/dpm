@@ -63,3 +63,4 @@ export const iconModuleStaking = require('./icons/iconModuleStaking.png');
 export const iconModuleSubspaces = require('./icons/iconModuleSubspaces.png');
 export const angleArrowDown = require('./icons/angleArrowDown.png');
 export const angleArrowUp = require('./icons/angleArrowUp.png');
+export const infoIcon = require('./icons/infoIcon.png');
