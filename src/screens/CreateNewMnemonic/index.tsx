@@ -55,7 +55,7 @@ const CreateNewMnemonic: FC<NavProps> = (props) => {
   }, [navigation, mnemonic]);
 
   return (
-    <StyledSafeAreaView style={styles.root} topBar={<TopBar stackProps={props} />}>
+    <StyledSafeAreaView topBar={<TopBar stackProps={props} />}>
       <Typography.H5 capitalize>{t('secret recovery passphrase')}</Typography.H5>
       <Typography.Regular16 style={styles.saveMnemonicAdvice}>
         <Trans
