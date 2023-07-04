@@ -34,14 +34,17 @@ export interface ValidatorCompactProps {
 const ValidatorCompact: React.FC<ValidatorCompactProps> = ({ validator, loading, onPress }) => {
   const styles = useStyles();
 
+  // -------- VARIABLES --------
+
+  const validatorAvatar = React.useMemo(
+    () => (validator ? getValidatorAvatar(validator) : defaultProfilePicture),
+    [validator],
+  );
+
   return (
     <TouchableOpacity onPress={onPress} disabled={onPress === undefined}>
       <View style={styles.root}>
-        <AvatarImage
-          source={validator ? getValidatorAvatar(validator) : defaultProfilePicture}
-          size={32}
-          loading={loading}
-        />
+        <AvatarImage source={validatorAvatar} size={32} loading={loading} />
         <Spacer paddingHorizontal={8} />
         {loading ? (
           <TypographyContentLoaders.Body width={200} />
