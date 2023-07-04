@@ -88,11 +88,11 @@ const AccountPicker: React.FC<AccountPickerProps> = ({ onAccountSelected, params
               onAccountSelected(account);
             }}
           />
-          <View style={styles.separator} />
+          <Spacer paddingVertical={8} />
         </>
       );
     },
-    [selectedAccount?.account.address, styles.separator, onAccountSelected],
+    [selectedAccount?.account.address, onAccountSelected],
   );
 
   const listKeyExtractor = useCallback((item: AccountWithWallet) => item.account.address, []);
@@ -122,9 +122,33 @@ const AccountPicker: React.FC<AccountPickerProps> = ({ onAccountSelected, params
           onEndReachedThreshold={0.2}
           estimatedItemSize={89}
         />
-      ) : null}
+      ) : (
+        <View style={styles.hdPathPickerView}>
+          {/* Description */}
+          <Typography.Regular16>{t('enter the derivation path you want')}</Typography.Regular16>
 
-      <Spacer paddingVertical={4} />
+          {/* Path picker */}
+          <HdPathPicker
+            style={styles.hdPathPicker}
+            onChange={onHdPathChange}
+            value={selectedHdPath}
+            disabled={!selectedAccount || addressPickerVisible}
+            allowCoinTypeEdit={allowCoinTypeEdit}
+          />
+
+          <Spacer paddingVertical={8} />
+
+          {/* Last generated address */}
+          {!addressPickerVisible &&
+            (selectedAccount?.account.address ? (
+              <AccountListItem address={selectedAccount.account.address} fetchDelay={0} />
+            ) : (
+              <Typography.Body numberOfLines={1} ellipsizeMode="middle">
+                {`${t('generating address')}...`}
+              </Typography.Body>
+            ))}
+        </View>
+      )}
 
       {masterHdPath !== undefined && (
         <Button
@@ -136,34 +160,6 @@ const AccountPicker: React.FC<AccountPickerProps> = ({ onAccountSelected, params
           {addressPickerVisible ? t('enter derivation path') : t('select account')}
         </Button>
       )}
-
-      <Spacer paddingVertical={4} />
-
-      <View style={{ display: addressPickerVisible ? 'none' : undefined }}>
-        {/* Description */}
-        <Typography.Body>{t('enter the derivation path you want')}</Typography.Body>
-
-        {/* Path picker */}
-        <HdPathPicker
-          style={styles.hdPathPicker}
-          onChange={onHdPathChange}
-          value={selectedHdPath}
-          disabled={!selectedAccount || addressPickerVisible}
-          allowCoinTypeEdit={allowCoinTypeEdit}
-        />
-
-        <Spacer paddingVertical={8} />
-
-        {/* Last generated address */}
-        {!addressPickerVisible &&
-          (selectedAccount?.account.address ? (
-            <AccountListItem address={selectedAccount.account.address} fetchDelay={0} />
-          ) : (
-            <Typography.Body numberOfLines={1} ellipsizeMode="middle">
-              {`${t('generating address')}...`}
-            </Typography.Body>
-          ))}
-      </View>
     </View>
   );
 };

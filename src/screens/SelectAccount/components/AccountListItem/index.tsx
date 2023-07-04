@@ -52,9 +52,9 @@ const AccountListItem = (props: AccountListItemProps) => {
         {/*  Profile text data */}
         <View style={styles.textContainer}>
           {profile && (
-            <Typography.Body1 style={styles.address}>
+            <Typography.SemiBold16 style={styles.address}>
               {getProfileDisplayName(profile)}
-            </Typography.Body1>
+            </Typography.SemiBold16>
           )}
 
           <Typography.Caption style={styles.address} ellipsizeMode="middle" numberOfLines={1}>
