@@ -44,6 +44,7 @@ export const tickOrangeIcon = require('./tick-orange.png');
 export const txFailed = require('./txFailed.png');
 export const txSuccess = require('./txSuccess.png');
 export const desmosLogoRound = require('./desmosLogoRound.png');
+export const ledgerConnectionError = require('./ledgerConnectionError.png');
 
 // Icons
 export const successIcon = require('./icons/successIcon.png');

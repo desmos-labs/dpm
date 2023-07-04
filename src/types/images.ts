@@ -13,6 +13,7 @@ export enum DPMImages {
   TxSuccess,
   EmptyList,
   NoData,
+  LedgerConnectionError,
 }
 
 export enum DPMAnimations {

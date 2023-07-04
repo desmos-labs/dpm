@@ -25,6 +25,14 @@ const useStyles = makeStyle((theme) => ({
   retryScan: {
     marginTop: theme.spacing.m,
   },
+  errorView: {
+    alignItems: 'center',
+    paddingBottom: 16,
+  },
+  errorImage: {
+    width: 110,
+    height: 110,
+  },
 }));
 
 export default useStyles;
