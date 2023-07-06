@@ -12,6 +12,16 @@ import useDrawerContext from 'lib/AppDrawer/context';
 import useProfileGivenAddress from 'hooks/useProfileGivenAddress';
 import { useTheme } from 'react-native-paper';
 import { useTranslation } from 'react-i18next';
+import { FlashList } from '@shopify/flash-list';
+import { ListRenderItem } from '@shopify/flash-list/src/FlashListProps';
+import { Proposal } from 'types/proposals';
+import ProposalListItem from 'screens/GovernanceProposals/components/ProposalListItem';
+import EmptyList from 'components/EmptyList';
+import { DPMImages } from 'types/images';
+import Button from 'components/Button';
+import Spacer from 'components/Spacer';
+import StyledActivityIndicator from 'components/StyledActivityIndicator';
+import { useFetchProposals } from './hooks';
 import useStyles from './useStyles';
 
 export type NavProps = CompositeScreenProps<
@@ -33,6 +43,7 @@ const GovernanceProposals: React.FC<NavProps> = (props) => {
 
   const { openDrawer } = useDrawerContext();
   const { profile } = useProfileGivenAddress();
+  const { data, loading, refresh, refreshing, error, fetchMore } = useFetchProposals();
 
   // -------- CALLBACKS --------
 
@@ -40,12 +51,22 @@ const GovernanceProposals: React.FC<NavProps> = (props) => {
     navigation.navigate(ROUTES.PROFILE);
   }, [navigation]);
 
+  const renderProposal = React.useCallback<ListRenderItem<Proposal>>(
+    ({ item }) => (
+      <>
+        <ProposalListItem proposal={item} />
+        <Spacer paddingVertical={8} />
+      </>
+    ),
+    [],
+  );
+
   return (
     <StyledSafeAreaView
       topBar={
         <TopBar
           leftIconColor={theme.colors.icon['1']}
-          title={t('proposal')}
+          title={t('proposals')}
           stackProps={{ ...props, navigation: { ...navigation, openDrawer } }}
           rightElement={
             <ProfileImage
@@ -57,7 +78,33 @@ const GovernanceProposals: React.FC<NavProps> = (props) => {
           }
         />
       }
-    ></StyledSafeAreaView>
+    >
+      <FlashList
+        data={data}
+        renderItem={renderProposal}
+        estimatedItemSize={155}
+        refreshing={refreshing}
+        onRefresh={refresh}
+        onEndReached={fetchMore}
+        onEndReachedThreshold={0.4}
+        ListEmptyComponent={
+          !loading && !refreshing ? (
+            <EmptyList
+              message={error?.message ?? t('no proposals')}
+              image={error !== undefined ? DPMImages.NoData : DPMImages.EmptyList}
+              extraComponent={
+                error !== undefined ? (
+                  <Button mode={'outlined'} onPress={refresh}>
+                    {t('common:retry')}
+                  </Button>
+                ) : undefined
+              }
+            />
+          ) : null
+        }
+        ListFooterComponent={loading ? <StyledActivityIndicator /> : undefined}
+      />
+    </StyledSafeAreaView>
   );
 };
 

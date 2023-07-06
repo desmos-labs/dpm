@@ -112,6 +112,14 @@ export const TypographyConfigH6: TextStyle = {
   lineHeight: 30,
 };
 
+export const TypographyConfigH7: TextStyle = {
+  fontFamily: 'Poppins-Medium',
+  fontStyle: 'normal',
+  fontWeight: '600',
+  fontSize: 18,
+  lineHeight: 27,
+};
+
 // New styles
 
 export const TypographyConfigRegular10: TextStyle = {

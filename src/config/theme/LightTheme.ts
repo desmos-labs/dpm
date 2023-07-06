@@ -64,11 +64,15 @@ export const LightTheme: ReactNativePaper.Theme = {
 
     // New style colors
     primary100: '#FFF0EC',
+    secondary100: '#E9F2FE',
+    secondary500: '#267CF4',
     neutral900: '#0A0A0A',
     neutral700: '#5C5C5C',
     neutral300: '#E8E8E8',
     feedbackSuccess: '#1EC490',
+    feedbackSuccessBg: '#DEF9E4',
     feedbackError: '#E44A4A',
+    feedbackErrorBg: '#F9DEE3',
   },
 };
 

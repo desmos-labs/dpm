@@ -1,3 +1,11 @@
 {
-  "proposal": "Proposal"
+  "proposals": "Proposals",
+  "no proposals": "No proposals",
+  "proposal status unspecified": "Unspecified",
+  "proposal status deposit period": "Deposit",
+  "proposal status voting period": "Voting",
+  "proposal status passed": "Passed",
+  "proposal status rejected": "Rejected",
+  "proposal status failed": "Failed",
+  "proposal status unknown": "Unknown"
 }

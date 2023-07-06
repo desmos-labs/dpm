@@ -12,8 +12,8 @@ const Badge: React.FC<BadgeProps> = (props) => {
   const { text } = props;
 
   return (
-    <View style={styles.root}>
-      <Typography.Regular12 style={styles.text}>{text}</Typography.Regular12>
+    <View style={[styles.root, props.style]}>
+      <Typography.Regular12 style={[styles.text, props.textStyle]}>{text}</Typography.Regular12>
     </View>
   );
 };
