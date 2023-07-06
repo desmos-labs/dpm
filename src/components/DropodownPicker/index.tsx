@@ -1,8 +1,8 @@
 import React, { ReactElement } from 'react';
 import { useSetAppState } from '@recoil/appState';
 import SelectDropdown, { SelectDropdownProps } from 'react-native-select-dropdown';
-import { Image } from 'react-native';
-import { angleArrowDown, angleArrowUp } from 'assets/images';
+import { angleArrowDown } from 'assets/images';
+import Animated, { useAnimatedStyle, useSharedValue, withTiming } from 'react-native-reanimated';
 import useStyles from './useStyles';
 
 export type Props = SelectDropdownProps;
@@ -11,9 +11,30 @@ function DropdownPicker(props: Props): ReactElement {
   const styles = useStyles();
   const setAppState = useSetAppState();
 
+  // -------- Variables --------
+
+  const arrowRotation = useSharedValue(0);
+  const animatedStyle = useAnimatedStyle(() => ({
+    transform: [
+      {
+        rotate: `${arrowRotation.value}deg`,
+      },
+    ],
+  }));
+
   // -------- Callbacks --------
 
+  const startAnimation = React.useCallback(
+    (isOpen: boolean) => {
+      arrowRotation.value = withTiming(isOpen ? 180 : 0, {
+        duration: 200,
+      });
+    },
+    [arrowRotation],
+  );
+
   const onFocus = React.useCallback(() => {
+    startAnimation(true);
     setAppState((currVal) => ({
       ...currVal,
       noSplashScreen: true,
@@ -21,7 +42,14 @@ function DropdownPicker(props: Props): ReactElement {
     if (props.onFocus) {
       props.onFocus();
     }
-  }, [props, setAppState]);
+  }, [props, setAppState, startAnimation]);
+
+  const onBlur = React.useCallback(() => {
+    startAnimation(false);
+    if (props.onBlur) {
+      props.onBlur();
+    }
+  }, [props, startAnimation]);
 
   return (
     <SelectDropdown
@@ -34,8 +62,9 @@ function DropdownPicker(props: Props): ReactElement {
       rowStyle={styles.rowStyle}
       rowTextStyle={styles.selectText}
       onFocus={onFocus}
-      renderDropdownIcon={(isOpened) => (
-        <Image style={styles.dropDownIcon} source={isOpened ? angleArrowUp : angleArrowDown} />
+      onBlur={onBlur}
+      renderDropdownIcon={() => (
+        <Animated.Image style={[styles.dropDownIcon, animatedStyle]} source={angleArrowDown} />
       )}
     />
   );
