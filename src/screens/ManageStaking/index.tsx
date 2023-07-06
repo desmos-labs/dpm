@@ -1,5 +1,3 @@
-import { StackScreenProps } from '@react-navigation/stack';
-import { RootNavigatorParamList } from 'navigation/RootNavigator';
 import ROUTES from 'navigation/routes';
 import React from 'react';
 import TopBar from 'components/TopBar';
@@ -9,6 +7,8 @@ import { useWindowDimensions } from 'react-native';
 import DpmTabBar from 'components/DpmTabBar';
 import Button from 'components/Button';
 import useStakeFlow from 'hooks/staking/useStakeFlow';
+import { HomeTabsScreenProps } from 'navigation/RootNavigator/HomeTabs/props';
+import useDrawerContext from 'lib/AppDrawer/context';
 import StakedTab from './tabs/Staked';
 import RestakingTab from './tabs/Restaking';
 import UnbondingTab from './tabs/Unbonding';
@@ -19,7 +19,7 @@ enum ManageStakingTabs {
   UNBONDING = 'UNBONDING',
 }
 
-type NavProps = StackScreenProps<RootNavigatorParamList, ROUTES.MANAGE_STAKING>;
+type NavProps = HomeTabsScreenProps<ROUTES.MANAGE_STAKING>;
 
 const renderScene = SceneMap({
   [ManageStakingTabs.STAKED]: StakedTab,
@@ -29,6 +29,7 @@ const renderScene = SceneMap({
 
 const ManageStaking: React.FC<NavProps> = (props) => {
   const { t } = useTranslation('manageStaking');
+  const { openDrawer } = useDrawerContext();
   const layout = useWindowDimensions();
 
   const [index, setIndex] = React.useState(0);
@@ -43,7 +44,7 @@ const ManageStaking: React.FC<NavProps> = (props) => {
   return (
     <>
       <TopBar
-        stackProps={props}
+        stackProps={{ ...props, navigation: { ...props.navigation, openDrawer } }}
         title={t('manage staking')}
         rightElement={
           <Button mode={'text'} onPress={onStakePressed}>

@@ -4,18 +4,32 @@ import { StackScreenProps } from '@react-navigation/stack';
 import { RootNavigatorParamList } from 'navigation/RootNavigator';
 import { BottomTabBarProps, createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import Home from 'screens/Home';
-import TabIcons from 'navigation/RootNavigator/HomeTabs/components/TabIcons';
-import { useTranslation } from 'react-i18next';
 import BottomBar from 'navigation/RootNavigator/HomeTabs/components/BottomBar';
 import WalletConnectSessions from 'screens/WalletConnectSessions';
 import AppDrawerContent from 'screens/Home/components/AppDrawer';
 import AppDrawer from 'lib/AppDrawer';
 import ScanQr from 'screens/ScanQr';
 import { useAllWalletConnectSessionsRequests } from '@recoil/walletConnectRequests';
+import ManageStaking from 'screens/ManageStaking';
+import GovernanceProposals from 'screens/GovernanceProposals';
+import {
+  apps,
+  appsGray,
+  home,
+  homeGray,
+  iconModuleCosmWasm,
+  iconModuleCosmWasmGray,
+  iconModuleGovernance,
+  iconModuleGovernanceGray,
+  scanQRButton,
+} from 'assets/images';
+import BottomBarIcon from './components/BottomBarIcon';
 
 export type HomeTabsParamList = {
   [ROUTES.HOME]: undefined;
+  [ROUTES.MANAGE_STAKING]: undefined;
   [ROUTES.SCAN_QR_CODE]: undefined;
+  [ROUTES.GOVERNANCE_PROPOSALS]: undefined;
   [ROUTES.WALLET_CONNECT_SESSIONS]: undefined;
 };
 
@@ -24,7 +38,6 @@ type NavProps = StackScreenProps<RootNavigatorParamList, ROUTES.HOME_TABS>;
 const HomeBottomTabs = createBottomTabNavigator<HomeTabsParamList>();
 
 const HomeTabs: FC<NavProps> = () => {
-  const { t } = useTranslation();
   const requests = useAllWalletConnectSessionsRequests();
   const requestsCount = useMemo(() => {
     if (requests.length === 0) {
@@ -54,23 +67,53 @@ const HomeTabs: FC<NavProps> = () => {
           name={ROUTES.HOME}
           component={Home}
           options={{
-            title: t('home'),
-            tabBarIcon: TabIcons.Home,
+            title: 'Home',
+            tabBarIcon: ({ focused, size }) => (
+              <BottomBarIcon source={focused ? home : homeGray} size={size} />
+            ),
+          }}
+        />
+        <HomeBottomTabs.Screen
+          name={ROUTES.MANAGE_STAKING}
+          component={ManageStaking}
+          options={{
+            title: 'Stake',
+            tabBarIcon: ({ focused, size }) => (
+              <BottomBarIcon
+                source={focused ? iconModuleCosmWasm : iconModuleCosmWasmGray}
+                size={size}
+              />
+            ),
           }}
         />
         <HomeBottomTabs.Screen
           name={ROUTES.SCAN_QR_CODE}
           component={ScanQr}
           options={{
-            tabBarIcon: TabIcons.ScanQr,
+            tabBarIcon: ({ size }) => <BottomBarIcon source={scanQRButton} size={size} />,
+          }}
+        />
+        <HomeBottomTabs.Screen
+          name={ROUTES.GOVERNANCE_PROPOSALS}
+          component={GovernanceProposals}
+          options={{
+            title: 'Vote',
+            tabBarIcon: ({ focused, size }) => (
+              <BottomBarIcon
+                source={focused ? iconModuleGovernance : iconModuleGovernanceGray}
+                size={size}
+              />
+            ),
           }}
         />
         <HomeBottomTabs.Screen
           name={ROUTES.WALLET_CONNECT_SESSIONS}
           component={WalletConnectSessions}
           options={{
-            title: t('authorizations'),
-            tabBarIcon: TabIcons.Authorization,
+            title: 'Authorizations',
+            tabBarIcon: ({ focused, size }) => (
+              <BottomBarIcon source={focused ? apps : appsGray} size={size} />
+            ),
             tabBarBadge: requestsCount,
           }}
         />

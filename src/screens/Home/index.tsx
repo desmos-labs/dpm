@@ -1,4 +1,3 @@
-import { StackScreenProps } from '@react-navigation/stack';
 import React, { useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Text, View } from 'react-native';
@@ -6,12 +5,9 @@ import { useTheme } from 'react-native-paper';
 import StyledSafeAreaView from 'components/StyledSafeAreaView';
 import TopBar from 'components/TopBar';
 import { useSetting } from '@recoil/settings';
-import { RootNavigatorParamList } from 'navigation/RootNavigator';
 import ROUTES from 'navigation/routes';
 import { DesmosMainnet } from '@desmoslabs/desmjs';
-import { CompositeScreenProps, useFocusEffect } from '@react-navigation/native';
-import { BottomTabScreenProps } from '@react-navigation/bottom-tabs';
-import { HomeTabsParamList } from 'navigation/RootNavigator/HomeTabs';
+import { useFocusEffect } from '@react-navigation/native';
 import useDrawerContext from 'lib/AppDrawer/context';
 import useProfileGivenAddress from 'hooks/useProfileGivenAddress';
 import AccountBalances, { AccountBalanceRef } from 'screens/Home/components/AccountBalances';
@@ -26,13 +22,11 @@ import { Transaction } from 'types/transactions';
 import TransactionsListItem from 'screens/Home/components/TransactionsListItem';
 import Spacer from 'components/Spacer';
 import { useHomeShouldReloadData, useSetHomeShouldReloadData } from '@recoil/home';
+import { HomeTabsScreenProps } from 'navigation/RootNavigator/HomeTabs/props';
 import { useActiveAccountTransactions } from './hooks';
 import useStyles from './useStyles';
 
-export type NavProps = CompositeScreenProps<
-  StackScreenProps<RootNavigatorParamList>,
-  BottomTabScreenProps<HomeTabsParamList, ROUTES.HOME>
->;
+export type NavProps = HomeTabsScreenProps<ROUTES.HOME>;
 
 /**
  * Screen that shows the user's balances and transactions history

@@ -212,6 +212,11 @@ enum ROUTES {
    * Screen that let the user unbond an amount of tokens from a validator.
    */
   UNBOND_TOKENS = 'UNBOND_TOKENS',
+  /**
+   * Screen that shows the governance proposals and allow
+   * the user to interact with them.
+   */
+  GOVERNANCE_PROPOSALS = 'GOVERNANCE_PROPOSALS',
 }
 
 export default ROUTES;
