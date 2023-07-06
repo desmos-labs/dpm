@@ -14,6 +14,8 @@ import { AccountWithWallet } from 'types/account';
 import Spacer from 'components/Spacer';
 import useSaveAccount from 'hooks/useSaveAccount';
 import useTrackNewAccountAdded from 'hooks/analytics/useTrackNewAccountAdded';
+import ErrorMessage from 'components/ErrorMessage';
+import Flexible from 'components/Flexible';
 import PasswordComplexityScore from './components/PasswordComplexityScore';
 import useStyles from './useStyles';
 
@@ -91,14 +93,14 @@ const CreateWalletPassword = (props: NavProps) => {
 
   return (
     <StyledSafeAreaView
-      style={styles.root}
-      topBar={<TopBar stackProps={props} title={t('create password')} />}
+      topBar={<TopBar stackProps={props} />}
       touchableWithoutFeedbackDisabled={false}
     >
       {/* Password */}
-      <Typography.Body>{t('add an extra security')}</Typography.Body>
+      <Typography.H5>{t('create password')}</Typography.H5>
+      <Typography.Regular16>{t('add an extra security')}</Typography.Regular16>
       <View style={styles.passwordLabel}>
-        <Typography.Body>{t('enter security password')}</Typography.Body>
+        <Typography.Regular16>{t('enter security password')}</Typography.Regular16>
         <PasswordComplexityScore score={evaluatePasswordComplexity(password)} />
       </View>
       <SecureTextInput
@@ -109,14 +111,14 @@ const CreateWalletPassword = (props: NavProps) => {
         onSubmitEditing={onSubmitPassword}
         autoFocus
       />
-      <Typography.Body style={styles.passwordComplexityHint}>
+      <Typography.Regular16 style={styles.passwordComplexityHint}>
         {t('password complexity hint')}.
-      </Typography.Body>
+      </Typography.Regular16>
 
       <Spacer paddingVertical={8} />
 
       {/* Confirmation password */}
-      <Typography.Body>{t('confirm password')}</Typography.Body>
+      <Typography.Regular16>{t('confirm password')}</Typography.Regular16>
       <SecureTextInput
         inputRef={confirmationPasswordRef}
         placeholder={t('confirm password')}
@@ -124,9 +126,13 @@ const CreateWalletPassword = (props: NavProps) => {
         value={confirmationPassword}
         onChangeText={onConfirmationPasswordChanged}
         onSubmitEditing={onContinuePressed}
+        error={errorMessage !== null}
       />
+      <Spacer paddingVertical={4} />
+      <ErrorMessage message={errorMessage} />
 
-      <Typography.Body style={styles.errorParagraph}>{errorMessage}</Typography.Body>
+      <Flexible.Padding flex={1} />
+
       <KeyboardAvoidingView
         keyboardVerticalOffset={Platform.OS === 'ios' ? 110 : 0}
         {...(Platform.OS === 'ios' ? { behavior: 'padding' } : {})}

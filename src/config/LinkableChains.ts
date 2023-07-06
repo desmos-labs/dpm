@@ -6,7 +6,7 @@ import {
   bandIcon,
   cosmosIcon,
   cryptoOrgIcon,
-  desmosIcon,
+  desmosLogoRound,
   eMoneyIcon,
   junoIcon,
   kavaIcon,
@@ -58,7 +58,7 @@ export const DesmosChain: SupportedChain = {
   name: 'Desmos',
   prefix: 'desmos',
   masterHDPath: DesmosHdPath,
-  icon: desmosIcon,
+  icon: desmosLogoRound,
   chainConfig: ChainConfig.fromPartial({
     name: 'desmos',
   }),

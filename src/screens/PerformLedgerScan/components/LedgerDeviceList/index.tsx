@@ -40,7 +40,7 @@ const LedgerDeviceList: FC<LedgerDeviceListProps> = ({ devices, ledgerApp, onCon
     (info: ListRenderItemInfo<BLELedger>) => (
       <TouchableOpacity style={styles.ledgerListItem} onPress={() => onLedgerItemSelected(info)}>
         <DpmImage style={styles.ledgerIcon} source={DPMImages.Ledger} resizeMode="contain" />
-        <Typography.Subtitle style={styles.ledgerName}>{info.item.name}</Typography.Subtitle>
+        <Typography.Regular16 style={styles.ledgerName}>{info.item.name}</Typography.Regular16>
       </TouchableOpacity>
     ),
     [onLedgerItemSelected, styles.ledgerIcon, styles.ledgerListItem, styles.ledgerName],

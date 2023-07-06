@@ -18,7 +18,6 @@ export const desmosLogoOrange = require('./desmosLogo-orange.png');
 export const desmosLogoWhite = require('./desmosLogo-white.png');
 export const desmosTextOrange = require('./desmosText-orange.png');
 export const disconnectIcon = require('./disconnect.png');
-export const dsmTokenIcon = require('./dsmToken.png');
 export const homeBackgroundDark = require('./homeBackground-dark.png');
 export const homeBackgroundLight = require('./homeBackground-light.png');
 export const landingBackground = require('./landingBackground.png');
@@ -44,6 +43,8 @@ export const tickGreyIcon = require('./tick-grey.png');
 export const tickOrangeIcon = require('./tick-orange.png');
 export const txFailed = require('./txFailed.png');
 export const txSuccess = require('./txSuccess.png');
+export const desmosLogoRound = require('./desmosLogoRound.png');
+export const ledgerConnectionError = require('./ledgerConnectionError.png');
 
 // Icons
 export const successIcon = require('./icons/successIcon.png');
@@ -61,3 +62,5 @@ export const iconModuleRelationships = require('./icons/iconModuleRelationships.
 export const iconModuleReports = require('./icons/iconModuleReports.png');
 export const iconModuleStaking = require('./icons/iconModuleStaking.png');
 export const iconModuleSubspaces = require('./icons/iconModuleSubspaces.png');
+export const angleArrowDown = require('./icons/angleArrowDown.png');
+export const infoIcon = require('./icons/infoIcon.png');

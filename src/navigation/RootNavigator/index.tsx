@@ -3,7 +3,7 @@ import ROUTES from 'navigation/routes';
 import React, { useEffect, useMemo } from 'react';
 import DevScreen from 'screens/DevScreen';
 import Landing from 'screens/Landing';
-import CreateNewMnemonic from 'screens/CreateNewMnemonic';
+import CreateNewMnemonic, { CreateNewMnemonicParams } from 'screens/CreateNewMnemonic';
 import CheckMnemonic, { CheckMnemonicParams } from 'screens/CheckMnemonic';
 import PickDerivationPath, { SelectAccountParams } from 'screens/SelectAccount';
 import ImportAccountFromMnemonic from 'screens/ImportAccountFromMnemonic';
@@ -54,6 +54,7 @@ import ValidatorStakingInfo, { ValidatorStakingInfoParams } from 'screens/Valida
 import Redelegate, { RedelegateParams } from 'screens/Redelegate';
 import UnbondTokens, { UnbondTokensParams } from 'screens/UnbondTokens';
 import ComponentsDemo from 'screens/ComponentsDemo';
+import SelectNewMnemonicLength from 'screens/SelectNewMnemonicLength';
 
 export type RootNavigatorParamList = {
   [ROUTES.DEV_SCREEN]: undefined;
@@ -61,7 +62,8 @@ export type RootNavigatorParamList = {
   [ROUTES.SPLASH_SCREEN]: undefined;
   [ROUTES.LANDING]: undefined;
   [ROUTES.LEGAL]: LegalParams;
-  [ROUTES.CREATE_NEW_MNEMONIC]: undefined;
+  [ROUTES.SELECT_NEW_MNEMONIC_LENGTH]: undefined;
+  [ROUTES.CREATE_NEW_MNEMONIC]: CreateNewMnemonicParams;
   [ROUTES.IMPORT_ACCOUNT_SELECT_CHAIN]: undefined;
   [ROUTES.IMPORT_ACCOUNT_SELECT_TYPE]: ImportAccountSelectTypeParams | undefined;
   [ROUTES.IMPORT_ACCOUNT_FROM_MNEMONIC]: undefined;
@@ -163,6 +165,7 @@ const RootNavigator = () => {
       />
       <Stack.Screen name={ROUTES.LANDING} component={Landing} />
       <Stack.Screen name={ROUTES.LEGAL} component={Legal} />
+      <Stack.Screen name={ROUTES.SELECT_NEW_MNEMONIC_LENGTH} component={SelectNewMnemonicLength} />
       <Stack.Screen name={ROUTES.CREATE_NEW_MNEMONIC} component={CreateNewMnemonic} />
       <Stack.Screen
         name={ROUTES.IMPORT_ACCOUNT_SELECT_CHAIN}

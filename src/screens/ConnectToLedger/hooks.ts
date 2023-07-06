@@ -1,15 +1,14 @@
 import { LedgerConnector } from '@cosmjs/ledger-amino';
 import BluetoothTransport from '@ledgerhq/react-native-hw-transport-ble';
 import React, { useCallback, useEffect, useState } from 'react';
-import { BLELedger, LedgerApp, LedgerErrorType } from 'types/ledger';
-import { err, ok, ResultAsync } from 'neverthrow';
+import { BLELedger, LedgerApp, LedgerError } from 'types/ledger';
+import { err, ok, Result, ResultAsync } from 'neverthrow';
 import {
   convertErrorToLedgerError,
   isNoApplicationOpenedError,
   isWrongApplicationError,
 } from 'lib/LedgerUtils/errors';
 import { closeApp, openApp, openLedgerTransport } from 'lib/LedgerUtils/commands';
-import { useTranslation } from 'react-i18next';
 
 /**
  * Enum that describe the current phase of the
@@ -38,17 +37,31 @@ export enum LedgerConnectionPhase {
 }
 
 /**
+ * Function that returns a function that can be used in a Promise.then
+ * to close a {@link BluetoothTransport} in case the returned
+ * {@link Result} is an error.
+ * @param transport
+ */
+function closeTransportOnError<R, E>(transport: BluetoothTransport) {
+  return async (result: Result<R, E>) => {
+    if (result.isErr()) {
+      await transport.close();
+    }
+    return result;
+  };
+}
+
+/**
  * Hook that provides a function to connect to a Ledger device.
  * @param ledger - The Ledger device to connect to.
  * @param ledgerApp - The app that the Ledger device should have opened.
  */
 export function useConnectToLedger(ledger: BLELedger, ledgerApp: LedgerApp) {
-  const { t } = useTranslation('connectToLedger');
   const [connecting, setConnecting] = useState(true);
   const [connectionPhase, setConnectionPhase] = React.useState(LedgerConnectionPhase.Unknown);
   const [connected, setConnected] = useState(false);
   const [transport, setTransport] = useState<BluetoothTransport | undefined>();
-  const [connectionError, setConnectionError] = useState<string | undefined>();
+  const [connectionError, setConnectionError] = useState<LedgerError | undefined>();
 
   const performConnection = React.useCallback(
     async (ledgerToConnect: BLELedger, ledgerAppToUse: LedgerApp) => {
@@ -71,16 +84,19 @@ export function useConnectToLedger(ledger: BLELedger, ledgerApp: LedgerApp) {
         // No application opened, request the user to open the application.
         if (isNoApplicationOpenedError(appVersionResult.error)) {
           // Request to open the expected application
-          const expectedApp = appVersionResult.error.expectedAppName;
           setConnectionPhase(LedgerConnectionPhase.RequestingAppOpen);
-          return openApp(openedTransport, expectedApp);
+          return openApp(openedTransport, ledgerAppToUse.name).then(
+            closeTransportOnError(openedTransport),
+          );
         }
 
         // Wrong application opened, request the user to close the application
         // and open the expected one.
         if (isWrongApplicationError(appVersionResult.error)) {
           setConnectionPhase(LedgerConnectionPhase.RequestingAppClose);
-          const closeAppResult = await closeApp(openedTransport);
+          const closeAppResult = await closeApp(openedTransport).then(
+            closeTransportOnError(openedTransport),
+          );
           // An error occurred while closing the application, return the error.
           if (closeAppResult.isErr()) {
             return closeAppResult;
@@ -88,10 +104,13 @@ export function useConnectToLedger(ledger: BLELedger, ledgerApp: LedgerApp) {
 
           // Request to open the expected application
           setConnectionPhase(LedgerConnectionPhase.RequestingAppOpen);
-          return openApp(closeAppResult.value, appVersionResult.error.expectedAppName);
+          return openApp(closeAppResult.value, ledgerAppToUse.name).then(
+            closeTransportOnError(openedTransport),
+          );
         }
 
-        // Unknown error, return the error.
+        // Unknown error, close the transport and return the error.
+        openedTransport.close();
         return err(appVersionResult.error);
       }
 
@@ -111,22 +130,7 @@ export function useConnectToLedger(ledger: BLELedger, ledgerApp: LedgerApp) {
       const connectResult = await performConnection(ledgerToConnect, ledgerAppToUse);
 
       if (connectResult.isErr()) {
-        switch (connectResult.error.name) {
-          case LedgerErrorType.ConnectionFailed:
-            setConnectionError(t('connection failed'));
-            break;
-          case LedgerErrorType.DeviceDisconnected:
-            setConnectionError(t('device disconnected'));
-            break;
-          case LedgerErrorType.ApplicationOpenRejected:
-            setConnectionError(
-              t('please open the application', { application: ledgerAppToUse.name }),
-            );
-            break;
-          default:
-            setConnectionError(connectResult.error.message);
-            break;
-        }
+        setConnectionError(connectResult.error);
       } else {
         setTransport(connectResult.value);
         setConnected(true);
@@ -135,7 +139,7 @@ export function useConnectToLedger(ledger: BLELedger, ledgerApp: LedgerApp) {
       setConnecting(false);
       setConnectionPhase(LedgerConnectionPhase.Unknown);
     },
-    [performConnection, t],
+    [performConnection],
   );
 
   const retry = useCallback(

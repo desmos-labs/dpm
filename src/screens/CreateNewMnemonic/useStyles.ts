@@ -1,9 +1,6 @@
 import { makeStyle } from 'config/theme';
 
 const useStyles = makeStyle((theme) => ({
-  root: {
-    paddingTop: 0,
-  },
   loadingView: {
     flex: 1,
     justifyContent: 'center',
@@ -13,7 +10,6 @@ const useStyles = makeStyle((theme) => ({
     marginTop: theme.spacing.s,
   },
   saveMnemonicAdviceSubtitle: {
-    color: theme.colors.primary,
     fontFamily: 'Poppins-Bold',
     fontWeight: 'bold',
   },

@@ -3,11 +3,14 @@ import { makeStyle } from 'config/theme';
 const useStyles = (selected?: boolean) =>
   makeStyle((theme) => ({
     container: {
-      backgroundColor: selected ? theme.colors.primary : theme.colors.surface,
+      backgroundColor: theme.colors.surface,
       borderRadius: 8,
       paddingVertical: 12,
       paddingHorizontal: 12,
       height: 70,
+      borderColor: selected ? theme.colors.primary : theme.colors.surface,
+      borderStyle: 'solid',
+      borderWidth: 1,
     },
     row: {
       flex: 1,
@@ -20,7 +23,7 @@ const useStyles = (selected?: boolean) =>
       flex: 1,
     },
     address: {
-      color: selected ? theme.colors.font['5'] : theme.colors.text,
+      color: theme.colors.text,
     },
   }))();
 

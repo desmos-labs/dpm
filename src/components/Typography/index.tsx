@@ -11,6 +11,7 @@ import {
   TypographyConfigH1,
   TypographyConfigH2,
   TypographyConfigH4,
+  TypographyConfigH5,
   TypographyConfigH6,
   TypographyConfigRegular10,
   TypographyConfigRegular12,
@@ -19,13 +20,16 @@ import {
   TypographyConfigSemiBold14,
   TypographyConfigSemiBold16,
   TypographyConfigSemiBold18,
+  TypographyConfigSemiBold20,
   TypographyConfigSemiBold30,
   TypographyConfigSubtitle,
   TypographyConfigSubtitle2,
   TypographyConfigTitle,
 } from './config';
 
-export type TypographyComponentProps = React.ComponentProps<typeof Text>;
+export type TypographyComponentProps = React.ComponentProps<typeof Text> & {
+  capitalize?: boolean;
+};
 
 function createTextComponent(
   styleProvider: (theme: ReactNativePaper.Theme) => TextStyle,
@@ -38,8 +42,9 @@ function createTextComponent(
     const commonStyle = useMemo<TextStyle>(
       () => ({
         color: theme.colors.font['1'],
+        textTransform: props.capitalize ? 'capitalize' : undefined,
       }),
-      [theme],
+      [props.capitalize, theme.colors.font],
     );
 
     return <Text {...props} style={StyleSheet.compose([commonStyle, themeStyle], style)} />;
@@ -57,6 +62,7 @@ const Typography = {
   H1: createTextComponent(() => TypographyConfigH1),
   H2: createTextComponent(() => TypographyConfigH2),
   H4: createTextComponent(() => TypographyConfigH4),
+  H5: createTextComponent(() => TypographyConfigH5),
   H6: createTextComponent(() => TypographyConfigH6),
   // New styles
   Regular10: createTextComponent(() => TypographyConfigRegular10),
@@ -66,6 +72,7 @@ const Typography = {
   SemiBold14: createTextComponent(() => TypographyConfigSemiBold14),
   SemiBold16: createTextComponent(() => TypographyConfigSemiBold16),
   SemiBold18: createTextComponent(() => TypographyConfigSemiBold18),
+  SemiBold20: createTextComponent(() => TypographyConfigSemiBold20),
   SemiBold30: createTextComponent(() => TypographyConfigSemiBold30),
 };
 

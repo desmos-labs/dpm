@@ -2,7 +2,6 @@ export const akashIcon = require('./akash.png');
 export const bandIcon = require('./band.png');
 export const cosmosIcon = require('./cosmos.png');
 export const cryptoOrgIcon = require('./cryptoOrg.png');
-export const desmosIcon = require('./desmos.png');
 export const eMoneyIcon = require('./eMoney.png');
 export const junoIcon = require('./juno.png');
 export const kavaIcon = require('./kava.png');

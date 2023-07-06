@@ -1,40 +1,31 @@
 import { makeStyle } from 'config/theme';
 
 const useStyles = makeStyle((theme) => ({
-  root: {
-    paddingTop: 0,
-    display: 'flex',
-    flexDirection: 'column',
-  },
   selectedWordsContainer: {
-    display: 'flex',
-    flexDirection: 'row',
-    flexWrap: 'wrap',
     marginTop: theme.spacing.s,
+    minHeight: '20%',
     borderStyle: 'solid',
     borderWidth: 1,
     borderRadius: theme.roundness,
     borderColor: theme.colors.surface,
-    flexGrow: 1,
-    maxHeight: '50%',
+  },
+  selectedWordsContainerError: {
+    borderColor: theme.colors.feedbackError,
+  },
+  selectedWords: {
+    display: 'flex',
+    flexDirection: 'row',
+    flexWrap: 'wrap',
   },
   availableWordsContainer: {
     display: 'flex',
     flexDirection: 'row',
     flexWrap: 'wrap',
     marginTop: theme.spacing.s,
-    flexGrow: 1,
   },
   wordBadge: {
-    marginTop: theme.spacing.s,
-    marginLeft: theme.spacing.s,
-    marginRight: theme.spacing.s,
+    margin: theme.spacing.s,
   },
-  errorParagraph: {
-    marginBottom: theme.spacing.s,
-    color: theme.colors.error,
-  },
-  saveButton: {},
 }));
 
 export default useStyles;

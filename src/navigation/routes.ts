@@ -21,6 +21,11 @@ enum ROUTES {
    */
   LANDING = 'LANDING',
   /**
+   * Screen that allow the user to select the length of the mnemonic that the
+   * app will generate.
+   */
+  SELECT_NEW_MNEMONIC_LENGTH = 'SELECT_NEW_MNEMONIC_LENGTH',
+  /**
    * Screen that allow the user to create a new wallet.
    */
   CREATE_NEW_MNEMONIC = 'CREATE_NEW_MNEMONIC',

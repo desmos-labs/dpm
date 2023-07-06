@@ -10,6 +10,7 @@ import {
   connectMnemonicLightIcon,
   desmosIconWhite,
   emptyList,
+  ledgerConnectionError,
   ledgerIcon,
   noConnectionDarkIcon,
   noConnectionLightIcon,
@@ -62,6 +63,8 @@ const DpmImage = (props: DPMImageProps) => {
           return darkTheme ? connectLedgerDarkIcon : connectLedgerLightIcon;
         case DPMImages.Ledger:
           return ledgerIcon;
+        case DPMImages.LedgerConnectionError:
+          return ledgerConnectionError;
         case DPMImages.TxFailed:
           return txFailed;
         case DPMImages.TxSuccess:

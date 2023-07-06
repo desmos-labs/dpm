@@ -1,0 +1,5 @@
+{
+  "select 12 or 24 words": "Selecting a 12 or 24 words seed phrase determines the level of security for your wallet.",
+  "number of words": "Number of words",
+  "words number hint": "The higher the number, the higher level of security for your wallet."
+}

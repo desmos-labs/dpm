@@ -1,10 +1,10 @@
 import { LedgerApp } from 'types/ledger';
-import { cosmosIcon, cryptoOrgIcon, desmosIcon } from 'assets/images';
+import { cosmosIcon, cryptoOrgIcon, desmosLogoRound } from 'assets/images';
 import { CosmosHdPath, DesmosHdPath } from './HdPaths';
 
 export const DesmosLedgerApp: LedgerApp = {
   name: 'Desmos',
-  icon: desmosIcon,
+  icon: desmosLogoRound,
   uiName: 'Desmos',
   minVersion: '2.18.2',
   masterHdPath: DesmosHdPath,

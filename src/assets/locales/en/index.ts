@@ -10,6 +10,7 @@ import legal from './legal.json';
 import manageStaking from './manageStaking.json';
 import profile from './profile.json';
 import restaking from './restaking.json';
+import selectNewMnemonicLength from './selectNewMnemonicLength.json';
 import selectValidator from './selectValidator.json';
 import sendTokens from './sendTokens.json';
 import settings from './settings.json';
@@ -32,6 +33,7 @@ const en = {
   manageStaking,
   profile,
   restaking,
+  selectNewMnemonicLength,
   selectValidator,
   sendTokens,
   settings,

@@ -1,7 +1,7 @@
 import { StackScreenProps } from '@react-navigation/stack';
 import React, { useCallback, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { KeyboardAvoidingView, Platform, View } from 'react-native';
+import { KeyboardAvoidingView, Platform } from 'react-native';
 import SecureTextInput from 'components/SecureTextInput';
 import Typography from 'components/Typography';
 import StyledSafeAreaView from 'components/StyledSafeAreaView';
@@ -130,13 +130,13 @@ const CheckWalletPassword = (props: NavProps) => {
 
   return (
     <StyledSafeAreaView
-      style={styles.root}
-      topBar={<TopBar stackProps={props} title={t('confirm password')} />}
+      topBar={<TopBar stackProps={props} />}
       touchableWithoutFeedbackDisabled={false}
     >
-      <View style={styles.passwordLabel}>
-        <Typography.Body>{t('enter security password')}</Typography.Body>
-      </View>
+      <Typography.H5>{t('confirm password')}</Typography.H5>
+      <Spacer paddingVertical={5} />
+      <Typography.Body>{t('enter security password')}</Typography.Body>
+
       <SecureTextInput
         placeholder={t('common:password')}
         style={styles.password}

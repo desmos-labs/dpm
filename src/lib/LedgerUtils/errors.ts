@@ -1,7 +1,9 @@
 import {
+  ApplicationNotInstalledError,
   ApplicationOpenRejectedError,
   ConnectionFailedError,
   DeviceDisconnectedError,
+  DeviceLockedError,
   LedgerError,
   LedgerErrorType,
   NoApplicationOpenedError,
@@ -47,6 +49,18 @@ export const convertErrorToLedgerError = (e: unknown, fallbackMsg: string): Ledg
     return new WrongApplicationError(expectedApp, currentAppName);
   }
 
+  if (castedError.message.includes('(0x6807)')) {
+    return new ApplicationNotInstalledError();
+  }
+
+  if (castedError.message.includes('(0x5501)')) {
+    return new ApplicationOpenRejectedError();
+  }
+
+  if (castedError.message.endsWith('Status Code: 21781')) {
+    return new DeviceLockedError();
+  }
+
   return new UnknownLedgerError(castedError.message);
 };
 
@@ -56,6 +70,14 @@ export const convertErrorToLedgerError = (e: unknown, fallbackMsg: string): Ledg
  */
 export function isConnectionFailedError(error: LedgerError): error is ConnectionFailedError {
   return error.name === LedgerErrorType.ConnectionFailed;
+}
+
+/**
+ * Function to check if the provided error is an instance of DeviceLockedError.
+ * @param error - Error to check.
+ */
+export function isDeviceLockedError(error: LedgerError): error is DeviceLockedError {
+  return error.name === LedgerErrorType.DeviceLocked;
 }
 
 /**
@@ -75,13 +97,23 @@ export function isWrongApplicationError(error: LedgerError): error is WrongAppli
 }
 
 /**
- * Function to check if the provided error is an instance of WrongApplicationError.
+ * Function to check if the provided error is an instance of ApplicationOpenRejectedError.
  * @param error - Error to check.
  */
 export function isApplicationOpenRejectedError(
   error: LedgerError,
 ): error is ApplicationOpenRejectedError {
   return error.name === LedgerErrorType.ApplicationOpenRejected;
+}
+
+/**
+ * Function to check if the provided error is an instance of ApplicationNotInstalledError.
+ * @param error - Error to check.
+ */
+export function isApplicationNotInstalledError(
+  error: LedgerError,
+): error is ApplicationNotInstalledError {
+  return error.name === LedgerErrorType.ApplicationNotInstalled;
 }
 
 /**

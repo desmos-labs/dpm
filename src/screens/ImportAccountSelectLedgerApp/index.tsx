@@ -80,10 +80,9 @@ const ImportAccountSelectLedgerApp: React.FC<NavProps> = ({ navigation }) => {
   return (
     <StyledSafeAreaView
       style={styles.background}
-      topBar={
-        <TopBar style={styles.background} stackProps={{ navigation }} title={t('select app')} />
-      }
+      topBar={<TopBar style={styles.background} stackProps={{ navigation }} />}
     >
+      <Typography.H5>{t('select app')}</Typography.H5>
       <Typography.Body>{t('select app to use')}</Typography.Body>
 
       <FlatList
