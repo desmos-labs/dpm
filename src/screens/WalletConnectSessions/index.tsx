@@ -24,13 +24,22 @@ const WalletConnectSessions = (props: NavProps) => {
   const { navigation } = props;
   const { t } = useTranslation();
   const styles = useStyles();
+
+  // -------- HOOKS --------
+
   const { openDrawer } = useDrawerContext();
   const { profile } = useActiveProfile();
   const sessions = useActiveAccountWalletConnectSessions();
   const requests = useAllWalletConnectSessionsRequests();
 
+  // -------- CALLBACKS --------
+
   const showPendingRequests = useCallback(() => {
     navigation.navigate(ROUTES.WALLET_CONNECT_REQUEST);
+  }, [navigation]);
+
+  const showProfileDetails = React.useCallback(() => {
+    navigation.navigate(ROUTES.PROFILE);
   }, [navigation]);
 
   return (
@@ -40,7 +49,14 @@ const WalletConnectSessions = (props: NavProps) => {
       topBar={
         <TopBar
           stackProps={{ ...props, navigation: { ...navigation, openDrawer } }}
-          rightElement={<ProfileImage style={styles.avatarImage} size={34} profile={profile} />}
+          rightElement={
+            <ProfileImage
+              style={styles.avatarImage}
+              size={34}
+              profile={profile}
+              onPress={showProfileDetails}
+            />
+          }
           title={t('authorizations')}
         />
       }

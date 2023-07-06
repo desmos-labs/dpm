@@ -29,8 +29,16 @@ const GovernanceProposals: React.FC<NavProps> = (props) => {
   const styles = useStyles();
   const theme = useTheme();
 
+  // -------- HOOKS --------
+
   const { openDrawer } = useDrawerContext();
   const { profile } = useProfileGivenAddress();
+
+  // -------- CALLBACKS --------
+
+  const showProfileDetails = React.useCallback(() => {
+    navigation.navigate(ROUTES.PROFILE);
+  }, [navigation]);
 
   return (
     <StyledSafeAreaView
@@ -39,7 +47,14 @@ const GovernanceProposals: React.FC<NavProps> = (props) => {
           leftIconColor={theme.colors.icon['1']}
           title={t('proposal')}
           stackProps={{ ...props, navigation: { ...navigation, openDrawer } }}
-          rightElement={<ProfileImage size={34} profile={profile} style={styles.avatarImage} />}
+          rightElement={
+            <ProfileImage
+              size={34}
+              profile={profile}
+              style={styles.avatarImage}
+              onPress={showProfileDetails}
+            />
+          }
         />
       }
     ></StyledSafeAreaView>
