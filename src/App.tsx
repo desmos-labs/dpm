@@ -22,6 +22,7 @@ Sentry.init({
   // Keep Sentry disabled in Debug to avoid crash report caused when we are
   // hot reloading the code and there are some errors.
   enabled: !__DEV__,
+  environment: __DEV__ ? 'development' : 'production',
 });
 
 // Init numbro with the appropriate decimal separators.
