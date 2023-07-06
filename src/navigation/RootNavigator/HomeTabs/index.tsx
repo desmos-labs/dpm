@@ -24,7 +24,7 @@ import {
   iconModuleGovernanceGray,
   scanQRButton,
 } from 'assets/images';
-import TabIcon from './components/TabIcon';
+import TabIcon from './components/BottomBarIcon';
 
 export type HomeTabsParamList = {
   [ROUTES.HOME]: undefined;
