@@ -5,7 +5,6 @@ import StyledSafeAreaView from 'components/StyledSafeAreaView';
 import { RootNavigatorParamList } from 'navigation/RootNavigator';
 import ROUTES from 'navigation/routes';
 import TopBar from 'components/TopBar';
-import { useTheme } from 'react-native-paper';
 import useDrawerContext from 'lib/AppDrawer/context';
 import useActiveProfile from '@recoil/activeProfile';
 import EmptySessions from 'screens/WalletConnectSessions/components/EmptySessions';
@@ -24,7 +23,6 @@ export type NavProps = StackScreenProps<RootNavigatorParamList, ROUTES.WALLET_CO
 const WalletConnectSessions = (props: NavProps) => {
   const { navigation } = props;
   const { t } = useTranslation();
-  const theme = useTheme();
   const styles = useStyles();
   const { openDrawer } = useDrawerContext();
   const { profile } = useActiveProfile();
@@ -39,14 +37,10 @@ const WalletConnectSessions = (props: NavProps) => {
     <StyledSafeAreaView
       padding={0}
       noIosPadding
-      style={styles.root}
       topBar={
         <TopBar
-          style={styles.topBar}
-          titleStyle={styles.topBarTitle}
-          leftIconColor={theme.colors.icon['5']}
           stackProps={{ ...props, navigation: { ...navigation, openDrawer } }}
-          rightElement={<ProfileImage style={styles.avatarImage} size={30} profile={profile} />}
+          rightElement={<ProfileImage style={styles.avatarImage} size={34} profile={profile} />}
           title={t('authorizations')}
         />
       }
