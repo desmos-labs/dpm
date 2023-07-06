@@ -7,5 +7,6 @@
   "proposal status passed": "Passed",
   "proposal status rejected": "Rejected",
   "proposal status failed": "Failed",
+  "proposal status invalid": "Invalid",
   "proposal status unknown": "Unknown"
 }

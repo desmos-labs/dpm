@@ -8,6 +8,7 @@ export enum ProposalStatus {
   Passed = 'PROPOSAL_STATUS_PASSED',
   Rejected = 'PROPOSAL_STATUS_REJECTED',
   Failed = 'PROPOSAL_STATUS_FAILED',
+  Invalid = 'PROPOSAL_STATUS_INVALID',
   Unrecognized = 'UNRECOGNIZED',
 }
 

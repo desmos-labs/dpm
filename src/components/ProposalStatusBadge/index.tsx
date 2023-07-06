@@ -56,6 +56,9 @@ const ProposalStatusBadge: React.FC<ProposalStatusBadgeProps> = ({ status }) => 
       case ProposalStatus.Failed:
         return t('proposal status failed');
 
+      case ProposalStatus.Invalid:
+        return t('proposal status invalid');
+
       default:
         return t('proposal status unknown');
     }
