@@ -4,7 +4,6 @@ import { StackScreenProps } from '@react-navigation/stack';
 import { RootNavigatorParamList } from 'navigation/RootNavigator';
 import { BottomTabBarProps, createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import Home from 'screens/Home';
-import { useTranslation } from 'react-i18next';
 import BottomBar from 'navigation/RootNavigator/HomeTabs/components/BottomBar';
 import WalletConnectSessions from 'screens/WalletConnectSessions';
 import AppDrawerContent from 'screens/Home/components/AppDrawer';
@@ -24,7 +23,7 @@ import {
   iconModuleGovernanceGray,
   scanQRButton,
 } from 'assets/images';
-import TabIcon from './components/BottomBarIcon';
+import BottomBarIcon from './components/BottomBarIcon';
 
 export type HomeTabsParamList = {
   [ROUTES.HOME]: undefined;
@@ -39,7 +38,6 @@ type NavProps = StackScreenProps<RootNavigatorParamList, ROUTES.HOME_TABS>;
 const HomeBottomTabs = createBottomTabNavigator<HomeTabsParamList>();
 
 const HomeTabs: FC<NavProps> = () => {
-  const { t } = useTranslation();
   const requests = useAllWalletConnectSessionsRequests();
   const requestsCount = useMemo(() => {
     if (requests.length === 0) {
@@ -71,7 +69,7 @@ const HomeTabs: FC<NavProps> = () => {
           options={{
             title: 'Home',
             tabBarIcon: ({ focused, size }) => (
-              <TabIcon source={focused ? home : homeGray} size={size} />
+              <BottomBarIcon source={focused ? home : homeGray} size={size} />
             ),
           }}
         />
@@ -81,7 +79,10 @@ const HomeTabs: FC<NavProps> = () => {
           options={{
             title: 'Stake',
             tabBarIcon: ({ focused, size }) => (
-              <TabIcon source={focused ? iconModuleCosmWasm : iconModuleCosmWasmGray} size={size} />
+              <BottomBarIcon
+                source={focused ? iconModuleCosmWasm : iconModuleCosmWasmGray}
+                size={size}
+              />
             ),
           }}
         />
@@ -89,7 +90,7 @@ const HomeTabs: FC<NavProps> = () => {
           name={ROUTES.SCAN_QR_CODE}
           component={ScanQr}
           options={{
-            tabBarIcon: ({ size }) => <TabIcon source={scanQRButton} size={size} />,
+            tabBarIcon: ({ size }) => <BottomBarIcon source={scanQRButton} size={size} />,
           }}
         />
         <HomeBottomTabs.Screen
@@ -98,7 +99,7 @@ const HomeTabs: FC<NavProps> = () => {
           options={{
             title: 'Vote',
             tabBarIcon: ({ focused, size }) => (
-              <TabIcon
+              <BottomBarIcon
                 source={focused ? iconModuleGovernance : iconModuleGovernanceGray}
                 size={size}
               />
@@ -111,7 +112,7 @@ const HomeTabs: FC<NavProps> = () => {
           options={{
             title: 'Authorizations',
             tabBarIcon: ({ focused, size }) => (
-              <TabIcon source={focused ? apps : appsGray} size={size} />
+              <BottomBarIcon source={focused ? apps : appsGray} size={size} />
             ),
             tabBarBadge: requestsCount,
           }}
