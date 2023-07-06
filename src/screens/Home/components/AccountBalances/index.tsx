@@ -14,11 +14,10 @@ import { sumCoins } from 'lib/CoinsUtils';
 import useTotalAccountPendingStakingRewards from 'hooks/staking/useTotalAccountPendingStakingRewards';
 import AccountBalancesAction from 'screens/Home/components/AccountBalancesAction';
 import { useNavigation } from '@react-navigation/native';
-import { StackNavigationProp } from '@react-navigation/stack/lib/typescript/src/types';
-import { RootNavigatorParamList } from 'navigation/RootNavigator';
 import ROUTES from 'navigation/routes';
 import useBalanceFiatAmount from 'hooks/balance/useCoinsFiatAmouont';
 import useStakeFlow from 'hooks/staking/useStakeFlow';
+import { HomeTabsNavigationProp } from 'navigation/RootNavigator/HomeTabs/props';
 import { useClaimAllRewards } from './hooks';
 import useStyles from './useStyles';
 
@@ -55,7 +54,7 @@ export interface AccountBalancesProps {
 const AccountBalances: React.FC<AccountBalancesProps> = ({ reference }) => {
   const styles = useStyles();
   const { t } = useTranslation('account');
-  const navigation = useNavigation<StackNavigationProp<RootNavigatorParamList>>();
+  const navigation = useNavigation<HomeTabsNavigationProp<ROUTES.HOME>>();
 
   // --------- HOOKS --------
   const activeAccountAddress = useActiveAccountAddress()!;

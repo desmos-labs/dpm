@@ -8,7 +8,6 @@ const useStyles = makeStyle((theme) => ({
     alignItems: 'center',
     backgroundColor: theme.colors.background,
     elevation: 9,
-    justifyContent: 'space-around',
     padding: theme.spacing.s,
     paddingBottom: Platform.OS === 'ios' ? theme.spacing.l : theme.spacing.s,
   },
@@ -17,10 +16,9 @@ const useStyles = makeStyle((theme) => ({
     flex: 1,
   },
   btnText: {
-    fontSize: 9,
-    lineHeight: 11,
     color: theme.colors.font['3'],
     textTransform: 'capitalize',
+    textAlign: 'center',
   },
   btnTextSelected: {
     color: theme.colors.primary,
