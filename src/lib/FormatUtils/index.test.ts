@@ -1,4 +1,4 @@
-import { safeParseFloat } from 'lib/FormatUtils/index';
+import { safeParseFloat } from 'lib/FormatUtils';
 
 describe('safeParseFloat', () => {
   it('parse with , as thousands separator', () => {
