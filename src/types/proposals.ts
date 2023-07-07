@@ -43,7 +43,7 @@ export interface Proposal {
   readonly votingStartTime: string;
   readonly submitTime: string;
   readonly proposalDeposits: ProposalDeposit[];
-  readonly proposalResults: ProposalResults;
+  readonly proposalResults: ProposalResults[];
 }
 
 /**

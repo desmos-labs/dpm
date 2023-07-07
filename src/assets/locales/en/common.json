@@ -37,5 +37,8 @@
   "manage": "Manage",
   "use biometrics": "Use biometrics",
   "you": "You",
-  "failure": "Failure"
+  "failure": "Failure",
+  "yes": "Yes",
+  "no": "No",
+  "description": "Description"
 }
