@@ -6,6 +6,7 @@ import numbro from 'numbro';
 import { Input } from 'cosmjs-types/cosmos/bank/v1beta1/bank';
 import Long from 'long';
 import { format } from 'date-fns';
+import { MarkdownIt, stringToTokens } from 'react-native-markdown-display';
 
 /**
  * Gets the decimal separator used on the provided locale.
@@ -180,4 +181,23 @@ export const formatIbcTimeoutTimestamp = (timestamp: Long | undefined) => {
     return format(new Date(timestamp.toNumber()), 'dd MMM yyyy, HH:mm:ss');
   }
   return undefined;
+};
+
+/**
+ * Function to convert a markdown text to its plain text representation.
+ * @param markdownText - The markdown text to transform.
+ */
+export const makrdownToPlainText = (markdownText: string): string => {
+  const withNewLines = markdownText.replace(/\\n/gm, '\n');
+  const markdownItInstance = MarkdownIt({ typographer: true });
+  return stringToTokens(withNewLines, markdownItInstance)
+    .filter((t) => t.children !== null)
+    .flatMap((t) => t.children)
+    .filter((t) => (t.type === 'text' && t.content !== '') || t.type === 'softbreak')
+    .reduce((previousValue, token) => {
+      if (token.type === 'text') {
+        return `${previousValue}${token.content} `;
+      }
+      return `${previousValue}\n`;
+    }, '');
 };

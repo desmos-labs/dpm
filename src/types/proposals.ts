@@ -16,7 +16,7 @@ export enum ProposalStatus {
  * Interface that represents a governance proposal.
  */
 export interface Proposal {
-  readonly id: string;
+  readonly id: number;
   readonly title: string;
   readonly description: string;
   readonly status: ProposalStatus;

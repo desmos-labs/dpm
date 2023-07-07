@@ -4,6 +4,7 @@ import { TouchableOpacity, View } from 'react-native';
 import Typography from 'components/Typography';
 import Spacer from 'components/Spacer';
 import ProposalStatusBadge from 'components/ProposalStatusBadge';
+import { makrdownToPlainText } from 'lib/FormatUtils';
 import useStyles from './useStyles';
 
 export interface ProposalListItemProps {
@@ -23,6 +24,13 @@ export interface ProposalListItemProps {
  */
 const ProposalListItem: React.FC<ProposalListItemProps> = ({ proposal, onPress }) => {
   const styles = useStyles();
+
+  // -------- VARIABLES --------
+
+  const proposalDescriptionText = React.useMemo(
+    () => makrdownToPlainText(proposal.description),
+    [proposal.description],
+  );
 
   // -------- CALLBACKS --------
 
@@ -45,9 +53,7 @@ const ProposalListItem: React.FC<ProposalListItemProps> = ({ proposal, onPress }
 
         {/* Proposal information */}
         <Typography.H7 style={styles.proposalTitle}>{proposal.title}</Typography.H7>
-        <Typography.Regular14 numberOfLines={2}>
-          {proposal.description.replace('\\n', '\n')}
-        </Typography.Regular14>
+        <Typography.Regular14 numberOfLines={2}>{proposalDescriptionText}</Typography.Regular14>
       </View>
     </TouchableOpacity>
   );
