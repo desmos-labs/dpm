@@ -76,13 +76,18 @@ declare global {
        * Color used for the buttons.
        */
       button: ButtonColors;
+
       // New style colors
       primary100: string;
+      secondary100: string;
+      secondary500: string;
       neutral900: string;
       neutral700: string;
       neutral300: string;
       feedbackSuccess: string;
+      feedbackSuccessBg: string;
       feedbackError: string;
+      feedbackErrorBg: string;
     }
 
     interface Spacing {

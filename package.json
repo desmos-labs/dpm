@@ -115,7 +115,7 @@
     "vision-camera-code-scanner": "^0.2.0"
   },
   "devDependencies": {
-    "@babel/core": "^7.20.7",
+    "@babel/core": "^7.22.8",
     "@babel/plugin-proposal-nullish-coalescing-operator": "^7.18.6",
     "@babel/plugin-proposal-numeric-separator": "^7.18.6",
     "@babel/plugin-proposal-optional-chaining": "^7.20.7",
@@ -125,14 +125,14 @@
     "@babel/runtime": "^7.20.7",
     "@react-native-community/eslint-config": "^2.0.0",
     "@rnx-kit/dep-check": "^1.12.15",
-    "@types/jest": "^29.4.0",
+    "@types/jest": "^29.5.2",
     "@types/lodash": "^4.14.178",
     "@types/react-native": "0.67.7",
     "@types/react-native-vector-icons": "^6.4.12",
     "@types/react-test-renderer": "18.0.0",
     "@typescript-eslint/eslint-plugin": "^5.29.0",
     "@typescript-eslint/parser": "^5.29.0",
-    "babel-jest": "^29.4.1",
+    "babel-jest": "^29.6.1",
     "babel-plugin-module-resolver": "^4.1.0",
     "eslint": "^7.32.0",
     "eslint-config-airbnb": "^19.0.4",
@@ -146,7 +146,7 @@
     "eslint-plugin-react": "^7.30.1",
     "eslint-plugin-react-hooks": "^4.6.0",
     "eslint-plugin-react-native": "^4.0.0",
-    "jest": "^29.4.1",
+    "jest": "^29.6.1",
     "metro-react-native-babel-preset": "^0.72.3",
     "prettier": "^2.8.1",
     "react-native-asset": "^2.0.1",
@@ -154,7 +154,7 @@
     "react-native-dotenv": "^3.4.7",
     "react-test-renderer": "18.1.0",
     "rn-nodeify": "10.3.0",
-    "typescript": "~4.3.5"
+    "typescript": "^5.1.6"
   },
   "resolutions": {
     "@types/react": "17",
@@ -169,6 +169,13 @@
       "jsx",
       "json",
       "node"
+    ],
+    "moduleDirectories": [
+      "node_modules",
+      "src"
+    ],
+    "transformIgnorePatterns": [
+      "<rootDir>/node_modules/(?!@react-native|react-native|react-native-markdown-display)"
     ]
   },
   "react-native": {

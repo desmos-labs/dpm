@@ -3,13 +3,13 @@ import BadgeProps from './props';
 
 const useStyles = makeStyleWithProps((props: BadgeProps, theme) => ({
   root: {
-    backgroundColor: theme.colors.primary100,
+    backgroundColor: props.backgroundColor ?? theme.colors.primary100,
     paddingVertical: 4,
     paddingHorizontal: 8,
     borderRadius: theme.roundness,
   },
   text: {
-    color: theme.colors.primary,
+    color: props.textColor ?? theme.colors.primary,
     textTransform: props.capitalize ? 'capitalize' : undefined,
   },
 }));
