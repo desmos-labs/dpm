@@ -21,6 +21,13 @@ export interface ProposalDeposit {
   readonly timestamp: string;
 }
 
+export interface ProposalResults {
+  readonly no: string;
+  readonly noWithVeto: string;
+  readonly yes: string;
+  readonly abstain: string;
+}
+
 /**
  * Interface that represents a governance proposal.
  */
@@ -36,6 +43,7 @@ export interface Proposal {
   readonly votingStartTime: string;
   readonly submitTime: string;
   readonly proposalDeposits: ProposalDeposit[];
+  readonly proposalResults: ProposalResults;
 }
 
 /**

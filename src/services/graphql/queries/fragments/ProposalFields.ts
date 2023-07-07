@@ -18,6 +18,12 @@ const ProposalFields = gql`
       height
       timestamp
     }
+    proposalResults: proposal_tally_results {
+      no
+      noWithVeto: no_with_veto
+      yes
+      abstain
+    }
   }
 `;
 
