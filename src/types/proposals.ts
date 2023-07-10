@@ -28,6 +28,10 @@ export interface ProposalResults {
   readonly abstain: string;
 }
 
+export interface ProposalContent extends Record<string, any> {
+  readonly '@type': string;
+}
+
 /**
  * Interface that represents a governance proposal.
  */
@@ -37,7 +41,7 @@ export interface Proposal {
   readonly description: string;
   readonly proposerAddress: string;
   readonly status: ProposalStatus;
-  readonly content: any[] | any;
+  readonly content: ProposalContent[] | ProposalContent;
   readonly depositEndTime: string;
   readonly votingEndTime: string;
   readonly votingStartTime: string;
