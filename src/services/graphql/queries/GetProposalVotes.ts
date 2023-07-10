@@ -18,7 +18,7 @@ const GetProposalVotes = gql`
       where: { proposal_id: { _eq: $proposalId } }
       limit: $limit
       offset: $offset
-      order_by: { height: desc }
+      order_by: { height: asc }
     ) {
       voterAddress: voter_address
       option

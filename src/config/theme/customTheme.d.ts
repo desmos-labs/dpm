@@ -90,6 +90,7 @@ declare global {
       feedbackSuccessBg: string;
       feedbackError: string;
       feedbackErrorBg: string;
+      feedbackWarning: string;
     }
 
     interface Spacing {

@@ -6,12 +6,21 @@ import { gql } from '@apollo/client';
  * const { data, loading, error } = useQuery(GetTransactionsByAddress, {
  *   variables: {
  *      operatorAddress: // validator's operator address.
+ *      selfDelegateAddress: // validator's self delegate address.
  *   },
  * });
  */
 const GetValidatorInfo = gql`
-  query GetValidatorInfo($operatorAddress: String!) @api(name: forbole) {
-    validator(where: { validator_info: { operator_address: { _eq: $operatorAddress } } }) {
+  query GetValidatorInfo($operatorAddress: String = "", $selfDelegateAddress: String = "")
+  @api(name: forbole) {
+    validator(
+      where: {
+        _or: [
+          { validator_info: { operator_address: { _eq: $operatorAddress } } }
+          { validator_info: { self_delegate_address: { _eq: $selfDelegateAddress } } }
+        ]
+      }
+    ) {
       validator_descriptions {
         moniker
         avatar_url

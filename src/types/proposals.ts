@@ -18,7 +18,7 @@ export enum ProposalVoteOption {
   Yes = 'VOTE_OPTION_YES',
   Abstain = 'VOTE_OPTION_ABSTAIN',
   No = 'VOTE_OPTION_NO',
-  NoWithVet = 'VOTE_OPTION_NO_WITH_VETO',
+  NoWithVeto = 'VOTE_OPTION_NO_WITH_VETO',
 }
 
 export interface ProposalDeposit {

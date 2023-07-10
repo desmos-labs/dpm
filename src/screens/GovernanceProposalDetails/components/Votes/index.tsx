@@ -3,13 +3,14 @@ import { useTranslation } from 'react-i18next';
 import { useFetchProposalVotes } from 'screens/GovernanceProposalDetails/components/Votes/hooks';
 import { FlashList } from '@shopify/flash-list';
 import { View } from 'react-native';
-import Typography from 'components/Typography';
 import { ListRenderItem } from '@shopify/flash-list/src/FlashListProps';
 import { ProposalVote } from 'types/proposals';
 import EmptyList from 'components/EmptyList';
 import { DPMImages } from 'types/images';
 import Button from 'components/Button';
 import StyledActivityIndicator from 'components/StyledActivityIndicator';
+import VoteListItem from 'screens/GovernanceProposalDetails/components/VoteListItem';
+import Spacer from 'components/Spacer';
 
 export interface VotesProps {
   readonly proposalId: number;
@@ -23,10 +24,10 @@ const Votes: React.FC<VotesProps> = ({ proposalId }) => {
 
   const renderListItem = React.useCallback<ListRenderItem<ProposalVote>>(
     (item) => (
-      <View>
-        <Typography.SemiBold14>{item.item.voterAddress}</Typography.SemiBold14>
-        <Typography.SemiBold14>{item.item.option}</Typography.SemiBold14>
-      </View>
+      <>
+        <VoteListItem proposalVote={item.item} />
+        <Spacer paddingVertical={8} />
+      </>
     ),
     [],
   );

@@ -75,6 +75,7 @@ export const LightTheme: ReactNativePaper.Theme = {
     feedbackSuccessBg: '#DEF9E4',
     feedbackError: '#E44A4A',
     feedbackErrorBg: '#F9DEE3',
+    feedbackWarning: '#F9A72D',
   },
 };
 
