@@ -13,6 +13,7 @@ import staking from './staking.json';
 import subspaces from './subspaces.json';
 import feegrant from './feegrant.json';
 import unknown from './unknown.json';
+import upgrade from './upgrade.json';
 
 const messages = {
   'messages.authz': authz,
@@ -30,6 +31,7 @@ const messages = {
   'messages.subspaces': subspaces,
   'messages.feegrant': feegrant,
   'messages.unknown': unknown,
+  'messages.upgrade': upgrade,
 };
 
 export default messages;

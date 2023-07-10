@@ -95,6 +95,10 @@ const NameMap: Record<string, string> = {
   MsgRemoveUserFromUserGroup: 'messages.subspaces:remove user from group',
   MsgSetUserPermissions: 'messages.subspaces:set user permissions',
 
+  // Upgrade module
+  SoftwareUpgradeProposal: 'messages.upgrade:upgrade chain',
+  MsgSoftwareUpgrade: 'messages.upgrade:upgrade chain',
+
   // Common
   MsgUpdateParams: 'messages.common:update params',
 };

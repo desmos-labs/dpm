@@ -1,0 +1,4 @@
+{
+  "upgrade chain": "Upgrade chain",
+  "upgrade chain description": "Upgrade to <0>{{ name }}</0> at height <1>{{ height }}</1>"
+}
