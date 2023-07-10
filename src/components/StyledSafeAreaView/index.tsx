@@ -76,7 +76,7 @@ const StyledSafeAreaView: React.FC<StyledSafeAreaViewProps> = (props) => {
             <View style={styles.scrollViewContainer} onStartShouldSetResponder={() => false}>
               <ScrollView
                 style={{ margin: -theme.spacing.m }}
-                contentContainerStyle={{ padding: theme.spacing.m }}
+                contentContainerStyle={{ padding: theme.spacing.m, flexGrow: 1 }}
               >
                 {children}
               </ScrollView>

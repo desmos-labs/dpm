@@ -20,6 +20,8 @@
   "abstain": "Abstain",
   "proposer": "Proposer",
   "submit time": "Submit time",
-  "deposit end time": "Submit time",
-  "plan": "Plan"
+  "deposit end time": "Deposit end time",
+  "plan": "Plan",
+  "proposal details": "Proposal details",
+  "votes": "Votes"
 }
