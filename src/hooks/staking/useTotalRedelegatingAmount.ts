@@ -1,5 +1,5 @@
 import { useActiveAccountAddress } from '@recoil/activeAccount';
-import { ApolloError, useLazyQuery } from '@apollo/client';
+import { ApolloError, useApolloClient } from '@apollo/client';
 import React from 'react';
 import GetAccountRedelegations from 'services/graphql/queries/GetAccountRedelegations';
 import { convertGraphQLRedelegation } from 'lib/GraphQLUtils';
@@ -27,13 +27,9 @@ const useTotalRedelegatingAmount = (userAddress?: string) => {
     throw new Error("can't get staked amount without an active account or a provided address");
   }
 
-  const [fetchRedelegations] = useLazyQuery(GetAccountRedelegations, {
-    // Use cache-and-network to avoid on-chain amounts sync issues.
-    // This might happen if the user returns to a screen where this hook
-    // has been used after doing a redelegation. In this case, the total
-    // amount will be different from the amount on chain.
-    fetchPolicy: 'cache-and-network',
-  });
+  // Here we use useApolloClient instead of useLazyQuery
+  // to force the returned callback to change when the client instance changes.
+  const client = useApolloClient();
 
   const fetchAllRedelegations = React.useCallback(async () => {
     // Start loading
@@ -49,7 +45,13 @@ const useTotalRedelegatingAmount = (userAddress?: string) => {
 
     while (!completed) {
       // eslint-disable-next-line no-await-in-loop
-      const { data, error: apolloError } = await fetchRedelegations({
+      const { data, error: apolloError } = await client.query({
+        query: GetAccountRedelegations,
+        // Use cache-and-network to avoid on-chain amounts sync issues.
+        // This might happen if the user returns to a screen where this hook
+        // has been used after doing a redelegation. In this case, the total
+        // amount will be different from the amount on chain.
+        fetchPolicy: 'cache-first',
         variables: {
           address,
           offset,
@@ -89,7 +91,7 @@ const useTotalRedelegatingAmount = (userAddress?: string) => {
     }
 
     setLoading(false);
-  }, [address, currentChainInfo.stakeCurrency.coinMinimalDenom, fetchRedelegations]);
+  }, [address, currentChainInfo.stakeCurrency.coinMinimalDenom, client]);
 
   // Effect to trigger the data fetch logic.
   React.useEffect(() => {

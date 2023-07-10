@@ -1,4 +1,4 @@
-import { useLazyQuery } from '@apollo/client';
+import { useApolloClient } from '@apollo/client';
 import React from 'react';
 import { FetchDataFunction } from 'hooks/usePaginatedData';
 import { convertGraphQLDelegation } from 'lib/GraphQLUtils';
@@ -12,8 +12,10 @@ import { Delegation } from 'types/distribution';
  */
 export const useFetchDelegations = () => {
   const activeAccountAddress = useActiveAccountAddress();
-
-  const [getAccountDelegations] = useLazyQuery(GetAccountDelegations);
+  // Here we use useApolloClient instead of useLazyQuery
+  // to force the returned callback to change when the client instance changes
+  // so that the usePaginatedData hook can properly update the data.
+  const client = useApolloClient();
 
   return React.useCallback<FetchDataFunction<Delegation, undefined>>(
     async (offset: number, limit: number) => {
@@ -21,7 +23,8 @@ export const useFetchDelegations = () => {
         throw new Error("Can't get delegations if no accounts are selected");
       }
 
-      const { data, error } = await getAccountDelegations({
+      const { data, error } = await client.query({
+        query: GetAccountDelegations,
         // We use network-only so that if the user refetch the data
         // with the pull to refresh gesture this function will provide the
         // most recent data and not the cached one.
@@ -49,6 +52,6 @@ export const useFetchDelegations = () => {
         endReached: serverData.length < limit,
       };
     },
-    [activeAccountAddress, getAccountDelegations],
+    [activeAccountAddress, client],
   );
 };

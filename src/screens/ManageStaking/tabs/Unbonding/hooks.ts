@@ -1,4 +1,4 @@
-import { useLazyQuery } from '@apollo/client';
+import { useApolloClient } from '@apollo/client';
 import GetAccountUnbondingDelegations from 'services/graphql/queries/GetAccountUnbondingDelegations';
 import React from 'react';
 import { FetchDataFunction } from 'hooks/usePaginatedData';
@@ -12,13 +12,16 @@ import { UnbondingDelegation } from 'types/distribution';
  */
 export const useGetFetchUnbondingDelegations = () => {
   const activeAccountAddress = useActiveAccountAddress()!;
-  const [getUnbondingDelegations] = useLazyQuery(GetAccountUnbondingDelegations, {
-    fetchPolicy: 'network-only',
-  });
+  // Here we use useApolloClient instead of useLazyQuery
+  // to force the returned callback to change when the client instance changes
+  // so that the usePaginatedData hook can properly update the data.
+  const client = useApolloClient();
 
   return React.useCallback<FetchDataFunction<UnbondingDelegation, undefined>>(
     async (offset: number, limit: number) => {
-      const { data, error } = await getUnbondingDelegations({
+      const { data, error } = await client.query({
+        query: GetAccountUnbondingDelegations,
+        fetchPolicy: 'network-only',
         variables: {
           address: activeAccountAddress,
           limit,
@@ -40,6 +43,6 @@ export const useGetFetchUnbondingDelegations = () => {
         endReached: data.action_unbonding_delegation.unbonding_delegations.length < limit,
       };
     },
-    [activeAccountAddress, getUnbondingDelegations],
+    [activeAccountAddress, client],
   );
 };
