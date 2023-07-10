@@ -15,6 +15,7 @@ import CompletedProposalHeader from 'screens/GovernanceProposalDetails/component
 import ProposalDetails from 'screens/GovernanceProposalDetails/components/ProposalDetails';
 import { TabView } from 'react-native-tab-view';
 import ThemedTabBar from 'components/ThemedTabBar';
+import Votes from 'screens/GovernanceProposalDetails/components/Votes';
 import useStyles from './useStyles';
 
 enum ProposalDetailsTabs {
@@ -78,12 +79,13 @@ const GovernanceProposalDetails: React.FC<NavProps> = (props) => {
             case ProposalDetailsTabs.PROPOSAL_DETAILS:
               return (
                 <View
-                  onLayout={(e) =>
+                  onLayout={(e) => {
+                    const { height } = e.nativeEvent.layout;
                     setTabViewHeights((current) => ({
                       ...current,
-                      [route.key]: e.nativeEvent.layout.height + 40,
-                    }))
-                  }
+                      [route.key]: height + 40,
+                    }));
+                  }}
                 >
                   <Spacer paddingVertical={8} />
                   <ProposalDetails proposal={proposal} />
@@ -92,14 +94,15 @@ const GovernanceProposalDetails: React.FC<NavProps> = (props) => {
             case ProposalDetailsTabs.VOTES:
               return (
                 <View
-                  onLayout={(e) =>
+                  onLayout={(e) => {
+                    const { height } = e.nativeEvent.layout;
                     setTabViewHeights((current) => ({
                       ...current,
-                      [route.key]: e.nativeEvent.layout.height + 40,
-                    }))
-                  }
+                      [route.key]: height + 40,
+                    }));
+                  }}
                 >
-                  <Typography.H5>Votes</Typography.H5>
+                  <Votes proposalId={proposal.id} />
                 </View>
               );
             default:

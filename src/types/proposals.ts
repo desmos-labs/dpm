@@ -14,6 +14,13 @@ export enum ProposalStatus {
   Unrecognized = 'UNRECOGNIZED',
 }
 
+export enum ProposalVoteOption {
+  Yes = 'VOTE_OPTION_YES',
+  Abstain = 'VOTE_OPTION_ABSTAIN',
+  No = 'VOTE_OPTION_NO',
+  NoWithVet = 'VOTE_OPTION_NO_WITH_VETO',
+}
+
 export interface ProposalDeposit {
   readonly amount: Coin[];
   readonly depositorAddress: string;
@@ -50,10 +57,23 @@ export interface Proposal {
   readonly proposalResults: ProposalResults[];
 }
 
+export interface ProposalVote {
+  readonly voterAddress: string;
+  readonly option: ProposalVoteOption;
+}
+
 /**
  * Interface that represents the data returned from the
  * GQL GetProposals query.
  */
 export interface GqlGetProposals {
   readonly proposal: Proposal[];
+}
+
+/**
+ * Interface that represents the data returned from the
+ * GQL GetProposalVotes query.
+ */
+export interface GqlGetProposalVotes {
+  readonly proposalVotes: ProposalVote[];
 }
