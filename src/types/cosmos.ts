@@ -15,6 +15,19 @@ import {
 export const StakeAuthorizationTypeUrl = '/cosmos.staking.v1beta1.StakeAuthorization';
 export const MsgTransferTypeUrl = '/ibc.applications.transfer.v1.MsgTransfer';
 export const MsgExecTypeUrl = '/cosmos.authz.v1beta1.MsgExec';
+export const MsgUpdateStakingModuleParamsTypeUrl = '/cosmos.staking.v1beta1.MsgUpdateParams';
+
+export interface MsgUpdateStakingModuleParams {
+  readonly params: {
+    bondDenom: string;
+    maxEntries: number;
+    maxValidators: number;
+    unbondingTime: string;
+    historicalEntries: number;
+    minCommissionRate: string;
+  };
+  readonly authority: string;
+}
 
 export interface MsgExecEncodeObject extends EncodeObject {
   readonly typeUrl: typeof MsgExecTypeUrl;
@@ -34,4 +47,9 @@ export interface MsgWithdrawValidatorCommissionEncodeObject extends EncodeObject
 export interface MsgFundCommunityPoolEncodeObject extends EncodeObject {
   readonly typeUrl: typeof MsgFundCommunityPoolTypeUrl;
   readonly value: MsgFundCommunityPool;
+}
+
+export interface MsgUpdateStakingModuleParamsEncodeObject extends EncodeObject {
+  readonly typeUrl: typeof MsgUpdateStakingModuleParamsTypeUrl;
+  readonly value: MsgUpdateStakingModuleParams;
 }

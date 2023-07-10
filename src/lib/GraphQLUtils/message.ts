@@ -172,6 +172,8 @@ import {
   MsgFundCommunityPoolEncodeObject,
   MsgSetWithdrawAddressEncodeObject,
   MsgTransferTypeUrl,
+  MsgUpdateStakingModuleParamsEncodeObject,
+  MsgUpdateStakingModuleParamsTypeUrl,
   MsgWithdrawValidatorCommissionEncodeObject,
   StakeAuthorizationTypeUrl,
 } from 'types/cosmos';
@@ -551,6 +553,22 @@ const decodeStakingMessage = (type: string, value: any): EncodeObject | undefine
           commissionRate: value.commission_rate,
         },
       } as MsgEditValidatorEncodeObject;
+
+    case MsgUpdateStakingModuleParamsTypeUrl:
+      return {
+        typeUrl: MsgUpdateStakingModuleParamsTypeUrl,
+        value: {
+          params: {
+            bondDenom: value.params.bond_denom,
+            maxEntries: value.params.max_entries,
+            maxValidators: value.params.max_validators,
+            unbondingTime: value.params.unbonding_time,
+            historicalEntries: value.params.historical_entries,
+            minCommissionRate: value.params.min_commission_rate,
+          },
+          authority: value.authority,
+        },
+      } as MsgUpdateStakingModuleParamsEncodeObject;
 
     default:
       return undefined;
