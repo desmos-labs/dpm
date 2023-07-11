@@ -93,11 +93,8 @@ const GovernanceVoteModal: React.FC<ModalComponentProps<GovernanceVoteModalParam
         }
 
         return (
-          <>
-            <TouchableOpacity
-              key={`vote-option-${o.option}`}
-              onPress={() => setSelectedOption(o.option)}
-            >
+          <View key={`vote-option-${o.option}`}>
+            <TouchableOpacity onPress={() => setSelectedOption(o.option)}>
               <View style={[styles.voteOption, isSelected ? selectedOptionStyle : undefined]}>
                 <Image
                   style={styles.voteOptionIcon}
@@ -108,10 +105,8 @@ const GovernanceVoteModal: React.FC<ModalComponentProps<GovernanceVoteModalParam
                 </Typography.Regular16>
               </View>
             </TouchableOpacity>
-            {index + 1 !== array.length && (
-              <Spacer paddingVertical={8} key={`vote-spacer-${index}`} />
-            )}
-          </>
+            {index + 1 !== array.length && <Spacer paddingVertical={8} />}
+          </View>
         );
       }),
     [
