@@ -25,5 +25,10 @@
   "proposal details": "Proposal details",
   "votes": "Votes",
   "no votes": "No votes",
-  "cast your vote": "Cast your vote"
+  "cast your vote": "Cast your vote",
+  "proposal vote succeed": "Proposal #{{ proposalId }} voted successfully",
+  "proposal vote failed": "An error occurred while voting proposal #{{ proposalId }}",
+  "deposit": "Deposit",
+  "proposal deposit succeed": "Deposited on proposal #{{ proposalId }} successfully",
+  "proposal deposit failed": "An error occurred while depositing on proposal #{{ proposalId }}"
 }

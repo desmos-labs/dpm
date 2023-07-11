@@ -5,6 +5,10 @@ import Typography from 'components/Typography';
 import { format } from 'date-fns';
 import Button from 'components/Button';
 import { useTranslation } from 'react-i18next';
+import {
+  useDepositOnProposal,
+  useVoteProposal,
+} from 'screens/GovernanceProposalDetails/components/ActiveProposalHeader/hooks';
 import useStyles from './useStyles';
 
 export interface Props {
@@ -12,6 +16,14 @@ export interface Props {
    * The proposal to display.
    */
   readonly proposal: Proposal;
+  /**
+   * Callback called if the user successfully voted the proposal.
+   */
+  readonly onProposalVoted?: () => any;
+  /**
+   * Callback called if the user successfully deposit on the proposal.
+   */
+  readonly onDeposit?: () => any;
 }
 
 /**
@@ -20,9 +32,31 @@ export interface Props {
  * If the provided proposal have a different status this component will not
  * be rendered.
  */
-const ActiveProposalHeader: React.FC<Props> = ({ proposal }) => {
+const ActiveProposalHeader: React.FC<Props> = ({ proposal, onProposalVoted, onDeposit }) => {
   const styles = useStyles(proposal);
   const { t } = useTranslation('governance');
+
+  // -------- HOOKS --------
+
+  const voteProposal = useVoteProposal(
+    proposal,
+    React.useMemo(
+      () => ({
+        onSuccess: onProposalVoted,
+      }),
+      [onProposalVoted],
+    ),
+  );
+
+  const depositOnProposal = useDepositOnProposal(
+    proposal,
+    React.useMemo(
+      () => ({
+        onSuccess: onDeposit,
+      }),
+      [onDeposit],
+    ),
+  );
 
   // -------- VARIABLES --------
 
@@ -55,13 +89,11 @@ const ActiveProposalHeader: React.FC<Props> = ({ proposal }) => {
 
   const onButtonPressed = React.useCallback(() => {
     if (proposal.status === ProposalStatus.VotingPeriod) {
-      // TODO: Implement proposal voting logic
-      console.warn('Implement proposal voting logic');
+      voteProposal();
     } else if (proposal.status === ProposalStatus.DepositPeriod) {
-      // TODO: Implement proposal deposit logic
-      console.warn('Implement proposal deposit logic');
+      depositOnProposal();
     }
-  }, [proposal.status]);
+  }, [depositOnProposal, proposal.status, voteProposal]);
 
   // Prevent rendering if the proposal status is not correct.
   if (
