@@ -68,11 +68,13 @@ const getChainCurrencies = (): Currency[] =>
 
 /**
  * Formats the given value into a human-readable string.
- * @param value - Value to be formatted
+ * @param value - Value to be formatted.
+ * @param thousandSeparated - True if the number should have the
+ * thousand separator, if undefined this will default to true.
  */
-export const formatNumber = (value: number): string =>
+export const formatNumber = (value: number, thousandSeparated?: boolean): string =>
   numbro(value).format({
-    thousandSeparated: true,
+    thousandSeparated: thousandSeparated ?? true,
   });
 
 /**
