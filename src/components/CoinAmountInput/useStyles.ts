@@ -2,12 +2,12 @@ import { makeStyle } from 'config/theme';
 
 const useStyles = makeStyle(() => ({
   spendableContainer: {
-    marginTop: 4,
+    marginTop: 6,
     flexDirection: 'row',
-    alignItems: 'baseline',
+    alignItems: 'center',
   },
-  spendableAmountValue: {
-    marginStart: 4,
+  spendableAmountLabel: {
+    marginEnd: 4,
   },
 }));
 
