@@ -168,8 +168,12 @@ export const roundFloat = (value: number, decimals: number): number => {
  * @param value - The value to check.
  */
 export const isStringNumberValid = (value: string): boolean => {
+  const valueWithoutThousandsSeparators = value.replace(
+    new RegExp(`[${getThousandsSeparator()}]`, 'g'),
+    '',
+  );
   const testRe = new RegExp(`^[0-9]+${getDecimalSeparator()}?([0-9]+)?$`);
-  return testRe.test(value);
+  return testRe.test(valueWithoutThousandsSeparators);
 };
 
 /**
