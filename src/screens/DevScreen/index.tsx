@@ -16,6 +16,8 @@ import Typography from 'components/Typography';
 import useAppFeatureFlags from 'hooks/featureflags/useAppFeatureFlags';
 import useShowTestTransaction from 'hooks/dev/useShowTestTransaction';
 import GovernanceVoteModal from 'modals/GovernanceVoteModal';
+import AmountAndMemoModal from 'modals/AmountAndMemoModal';
+import { AmountLimit } from 'components/CoinAmountInput/limits';
 import useStyles from './useStyles';
 
 enum DevRoutes {
@@ -23,6 +25,7 @@ enum DevRoutes {
   BOTTOM_MODAL = 'BOTTOM_MODAL',
   TEST_TRANSACTION = 'TEST_TRANSACTION',
   GOVERNANCE_VOTE_MODAL = 'GOVERNANCE_VOTE_MODAL',
+  AMOUNT_AND_MEMO_MODAL = 'AMOUNT_AND_MEMO_MODAL',
 }
 
 const routesToRender = [
@@ -40,6 +43,7 @@ const routesToRender = [
   DevRoutes.BOTTOM_MODAL,
   DevRoutes.TEST_TRANSACTION,
   DevRoutes.GOVERNANCE_VOTE_MODAL,
+  DevRoutes.AMOUNT_AND_MEMO_MODAL,
 ];
 
 type NavProps = StackScreenProps<RootNavigatorParamList, ROUTES.DEV_SCREEN>;
@@ -107,6 +111,22 @@ const DevScreen: FC<NavProps> = ({ navigation }) => {
             showModal(
               GovernanceVoteModal,
               {},
+              {
+                mode: ModalMode.BottomSheet,
+              },
+            );
+            break;
+
+          case DevRoutes.AMOUNT_AND_MEMO_MODAL:
+            showModal(
+              AmountAndMemoModal,
+              {
+                title: 'test',
+                amountLimitConfig: {
+                  mode: AmountLimit.UserBalance,
+                },
+                onSelect: console.log,
+              },
               {
                 mode: ModalMode.BottomSheet,
               },
