@@ -15,12 +15,14 @@ import { ModalMode } from 'modals/ModalScreen';
 import Typography from 'components/Typography';
 import useAppFeatureFlags from 'hooks/featureflags/useAppFeatureFlags';
 import useShowTestTransaction from 'hooks/dev/useShowTestTransaction';
+import GovernanceVoteModal from 'modals/GovernanceVoteModal';
 import useStyles from './useStyles';
 
 enum DevRoutes {
   SINGLE_BUTTON_MODAL = 'SINGLE_BUTTON_MODAL',
   BOTTOM_MODAL = 'BOTTOM_MODAL',
   TEST_TRANSACTION = 'TEST_TRANSACTION',
+  GOVERNANCE_VOTE_MODAL = 'GOVERNANCE_VOTE_MODAL',
 }
 
 const routesToRender = [
@@ -37,6 +39,7 @@ const routesToRender = [
   DevRoutes.SINGLE_BUTTON_MODAL,
   DevRoutes.BOTTOM_MODAL,
   DevRoutes.TEST_TRANSACTION,
+  DevRoutes.GOVERNANCE_VOTE_MODAL,
 ];
 
 type NavProps = StackScreenProps<RootNavigatorParamList, ROUTES.DEV_SCREEN>;
@@ -98,6 +101,16 @@ const DevScreen: FC<NavProps> = ({ navigation }) => {
 
           case DevRoutes.TEST_TRANSACTION:
             showTestTransaction();
+            break;
+
+          case DevRoutes.GOVERNANCE_VOTE_MODAL:
+            showModal(
+              GovernanceVoteModal,
+              {},
+              {
+                mode: ModalMode.BottomSheet,
+              },
+            );
             break;
 
           default:
