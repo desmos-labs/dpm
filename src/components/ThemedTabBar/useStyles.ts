@@ -3,7 +3,7 @@ import { TypographyConfigSemiBold14 } from 'components/Typography/config';
 
 const useStyles = makeStyle((theme) => ({
   root: {
-    backgroundColor: '#fff',
+    backgroundColor: theme.colors.background,
     elevation: 0,
   },
   indicator: {

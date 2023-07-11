@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleProp, View, ViewStyle } from 'react-native';
+import { StyleProp, TextStyle, View, ViewStyle } from 'react-native';
 import Typography from 'components/Typography';
 import { roundFloat } from 'lib/FormatUtils';
 import useStyles from './useStyles';
@@ -29,12 +29,27 @@ export interface ProgressBarProps {
      */
     color?: string;
   };
+  /**
+   * Style that will be applied to the label text.
+   */
+  labelStyle?: StyleProp<TextStyle>;
+  /**
+   * Percentage label style.
+   */
+  percentageStyle?: StyleProp<TextStyle>;
 }
 
 /**
  * Component that displays a progressbar.
  */
-const ProgressBar: React.FC<ProgressBarProps> = ({ value, label, showPercentage, style }) => {
+const ProgressBar: React.FC<ProgressBarProps> = ({
+  value,
+  label,
+  showPercentage,
+  style,
+  labelStyle,
+  percentageStyle,
+}) => {
   const styles = useStyles();
 
   const percentageValue = React.useMemo(() => {
@@ -54,13 +69,13 @@ const ProgressBar: React.FC<ProgressBarProps> = ({ value, label, showPercentage,
         style={[
           styles.bar,
           {
-            backgroundColor: style?.color ?? styles.bar.backgroundColor,
+            backgroundColor: style?.color,
             width: percentageValue,
           },
         ]}
       />
-      <Typography.Regular14 style={styles.text}>{label ?? ''}</Typography.Regular14>
-      <Typography.Regular14 style={styles.text}>
+      <Typography.Regular14 style={[styles.text, labelStyle]}>{label ?? ''}</Typography.Regular14>
+      <Typography.Regular14 style={[styles.text, percentageStyle]}>
         {showPercentage ? percentageValue : ''}
       </Typography.Regular14>
     </View>

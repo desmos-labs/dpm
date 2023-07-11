@@ -77,8 +77,10 @@ const ActiveProposalHeader: React.FC<Props> = ({ proposal }) => {
       <View style={styles.fieldsContainer}>
         {/* Start time */}
         <View style={styles.field}>
-          <Typography.SemiBold14 capitalize>{startLabel}</Typography.SemiBold14>
-          <Typography.Regular14>{startValue}</Typography.Regular14>
+          <Typography.SemiBold14 style={styles.text} capitalize>
+            {startLabel}
+          </Typography.SemiBold14>
+          <Typography.Regular14 style={styles.text}>{startValue}</Typography.Regular14>
         </View>
 
         {/* Divider */}
@@ -86,8 +88,10 @@ const ActiveProposalHeader: React.FC<Props> = ({ proposal }) => {
 
         {/* End time */}
         <View style={styles.field}>
-          <Typography.SemiBold14 capitalize>{endLabel}</Typography.SemiBold14>
-          <Typography.Regular14>{endValue}</Typography.Regular14>
+          <Typography.SemiBold14 style={styles.text} capitalize>
+            {endLabel}
+          </Typography.SemiBold14>
+          <Typography.Regular14 style={styles.text}>{endValue}</Typography.Regular14>
         </View>
       </View>
 

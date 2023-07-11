@@ -1,5 +1,6 @@
 import { makeStyleWithProps } from 'config/theme';
 import { Proposal, ProposalStatus } from 'types/proposals';
+import LightTheme from 'config/theme/LightTheme';
 
 const useStyles = makeStyleWithProps((proposal: Proposal, theme) => ({
   fieldsContainer: {
@@ -9,6 +10,9 @@ const useStyles = makeStyleWithProps((proposal: Proposal, theme) => ({
         : theme.colors.primary100,
     paddingHorizontal: theme.spacing.m,
     borderRadius: theme.roundness,
+  },
+  text: {
+    color: LightTheme.colors.text,
   },
   field: {
     display: 'flex',

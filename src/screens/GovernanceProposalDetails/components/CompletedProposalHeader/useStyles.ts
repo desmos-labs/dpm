@@ -12,6 +12,12 @@ const useStyles = makeStyleWithProps((proposal: Proposal, theme) => ({
         ? theme.colors.feedbackError
         : theme.colors.feedbackSuccess,
   },
+  higherValueBarLabel: {
+    color:
+      proposal.status === ProposalStatus.Rejected
+        ? theme.colors.feedbackError
+        : theme.colors.feedbackSuccess,
+  },
   resultsContainer: {
     backgroundColor: theme.colors.neutral100,
     padding: theme.spacing.m,

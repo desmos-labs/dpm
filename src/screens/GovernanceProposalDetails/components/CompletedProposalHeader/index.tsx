@@ -91,6 +91,8 @@ const CompletedProposalHeader: React.FC<CompletedProposalHeaderProps> = ({ propo
         {/* Results percentage */}
         <ProgressBar
           style={values.higher === 'yes' ? styles.higherValueBar : undefined}
+          labelStyle={values.higher === 'yes' ? styles.higherValueBarLabel : undefined}
+          percentageStyle={values.higher === 'yes' ? styles.higherValueBarLabel : undefined}
           value={values.yes}
           label={t('common:yes')}
           showPercentage={true}
@@ -98,6 +100,8 @@ const CompletedProposalHeader: React.FC<CompletedProposalHeaderProps> = ({ propo
         <Spacer paddingVertical={5} />
         <ProgressBar
           style={values.higher === 'no' ? styles.higherValueBar : undefined}
+          labelStyle={values.higher === 'no' ? styles.higherValueBarLabel : undefined}
+          percentageStyle={values.higher === 'no' ? styles.higherValueBarLabel : undefined}
           value={values.no}
           label={t('common:no')}
           showPercentage={true}
@@ -105,6 +109,8 @@ const CompletedProposalHeader: React.FC<CompletedProposalHeaderProps> = ({ propo
         <Spacer paddingVertical={5} />
         <ProgressBar
           style={values.higher === 'veto' ? styles.higherValueBar : undefined}
+          labelStyle={values.higher === 'veto' ? styles.higherValueBarLabel : undefined}
+          percentageStyle={values.higher === 'veto' ? styles.higherValueBarLabel : undefined}
           value={values.veto}
           label={t('veto')}
           showPercentage={true}
@@ -112,6 +118,8 @@ const CompletedProposalHeader: React.FC<CompletedProposalHeaderProps> = ({ propo
         <Spacer paddingVertical={5} />
         <ProgressBar
           style={values.higher === 'abstain' ? styles.higherValueBar : undefined}
+          labelStyle={values.higher === 'abstain' ? styles.higherValueBarLabel : undefined}
+          percentageStyle={values.higher === 'abstain' ? styles.higherValueBarLabel : undefined}
           value={values.abstain}
           label={t('abstain')}
           showPercentage={true}
