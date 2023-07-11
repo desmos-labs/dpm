@@ -7,73 +7,19 @@ import { coin } from '@cosmjs/amino';
 import { Transaction } from 'types/transactions';
 import ROUTES from 'navigation/routes';
 import {
-  AllowedMsgAllowanceTypeUrl,
-  BasicAllowanceTypeUrl,
-  Bech32AddressTypeUrl,
-  FreeTextValueTypeUrl,
-  GenericAuthorizationTypeUrl,
-  MediaTypeUrl,
-  MsgAcceptDTagTransferRequestTypeUrl,
-  MsgAddPostAttachmentTypeUrl,
-  MsgAddReactionTypeUrl,
-  MsgAddRegisteredReactionTypeUrl,
-  MsgAddUserToUserGroupTypeUrl,
-  MsgAnswerPollTypeUrl,
-  MsgCancelDTagTransferRequestTypeUrl,
-  MsgCreatePostTypeUrl,
-  MsgCreateRelationshipTypeUrl,
-  MsgCreateReportTypeUrl,
-  MsgCreateSectionTypeUrl,
-  MsgCreateSubspaceTypeUrl,
-  MsgCreateUserGroupTypeUrl,
-  MsgCreateValidatorTypeUrl,
-  MsgDelegateTypeUrl,
-  MsgDeletePostTypeUrl,
-  MsgDeleteProfileTypeUrl,
-  MsgDeleteRelationshipTypeUrl,
-  MsgDeleteReportTypeUrl,
-  MsgDeleteSectionTypeUrl,
-  MsgDeleteSubspaceTypeUrl,
-  MsgDeleteUserGroupTypeUrl,
-  MsgDepositTypeUrl,
-  MsgEditPostTypeUrl,
-  MsgEditSectionTypeUrl,
-  MsgEditSubspaceTypeUrl,
-  MsgEditUserGroupTypeUrl,
-  MsgEditValidatorTypeUrl,
-  MsgFundCommunityPoolTypeUrl,
-  MsgGrantAllowanceTypeUrl,
-  MsgGrantTypeUrl,
-  MsgLinkApplicationTypeUrl,
-  MsgLinkChainAccountTypeUrl,
-  MsgMoveSectionTypeUrl,
-  MsgMoveUserGroupTypeUrl,
-  MsgMultiSendTypeUrl,
-  MsgRefuseDTagTransferRequestTypeUrl,
-  MsgRemovePostAttachmentTypeUrl,
-  MsgRemoveReactionTypeUrl,
-  MsgRemoveUserFromUserGroupTypeUrl,
-  MsgRequestDTagTransferTypeUrl,
-  MsgRevokeAllowanceTypeUrl,
-  MsgRevokeTypeUrl,
-  MsgSaveProfileTypeUrl,
-  MsgSendTypeUrl,
-  MsgSetReactionsParamsTypeUrl,
-  MsgSetUserGroupPermissionsTypeUrl,
-  MsgSetUserPermissionsTypeUrl,
-  MsgSetWithdrawAddressTypeUrl,
-  MsgSubmitProposalTypeUrl,
-  MsgUnlinkApplicationTypeUrl,
-  MsgUnlinkChainAccountTypeUrl,
-  MsgVoteTypeUrl,
-  MsgWithdrawDelegatorRewardTypeUrl,
-  MsgWithdrawValidatorCommissionTypeUrl,
-  PeriodicAllowanceTypeUrl,
-  PollTypeUrl,
-  PostTargetTypeUrl,
-  RegisteredReactionValueTypeUrl,
+  Authz,
+  Bank,
+  Distribution,
+  Feegrant,
+  Gov,
+  Posts,
+  Profiles,
+  Reactions,
+  Relationships,
+  Reports,
+  Staking,
+  Subspaces,
   timestampFromDate,
-  UserTargetTypeUrl,
 } from '@desmoslabs/desmjs';
 import { MsgExec, MsgGrant, MsgRevoke } from 'cosmjs-types/cosmos/authz/v1beta1/tx';
 import { GenericAuthorization, Grant } from 'cosmjs-types/cosmos/authz/v1beta1/authz';
@@ -135,19 +81,11 @@ import {
   RegisteredReactionValue,
 } from '@desmoslabs/desmjs-types/desmos/reactions/v1/models';
 import {
-  MsgEditRegisteredReactionTypeUrl,
-  MsgRemoveRegisteredReactionTypeUrl,
-} from '@desmoslabs/desmjs/build/const/reactions';
-import {
   MsgBlockUser,
   MsgCreateRelationship,
   MsgDeleteRelationship,
   MsgUnblockUser,
 } from '@desmoslabs/desmjs-types/desmos/relationships/v1/msgs';
-import {
-  MsgBlockUserTypeUrl,
-  MsgUnblockUserTypeUrl,
-} from '@desmoslabs/desmjs/build/const/relationships';
 import {
   MsgAddReason,
   MsgCreateReport,
@@ -156,11 +94,6 @@ import {
   MsgSupportStandardReason,
 } from '@desmoslabs/desmjs-types/desmos/reports/v1/msgs';
 import { PostTarget, UserTarget } from '@desmoslabs/desmjs-types/desmos/reports/v1/models';
-import {
-  MsgAddReasonTypeUrl,
-  MsgRemoveReasonTypeUrl,
-  MsgSupportStandardReasonTypeUrl,
-} from '@desmoslabs/desmjs/build/const/reports';
 import Long from 'long';
 import {
   MsgBeginRedelegate,
@@ -170,10 +103,6 @@ import {
   MsgUndelegate,
 } from 'cosmjs-types/cosmos/staking/v1beta1/tx';
 import { PubKey as Secp256k1PubKey } from 'cosmjs-types/cosmos/crypto/secp256k1/keys';
-import {
-  MsgBeginRedelegateTypeUrl,
-  MsgUndelegateTypeUrl,
-} from '@desmoslabs/desmjs/build/const/cosmos/staking';
 import {
   MsgAddUserToUserGroup,
   MsgCreateSection,
@@ -202,7 +131,7 @@ const useShowTestTransaction = () => {
     const messages: EncodeObject[] = [
       // Authz Module
       {
-        typeUrl: MsgGrantTypeUrl,
+        typeUrl: Authz.v1beta1.MsgGrantTypeUrl,
         value: MsgGrant.fromPartial({
           grantee: TEST_ADDRESS1,
           granter: TEST_ADDRESS2,
@@ -211,10 +140,10 @@ const useShowTestTransaction = () => {
               seconds: '100000',
             },
             authorization: {
-              typeUrl: GenericAuthorizationTypeUrl,
+              typeUrl: Authz.v1beta1.GenericAuthorizationTypeUrl,
               value: GenericAuthorization.encode(
                 GenericAuthorization.fromPartial({
-                  msg: MsgEditPostTypeUrl,
+                  msg: Posts.v3.MsgEditPostTypeUrl,
                 }),
               ).finish(),
             },
@@ -227,7 +156,7 @@ const useShowTestTransaction = () => {
           grantee: 'desmos1grantee',
           msgs: [
             {
-              typeUrl: MsgSendTypeUrl,
+              typeUrl: Bank.v1beta1.MsgSendTypeUrl,
               value: MsgSend.encode(
                 MsgSend.fromPartial({
                   fromAddress: TEST_ADDRESS1,
@@ -240,17 +169,17 @@ const useShowTestTransaction = () => {
         }),
       },
       {
-        typeUrl: MsgRevokeTypeUrl,
+        typeUrl: Authz.v1beta1.MsgRevokeTypeUrl,
         value: MsgRevoke.fromPartial({
           granter: TEST_ADDRESS2,
           grantee: TEST_ADDRESS1,
-          msgTypeUrl: MsgSendTypeUrl,
+          msgTypeUrl: Bank.v1beta1.MsgSendTypeUrl,
         }),
       },
 
       // Bank module
       {
-        typeUrl: MsgSendTypeUrl,
+        typeUrl: Bank.v1beta1.MsgSendTypeUrl,
         value: MsgSend.fromPartial({
           fromAddress: TEST_ADDRESS1,
           toAddress: TEST_ADDRESS2,
@@ -258,7 +187,7 @@ const useShowTestTransaction = () => {
         }),
       },
       {
-        typeUrl: MsgMultiSendTypeUrl,
+        typeUrl: Bank.v1beta1.MsgMultiSendTypeUrl,
         value: MsgMultiSend.fromPartial({
           inputs: [
             {
@@ -280,27 +209,27 @@ const useShowTestTransaction = () => {
       },
       // Distribution module
       {
-        typeUrl: MsgWithdrawDelegatorRewardTypeUrl,
+        typeUrl: Distribution.v1beta1.MsgWithdrawDelegatorRewardTypeUrl,
         value: MsgWithdrawDelegatorReward.fromPartial({
           validatorAddress: 'desmos1validator',
           delegatorAddress: 'desmos1delegator',
         }),
       },
       {
-        typeUrl: MsgSetWithdrawAddressTypeUrl,
+        typeUrl: Distribution.v1beta1.MsgSetWithdrawAddressTypeUrl,
         value: MsgSetWithdrawAddress.fromPartial({
           delegatorAddress: 'desmos1delegator',
           withdrawAddress: 'desmos1newaddress',
         }),
       },
       {
-        typeUrl: MsgWithdrawValidatorCommissionTypeUrl,
+        typeUrl: Distribution.v1beta1.MsgWithdrawValidatorCommissionTypeUrl,
         value: MsgWithdrawValidatorCommission.fromPartial({
           validatorAddress: 'desmos1validator',
         }),
       },
       {
-        typeUrl: MsgFundCommunityPoolTypeUrl,
+        typeUrl: Distribution.v1beta1.MsgFundCommunityPoolTypeUrl,
         value: MsgFundCommunityPool.fromPartial({
           amount: [coin('10000000', 'udaric')],
           depositor: 'desmos1depositor',
@@ -309,12 +238,12 @@ const useShowTestTransaction = () => {
 
       // Fee grant module
       {
-        typeUrl: MsgGrantAllowanceTypeUrl,
+        typeUrl: Feegrant.v1beta1.MsgGrantAllowanceTypeUrl,
         value: MsgGrantAllowance.fromPartial({
           granter: 'desmos1granter',
           grantee: 'desmos1grantee',
           allowance: {
-            typeUrl: BasicAllowanceTypeUrl,
+            typeUrl: Feegrant.v1beta1.BasicAllowanceTypeUrl,
             value: BasicAllowance.encode(
               BasicAllowance.fromPartial({
                 expiration: {
@@ -327,12 +256,12 @@ const useShowTestTransaction = () => {
         }),
       },
       {
-        typeUrl: MsgGrantAllowanceTypeUrl,
+        typeUrl: Feegrant.v1beta1.MsgGrantAllowanceTypeUrl,
         value: MsgGrantAllowance.fromPartial({
           granter: 'desmos1granter',
           grantee: 'desmos1grantee',
           allowance: {
-            typeUrl: PeriodicAllowanceTypeUrl,
+            typeUrl: Feegrant.v1beta1.PeriodicAllowanceTypeUrl,
             value: PeriodicAllowance.encode(
               PeriodicAllowance.fromPartial({
                 basic: {
@@ -355,16 +284,16 @@ const useShowTestTransaction = () => {
         }),
       },
       {
-        typeUrl: MsgGrantAllowanceTypeUrl,
+        typeUrl: Feegrant.v1beta1.MsgGrantAllowanceTypeUrl,
         value: MsgGrantAllowance.fromPartial({
           granter: 'desmos1granter',
           grantee: 'desmos1grantee',
           allowance: {
-            typeUrl: AllowedMsgAllowanceTypeUrl,
+            typeUrl: Feegrant.v1beta1.AllowedMsgAllowanceTypeUrl,
             value: AllowedMsgAllowance.encode(
               AllowedMsgAllowance.fromPartial({
                 allowance: {
-                  typeUrl: BasicAllowanceTypeUrl,
+                  typeUrl: Feegrant.v1beta1.BasicAllowanceTypeUrl,
                   value: BasicAllowance.encode(
                     BasicAllowance.fromPartial({
                       expiration: {
@@ -374,14 +303,18 @@ const useShowTestTransaction = () => {
                     }),
                   ).finish(),
                 },
-                allowedMessages: [MsgSendTypeUrl, MsgSendTypeUrl, MsgSendTypeUrl],
+                allowedMessages: [
+                  Bank.v1beta1.MsgSendTypeUrl,
+                  Bank.v1beta1.MsgSendTypeUrl,
+                  Bank.v1beta1.MsgSendTypeUrl,
+                ],
               }),
             ).finish(),
           },
         }),
       },
       {
-        typeUrl: MsgRevokeAllowanceTypeUrl,
+        typeUrl: Feegrant.v1beta1.MsgRevokeAllowanceTypeUrl,
         value: MsgRevokeAllowance.fromPartial({
           granter: 'desmos1granter',
           grantee: 'desmos1grantee',
@@ -390,14 +323,14 @@ const useShowTestTransaction = () => {
 
       // Gov module
       {
-        typeUrl: MsgSubmitProposalTypeUrl,
+        typeUrl: Gov.v1beta1.MsgSubmitProposalTypeUrl,
         value: MsgSubmitProposal.fromPartial({
           proposer: 'desmos1proposer',
           initialDeposit: [coin(10000, 'udaric')],
         }),
       },
       {
-        typeUrl: MsgDepositTypeUrl,
+        typeUrl: Gov.v1beta1.MsgDepositTypeUrl,
         value: MsgDeposit.fromPartial({
           depositor: 'desmos1depositor',
           amount: [coin(10000, 'udaric')],
@@ -405,7 +338,7 @@ const useShowTestTransaction = () => {
         }),
       },
       {
-        typeUrl: MsgVoteTypeUrl,
+        typeUrl: Gov.v1beta1.MsgVoteTypeUrl,
         value: MsgVote.fromPartial({
           voter: 'desmos1voter',
           option: VoteOption.VOTE_OPTION_ABSTAIN,
@@ -413,7 +346,7 @@ const useShowTestTransaction = () => {
         }),
       },
       {
-        typeUrl: MsgVoteTypeUrl,
+        typeUrl: Gov.v1beta1.MsgVoteTypeUrl,
         value: MsgVote.fromPartial({
           voter: 'desmos1voter',
           option: VoteOption.VOTE_OPTION_YES,
@@ -421,7 +354,7 @@ const useShowTestTransaction = () => {
         }),
       },
       {
-        typeUrl: MsgVoteTypeUrl,
+        typeUrl: Gov.v1beta1.MsgVoteTypeUrl,
         value: MsgVote.fromPartial({
           voter: 'desmos1voter',
           option: VoteOption.VOTE_OPTION_NO,
@@ -429,7 +362,7 @@ const useShowTestTransaction = () => {
         }),
       },
       {
-        typeUrl: MsgVoteTypeUrl,
+        typeUrl: Gov.v1beta1.MsgVoteTypeUrl,
         value: MsgVote.fromPartial({
           voter: 'desmos1voter',
           option: VoteOption.VOTE_OPTION_NO_WITH_VETO,
@@ -457,12 +390,12 @@ const useShowTestTransaction = () => {
 
       // Posts
       {
-        typeUrl: MsgAddPostAttachmentTypeUrl,
+        typeUrl: Posts.v3.MsgAddPostAttachmentTypeUrl,
         value: MsgAddPostAttachment.fromPartial({
           editor: 'desmos1editor',
           postId: 1,
           content: {
-            typeUrl: PollTypeUrl,
+            typeUrl: Posts.v3.PollTypeUrl,
             value: Poll.encode(
               Poll.fromPartial({
                 allowsAnswerEdits: true,
@@ -476,7 +409,7 @@ const useShowTestTransaction = () => {
         }),
       },
       {
-        typeUrl: MsgAnswerPollTypeUrl,
+        typeUrl: Posts.v3.MsgAnswerPollTypeUrl,
         value: MsgAnswerPoll.fromPartial({
           signer: 'desmos1signer',
           subspaceId: 1,
@@ -486,7 +419,7 @@ const useShowTestTransaction = () => {
         }),
       },
       {
-        typeUrl: MsgCreatePostTypeUrl,
+        typeUrl: Posts.v3.MsgCreatePostTypeUrl,
         value: MsgCreatePost.fromPartial({
           author: 'desmos1author',
           subspaceId: 1,
@@ -495,7 +428,7 @@ const useShowTestTransaction = () => {
           replySettings: ReplySetting.REPLY_SETTING_EVERYONE,
           attachments: [
             {
-              typeUrl: PollTypeUrl,
+              typeUrl: Posts.v3.PollTypeUrl,
               value: Poll.encode(
                 Poll.fromPartial({
                   allowsAnswerEdits: true,
@@ -507,7 +440,7 @@ const useShowTestTransaction = () => {
               ).finish(),
             },
             {
-              typeUrl: MediaTypeUrl,
+              typeUrl: Posts.v3.MediaTypeUrl,
               value: Media.encode(
                 Media.fromPartial({
                   uri: 'https://test-uri.com',
@@ -519,7 +452,7 @@ const useShowTestTransaction = () => {
         }),
       },
       {
-        typeUrl: MsgDeletePostTypeUrl,
+        typeUrl: Posts.v3.MsgDeletePostTypeUrl,
         value: MsgDeletePost.fromPartial({
           signer: 'desmos1signer',
           postId: 1,
@@ -527,7 +460,7 @@ const useShowTestTransaction = () => {
         }),
       },
       {
-        typeUrl: MsgEditPostTypeUrl,
+        typeUrl: Posts.v3.MsgEditPostTypeUrl,
         value: MsgEditPost.fromPartial({
           editor: 'desmos1editor',
           postId: 1,
@@ -545,7 +478,7 @@ const useShowTestTransaction = () => {
         }),
       },
       {
-        typeUrl: MsgRemovePostAttachmentTypeUrl,
+        typeUrl: Posts.v3.MsgRemovePostAttachmentTypeUrl,
         value: MsgRemovePostAttachment.fromPartial({
           editor: 'desmos1editor',
           postId: 1,
@@ -556,7 +489,7 @@ const useShowTestTransaction = () => {
 
       // Profiles
       {
-        typeUrl: MsgSaveProfileTypeUrl,
+        typeUrl: Profiles.v3.MsgSaveProfileTypeUrl,
         value: MsgSaveProfile.fromPartial({
           creator: 'desmos1creator',
           bio: 'new bio',
@@ -567,20 +500,20 @@ const useShowTestTransaction = () => {
         }),
       },
       {
-        typeUrl: MsgDeleteProfileTypeUrl,
+        typeUrl: Profiles.v3.MsgDeleteProfileTypeUrl,
         value: MsgDeleteProfile.fromPartial({
           creator: 'desmos1creator',
         }),
       },
       {
-        typeUrl: MsgRequestDTagTransferTypeUrl,
+        typeUrl: Profiles.v3.MsgRequestDTagTransferTypeUrl,
         value: MsgRequestDTagTransfer.fromPartial({
           sender: 'desmos1sender',
           receiver: 'desmos1receiver',
         }),
       },
       {
-        typeUrl: MsgAcceptDTagTransferRequestTypeUrl,
+        typeUrl: Profiles.v3.MsgAcceptDTagTransferRequestTypeUrl,
         value: MsgAcceptDTagTransferRequest.fromPartial({
           sender: 'desmos1sender',
           receiver: 'desmos1receiver',
@@ -588,21 +521,21 @@ const useShowTestTransaction = () => {
         }),
       },
       {
-        typeUrl: MsgRefuseDTagTransferRequestTypeUrl,
+        typeUrl: Profiles.v3.MsgRefuseDTagTransferRequestTypeUrl,
         value: MsgRefuseDTagTransferRequest.fromPartial({
           sender: 'desmos1sender',
           receiver: 'desmos1receiver',
         }),
       },
       {
-        typeUrl: MsgCancelDTagTransferRequestTypeUrl,
+        typeUrl: Profiles.v3.MsgCancelDTagTransferRequestTypeUrl,
         value: MsgCancelDTagTransferRequest.fromPartial({
           sender: 'desmos1sender',
           receiver: 'desmos1receiver',
         }),
       },
       {
-        typeUrl: MsgLinkApplicationTypeUrl,
+        typeUrl: Profiles.v3.MsgLinkApplicationTypeUrl,
         value: MsgLinkApplication.fromPartial({
           sender: 'desmos1sender',
           sourcePort: 'source port',
@@ -620,7 +553,7 @@ const useShowTestTransaction = () => {
         }),
       },
       {
-        typeUrl: MsgUnlinkApplicationTypeUrl,
+        typeUrl: Profiles.v3.MsgUnlinkApplicationTypeUrl,
         value: MsgUnlinkApplication.fromPartial({
           signer: 'desmos1signer',
           application: 'twitter',
@@ -628,14 +561,14 @@ const useShowTestTransaction = () => {
         }),
       },
       {
-        typeUrl: MsgLinkChainAccountTypeUrl,
+        typeUrl: Profiles.v3.MsgLinkChainAccountTypeUrl,
         value: MsgLinkChainAccount.fromPartial({
           signer: 'desmos1signer',
           chainConfig: {
             name: 'cosmos',
           },
           chainAddress: {
-            typeUrl: Bech32AddressTypeUrl,
+            typeUrl: Profiles.v3.Bech32AddressTypeUrl,
             value: Bech32Address.encode(
               Bech32Address.fromPartial({
                 value: 'cosmos1linked',
@@ -646,7 +579,7 @@ const useShowTestTransaction = () => {
         }),
       },
       {
-        typeUrl: MsgUnlinkChainAccountTypeUrl,
+        typeUrl: Profiles.v3.MsgUnlinkChainAccountTypeUrl,
         value: MsgUnlinkChainAccount.fromPartial({
           owner: 'desmos1owner',
           target: 'cosmos1linked',
@@ -656,13 +589,13 @@ const useShowTestTransaction = () => {
 
       // Reactions
       {
-        typeUrl: MsgAddReactionTypeUrl,
+        typeUrl: Reactions.v1.MsgAddReactionTypeUrl,
         value: MsgAddReaction.fromPartial({
           user: 'desmos1user',
           postId: 1,
           subspaceId: 1,
           value: {
-            typeUrl: FreeTextValueTypeUrl,
+            typeUrl: Reactions.v1.FreeTextValueTypeUrl,
             value: FreeTextValue.encode(
               FreeTextValue.fromPartial({
                 text: 'text reaction',
@@ -672,13 +605,13 @@ const useShowTestTransaction = () => {
         }),
       },
       {
-        typeUrl: MsgAddReactionTypeUrl,
+        typeUrl: Reactions.v1.MsgAddReactionTypeUrl,
         value: MsgAddReaction.fromPartial({
           user: 'desmos1user',
           subspaceId: 1,
           postId: 2,
           value: {
-            typeUrl: RegisteredReactionValueTypeUrl,
+            typeUrl: Reactions.v1.RegisteredReactionValueTypeUrl,
             value: RegisteredReactionValue.encode(
               RegisteredReactionValue.fromPartial({
                 registeredReactionId: 2,
@@ -688,7 +621,7 @@ const useShowTestTransaction = () => {
         }),
       },
       {
-        typeUrl: MsgRemoveReactionTypeUrl,
+        typeUrl: Reactions.v1.MsgRemoveReactionTypeUrl,
         value: MsgRemoveReaction.fromPartial({
           user: 'desmos1user',
           subspaceId: 1,
@@ -697,7 +630,7 @@ const useShowTestTransaction = () => {
         }),
       },
       {
-        typeUrl: MsgAddRegisteredReactionTypeUrl,
+        typeUrl: Reactions.v1.MsgAddRegisteredReactionTypeUrl,
         value: MsgAddRegisteredReaction.fromPartial({
           user: 'desmos1user',
           subspaceId: 1,
@@ -706,7 +639,7 @@ const useShowTestTransaction = () => {
         }),
       },
       {
-        typeUrl: MsgEditRegisteredReactionTypeUrl,
+        typeUrl: Reactions.v1.MsgEditRegisteredReactionTypeUrl,
         value: MsgEditRegisteredReaction.fromPartial({
           user: 'desmos1user',
           subspaceId: 1,
@@ -716,7 +649,7 @@ const useShowTestTransaction = () => {
         }),
       },
       {
-        typeUrl: MsgRemoveRegisteredReactionTypeUrl,
+        typeUrl: Reactions.v1.MsgRemoveRegisteredReactionTypeUrl,
         value: MsgRemoveRegisteredReaction.fromPartial({
           user: 'desmos1user',
           subspaceId: 1,
@@ -724,7 +657,7 @@ const useShowTestTransaction = () => {
         }),
       },
       {
-        typeUrl: MsgSetReactionsParamsTypeUrl,
+        typeUrl: Reactions.v1.MsgSetReactionsParamsTypeUrl,
         value: MsgSetReactionsParams.fromPartial({
           user: 'desmos1user',
           subspaceId: 1,
@@ -741,7 +674,7 @@ const useShowTestTransaction = () => {
 
       // Relationships
       {
-        typeUrl: MsgCreateRelationshipTypeUrl,
+        typeUrl: Relationships.v1.MsgCreateRelationshipTypeUrl,
         value: MsgCreateRelationship.fromPartial({
           subspaceId: 1,
           signer: 'desmos1signer',
@@ -749,7 +682,7 @@ const useShowTestTransaction = () => {
         }),
       },
       {
-        typeUrl: MsgDeleteRelationshipTypeUrl,
+        typeUrl: Relationships.v1.MsgDeleteRelationshipTypeUrl,
         value: MsgDeleteRelationship.fromPartial({
           subspaceId: 1,
           signer: 'desmos1signer',
@@ -757,7 +690,7 @@ const useShowTestTransaction = () => {
         }),
       },
       {
-        typeUrl: MsgBlockUserTypeUrl,
+        typeUrl: Relationships.v1.MsgBlockUserTypeUrl,
         value: MsgBlockUser.fromPartial({
           subspaceId: 1,
           blocker: 'desmos1blocker',
@@ -766,7 +699,7 @@ const useShowTestTransaction = () => {
         }),
       },
       {
-        typeUrl: MsgUnblockUserTypeUrl,
+        typeUrl: Relationships.v1.MsgUnblockUserTypeUrl,
         value: MsgUnblockUser.fromPartial({
           subspaceId: 1,
           blocker: 'desmos1blocker',
@@ -776,12 +709,12 @@ const useShowTestTransaction = () => {
 
       // Reports
       {
-        typeUrl: MsgCreateReportTypeUrl,
+        typeUrl: Reports.v1.MsgCreateReportTypeUrl,
         value: MsgCreateReport.fromPartial({
           subspaceId: 1,
           message: 'test user report',
           target: {
-            typeUrl: UserTargetTypeUrl,
+            typeUrl: Reports.v1.UserTargetTypeUrl,
             value: UserTarget.encode(
               UserTarget.fromPartial({
                 user: 'desmos1user',
@@ -793,12 +726,12 @@ const useShowTestTransaction = () => {
         }),
       },
       {
-        typeUrl: MsgCreateReportTypeUrl,
+        typeUrl: Reports.v1.MsgCreateReportTypeUrl,
         value: MsgCreateReport.fromPartial({
           subspaceId: 1,
           message: 'test post report',
           target: {
-            typeUrl: PostTargetTypeUrl,
+            typeUrl: Reports.v1.PostTargetTypeUrl,
             value: PostTarget.encode(
               PostTarget.fromPartial({
                 postId: 2,
@@ -810,7 +743,7 @@ const useShowTestTransaction = () => {
         }),
       },
       {
-        typeUrl: MsgDeleteReportTypeUrl,
+        typeUrl: Reports.v1.MsgDeleteReportTypeUrl,
         value: MsgDeleteReport.fromPartial({
           subspaceId: 1,
           reportId: 2,
@@ -818,7 +751,7 @@ const useShowTestTransaction = () => {
         }),
       },
       {
-        typeUrl: MsgSupportStandardReasonTypeUrl,
+        typeUrl: Reports.v1.MsgSupportStandardReasonTypeUrl,
         value: MsgSupportStandardReason.fromPartial({
           subspaceId: 1,
           standardReasonId: 2,
@@ -826,7 +759,7 @@ const useShowTestTransaction = () => {
         }),
       },
       {
-        typeUrl: MsgAddReasonTypeUrl,
+        typeUrl: Reports.v1.MsgAddReasonTypeUrl,
         value: MsgAddReason.fromPartial({
           subspaceId: Long.fromNumber(1),
           title: 'reason title',
@@ -835,7 +768,7 @@ const useShowTestTransaction = () => {
         }),
       },
       {
-        typeUrl: MsgRemoveReasonTypeUrl,
+        typeUrl: Reports.v1.MsgRemoveReasonTypeUrl,
         value: MsgRemoveReason.fromPartial({
           subspaceId: Long.fromNumber(1),
           reasonId: 2,
@@ -845,7 +778,7 @@ const useShowTestTransaction = () => {
 
       // Staking
       {
-        typeUrl: MsgCreateValidatorTypeUrl,
+        typeUrl: Staking.v1beta1.MsgCreateValidatorTypeUrl,
         value: MsgCreateValidator.fromPartial({
           value: coin(2, 'udaric'),
           delegatorAddress: 'delegatoraddress',
@@ -874,7 +807,7 @@ const useShowTestTransaction = () => {
         }),
       },
       {
-        typeUrl: MsgEditValidatorTypeUrl,
+        typeUrl: Staking.v1beta1.MsgEditValidatorTypeUrl,
         value: MsgEditValidator.fromPartial({
           validatorAddress: 'validatoraddress',
           description: {
@@ -889,7 +822,7 @@ const useShowTestTransaction = () => {
         }),
       },
       {
-        typeUrl: MsgDelegateTypeUrl,
+        typeUrl: Staking.v1beta1.MsgDelegateTypeUrl,
         value: MsgDelegate.fromPartial({
           validatorAddress: 'validatoraddress',
           delegatorAddress: 'delegator',
@@ -897,7 +830,7 @@ const useShowTestTransaction = () => {
         }),
       },
       {
-        typeUrl: MsgUndelegateTypeUrl,
+        typeUrl: Staking.v1beta1.MsgUndelegateTypeUrl,
         value: MsgUndelegate.fromPartial({
           validatorAddress: 'validatoraddress',
           delegatorAddress: 'delegator',
@@ -905,7 +838,7 @@ const useShowTestTransaction = () => {
         }),
       },
       {
-        typeUrl: MsgBeginRedelegateTypeUrl,
+        typeUrl: Staking.v1beta1.MsgBeginRedelegateTypeUrl,
         value: MsgBeginRedelegate.fromPartial({
           validatorSrcAddress: 'srcvalidatoraddress',
           validatorDstAddress: 'dstvalidatoraddress',
@@ -916,7 +849,7 @@ const useShowTestTransaction = () => {
 
       // Subspaces
       {
-        typeUrl: MsgAddUserToUserGroupTypeUrl,
+        typeUrl: Subspaces.v3.MsgAddUserToUserGroupTypeUrl,
         value: MsgAddUserToUserGroup.fromPartial({
           signer: 'signer',
           subspaceId: Long.fromNumber(1),
@@ -925,7 +858,7 @@ const useShowTestTransaction = () => {
         }),
       },
       {
-        typeUrl: MsgCreateSectionTypeUrl,
+        typeUrl: Subspaces.v3.MsgCreateSectionTypeUrl,
         value: MsgCreateSection.fromPartial({
           creator: 'creator',
           subspaceId: Long.fromNumber(1),
@@ -935,7 +868,7 @@ const useShowTestTransaction = () => {
         }),
       },
       {
-        typeUrl: MsgCreateSubspaceTypeUrl,
+        typeUrl: Subspaces.v3.MsgCreateSubspaceTypeUrl,
         value: MsgCreateSubspace.fromPartial({
           creator: 'creator',
           name: 'Test subspace',
@@ -943,7 +876,7 @@ const useShowTestTransaction = () => {
         }),
       },
       {
-        typeUrl: MsgCreateUserGroupTypeUrl,
+        typeUrl: Subspaces.v3.MsgCreateUserGroupTypeUrl,
         value: MsgCreateUserGroup.fromPartial({
           creator: 'creator',
           name: 'Test user group',
@@ -955,7 +888,7 @@ const useShowTestTransaction = () => {
         }),
       },
       {
-        typeUrl: MsgCreateUserGroupTypeUrl,
+        typeUrl: Subspaces.v3.MsgCreateUserGroupTypeUrl,
         value: MsgCreateUserGroup.fromPartial({
           creator: 'creator',
           name: 'Test user group',
@@ -967,7 +900,7 @@ const useShowTestTransaction = () => {
         }),
       },
       {
-        typeUrl: MsgDeleteSectionTypeUrl,
+        typeUrl: Subspaces.v3.MsgDeleteSectionTypeUrl,
         value: MsgDeleteSection.fromPartial({
           subspaceId: 1,
           sectionId: 0,
@@ -975,14 +908,14 @@ const useShowTestTransaction = () => {
         }),
       },
       {
-        typeUrl: MsgDeleteSubspaceTypeUrl,
+        typeUrl: Subspaces.v3.MsgDeleteSubspaceTypeUrl,
         value: MsgDeleteSubspace.fromPartial({
           subspaceId: 1,
           signer: 'signer',
         }),
       },
       {
-        typeUrl: MsgDeleteUserGroupTypeUrl,
+        typeUrl: Subspaces.v3.MsgDeleteUserGroupTypeUrl,
         value: MsgDeleteUserGroup.fromPartial({
           subspaceId: 1,
           groupId: 3,
@@ -990,7 +923,7 @@ const useShowTestTransaction = () => {
         }),
       },
       {
-        typeUrl: MsgEditSectionTypeUrl,
+        typeUrl: Subspaces.v3.MsgEditSectionTypeUrl,
         value: MsgEditSection.fromPartial({
           subspaceId: 1,
           sectionId: 2,
@@ -1000,7 +933,7 @@ const useShowTestTransaction = () => {
         }),
       },
       {
-        typeUrl: MsgEditSubspaceTypeUrl,
+        typeUrl: Subspaces.v3.MsgEditSubspaceTypeUrl,
         value: MsgEditSubspace.fromPartial({
           subspaceId: 1,
           description: 'new description',
@@ -1009,7 +942,7 @@ const useShowTestTransaction = () => {
         }),
       },
       {
-        typeUrl: MsgEditUserGroupTypeUrl,
+        typeUrl: Subspaces.v3.MsgEditUserGroupTypeUrl,
         value: MsgEditUserGroup.fromPartial({
           subspaceId: 1,
           groupId: 2,
@@ -1019,7 +952,7 @@ const useShowTestTransaction = () => {
         }),
       },
       {
-        typeUrl: MsgMoveSectionTypeUrl,
+        typeUrl: Subspaces.v3.MsgMoveSectionTypeUrl,
         value: MsgMoveSection.fromPartial({
           subspaceId: 1,
           sectionId: 2,
@@ -1028,7 +961,7 @@ const useShowTestTransaction = () => {
         }),
       },
       {
-        typeUrl: MsgMoveUserGroupTypeUrl,
+        typeUrl: Subspaces.v3.MsgMoveUserGroupTypeUrl,
         value: MsgMoveUserGroup.fromPartial({
           subspaceId: 1,
           groupId: 2,
@@ -1037,7 +970,7 @@ const useShowTestTransaction = () => {
         }),
       },
       {
-        typeUrl: MsgRemoveUserFromUserGroupTypeUrl,
+        typeUrl: Subspaces.v3.MsgRemoveUserFromUserGroupTypeUrl,
         value: MsgRemoveUserFromUserGroup.fromPartial({
           signer: 'signer',
           subspaceId: 2,
@@ -1046,7 +979,7 @@ const useShowTestTransaction = () => {
         }),
       },
       {
-        typeUrl: MsgSetUserGroupPermissionsTypeUrl,
+        typeUrl: Subspaces.v3.MsgSetUserGroupPermissionsTypeUrl,
         value: MsgSetUserGroupPermissions.fromPartial({
           signer: 'signer',
           subspaceId: 2,
@@ -1055,7 +988,7 @@ const useShowTestTransaction = () => {
         }),
       },
       {
-        typeUrl: MsgSetUserPermissionsTypeUrl,
+        typeUrl: Subspaces.v3.MsgSetUserPermissionsTypeUrl,
         value: MsgSetUserPermissions.fromPartial({
           signer: 'signer',
           subspaceId: 2,

@@ -16,13 +16,11 @@ import {
   getPubKeyRawBytes,
   getSignatureBytes,
   getSignedBytes,
-  MsgLinkChainAccountEncodeObject,
-  MsgLinkChainAccountTypeUrl,
+  Profiles,
   SigningMode,
 } from '@desmoslabs/desmjs';
 import { SignerData } from '@cosmjs/stargate';
 import { SupportedChain } from 'types/chains';
-import { singleSignatureToAny } from '@desmoslabs/desmjs/build/aminomessages/profiles';
 import { getAddress } from 'lib/ChainsUtils';
 import useBroadcastTx from 'hooks/useBroadcastTx';
 import { useActiveAccount, useActiveAccountAddress } from '@recoil/activeAccount';
@@ -35,7 +33,7 @@ const useSaveChainLinkAccount = () => {
   const activeAccountAddress = useActiveAccountAddress();
   const storeChainLinks = useStoreUserChainLinks();
   return useCallback(
-    async (message: MsgLinkChainAccountEncodeObject) => {
+    async (message: Profiles.v3.MsgLinkChainAccountEncodeObject) => {
       if (!activeAccountAddress) {
         return;
       }
@@ -99,7 +97,7 @@ const useGenerateProof = () => {
       const signedBytes = getSignedBytes(signature);
 
       const proofPlainText = toHex(signedBytes);
-      const proofSignature = singleSignatureToAny(
+      const proofSignature = Profiles.v3.singleSignatureToAny(
         SingleSignature.fromPartial({
           valueType:
             account.wallet.signer.signingMode === SigningMode.DIRECT
@@ -140,7 +138,7 @@ const useGenerateMsgLinkChainAccount = () => {
     async (
       chain: SupportedChain,
       account: AccountWithWallet,
-    ): Promise<Result<MsgLinkChainAccountEncodeObject | undefined, Error>> => {
+    ): Promise<Result<Profiles.v3.MsgLinkChainAccountEncodeObject | undefined, Error>> => {
       if (!activeAccount) {
         return ok(undefined);
       }
@@ -153,14 +151,14 @@ const useGenerateMsgLinkChainAccount = () => {
       }
 
       return ok({
-        typeUrl: MsgLinkChainAccountTypeUrl,
+        typeUrl: Profiles.v3.MsgLinkChainAccountTypeUrl,
         value: {
           proof: proofResult.value,
           chainConfig: chain.chainConfig,
           signer: activeAccount.address,
           chainAddress: address,
         },
-      } as MsgLinkChainAccountEncodeObject);
+      } as Profiles.v3.MsgLinkChainAccountEncodeObject);
     },
     [generateProof, activeAccount],
   );

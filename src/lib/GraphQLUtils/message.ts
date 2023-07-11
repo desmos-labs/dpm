@@ -16,128 +16,19 @@ import {
 import { TextProposal, VoteOption } from 'cosmjs-types/cosmos/gov/v1beta1/gov';
 import Long from 'long';
 import {
-  AllowedMsgAllowanceTypeUrl,
-  BasicAllowanceTypeUrl,
-  FreeTextValueTypeUrl,
-  GenericAuthorizationTypeUrl,
-  GenericSubspaceAuthorizationTypeUrl,
-  MediaTypeUrl,
-  MsgAcceptDTagTransferRequestEncodeObject,
-  MsgAcceptDTagTransferRequestTypeUrl,
-  MsgAddPostAttachmentEncodeObject,
-  MsgAddPostAttachmentTypeUrl,
-  MsgAddReactionEncodeObject,
-  MsgAddReactionTypeUrl,
-  MsgAddReasonEncodeObject,
-  MsgAddReasonTypeUrl,
-  MsgAddRegisteredReactionEncodeObject,
-  MsgAddRegisteredReactionTypeUrl,
-  MsgAddUserToUserGroupEncodeObject,
-  MsgAddUserToUserGroupTypeUrl,
-  MsgAnswerPollEncodeObject,
-  MsgAnswerPollTypeUrl,
-  MsgBeginRedelegateTypeUrl,
-  MsgBlockUserEncodeObject,
-  MsgBlockUserTypeUrl,
-  MsgCancelDTagTransferRequestEncodeObject,
-  MsgCancelDTagTransferRequestTypeUrl,
-  MsgCreatePostEncodeObject,
-  MsgCreatePostTypeUrl,
-  MsgCreateRelationshipEncodeObject,
-  MsgCreateRelationshipTypeUrl,
-  MsgCreateReportEncodeObject,
-  MsgCreateReportTypeUrl,
-  MsgCreateSectionEncodeObject,
-  MsgCreateSectionTypeUrl,
-  MsgCreateSubspaceEncodeObject,
-  MsgCreateSubspaceTypeUrl,
-  MsgCreateUserGroupEncodeObject,
-  MsgCreateUserGroupTypeUrl,
-  MsgCreateValidatorTypeUrl,
-  MsgDelegateTypeUrl,
-  MsgDeletePostEncodeObject,
-  MsgDeletePostTypeUrl,
-  MsgDeleteProfileEncodeObject,
-  MsgDeleteProfileTypeUrl,
-  MsgDeleteRelationshipEncodeObject,
-  MsgDeleteRelationshipTypeUrl,
-  MsgDeleteReportEncodeObject,
-  MsgDeleteReportTypeUrl,
-  MsgDeleteSectionEncodeObject,
-  MsgDeleteSectionTypeUrl,
-  MsgDeleteSubspaceEncodeObject,
-  MsgDeleteSubspaceTypeUrl,
-  MsgDeleteUserGroupEncodeObject,
-  MsgDeleteUserGroupTypeUrl,
-  MsgDepositTypeUrl,
-  MsgEditPostEncodeObject,
-  MsgEditPostTypeUrl,
-  MsgEditRegisteredReactionEncodeObject,
-  MsgEditRegisteredReactionTypeUrl,
-  MsgEditSectionEncodeObject,
-  MsgEditSectionTypeUrl,
-  MsgEditSubspaceEncodeObject,
-  MsgEditSubspaceTypeUrl,
-  MsgEditUserGroupEncodeObject,
-  MsgEditUserGroupTypeUrl,
-  MsgEditValidatorTypeUrl,
-  MsgGrantAllowanceEncodeObject,
-  MsgGrantAllowanceTypeUrl,
-  MsgGrantEncodeObject,
-  MsgGrantTypeUrl,
-  MsgLinkApplicationEncodeObject,
-  MsgLinkApplicationTypeUrl,
-  MsgLinkChainAccountEncodeObject,
-  MsgLinkChainAccountTypeUrl,
-  MsgMoveSectionEncodeObject,
-  MsgMoveSectionTypeUrl,
-  MsgMoveUserGroupEncodeObject,
-  MsgMoveUserGroupTypeUrl,
-  MsgRefuseDTagTransferRequestEncodeObject,
-  MsgRefuseDTagTransferRequestTypeUrl,
-  MsgRemovePostAttachmentEncodeObject,
-  MsgRemovePostAttachmentTypeUrl,
-  MsgRemoveReactionEncodeObject,
-  MsgRemoveReactionTypeUrl,
-  MsgRemoveReasonEncodeObject,
-  MsgRemoveReasonTypeUrl,
-  MsgRemoveRegisteredReactionEncodeObject,
-  MsgRemoveRegisteredReactionTypeUrl,
-  MsgRemoveUserFromUserGroupEncodeObject,
-  MsgRemoveUserFromUserGroupTypeUrl,
-  MsgRequestDTagTransferEncodeObject,
-  MsgRequestDTagTransferTypeUrl,
-  MsgRevokeAllowanceEncodeObject,
-  MsgRevokeAllowanceTypeUrl,
-  MsgRevokeEncodeObject,
-  MsgRevokeTypeUrl,
-  MsgSaveProfileEncodeObject,
-  MsgSaveProfileTypeUrl,
-  MsgSetReactionsParamsEncodeObject,
-  MsgSetReactionsParamsTypeUrl,
-  MsgSetUserGroupPermissionsEncodeObject,
-  MsgSetUserGroupPermissionsTypeUrl,
-  MsgSetUserPermissionsEncodeObject,
-  MsgSetUserPermissionsTypeUrl,
-  MsgSubmitProposalTypeUrl,
-  MsgSupportStandardReasonEncodeObject,
-  MsgSupportStandardReasonTypeUrl,
-  MsgUnblockUserEncodeObject,
-  MsgUnblockUserTypeUrl,
-  MsgUndelegateTypeUrl,
-  MsgUnlinkApplicationEncodeObject,
-  MsgUnlinkApplicationTypeUrl,
-  MsgUnlinkChainAccountEncodeObject,
-  MsgUnlinkChainAccountTypeUrl,
-  MsgVoteTypeUrl,
-  MsgWithdrawDelegatorRewardTypeUrl,
-  PeriodicAllowanceTypeUrl,
-  PollTypeUrl,
-  PostTargetTypeUrl,
-  RegisteredReactionValueTypeUrl,
-  SendAuthorizationTypeUrl,
+  Authz,
+  Bank,
+  Distribution,
+  Feegrant,
+  Gov,
+  Posts,
+  Profiles,
+  Reactions,
+  Relationships,
+  Reports,
+  Staking,
+  Subspaces,
   timestampFromDate,
-  UserTargetTypeUrl,
 } from '@desmoslabs/desmjs';
 import { Bech32Address } from '@desmoslabs/desmjs-types/desmos/profiles/v3/models_chain_links';
 import { Any } from 'cosmjs-types/google/protobuf/any';
@@ -225,11 +116,6 @@ import {
   MsgSupportStandardReason,
 } from '@desmoslabs/desmjs-types/desmos/reports/v1/msgs';
 import { PostTarget, UserTarget } from '@desmoslabs/desmjs-types/desmos/reports/v1/models';
-import {
-  MsgFundCommunityPoolTypeUrl,
-  MsgSetWithdrawAddressTypeUrl,
-  MsgWithdrawValidatorCommissionTypeUrl,
-} from '@desmoslabs/desmjs/build/const/cosmos/distribution';
 import {
   CancelSoftwareUpgradeProposal,
   SoftwareUpgradeProposal,
@@ -384,35 +270,35 @@ const decodeBankMessage = (type: string, value: any): EncodeObject | undefined =
 
 const decodeDistributionMessage = (type: string, value: any): EncodeObject | undefined => {
   switch (type) {
-    case MsgWithdrawDelegatorRewardTypeUrl:
+    case Distribution.v1beta1.MsgWithdrawDelegatorRewardTypeUrl:
       return {
-        typeUrl: MsgWithdrawDelegatorRewardTypeUrl,
+        typeUrl: Distribution.v1beta1.MsgWithdrawDelegatorRewardTypeUrl,
         value: {
           delegatorAddress: value.delegator_address,
           validatorAddress: value.validator_address,
         },
       } as MsgWithdrawDelegatorRewardEncodeObject;
 
-    case MsgSetWithdrawAddressTypeUrl:
+    case Distribution.v1beta1.MsgSetWithdrawAddressTypeUrl:
       return {
-        typeUrl: MsgSetWithdrawAddressTypeUrl,
+        typeUrl: Distribution.v1beta1.MsgSetWithdrawAddressTypeUrl,
         value: {
           delegatorAddress: value.delegator_address,
           withdrawAddress: value.withdraw_address,
         },
       } as MsgSetWithdrawAddressEncodeObject;
 
-    case MsgWithdrawValidatorCommissionTypeUrl:
+    case Distribution.v1beta1.MsgWithdrawValidatorCommissionTypeUrl:
       return {
-        typeUrl: MsgWithdrawValidatorCommissionTypeUrl,
+        typeUrl: Distribution.v1beta1.MsgWithdrawValidatorCommissionTypeUrl,
         value: {
           validatorAddress: value.validator_address,
         },
       } as MsgWithdrawValidatorCommissionEncodeObject;
 
-    case MsgFundCommunityPoolTypeUrl:
+    case Distribution.v1beta1.MsgFundCommunityPoolTypeUrl:
       return {
-        typeUrl: MsgFundCommunityPoolTypeUrl,
+        typeUrl: Distribution.v1beta1.MsgFundCommunityPoolTypeUrl,
         value: {
           amount: value.amount,
           depositor: value.depositor,
@@ -426,7 +312,7 @@ const decodeDistributionMessage = (type: string, value: any): EncodeObject | und
 
 const decodeGovMessage = (type: string, value: any): EncodeObject | undefined => {
   switch (type) {
-    case MsgVoteTypeUrl: {
+    case Gov.v1beta1.MsgVoteTypeUrl: {
       let voteOption: VoteOption;
       switch (value.option) {
         case 'VOTE_OPTION_YES':
@@ -450,7 +336,7 @@ const decodeGovMessage = (type: string, value: any): EncodeObject | undefined =>
           break;
       }
       return {
-        typeUrl: MsgVoteTypeUrl,
+        typeUrl: Gov.v1beta1.MsgVoteTypeUrl,
         value: {
           voter: value.voter,
           option: voteOption,
@@ -459,9 +345,9 @@ const decodeGovMessage = (type: string, value: any): EncodeObject | undefined =>
       } as MsgVoteEncodeObject;
     }
 
-    case MsgDepositTypeUrl:
+    case Gov.v1beta1.MsgDepositTypeUrl:
       return {
-        typeUrl: MsgDepositTypeUrl,
+        typeUrl: Gov.v1beta1.MsgDepositTypeUrl,
         value: {
           amount: value.amount,
           depositor: value.depositor,
@@ -469,9 +355,9 @@ const decodeGovMessage = (type: string, value: any): EncodeObject | undefined =>
         },
       } as MsgDepositEncodeObject;
 
-    case MsgSubmitProposalTypeUrl:
+    case Gov.v1beta1.MsgSubmitProposalTypeUrl:
       return {
-        typeUrl: MsgSubmitProposalTypeUrl,
+        typeUrl: Gov.v1beta1.MsgSubmitProposalTypeUrl,
         value: {
           content: decodeProposalContent(value.content['@type'], value.content),
           initialDeposit: value.initial_deposit,
@@ -486,9 +372,9 @@ const decodeGovMessage = (type: string, value: any): EncodeObject | undefined =>
 
 const decodeStakingMessage = (type: string, value: any): EncodeObject | undefined => {
   switch (type) {
-    case MsgDelegateTypeUrl:
+    case Staking.v1beta1.MsgDelegateTypeUrl:
       return {
-        typeUrl: MsgDelegateTypeUrl,
+        typeUrl: Staking.v1beta1.MsgDelegateTypeUrl,
         value: {
           amount: value.amount,
           delegatorAddress: value.delegator_address,
@@ -496,9 +382,9 @@ const decodeStakingMessage = (type: string, value: any): EncodeObject | undefine
         },
       } as MsgDelegateEncodeObject;
 
-    case MsgBeginRedelegateTypeUrl:
+    case Staking.v1beta1.MsgBeginRedelegateTypeUrl:
       return {
-        typeUrl: MsgBeginRedelegateTypeUrl,
+        typeUrl: Staking.v1beta1.MsgBeginRedelegateTypeUrl,
         value: {
           amount: value.amount,
           delegatorAddress: value.delegator_address,
@@ -507,9 +393,9 @@ const decodeStakingMessage = (type: string, value: any): EncodeObject | undefine
         },
       } as MsgBeginRedelegateEncodeObject;
 
-    case MsgUndelegateTypeUrl:
+    case Staking.v1beta1.MsgUndelegateTypeUrl:
       return {
-        typeUrl: MsgUndelegateTypeUrl,
+        typeUrl: Staking.v1beta1.MsgUndelegateTypeUrl,
         value: {
           amount: value.amount,
           delegatorAddress: value.delegator_address,
@@ -517,9 +403,9 @@ const decodeStakingMessage = (type: string, value: any): EncodeObject | undefine
         },
       } as MsgUndelegateEncodeObject;
 
-    case MsgCreateValidatorTypeUrl:
+    case Staking.v1beta1.MsgCreateValidatorTypeUrl:
       return {
-        typeUrl: MsgCreateValidatorTypeUrl,
+        typeUrl: Staking.v1beta1.MsgCreateValidatorTypeUrl,
         value: {
           value: value.value,
           pubkey: decodePubKey(value.pubkey),
@@ -541,9 +427,9 @@ const decodeStakingMessage = (type: string, value: any): EncodeObject | undefine
         },
       } as MsgCreateValidatorEncodeObject;
 
-    case MsgEditValidatorTypeUrl:
+    case Staking.v1beta1.MsgEditValidatorTypeUrl:
       return {
-        typeUrl: MsgEditValidatorTypeUrl,
+        typeUrl: Staking.v1beta1.MsgEditValidatorTypeUrl,
         value: {
           description: {
             moniker: value.description.moniker,
@@ -582,7 +468,7 @@ const decodeStakingMessage = (type: string, value: any): EncodeObject | undefine
 
 const decodeProfileMessage = (type: string, value: any): EncodeObject | undefined => {
   switch (type) {
-    case MsgSaveProfileTypeUrl:
+    case Profiles.v3.MsgSaveProfileTypeUrl:
       return {
         typeUrl: type,
         value: {
@@ -593,9 +479,9 @@ const decodeProfileMessage = (type: string, value: any): EncodeObject | undefine
           profilePicture: value.profile_picture,
           creator: value.creator,
         },
-      } as MsgSaveProfileEncodeObject;
+      } as Profiles.v3.MsgSaveProfileEncodeObject;
 
-    case MsgLinkChainAccountTypeUrl: {
+    case Profiles.v3.MsgLinkChainAccountTypeUrl: {
       const chainAddress = value.chain_address;
       const chainConfig = value.chain_config;
       const { proof } = value;
@@ -606,7 +492,7 @@ const decodeProfileMessage = (type: string, value: any): EncodeObject | undefine
       }).finish();
 
       return {
-        typeUrl: MsgLinkChainAccountTypeUrl,
+        typeUrl: Profiles.v3.MsgLinkChainAccountTypeUrl,
         value: {
           chainAddress: {
             typeUrl: chainAddress['@type'],
@@ -622,10 +508,10 @@ const decodeProfileMessage = (type: string, value: any): EncodeObject | undefine
             pubKey: decodePubKey(proof.pub_key),
           },
         },
-      } as MsgLinkChainAccountEncodeObject;
+      } as Profiles.v3.MsgLinkChainAccountEncodeObject;
     }
 
-    case MsgUnlinkChainAccountTypeUrl:
+    case Profiles.v3.MsgUnlinkChainAccountTypeUrl:
       return {
         typeUrl: type,
         value: {
@@ -633,38 +519,38 @@ const decodeProfileMessage = (type: string, value: any): EncodeObject | undefine
           owner: value.owner,
           chainName: value.chain_name,
         },
-      } as MsgUnlinkChainAccountEncodeObject;
+      } as Profiles.v3.MsgUnlinkChainAccountEncodeObject;
 
-    case MsgAcceptDTagTransferRequestTypeUrl:
+    case Profiles.v3.MsgAcceptDTagTransferRequestTypeUrl:
       return {
-        typeUrl: MsgAcceptDTagTransferRequestTypeUrl,
+        typeUrl: Profiles.v3.MsgAcceptDTagTransferRequestTypeUrl,
         value: {
           sender: value.sender,
           receiver: value.receiver,
           newDtag: value.new_dtag,
         },
-      } as MsgAcceptDTagTransferRequestEncodeObject;
+      } as Profiles.v3.MsgAcceptDTagTransferRequestEncodeObject;
 
-    case MsgCancelDTagTransferRequestTypeUrl:
+    case Profiles.v3.MsgCancelDTagTransferRequestTypeUrl:
       return {
-        typeUrl: MsgCancelDTagTransferRequestTypeUrl,
+        typeUrl: Profiles.v3.MsgCancelDTagTransferRequestTypeUrl,
         value: {
           sender: value.sender,
           receiver: value.receiver,
         },
-      } as MsgCancelDTagTransferRequestEncodeObject;
+      } as Profiles.v3.MsgCancelDTagTransferRequestEncodeObject;
 
-    case MsgDeleteProfileTypeUrl:
+    case Profiles.v3.MsgDeleteProfileTypeUrl:
       return {
-        typeUrl: MsgDeleteProfileTypeUrl,
+        typeUrl: Profiles.v3.MsgDeleteProfileTypeUrl,
         value: {
           creator: value.creator,
         },
-      } as MsgDeleteProfileEncodeObject;
+      } as Profiles.v3.MsgDeleteProfileEncodeObject;
 
-    case MsgLinkApplicationTypeUrl:
+    case Profiles.v3.MsgLinkApplicationTypeUrl:
       return {
-        typeUrl: MsgLinkApplicationTypeUrl,
+        typeUrl: Profiles.v3.MsgLinkApplicationTypeUrl,
         value: {
           sender: value.sender,
           linkData: {
@@ -680,35 +566,35 @@ const decodeProfileMessage = (type: string, value: any): EncodeObject | undefine
           sourceChannel: value.source_channel,
           callData: value.call_data,
         },
-      } as MsgLinkApplicationEncodeObject;
+      } as Profiles.v3.MsgLinkApplicationEncodeObject;
 
-    case MsgRefuseDTagTransferRequestTypeUrl:
+    case Profiles.v3.MsgRefuseDTagTransferRequestTypeUrl:
       return {
-        typeUrl: MsgRefuseDTagTransferRequestTypeUrl,
+        typeUrl: Profiles.v3.MsgRefuseDTagTransferRequestTypeUrl,
         value: {
           sender: value.sender,
           receiver: value.receiver,
         },
-      } as MsgRefuseDTagTransferRequestEncodeObject;
+      } as Profiles.v3.MsgRefuseDTagTransferRequestEncodeObject;
 
-    case MsgRequestDTagTransferTypeUrl:
+    case Profiles.v3.MsgRequestDTagTransferTypeUrl:
       return {
-        typeUrl: MsgRequestDTagTransferTypeUrl,
+        typeUrl: Profiles.v3.MsgRequestDTagTransferTypeUrl,
         value: {
           sender: value.sender,
           receiver: value.receiver,
         },
-      } as MsgRequestDTagTransferEncodeObject;
+      } as Profiles.v3.MsgRequestDTagTransferEncodeObject;
 
-    case MsgUnlinkApplicationTypeUrl:
+    case Profiles.v3.MsgUnlinkApplicationTypeUrl:
       return {
-        typeUrl: MsgUnlinkApplicationTypeUrl,
+        typeUrl: Profiles.v3.MsgUnlinkApplicationTypeUrl,
         value: {
           signer: value.signer,
           username: value.username,
           application: value.application,
         },
-      } as MsgUnlinkApplicationEncodeObject;
+      } as Profiles.v3.MsgUnlinkApplicationEncodeObject;
 
     default:
       return undefined;
@@ -726,7 +612,7 @@ const decodeGrant = (grant: any): Grant | undefined => {
   let decodedAuthorization: Any | undefined;
 
   switch (authorizationType) {
-    case GenericSubspaceAuthorizationTypeUrl:
+    case Subspaces.v3.GenericSubspaceAuthorizationTypeUrl:
       decodedAuthorization = {
         typeUrl: authorizationType,
         value: GenericSubspaceAuthorization.encode(
@@ -738,9 +624,9 @@ const decodeGrant = (grant: any): Grant | undefined => {
       };
       break;
 
-    case GenericAuthorizationTypeUrl:
+    case Authz.v1beta1.GenericAuthorizationTypeUrl:
       decodedAuthorization = {
-        typeUrl: GenericAuthorizationTypeUrl,
+        typeUrl: Authz.v1beta1.GenericAuthorizationTypeUrl,
         value: GenericAuthorization.encode(
           GenericAuthorization.fromPartial({
             msg: authorization.msg,
@@ -749,9 +635,9 @@ const decodeGrant = (grant: any): Grant | undefined => {
       };
       break;
 
-    case SendAuthorizationTypeUrl:
+    case Bank.v1beta1.SendAuthorizationTypeUrl:
       decodedAuthorization = {
-        typeUrl: SendAuthorizationTypeUrl,
+        typeUrl: Bank.v1beta1.SendAuthorizationTypeUrl,
         value: SendAuthorization.encode(
           SendAuthorization.fromPartial({
             spendLimit: authorization.spend_limit.map(Coin.fromJSON),
@@ -792,25 +678,25 @@ const decodeGrant = (grant: any): Grant | undefined => {
 
 const decodeAuthzMessage = (type: string, value: any): EncodeObject | undefined => {
   switch (type) {
-    case MsgGrantTypeUrl:
+    case Authz.v1beta1.MsgGrantTypeUrl:
       return {
-        typeUrl: MsgGrantTypeUrl,
+        typeUrl: Authz.v1beta1.MsgGrantTypeUrl,
         value: MsgGrant.fromPartial({
           granter: value.granter,
           grantee: value.grantee,
           grant: decodeGrant(value.grant),
         }),
-      } as MsgGrantEncodeObject;
+      } as Authz.v1beta1.MsgGrantEncodeObject;
 
-    case MsgRevokeTypeUrl:
+    case Authz.v1beta1.MsgRevokeTypeUrl:
       return {
-        typeUrl: MsgRevokeTypeUrl,
+        typeUrl: Authz.v1beta1.MsgRevokeTypeUrl,
         value: MsgRevoke.fromPartial({
           granter: value.granter,
           grantee: value.grantee,
           msgTypeUrl: value.msg_type_url,
         }),
-      } as MsgRevokeEncodeObject;
+      } as Authz.v1beta1.MsgRevokeEncodeObject;
     default:
       return undefined;
   }
@@ -824,9 +710,9 @@ const decodeAllowance = (allowance: any): Any | undefined => {
   const allowanceType = allowance['@type'];
 
   switch (allowanceType) {
-    case BasicAllowanceTypeUrl:
+    case Feegrant.v1beta1.BasicAllowanceTypeUrl:
       return Any.fromPartial({
-        typeUrl: BasicAllowanceTypeUrl,
+        typeUrl: Feegrant.v1beta1.BasicAllowanceTypeUrl,
         value: BasicAllowance.encode(
           BasicAllowance.fromPartial({
             expiration: allowance.expiration
@@ -837,9 +723,9 @@ const decodeAllowance = (allowance: any): Any | undefined => {
         ).finish(),
       });
 
-    case PeriodicAllowanceTypeUrl:
+    case Feegrant.v1beta1.PeriodicAllowanceTypeUrl:
       return Any.fromPartial({
-        typeUrl: PeriodicAllowanceTypeUrl,
+        typeUrl: Feegrant.v1beta1.PeriodicAllowanceTypeUrl,
         value: PeriodicAllowance.encode(
           PeriodicAllowance.fromPartial({
             basic: BasicAllowance.fromPartial({
@@ -863,9 +749,9 @@ const decodeAllowance = (allowance: any): Any | undefined => {
         ).finish(),
       });
 
-    case AllowedMsgAllowanceTypeUrl:
+    case Feegrant.v1beta1.AllowedMsgAllowanceTypeUrl:
       return Any.fromPartial({
-        typeUrl: AllowedMsgAllowanceTypeUrl,
+        typeUrl: Feegrant.v1beta1.AllowedMsgAllowanceTypeUrl,
         value: AllowedMsgAllowance.encode(
           AllowedMsgAllowance.fromPartial({
             allowance: decodeAllowance(allowance.allowance),
@@ -883,24 +769,24 @@ const decodeAllowance = (allowance: any): Any | undefined => {
 
 const decodeFeeGrantMessage = (type: string, value: any): EncodeObject | undefined => {
   switch (type) {
-    case MsgGrantAllowanceTypeUrl:
+    case Feegrant.v1beta1.MsgGrantAllowanceTypeUrl:
       return {
-        typeUrl: MsgGrantAllowanceTypeUrl,
+        typeUrl: Feegrant.v1beta1.MsgGrantAllowanceTypeUrl,
         value: MsgGrantAllowance.fromPartial({
           granter: value.granter,
           grantee: value.grantee,
           allowance: decodeAllowance(value.allowance),
         }),
-      } as MsgGrantAllowanceEncodeObject;
+      } as Feegrant.v1beta1.MsgGrantAllowanceEncodeObject;
 
-    case MsgRevokeAllowanceTypeUrl:
+    case Feegrant.v1beta1.MsgRevokeAllowanceTypeUrl:
       return {
-        typeUrl: MsgRevokeAllowanceTypeUrl,
+        typeUrl: Feegrant.v1beta1.MsgRevokeAllowanceTypeUrl,
         value: MsgRevokeAllowance.fromPartial({
           granter: value.granter,
           grantee: value.grantee,
         }),
-      } as MsgRevokeAllowanceEncodeObject;
+      } as Feegrant.v1beta1.MsgRevokeAllowanceEncodeObject;
     default:
       return undefined;
   }
@@ -908,9 +794,9 @@ const decodeFeeGrantMessage = (type: string, value: any): EncodeObject | undefin
 
 const decodeSubspaceMessage = (type: string, value: any): EncodeObject | undefined => {
   switch (type) {
-    case MsgEditSubspaceTypeUrl:
+    case Subspaces.v3.MsgEditSubspaceTypeUrl:
       return {
-        typeUrl: MsgEditSubspaceTypeUrl,
+        typeUrl: Subspaces.v3.MsgEditSubspaceTypeUrl,
         value: MsgEditSubspace.fromPartial({
           subspaceId: Long.fromString(value.subspace_id),
           name: value.name,
@@ -918,20 +804,20 @@ const decodeSubspaceMessage = (type: string, value: any): EncodeObject | undefin
           owner: value.owner,
           signer: value.signer,
         }),
-      } as MsgEditSubspaceEncodeObject;
+      } as Subspaces.v3.MsgEditSubspaceEncodeObject;
 
-    case MsgDeleteSubspaceTypeUrl:
+    case Subspaces.v3.MsgDeleteSubspaceTypeUrl:
       return {
-        typeUrl: MsgDeleteSubspaceTypeUrl,
+        typeUrl: Subspaces.v3.MsgDeleteSubspaceTypeUrl,
         value: MsgDeleteSubspace.fromPartial({
           subspaceId: Long.fromString(value.subspace_id),
           signer: value.signer,
         }),
-      } as MsgDeleteSubspaceEncodeObject;
+      } as Subspaces.v3.MsgDeleteSubspaceEncodeObject;
 
-    case MsgCreateSectionTypeUrl:
+    case Subspaces.v3.MsgCreateSectionTypeUrl:
       return {
-        typeUrl: MsgCreateSectionTypeUrl,
+        typeUrl: Subspaces.v3.MsgCreateSectionTypeUrl,
         value: MsgCreateSection.fromPartial({
           name: value.name,
           description: value.description,
@@ -939,11 +825,11 @@ const decodeSubspaceMessage = (type: string, value: any): EncodeObject | undefin
           subspaceId: Long.fromString(value.subspace_id),
           creator: value.creator,
         }),
-      } as MsgCreateSectionEncodeObject;
+      } as Subspaces.v3.MsgCreateSectionEncodeObject;
 
-    case MsgEditSectionTypeUrl:
+    case Subspaces.v3.MsgEditSectionTypeUrl:
       return {
-        typeUrl: MsgEditSectionTypeUrl,
+        typeUrl: Subspaces.v3.MsgEditSectionTypeUrl,
         value: MsgEditSection.fromPartial({
           name: value.name,
           description: value.description,
@@ -951,32 +837,32 @@ const decodeSubspaceMessage = (type: string, value: any): EncodeObject | undefin
           subspaceId: Long.fromString(value.subspace_id),
           editor: value.editor,
         }),
-      } as MsgEditSectionEncodeObject;
+      } as Subspaces.v3.MsgEditSectionEncodeObject;
 
-    case MsgMoveSectionTypeUrl:
+    case Subspaces.v3.MsgMoveSectionTypeUrl:
       return {
-        typeUrl: MsgMoveSectionTypeUrl,
+        typeUrl: Subspaces.v3.MsgMoveSectionTypeUrl,
         value: MsgMoveSection.fromPartial({
           sectionId: value.section_id,
           subspaceId: Long.fromString(value.subspace_id),
           newParentId: value.new_parent_id,
           signer: value.signer,
         }),
-      } as MsgMoveSectionEncodeObject;
+      } as Subspaces.v3.MsgMoveSectionEncodeObject;
 
-    case MsgDeleteSectionTypeUrl:
+    case Subspaces.v3.MsgDeleteSectionTypeUrl:
       return {
-        typeUrl: MsgDeleteSectionTypeUrl,
+        typeUrl: Subspaces.v3.MsgDeleteSectionTypeUrl,
         value: MsgDeleteSection.fromPartial({
           sectionId: value.section_id,
           subspaceId: Long.fromString(value.subspace_id),
           signer: value.signer,
         }),
-      } as MsgDeleteSectionEncodeObject;
+      } as Subspaces.v3.MsgDeleteSectionEncodeObject;
 
-    case MsgCreateUserGroupTypeUrl:
+    case Subspaces.v3.MsgCreateUserGroupTypeUrl:
       return {
-        typeUrl: MsgCreateUserGroupTypeUrl,
+        typeUrl: Subspaces.v3.MsgCreateUserGroupTypeUrl,
         value: MsgCreateUserGroup.fromPartial({
           name: value.name,
           description: value.description,
@@ -986,11 +872,11 @@ const decodeSubspaceMessage = (type: string, value: any): EncodeObject | undefin
           subspaceId: Long.fromString(value.subspace_id),
           defaultPermissions: value.default_permissions,
         }),
-      } as MsgCreateUserGroupEncodeObject;
+      } as Subspaces.v3.MsgCreateUserGroupEncodeObject;
 
-    case MsgEditUserGroupTypeUrl:
+    case Subspaces.v3.MsgEditUserGroupTypeUrl:
       return {
-        typeUrl: MsgEditUserGroupTypeUrl,
+        typeUrl: Subspaces.v3.MsgEditUserGroupTypeUrl,
         value: MsgEditUserGroup.fromPartial({
           subspaceId: Long.fromString(value.subspace_id),
           groupId: value.group_id,
@@ -998,65 +884,65 @@ const decodeSubspaceMessage = (type: string, value: any): EncodeObject | undefin
           description: value.description,
           signer: value.signer,
         }),
-      } as MsgEditUserGroupEncodeObject;
+      } as Subspaces.v3.MsgEditUserGroupEncodeObject;
 
-    case MsgMoveUserGroupTypeUrl:
+    case Subspaces.v3.MsgMoveUserGroupTypeUrl:
       return {
-        typeUrl: MsgMoveUserGroupTypeUrl,
+        typeUrl: Subspaces.v3.MsgMoveUserGroupTypeUrl,
         value: MsgMoveUserGroup.fromPartial({
           subspaceId: Long.fromString(value.subspace_id),
           groupId: value.group_id,
           newSectionId: value.new_section_id,
           signer: value.signer,
         }),
-      } as MsgMoveUserGroupEncodeObject;
+      } as Subspaces.v3.MsgMoveUserGroupEncodeObject;
 
-    case MsgSetUserGroupPermissionsTypeUrl:
+    case Subspaces.v3.MsgSetUserGroupPermissionsTypeUrl:
       return {
-        typeUrl: MsgSetUserGroupPermissionsTypeUrl,
+        typeUrl: Subspaces.v3.MsgSetUserGroupPermissionsTypeUrl,
         value: MsgSetUserGroupPermissions.fromPartial({
           subspaceId: Long.fromString(value.subspace_id),
           groupId: value.group_id,
           permissions: value.permissions,
           signer: value.signer,
         }),
-      } as MsgSetUserGroupPermissionsEncodeObject;
+      } as Subspaces.v3.MsgSetUserGroupPermissionsEncodeObject;
 
-    case MsgDeleteUserGroupTypeUrl:
+    case Subspaces.v3.MsgDeleteUserGroupTypeUrl:
       return {
-        typeUrl: MsgDeleteUserGroupTypeUrl,
+        typeUrl: Subspaces.v3.MsgDeleteUserGroupTypeUrl,
         value: MsgDeleteUserGroup.fromPartial({
           subspaceId: Long.fromString(value.subspace_id),
           groupId: value.group_id,
           signer: value.signer,
         }),
-      } as MsgDeleteUserGroupEncodeObject;
+      } as Subspaces.v3.MsgDeleteUserGroupEncodeObject;
 
-    case MsgAddUserToUserGroupTypeUrl:
+    case Subspaces.v3.MsgAddUserToUserGroupTypeUrl:
       return {
-        typeUrl: MsgAddUserToUserGroupTypeUrl,
+        typeUrl: Subspaces.v3.MsgAddUserToUserGroupTypeUrl,
         value: MsgAddUserToUserGroup.fromPartial({
           subspaceId: Long.fromString(value.subspace_id),
           groupId: value.group_id,
           user: value.user,
           signer: value.signer,
         }),
-      } as MsgAddUserToUserGroupEncodeObject;
+      } as Subspaces.v3.MsgAddUserToUserGroupEncodeObject;
 
-    case MsgRemoveUserFromUserGroupTypeUrl:
+    case Subspaces.v3.MsgRemoveUserFromUserGroupTypeUrl:
       return {
-        typeUrl: MsgRemoveUserFromUserGroupTypeUrl,
+        typeUrl: Subspaces.v3.MsgRemoveUserFromUserGroupTypeUrl,
         value: MsgRemoveUserFromUserGroup.fromPartial({
           subspaceId: Long.fromString(value.subspace_id),
           groupId: value.group_id,
           user: value.user,
           signer: value.signer,
         }),
-      } as MsgRemoveUserFromUserGroupEncodeObject;
+      } as Subspaces.v3.MsgRemoveUserFromUserGroupEncodeObject;
 
-    case MsgSetUserPermissionsTypeUrl:
+    case Subspaces.v3.MsgSetUserPermissionsTypeUrl:
       return {
-        typeUrl: MsgSetUserPermissionsTypeUrl,
+        typeUrl: Subspaces.v3.MsgSetUserPermissionsTypeUrl,
         value: MsgSetUserPermissions.fromPartial({
           subspaceId: Long.fromString(value.subspace_id),
           sectionId: value.section_id ?? 0,
@@ -1064,18 +950,18 @@ const decodeSubspaceMessage = (type: string, value: any): EncodeObject | undefin
           permissions: value.permissions,
           signer: value.signer,
         }),
-      } as MsgSetUserPermissionsEncodeObject;
+      } as Subspaces.v3.MsgSetUserPermissionsEncodeObject;
 
-    case MsgCreateSubspaceTypeUrl:
+    case Subspaces.v3.MsgCreateSubspaceTypeUrl:
       return {
-        typeUrl: MsgCreateSubspaceTypeUrl,
+        typeUrl: Subspaces.v3.MsgCreateSubspaceTypeUrl,
         value: {
           name: value.name,
           description: value.description,
           owner: value.owner,
           creator: value.creator,
         },
-      } as MsgCreateSubspaceEncodeObject;
+      } as Subspaces.v3.MsgCreateSubspaceEncodeObject;
 
     default:
       return undefined;
@@ -1089,9 +975,9 @@ const decodeAttachmentContent = (attachment: any): Any | undefined => {
 
   const attachmentType = attachment['@type'];
   switch (attachmentType) {
-    case PollTypeUrl:
+    case Posts.v3.PollTypeUrl:
       return {
-        typeUrl: PollTypeUrl,
+        typeUrl: Posts.v3.PollTypeUrl,
         value: Poll.encode(
           Poll.fromPartial({
             endDate: timestampFromDate(new Date(attachment.end_date)),
@@ -1125,9 +1011,9 @@ const decodeAttachmentContent = (attachment: any): Any | undefined => {
         ).finish(),
       } as Any;
 
-    case MediaTypeUrl:
+    case Posts.v3.MediaTypeUrl:
       return {
-        typeUrl: MediaTypeUrl,
+        typeUrl: Posts.v3.MediaTypeUrl,
         value: Media.encode(
           Media.fromPartial({
             uri: attachment.uri,
@@ -1166,9 +1052,9 @@ const decodeEntities = (entities: any): Entities | undefined => {
 
 const decodePostsMessage = (type: string, value: any): EncodeObject | undefined => {
   switch (type) {
-    case MsgCreatePostTypeUrl:
+    case Posts.v3.MsgCreatePostTypeUrl:
       return {
-        typeUrl: MsgCreatePostTypeUrl,
+        typeUrl: Posts.v3.MsgCreatePostTypeUrl,
         value: MsgCreatePost.fromPartial({
           subspaceId: Long.fromString(value.subspace_id),
           sectionId: value.section_id,
@@ -1191,11 +1077,11 @@ const decodePostsMessage = (type: string, value: any): EncodeObject | undefined 
             ?.map(decodeAttachmentContent)
             ?.filter((attachment: Any | undefined) => attachment !== undefined),
         }),
-      } as MsgCreatePostEncodeObject;
+      } as Posts.v3.MsgCreatePostEncodeObject;
 
-    case MsgEditPostTypeUrl:
+    case Posts.v3.MsgEditPostTypeUrl:
       return {
-        typeUrl: MsgEditPostTypeUrl,
+        typeUrl: Posts.v3.MsgEditPostTypeUrl,
         value: MsgEditPost.fromPartial({
           subspaceId: value.subspace_id,
           postId: value.post_id,
@@ -1204,43 +1090,43 @@ const decodePostsMessage = (type: string, value: any): EncodeObject | undefined 
           entities: decodeEntities(value.entities),
           editor: value.editor,
         }),
-      } as MsgEditPostEncodeObject;
+      } as Posts.v3.MsgEditPostEncodeObject;
 
-    case MsgDeletePostTypeUrl:
+    case Posts.v3.MsgDeletePostTypeUrl:
       return {
-        typeUrl: MsgDeletePostTypeUrl,
+        typeUrl: Posts.v3.MsgDeletePostTypeUrl,
         value: MsgDeletePost.fromPartial({
           subspaceId: value.subspace_id,
           postId: value.post_id,
           signer: value.signer,
         }),
-      } as MsgDeletePostEncodeObject;
+      } as Posts.v3.MsgDeletePostEncodeObject;
 
-    case MsgAddPostAttachmentTypeUrl:
+    case Posts.v3.MsgAddPostAttachmentTypeUrl:
       return {
-        typeUrl: MsgAddPostAttachmentTypeUrl,
+        typeUrl: Posts.v3.MsgAddPostAttachmentTypeUrl,
         value: MsgAddPostAttachment.fromPartial({
           subspaceId: value.subspace_id,
           postId: value.post_id,
           content: decodeAttachmentContent(value.content),
           editor: value.editor,
         }),
-      } as MsgAddPostAttachmentEncodeObject;
+      } as Posts.v3.MsgAddPostAttachmentEncodeObject;
 
-    case MsgRemovePostAttachmentTypeUrl:
+    case Posts.v3.MsgRemovePostAttachmentTypeUrl:
       return {
-        typeUrl: MsgRemovePostAttachmentTypeUrl,
+        typeUrl: Posts.v3.MsgRemovePostAttachmentTypeUrl,
         value: MsgRemovePostAttachment.fromPartial({
           subspaceId: value.subspace_id,
           postId: value.post_id,
           attachmentId: value.attachment_id,
           editor: value.editor,
         }),
-      } as MsgRemovePostAttachmentEncodeObject;
+      } as Posts.v3.MsgRemovePostAttachmentEncodeObject;
 
-    case MsgAnswerPollTypeUrl:
+    case Posts.v3.MsgAnswerPollTypeUrl:
       return {
-        typeUrl: MsgAnswerPollTypeUrl,
+        typeUrl: Posts.v3.MsgAnswerPollTypeUrl,
         value: MsgAnswerPoll.fromPartial({
           subspaceId: value.subspace_id,
           postId: value.post_id,
@@ -1248,7 +1134,7 @@ const decodePostsMessage = (type: string, value: any): EncodeObject | undefined 
           answersIndexes: value.answers_indexes,
           signer: value.signer,
         }),
-      } as MsgAnswerPollEncodeObject;
+      } as Posts.v3.MsgAnswerPollEncodeObject;
 
     default:
       return undefined;
@@ -1263,9 +1149,9 @@ const decodeReactionValue = (value: any): Any | undefined => {
   const valueType = value['@type'];
 
   switch (valueType) {
-    case RegisteredReactionValueTypeUrl:
+    case Reactions.v1.RegisteredReactionValueTypeUrl:
       return Any.fromPartial({
-        typeUrl: RegisteredReactionValueTypeUrl,
+        typeUrl: Reactions.v1.RegisteredReactionValueTypeUrl,
         value: RegisteredReactionValue.encode(
           RegisteredReactionValue.fromPartial({
             registeredReactionId: value.registered_reaction_id,
@@ -1273,9 +1159,9 @@ const decodeReactionValue = (value: any): Any | undefined => {
         ).finish(),
       });
 
-    case FreeTextValueTypeUrl:
+    case Reactions.v1.FreeTextValueTypeUrl:
       return Any.fromPartial({
-        typeUrl: FreeTextValueTypeUrl,
+        typeUrl: Reactions.v1.FreeTextValueTypeUrl,
         value: FreeTextValue.encode(
           FreeTextValue.fromPartial({
             text: value.text,
@@ -1293,42 +1179,42 @@ const decodeReactionValue = (value: any): Any | undefined => {
 
 const decodeReactionsMessage = (type: string, value: any): EncodeObject | undefined => {
   switch (type) {
-    case MsgAddReactionTypeUrl:
+    case Reactions.v1.MsgAddReactionTypeUrl:
       return {
-        typeUrl: MsgAddReactionTypeUrl,
+        typeUrl: Reactions.v1.MsgAddReactionTypeUrl,
         value: MsgAddReaction.fromPartial({
           subspaceId: value.subspace_id,
           postId: value.post_id,
           value: decodeReactionValue(value.value),
           user: value.user,
         }),
-      } as MsgAddReactionEncodeObject;
+      } as Reactions.v1.MsgAddReactionEncodeObject;
 
-    case MsgRemoveReactionTypeUrl:
+    case Reactions.v1.MsgRemoveReactionTypeUrl:
       return {
-        typeUrl: MsgRemoveReactionTypeUrl,
+        typeUrl: Reactions.v1.MsgRemoveReactionTypeUrl,
         value: MsgRemoveReaction.fromPartial({
           subspaceId: value.subspace_id,
           postId: value.post_id,
           reactionId: value.reaction_id,
           user: value.user,
         }),
-      } as MsgRemoveReactionEncodeObject;
+      } as Reactions.v1.MsgRemoveReactionEncodeObject;
 
-    case MsgAddRegisteredReactionTypeUrl:
+    case Reactions.v1.MsgAddRegisteredReactionTypeUrl:
       return {
-        typeUrl: MsgAddRegisteredReactionTypeUrl,
+        typeUrl: Reactions.v1.MsgAddRegisteredReactionTypeUrl,
         value: MsgAddRegisteredReaction.fromPartial({
           subspaceId: value.subspace_id,
           displayValue: value.display_value,
           shorthandCode: value.shorthand_code,
           user: value.user,
         }),
-      } as MsgAddRegisteredReactionEncodeObject;
+      } as Reactions.v1.MsgAddRegisteredReactionEncodeObject;
 
-    case MsgEditRegisteredReactionTypeUrl:
+    case Reactions.v1.MsgEditRegisteredReactionTypeUrl:
       return {
-        typeUrl: MsgEditRegisteredReactionTypeUrl,
+        typeUrl: Reactions.v1.MsgEditRegisteredReactionTypeUrl,
         value: MsgEditRegisteredReaction.fromPartial({
           subspaceId: value.subspace_id,
           registeredReactionId: value.registered_reaction_id,
@@ -1336,21 +1222,21 @@ const decodeReactionsMessage = (type: string, value: any): EncodeObject | undefi
           displayValue: value.display_value,
           user: value.user,
         }),
-      } as MsgEditRegisteredReactionEncodeObject;
+      } as Reactions.v1.MsgEditRegisteredReactionEncodeObject;
 
-    case MsgRemoveRegisteredReactionTypeUrl:
+    case Reactions.v1.MsgRemoveRegisteredReactionTypeUrl:
       return {
-        typeUrl: MsgRemoveRegisteredReactionTypeUrl,
+        typeUrl: Reactions.v1.MsgRemoveRegisteredReactionTypeUrl,
         value: MsgRemoveRegisteredReaction.fromPartial({
           subspaceId: value.subspace_id,
           registeredReactionId: value.registered_reaction_id,
           user: value.user,
         }),
-      } as MsgRemoveRegisteredReactionEncodeObject;
+      } as Reactions.v1.MsgRemoveRegisteredReactionEncodeObject;
 
-    case MsgSetReactionsParamsTypeUrl:
+    case Reactions.v1.MsgSetReactionsParamsTypeUrl:
       return {
-        typeUrl: MsgSetReactionsParamsTypeUrl,
+        typeUrl: Reactions.v1.MsgSetReactionsParamsTypeUrl,
         value: MsgSetReactionsParams.fromPartial({
           subspaceId: value.subspace_id,
           registeredReaction: value.registered_reaction,
@@ -1363,7 +1249,7 @@ const decodeReactionsMessage = (type: string, value: any): EncodeObject | undefi
             : undefined,
           user: value.user,
         }),
-      } as MsgSetReactionsParamsEncodeObject;
+      } as Reactions.v1.MsgSetReactionsParamsEncodeObject;
 
     default:
       return undefined;
@@ -1372,46 +1258,46 @@ const decodeReactionsMessage = (type: string, value: any): EncodeObject | undefi
 
 const decodeRelationshipMessage = (type: string, value: any): EncodeObject | undefined => {
   switch (type) {
-    case MsgBlockUserTypeUrl:
+    case Relationships.v1.MsgBlockUserTypeUrl:
       return {
-        typeUrl: MsgBlockUserTypeUrl,
+        typeUrl: Relationships.v1.MsgBlockUserTypeUrl,
         value: {
           subspaceId: Long.fromString(value.subspace_id),
           blocked: value.blocked,
           blocker: value.blocker,
           reason: value.reason,
         },
-      } as MsgBlockUserEncodeObject;
+      } as Relationships.v1.MsgBlockUserEncodeObject;
 
-    case MsgCreateRelationshipTypeUrl:
+    case Relationships.v1.MsgCreateRelationshipTypeUrl:
       return {
-        typeUrl: MsgCreateRelationshipTypeUrl,
+        typeUrl: Relationships.v1.MsgCreateRelationshipTypeUrl,
         value: {
           signer: value.signer,
           subspaceId: Long.fromString(value.subspace_id),
           counterparty: value.counterparty,
         },
-      } as MsgCreateRelationshipEncodeObject;
+      } as Relationships.v1.MsgCreateRelationshipEncodeObject;
 
-    case MsgDeleteRelationshipTypeUrl:
+    case Relationships.v1.MsgDeleteRelationshipTypeUrl:
       return {
-        typeUrl: MsgDeleteRelationshipTypeUrl,
+        typeUrl: Relationships.v1.MsgDeleteRelationshipTypeUrl,
         value: {
           signer: value.signer,
           subspaceId: Long.fromString(value.subspace_id),
           counterparty: value.counterparty,
         },
-      } as MsgDeleteRelationshipEncodeObject;
+      } as Relationships.v1.MsgDeleteRelationshipEncodeObject;
 
-    case MsgUnblockUserTypeUrl:
+    case Relationships.v1.MsgUnblockUserTypeUrl:
       return {
-        typeUrl: MsgUnblockUserTypeUrl,
+        typeUrl: Relationships.v1.MsgUnblockUserTypeUrl,
         value: {
           subspaceId: Long.fromString(value.subspace_id),
           blocked: value.blocked,
           blocker: value.blocker,
         },
-      } as MsgUnblockUserEncodeObject;
+      } as Relationships.v1.MsgUnblockUserEncodeObject;
 
     default:
       return undefined;
@@ -1422,9 +1308,9 @@ const decodeReportTarget = (target: any): Any | undefined => {
   const type = target['@type'];
 
   switch (type) {
-    case PostTargetTypeUrl:
+    case Reports.v1.PostTargetTypeUrl:
       return Any.fromPartial({
-        typeUrl: PostTargetTypeUrl,
+        typeUrl: Reports.v1.PostTargetTypeUrl,
         value: PostTarget.encode(
           PostTarget.fromPartial({
             postId: target.post_id,
@@ -1432,9 +1318,9 @@ const decodeReportTarget = (target: any): Any | undefined => {
         ).finish(),
       });
 
-    case UserTargetTypeUrl:
+    case Reports.v1.UserTargetTypeUrl:
       return Any.fromPartial({
-        typeUrl: UserTargetTypeUrl,
+        typeUrl: Reports.v1.UserTargetTypeUrl,
         value: UserTarget.encode(
           UserTarget.fromPartial({
             user: target.user,
@@ -1452,9 +1338,9 @@ const decodeReportTarget = (target: any): Any | undefined => {
 
 const decodeReportsMessage = (type: string, value: any): EncodeObject | undefined => {
   switch (type) {
-    case MsgCreateReportTypeUrl:
+    case Reports.v1.MsgCreateReportTypeUrl:
       return {
-        typeUrl: MsgCreateReportTypeUrl,
+        typeUrl: Reports.v1.MsgCreateReportTypeUrl,
         value: MsgCreateReport.fromPartial({
           subspaceId: value.subspace_id,
           message: value.message,
@@ -1462,48 +1348,48 @@ const decodeReportsMessage = (type: string, value: any): EncodeObject | undefine
           reasonsIds: value.reasons_ids,
           target: decodeReportTarget(value.target),
         }),
-      } as MsgCreateReportEncodeObject;
+      } as Reports.v1.MsgCreateReportEncodeObject;
 
-    case MsgDeleteReportTypeUrl:
+    case Reports.v1.MsgDeleteReportTypeUrl:
       return {
-        typeUrl: MsgDeleteReportTypeUrl,
+        typeUrl: Reports.v1.MsgDeleteReportTypeUrl,
         value: MsgDeleteReport.fromPartial({
           subspaceId: value.subspace_id,
           reportId: value.report_id,
           signer: value.signer,
         }),
-      } as MsgDeleteReportEncodeObject;
+      } as Reports.v1.MsgDeleteReportEncodeObject;
 
-    case MsgSupportStandardReasonTypeUrl:
+    case Reports.v1.MsgSupportStandardReasonTypeUrl:
       return {
-        typeUrl: MsgSupportStandardReasonTypeUrl,
+        typeUrl: Reports.v1.MsgSupportStandardReasonTypeUrl,
         value: MsgSupportStandardReason.fromPartial({
           subspaceId: value.subspace_id,
           standardReasonId: value.standard_reason_id,
           signer: value.signer,
         }),
-      } as MsgSupportStandardReasonEncodeObject;
+      } as Reports.v1.MsgSupportStandardReasonEncodeObject;
 
-    case MsgAddReasonTypeUrl:
+    case Reports.v1.MsgAddReasonTypeUrl:
       return {
-        typeUrl: MsgAddReasonTypeUrl,
+        typeUrl: Reports.v1.MsgAddReasonTypeUrl,
         value: MsgAddReason.fromPartial({
           subspaceId: value.subspace_id,
           description: value.description,
           title: value.title,
           signer: value.signer,
         }),
-      } as MsgAddReasonEncodeObject;
+      } as Reports.v1.MsgAddReasonEncodeObject;
 
-    case MsgRemoveReasonTypeUrl:
+    case Reports.v1.MsgRemoveReasonTypeUrl:
       return {
-        typeUrl: MsgRemoveReasonTypeUrl,
+        typeUrl: Reports.v1.MsgRemoveReasonTypeUrl,
         value: MsgRemoveReason.fromPartial({
           subspaceId: value.subspace_id,
           reasonId: value.reason_id,
           signer: value.signer,
         }),
-      } as MsgRemoveReasonEncodeObject;
+      } as Reports.v1.MsgRemoveReasonEncodeObject;
 
     default:
       return undefined;

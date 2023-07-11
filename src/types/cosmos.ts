@@ -1,11 +1,7 @@
 // TODO: Replace this with the one exposed from @desmoslabs/desmjs when fixed.
 import { EncodeObject } from '@cosmjs/proto-signing';
 import { MsgExec } from 'cosmjs-types/cosmos/authz/v1beta1/tx';
-import {
-  MsgFundCommunityPoolTypeUrl,
-  MsgSetWithdrawAddressTypeUrl,
-  MsgWithdrawValidatorCommissionTypeUrl,
-} from '@desmoslabs/desmjs';
+import { Distribution } from '@desmoslabs/desmjs';
 import {
   MsgFundCommunityPool,
   MsgSetWithdrawAddress,
@@ -39,17 +35,17 @@ export interface MsgExecEncodeObject extends EncodeObject {
 }
 
 export interface MsgSetWithdrawAddressEncodeObject extends EncodeObject {
-  readonly typeUrl: typeof MsgSetWithdrawAddressTypeUrl;
+  readonly typeUrl: typeof Distribution.v1beta1.MsgSetWithdrawAddressTypeUrl;
   readonly value: MsgSetWithdrawAddress;
 }
 
 export interface MsgWithdrawValidatorCommissionEncodeObject extends EncodeObject {
-  readonly typeUrl: typeof MsgWithdrawValidatorCommissionTypeUrl;
+  readonly typeUrl: typeof Distribution.v1beta1.MsgWithdrawValidatorCommissionTypeUrl;
   readonly value: MsgWithdrawValidatorCommission;
 }
 
 export interface MsgFundCommunityPoolEncodeObject extends EncodeObject {
-  readonly typeUrl: typeof MsgFundCommunityPoolTypeUrl;
+  readonly typeUrl: typeof Distribution.v1beta1.MsgFundCommunityPoolTypeUrl;
   readonly value: MsgFundCommunityPool;
 }
 
