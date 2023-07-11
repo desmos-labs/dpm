@@ -7,8 +7,9 @@ import useStyles from './useStyles';
 export interface ProgressBarProps {
   /**
    * The percentage value to display.
-   * This value must be in the [0, 1] range, all the values > 1 will be
-   * rounded to 1.
+   * This value must be in the [0, 1] range.
+   * If the value is greater than 1 will be rounded to 1 and if is lower
+   * than 0 will be rounded to 0.
    */
   value: number;
   /**
@@ -37,8 +38,14 @@ const ProgressBar: React.FC<ProgressBarProps> = ({ value, label, showPercentage,
   const styles = useStyles();
 
   const percentageValue = React.useMemo(() => {
-    const floatValue = value > 1 ? 1 : value;
-    return `${roundFloat(floatValue * 100, 0)}%`;
+    if (value >= 1) {
+      return '100%';
+    }
+    if (value <= 0) {
+      return '0%';
+    }
+
+    return `${roundFloat(value * 100, 0)}%`;
   }, [value]);
 
   return (
