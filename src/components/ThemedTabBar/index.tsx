@@ -8,7 +8,7 @@ export type TabBarProps = React.ComponentProps<typeof TabBar>;
  * TabBar component that can be used in the TabView
  * component.
  * This component have the same layout of the default TabView
- * tab bar but will use the theme color.
+ * tab bar but will use the application theme colors.
  */
 const ThemedTabBar: React.FC<TabBarProps> = (tabBarProps) => {
   const styles = useStyles();
