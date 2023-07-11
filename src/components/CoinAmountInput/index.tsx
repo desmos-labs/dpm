@@ -9,6 +9,7 @@ import { useTranslation } from 'react-i18next';
 import { Coin } from '@desmoslabs/desmjs-types/cosmos/base/v1beta1/coin';
 import { coin } from '@cosmjs/amino';
 import { useAmountInputLimit } from 'components/CoinAmountInput/hooks';
+import StyledActivityIndicator from 'components/StyledActivityIndicator';
 import useStyles from './useStyles';
 import { AmountLimit, AmountLimitConfig } from './limits';
 
@@ -109,6 +110,7 @@ const CoinAmountInput: React.FC<CoinAmountInputProps> = ({
     const maxInputAmount = formatNumber(
       // Use en-US locale since the value is represented in this locale.
       safeParseFloat(spendable.amount, 'en-US') / currencyConversionFactor,
+      false,
     );
     setInputAmount(maxInputAmount);
     setIsInputValid(true);
@@ -127,16 +129,22 @@ const CoinAmountInput: React.FC<CoinAmountInputProps> = ({
         onChangeText={onAmountChange}
         numberOfLines={1}
         error={!isInputValid}
-        rightElement={<Button onPress={onMaxPressed}>{t('max')}</Button>}
+        rightElement={
+          <Button onPress={onMaxPressed} disabled={loading}>
+            {t('max')}
+          </Button>
+        }
       />
 
       {/* Spendable amount */}
       <View style={styles.spendableContainer}>
-        <Typography.Body>{amountLabel}:</Typography.Body>
-        {!loading && (
-          <Typography.Body style={styles.spendableAmountValue}>
-            {formatCoin(spendable)}
-          </Typography.Body>
+        <Typography.Regular14 style={styles.spendableAmountLabel}>
+          {amountLabel}:
+        </Typography.Regular14>
+        {loading ? (
+          <StyledActivityIndicator />
+        ) : (
+          <Typography.Regular14>{formatCoin(spendable)}</Typography.Regular14>
         )}
       </View>
     </View>
