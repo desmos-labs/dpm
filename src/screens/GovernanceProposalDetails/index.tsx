@@ -66,7 +66,10 @@ const GovernanceProposalDetails: React.FC<NavProps> = (props) => {
   );
 
   const proposalDetails = React.useMemo(() => {
-    if (proposal.status === ProposalStatus.DepositPeriod) {
+    if (
+      proposal.status === ProposalStatus.DepositPeriod ||
+      proposal.status === ProposalStatus.Invalid
+    ) {
       return <ProposalDetails proposal={proposal} />;
     }
 
