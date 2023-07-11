@@ -8,7 +8,7 @@ import Typography from 'components/Typography';
 import { MsgUpdateStakingModuleParamsEncodeObject } from 'types/cosmos';
 
 /**
- * Displays the full details of a MsgBeginRedelegate.
+ * Displays the full details of a MsgUpdateParams.
  * @constructor
  */
 const MsgUpdateParams: MessageDetailsComponent<MsgUpdateStakingModuleParamsEncodeObject> = ({

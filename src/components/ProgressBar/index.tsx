@@ -23,14 +23,23 @@ export interface ProgressBarProps {
    * View style.
    */
   style?: StyleProp<ViewStyle> & {
+    /**
+     * Bar color.
+     */
     color?: string;
   };
 }
 
+/**
+ * Component that displays a progressbar.
+ */
 const ProgressBar: React.FC<ProgressBarProps> = ({ value, label, showPercentage, style }) => {
   const styles = useStyles();
 
-  const percentageValue = React.useMemo(() => `${roundFloat(value * 100, 0)}%`, [value]);
+  const percentageValue = React.useMemo(() => {
+    const floatValue = value > 1 ? 1 : value;
+    return `${roundFloat(floatValue * 100, 0)}%`;
+  }, [value]);
 
   return (
     <View style={[styles.root, style]}>

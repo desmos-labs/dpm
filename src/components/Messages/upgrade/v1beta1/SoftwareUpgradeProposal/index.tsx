@@ -6,7 +6,7 @@ import Typography from 'components/Typography';
 import { SoftwareUpgradeProposalEncodeObject } from 'types/cosmos';
 
 /**
- * Displays the full details of a SoftwareUpgradeProposalEncodeObject
+ * Displays the full details of a SoftwareUpgradeProposal.
  * @constructor
  */
 const SoftwareUpgradeProposal: MessageDetailsComponent<SoftwareUpgradeProposalEncodeObject> = ({

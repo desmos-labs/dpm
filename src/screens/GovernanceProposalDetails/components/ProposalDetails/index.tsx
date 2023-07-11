@@ -13,9 +13,21 @@ import { Message } from 'types/transactions';
 import { FlashList } from '@shopify/flash-list';
 
 export interface ProposalDetailsProps {
+  /**
+   * Proposal of which details will be shown.
+   */
   readonly proposal: Proposal;
 }
 
+/**
+ * Component that displays the information of a proposal.
+ * The displayed information are:
+ * - Proposal description;
+ * - The messages that will be executed if the proposal passes;
+ * - Who proposed the proposal;
+ * - When the proposal has been submitted;
+ * - The proposal end time.
+ */
 const ProposalDetails: React.FC<ProposalDetailsProps> = ({ proposal }) => {
   const { t } = useTranslation('governance');
 

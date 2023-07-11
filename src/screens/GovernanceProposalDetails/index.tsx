@@ -69,6 +69,7 @@ const GovernanceProposalDetails: React.FC<NavProps> = (props) => {
     if (proposal.status === ProposalStatus.DepositPeriod) {
       return <ProposalDetails proposal={proposal} />;
     }
+
     return (
       <TabView
         navigationState={{ index, routes }}
@@ -81,6 +82,10 @@ const GovernanceProposalDetails: React.FC<NavProps> = (props) => {
                 <View
                   onLayout={(e) => {
                     const { height } = e.nativeEvent.layout;
+                    // The TabView don't work properly if inside a
+                    // ScrollView, to fix this when the tab content renders
+                    // we update the tabview height so that the
+                    // TabView can correctly display the content.
                     setTabViewHeights((current) => ({
                       ...current,
                       [route.key]: height + 40,
@@ -96,6 +101,10 @@ const GovernanceProposalDetails: React.FC<NavProps> = (props) => {
                 <View
                   onLayout={(e) => {
                     const { height } = e.nativeEvent.layout;
+                    // The TabView don't work properly if inside a
+                    // ScrollView, to fix this when the tab content renders
+                    // we update the tabview height so that the
+                    // TabView can correctly display the content.
                     setTabViewHeights((current) => ({
                       ...current,
                       [route.key]: height + 40,

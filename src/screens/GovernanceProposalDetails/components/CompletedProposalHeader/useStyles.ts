@@ -2,7 +2,7 @@ import { makeStyleWithProps } from 'config/theme';
 import { Proposal, ProposalStatus } from 'types/proposals';
 
 const useStyles = makeStyleWithProps((proposal: Proposal, theme) => ({
-  resultBar: {
+  higherValueBar: {
     color:
       proposal.status === ProposalStatus.Rejected
         ? theme.colors.feedbackErrorBg

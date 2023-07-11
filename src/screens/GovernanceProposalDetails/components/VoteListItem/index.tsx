@@ -21,7 +21,6 @@ export interface VoteListItemProps {
 
 /**
  * Component that shows the information about a user's proposal vote.
- * @constructor
  */
 const VoteListItem: React.FC<VoteListItemProps> = ({ proposalVote }) => {
   const { t } = useTranslation('governance');

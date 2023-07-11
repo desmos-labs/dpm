@@ -12,6 +12,12 @@ export interface CompletedProposalHeaderProps {
   readonly proposal: Proposal;
 }
 
+/**
+ * Component that show the information of a proposal that have status
+ * Rejected or Passed.
+ * If the provided proposal have a different status this component will not
+ * be rendered.
+ */
 const CompletedProposalHeader: React.FC<CompletedProposalHeaderProps> = ({ proposal }) => {
   const styles = useStyles(proposal);
   const { t } = useTranslation('governance');
@@ -84,28 +90,28 @@ const CompletedProposalHeader: React.FC<CompletedProposalHeaderProps> = ({ propo
 
         {/* Results percentage */}
         <ProgressBar
-          style={values.higher === 'yes' ? styles.resultBar : undefined}
+          style={values.higher === 'yes' ? styles.higherValueBar : undefined}
           value={values.yes}
           label={t('common:yes')}
           showPercentage={true}
         />
         <Spacer paddingVertical={5} />
         <ProgressBar
-          style={values.higher === 'no' ? styles.resultBar : undefined}
+          style={values.higher === 'no' ? styles.higherValueBar : undefined}
           value={values.no}
           label={t('common:no')}
           showPercentage={true}
         />
         <Spacer paddingVertical={5} />
         <ProgressBar
-          style={values.higher === 'veto' ? styles.resultBar : undefined}
+          style={values.higher === 'veto' ? styles.higherValueBar : undefined}
           value={values.veto}
           label={t('veto')}
           showPercentage={true}
         />
         <Spacer paddingVertical={5} />
         <ProgressBar
-          style={values.higher === 'abstain' ? styles.resultBar : undefined}
+          style={values.higher === 'abstain' ? styles.higherValueBar : undefined}
           value={values.abstain}
           label={t('abstain')}
           showPercentage={true}
