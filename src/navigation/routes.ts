@@ -217,6 +217,10 @@ enum ROUTES {
    * the user to interact with them.
    */
   GOVERNANCE_PROPOSALS = 'GOVERNANCE_PROPOSALS',
+  /**
+   * Screen that shows the details of a governance proposal.
+   */
+  GOVERNANCE_PROPOSAL_DETAILS = 'GOVERNANCE_PROPOSAL_DETAILS',
 }
 
 export default ROUTES;

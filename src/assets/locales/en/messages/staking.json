@@ -14,5 +14,12 @@
   "undelegate description": "Undelegate <1>{{ amount }}</1> from <2/>",
   "undelegated description": "<0/> undelegated <1>{{ amount }}</1> from <2/>",
   "redelegate description": "Redelegate <1>{{ amount }}</1> from <2/> to <3/>",
-  "redelegated description": "<0/> redelegated <1>{{ amount }}</1> from <2/> to <3/>"
+  "redelegated description": "<0/> redelegated <1>{{ amount }}</1> from <2/> to <3/>",
+  "update params description": "Update staking module params",
+  "bond denom": "Bond denom",
+  "max entries":"Max entries",
+  "max validators": "Max validators",
+  "unbonding time":"Unbonding time",
+  "historical entries": "Historical entries",
+  "min commission rate":"Min commission rate"
 }

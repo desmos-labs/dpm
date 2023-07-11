@@ -81,13 +81,16 @@ declare global {
       primary100: string;
       secondary100: string;
       secondary500: string;
-      neutral900: string;
-      neutral700: string;
+      neutral100: string;
+      neutral200: string;
       neutral300: string;
+      neutral700: string;
+      neutral900: string;
       feedbackSuccess: string;
       feedbackSuccessBg: string;
       feedbackError: string;
       feedbackErrorBg: string;
+      feedbackWarning: string;
     }
 
     interface Spacing {

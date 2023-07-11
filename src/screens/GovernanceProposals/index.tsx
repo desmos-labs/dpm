@@ -51,14 +51,23 @@ const GovernanceProposals: React.FC<NavProps> = (props) => {
     navigation.navigate(ROUTES.PROFILE);
   }, [navigation]);
 
+  const showProposalDetails = React.useCallback(
+    (proposal: Proposal) => {
+      navigation.navigate(ROUTES.GOVERNANCE_PROPOSAL_DETAILS, {
+        proposal,
+      });
+    },
+    [navigation],
+  );
+
   const renderProposal = React.useCallback<ListRenderItem<Proposal>>(
     ({ item }) => (
       <>
-        <ProposalListItem proposal={item} />
+        <ProposalListItem proposal={item} onPress={showProposalDetails} />
         <Spacer paddingVertical={8} />
       </>
     ),
-    [],
+    [showProposalDetails],
   );
 
   return (

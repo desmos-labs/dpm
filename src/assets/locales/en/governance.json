@@ -1,4 +1,5 @@
 {
+  "proposal": "Proposal",
   "proposals": "Proposals",
   "no proposals": "No proposals",
   "proposal status unspecified": "Unspecified",
@@ -8,5 +9,20 @@
   "proposal status rejected": "Rejected",
   "proposal status failed": "Failed",
   "proposal status invalid": "Invalid",
-  "proposal status unknown": "Unknown"
+  "proposal status unknown": "Unknown",
+  "voting starts": "Voting starts",
+  "voting ends": "Voting ends",
+  "deposit starts": "Deposit starts",
+  "deposit ends": "Deposit ends",
+  "voting time": "Voting time",
+  "final result": "Final result",
+  "veto": "Veto",
+  "abstain": "Abstain",
+  "proposer": "Proposer",
+  "submit time": "Submit time",
+  "deposit end time": "Deposit end time",
+  "plan": "Plan",
+  "proposal details": "Proposal details",
+  "votes": "Votes",
+  "no votes": "No votes"
 }

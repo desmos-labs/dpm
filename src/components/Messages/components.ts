@@ -64,13 +64,22 @@ import {
   MsgWithdrawDelegatorRewardTypeUrl,
   MsgWithdrawValidatorCommissionTypeUrl,
 } from '@desmoslabs/desmjs';
-import { MsgExecTypeUrl, MsgTransferTypeUrl } from 'types/cosmos';
+import {
+  MsgExecTypeUrl,
+  MsgSoftwareUpgradeTypeUrl,
+  MsgTransferTypeUrl,
+  MsgUpdateStakingModuleParamsTypeUrl,
+  SoftwareUpgradeProposalTypeUrl,
+} from 'types/cosmos';
 import MsgExecDetails from 'components/Messages/authz/MsgExecDetails';
 import MsgSubmitProposalDetails from 'components/Messages/gov/MsgSubmitProposalDetails';
 import MsgDepositDetails from 'components/Messages/gov/MsgDepositDetails';
 import MsgTransferDetails from 'components/Messages/ibc/MsgTransferDetails';
 import MsgCreateValidatorDetails from 'components/Messages/staking/MsgCreateValidatorDetails';
 import MsgEditValidatorDetails from 'components/Messages/staking/MsgEditValidatorDetails';
+import MsgUpdateStakingModuleParams from 'components/Messages/staking/MsgUpdateParams';
+import SoftwareUpgradeProposal from 'components/Messages/upgrade/v1beta1/SoftwareUpgradeProposal';
+import MsgSoftwareUpgrade from 'components/Messages/upgrade/v1beta1/MsgSoftwareUpgrade';
 import MsgSendComponentDetails from './bank/MsgSendDetails';
 import MsgMultiSendComponentDetails from './bank/MsgMultiSendDetails';
 import MsgVoteComponentDetails from './gov/MsgVoteDetails';
@@ -163,6 +172,7 @@ export const messageDetailsComponents: Record<string, MessageDetailsComponent<an
   [MsgUndelegateTypeUrl]: MsgUndelegateComponentDetails,
   [MsgCreateValidatorTypeUrl]: MsgCreateValidatorDetails,
   [MsgEditValidatorTypeUrl]: MsgEditValidatorDetails,
+  [MsgUpdateStakingModuleParamsTypeUrl]: MsgUpdateStakingModuleParams,
 
   // x/feegrant
   [MsgGrantAllowanceTypeUrl]: MsgGrantAllowanceComponentDetails,
@@ -225,4 +235,8 @@ export const messageDetailsComponents: Record<string, MessageDetailsComponent<an
   [MsgSupportStandardReasonTypeUrl]: MsgSupportStandardReasonComponentDetails,
   [MsgAddReasonTypeUrl]: MsgAddReasonComponentDetails,
   [MsgRemoveReasonTypeUrl]: MsgRemoveReasonComponentDetails,
+
+  // x/upgrade
+  [SoftwareUpgradeProposalTypeUrl]: SoftwareUpgradeProposal,
+  [MsgSoftwareUpgradeTypeUrl]: MsgSoftwareUpgrade,
 };

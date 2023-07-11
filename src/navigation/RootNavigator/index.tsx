@@ -54,6 +54,9 @@ import Redelegate, { RedelegateParams } from 'screens/Redelegate';
 import UnbondTokens, { UnbondTokensParams } from 'screens/UnbondTokens';
 import ComponentsDemo from 'screens/ComponentsDemo';
 import SelectNewMnemonicLength from 'screens/SelectNewMnemonicLength';
+import GovernanceProposalDetails, {
+  GovernanceProposalDetailsParams,
+} from 'screens/GovernanceProposalDetails';
 
 export type RootNavigatorParamList = {
   [ROUTES.DEV_SCREEN]: undefined;
@@ -107,6 +110,9 @@ export type RootNavigatorParamList = {
   [ROUTES.VALIDATOR_STAKING_INFO]: ValidatorStakingInfoParams;
   [ROUTES.REDELEGATE]: RedelegateParams;
   [ROUTES.UNBOND_TOKENS]: UnbondTokensParams;
+
+  // ------------- Governance related screens ----------
+  [ROUTES.GOVERNANCE_PROPOSAL_DETAILS]: GovernanceProposalDetailsParams;
 };
 
 const Stack = createStackNavigator<RootNavigatorParamList>();
@@ -234,6 +240,12 @@ const RootNavigator = () => {
       <Stack.Screen name={ROUTES.VALIDATOR_STAKING_INFO} component={ValidatorStakingInfo} />
       <Stack.Screen name={ROUTES.REDELEGATE} component={Redelegate} />
       <Stack.Screen name={ROUTES.UNBOND_TOKENS} component={UnbondTokens} />
+
+      {/* Governance related screens */}
+      <Stack.Screen
+        name={ROUTES.GOVERNANCE_PROPOSAL_DETAILS}
+        component={GovernanceProposalDetails}
+      />
     </Stack.Navigator>
   );
 };

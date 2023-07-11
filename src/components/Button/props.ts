@@ -40,7 +40,7 @@ interface ButtonProps {
    */
   accent?: boolean;
   contentStyle?: StyleProp<ViewStyle>;
-  style?: StyleProp<ViewStyle>;
+  style?: StyleProp<ViewStyle> & { color?: string };
 }
 
 export default ButtonProps;

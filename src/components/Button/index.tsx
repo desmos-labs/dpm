@@ -30,12 +30,24 @@ const Button: React.FC<ButtonProps> = (props) => {
       return color;
     }
 
+    if (style?.color) {
+      return style.color;
+    }
+
     if (disabled) {
       return theme.colors.button.disabled;
     }
 
     return accent ? theme.colors.button.secondary : theme.colors.button.primary;
-  }, [color, accent, theme, disabled]);
+  }, [
+    color,
+    style?.color,
+    disabled,
+    accent,
+    theme.colors.button.secondary,
+    theme.colors.button.primary,
+    theme.colors.button.disabled,
+  ]);
 
   return (
     <MaterialButton

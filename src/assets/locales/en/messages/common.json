@@ -1,4 +1,5 @@
 {
   "signer": "Signer",
-  "user": "User"
+  "user": "User",
+  "update params": "Update params"
 }

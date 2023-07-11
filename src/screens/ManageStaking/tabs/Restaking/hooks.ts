@@ -1,4 +1,4 @@
-import { useLazyQuery } from '@apollo/client';
+import { useApolloClient } from '@apollo/client';
 import GetAccountRedelegations from 'services/graphql/queries/GetAccountRedelegations';
 import { useActiveAccountAddress } from '@recoil/activeAccount';
 import React from 'react';
@@ -11,12 +11,16 @@ import { convertGraphQLRedelegation } from 'lib/GraphQLUtils';
  * of the current active account.
  */
 export const useFetchAccountRedelegations = () => {
-  const [getAccountRedelegations] = useLazyQuery(GetAccountRedelegations);
   const activeAccountAddress = useActiveAccountAddress()!;
+  // Here we use useApolloClient instead of useLazyQuery
+  // to force the returned callback to change when the client instance changes
+  // so that the usePaginatedData hook can properly update the data.
+  const client = useApolloClient();
 
   return React.useCallback<FetchDataFunction<Redelegation, undefined>>(
     async (offset, limit) => {
-      const { data, error } = await getAccountRedelegations({
+      const { data, error } = await client.query({
+        query: GetAccountRedelegations,
         variables: {
           address: activeAccountAddress,
           offset,
@@ -40,6 +44,6 @@ export const useFetchAccountRedelegations = () => {
         endReached: data.action_redelegation.redelegations.length < limit,
       };
     },
-    [getAccountRedelegations, activeAccountAddress],
+    [client, activeAccountAddress],
   );
 };

@@ -171,8 +171,14 @@ import { Coin } from 'cosmjs-types/cosmos/base/v1beta1/coin';
 import {
   MsgFundCommunityPoolEncodeObject,
   MsgSetWithdrawAddressEncodeObject,
+  MsgSoftwareUpgradeEncodeObject,
+  MsgSoftwareUpgradeTypeUrl,
   MsgTransferTypeUrl,
+  MsgUpdateStakingModuleParamsEncodeObject,
+  MsgUpdateStakingModuleParamsTypeUrl,
   MsgWithdrawValidatorCommissionEncodeObject,
+  SoftwareUpgradeProposalEncodeObject,
+  SoftwareUpgradeProposalTypeUrl,
   StakeAuthorizationTypeUrl,
 } from 'types/cosmos';
 import { MsgGrantAllowance, MsgRevokeAllowance } from 'cosmjs-types/cosmos/feegrant/v1beta1/tx';
@@ -231,6 +237,7 @@ import {
 import { ParameterChangeProposal } from 'cosmjs-types/cosmos/params/v1beta1/params';
 import { CommunityPoolSpendProposal } from 'cosmjs-types/cosmos/distribution/v1beta1/distribution';
 import { MsgTransfer } from 'cosmjs-types/ibc/applications/transfer/v1/tx';
+import { MsgSoftwareUpgrade } from '@desmoslabs/desmjs-types/cosmos/upgrade/v1beta1/tx';
 
 const decodePubKey = (gqlPubKey: any): Any | undefined => {
   const type = gqlPubKey['@type'];
@@ -551,6 +558,22 @@ const decodeStakingMessage = (type: string, value: any): EncodeObject | undefine
           commissionRate: value.commission_rate,
         },
       } as MsgEditValidatorEncodeObject;
+
+    case MsgUpdateStakingModuleParamsTypeUrl:
+      return {
+        typeUrl: MsgUpdateStakingModuleParamsTypeUrl,
+        value: {
+          params: {
+            bondDenom: value.params.bond_denom,
+            maxEntries: value.params.max_entries,
+            maxValidators: value.params.max_validators,
+            unbondingTime: value.params.unbonding_time,
+            historicalEntries: value.params.historical_entries,
+            minCommissionRate: value.params.min_commission_rate,
+          },
+          authority: value.authority,
+        },
+      } as MsgUpdateStakingModuleParamsEncodeObject;
 
     default:
       return undefined;
@@ -1487,6 +1510,47 @@ const decodeReportsMessage = (type: string, value: any): EncodeObject | undefine
   }
 };
 
+const decodeUpgradeMessage = (type: string, value: any): EncodeObject | undefined => {
+  switch (type) {
+    case SoftwareUpgradeProposalTypeUrl:
+      return {
+        typeUrl: SoftwareUpgradeProposalTypeUrl,
+        value: {
+          title: value.title,
+          description: value.description,
+          plan:
+            value?.plan !== undefined
+              ? {
+                  name: value.plan?.name,
+                  time: value.plan.time,
+                  height: Long.fromString(value.plan.height),
+                  info: value.plan.info,
+                }
+              : undefined,
+        },
+      } as SoftwareUpgradeProposalEncodeObject;
+
+    case MsgSoftwareUpgradeTypeUrl:
+      return {
+        typeUrl: MsgSoftwareUpgradeTypeUrl,
+        value: MsgSoftwareUpgrade.fromPartial({
+          authority: value.authority,
+          plan: value?.plan
+            ? {
+                name: value.plan.name,
+                info: value.plan.info,
+                height: value.plan.height,
+                time: value.plan.time,
+              }
+            : undefined,
+        }),
+      } as MsgSoftwareUpgradeEncodeObject;
+
+    default:
+      return undefined;
+  }
+};
+
 const converters = [
   decodeAuthzMessage,
   decodeBankMessage,
@@ -1501,6 +1565,7 @@ const converters = [
   decodeReportsMessage,
   decodeStakingMessage,
   decodeSubspaceMessage,
+  decodeUpgradeMessage,
 ];
 
 const decodeGqlRawMessage = (message: GQLRawMessage): Message => {
