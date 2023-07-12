@@ -6,14 +6,14 @@ import { MessageDetailsComponent } from 'components/Messages/BaseMessage';
 import { formatCoins } from 'lib/FormatUtils';
 import CopiableAddress from 'components/CopiableAddress';
 import Typography from 'components/Typography';
+import { Gov } from '@desmoslabs/desmjs';
 
 /**
  * Displays the full details of a MsgSubmitProposal.
  */
-const MsgSubmitProposalDetails: MessageDetailsComponent<MsgSubmitProposalEncodeObject> = ({
-  message,
-  toBroadcastMessage,
-}) => {
+const MsgSubmitProposalDetails: MessageDetailsComponent<
+  MsgSubmitProposalEncodeObject | Gov.v1.MsgSubmitProposalEncodeObject
+> = ({ message, toBroadcastMessage }) => {
   const initialDeposit = React.useMemo(
     () => formatCoins(message.value.initialDeposit),
     [message.value.initialDeposit],

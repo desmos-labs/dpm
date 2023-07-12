@@ -13,7 +13,7 @@ import {
   MsgVoteEncodeObject,
   MsgWithdrawDelegatorRewardEncodeObject,
 } from '@cosmjs/stargate';
-import { TextProposal, VoteOption } from 'cosmjs-types/cosmos/gov/v1beta1/gov';
+import { TextProposal } from 'cosmjs-types/cosmos/gov/v1beta1/gov';
 import Long from 'long';
 import {
   Authz,
@@ -124,6 +124,13 @@ import { ParameterChangeProposal } from 'cosmjs-types/cosmos/params/v1beta1/para
 import { CommunityPoolSpendProposal } from 'cosmjs-types/cosmos/distribution/v1beta1/distribution';
 import { MsgTransfer } from 'cosmjs-types/ibc/applications/transfer/v1/tx';
 import { MsgSoftwareUpgrade } from '@desmoslabs/desmjs-types/cosmos/upgrade/v1beta1/tx';
+import { voteOptionFromJSON as voteOptionV1FromJSON } from '@desmoslabs/desmjs-types/cosmos/gov/v1/gov';
+import {
+  MsgDeposit as MsgDepositV1,
+  MsgSubmitProposal as MsgSubmitProposalV1,
+  MsgVote as MsgVoteV1,
+} from '@desmoslabs/desmjs-types/cosmos/gov/v1/tx';
+import { voteOptionFromJSON as voteOptionV1Beat1FromJSON } from '@desmoslabs/desmjs-types/cosmos/gov/v1beta1/gov';
 
 const decodePubKey = (gqlPubKey: any): Any | undefined => {
   const type = gqlPubKey['@type'];
@@ -312,34 +319,49 @@ const decodeDistributionMessage = (type: string, value: any): EncodeObject | und
 
 const decodeGovMessage = (type: string, value: any): EncodeObject | undefined => {
   switch (type) {
+    // v1
+    case Gov.v1.MsgVoteTypeUrl:
+      return {
+        typeUrl: Gov.v1.MsgVoteTypeUrl,
+        value: MsgVoteV1.fromPartial({
+          option: voteOptionV1FromJSON(value.option),
+          voter: value.voter,
+          proposalId: value.proposal_id,
+          metadata: value.metadata,
+        }),
+      } as Gov.v1.MsgVoteEncodeObject;
+
+    case Gov.v1.MsgDepositTypeUrl:
+      return {
+        typeUrl: Gov.v1.MsgDepositTypeUrl,
+        value: MsgDepositV1.fromPartial({
+          proposalId: value.proposal_id,
+          amount: value.amount,
+          depositor: value.depositor,
+        }),
+      } as Gov.v1.MsgDepositEncodeObject;
+
+    case Gov.v1.MsgSubmitProposalTypeUrl:
+      return {
+        typeUrl: Gov.v1.MsgSubmitProposalTypeUrl,
+        value: MsgSubmitProposalV1.fromPartial({
+          // TODO: handle recursive types.
+          messages: [],
+          metadata: value.metadata,
+          title: value.title,
+          proposer: value.proposer,
+          summary: value.summary,
+          initialDeposit: value.initial_deposit,
+        }),
+      } as Gov.v1.MsgSubmitProposalEncodeObject;
+
+    // v1beta1
     case Gov.v1beta1.MsgVoteTypeUrl: {
-      let voteOption: VoteOption;
-      switch (value.option) {
-        case 'VOTE_OPTION_YES':
-          voteOption = VoteOption.VOTE_OPTION_YES;
-          break;
-
-        case 'VOTE_OPTION_ABSTAIN':
-          voteOption = VoteOption.VOTE_OPTION_ABSTAIN;
-          break;
-
-        case 'VOTE_OPTION_NO':
-          voteOption = VoteOption.VOTE_OPTION_NO;
-          break;
-
-        case 'VOTE_OPTION_NO_WITH_VETO':
-          voteOption = VoteOption.VOTE_OPTION_NO_WITH_VETO;
-          break;
-
-        default:
-          voteOption = VoteOption.VOTE_OPTION_UNSPECIFIED;
-          break;
-      }
       return {
         typeUrl: Gov.v1beta1.MsgVoteTypeUrl,
         value: {
           voter: value.voter,
-          option: voteOption,
+          option: voteOptionV1Beat1FromJSON(value.option),
           proposalId: Long.fromString(value.proposal_id),
         },
       } as MsgVoteEncodeObject;

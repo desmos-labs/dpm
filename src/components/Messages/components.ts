@@ -112,6 +112,9 @@ export const messageDetailsComponents: Record<string, MessageDetailsComponent<an
   [Gov.v1beta1.MsgSubmitProposalTypeUrl]: MsgSubmitProposalDetails,
   [Gov.v1beta1.MsgDepositTypeUrl]: MsgDepositDetails,
   [Gov.v1beta1.MsgVoteTypeUrl]: MsgVoteComponentDetails,
+  [Gov.v1.MsgSubmitProposalTypeUrl]: MsgSubmitProposalDetails,
+  [Gov.v1.MsgDepositTypeUrl]: MsgDepositDetails,
+  [Gov.v1.MsgVoteTypeUrl]: MsgVoteComponentDetails,
 
   // x/ibc
   [MsgTransferTypeUrl]: MsgTransferDetails,
