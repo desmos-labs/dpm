@@ -15,7 +15,7 @@ const DarkTheme: ReactNativePaper.Theme = {
     popupBackground: 'rgba(0, 0, 0, 0.7)',
     surface: '#25282D',
     surface2: '#25282D',
-    popupSurface: '#25282D',
+    popupSurface: '#1D1E22',
     line: '#34383E',
     icon: {
       1: '#E6E6E6',

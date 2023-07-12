@@ -9,7 +9,7 @@ const useStyles = makeStyle((theme) => ({
     flexDirection: 'row',
     paddingVertical: 10,
     paddingHorizontal: 18,
-    backgroundColor: theme.colors.background2,
+    backgroundColor: theme.colors.surface,
     borderRadius: theme.roundness,
   },
   voteOptionIcon: {

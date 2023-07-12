@@ -14,7 +14,7 @@ const useStyles = makeStyle((theme) => ({
     alignItems: 'center',
     justifyContent: 'center',
     paddingVertical: 10,
-    backgroundColor: theme.colors.background2,
+    backgroundColor: theme.colors.surface,
     borderRadius: theme.roundness,
   },
   voteOptionIcon: {
