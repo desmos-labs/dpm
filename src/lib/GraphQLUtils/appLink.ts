@@ -12,4 +12,4 @@ export const convertGraphQLApplicationLink = (applicationLink: any) =>
     creationTime: new Date(Date.parse(applicationLink.creationTime)),
     state: applicationLinkStateFromJSON(applicationLink.state),
     username: applicationLink.username,
-  } as ApplicationLink);
+  }) as ApplicationLink;

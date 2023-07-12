@@ -1,4 +1,4 @@
-import { MsgAddPostAttachmentEncodeObject } from '@desmoslabs/desmjs';
+import { Posts } from '@desmoslabs/desmjs';
 import React from 'react';
 import { Trans } from 'react-i18next';
 import BaseMessageDetails from 'components/Messages/BaseMessage/BaseMessageDetails';
@@ -11,7 +11,7 @@ import CopiableAddress from 'components/CopiableAddress';
  * Displays the full details of a MsgAddPostAttachment
  * @constructor
  */
-const MsgAddPostAttachment: MessageDetailsComponent<MsgAddPostAttachmentEncodeObject> = ({
+const MsgAddPostAttachment: MessageDetailsComponent<Posts.v3.MsgAddPostAttachmentEncodeObject> = ({
   message,
   toBroadcastMessage,
 }) => {

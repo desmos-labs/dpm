@@ -1,10 +1,7 @@
 import React from 'react';
 import { ChainLink } from 'types/desmos';
 import useBroadcastTx, { BroadcastTxOptions } from 'hooks/useBroadcastTx';
-import {
-  MsgUnlinkChainAccountEncodeObject,
-  MsgUnlinkChainAccountTypeUrl,
-} from '@desmoslabs/desmjs';
+import { Profiles } from '@desmoslabs/desmjs';
 import { useDeleteChainLink } from '@recoil/chainLinks';
 
 /**
@@ -17,8 +14,8 @@ export const useDisconnectChainLink = (chainLink: ChainLink, options?: Broadcast
   const deleteChainLink = useDeleteChainLink();
 
   return React.useCallback(async () => {
-    const msg: MsgUnlinkChainAccountEncodeObject = {
-      typeUrl: MsgUnlinkChainAccountTypeUrl,
+    const msg: Profiles.v3.MsgUnlinkChainAccountEncodeObject = {
+      typeUrl: Profiles.v3.MsgUnlinkChainAccountTypeUrl,
       value: {
         chainName: chainLink.chainName,
         target: chainLink.externalAddress,

@@ -1,4 +1,4 @@
-import { MsgEditPostEncodeObject } from '@desmoslabs/desmjs';
+import { Posts } from '@desmoslabs/desmjs';
 import React from 'react';
 import { Trans, useTranslation } from 'react-i18next';
 import BaseMessageDetails, {
@@ -13,7 +13,7 @@ import CopiableAddress from 'components/CopiableAddress';
  * Displays the full details of a MsgEditPost
  * @constructor
  */
-const MsgEditPostDetails: MessageDetailsComponent<MsgEditPostEncodeObject> = ({
+const MsgEditPostDetails: MessageDetailsComponent<Posts.v3.MsgEditPostEncodeObject> = ({
   message,
   toBroadcastMessage,
 }) => {

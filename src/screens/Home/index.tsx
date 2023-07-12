@@ -131,7 +131,7 @@ const Home: React.FC<NavProps> = (props) => {
             </>
           }
           ListEmptyComponent={
-            transactionsLoading || refreshTransactions ? undefined : (
+            transactionsLoading || refreshingTransactions ? undefined : (
               <EmptyList
                 topPadding={0}
                 image={DPMImages.NoTransaction}

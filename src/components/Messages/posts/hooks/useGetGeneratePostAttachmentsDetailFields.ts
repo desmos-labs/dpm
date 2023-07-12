@@ -3,7 +3,7 @@ import React from 'react';
 import { Any } from 'cosmjs-types/google/protobuf/any';
 import { MessageDetailsField } from 'components/Messages/BaseMessage/BaseMessageDetails';
 import { TFunction } from 'i18next';
-import { MediaTypeUrl, PollTypeUrl, timestampToDate } from '@desmoslabs/desmjs';
+import { Posts, timestampToDate } from '@desmoslabs/desmjs';
 import { decodePostAttachment } from 'lib/EncodeObjectUtils/postattachment';
 import { format } from 'date-fns';
 
@@ -29,7 +29,7 @@ function generateAttachmentFields(
   const decodedAttachment = decodeResult.value;
 
   switch (decodedAttachment.typeUrl) {
-    case PollTypeUrl:
+    case Posts.v3.PollTypeUrl:
       return [
         {
           label: t('poll question'),
@@ -61,7 +61,7 @@ function generateAttachmentFields(
           value: decodedAttachment.value.allowsMultipleAnswers.toString(),
         },
       ];
-    case MediaTypeUrl:
+    case Posts.v3.MediaTypeUrl:
       return [
         {
           label: t('media attachment'),

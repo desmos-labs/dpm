@@ -2,12 +2,12 @@ import { MessageDetailsComponent } from 'components/Messages/BaseMessage';
 import React from 'react';
 import BaseMessageDetails from 'components/Messages/BaseMessage/BaseMessageDetails';
 import { Trans, useTranslation } from 'react-i18next';
-import { MsgGrantEncodeObject } from '@desmoslabs/desmjs';
+import { Authz } from '@desmoslabs/desmjs';
 import Typography from 'components/Typography';
 import CopiableAddress from 'components/CopiableAddress';
 import { useGrantFields } from './hooks';
 
-const MsgGrantDetails: MessageDetailsComponent<MsgGrantEncodeObject> = ({
+const MsgGrantDetails: MessageDetailsComponent<Authz.v1beta1.MsgGrantEncodeObject> = ({
   message,
   toBroadcastMessage,
 }) => {

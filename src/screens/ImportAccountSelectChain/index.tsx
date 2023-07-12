@@ -38,7 +38,7 @@ const ImportAccountSelectChain: React.FC<NavProps> = ({ navigation }) => {
             ...currentValue,
             selectedChain,
             supportedImportMode: getChainSupportedWalletTypes(selectedChain),
-          } as ImportAccountState),
+          }) as ImportAccountState,
       );
       navigation.navigate(ROUTES.IMPORT_ACCOUNT_SELECT_TYPE);
     },

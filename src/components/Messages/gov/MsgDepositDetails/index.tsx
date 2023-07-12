@@ -6,14 +6,14 @@ import { MessageDetailsComponent } from 'components/Messages/BaseMessage';
 import { formatCoins } from 'lib/FormatUtils';
 import CopiableAddress from 'components/CopiableAddress';
 import Typography from 'components/Typography';
+import { Gov } from '@desmoslabs/desmjs';
 
 /**
  * Displays the full details of a MsgDeposit.
  */
-const MsgDepositDetails: MessageDetailsComponent<MsgDepositEncodeObject> = ({
-  message,
-  toBroadcastMessage,
-}) => {
+const MsgDepositDetails: MessageDetailsComponent<
+  MsgDepositEncodeObject | Gov.v1.MsgDepositEncodeObject
+> = ({ message, toBroadcastMessage }) => {
   const depositAmount = React.useMemo(
     () => formatCoins(message.value.amount),
     [message.value.amount],

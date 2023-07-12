@@ -14,7 +14,7 @@ export const AndroidBtScanPermissions = [
  * Type that represents a permission required to perform a bt scan
  * on Android.
  */
-export type AndroidBtScanPermission = typeof AndroidBtScanPermissions[number];
+export type AndroidBtScanPermission = (typeof AndroidBtScanPermissions)[number];
 
 /**
  * List of permissions that Ios requires
@@ -26,7 +26,7 @@ export const IosBtScanPermissions = [Permissions.PERMISSIONS.IOS.BLUETOOTH_PERIP
  * Type that represents a permission required to perform a bt scan
  * on Ios.
  */
-export type IosBtScanPermission = typeof IosBtScanPermissions[number];
+export type IosBtScanPermission = (typeof IosBtScanPermissions)[number];
 
 /**
  * Type that represents a permission required to perform a bt scan.

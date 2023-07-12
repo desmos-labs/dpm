@@ -15,4 +15,4 @@ export const convertGraphQLChainLink = (chainLink: any) =>
       signature: chainLink.proof.signature,
     },
     creationTime: new Date(`${chainLink.creationTime}Z`),
-  } as ChainLink);
+  }) as ChainLink;

@@ -32,7 +32,7 @@ const getUniqueLinkInfo = (link: ChainLink) =>
   ({
     chainName: link.chainName,
     externalAddress: link.externalAddress,
-  } as UniqueChainLinkInfo);
+  }) as UniqueChainLinkInfo;
 
 const findLinkByUniqueInfo = (chainLink: ChainLink[], info: UniqueChainLinkInfo) =>
   chainLink.find(

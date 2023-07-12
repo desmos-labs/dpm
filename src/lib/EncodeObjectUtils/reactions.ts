@@ -1,4 +1,4 @@
-import { FreeTextValueTypeUrl, RegisteredReactionValueTypeUrl } from '@desmoslabs/desmjs';
+import { Reactions } from '@desmoslabs/desmjs';
 import {
   FreeTextValue,
   RegisteredReactionValue,
@@ -7,12 +7,12 @@ import { Any } from 'cosmjs-types/google/protobuf/any';
 import { err, ok, Result } from 'neverthrow';
 
 export interface FreeTextValueReactionEncodeObject {
-  readonly typeUrl: typeof FreeTextValueTypeUrl;
+  readonly typeUrl: typeof Reactions.v1.FreeTextValueTypeUrl;
   readonly value: FreeTextValue;
 }
 
 export interface RegisteredReactionValueEncodeObject {
-  readonly typeUrl: typeof RegisteredReactionValueTypeUrl;
+  readonly typeUrl: typeof Reactions.v1.RegisteredReactionValueTypeUrl;
   readonly value: RegisteredReactionValue;
 }
 
@@ -28,15 +28,15 @@ export function decodeReactionValue(
   }
 
   switch (value.typeUrl) {
-    case FreeTextValueTypeUrl:
+    case Reactions.v1.FreeTextValueTypeUrl:
       return ok({
-        typeUrl: FreeTextValueTypeUrl,
+        typeUrl: Reactions.v1.FreeTextValueTypeUrl,
         value: FreeTextValue.decode(value.value),
       });
 
-    case RegisteredReactionValueTypeUrl:
+    case Reactions.v1.RegisteredReactionValueTypeUrl:
       return ok({
-        typeUrl: RegisteredReactionValueTypeUrl,
+        typeUrl: Reactions.v1.RegisteredReactionValueTypeUrl,
         value: RegisteredReactionValue.decode(value.value),
       });
 

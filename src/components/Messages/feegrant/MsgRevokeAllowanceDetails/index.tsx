@@ -1,15 +1,14 @@
 import { MessageDetailsComponent } from 'components/Messages/BaseMessage';
-import { MsgRevokeAllowanceEncodeObject } from '@desmoslabs/desmjs';
+import { Feegrant } from '@desmoslabs/desmjs';
 import React from 'react';
 import { Trans } from 'react-i18next';
 import BaseMessageDetails from 'components/Messages/BaseMessage/BaseMessageDetails';
 import CopiableAddress from 'components/CopiableAddress';
 import Typography from 'components/Typography';
 
-const MsgRevokeAllowanceDetails: MessageDetailsComponent<MsgRevokeAllowanceEncodeObject> = ({
-  message,
-  toBroadcastMessage,
-}) => {
+const MsgRevokeAllowanceDetails: MessageDetailsComponent<
+  Feegrant.v1beta1.MsgRevokeAllowanceEncodeObject
+> = ({ message, toBroadcastMessage }) => {
   const { granter, grantee } = message.value;
 
   return (

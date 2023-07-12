@@ -1,10 +1,5 @@
 import React, { useMemo } from 'react';
-import {
-  Base58AddressTypeUrl,
-  Bech32AddressTypeUrl,
-  HexAddressTypeUrl,
-  MsgLinkChainAccountEncodeObject,
-} from '@desmoslabs/desmjs';
+import { Profiles } from '@desmoslabs/desmjs';
 import { Trans } from 'react-i18next';
 import {
   Base58Address,
@@ -20,18 +15,17 @@ import CopiableAddress from 'components/CopiableAddress';
  * Displays the full details of a MsgLinkChainAccount.
  * @constructor
  */
-const MsgLinkChainAccountDetails: MessageDetailsComponent<MsgLinkChainAccountEncodeObject> = ({
-  message,
-  toBroadcastMessage,
-}) => {
+const MsgLinkChainAccountDetails: MessageDetailsComponent<
+  Profiles.v3.MsgLinkChainAccountEncodeObject
+> = ({ message, toBroadcastMessage }) => {
   const linkedAddress = useMemo(() => {
     const { chainAddress } = message.value;
     switch (chainAddress?.typeUrl) {
-      case Bech32AddressTypeUrl:
+      case Profiles.v3.Bech32AddressTypeUrl:
         return Bech32Address.decode(chainAddress.value).value;
-      case Base58AddressTypeUrl:
+      case Profiles.v3.Base58AddressTypeUrl:
         return Base58Address.decode(chainAddress.value).value;
-      case HexAddressTypeUrl:
+      case Profiles.v3.HexAddressTypeUrl:
         return HexAddress.decode(chainAddress.value).value;
       default:
         return undefined;

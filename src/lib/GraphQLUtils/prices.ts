@@ -13,5 +13,5 @@ export const convertGraphQLTokenPrice = (data: any): TokenPrice[] =>
           price: unit.price?.price ?? 0,
           exponent: unit.exponent ?? 0,
           denom: unit.denom,
-        } as TokenPrice),
+        }) as TokenPrice,
     );

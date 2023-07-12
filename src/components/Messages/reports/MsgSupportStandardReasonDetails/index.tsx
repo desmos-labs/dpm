@@ -1,4 +1,4 @@
-import { MsgSupportStandardReasonEncodeObject } from '@desmoslabs/desmjs';
+import { Reports } from '@desmoslabs/desmjs';
 import React from 'react';
 import { Trans } from 'react-i18next';
 import BaseMessageDetails from 'components/Messages/BaseMessage/BaseMessageDetails';
@@ -11,7 +11,7 @@ import CopiableAddress from 'components/CopiableAddress';
  * @constructor
  */
 const MsgSupportStandardReasonDetails: MessageDetailsComponent<
-  MsgSupportStandardReasonEncodeObject
+  Reports.v1.MsgSupportStandardReasonEncodeObject
 > = ({ message, toBroadcastMessage }) => (
   <BaseMessageDetails message={message}>
     <Typography.Regular14>

@@ -28,9 +28,8 @@ const useAccountValidatorPendingStakingRewards = (
       return undefined;
     }
 
-    const pendingRewards = rewards.find(
-      (r) => r.validatorAddress === validatorOperatorAddress,
-    )?.coins;
+    const pendingRewards = rewards.find((r) => r.validatorAddress === validatorOperatorAddress)
+      ?.coins;
 
     return (pendingRewards?.length ?? 0) === 0
       ? [coin(0, chainInfo.stakeCurrency.coinMinimalDenom)]

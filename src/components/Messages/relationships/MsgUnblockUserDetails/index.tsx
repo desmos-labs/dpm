@@ -2,14 +2,13 @@ import { MessageDetailsComponent } from 'components/Messages/BaseMessage';
 import React from 'react';
 import BaseMessageDetails from 'components/Messages/BaseMessage/BaseMessageDetails';
 import { Trans } from 'react-i18next';
-import { MsgUnblockUserEncodeObject } from '@desmoslabs/desmjs';
+import { Relationships } from '@desmoslabs/desmjs';
 import Typography from 'components/Typography';
 import CopiableAddress from 'components/CopiableAddress';
 
-const MsgUnblockUserDetails: MessageDetailsComponent<MsgUnblockUserEncodeObject> = ({
-  message,
-  toBroadcastMessage,
-}) => (
+const MsgUnblockUserDetails: MessageDetailsComponent<
+  Relationships.v1.MsgUnblockUserEncodeObject
+> = ({ message, toBroadcastMessage }) => (
   <BaseMessageDetails message={message}>
     <Typography.Regular14>
       <Trans

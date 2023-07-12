@@ -1,4 +1,4 @@
-import { MsgEditSectionEncodeObject } from '@desmoslabs/desmjs';
+import { Subspaces } from '@desmoslabs/desmjs';
 import React from 'react';
 import { Trans, useTranslation } from 'react-i18next';
 import BaseMessageDetails from 'components/Messages/BaseMessage/BaseMessageDetails';
@@ -10,7 +10,7 @@ import CopiableAddress from 'components/CopiableAddress';
  * Displays the full details of a MsgEditSection
  * @constructor
  */
-const MsgEditSectionDetails: MessageDetailsComponent<MsgEditSectionEncodeObject> = ({
+const MsgEditSectionDetails: MessageDetailsComponent<Subspaces.v3.MsgEditSectionEncodeObject> = ({
   message,
   toBroadcastMessage,
 }) => {

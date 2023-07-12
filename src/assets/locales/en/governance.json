@@ -24,5 +24,13 @@
   "plan": "Plan",
   "proposal details": "Proposal details",
   "votes": "Votes",
-  "no votes": "No votes"
+  "no votes": "No votes",
+  "cast your vote": "Cast your vote",
+  "proposal vote succeed": "Proposal #{{ proposalId }} voted successfully",
+  "deposit": "Deposit",
+  "proposal deposit succeed": "Deposited on proposal #{{ proposalId }} successfully",
+  "vote yes on proposal": "Vote yes on proposal #{{ proposalId }}",
+  "vote no on proposal": "Vote no on proposal #{{ proposalId }}",
+  "vote no with veto on proposal": "Vote veto on proposal #{{ proposalId }}",
+  "vote abstain on proposal": "Vote abstain on proposal #{{ proposalId }}"
 }

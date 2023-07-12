@@ -1,6 +1,6 @@
 import useBroadcastTx from 'hooks/useBroadcastTx';
 import React from 'react';
-import { Coin, MsgBeginRedelegateTypeUrl } from '@desmoslabs/desmjs';
+import { Coin, Staking } from '@desmoslabs/desmjs';
 import { MsgBeginRedelegateEncodeObject } from '@cosmjs/stargate';
 import { useActiveAccountAddress } from '@recoil/activeAccount';
 import { useTranslation } from 'react-i18next';
@@ -21,7 +21,7 @@ export const useRedelegateTokes = () => {
       broadcastTx(
         [
           {
-            typeUrl: MsgBeginRedelegateTypeUrl,
+            typeUrl: Staking.v1beta1.MsgBeginRedelegateTypeUrl,
             value: {
               amount,
               delegatorAddress: activeAccountAddress,

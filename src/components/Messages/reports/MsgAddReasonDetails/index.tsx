@@ -1,4 +1,4 @@
-import { MsgAddReasonEncodeObject } from '@desmoslabs/desmjs';
+import { Reports } from '@desmoslabs/desmjs';
 import React from 'react';
 import { Trans, useTranslation } from 'react-i18next';
 import BaseMessageDetails, {
@@ -12,7 +12,7 @@ import CopiableAddress from 'components/CopiableAddress';
  * Displays the full details of a MsgAddReason
  * @constructor
  */
-const MsgAddReasonDetails: MessageDetailsComponent<MsgAddReasonEncodeObject> = ({
+const MsgAddReasonDetails: MessageDetailsComponent<Reports.v1.MsgAddReasonEncodeObject> = ({
   message,
   toBroadcastMessage,
 }) => {

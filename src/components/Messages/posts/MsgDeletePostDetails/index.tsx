@@ -1,4 +1,4 @@
-import { MsgDeletePostEncodeObject } from '@desmoslabs/desmjs';
+import { Posts } from '@desmoslabs/desmjs';
 import React from 'react';
 import { Trans } from 'react-i18next';
 import BaseMessageDetails from 'components/Messages/BaseMessage/BaseMessageDetails';
@@ -10,7 +10,7 @@ import CopiableAddress from 'components/CopiableAddress';
  * Displays the full details of a MsgDeletePost
  * @constructor
  */
-const MsgDeletePostDetails: MessageDetailsComponent<MsgDeletePostEncodeObject> = ({
+const MsgDeletePostDetails: MessageDetailsComponent<Posts.v3.MsgDeletePostEncodeObject> = ({
   message,
   toBroadcastMessage,
 }) => (

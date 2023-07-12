@@ -68,11 +68,13 @@ const getChainCurrencies = (): Currency[] =>
 
 /**
  * Formats the given value into a human-readable string.
- * @param value - Value to be formatted
+ * @param value - Value to be formatted.
+ * @param thousandSeparated - True if the number should have the
+ * thousand separator, if undefined this will default to true.
  */
-export const formatNumber = (value: number): string =>
+export const formatNumber = (value: number, thousandSeparated?: boolean): string =>
   numbro(value).format({
-    thousandSeparated: true,
+    thousandSeparated: thousandSeparated ?? true,
   });
 
 /**
@@ -168,8 +170,12 @@ export const roundFloat = (value: number, decimals: number): number => {
  * @param value - The value to check.
  */
 export const isStringNumberValid = (value: string): boolean => {
+  const valueWithoutThousandsSeparators = value.replace(
+    new RegExp(`[${getThousandsSeparator()}]`, 'g'),
+    '',
+  );
   const testRe = new RegExp(`^[0-9]+${getDecimalSeparator()}?([0-9]+)?$`);
-  return testRe.test(value);
+  return testRe.test(valueWithoutThousandsSeparators);
 };
 
 /**

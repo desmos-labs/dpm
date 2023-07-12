@@ -1,4 +1,4 @@
-import { MsgSetReactionsParamsEncodeObject } from '@desmoslabs/desmjs';
+import { Reactions } from '@desmoslabs/desmjs';
 import React from 'react';
 import { Trans, useTranslation } from 'react-i18next';
 import BaseMessageDetails, {
@@ -12,10 +12,9 @@ import CopiableAddress from 'components/CopiableAddress';
  * Displays the full details of a MsgSetReactionsParams
  * @constructor
  */
-const MsgSetReactionsDetails: MessageDetailsComponent<MsgSetReactionsParamsEncodeObject> = ({
-  message,
-  toBroadcastMessage,
-}) => {
+const MsgSetReactionsDetails: MessageDetailsComponent<
+  Reactions.v1.MsgSetReactionsParamsEncodeObject
+> = ({ message, toBroadcastMessage }) => {
   const { t } = useTranslation('messages.reactions');
 
   const fields = React.useMemo(

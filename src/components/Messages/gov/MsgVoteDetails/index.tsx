@@ -6,12 +6,13 @@ import BaseMessageDetails from 'components/Messages/BaseMessage/BaseMessageDetai
 import { MessageDetailsComponent } from 'components/Messages/BaseMessage';
 import CopiableAddress from 'components/CopiableAddress';
 import Typography from 'components/Typography';
+import { Gov } from '@desmoslabs/desmjs';
 
 /**
  * Displays the full details of a MsgVote
  * @constructor
  */
-const MsgVoteDetails: MessageDetailsComponent<MsgVoteEncodeObject> = ({
+const MsgVoteDetails: MessageDetailsComponent<MsgVoteEncodeObject | Gov.v1.MsgVoteEncodeObject> = ({
   message,
   toBroadcastMessage,
 }) => {

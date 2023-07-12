@@ -3,6 +3,7 @@ import { MsgSendEncodeObject } from '@cosmjs/stargate';
 import { useCurrentChainInfo } from '@recoil/settings';
 import useBroadcastTx, { BroadcastTxCallbacks } from 'hooks/useBroadcastTx';
 import { useActiveAccount } from '@recoil/activeAccount';
+import { Bank } from '@desmoslabs/desmjs';
 
 const useSendTokens = (callbacks: BroadcastTxCallbacks) => {
   const chainInfo = useCurrentChainInfo();
@@ -17,7 +18,7 @@ const useSendTokens = (callbacks: BroadcastTxCallbacks) => {
 
       // Build the message
       const msgSend: MsgSendEncodeObject = {
-        typeUrl: '/cosmos.bank.v1beta1.MsgSend',
+        typeUrl: Bank.v1beta1.MsgSendTypeUrl,
         value: {
           fromAddress: activeAccount.address,
           toAddress,

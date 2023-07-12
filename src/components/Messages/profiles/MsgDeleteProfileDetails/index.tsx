@@ -1,5 +1,5 @@
 import React from 'react';
-import { MsgDeleteProfileEncodeObject } from '@desmoslabs/desmjs';
+import { Profiles } from '@desmoslabs/desmjs';
 import { Trans } from 'react-i18next';
 import BaseMessageDetails from 'components/Messages/BaseMessage/BaseMessageDetails';
 import { MessageDetailsComponent } from 'components/Messages/BaseMessage';
@@ -10,10 +10,9 @@ import CopiableAddress from 'components/CopiableAddress';
  * Displays the full details of a MsgLinkChainAccount.
  * @constructor
  */
-const MsgDeleteProfileDetails: MessageDetailsComponent<MsgDeleteProfileEncodeObject> = ({
-  message,
-  toBroadcastMessage,
-}) => {
+const MsgDeleteProfileDetails: MessageDetailsComponent<
+  Profiles.v3.MsgDeleteProfileEncodeObject
+> = ({ message, toBroadcastMessage }) => {
   const { value } = message;
 
   return (

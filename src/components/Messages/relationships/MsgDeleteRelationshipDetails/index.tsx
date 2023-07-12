@@ -2,14 +2,13 @@ import { MessageDetailsComponent } from 'components/Messages/BaseMessage';
 import React from 'react';
 import BaseMessageDetails from 'components/Messages/BaseMessage/BaseMessageDetails';
 import { Trans } from 'react-i18next';
-import { MsgDeleteRelationshipEncodeObject } from '@desmoslabs/desmjs';
+import { Relationships } from '@desmoslabs/desmjs';
 import Typography from 'components/Typography';
 import CopiableAddress from 'components/CopiableAddress';
 
-const MsgDeleteRelationshipDetails: MessageDetailsComponent<MsgDeleteRelationshipEncodeObject> = ({
-  message,
-  toBroadcastMessage,
-}) => (
+const MsgDeleteRelationshipDetails: MessageDetailsComponent<
+  Relationships.v1.MsgDeleteRelationshipEncodeObject
+> = ({ message, toBroadcastMessage }) => (
   <BaseMessageDetails message={message}>
     <Typography.Regular14>
       <Trans

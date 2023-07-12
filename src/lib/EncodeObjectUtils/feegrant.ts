@@ -5,24 +5,20 @@ import {
   BasicAllowance,
   PeriodicAllowance,
 } from 'cosmjs-types/cosmos/feegrant/v1beta1/feegrant';
-import {
-  AllowedMsgAllowanceTypeUrl,
-  BasicAllowanceTypeUrl,
-  PeriodicAllowanceTypeUrl,
-} from '@desmoslabs/desmjs';
+import { Feegrant } from '@desmoslabs/desmjs';
 
 export interface BasicAllowanceEncodeObject {
-  readonly typeUrl: typeof BasicAllowanceTypeUrl;
+  readonly typeUrl: typeof Feegrant.v1beta1.BasicAllowanceTypeUrl;
   readonly allowance: BasicAllowance;
 }
 
 export interface PeriodicAllowanceEncodeObject {
-  readonly typeUrl: typeof PeriodicAllowanceTypeUrl;
+  readonly typeUrl: typeof Feegrant.v1beta1.PeriodicAllowanceTypeUrl;
   readonly allowance: PeriodicAllowance;
 }
 
 export interface AllowedMsgAllowanceEncodeObject {
-  readonly typeUrl: typeof AllowedMsgAllowanceTypeUrl;
+  readonly typeUrl: typeof Feegrant.v1beta1.AllowedMsgAllowanceTypeUrl;
   readonly allowance: AllowedMsgAllowance;
 }
 
@@ -41,19 +37,19 @@ export function parseAllowance(allowance?: Any): Result<AllowanceEncodeObject | 
   }
 
   switch (allowance.typeUrl) {
-    case BasicAllowanceTypeUrl:
+    case Feegrant.v1beta1.BasicAllowanceTypeUrl:
       return ok({
-        typeUrl: BasicAllowanceTypeUrl,
+        typeUrl: Feegrant.v1beta1.BasicAllowanceTypeUrl,
         allowance: BasicAllowance.decode(allowance.value),
       });
-    case PeriodicAllowanceTypeUrl:
+    case Feegrant.v1beta1.PeriodicAllowanceTypeUrl:
       return ok({
-        typeUrl: PeriodicAllowanceTypeUrl,
+        typeUrl: Feegrant.v1beta1.PeriodicAllowanceTypeUrl,
         allowance: PeriodicAllowance.decode(allowance.value),
       });
-    case AllowedMsgAllowanceTypeUrl:
+    case Feegrant.v1beta1.AllowedMsgAllowanceTypeUrl:
       return ok({
-        typeUrl: AllowedMsgAllowanceTypeUrl,
+        typeUrl: Feegrant.v1beta1.AllowedMsgAllowanceTypeUrl,
         allowance: AllowedMsgAllowance.decode(allowance.value),
       });
     default:

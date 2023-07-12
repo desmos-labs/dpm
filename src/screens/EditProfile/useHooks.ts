@@ -3,7 +3,7 @@ import { DesmosProfile, ProfileParams } from 'types/desmos';
 import { useTranslation } from 'react-i18next';
 import useBroadcastTx, { BroadcastTxOptions } from 'hooks/useBroadcastTx';
 import useUploadPicture from 'hooks/useUploadPicture';
-import { MsgSaveProfileEncodeObject, MsgSaveProfileTypeUrl } from '@desmoslabs/desmjs';
+import { Profiles } from '@desmoslabs/desmjs';
 import { useActiveAccount } from '@recoil/activeAccount';
 
 export const useValidationHooks = (params: ProfileParams | undefined) => {
@@ -86,8 +86,8 @@ const useUploadPicToIPS = () => {
         const { url } = await uploadPicture(imageURI);
         setUploading(false);
         return url;
-      } catch (e) {
-        setUploadError(e.message);
+      } catch (e: any) {
+        setUploadError(e?.message);
         setUploading(false);
         throw e;
       }
@@ -144,8 +144,8 @@ export const useSaveProfile = (options?: BroadcastTxOptions) => {
           ? await uploadProfilePic(params.profilePic)
           : DoNotModify;
 
-        const message: MsgSaveProfileEncodeObject = {
-          typeUrl: MsgSaveProfileTypeUrl,
+        const message: Profiles.v3.MsgSaveProfileEncodeObject = {
+          typeUrl: Profiles.v3.MsgSaveProfileTypeUrl,
           value: {
             dtag: compareValue(profile?.dtag, params.dTag),
             nickname: compareValue(profile?.nickname, params.nickname),

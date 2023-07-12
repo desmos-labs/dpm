@@ -2,7 +2,7 @@ import { useActiveAccountAddress } from '@recoil/activeAccount';
 import useBroadcastTx, { BroadcastTxCallbacks } from 'hooks/useBroadcastTx';
 import { useTranslation } from 'react-i18next';
 import React from 'react';
-import { Coin, MsgUndelegateTypeUrl } from '@desmoslabs/desmjs';
+import { Coin, Staking } from '@desmoslabs/desmjs';
 import { MsgUndelegateEncodeObject } from '@cosmjs/stargate';
 import { useCurrentChainInfo } from '@recoil/settings';
 
@@ -21,7 +21,7 @@ export const useUndelegateTokes = () => {
       broadcastTx(
         [
           {
-            typeUrl: MsgUndelegateTypeUrl,
+            typeUrl: Staking.v1beta1.MsgUndelegateTypeUrl,
             value: {
               amount,
               validatorAddress,

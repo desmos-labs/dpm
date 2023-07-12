@@ -1,4 +1,4 @@
-import { MsgUnlinkChainAccountEncodeObject } from '@desmoslabs/desmjs';
+import { Profiles } from '@desmoslabs/desmjs';
 import React from 'react';
 import { Trans } from 'react-i18next';
 import BaseMessageDetails from 'components/Messages/BaseMessage/BaseMessageDetails';
@@ -10,10 +10,9 @@ import CopiableAddress from 'components/CopiableAddress';
  * Displays the full details of a MsgUnlinkChainAccount
  * @constructor
  */
-const MsgUnlinkChainAccountDetails: MessageDetailsComponent<MsgUnlinkChainAccountEncodeObject> = ({
-  message,
-  toBroadcastMessage,
-}) => (
+const MsgUnlinkChainAccountDetails: MessageDetailsComponent<
+  Profiles.v3.MsgUnlinkChainAccountEncodeObject
+> = ({ message, toBroadcastMessage }) => (
   <BaseMessageDetails message={message}>
     <Typography.Regular14>
       <Trans

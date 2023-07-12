@@ -49,7 +49,7 @@ const convertParams = (params: any): ProfileParams =>
       maxLength: params.nickname.max_length,
       minLength: params.nickname.min_length,
     },
-  } as ProfileParams);
+  }) as ProfileParams;
 
 export const useProfileParams = () => {
   const [profileParams, setProfileParams] = useRecoilState(profileParamsAppState);

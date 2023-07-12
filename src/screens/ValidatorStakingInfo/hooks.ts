@@ -8,7 +8,7 @@ import { DPMImages } from 'types/images';
 import { useTranslation } from 'react-i18next';
 import useBroadcastTx from 'hooks/useBroadcastTx';
 import { useActiveAccountAddress } from '@recoil/activeAccount';
-import { MsgWithdrawDelegatorRewardTypeUrl } from '@desmoslabs/desmjs';
+import { Distribution } from '@desmoslabs/desmjs';
 import { MsgWithdrawDelegatorRewardEncodeObject } from '@cosmjs/stargate';
 import useReturnToCurrentScreen from 'hooks/useReturnToCurrentScreen';
 import { Validator } from 'types/validator';
@@ -28,7 +28,7 @@ export const useClaimPendingRewards = (fromValidator: string) => {
       broadcastTx(
         [
           {
-            typeUrl: MsgWithdrawDelegatorRewardTypeUrl,
+            typeUrl: Distribution.v1beta1.MsgWithdrawDelegatorRewardTypeUrl,
             value: {
               validatorAddress: fromValidator,
               delegatorAddress: activeAccountAddress,

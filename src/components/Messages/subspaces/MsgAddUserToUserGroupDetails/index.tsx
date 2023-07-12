@@ -1,4 +1,4 @@
-import { MsgAddUserToUserGroupEncodeObject } from '@desmoslabs/desmjs';
+import { Subspaces } from '@desmoslabs/desmjs';
 import React from 'react';
 import { Trans } from 'react-i18next';
 import BaseMessageDetails from 'components/Messages/BaseMessage/BaseMessageDetails';
@@ -10,10 +10,9 @@ import CopiableAddress from 'components/CopiableAddress';
  * Displays the full details of a MsgAddUserToUserGroup
  * @constructor
  */
-const MsgAddUserToUserGroupDetails: MessageDetailsComponent<MsgAddUserToUserGroupEncodeObject> = ({
-  message,
-  toBroadcastMessage,
-}) => (
+const MsgAddUserToUserGroupDetails: MessageDetailsComponent<
+  Subspaces.v3.MsgAddUserToUserGroupEncodeObject
+> = ({ message, toBroadcastMessage }) => (
   <BaseMessageDetails message={message}>
     <Typography.Regular14>
       <Trans
