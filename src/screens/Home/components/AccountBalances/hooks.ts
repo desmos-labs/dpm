@@ -2,7 +2,7 @@ import useAccountPendingStakingRewards from 'hooks/staking/useAccountPendingStak
 import React from 'react';
 import useBroadcastTx from 'hooks/useBroadcastTx';
 import { MsgWithdrawDelegatorRewardEncodeObject } from '@cosmjs/stargate';
-import { MsgWithdrawDelegatorRewardTypeUrl } from '@desmoslabs/desmjs';
+import { Distribution } from '@desmoslabs/desmjs';
 import { useActiveAccountAddress } from '@recoil/activeAccount';
 import { useTranslation } from 'react-i18next';
 
@@ -26,12 +26,12 @@ export const useClaimAllRewards = () => {
         pendingRewards.map(
           (p) =>
             ({
-              typeUrl: MsgWithdrawDelegatorRewardTypeUrl,
+              typeUrl: Distribution.v1beta1.MsgWithdrawDelegatorRewardTypeUrl,
               value: {
                 delegatorAddress: activeAccountAddress,
                 validatorAddress: p.validatorAddress,
               },
-            } as MsgWithdrawDelegatorRewardEncodeObject),
+            }) as MsgWithdrawDelegatorRewardEncodeObject,
         ),
         {
           onSuccess,

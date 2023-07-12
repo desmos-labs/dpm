@@ -14,8 +14,8 @@ import { useEstimateFee, useSignAndBroadcastTx } from 'screens/BroadcastTx/hooks
 import { DPMImages } from 'types/images';
 import { DeliverTxResponse } from '@desmoslabs/desmjs';
 import useOnScreenDetached from 'hooks/useOnScreenDetached';
-import { ImageSourcePropType } from 'react-native';
 import { useSetHomeShouldReloadData } from '@recoil/home';
+import { DPMImageProps } from 'components/DPMImage';
 import useStyles from './useStyles';
 
 enum BroadcastStatus {
@@ -44,9 +44,9 @@ export interface BroadcastTxParams {
   messages: EncodeObject[];
   memo?: string;
   customSuccessMessage?: string;
-  customSuccessImage?: ImageSourcePropType | DPMImages;
+  customSuccessImage?: DPMImageProps['source'];
   customFailedMessage?: string;
-  customFailedImage?: ImageSourcePropType | DPMImages;
+  customFailedImage?: DPMImageProps['source'];
   onSuccess?: (tx: DeliverTxResponse) => any;
   onCancel?: () => any;
   onError?: () => any;

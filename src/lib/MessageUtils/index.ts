@@ -1,14 +1,5 @@
 import { Message } from 'types/transactions';
-import {
-  Coin,
-  MsgBeginRedelegateTypeUrl,
-  MsgDelegateTypeUrl,
-  MsgDepositTypeUrl,
-  MsgFundCommunityPoolTypeUrl,
-  MsgMultiSendTypeUrl,
-  MsgSendTypeUrl,
-  MsgUndelegateTypeUrl,
-} from '@desmoslabs/desmjs';
+import { Bank, Coin, Distribution, Gov, Staking } from '@desmoslabs/desmjs';
 import { MsgMultiSend, MsgSend } from 'cosmjs-types/cosmos/bank/v1beta1/tx';
 import { sumCoins } from 'lib/CoinsUtils';
 import { MsgFundCommunityPool } from 'cosmjs-types/cosmos/distribution/v1beta1/tx';
@@ -36,17 +27,17 @@ const coinToCoins = (c?: Coin): Coin[] => (c ? [c] : []);
 export const getMessageAmount = (message: Message) => {
   switch (message.typeUrl) {
     // Bank module:
-    case MsgSendTypeUrl:
+    case Bank.v1beta1.MsgSendTypeUrl:
       return (message.value as MsgSend).amount;
-    case MsgMultiSendTypeUrl:
+    case Bank.v1beta1.MsgMultiSendTypeUrl:
       return sumCoins((message.value as MsgMultiSend).outputs.flatMap((o) => o.coins));
 
     // Distribution module
-    case MsgFundCommunityPoolTypeUrl:
+    case Distribution.v1beta1.MsgFundCommunityPoolTypeUrl:
       return (message.value as MsgFundCommunityPool).amount;
 
     // Gov module
-    case MsgDepositTypeUrl:
+    case Gov.v1beta1.MsgDepositTypeUrl:
       return (message.value as MsgDeposit).amount;
 
     // IBC Module
@@ -54,11 +45,11 @@ export const getMessageAmount = (message: Message) => {
       return coinToCoins((message.value as MsgTransfer).token);
 
     // Staking module
-    case MsgDelegateTypeUrl:
+    case Staking.v1beta1.MsgDelegateTypeUrl:
       return coinToCoins((message.value as MsgDelegate).amount);
-    case MsgUndelegateTypeUrl:
+    case Staking.v1beta1.MsgUndelegateTypeUrl:
       return coinToCoins((message.value as MsgUndelegate).amount);
-    case MsgBeginRedelegateTypeUrl:
+    case Staking.v1beta1.MsgBeginRedelegateTypeUrl:
       return coinToCoins((message.value as MsgBeginRedelegate).amount);
 
     default:

@@ -2,10 +2,7 @@ import { usePostHog } from 'posthog-react-native';
 import React from 'react';
 import { EncodeObject } from '@cosmjs/proto-signing';
 import useIsTestnetEvent from 'hooks/analytics/useIsTestnetEvent';
-import {
-  MsgLinkChainAccountEncodeObject,
-  MsgUnlinkChainAccountEncodeObject,
-} from '@desmoslabs/desmjs';
+import { Profiles } from '@desmoslabs/desmjs';
 
 /**
  * Convert a msg to a PostHog event that can be sent to the server to
@@ -26,14 +23,15 @@ const mapMessageToEvents = (msg: EncodeObject): [string, Record<string, any>] | 
       return [
         'Link Chain Account',
         {
-          'Chain Name': (msg as MsgLinkChainAccountEncodeObject).value.chainConfig?.name,
+          'Chain Name': (msg as Profiles.v3.MsgLinkChainAccountEncodeObject).value.chainConfig
+            ?.name,
         },
       ];
     case 'MsgUnlinkChainAccount':
       return [
         'Unlink Chain Account',
         {
-          'Chain Name': (msg as MsgUnlinkChainAccountEncodeObject).value.chainName,
+          'Chain Name': (msg as Profiles.v3.MsgUnlinkChainAccountEncodeObject).value.chainName,
         },
       ];
 

@@ -1,6 +1,6 @@
 import useBroadcastTx from 'hooks/useBroadcastTx';
 import React from 'react';
-import { MsgDelegateTypeUrl } from '@desmoslabs/desmjs';
+import { Staking } from '@desmoslabs/desmjs';
 import { MsgDelegateEncodeObject } from '@cosmjs/stargate';
 import { Coin } from '@desmoslabs/desmjs-types/cosmos/base/v1beta1/coin';
 import { useActiveAccountAddress } from '@recoil/activeAccount';
@@ -20,7 +20,7 @@ export const useDelegateTokens = () => {
       broadcastTx(
         [
           {
-            typeUrl: MsgDelegateTypeUrl,
+            typeUrl: Staking.v1beta1.MsgDelegateTypeUrl,
             value: {
               amount,
               validatorAddress: validatorOperatorAddress,

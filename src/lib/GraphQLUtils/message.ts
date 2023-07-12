@@ -1003,9 +1003,9 @@ const decodeAttachmentContent = (attachment: any): Any | undefined => {
                         postId: a.post_id,
                         id: a.id,
                         content: decodeAttachmentContent(a.content),
-                      } as Attachment),
+                      }) as Attachment,
                   ),
-                } as Poll_ProvidedAnswer),
+                }) as Poll_ProvidedAnswer,
             ),
           }),
         ).finish(),
@@ -1045,7 +1045,7 @@ const decodeEntities = (entities: any): Entities | undefined => {
           end: url.end,
           url: url.url,
           displayUrl: url.display_url,
-        } as Url),
+        }) as Url,
     ),
   });
 };

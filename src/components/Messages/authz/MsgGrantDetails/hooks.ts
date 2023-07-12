@@ -8,12 +8,7 @@ import { SendAuthorization } from 'cosmjs-types/cosmos/bank/v1beta1/authz';
 import { GenericAuthorization, Grant } from 'cosmjs-types/cosmos/authz/v1beta1/authz';
 import { GenericSubspaceAuthorization } from '@desmoslabs/desmjs-types/desmos/subspaces/v3/authz/authz';
 import { StakeAuthorizationTypeUrl } from 'types/cosmos';
-import {
-  GenericAuthorizationTypeUrl,
-  GenericSubspaceAuthorizationTypeUrl,
-  SendAuthorizationTypeUrl,
-  timestampToDate,
-} from '@desmoslabs/desmjs';
+import { Authz, Bank, Subspaces, timestampToDate } from '@desmoslabs/desmjs';
 import { format } from 'date-fns';
 import { useTranslation } from 'react-i18next';
 import React from 'react';
@@ -125,19 +120,19 @@ export function useGrantFields(grant: Grant | undefined) {
           );
           break;
 
-        case SendAuthorizationTypeUrl:
+        case Bank.v1beta1.SendAuthorizationTypeUrl:
           fields.push(
             ...sendAuthorizationFields(SendAuthorization.decode(grant.authorization.value)),
           );
           break;
 
-        case GenericAuthorizationTypeUrl:
+        case Authz.v1beta1.GenericAuthorizationTypeUrl:
           fields.push(
             ...genericAuthorizationFields(GenericAuthorization.decode(grant.authorization.value)),
           );
           break;
 
-        case GenericSubspaceAuthorizationTypeUrl:
+        case Subspaces.v3.GenericSubspaceAuthorizationTypeUrl:
           fields.push(
             ...genericSubspaceAuthorizationFields(
               GenericSubspaceAuthorization.decode(grant.authorization.value),

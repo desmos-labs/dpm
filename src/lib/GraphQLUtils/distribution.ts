@@ -43,7 +43,7 @@ export function convertGraphQLRedelegation(redelegation: any): Redelegation[] {
         validatorSrcAddress: redelegation.validator_src_address,
         balance: e.balance,
         completionTime: new Date(e.completion_time),
-      } as Redelegation),
+      }) as Redelegation,
   );
 }
 
@@ -60,6 +60,6 @@ export function convertGraphQLUnbondingDelegation(unbondingDelegation: any): Unb
         validatorAddress: unbondingDelegation.validator_address,
         balance: e.balance,
         completionTime: new Date(e.completion_time),
-      } as UnbondingDelegation),
+      }) as UnbondingDelegation,
   );
 }
