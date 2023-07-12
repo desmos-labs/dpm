@@ -2,11 +2,11 @@ import { MessageDetailsComponent } from 'components/Messages/BaseMessage';
 import React from 'react';
 import BaseMessageDetails from 'components/Messages/BaseMessage/BaseMessageDetails';
 import { Trans, useTranslation } from 'react-i18next';
-import { MsgBlockUserEncodeObject } from '@desmoslabs/desmjs';
+import { Relationships } from '@desmoslabs/desmjs';
 import Typography from 'components/Typography';
 import CopiableAddress from 'components/CopiableAddress';
 
-const MsgBlockUserDetails: MessageDetailsComponent<MsgBlockUserEncodeObject> = ({
+const MsgBlockUserDetails: MessageDetailsComponent<Relationships.v1.MsgBlockUserEncodeObject> = ({
   message,
   toBroadcastMessage,
 }) => {

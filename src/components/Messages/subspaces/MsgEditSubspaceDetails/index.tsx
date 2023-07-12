@@ -1,4 +1,4 @@
-import { MsgEditSubspaceEncodeObject } from '@desmoslabs/desmjs';
+import { Subspaces } from '@desmoslabs/desmjs';
 import React from 'react';
 import { Trans, useTranslation } from 'react-i18next';
 import BaseMessageDetails from 'components/Messages/BaseMessage/BaseMessageDetails';
@@ -10,7 +10,7 @@ import CopiableAddress from 'components/CopiableAddress';
  * Displays the full details of a MsgEditSubspace
  * @constructor
  */
-const MsgEditSubspaceDetails: MessageDetailsComponent<MsgEditSubspaceEncodeObject> = ({
+const MsgEditSubspaceDetails: MessageDetailsComponent<Subspaces.v3.MsgEditSubspaceEncodeObject> = ({
   message,
   toBroadcastMessage,
 }) => {

@@ -1,8 +1,4 @@
-import {
-  MsgCreateReportEncodeObject,
-  PostTargetTypeUrl,
-  UserTargetTypeUrl,
-} from '@desmoslabs/desmjs';
+import { Reports } from '@desmoslabs/desmjs';
 import React from 'react';
 import { Trans, useTranslation } from 'react-i18next';
 import BaseMessageDetails, {
@@ -17,7 +13,7 @@ import { PostTarget, UserTarget } from '@desmoslabs/desmjs-types/desmos/reports/
  * Displays the full details of a MsgCreateReport
  * @constructor
  */
-const MsgCreateReportDetails: MessageDetailsComponent<MsgCreateReportEncodeObject> = ({
+const MsgCreateReportDetails: MessageDetailsComponent<Reports.v1.MsgCreateReportEncodeObject> = ({
   message,
   toBroadcastMessage,
 }) => {
@@ -39,7 +35,7 @@ const MsgCreateReportDetails: MessageDetailsComponent<MsgCreateReportEncodeObjec
   );
 
   const reportMessage = React.useMemo(() => {
-    if (message.value.target?.typeUrl === PostTargetTypeUrl) {
+    if (message.value.target?.typeUrl === Reports.v1.PostTargetTypeUrl) {
       const postTarget = PostTarget.decode(message.value.target.value);
       return (
         <Trans
@@ -61,7 +57,7 @@ const MsgCreateReportDetails: MessageDetailsComponent<MsgCreateReportEncodeObjec
         />
       );
     }
-    if (message.value.target?.typeUrl === UserTargetTypeUrl) {
+    if (message.value.target?.typeUrl === Reports.v1.UserTargetTypeUrl) {
       const userTarget = UserTarget.decode(message.value.target.value);
       return (
         <Trans
@@ -83,7 +79,13 @@ const MsgCreateReportDetails: MessageDetailsComponent<MsgCreateReportEncodeObjec
       );
     }
     return undefined;
-  }, [message.value]);
+  }, [
+    message.value.reporter,
+    message.value.subspaceId,
+    message.value.target?.typeUrl,
+    message.value.target?.value,
+    toBroadcastMessage,
+  ]);
 
   return (
     <BaseMessageDetails message={message} fields={fields}>

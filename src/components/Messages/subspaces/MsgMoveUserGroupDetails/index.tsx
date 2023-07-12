@@ -1,4 +1,4 @@
-import { MsgMoveUserGroupEncodeObject } from '@desmoslabs/desmjs';
+import { Subspaces } from '@desmoslabs/desmjs';
 import React from 'react';
 import { Trans } from 'react-i18next';
 import BaseMessageDetails from 'components/Messages/BaseMessage/BaseMessageDetails';
@@ -10,10 +10,9 @@ import CopiableAddress from 'components/CopiableAddress';
  * Displays the full details of a MsgMoveUserGroup
  * @constructor
  */
-const MsgMoveUserGroupDetails: MessageDetailsComponent<MsgMoveUserGroupEncodeObject> = ({
-  message,
-  toBroadcastMessage,
-}) => (
+const MsgMoveUserGroupDetails: MessageDetailsComponent<
+  Subspaces.v3.MsgMoveUserGroupEncodeObject
+> = ({ message, toBroadcastMessage }) => (
   <BaseMessageDetails message={message}>
     <Typography.Regular14>
       <Trans

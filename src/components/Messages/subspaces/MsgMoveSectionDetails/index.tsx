@@ -1,4 +1,4 @@
-import { MsgMoveSectionEncodeObject } from '@desmoslabs/desmjs';
+import { Subspaces } from '@desmoslabs/desmjs';
 import React from 'react';
 import { Trans } from 'react-i18next';
 import BaseMessageDetails from 'components/Messages/BaseMessage/BaseMessageDetails';
@@ -10,7 +10,7 @@ import CopiableAddress from 'components/CopiableAddress';
  * Displays the full details of a MsgMoveSection
  * @constructor
  */
-const MsgMoveSectionDetails: MessageDetailsComponent<MsgMoveSectionEncodeObject> = ({
+const MsgMoveSectionDetails: MessageDetailsComponent<Subspaces.v3.MsgMoveSectionEncodeObject> = ({
   message,
   toBroadcastMessage,
 }) => (

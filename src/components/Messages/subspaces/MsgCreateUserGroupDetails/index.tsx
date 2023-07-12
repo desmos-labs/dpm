@@ -1,4 +1,4 @@
-import { MsgCreateUserGroupEncodeObject } from '@desmoslabs/desmjs';
+import { Subspaces } from '@desmoslabs/desmjs';
 import React from 'react';
 import { Trans, useTranslation } from 'react-i18next';
 import BaseMessageDetails from 'components/Messages/BaseMessage/BaseMessageDetails';
@@ -10,10 +10,9 @@ import CopiableAddress from 'components/CopiableAddress';
  * Displays the full details of a MsgCreateUserGroup
  * @constructor
  */
-const MsgCreateUserGroupDetails: MessageDetailsComponent<MsgCreateUserGroupEncodeObject> = ({
-  message,
-  toBroadcastMessage,
-}) => {
+const MsgCreateUserGroupDetails: MessageDetailsComponent<
+  Subspaces.v3.MsgCreateUserGroupEncodeObject
+> = ({ message, toBroadcastMessage }) => {
   const { t } = useTranslation('messages.subspaces');
 
   const fields = React.useMemo(

@@ -2,11 +2,11 @@ import { MessageDetailsComponentProps } from 'components/Messages/BaseMessage';
 import React from 'react';
 import BaseMessageDetails from 'components/Messages/BaseMessage/BaseMessageDetails';
 import { Trans, useTranslation } from 'react-i18next';
-import { MsgRevokeEncodeObject } from '@desmoslabs/desmjs';
+import { Authz } from '@desmoslabs/desmjs';
 import CopiableAddress from 'components/CopiableAddress';
 import Typography from 'components/Typography';
 
-type MsgRevokeDetailsProps = MessageDetailsComponentProps<MsgRevokeEncodeObject>;
+type MsgRevokeDetailsProps = MessageDetailsComponentProps<Authz.v1beta1.MsgRevokeEncodeObject>;
 
 const MsgRevokeDetails: React.FC<MsgRevokeDetailsProps> = ({ message, toBroadcastMessage }) => {
   const { t } = useTranslation('messages.authz');

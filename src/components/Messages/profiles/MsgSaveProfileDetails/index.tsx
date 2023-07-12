@@ -1,4 +1,4 @@
-import { MsgSaveProfileEncodeObject } from '@desmoslabs/desmjs';
+import { Profiles } from '@desmoslabs/desmjs';
 import React from 'react';
 import { Trans, useTranslation } from 'react-i18next';
 import BaseMessageDetails from 'components/Messages/BaseMessage/BaseMessageDetails';
@@ -10,7 +10,7 @@ import CopiableAddress from 'components/CopiableAddress';
  * Displays the full details of a MsgSaveProfile
  * @constructor
  */
-const MsgSaveProfileDetails: MessageDetailsComponent<MsgSaveProfileEncodeObject> = ({
+const MsgSaveProfileDetails: MessageDetailsComponent<Profiles.v3.MsgSaveProfileEncodeObject> = ({
   message,
   toBroadcastMessage,
 }) => {

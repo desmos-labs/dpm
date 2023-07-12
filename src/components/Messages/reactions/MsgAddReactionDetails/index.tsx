@@ -1,4 +1,4 @@
-import { MsgAddReactionEncodeObject } from '@desmoslabs/desmjs';
+import { Reactions } from '@desmoslabs/desmjs';
 import React from 'react';
 import { Trans } from 'react-i18next';
 import BaseMessageDetails from 'components/Messages/BaseMessage/BaseMessageDetails';
@@ -11,7 +11,7 @@ import useGetReactionValueFields from './hooks';
  * Displays the full details of a MsgAddReaction
  * @constructor
  */
-const MsgAddReactionDetails: MessageDetailsComponent<MsgAddReactionEncodeObject> = ({
+const MsgAddReactionDetails: MessageDetailsComponent<Reactions.v1.MsgAddReactionEncodeObject> = ({
   message,
   toBroadcastMessage,
 }) => {

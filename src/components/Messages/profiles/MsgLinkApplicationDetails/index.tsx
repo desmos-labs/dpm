@@ -2,15 +2,14 @@ import { MessageDetailsComponent } from 'components/Messages/BaseMessage';
 import React from 'react';
 import BaseMessageDetails from 'components/Messages/BaseMessage/BaseMessageDetails';
 import { Trans, useTranslation } from 'react-i18next';
-import { MsgLinkApplicationEncodeObject } from '@desmoslabs/desmjs';
+import { Profiles } from '@desmoslabs/desmjs';
 import Typography from 'components/Typography';
 import CopiableAddress from 'components/CopiableAddress';
 import { formatIbcTimeoutTimestamp } from 'lib/FormatUtils';
 
-const MsgLinkApplicationDetails: MessageDetailsComponent<MsgLinkApplicationEncodeObject> = ({
-  message,
-  toBroadcastMessage,
-}) => {
+const MsgLinkApplicationDetails: MessageDetailsComponent<
+  Profiles.v3.MsgLinkApplicationEncodeObject
+> = ({ message, toBroadcastMessage }) => {
   const { t } = useTranslation('messages.profiles');
   const fields = React.useMemo(
     () => [

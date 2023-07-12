@@ -1,4 +1,4 @@
-import { MsgAnswerPollEncodeObject } from '@desmoslabs/desmjs';
+import { Posts } from '@desmoslabs/desmjs';
 import React from 'react';
 import { Trans, useTranslation } from 'react-i18next';
 import BaseMessageDetails from 'components/Messages/BaseMessage/BaseMessageDetails';
@@ -10,7 +10,7 @@ import CopiableAddress from 'components/CopiableAddress';
  * Displays the full details of a MsgAnswerPoll
  * @constructor
  */
-const MsgAnswerPollDetails: MessageDetailsComponent<MsgAnswerPollEncodeObject> = ({
+const MsgAnswerPollDetails: MessageDetailsComponent<Posts.v3.MsgAnswerPollEncodeObject> = ({
   message,
   toBroadcastMessage,
 }) => {

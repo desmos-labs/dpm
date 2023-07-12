@@ -1,4 +1,4 @@
-import { MsgSetUserGroupPermissionsEncodeObject } from '@desmoslabs/desmjs';
+import { Subspaces } from '@desmoslabs/desmjs';
 import React from 'react';
 import { Trans, useTranslation } from 'react-i18next';
 import BaseMessageDetails from 'components/Messages/BaseMessage/BaseMessageDetails';
@@ -11,7 +11,7 @@ import CopiableAddress from 'components/CopiableAddress';
  * @constructor
  */
 const MsgSetUserGroupPermissionsDetails: MessageDetailsComponent<
-  MsgSetUserGroupPermissionsEncodeObject
+  Subspaces.v3.MsgSetUserGroupPermissionsEncodeObject
 > = ({ message, toBroadcastMessage }) => {
   const { t } = useTranslation('messages.subspaces');
 

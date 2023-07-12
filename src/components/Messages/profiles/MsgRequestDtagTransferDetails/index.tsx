@@ -1,5 +1,5 @@
 import { MessageDetailsComponent } from 'components/Messages/BaseMessage';
-import { MsgRequestDTagTransferEncodeObject } from '@desmoslabs/desmjs';
+import { Profiles } from '@desmoslabs/desmjs';
 import React from 'react';
 import BaseMessageDetails from 'components/Messages/BaseMessage/BaseMessageDetails';
 import { Trans } from 'react-i18next';
@@ -7,7 +7,7 @@ import Typography from 'components/Typography';
 import CopiableAddress from 'components/CopiableAddress';
 
 const MsgRequestDtagTransferDetails: MessageDetailsComponent<
-  MsgRequestDTagTransferEncodeObject
+  Profiles.v3.MsgRequestDTagTransferEncodeObject
 > = ({ message, toBroadcastMessage }) => (
   <BaseMessageDetails message={message}>
     <Typography.Regular14>

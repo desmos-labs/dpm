@@ -2,12 +2,12 @@ import { MessageDetailsComponent } from 'components/Messages/BaseMessage';
 import React from 'react';
 import BaseMessageDetails from 'components/Messages/BaseMessage/BaseMessageDetails';
 import { Trans } from 'react-i18next';
-import { MsgCancelDTagTransferRequestEncodeObject } from '@desmoslabs/desmjs';
+import { Profiles } from '@desmoslabs/desmjs';
 import Typography from 'components/Typography';
 import CopiableAddress from 'components/CopiableAddress';
 
 const MsgCancelDTagTransferDetails: MessageDetailsComponent<
-  MsgCancelDTagTransferRequestEncodeObject
+  Profiles.v3.MsgCancelDTagTransferRequestEncodeObject
 > = ({ message, toBroadcastMessage }) => (
   <BaseMessageDetails message={message}>
     <Typography.Regular14>

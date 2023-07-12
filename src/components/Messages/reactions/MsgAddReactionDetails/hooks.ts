@@ -3,7 +3,7 @@ import React from 'react';
 import { Any } from 'cosmjs-types/google/protobuf/any';
 import { MessageDetailsField } from 'components/Messages/BaseMessage/BaseMessageDetails';
 import { decodeReactionValue } from 'lib/EncodeObjectUtils/reactions';
-import { FreeTextValueTypeUrl, RegisteredReactionValueTypeUrl } from '@desmoslabs/desmjs';
+import { Reactions } from '@desmoslabs/desmjs';
 
 const useGetReactionValueFields = () => {
   const { t } = useTranslation('messages.reactions');
@@ -27,7 +27,7 @@ const useGetReactionValueFields = () => {
       }
 
       switch (decodedValue.typeUrl) {
-        case FreeTextValueTypeUrl:
+        case Reactions.v1.FreeTextValueTypeUrl:
           return [
             {
               label: t('free text value reaction'),
@@ -35,7 +35,7 @@ const useGetReactionValueFields = () => {
             },
           ];
 
-        case RegisteredReactionValueTypeUrl:
+        case Reactions.v1.RegisteredReactionValueTypeUrl:
           return [
             {
               label: t('registered reaction id'),

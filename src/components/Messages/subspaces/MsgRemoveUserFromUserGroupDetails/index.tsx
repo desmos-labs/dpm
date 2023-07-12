@@ -1,4 +1,4 @@
-import { MsgRemoveUserFromUserGroupEncodeObject } from '@desmoslabs/desmjs';
+import { Subspaces } from '@desmoslabs/desmjs';
 import React from 'react';
 import { Trans } from 'react-i18next';
 import BaseMessageDetails from 'components/Messages/BaseMessage/BaseMessageDetails';
@@ -11,7 +11,7 @@ import CopiableAddress from 'components/CopiableAddress';
  * @constructor
  */
 const MsgRemoveUserFromUserGroupDetails: MessageDetailsComponent<
-  MsgRemoveUserFromUserGroupEncodeObject
+  Subspaces.v3.MsgRemoveUserFromUserGroupEncodeObject
 > = ({ message, toBroadcastMessage }) => (
   <BaseMessageDetails message={message}>
     <Typography.Regular14>

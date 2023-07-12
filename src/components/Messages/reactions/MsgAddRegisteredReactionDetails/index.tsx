@@ -1,4 +1,4 @@
-import { MsgAddRegisteredReactionEncodeObject } from '@desmoslabs/desmjs';
+import { Reactions } from '@desmoslabs/desmjs';
 import React from 'react';
 import { Trans, useTranslation } from 'react-i18next';
 import BaseMessageDetails from 'components/Messages/BaseMessage/BaseMessageDetails';
@@ -11,7 +11,7 @@ import CopiableAddress from 'components/CopiableAddress';
  * @constructor
  */
 const MsgAddRegisteredReactionDetails: MessageDetailsComponent<
-  MsgAddRegisteredReactionEncodeObject
+  Reactions.v1.MsgAddRegisteredReactionEncodeObject
 > = ({ message, toBroadcastMessage }) => {
   const { t } = useTranslation('messages.reactions');
 

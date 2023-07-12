@@ -1,4 +1,4 @@
-import { MsgDeleteUserGroupEncodeObject } from '@desmoslabs/desmjs';
+import { Subspaces } from '@desmoslabs/desmjs';
 import React from 'react';
 import { Trans } from 'react-i18next';
 import BaseMessageDetails from 'components/Messages/BaseMessage/BaseMessageDetails';
@@ -10,10 +10,9 @@ import CopiableAddress from 'components/CopiableAddress';
  * Displays the full details of a MsgDeleteUserGroup
  * @constructor
  */
-const MsgDeleteUserGroupDetails: MessageDetailsComponent<MsgDeleteUserGroupEncodeObject> = ({
-  message,
-  toBroadcastMessage,
-}) => (
+const MsgDeleteUserGroupDetails: MessageDetailsComponent<
+  Subspaces.v3.MsgDeleteUserGroupEncodeObject
+> = ({ message, toBroadcastMessage }) => (
   <BaseMessageDetails message={message}>
     <Typography.Regular14>
       <Trans

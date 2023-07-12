@@ -1,4 +1,4 @@
-import { MsgRemoveReasonEncodeObject } from '@desmoslabs/desmjs';
+import { Reports } from '@desmoslabs/desmjs';
 import React from 'react';
 import { Trans } from 'react-i18next';
 import BaseMessageDetails from 'components/Messages/BaseMessage/BaseMessageDetails';
@@ -10,7 +10,7 @@ import CopiableAddress from 'components/CopiableAddress';
  * Displays the full details of a MsgRemoveReason
  * @constructor
  */
-const MsgRemoveReasonDetails: MessageDetailsComponent<MsgRemoveReasonEncodeObject> = ({
+const MsgRemoveReasonDetails: MessageDetailsComponent<Reports.v1.MsgRemoveReasonEncodeObject> = ({
   message,
   toBroadcastMessage,
 }) => (

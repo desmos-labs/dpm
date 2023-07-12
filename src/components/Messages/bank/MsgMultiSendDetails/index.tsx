@@ -1,7 +1,7 @@
 import React from 'react';
 import { Trans, useTranslation } from 'react-i18next';
 import { formatCoins } from 'lib/FormatUtils';
-import { MsgMultiSendEncodeObject } from '@desmoslabs/desmjs';
+import { Bank } from '@desmoslabs/desmjs';
 import BaseMessageDetails from 'components/Messages/BaseMessage/BaseMessageDetails';
 import { MessageDetailsComponent } from 'components/Messages/BaseMessage';
 import CopiableAddress from 'components/CopiableAddress';
@@ -13,7 +13,7 @@ import { View } from 'react-native';
  * Displays the full details of a MsgMultiSend
  * @constructor
  */
-const MsgMultiSendDetails: MessageDetailsComponent<MsgMultiSendEncodeObject> = ({
+const MsgMultiSendDetails: MessageDetailsComponent<Bank.v1beta1.MsgMultiSendEncodeObject> = ({
   message,
   toBroadcastMessage,
 }) => {

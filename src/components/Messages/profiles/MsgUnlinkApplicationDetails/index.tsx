@@ -2,14 +2,13 @@ import { MessageDetailsComponent } from 'components/Messages/BaseMessage';
 import React from 'react';
 import BaseMessageDetails from 'components/Messages/BaseMessage/BaseMessageDetails';
 import { Trans } from 'react-i18next';
-import { MsgUnlinkApplicationEncodeObject } from '@desmoslabs/desmjs';
+import { Profiles } from '@desmoslabs/desmjs';
 import Typography from 'components/Typography';
 import CopiableAddress from 'components/CopiableAddress';
 
-const MsgUnlinkApplicationDetails: MessageDetailsComponent<MsgUnlinkApplicationEncodeObject> = ({
-  message,
-  toBroadcastMessage,
-}) => (
+const MsgUnlinkApplicationDetails: MessageDetailsComponent<
+  Profiles.v3.MsgUnlinkApplicationEncodeObject
+> = ({ message, toBroadcastMessage }) => (
   <BaseMessageDetails message={message}>
     <Typography.Regular14>
       <Trans

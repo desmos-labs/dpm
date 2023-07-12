@@ -1,5 +1,5 @@
 import { MessageDetailsComponent } from 'components/Messages/BaseMessage';
-import { MsgAcceptDTagTransferRequestEncodeObject } from '@desmoslabs/desmjs';
+import { Profiles } from '@desmoslabs/desmjs';
 import React from 'react';
 import { Trans, useTranslation } from 'react-i18next';
 import BaseMessageDetails from 'components/Messages/BaseMessage/BaseMessageDetails';
@@ -7,7 +7,7 @@ import Typography from 'components/Typography';
 import CopiableAddress from 'components/CopiableAddress';
 
 const MsgAcceptDtagTransferDetails: MessageDetailsComponent<
-  MsgAcceptDTagTransferRequestEncodeObject
+  Profiles.v3.MsgAcceptDTagTransferRequestEncodeObject
 > = ({ message, toBroadcastMessage }) => {
   const { t } = useTranslation('messages.profiles');
   const fields = React.useMemo(

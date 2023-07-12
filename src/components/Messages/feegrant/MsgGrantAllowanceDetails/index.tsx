@@ -1,11 +1,5 @@
 import { MessageDetailsComponent } from 'components/Messages/BaseMessage';
-import {
-  AllowedMsgAllowanceTypeUrl,
-  BasicAllowanceTypeUrl,
-  MsgGrantAllowanceEncodeObject,
-  PeriodicAllowanceTypeUrl,
-  timestampToDate,
-} from '@desmoslabs/desmjs';
+import { Feegrant, timestampToDate } from '@desmoslabs/desmjs';
 import React from 'react';
 import { Trans, useTranslation } from 'react-i18next';
 import BaseMessageDetails from 'components/Messages/BaseMessage/BaseMessageDetails';
@@ -56,7 +50,7 @@ function allowanceToFields(
   });
 
   switch (parsedAllowance.typeUrl) {
-    case BasicAllowanceTypeUrl:
+    case Feegrant.v1beta1.BasicAllowanceTypeUrl:
       fields.push(
         ...[
           {
@@ -75,7 +69,7 @@ function allowanceToFields(
         ],
       );
       break;
-    case PeriodicAllowanceTypeUrl:
+    case Feegrant.v1beta1.PeriodicAllowanceTypeUrl:
       fields.push(
         ...[
           {
@@ -122,7 +116,7 @@ function allowanceToFields(
       }
       break;
 
-    case AllowedMsgAllowanceTypeUrl:
+    case Feegrant.v1beta1.AllowedMsgAllowanceTypeUrl:
       fields.push(
         ...[
           {
@@ -142,10 +136,9 @@ function allowanceToFields(
   return fields;
 }
 
-const MsgGrantAllowanceDetails: MessageDetailsComponent<MsgGrantAllowanceEncodeObject> = ({
-  message,
-  toBroadcastMessage,
-}) => {
+const MsgGrantAllowanceDetails: MessageDetailsComponent<
+  Feegrant.v1beta1.MsgGrantAllowanceEncodeObject
+> = ({ message, toBroadcastMessage }) => {
   const { t } = useTranslation('messages.feegrant');
   const { granter, grantee, allowance } = message.value;
 

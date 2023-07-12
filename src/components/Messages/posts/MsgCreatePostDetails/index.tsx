@@ -1,4 +1,4 @@
-import { MsgCreatePostEncodeObject } from '@desmoslabs/desmjs';
+import { Posts } from '@desmoslabs/desmjs';
 import React from 'react';
 import { Trans, useTranslation } from 'react-i18next';
 import BaseMessageDetails, {
@@ -15,7 +15,7 @@ import CopiableAddress from 'components/CopiableAddress';
  * Displays the full details of a MsgCreatePost
  * @constructor
  */
-const MsgCreatePostDetails: MessageDetailsComponent<MsgCreatePostEncodeObject> = ({
+const MsgCreatePostDetails: MessageDetailsComponent<Posts.v3.MsgCreatePostEncodeObject> = ({
   message,
   toBroadcastMessage,
 }) => {
