@@ -30,7 +30,7 @@
   "deposit": "Deposit",
   "proposal deposit succeed": "Deposited on proposal #{{ proposalId }} successfully",
   "vote yes on proposal": "Vote yes on proposal #{{ proposalId }}",
-  "vote no on proposal": "VOte no on proposal #{{ proposalId }}",
+  "vote no on proposal": "Vote no on proposal #{{ proposalId }}",
   "vote no with veto on proposal": "Vote veto on proposal #{{ proposalId }}",
   "vote abstain on proposal": "Vote abstain on proposal #{{ proposalId }}"
 }
