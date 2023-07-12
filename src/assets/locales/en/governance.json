@@ -27,8 +27,10 @@
   "no votes": "No votes",
   "cast your vote": "Cast your vote",
   "proposal vote succeed": "Proposal #{{ proposalId }} voted successfully",
-  "proposal vote failed": "An error occurred while voting proposal #{{ proposalId }}",
   "deposit": "Deposit",
   "proposal deposit succeed": "Deposited on proposal #{{ proposalId }} successfully",
-  "proposal deposit failed": "An error occurred while depositing on proposal #{{ proposalId }}"
+  "vote yes on proposal": "Vote yes on proposal #{{ proposalId }}",
+  "vote no on proposal": "VOte no on proposal #{{ proposalId }}",
+  "vote no with veto on proposal": "Vote veto on proposal #{{ proposalId }}",
+  "vote abstain on proposal": "Vote abstain on proposal #{{ proposalId }}"
 }

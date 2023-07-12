@@ -14,23 +14,14 @@ import {
 } from 'assets/images';
 import Spacer from 'components/Spacer';
 import useIsCurrentThemeDark from 'hooks/useIsCurrentThemeDark';
+import { VoteOption } from '@desmoslabs/desmjs-types/cosmos/gov/v1/gov';
 import useStyles from './useStyles';
-
-/**
- * Vote options that can be selected from the user.
- */
-export enum GovernanceVoteModalOption {
-  Yes,
-  No,
-  NoWithVeto,
-  Abstain,
-}
 
 export type GovernanceVoteModalParams = {
   /**
    * Function called when the user clicks on the next button.
    */
-  onSelect?: (option: GovernanceVoteModalOption) => void;
+  onSelect?: (option: VoteOption) => void;
 };
 
 /**
@@ -44,32 +35,32 @@ const GovernanceVoteModal: React.FC<ModalComponentProps<GovernanceVoteModalParam
   const styles = useStyles();
   const { t } = useTranslation('governance');
 
-  const [selectedOption, setSelectedOption] = React.useState<GovernanceVoteModalOption>();
+  const [selectedOption, setSelectedOption] = React.useState<VoteOption>();
   const voteOptions = React.useMemo(
     () => [
       {
         i18nLabel: 'common:yes',
         icon: isDarkTheme ? thumpsUpWhite : thumpsUpBlack,
         selectedIcon: thumpsUpWhite,
-        option: GovernanceVoteModalOption.Yes,
+        option: VoteOption.VOTE_OPTION_YES,
       },
       {
         i18nLabel: 'common:no',
         icon: isDarkTheme ? thumpsDownWhite : thumpsDownBlack,
         selectedIcon: thumpsDownWhite,
-        option: GovernanceVoteModalOption.No,
+        option: VoteOption.VOTE_OPTION_NO,
       },
       {
         i18nLabel: 'governance:veto',
         icon: isDarkTheme ? thumpsDownWhite : thumpsDownBlack,
         selectedIcon: thumpsDownWhite,
-        option: GovernanceVoteModalOption.NoWithVeto,
+        option: VoteOption.VOTE_OPTION_NO_WITH_VETO,
       },
       {
         i18nLabel: 'governance:abstain',
         icon: isDarkTheme ? slashWhite : slashBlack,
         selectedIcon: slashWhite,
-        option: GovernanceVoteModalOption.Abstain,
+        option: VoteOption.VOTE_OPTION_ABSTAIN,
       },
     ],
     [isDarkTheme],
@@ -81,11 +72,11 @@ const GovernanceVoteModal: React.FC<ModalComponentProps<GovernanceVoteModalParam
         const isSelected = o.option === selectedOption;
 
         let selectedOptionStyle;
-        if (o.option === GovernanceVoteModalOption.Yes) {
+        if (o.option === VoteOption.VOTE_OPTION_YES) {
           selectedOptionStyle = styles.positiveSelected;
         } else if (
-          o.option === GovernanceVoteModalOption.No ||
-          o.option === GovernanceVoteModalOption.NoWithVeto
+          o.option === VoteOption.VOTE_OPTION_NO ||
+          o.option === VoteOption.VOTE_OPTION_NO_WITH_VETO
         ) {
           selectedOptionStyle = styles.negativeSelected;
         } else {

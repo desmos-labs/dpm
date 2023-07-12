@@ -7,12 +7,22 @@ import { useTranslation } from 'react-i18next';
 import AmountAndMemoModal from 'modals/AmountAndMemoModal';
 import { AmountLimit } from 'components/CoinAmountInput/limits';
 import { ModalMode } from 'modals/ModalScreen';
+import { Gov } from '@desmoslabs/desmjs';
+import { MsgDeposit, MsgVote } from '@desmoslabs/desmjs-types/cosmos/gov/v1/tx';
+import { useActiveAccountAddress } from '@recoil/activeAccount';
+import GovernanceTransactionModal from 'modals/GovernanceTransactionModal';
 
+/**
+ * Hook that provides a function to vote on a proposal.
+ * @param proposal - The proposal to which you want to vote.
+ * @param broadcastTxCallbacks - Broadcast tx callbacks.
+ */
 export const useVoteProposal = (
   proposal: Proposal,
   broadcastTxCallbacks?: BroadcastTxCallbacks,
 ) => {
   const { t } = useTranslation('governance');
+  const activeAccountAddress = useActiveAccountAddress()!;
   const showModal = useShowModal();
   const broadcastTx = useBroadcastTx();
 
@@ -20,26 +30,55 @@ export const useVoteProposal = (
     showModal(
       GovernanceVoteModal,
       {
-        onSelect: (option) => {
-          // TODO: Create the vote message.
-          broadcastTx([], {
-            customSuccessMessage: t('proposal vote succeed', { proposalId: proposal.id }),
-            customFailedMessage: t('proposal vote failed', { proposalId: proposal.id }),
-            ...broadcastTxCallbacks,
-          });
+        onSelect: (voteOption) => {
+          showModal(
+            GovernanceTransactionModal,
+            {
+              proposal,
+              voteOption,
+              onNextPressed: (p, option, memo) => {
+                broadcastTx(
+                  [
+                    {
+                      typeUrl: Gov.v1.MsgVoteTypeUrl,
+                      value: MsgVote.fromPartial({
+                        proposalId: p.id,
+                        voter: activeAccountAddress,
+                        option,
+                      }),
+                    } as Gov.v1.MsgVoteEncodeObject,
+                  ],
+                  {
+                    memo,
+                    customSuccessMessage: t('proposal vote succeed', { proposalId: proposal.id }),
+                    ...broadcastTxCallbacks,
+                  },
+                );
+              },
+            },
+            {
+              mode: ModalMode.BottomSheet,
+            },
+          );
         },
       },
       {
         mode: ModalMode.BottomSheet,
       },
     );
-  }, [showModal, broadcastTx, t, proposal.id, broadcastTxCallbacks]);
+  }, [showModal, proposal, broadcastTx, activeAccountAddress, t, broadcastTxCallbacks]);
 };
 
+/**
+ * Hook that provides a function to deposit on a proposal.
+ * @param proposal - The proposal to which you want to deposit.
+ * @param broadcastTxCallbacks - Broadcast tx callbacks.
+ */
 export const useDepositOnProposal = (
   proposal: Proposal,
   broadcastTxCallbacks?: BroadcastTxCallbacks,
 ) => {
+  const activeAccountAddress = useActiveAccountAddress()!;
   const { t } = useTranslation('governance');
   const showModal = useShowModal();
   const broadcastTx = useBroadcastTx();
@@ -53,18 +92,28 @@ export const useDepositOnProposal = (
           mode: AmountLimit.UserBalance,
         },
         onSelect: (amount, memo) => {
-          // TODO: Create the deposit message.
-          broadcastTx([], {
-            memo,
-            customSuccessMessage: t('proposal deposit succeed', { proposalId: proposal.id }),
-            customFailedMessage: t('proposal deposit failed', { proposalId: proposal.id }),
-            ...broadcastTxCallbacks,
-          });
+          broadcastTx(
+            [
+              {
+                typeUrl: Gov.v1.MsgDepositTypeUrl,
+                value: MsgDeposit.fromPartial({
+                  proposalId: proposal.id,
+                  amount: [amount],
+                  depositor: activeAccountAddress,
+                }),
+              } as Gov.v1.MsgDepositEncodeObject,
+            ],
+            {
+              memo,
+              customSuccessMessage: t('proposal deposit succeed', { proposalId: proposal.id }),
+              ...broadcastTxCallbacks,
+            },
+          );
         },
       },
       {
         mode: ModalMode.BottomSheet,
       },
     );
-  }, [showModal, broadcastTx, t, proposal.id, broadcastTxCallbacks]);
+  }, [showModal, broadcastTx, t, proposal.id, broadcastTxCallbacks, activeAccountAddress]);
 };

@@ -141,11 +141,11 @@ const BroadcastTx: React.FC<NavProps> = (props) => {
     if (estimatedFee !== undefined) {
       setBroadcastingTx(true);
       const broadcastResult = await broadcastTx(messages, estimatedFee, memo);
+      setHomeShouldReloadData(true);
       if (broadcastResult.isOk()) {
         const deliveredTx = broadcastResult.value;
         if (deliveredTx !== undefined) {
           setBroadcastTxStatus({ status: BroadcastStatus.Success, deliveredTx });
-          setHomeShouldReloadData(true);
           showSuccessModal();
         } else {
           setBroadcastTxStatus({ status: BroadcastStatus.Cancel });
