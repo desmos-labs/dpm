@@ -3,7 +3,7 @@ import { Bank, Coin, Distribution, Gov, Staking } from '@desmoslabs/desmjs';
 import { MsgMultiSend, MsgSend } from 'cosmjs-types/cosmos/bank/v1beta1/tx';
 import { sumCoins } from 'lib/CoinsUtils';
 import { MsgFundCommunityPool } from 'cosmjs-types/cosmos/distribution/v1beta1/tx';
-import { MsgDeposit } from 'cosmjs-types/cosmos/gov/v1beta1/tx';
+import { MsgDeposit as MsgDepositV1Beta1 } from 'cosmjs-types/cosmos/gov/v1beta1/tx';
 import { MsgTransfer } from 'cosmjs-types/ibc/applications/transfer/v1/tx';
 import { MsgTransferTypeUrl } from 'types/cosmos';
 import {
@@ -11,6 +11,7 @@ import {
   MsgDelegate,
   MsgUndelegate,
 } from 'cosmjs-types/cosmos/staking/v1beta1/tx';
+import { MsgDeposit as MsgDepositV1 } from '@desmoslabs/desmjs-types/cosmos/gov/v1/tx';
 
 /**
  * Converts a {@link Coin} into a list of {@link Coin}.
@@ -38,7 +39,9 @@ export const getMessageAmount = (message: Message) => {
 
     // Gov module
     case Gov.v1beta1.MsgDepositTypeUrl:
-      return (message.value as MsgDeposit).amount;
+      return (message.value as MsgDepositV1Beta1).amount;
+    case Gov.v1.MsgDepositTypeUrl:
+      return (message.value as MsgDepositV1).amount;
 
     // IBC Module
     case MsgTransferTypeUrl:
