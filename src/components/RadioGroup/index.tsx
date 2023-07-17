@@ -1,5 +1,5 @@
 import React, { useMemo } from 'react';
-import { View } from 'react-native';
+import { TouchableOpacity, View } from 'react-native';
 import { RadioButton, useTheme } from 'react-native-paper';
 import Typography from 'components/Typography';
 import useStyles from './useStyles';
@@ -28,7 +28,11 @@ const RadioGroup: React.FC<RadioGroupProps> = (props) => {
     return values.map((value, index) => {
       const last = count === index + 1;
       return (
-        <View key={`w_${index.toString()}`}>
+        <TouchableOpacity
+          key={`w_${index.toString()}`}
+          onPress={value.onPress}
+          disabled={value.onPress === undefined}
+        >
           <View style={[styles.fieldWrapper, !last && styles.interBorder]}>
             <Typography.Subtitle style={styles.title}>{value.label}</Typography.Subtitle>
             <RadioButton
@@ -40,7 +44,7 @@ const RadioGroup: React.FC<RadioGroupProps> = (props) => {
               theme={theme}
             />
           </View>
-        </View>
+        </TouchableOpacity>
       );
     });
   }, [values, styles, theme]);
