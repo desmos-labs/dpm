@@ -74,12 +74,15 @@ const TransactionsListItem: React.FC<TransactionsListItemProps> = ({ transaction
         <Spacer paddingVertical={8} />
 
         {/* Transaction amount */}
-        <View style={styles.inlineField}>
-          <Typography.Regular14 style={styles.fieldLabel}>{t('amount')}</Typography.Regular14>
-          <Typography.SemiBold16>{amount}</Typography.SemiBold16>
-        </View>
-
-        <Spacer paddingVertical={4} />
+        {amount !== undefined && (
+          <>
+            <View style={styles.inlineField}>
+              <Typography.Regular14 style={styles.fieldLabel}>{t('amount')}</Typography.Regular14>
+              <Typography.SemiBold16>{amount}</Typography.SemiBold16>
+            </View>
+            <Spacer paddingVertical={4} />
+          </>
+        )}
 
         {/* Transaction execution timestamp */}
         <View style={styles.inlineField}>
