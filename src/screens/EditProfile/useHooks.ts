@@ -5,6 +5,7 @@ import useBroadcastTx, { BroadcastTxOptions } from 'hooks/useBroadcastTx';
 import useUploadPicture from 'hooks/useUploadPicture';
 import { Profiles } from '@desmoslabs/desmjs';
 import { useActiveAccount } from '@recoil/activeAccount';
+import { useStoreProfile } from '@recoil/profiles';
 
 export const useValidationHooks = (params: ProfileParams | undefined) => {
   const { t } = useTranslation('profile');
@@ -134,6 +135,7 @@ export const useSaveProfile = (options?: BroadcastTxOptions) => {
   const activeAccount = useActiveAccount()!;
   const broadcastTx = useBroadcastTx();
   const [preparing, setPreparing] = useState<boolean>(false);
+  const storeProfile = useStoreProfile();
 
   const saveProfile = React.useCallback(
     async (profile: DesmosProfile | undefined, params: SaveProfileParams) => {
@@ -143,6 +145,24 @@ export const useSaveProfile = (options?: BroadcastTxOptions) => {
         const profilePicUrl = params.profilePic
           ? await uploadProfilePic(params.profilePic)
           : DoNotModify;
+
+        const broadcastOptions: BroadcastTxOptions = {
+          ...options,
+          onSuccess: () => {
+            // On success update the cached profile.
+            storeProfile(activeAccount.address, {
+              address: activeAccount.address,
+              dtag: params.dTag ?? profile?.dtag,
+              nickname: params.nickname ?? profile?.nickname,
+              bio: params.biography ?? profile?.bio,
+              profilePicture: params.profilePic ? profilePicUrl : profile?.profilePicture,
+              coverPicture: params.coverPic ? coverPicUrl : profile?.coverPicture,
+            });
+            if (options?.onSuccess) {
+              options.onSuccess();
+            }
+          },
+        };
 
         const message: Profiles.v3.MsgSaveProfileEncodeObject = {
           typeUrl: Profiles.v3.MsgSaveProfileTypeUrl,
@@ -157,13 +177,13 @@ export const useSaveProfile = (options?: BroadcastTxOptions) => {
         };
         setPreparing(false);
 
-        await broadcastTx([message], options);
+        broadcastTx([message], broadcastOptions);
       } catch (e) {
         setPreparing(false);
         throw e;
       }
     },
-    [uploadCoverPic, uploadProfilePic, activeAccount, broadcastTx, options],
+    [uploadCoverPic, uploadProfilePic, options, activeAccount.address, broadcastTx, storeProfile],
   );
 
   return {
