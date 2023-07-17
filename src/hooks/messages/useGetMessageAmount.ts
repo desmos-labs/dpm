@@ -15,7 +15,7 @@ const useMessagesAmount = (messages: Message[]) =>
       .reduce((previousValue, currentValue) => sumCoins(previousValue, currentValue), []);
 
     if (amount === undefined || amount.length === 0) {
-      return '-';
+      return undefined;
     }
     return formatCoins(amount);
   }, [messages]);
