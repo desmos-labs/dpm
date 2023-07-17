@@ -13,6 +13,7 @@ import Spacer from 'components/Spacer';
 import Badge from 'components/Badge';
 import useMessageName from 'hooks/messages/useMessageName';
 import useMessagesAmount from 'hooks/messages/useGetMessageAmount';
+import { useSetting } from '@recoil/settings';
 import useStyles from './useStyles';
 
 export interface TransactionsListItemProps {
@@ -32,10 +33,9 @@ const TransactionsListItem: React.FC<TransactionsListItemProps> = ({ transaction
 
   // -------- VARIABLES --------
 
+  const hideAmount = useSetting('hideBalance');
   const txDate = React.useMemo(() => new Date(transaction.timestamp), [transaction.timestamp]);
-
   const badgeLabel = useMessageName(transaction.messages[0]);
-
   const amount = useMessagesAmount(transaction.messages);
 
   // -------- CALLBACKS --------
@@ -78,7 +78,7 @@ const TransactionsListItem: React.FC<TransactionsListItemProps> = ({ transaction
           <>
             <View style={styles.inlineField}>
               <Typography.Regular14 style={styles.fieldLabel}>{t('amount')}</Typography.Regular14>
-              <Typography.SemiBold16>{amount}</Typography.SemiBold16>
+              <Typography.SemiBold16>{hideAmount ? '••••' : amount}</Typography.SemiBold16>
             </View>
             <Spacer paddingVertical={4} />
           </>
