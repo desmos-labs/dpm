@@ -74,6 +74,12 @@ const ProfileHeader: React.FC<ProfileHeaderProps> = (props) => {
     });
   }, [onEditProfilePicture, pickPicture]);
 
+  // Effect to update the profile and cover picture when they change.
+  React.useEffect(() => {
+    setCoverPicSrc(profile?.coverPicture);
+    setProfilePicSrc(profile?.profilePicture);
+  }, [profile?.coverPicture, profile?.profilePicture]);
+
   return (
     <View style={styles.root}>
       <View style={styles.topRight}>{topRightElement}</View>
