@@ -123,6 +123,7 @@ const Home: React.FC<NavProps> = (props) => {
           refreshing={refreshingTransactions}
           renderItem={renderTransactionItem}
           estimatedItemSize={100}
+          showsVerticalScrollIndicator={false}
           ListHeaderComponent={
             <>
               <AccountBalances reference={accountBalanceRef} />
