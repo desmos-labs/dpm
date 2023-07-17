@@ -34,4 +34,5 @@ export type AppSettings = {
   dataInitialized: boolean;
   currentTimezone: '';
   analyticsEnabled: boolean;
+  hideBalance: boolean;
 };

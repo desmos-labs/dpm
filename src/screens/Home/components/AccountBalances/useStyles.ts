@@ -4,6 +4,14 @@ const useStyles = makeStyle((theme) => ({
   root: {
     alignItems: 'center',
   },
+  totalBalanceLabelContainer: {
+    display: 'flex',
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  hideButton: {
+    backgroundColor: theme.colors.surface,
+  },
   addressContainer: {
     displaye: 'flex',
     flexDirection: 'row',
