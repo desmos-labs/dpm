@@ -18,6 +18,8 @@ import ROUTES from 'navigation/routes';
 import useBalanceFiatAmount from 'hooks/balance/useCoinsFiatAmouont';
 import useStakeFlow from 'hooks/staking/useStakeFlow';
 import { HomeTabsNavigationProp } from 'navigation/RootNavigator/HomeTabs/props';
+import { useSetSetting, useSetting } from '@recoil/settings';
+import IconButton from 'components/IconButton';
 import { useClaimAllRewards } from './hooks';
 import useStyles from './useStyles';
 
@@ -57,25 +59,23 @@ const AccountBalances: React.FC<AccountBalancesProps> = ({ reference }) => {
   const navigation = useNavigation<HomeTabsNavigationProp<ROUTES.HOME>>();
 
   // --------- HOOKS --------
+
   const activeAccountAddress = useActiveAccountAddress()!;
-
   const { balance, loading: loadingBalance, refetch: refetchBalance } = useActiveAccountBalance();
-
   const {
     totalDelegated,
     loading: loadingTotalDelegated,
     refetch: refetchTotalDelegated,
   } = useTotalDelegatedAmount();
-
   const {
     data: stakingRewards,
     loading: loadingStakingRewards,
     refetch: refetchStakingRewards,
   } = useTotalAccountPendingStakingRewards();
-
   const startStakeFlow = useStakeFlow();
-
   const claimAllRewards = useClaimAllRewards();
+  const hideBalance = useSetting('hideBalance');
+  const setHideBalance = useSetSetting('hideBalance');
 
   // -------- DATA --------
 
@@ -166,18 +166,29 @@ const AccountBalances: React.FC<AccountBalancesProps> = ({ reference }) => {
       <Spacer paddingVertical={24} />
 
       {/* User total balance in fiat value */}
-      <Typography.Regular14>{t('total balance')}</Typography.Regular14>
+      <View style={styles.totalBalanceLabelContainer}>
+        <Typography.Regular14>{t('total balance')}</Typography.Regular14>
+        <IconButton
+          style={styles.hideButton}
+          icon={hideBalance ? 'hide' : 'show'}
+          onPress={() => setHideBalance((hide) => !hide)}
+        />
+      </View>
       {loadingBalance || loadingFiatAmount ? (
         <TypographyContentLoaders.SemiBold30 width={200} />
       ) : (
-        <Typography.SemiBold30>{`${fiatAmount} ${fiatSymbol}`}</Typography.SemiBold30>
+        <Typography.SemiBold30>
+          {hideBalance ? '••••' : `${fiatAmount} ${fiatSymbol}`}
+        </Typography.SemiBold30>
       )}
 
       {/* Uset total tokens balance */}
       {loadingBalance || loadingTotalDelegated ? (
         <TypographyContentLoaders.Regular14 width={200} />
       ) : (
-        <Typography.Regular14>{formatCoins(totalBalance)}</Typography.Regular14>
+        <Typography.Regular14>
+          {hideBalance ? '••••' : formatCoins(totalBalance)}
+        </Typography.Regular14>
       )}
 
       <Spacer paddingVertical={24} />
@@ -186,7 +197,7 @@ const AccountBalances: React.FC<AccountBalancesProps> = ({ reference }) => {
       <AccountBalancesAction
         label={t('common:available')}
         loading={loadingBalance}
-        value={formatCoins(balance)}
+        value={hideBalance ? '••••' : formatCoins(balance)}
         buttonText={t('common:send')}
         buttonAccent
         onButtonPressed={onSendPressed}
@@ -198,7 +209,7 @@ const AccountBalances: React.FC<AccountBalancesProps> = ({ reference }) => {
       <AccountBalancesAction
         label={t('staking:total staked')}
         loading={loadingTotalDelegated}
-        value={formatCoins(totalDelegated)}
+        value={hideBalance ? '••••' : formatCoins(totalDelegated)}
         buttonText={totalStakedButtonText}
         onButtonPressed={onTotalStakedButtonPressed}
       />
@@ -211,7 +222,7 @@ const AccountBalances: React.FC<AccountBalancesProps> = ({ reference }) => {
           <AccountBalancesAction
             label={t('staking:total staking rewards')}
             loading={loadingStakingRewards}
-            value={formatCoins(stakingRewards)}
+            value={hideBalance ? '••••' : formatCoins(stakingRewards)}
             buttonText={t('common:claim')}
             buttonColor={'#1EC490'}
             onButtonPressed={onClaimAllRewards}
