@@ -1,10 +1,10 @@
-import React, { useCallback, useMemo } from 'react';
+import React, { useMemo } from 'react';
 import { StackScreenProps } from '@react-navigation/stack';
 import StyledSafeAreaView from 'components/StyledSafeAreaView';
 import TopBar from 'components/TopBar';
 import { RootNavigatorParamList } from 'navigation/RootNavigator';
 import ROUTES from 'navigation/routes';
-import { useFocusEffect, useNavigation, useRoute } from '@react-navigation/native';
+import { useNavigation, useRoute } from '@react-navigation/native';
 import EditProfileButton from 'screens/Profile/components/EditProfileButton';
 import useProfileGivenAddress from 'hooks/useProfileGivenAddress';
 import useChainLinksGivenAddress from 'hooks/useChainLinksGivenAddress';
@@ -30,32 +30,15 @@ const Profile = () => {
   const visitingProfile = params?.visitingProfile;
   const canEdit = !visitingProfile;
 
-  const {
-    profile,
-    loading: loadingProfile,
-    refetch: updateProfile,
-  } = useProfileGivenAddress(visitingProfile);
+  // -------- HOOKS --------
 
-  const {
-    chainLinks,
-    loading: loadingChainLinks,
-    refetch: updateChainLinks,
-  } = useChainLinksGivenAddress(profile?.address);
-
-  const {
-    applicationLinks,
-    loading: loadingApplicationLinks,
-    refetch: updateApplicationLinks,
-  } = useApplicationLinksGivenAddress(profile?.address);
-
-  useFocusEffect(
-    useCallback(() => {
-      // Refresh the data when the screen is focused
-      updateProfile();
-      updateChainLinks();
-      updateApplicationLinks();
-    }, [updateApplicationLinks, updateChainLinks, updateProfile]),
+  const { profile, loading: loadingProfile } = useProfileGivenAddress(visitingProfile);
+  const { chainLinks, loading: loadingChainLinks } = useChainLinksGivenAddress(profile?.address);
+  const { applicationLinks, loading: loadingApplicationLinks } = useApplicationLinksGivenAddress(
+    profile?.address,
   );
+
+  // -------- VARIABLES --------
 
   const isLoading = useMemo(
     () => loadingProfile || loadingChainLinks || loadingApplicationLinks,
