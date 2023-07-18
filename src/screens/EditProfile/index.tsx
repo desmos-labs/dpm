@@ -96,7 +96,7 @@ const EditProfile = () => {
     coverPicUploadError,
     profilePicUploading,
     profilePicUploadError,
-  } = useSaveProfile({ onSuccess: onSaveSuccess });
+  } = useSaveProfile(React.useMemo(() => ({ onSuccess: onSaveSuccess }), [onSaveSuccess]));
 
   useEffect(() => {
     if (coverPicUploadError !== undefined) {
