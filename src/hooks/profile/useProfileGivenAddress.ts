@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react';
+import React from 'react';
 import { useQuery } from '@apollo/client';
 import GetProfileForAddress from 'services/graphql/queries/GetProfileForAddress';
 import { useActiveAccountAddress } from '@recoil/activeAccount';
@@ -13,7 +13,7 @@ const useProfileGivenAddress = (address?: string) => {
   const userAddress = address || activeAccountAddress;
   const isForActiveUser = activeAccountAddress === userAddress;
 
-  const [fetchedProfile, setFetchedProfile] = useState<DesmosProfile | undefined>();
+  const [fetchedProfile, setFetchedProfile] = React.useState<DesmosProfile | undefined>();
 
   const storeProfile = useStoreProfile();
   const storedProfiles = useStoredProfiles();
@@ -21,27 +21,30 @@ const useProfileGivenAddress = (address?: string) => {
   const { loading, refetch } = useQuery(GetProfileForAddress, {
     variables: { address: userAddress },
     fetchPolicy: 'cache-and-network',
-    onCompleted: (data) => {
-      if (!data) {
-        return;
-      }
+    onCompleted: React.useCallback(
+      (data) => {
+        if (!data) {
+          return;
+        }
 
-      const { profile } = data;
-      const [firstProfile] = profile;
-      switch (isForActiveUser) {
-        case true:
-          // Cache the profile of the active user
-          storeProfile(userAddress!, firstProfile);
-          break;
+        const { profile } = data;
+        const [firstProfile] = profile;
+        switch (isForActiveUser) {
+          case true:
+            // Cache the profile of the active user
+            storeProfile(userAddress!, firstProfile);
+            break;
 
-        default:
-          // Set the fetched profile if the queried user is not the active user
-          setFetchedProfile(firstProfile);
-      }
-    },
+          default:
+            // Set the fetched profile if the queried user is not the active user
+            setFetchedProfile(firstProfile);
+        }
+      },
+      [isForActiveUser, storeProfile, userAddress],
+    ),
   });
 
-  const userProfile = useMemo(
+  const userProfile = React.useMemo(
     // If the user we're getting the profile for is the active user, get the cached one.
     // Otherwise, get the one that will be downloaded from the server
     () => (isForActiveUser && userAddress ? storedProfiles[userAddress] : fetchedProfile),

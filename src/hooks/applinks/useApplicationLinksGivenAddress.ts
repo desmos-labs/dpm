@@ -25,25 +25,28 @@ const useApplicationLinksGivenAddress = (address: string | undefined) => {
   const { loading, refetch } = useQuery(GetAccountApplicationLinks, {
     variables: { address: userAddress },
     fetchPolicy: 'cache-and-network',
-    onCompleted: (data) => {
-      if (!data) {
-        return;
-      }
+    onCompleted: React.useCallback(
+      (data) => {
+        if (!data) {
+          return;
+        }
 
-      const { applicationLinks } = data;
-      const retrievedApplicationLinks = applicationLinks.map(convertGraphQLApplicationLink);
+        const { applicationLinks } = data;
+        const retrievedApplicationLinks = applicationLinks.map(convertGraphQLApplicationLink);
 
-      switch (isForActiveUser) {
-        case true:
-          // Cache the application links of the active user
-          storeUserApplicationLinks(userAddress, retrievedApplicationLinks);
-          break;
+        switch (isForActiveUser) {
+          case true:
+            // Cache the application links of the active user
+            storeUserApplicationLinks(userAddress, retrievedApplicationLinks);
+            break;
 
-        default:
-          // Set the fetched application links if the queried user is not the active account
-          setFetchedApplicationLinks(retrievedApplicationLinks);
-      }
-    },
+          default:
+            // Set the fetched application links if the queried user is not the active account
+            setFetchedApplicationLinks(retrievedApplicationLinks);
+        }
+      },
+      [isForActiveUser, storeUserApplicationLinks, userAddress],
+    ),
   });
 
   const fetchUserApplicationLinks = React.useCallback(() => {

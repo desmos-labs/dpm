@@ -1,5 +1,5 @@
 import { useQuery } from '@apollo/client';
-import React, { useState } from 'react';
+import React from 'react';
 import GetAccountChainLinks from 'services/graphql/queries/GetAccountChainLinks';
 import { useStoredChainLinks, useStoreUserChainLinks } from '@recoil/chainLinks';
 import { useActiveAccountAddress } from '@recoil/activeAccount';
@@ -15,7 +15,7 @@ const useChainLinksGivenAddress = (address: string | undefined) => {
   const userAddress = address || activeAccountAddress;
   const isForActiveUser = activeAccountAddress === userAddress;
 
-  const [fetchedChainLinks, setFetchedChainLinks] = useState<ChainLink[]>([]);
+  const [fetchedChainLinks, setFetchedChainLinks] = React.useState<ChainLink[]>([]);
 
   const storeUserChainLinks = useStoreUserChainLinks();
   const storedChainLinks = useStoredChainLinks();
@@ -23,25 +23,28 @@ const useChainLinksGivenAddress = (address: string | undefined) => {
   const { refetch, loading } = useQuery(GetAccountChainLinks, {
     variables: { address: userAddress },
     fetchPolicy: 'cache-and-network',
-    onCompleted: (data) => {
-      if (!data) {
-        return;
-      }
+    onCompleted: React.useCallback(
+      (data) => {
+        if (!data) {
+          return;
+        }
 
-      const { chainLinks } = data;
-      const retrievedChainLinks = chainLinks.map(convertGraphQLChainLink);
+        const { chainLinks } = data;
+        const retrievedChainLinks = chainLinks.map(convertGraphQLChainLink);
 
-      switch (isForActiveUser) {
-        case true:
-          // Cache the chain links of the active user
-          storeUserChainLinks(userAddress, retrievedChainLinks, false);
-          break;
+        switch (isForActiveUser) {
+          case true:
+            // Cache the chain links of the active user
+            storeUserChainLinks(userAddress, retrievedChainLinks, false);
+            break;
 
-        default:
-          // Set the fetched chain links if the queried user is not the active one
-          setFetchedChainLinks(retrievedChainLinks);
-      }
-    },
+          default:
+            // Set the fetched chain links if the queried user is not the active one
+            setFetchedChainLinks(retrievedChainLinks);
+        }
+      },
+      [isForActiveUser, storeUserChainLinks, userAddress],
+    ),
   });
 
   const fetchUserChainLinks = React.useCallback(() => {
