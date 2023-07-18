@@ -12,6 +12,12 @@ const useStyles = makeStyle((theme) => ({
     color: theme.colors.icon['5'],
     backgroundColor: 'rgba(80, 80, 80, 0.4)',
   },
+  horizontalPadding: {
+    paddingHorizontal: theme.spacing.m,
+  },
+  connectButton: {
+    margin: theme.spacing.m,
+  },
 }));
 
 export default useStyles;
