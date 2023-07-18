@@ -15,7 +15,8 @@
   "grant allowance description": "Allow <1/> to execute an action on your behalf",
   "granted allowance description": "<0/> allowed <1/> to execute an action on their behalf",
   "exec description": "Exec an action on behalf of <0/>",
-  "executed description": "Executed an action on behalf of <0/>",
+  "executed description": "You have executed an action on behalf of <0/>",
+  "other executed on your behalf description" : "<0/> has executed an action on your behalf",
   "grant revoke description": "Revoke grant to <1/>",
   "grant revoked description": "<0/> revoked the grant to <1/>"
 }
