@@ -1,7 +1,7 @@
-import React, { useMemo, useState } from 'react';
+import React from 'react';
 import { useActiveAccountAddress } from '@recoil/activeAccount';
 import { useStoredApplicationLinks, useStoreUserApplicationLinks } from '@recoil/applicationLinks';
-import { useLazyQuery } from '@apollo/client';
+import { useQuery } from '@apollo/client';
 import GetAccountApplicationLinks from 'services/graphql/queries/GetAccountApplicationLinks';
 import { convertGraphQLApplicationLink } from 'lib/GraphQLUtils';
 import { ApplicationLink } from 'types/desmos';
@@ -15,51 +15,52 @@ const useApplicationLinksGivenAddress = (address: string | undefined) => {
   const userAddress = address || activeAccountAddress;
   const isForActiveUser = activeAccountAddress === userAddress;
 
-  const [fetchedApplicationLinks, setFetchedApplicationLinks] = useState<ApplicationLink[]>([]);
+  const [fetchedApplicationLinks, setFetchedApplicationLinks] = React.useState<ApplicationLink[]>(
+    [],
+  );
 
   const storeUserApplicationLinks = useStoreUserApplicationLinks();
   const storedApplicationLinks = useStoredApplicationLinks();
-  const userApplicationLinks = useMemo(
-    // If the user we're getting the applications links for is the active user, get the cached ones.
-    // Otherwise, get the ones that will be downloaded from the server
-    () => (isForActiveUser ? storedApplicationLinks[userAddress] || [] : fetchedApplicationLinks),
-    [isForActiveUser, fetchedApplicationLinks, storedApplicationLinks, userAddress],
-  );
 
-  const [, { loading, refetch }] = useLazyQuery(GetAccountApplicationLinks, {
+  const { loading, refetch } = useQuery(GetAccountApplicationLinks, {
     variables: { address: userAddress },
-    fetchPolicy: 'no-cache',
+    fetchPolicy: 'cache-and-network',
+    onCompleted: (data) => {
+      if (!data) {
+        return;
+      }
+
+      const { applicationLinks } = data;
+      const retrievedApplicationLinks = applicationLinks.map(convertGraphQLApplicationLink);
+
+      switch (isForActiveUser) {
+        case true:
+          // Cache the application links of the active user
+          storeUserApplicationLinks(userAddress, retrievedApplicationLinks);
+          break;
+
+        default:
+          // Set the fetched application links if the queried user is not the active account
+          setFetchedApplicationLinks(retrievedApplicationLinks);
+      }
+    },
   });
 
-  const fetchProfileApplicationLinks = React.useCallback(async () => {
-    if (!userAddress) {
-      return;
-    }
+  const fetchUserApplicationLinks = React.useCallback(() => {
+    refetch({ address: userAddress });
+  }, [refetch, userAddress]);
 
-    const { data } = await refetch({ address: userAddress });
-    if (!data) {
-      return;
-    }
-
-    const { applicationLinks } = data;
-    const retrievedApplicationLinks = applicationLinks.map(convertGraphQLApplicationLink);
-
-    switch (isForActiveUser) {
-      case true:
-        // Cache the application links of the active user
-        storeUserApplicationLinks(userAddress, retrievedApplicationLinks);
-        break;
-
-      default:
-        // Set the fetched application links if the queried user is not the active account
-        setFetchedApplicationLinks(retrievedApplicationLinks);
-    }
-  }, [isForActiveUser, refetch, storeUserApplicationLinks, userAddress]);
+  const userApplicationLinks = React.useMemo(
+    // If the user we're getting the applications links for is the active user, get the cached ones.
+    // Otherwise, get the ones that will be downloaded from the server
+    () => (isForActiveUser ? storedApplicationLinks[userAddress] ?? [] : fetchedApplicationLinks),
+    [isForActiveUser, fetchedApplicationLinks, storedApplicationLinks, userAddress],
+  );
 
   return {
     applicationLinks: userApplicationLinks,
     loading,
-    refetch: fetchProfileApplicationLinks,
+    refetch: fetchUserApplicationLinks,
   };
 };
 
