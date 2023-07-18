@@ -6,7 +6,7 @@ import { RootNavigatorParamList } from 'navigation/RootNavigator';
 import ROUTES from 'navigation/routes';
 import { useNavigation, useRoute } from '@react-navigation/native';
 import EditProfileButton from 'screens/Profile/components/EditProfileButton';
-import useProfileGivenAddress from 'hooks/useProfileGivenAddress';
+import useProfileGivenAddress from 'hooks/profile/useProfileGivenAddress';
 import useChainLinksGivenAddress from 'hooks/useChainLinksGivenAddress';
 import useApplicationLinksGivenAddress from 'hooks/useApplicationLinksGivenAddress';
 import { FlashList } from '@shopify/flash-list';

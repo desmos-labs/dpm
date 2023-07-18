@@ -9,7 +9,7 @@ import { useQuery } from '@apollo/client';
 import GetValidatorInfo from 'services/graphql/queries/GetValidatorInfo';
 import AvatarImage from 'components/AvatarImage';
 import { desmosLogoRound } from 'assets/images';
-import useProfileGivenAddress from 'hooks/useProfileGivenAddress';
+import useProfileGivenAddress from 'hooks/profile/useProfileGivenAddress';
 import useStyles from './useStyles';
 
 export interface VoteListItemProps {
