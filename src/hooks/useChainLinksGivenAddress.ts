@@ -1,5 +1,5 @@
-import { useLazyQuery } from '@apollo/client';
-import React, { useMemo, useState } from 'react';
+import { useQuery } from '@apollo/client';
+import React, { useState } from 'react';
 import GetAccountChainLinks from 'services/graphql/queries/GetAccountChainLinks';
 import { useStoredChainLinks, useStoreUserChainLinks } from '@recoil/chainLinks';
 import { useActiveAccountAddress } from '@recoil/activeAccount';
@@ -20,47 +20,45 @@ const useChainLinksGivenAddress = (address: string | undefined) => {
   const storeUserChainLinks = useStoreUserChainLinks();
   const storedChainLinks = useStoredChainLinks();
 
-  const userChainLinks = useMemo(
-    // If the user we're getting the chains links for is the active user, get the cached ones.
-    // Otherwise, get the ones that will be downloaded from the server
-    () => (isForActiveUser ? storedChainLinks[userAddress] || [] : fetchedChainLinks),
-    [isForActiveUser, fetchedChainLinks, storedChainLinks, userAddress],
-  );
-
-  const [, { loading, refetch }] = useLazyQuery(GetAccountChainLinks, {
+  const { refetch, loading } = useQuery(GetAccountChainLinks, {
     variables: { address: userAddress },
-    fetchPolicy: 'no-cache',
+    fetchPolicy: 'cache-and-network',
+    onCompleted: (data) => {
+      if (!data) {
+        return;
+      }
+
+      const { chainLinks } = data;
+      const retrievedChainLinks = chainLinks.map(convertGraphQLChainLink);
+
+      switch (isForActiveUser) {
+        case true:
+          // Cache the chain links of the active user
+          storeUserChainLinks(userAddress, retrievedChainLinks, false);
+          break;
+
+        default:
+          // Set the fetched chain links if the queried user is not the active one
+          setFetchedChainLinks(retrievedChainLinks);
+      }
+    },
   });
 
-  const fetchProfileChainLinks = React.useCallback(async () => {
-    if (!userAddress) {
-      return;
-    }
+  const fetchUserChainLinks = React.useCallback(() => {
+    refetch({ address: userAddress });
+  }, [refetch, userAddress]);
 
-    const { data } = await refetch({ address: userAddress });
-    if (!data) {
-      return;
-    }
-
-    const { chainLinks } = data;
-    const retrievedChainLinks = chainLinks.map(convertGraphQLChainLink);
-
-    switch (isForActiveUser) {
-      case true:
-        // Cache the chain links of the active user
-        storeUserChainLinks(userAddress, retrievedChainLinks, false);
-        break;
-
-      default:
-        // Set the fetched chain links if the queried user is not the active one
-        setFetchedChainLinks(retrievedChainLinks);
-    }
-  }, [userAddress, refetch, isForActiveUser, storeUserChainLinks]);
+  const userChainLinks = React.useMemo(
+    // If the user we're getting the chains links for is the active user, get the cached ones.
+    // Otherwise, get the ones that will be downloaded from the server
+    () => (isForActiveUser ? storedChainLinks[userAddress] ?? [] : fetchedChainLinks),
+    [isForActiveUser, fetchedChainLinks, storedChainLinks, userAddress],
+  );
 
   return {
     chainLinks: userChainLinks,
     loading,
-    refetch: fetchProfileChainLinks,
+    refetch: fetchUserChainLinks,
   };
 };
 
