@@ -8,7 +8,7 @@ import { useNavigation, useRoute } from '@react-navigation/native';
 import EditProfileButton from 'screens/Profile/components/EditProfileButton';
 import useProfileGivenAddress from 'hooks/profile/useProfileGivenAddress';
 import useChainLinksGivenAddress from 'hooks/useChainLinksGivenAddress';
-import useApplicationLinksGivenAddress from 'hooks/useApplicationLinksGivenAddress';
+import useApplicationLinksGivenAddress from 'hooks/applinks/useApplicationLinksGivenAddress';
 import { FlashList } from '@shopify/flash-list';
 import { ListRenderItem } from '@shopify/flash-list/src/FlashListProps';
 import { ChainLink } from 'types/desmos';
