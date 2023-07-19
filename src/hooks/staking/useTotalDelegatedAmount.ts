@@ -12,13 +12,9 @@ import { Coin } from '@desmoslabs/desmjs-types/cosmos/base/v1beta1/coin';
  * If undefined, the address of the current active user will be used instead.
  */
 const useTotalDelegatedAmount = (userAddress?: string) => {
-  const activeAccountAddress = useActiveAccountAddress();
+  const activeAccountAddress = useActiveAccountAddress() ?? '';
   const address = userAddress ?? activeAccountAddress;
   const chainInfo = useCurrentChainInfo();
-
-  if (address === undefined) {
-    throw new Error("can't get staked amount without an active account or a provided address");
-  }
 
   const { data, loading, error, refetch } = useQuery(GetAccountDelegationTotal, {
     variables: {

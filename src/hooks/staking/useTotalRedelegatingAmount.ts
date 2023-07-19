@@ -23,10 +23,6 @@ const useTotalRedelegatingAmount = (userAddress?: string) => {
   const [loading, setLoading] = React.useState(true);
   const [error, setError] = React.useState<ApolloError>();
 
-  if (address === undefined) {
-    throw new Error("can't get staked amount without an active account or a provided address");
-  }
-
   // Here we use useApolloClient instead of useLazyQuery
   // to force the returned callback to change when the client instance changes.
   const client = useApolloClient();
@@ -43,7 +39,7 @@ const useTotalRedelegatingAmount = (userAddress?: string) => {
     let amount = 0;
     let fetchError: ApolloError | undefined;
 
-    while (!completed) {
+    while (!completed && userAddress !== undefined) {
       // eslint-disable-next-line no-await-in-loop
       const { data, error: apolloError } = await client.query({
         query: GetAccountRedelegations,

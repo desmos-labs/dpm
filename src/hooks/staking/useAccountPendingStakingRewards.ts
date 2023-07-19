@@ -12,12 +12,8 @@ import { PendingReward } from 'types/distribution';
  * will be used instead.
  */
 const useAccountPendingStakingRewards = (accountAddress?: string) => {
-  const activeAccountAddress = useActiveAccountAddress();
+  const activeAccountAddress = useActiveAccountAddress() ?? '';
   const address = accountAddress ?? activeAccountAddress;
-
-  if (address === undefined) {
-    throw new Error("Can't get delegation rewards if address is undefined");
-  }
 
   const { data, loading, error, refetch } = useQuery(GetAccountPendingRewards, {
     // Use cache-and-network to avoid on-chain amounts sync issues.
