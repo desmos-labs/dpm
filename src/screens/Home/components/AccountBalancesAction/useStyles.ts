@@ -9,7 +9,7 @@ const useStyles = makeStyle((theme) => ({
     alignSelf: 'flex-start',
     padding: theme.spacing.m,
     borderRadius: theme.roundness,
-    backgroundColor: theme.colors.background,
+    backgroundColor: theme.colors.surface2,
     marginHorizontal: theme.spacing.xs,
 
     // Shadows
