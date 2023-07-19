@@ -13,13 +13,13 @@ const useStyles = makeStyle((theme) => ({
     marginHorizontal: theme.spacing.xs,
 
     // Shadows
-    shadowColor: 'rgba(10, 10, 10, 0.05)',
+    shadowColor: theme.colors.shadow,
     shadowOffset: {
       width: 0,
       height: 3,
     },
     shadowRadius: 20,
-    elevation: 20,
+    elevation: 8,
     shadowOpacity: 1,
   },
   actionValues: {
