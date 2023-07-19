@@ -15,7 +15,6 @@
 		4F752A856D734593990D5273 /* desmos.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 943612EDC99C498396E76E55 /* desmos.ttf */; };
 		9C580072AC3BB9649211F5B7 /* libPods-DesmosProfileManager-DesmosProfileManagerTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3EFD57D58D3A33819726734E /* libPods-DesmosProfileManager-DesmosProfileManagerTests.a */; };
 		A789FD3F270CA2AE00EFC6CF /* RCTCryptoUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = A789FD3E270CA2AE00EFC6CF /* RCTCryptoUtils.m */; };
-		A9619F6133CA4213A9FCDDE2 /* tos.md in Resources */ = {isa = PBXBuildFile; fileRef = 7F4DECFF96F248B7A8560CBC /* tos.md */; };
 		D227F90C297879DC00BE8252 /* Poppins-BlackItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D227F8FA297879DC00BE8252 /* Poppins-BlackItalic.ttf */; };
 		D227F90D297879DC00BE8252 /* Poppins-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D227F8FB297879DC00BE8252 /* Poppins-Light.ttf */; };
 		D227F90E297879DC00BE8252 /* Poppins-ExtraBoldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D227F8FC297879DC00BE8252 /* Poppins-ExtraBoldItalic.ttf */; };
@@ -37,7 +36,6 @@
 		D227F921297879E400BE8252 /* about.md in Resources */ = {isa = PBXBuildFile; fileRef = D227F91F297879E400BE8252 /* about.md */; };
 		D2886E64296F93E700629B20 /* RCTCryptoUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2886E63296F93E700629B20 /* RCTCryptoUtils.swift */; };
 		D2EE74EC2979A11600C6CA64 /* BootSplash.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D2EE74EB2979A11500C6CA64 /* BootSplash.storyboard */; };
-		E3F552A781AB4AA8BD0950ED /* privacy.md in Resources */ = {isa = PBXBuildFile; fileRef = A7327915363C417DAF1072A1 /* privacy.md */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -65,9 +63,7 @@
 		3EFD57D58D3A33819726734E /* libPods-DesmosProfileManager-DesmosProfileManagerTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-DesmosProfileManager-DesmosProfileManagerTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		43E31D8C4CFC53A2AB6CCA0F /* libPods-DesmosProfileManager.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-DesmosProfileManager.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		4DADD22737BA755501EB55F5 /* Pods-DesmosProfileManager-DesmosProfileManagerTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DesmosProfileManager-DesmosProfileManagerTests.debug.xcconfig"; path = "Target Support Files/Pods-DesmosProfileManager-DesmosProfileManagerTests/Pods-DesmosProfileManager-DesmosProfileManagerTests.debug.xcconfig"; sourceTree = "<group>"; };
-		7F4DECFF96F248B7A8560CBC /* tos.md */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = tos.md; path = ../assets/md/tos.md; sourceTree = "<group>"; };
 		943612EDC99C498396E76E55 /* desmos.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = desmos.ttf; path = ../assets/fonts/desmos.ttf; sourceTree = "<group>"; };
-		A7327915363C417DAF1072A1 /* privacy.md */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = privacy.md; path = ../assets/md/privacy.md; sourceTree = "<group>"; };
 		A789FD3E270CA2AE00EFC6CF /* RCTCryptoUtils.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RCTCryptoUtils.m; sourceTree = "<group>"; };
 		AE90A7B40F44993DA9CC82C8 /* Pods-DesmosProfileManager.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DesmosProfileManager.debug.xcconfig"; path = "Target Support Files/Pods-DesmosProfileManager/Pods-DesmosProfileManager.debug.xcconfig"; sourceTree = "<group>"; };
 		D227F8FA297879DC00BE8252 /* Poppins-BlackItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Poppins-BlackItalic.ttf"; path = "../assets/fonts/Poppins-BlackItalic.ttf"; sourceTree = "<group>"; };
@@ -213,8 +209,6 @@
 				D227F90A297879DC00BE8252 /* Poppins-Thin.ttf */,
 				D227F90B297879DC00BE8252 /* Poppins-ThinItalic.ttf */,
 				943612EDC99C498396E76E55 /* desmos.ttf */,
-				A7327915363C417DAF1072A1 /* privacy.md */,
-				7F4DECFF96F248B7A8560CBC /* tos.md */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
@@ -347,8 +341,6 @@
 				D227F913297879DC00BE8252 /* Poppins-LightItalic.ttf in Resources */,
 				D227F918297879DC00BE8252 /* Poppins-BoldItalic.ttf in Resources */,
 				D227F919297879DC00BE8252 /* Poppins-SemiBold.ttf in Resources */,
-				E3F552A781AB4AA8BD0950ED /* privacy.md in Resources */,
-				A9619F6133CA4213A9FCDDE2 /* tos.md in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

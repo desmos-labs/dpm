@@ -80,14 +80,6 @@
     {
       "path": "assets/md/about.md",
       "sha1": "7b844ecb56c23b85da99d9d48b64873117a47ee2"
-    },
-    {
-      "path": "assets/md/privacy.md",
-      "sha1": "378b69d132c7c7c4dc3ebf94c2c9d54db5f32852"
-    },
-    {
-      "path": "assets/md/tos.md",
-      "sha1": "249f58b589fc00a0f241537b530a77d2c7628e4b"
     }
   ]
 }
