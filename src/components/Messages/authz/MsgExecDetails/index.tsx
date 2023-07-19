@@ -9,6 +9,7 @@ import CopiableAddress from 'components/CopiableAddress';
 import { MsgExecEncodeObject } from 'types/cosmos';
 import { Any } from 'cosmjs-types/google/protobuf/any';
 import { toHex } from '@cosmjs/encoding';
+import { useActiveAccountAddress } from '@recoil/activeAccount';
 
 /**
  * Custom json serializer that serialize for the {@link Any} type.
@@ -30,6 +31,12 @@ const MsgExecDetails: MessageDetailsComponent<MsgExecEncodeObject> = ({
 }) => {
   const { t } = useTranslation('messages.authz');
 
+  // -------- HOOKS --------
+
+  const activeAccountAddress = useActiveAccountAddress();
+
+  // -------- VARIABLES --------
+
   const fields = React.useMemo<MessageDetailsField[]>(
     () =>
       message.value.msgs.map((m) => ({
@@ -39,12 +46,22 @@ const MsgExecDetails: MessageDetailsComponent<MsgExecEncodeObject> = ({
     [message.value.msgs, t],
   );
 
+  const descriptionKey = React.useMemo(() => {
+    if (toBroadcastMessage) {
+      return 'exec description';
+    }
+
+    return message.value.grantee === activeAccountAddress
+      ? 'executed description'
+      : 'other executed on your behalf description';
+  }, [activeAccountAddress, message.value.grantee, toBroadcastMessage]);
+
   return (
     <BaseMessageDetails message={message} fields={fields}>
       <Typography.Regular14>
         <Trans
           ns="messages.authz"
-          i18nKey={toBroadcastMessage ? 'exec description' : 'executed description'}
+          i18nKey={descriptionKey}
           components={[<CopiableAddress address={message.value.grantee} />]}
         />
       </Typography.Regular14>
