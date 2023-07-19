@@ -8,17 +8,15 @@ const useStyles = makeStyle((theme) => ({
     borderRadius: theme.roundness,
     backgroundColor: theme.colors.background,
     padding: 16,
-    // Margin to allow the visualization of the shadows
-    margin: 4,
     // Shadows
-    shadowColor: '#000',
+    shadowColor: theme.colors.shadow,
     shadowOffset: {
       width: 0,
-      height: 1,
+      height: 3,
     },
-    shadowOpacity: 0.2,
-    shadowRadius: 1.41,
-    elevation: 2,
+    shadowRadius: 20,
+    elevation: 8,
+    shadowOpacity: 1,
   },
   details: {
     display: 'flex',
