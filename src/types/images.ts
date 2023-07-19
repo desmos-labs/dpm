@@ -14,6 +14,7 @@ export enum DPMImages {
   EmptyList,
   NoData,
   LedgerConnectionError,
+  Mnemonic,
 }
 
 export enum DPMAnimations {

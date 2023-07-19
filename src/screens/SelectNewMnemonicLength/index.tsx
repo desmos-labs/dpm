@@ -4,8 +4,6 @@ import { StackScreenProps } from '@react-navigation/stack';
 import { RootNavigatorParamList } from 'navigation/RootNavigator';
 import ROUTES from 'navigation/routes';
 import TopBar from 'components/TopBar';
-import { Image } from 'react-native';
-import { desmosLogoOrange } from 'assets/images';
 import Typography from 'components/Typography';
 import { useTranslation } from 'react-i18next';
 import Button from 'components/Button';
@@ -14,6 +12,8 @@ import { MnemonicLength, SupportedMnemonicLengths } from 'types/mnemonic';
 import DropdownPicker from 'components/DropodownPicker';
 import Flexible from 'components/Flexible';
 import Spacer from 'components/Spacer';
+import DPMImage from 'components/DPMImage';
+import { DPMImages } from 'types/images';
 import useStyles from './useStyles';
 
 declare type NavProps = StackScreenProps<RootNavigatorParamList, ROUTES.CREATE_NEW_MNEMONIC>;
@@ -37,7 +37,7 @@ const SelectNewMnemonicLength: React.FC<NavProps> = (props) => {
 
   return (
     <StyledSafeAreaView topBar={<TopBar stackProps={props} />}>
-      <Image style={styles.image} source={desmosLogoOrange} resizeMode={'contain'} />
+      <DPMImage style={styles.image} source={DPMImages.Mnemonic} resizeMode={'contain'} />
       <Typography.H5 style={styles.centeredText} capitalize>
         {t('account:secret recovery passphrase')}
       </Typography.H5>
