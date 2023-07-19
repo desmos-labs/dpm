@@ -2,6 +2,7 @@ import { makeStyle } from 'config/theme';
 
 const useStyles = makeStyle((theme) => ({
   deviceList: {
+    margin: -16,
     marginTop: theme.spacing.xl,
   },
   ledgerListItem: {
@@ -12,14 +13,16 @@ const useStyles = makeStyle((theme) => ({
     margin: theme.spacing.s,
     padding: theme.spacing.m,
     borderRadius: theme.roundness,
-    elevation: 3,
-    shadowColor: '#000',
+
+    // Shadows
+    shadowColor: theme.colors.shadow,
     shadowOffset: {
       width: 0,
-      height: 2,
+      height: 3,
     },
-    shadowOpacity: 0.25,
-    shadowRadius: 3.84,
+    shadowRadius: 20,
+    elevation: 8,
+    shadowOpacity: 1,
   },
   ledgerIcon: {
     marginLeft: 16,
