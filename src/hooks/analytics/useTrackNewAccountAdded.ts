@@ -1,11 +1,9 @@
 import React from 'react';
-import { usePostHog } from 'posthog-react-native';
 import { Account } from 'types/account';
 import useGetProfile from 'hooks/profile/useGetProfile';
 import { WalletType } from 'types/wallet';
-
-const ACCOUNT_CREATED_EVENT = 'Wallet Created';
-const ACCOUNT_IMPORTED_EVENT = 'Wallet Imported';
+import useTrackEvent from 'hooks/analytics/useTrackEvent';
+import { Events } from 'types/analytics';
 
 /**
  * Hook to track that a new account has been added from the user.
@@ -13,15 +11,11 @@ const ACCOUNT_IMPORTED_EVENT = 'Wallet Imported';
  * a new one that has been created from the user.
  */
 const useTrackNewAccountAdded = (isImported: boolean) => {
-  const postHog = usePostHog();
+  const trackEvent = useTrackEvent();
   const getProfile = useGetProfile();
 
   return React.useCallback(
     async (account: Account) => {
-      if (!postHog) {
-        return;
-      }
-
       const properties: Record<string, any> = {};
 
       if (!isImported) {
@@ -42,9 +36,9 @@ const useTrackNewAccountAdded = (isImported: boolean) => {
         properties.Web3AuthProvider = account.loginProvider;
       }
 
-      postHog.capture(isImported ? ACCOUNT_IMPORTED_EVENT : ACCOUNT_CREATED_EVENT, properties);
+      trackEvent(isImported ? Events.AccountImported : Events.AccountCreated, properties);
     },
-    [postHog, isImported, getProfile],
+    [isImported, trackEvent, getProfile],
   );
 };
 

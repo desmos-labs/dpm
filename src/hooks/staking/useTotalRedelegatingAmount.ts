@@ -87,7 +87,7 @@ const useTotalRedelegatingAmount = (userAddress?: string) => {
     }
 
     setLoading(false);
-  }, [address, currentChainInfo.stakeCurrency.coinMinimalDenom, client]);
+  }, [userAddress, client, address, currentChainInfo.stakeCurrency.coinMinimalDenom]);
 
   // Effect to trigger the data fetch logic.
   React.useEffect(() => {

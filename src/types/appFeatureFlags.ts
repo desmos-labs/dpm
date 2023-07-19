@@ -25,7 +25,7 @@ export interface AppFeatureFlags {
  * Interface that represents the feature flags returned
  * from posthog.
  */
-export interface PostHogFeatureFlags extends Record<keyof AppFeatureFlags, string | boolean> {
+export interface PostHogFeatureFlags extends Record<string, string | boolean> {
   trackFeeEstimation: boolean;
   feeEstimationTimeoutMs: string;
   gasOnFeeEstimationTimeout: string;
@@ -34,7 +34,7 @@ export interface PostHogFeatureFlags extends Record<keyof AppFeatureFlags, strin
 /**
  * Default feature flags values if not provided from posthog.
  */
-export const DefaultPosthogFeatureFlags: PostHogFeatureFlags = {
+export const DefaultPostHogFeatureFlags: PostHogFeatureFlags = {
   trackFeeEstimation: false,
   feeEstimationTimeoutMs: '5000',
   gasOnFeeEstimationTimeout: '200000',

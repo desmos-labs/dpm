@@ -15,6 +15,8 @@ import { IconButton, useTheme } from 'react-native-paper';
 import useShowModal from 'hooks/useShowModal';
 import SingleButtonModal from 'modals/SingleButtonModal';
 import { DPMImages } from 'types/images';
+import useTrackScreen from 'hooks/analytics/useTrackScreen';
+import { Screens } from 'types/analytics';
 import { useSaveProfile, useValidationHooks } from './useHooks';
 import InlineInput from './components/InlineInput';
 import useStyles from './useStyles';
@@ -46,6 +48,7 @@ const EditProfile = () => {
   const [selectedProfilePicture, setProfilePicture] = useState<string | undefined>(undefined);
   const [selectedCoverPicture, setCoverPicture] = useState<string | undefined>(undefined);
   const showModal = useShowModal();
+  useTrackScreen(Screens.ProfileEdit);
 
   const showErrorModal = useCallback(
     (title: string, message: string) => {

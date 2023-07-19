@@ -16,6 +16,8 @@ import { DeliverTxResponse } from '@desmoslabs/desmjs';
 import useOnScreenDetached from 'hooks/useOnScreenDetached';
 import { useSetHomeShouldReloadData } from '@recoil/home';
 import { DPMImageProps } from 'components/DPMImage';
+import useTrackScreen from 'hooks/analytics/useTrackScreen';
+import { Screens } from 'types/analytics';
 import useStyles from './useStyles';
 
 enum BroadcastStatus {
@@ -54,6 +56,10 @@ export interface BroadcastTxParams {
 
 type NavProps = StackScreenProps<RootNavigatorParamList, ROUTES.BROADCAST_TX>;
 
+/**
+ * Screen that allows the user to broadcast a transaction.
+ * @constructor
+ */
 const BroadcastTx: React.FC<NavProps> = (props) => {
   const { navigation, route } = props;
   const {
@@ -70,15 +76,24 @@ const BroadcastTx: React.FC<NavProps> = (props) => {
   const { t } = useTranslation('transaction');
   const styles = useStyles();
 
+  // --------------------------------------------------------------------------------------
+  // --- Hooks
+  // --------------------------------------------------------------------------------------
+
   const broadcastTx = useSignAndBroadcastTx();
   const showModal = useShowModal();
   const { estimateFees, estimatingFee, areFeeApproximated, estimatedFee } = useEstimateFee();
+  const setHomeShouldReloadData = useSetHomeShouldReloadData();
+  useTrackScreen(Screens.BroadcastTransaction);
+
+  // --------------------------------------------------------------------------------------
+  // --- Local state
+  // --------------------------------------------------------------------------------------
 
   const [broadcastingTx, setBroadcastingTx] = useState(false);
   const [broadcastTxStatus, setBroadcastTxStatus] = useState<BroadcastTxStatus>({
     status: BroadcastStatus.Cancel,
   });
-  const setHomeShouldReloadData = useSetHomeShouldReloadData();
 
   useEffect(() => {
     estimateFees(messages, memo);
@@ -113,6 +128,10 @@ const BroadcastTx: React.FC<NavProps> = (props) => {
         break;
     }
   }, [broadcastTxStatus, onCancel, onError, onSuccess, setHomeShouldReloadData]);
+
+  // --------------------------------------------------------------------------------------
+  // --- Callbacks
+  // --------------------------------------------------------------------------------------
 
   const showSuccessModal = React.useCallback(() => {
     showModal(SingleButtonModal, {
@@ -166,6 +185,10 @@ const BroadcastTx: React.FC<NavProps> = (props) => {
     showErrorModal,
     showSuccessModal,
   ]);
+
+  // --------------------------------------------------------------------------------------
+  // --- Screen rendering
+  // --------------------------------------------------------------------------------------
 
   return (
     <StyledSafeAreaView topBar={<TopBar stackProps={props} title={t('tx details')} />}>

@@ -1,29 +1,24 @@
-import { usePostHog } from 'posthog-react-native';
 import React from 'react';
 import { SessionTypes } from '@walletconnect/types';
-
-const EVENT_WALLET_CONNECT_SESSION_ESTABLISHED = 'WalletConnect Session Established';
+import useTrackEvent from 'hooks/analytics/useTrackEvent';
+import { Events } from 'types/analytics';
 
 /**
  * Hook that provides a function to track when a user approve a
  * WalletConnect session request.
  */
 const useTrackWalletConnectSessionEstablished = () => {
-  const postHog = usePostHog();
+  const trackEvent = useTrackEvent();
 
   return React.useCallback(
     (session: SessionTypes.Struct) => {
-      if (!postHog) {
-        return;
-      }
-
-      postHog.capture(EVENT_WALLET_CONNECT_SESSION_ESTABLISHED, {
+      trackEvent(Events.WalletConnectSessionEstablished, {
         CreationTime: new Date().toISOString(),
         ApplicationName: session.peer.metadata.name,
         Namespaces: session.requiredNamespaces,
       });
     },
-    [postHog],
+    [trackEvent],
   );
 };
 

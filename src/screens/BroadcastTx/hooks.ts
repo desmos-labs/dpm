@@ -14,6 +14,9 @@ import { PromiseTimeout } from 'lib/PromiseUtils';
 import useAppFeatureFlags from 'hooks/featureflags/useAppFeatureFlags';
 import { usePostHog } from 'posthog-react-native';
 import { Timer } from 'lib/Timer';
+import useTrackEvent from 'hooks/analytics/useTrackEvent';
+import { Events } from 'types/analytics';
+import useTransactionProperties from 'hooks/analytics/useTransactionProperties';
 
 export const useEstimateFee = () => {
   const [estimatingFee, setEstimatingFee] = useState(false);
@@ -116,6 +119,9 @@ export const useSignAndBroadcastTx = () => {
   const unlockWallet = useUnlockWallet();
   const signTx = useSignTx();
   const broadcastTx = useBroadcastTx();
+
+  const transactionProperties = useTransactionProperties();
+  const trackEvent = useTrackEvent();
   const trackTransactionPerformed = useTrackTransactionPerformed();
 
   return useCallback(
@@ -130,6 +136,10 @@ export const useSignAndBroadcastTx = () => {
         return ok(undefined);
       }
 
+      trackEvent(Events.TransactionSigning, {
+        ...transactionProperties,
+        'Wallet Type': wallet.type,
+      });
       const signResult = await signTx(wallet, {
         mode: SignMode.Online,
         messages,
@@ -138,16 +148,35 @@ export const useSignAndBroadcastTx = () => {
       });
 
       if (signResult.isErr()) {
+        trackEvent(Events.TransactionSignFailed, {
+          ...transactionProperties,
+          Error: signResult.error,
+        });
         return err(signResult.error);
       }
 
+      trackEvent(Events.TransactionBroadcasting, transactionProperties);
       const broadcastResult = await broadcastTx(wallet, signResult.value);
       if (broadcastResult.isOk()) {
+        trackEvent(Events.TransactionBroadcastSuccess, transactionProperties);
         trackTransactionPerformed(messages);
+      } else {
+        trackEvent(Events.TransactionBroadcastFail, {
+          ...transactionProperties,
+          Error: broadcastResult.error,
+        });
       }
 
       return broadcastResult;
     },
-    [activeAccount, broadcastTx, signTx, unlockWallet, trackTransactionPerformed],
+    [
+      unlockWallet,
+      activeAccount,
+      trackEvent,
+      transactionProperties,
+      signTx,
+      broadcastTx,
+      trackTransactionPerformed,
+    ],
   );
 };

@@ -1,8 +1,9 @@
-import { usePostHog } from 'posthog-react-native';
 import React from 'react';
 import { EncodeObject } from '@cosmjs/proto-signing';
-import useIsTestnetEvent from 'hooks/analytics/useIsTestnetEvent';
 import { Profiles } from '@desmoslabs/desmjs';
+import useTrackEvent from 'hooks/analytics/useTrackEvent';
+import { Events } from 'types/analytics';
+import useTransactionProperties from 'hooks/analytics/useTransactionProperties';
 
 /**
  * Convert a msg to a PostHog event that can be sent to the server to
@@ -18,10 +19,10 @@ const mapMessageToEvents = (msg: EncodeObject): [string, Record<string, any>] | 
   switch (msgName) {
     // Profile messages
     case 'MsgSaveProfile':
-      return ['Save Profile', {}];
+      return [Events.SaveProfile, {}];
     case 'MsgLinkChainAccount':
       return [
-        'Link Chain Account',
+        Events.LinkChain,
         {
           'Chain Name': (msg as Profiles.v3.MsgLinkChainAccountEncodeObject).value.chainConfig
             ?.name,
@@ -29,7 +30,7 @@ const mapMessageToEvents = (msg: EncodeObject): [string, Record<string, any>] | 
       ];
     case 'MsgUnlinkChainAccount':
       return [
-        'Unlink Chain Account',
+        Events.UnlinkChain,
         {
           'Chain Name': (msg as Profiles.v3.MsgUnlinkChainAccountEncodeObject).value.chainName,
         },
@@ -37,17 +38,19 @@ const mapMessageToEvents = (msg: EncodeObject): [string, Record<string, any>] | 
 
     // Staking messages
     case 'MsgDelegate':
-      return ['Delegate Tokens', {}];
-    case 'MsgWithdrawDelegatorReward':
-      return ['Withdraw Rewards', {}];
+      return [Events.DelegateTokens, {}];
     case 'MsgBeginRedelegate':
-      return ['Redelegate Tokens', {}];
+      return [Events.RedelegateTokens, {}];
     case 'MsgUndelegate':
-      return ['Undelegate Tokens', {}];
+      return [Events.UndelegateTokens, {}];
+
+    // Distribution messages
+    case 'MsgWithdrawDelegatorReward':
+      return [Events.WithdrawRewards, {}];
 
     // Bank messages
     case 'MsgSend':
-      return ['Send Tokens', {}];
+      return [Events.EventSendTokens, {}];
     default:
       return undefined;
   }
@@ -58,15 +61,11 @@ const mapMessageToEvents = (msg: EncodeObject): [string, Record<string, any>] | 
  * performed from the user.
  */
 const useTrackTransactionPerformed = () => {
-  const postHog = usePostHog();
-  const isTestnetEvent = useIsTestnetEvent();
+  const trackEvent = useTrackEvent();
+  const transactionProperties = useTransactionProperties();
 
   return React.useCallback(
-    async (msgs: EncodeObject[]) => {
-      if (!postHog || isTestnetEvent) {
-        return;
-      }
-
+    (msgs: EncodeObject[]) => {
       // Remove duplicated items, this can happen when the
       // user for example withdraw from multiple validators,
       // to avoid reporting multiple time the same action we filter out
@@ -89,10 +88,12 @@ const useTrackTransactionPerformed = () => {
         .filter((e) => e !== undefined) as [[string, Record<string, any>]];
 
       events.forEach(([event, properties]) => {
-        postHog.capture(event, properties);
+        // Add the transaction properties to the event properties
+        const completeProperties = { ...transactionProperties, ...properties };
+        trackEvent(event, completeProperties);
       });
     },
-    [postHog, isTestnetEvent],
+    [trackEvent, transactionProperties],
   );
 };
 

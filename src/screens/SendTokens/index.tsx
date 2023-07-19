@@ -17,6 +17,8 @@ import { Coin } from '@desmoslabs/desmjs-types/cosmos/base/v1beta1/coin';
 import TxMemoInput from 'components/TxMemoInput';
 import { AmountLimit } from 'components/CoinAmountInput/limits';
 import DKeyboardAvoidingView from 'components/DKeyboardAvoidingView';
+import useTrackScreen from 'hooks/analytics/useTrackScreen';
+import { Screens } from 'types/analytics';
 import useStyles from './useStyles';
 import useSendTokens from './useHooks';
 
@@ -35,6 +37,8 @@ const SendTokens = () => {
     () => address.length > 0 && isAddressValid && sendAmount !== undefined,
     [address.length, isAddressValid, sendAmount],
   );
+
+  useTrackScreen(Screens.SendTokens);
 
   const onAddressChange = useCallback((newAddress: string) => {
     setAddress(newAddress);

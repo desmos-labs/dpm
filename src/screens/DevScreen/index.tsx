@@ -125,6 +125,7 @@ const DevScreen: FC<NavProps> = ({ navigation }) => {
                 amountLimitConfig: {
                   mode: AmountLimit.UserBalance,
                 },
+                // eslint-disable-next-line no-console
                 onSelect: console.log,
               },
               {
