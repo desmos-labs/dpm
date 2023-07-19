@@ -76,8 +76,6 @@ const BroadcastTx: React.FC<NavProps> = (props) => {
   const { t } = useTranslation('transaction');
   const styles = useStyles();
 
-  useTrackScreen(Screens.BroadcastTransaction);
-
   // --------------------------------------------------------------------------------------
   // --- Hooks
   // --------------------------------------------------------------------------------------
@@ -86,6 +84,7 @@ const BroadcastTx: React.FC<NavProps> = (props) => {
   const showModal = useShowModal();
   const { estimateFees, estimatingFee, areFeeApproximated, estimatedFee } = useEstimateFee();
   const setHomeShouldReloadData = useSetHomeShouldReloadData();
+  useTrackScreen(Screens.BroadcastTransaction);
 
   // --------------------------------------------------------------------------------------
   // --- Local state

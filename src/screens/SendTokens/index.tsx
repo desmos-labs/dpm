@@ -29,8 +29,6 @@ const SendTokens = () => {
   const styles = useStyles();
   const navigation = useNavigation();
 
-  useTrackScreen(Screens.SendTokens);
-
   const [address, setAddress] = useState('');
   const [isAddressValid, setIsAddressValid] = useState(true);
   const [sendAmount, setSendAmount] = React.useState<Coin | undefined>();
@@ -39,6 +37,8 @@ const SendTokens = () => {
     () => address.length > 0 && isAddressValid && sendAmount !== undefined,
     [address.length, isAddressValid, sendAmount],
   );
+
+  useTrackScreen(Screens.SendTokens);
 
   const onAddressChange = useCallback((newAddress: string) => {
     setAddress(newAddress);

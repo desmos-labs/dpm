@@ -58,7 +58,6 @@ const Profile = () => {
   // -------- HOOKS --------
 
   useTrackScreen(Screens.Profile, { 'Is owner': !visitingProfile });
-
   const {
     profile,
     loading: loadingProfile,

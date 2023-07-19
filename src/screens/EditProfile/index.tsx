@@ -34,8 +34,6 @@ const EditProfile = () => {
   const { params } = useRoute<NavProps['route']>();
   const { t } = useTranslation('profile');
 
-  useTrackScreen(Screens.ProfileEdit);
-
   const profile = params?.profile;
 
   const { params: profileParams, refetch: refetchProfileParams } = useProfileParams();
@@ -50,6 +48,7 @@ const EditProfile = () => {
   const [selectedProfilePicture, setProfilePicture] = useState<string | undefined>(undefined);
   const [selectedCoverPicture, setCoverPicture] = useState<string | undefined>(undefined);
   const showModal = useShowModal();
+  useTrackScreen(Screens.ProfileEdit);
 
   const showErrorModal = useCallback(
     (title: string, message: string) => {
