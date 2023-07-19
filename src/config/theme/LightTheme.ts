@@ -1,6 +1,7 @@
 /* Disable the no-undef lint as the ReactNativePaper namespace will be provided at runtime */
 /* eslint-disable no-undef */
 import { DefaultTheme } from 'react-native-paper';
+import { Platform } from 'react-native';
 
 export const LightTheme: ReactNativePaper.Theme = {
   ...DefaultTheme,
@@ -61,6 +62,11 @@ export const LightTheme: ReactNativePaper.Theme = {
       disabled: 'rgba(237, 108, 83, 0.4)',
     },
     error: '#E44A4A',
+
+    shadow: Platform.select({
+      ios: 'rgba(10, 10, 10, 0.05)',
+      android: 'rgba(10, 10, 10, 0.5)',
+    })!,
 
     // New style colors
     primary100: '#FFF0EC',

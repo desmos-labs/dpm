@@ -7,9 +7,21 @@ const useStyles = makeStyle((theme) => ({
     flexDirection: 'row',
     alignItems: 'center',
     backgroundColor: theme.colors.background,
-    elevation: 9,
     padding: theme.spacing.s,
-    paddingBottom: Platform.OS === 'ios' ? theme.spacing.l : theme.spacing.s,
+    paddingBottom: Platform.select({
+      ios: theme.spacing.xl,
+      android: theme.spacing.s,
+    }),
+
+    // Shadows
+    shadowColor: theme.colors.shadow,
+    shadowOffset: {
+      width: 0,
+      height: -1,
+    },
+    shadowRadius: 2,
+    elevation: 9,
+    shadowOpacity: 1,
   },
   btn: {
     alignItems: 'center',

@@ -22,6 +22,7 @@ import { useNavigation } from '@react-navigation/native';
 import { StackNavigationProp } from '@react-navigation/stack/lib/typescript/src/types';
 import { RootNavigatorParamList } from 'navigation/RootNavigator';
 import ROUTES from 'navigation/routes';
+import StyledRefreshControl from 'components/StyledRefreshControl';
 import useStyles from './useStyles';
 import DelegationListItem from './components/DelegationListItem';
 
@@ -102,8 +103,7 @@ const StakedTab: React.FC = () => {
       <FlashList
         data={data}
         renderItem={renderDelegation}
-        refreshing={refreshing}
-        onRefresh={refreshData}
+        refreshControl={<StyledRefreshControl refreshing={refreshing} onRefresh={refreshData} />}
         onEndReached={fetchMore}
         onEndReachedThreshold={0.4}
         estimatedItemSize={148}

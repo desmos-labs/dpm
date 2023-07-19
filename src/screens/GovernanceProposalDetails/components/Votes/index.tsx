@@ -11,6 +11,7 @@ import Button from 'components/Button';
 import StyledActivityIndicator from 'components/StyledActivityIndicator';
 import VoteListItem from 'screens/GovernanceProposalDetails/components/VoteListItem';
 import Spacer from 'components/Spacer';
+import StyledRefreshControl from 'components/StyledRefreshControl';
 
 export interface VotesProps {
   readonly proposalId: number;
@@ -39,8 +40,7 @@ const Votes: React.FC<VotesProps> = ({ proposalId }) => {
         data={data}
         renderItem={renderListItem}
         onEndReached={fetchMore}
-        refreshing={refreshing}
-        onRefresh={refresh}
+        refreshControl={<StyledRefreshControl refreshing={refreshing} onRefresh={refresh} />}
         estimatedItemSize={100}
         onEndReachedThreshold={0.4}
         ListEmptyComponent={
