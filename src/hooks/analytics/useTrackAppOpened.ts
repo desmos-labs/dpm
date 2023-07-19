@@ -8,18 +8,20 @@ import { Events } from 'types/analytics';
  */
 const useTrackAppOpened = () => {
   const trackEvent = useTrackEvent();
-  const [appStarted, setAppStarted] = React.useState(false);
+  const [appStartTracked, setAppStartTracked] = React.useState(false);
 
   React.useEffect(() => {
     let subscription: NativeEventSubscription | undefined;
-    if (!appStarted) {
+    if (!appStartTracked) {
+      // If the application is active, track the application opened.
       if (AppState.currentState === 'active') {
-        trackEvent(Events.ApplicationOpened);
-        setAppStarted(true);
+        setAppStartTracked(trackEvent(Events.ApplicationOpened));
       } else {
+        // Application not active, add a listener to listen when the application
+        // starts.
         subscription = AppState.addEventListener('change', (state) => {
           if (state === 'active') {
-            trackEvent(Events.ApplicationOpened);
+            setAppStartTracked(trackEvent(Events.ApplicationOpened));
           }
         });
       }
@@ -28,7 +30,7 @@ const useTrackAppOpened = () => {
     return () => {
       subscription?.remove();
     };
-  }, [appStarted, trackEvent]);
+  }, [appStartTracked, trackEvent]);
 };
 
 export default useTrackAppOpened;
