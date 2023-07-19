@@ -23,6 +23,7 @@ import TransactionsListItem from 'screens/Home/components/TransactionsListItem';
 import Spacer from 'components/Spacer';
 import { useHomeShouldReloadData, useSetHomeShouldReloadData } from '@recoil/home';
 import { HomeTabsScreenProps } from 'navigation/RootNavigator/HomeTabs/props';
+import StyledRefreshControl from 'components/StyledRefreshControl';
 import { useActiveAccountTransactions } from './hooks';
 import useStyles from './useStyles';
 
@@ -118,10 +119,11 @@ const Home: React.FC<NavProps> = (props) => {
         <FlashList
           data={transactions}
           contentContainerStyle={styles.transactionsContentContainer}
+          refreshControl={
+            <StyledRefreshControl refreshing={refreshingTransactions} onRefresh={refreshData} />
+          }
           onEndReached={fetchMoreTransactions}
           onEndReachedThreshold={0.4}
-          onRefresh={refreshData}
-          refreshing={refreshingTransactions}
           renderItem={renderTransactionItem}
           estimatedItemSize={100}
           showsVerticalScrollIndicator={false}

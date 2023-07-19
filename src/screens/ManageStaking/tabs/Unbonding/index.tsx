@@ -20,6 +20,7 @@ import { NavigationProp, useNavigation } from '@react-navigation/native';
 import { RootNavigatorParamList } from 'navigation/RootNavigator';
 import ROUTES from 'navigation/routes';
 import Button from 'components/Button';
+import StyledRefreshControl from 'components/StyledRefreshControl';
 import useStyles from './useStyles';
 
 /**
@@ -100,8 +101,12 @@ const UnbondingTab: React.FC = () => {
       <FlashList
         data={unbondingDelegations}
         renderItem={renderItem}
-        refreshing={refreshingUnbondingDelegations}
-        onRefresh={refreshData}
+        refreshControl={
+          <StyledRefreshControl
+            refreshing={refreshingUnbondingDelegations}
+            onRefresh={refreshData}
+          />
+        }
         onEndReached={fetchMoreUnbondingDelegations}
         onEndReachedThreshold={0.4}
         estimatedItemSize={251}
