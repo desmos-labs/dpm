@@ -178,7 +178,14 @@ const Profile = () => {
         ItemSeparatorComponent={ListItemSeparator}
         estimatedItemSize={68}
         ListEmptyComponent={ListEmptyComponent}
-        refreshControl={<StyledRefreshControl refreshing={refreshing} onRefresh={refreshProfile} />}
+        refreshControl={
+          <StyledRefreshControl
+            refreshing={refreshing}
+            onRefresh={refreshProfile}
+            progressViewOffset={24}
+            style={{ zIndex: 2 }}
+          />
+        }
       />
 
       {/* Connect button */}
