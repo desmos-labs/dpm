@@ -12,6 +12,7 @@ import {
   emptyList,
   ledgerConnectionError,
   ledgerIcon,
+  mnemonic,
   noConnectionDarkIcon,
   noConnectionLightIcon,
   noData,
@@ -73,6 +74,8 @@ const DpmImage = (props: DPMImageProps) => {
           return emptyList;
         case DPMImages.NoData:
           return noData;
+        case DPMImages.Mnemonic:
+          return mnemonic;
         default:
           return desmosIconWhite;
       }
