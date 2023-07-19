@@ -27,6 +27,7 @@ import TypographyContentLoaders from 'components/ContentLoaders/Typography';
 import ChainLinkContentLoader from 'components/ContentLoaders/ChainLink';
 import { View } from 'react-native';
 import ProfileData from 'screens/Profile/components/ProfileData';
+import StyledRefreshControl from 'components/StyledRefreshControl';
 import useConnectChain from './hooks';
 import useStyles from './useStyles';
 
@@ -177,8 +178,7 @@ const Profile = () => {
         ItemSeparatorComponent={ListItemSeparator}
         estimatedItemSize={68}
         ListEmptyComponent={ListEmptyComponent}
-        onRefresh={refreshProfile}
-        refreshing={refreshing}
+        refreshControl={<StyledRefreshControl refreshing={refreshing} onRefresh={refreshProfile} />}
       />
 
       {/* Connect button */}
