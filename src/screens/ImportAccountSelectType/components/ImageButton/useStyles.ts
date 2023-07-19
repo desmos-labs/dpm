@@ -7,16 +7,18 @@ const useStyles = makeStyle((theme) => ({
     alignItems: 'center',
     padding: 24,
     backgroundColor: theme.colors.surface2,
-    elevation: 5,
-    shadowColor: '#000',
+    marginHorizontal: theme.spacing.s,
+    borderRadius: theme.roundness,
+
+    // Shadows
+    shadowColor: theme.colors.shadow,
     shadowOffset: {
       width: 0,
-      height: 2,
+      height: 3,
     },
-    shadowOpacity: 0.25,
-    shadowRadius: 3.84,
-    borderRadius: theme.roundness,
-    marginHorizontal: theme.spacing.s,
+    shadowRadius: 20,
+    elevation: 8,
+    shadowOpacity: 1,
   },
   image: {
     height: 24,
