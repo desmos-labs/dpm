@@ -9,7 +9,7 @@ import ROUTES from 'navigation/routes';
 import { DesmosMainnet } from '@desmoslabs/desmjs';
 import { useFocusEffect } from '@react-navigation/native';
 import useDrawerContext from 'lib/AppDrawer/context';
-import useProfileGivenAddress from 'hooks/useProfileGivenAddress';
+import useProfileGivenAddress from 'hooks/profile/useProfileGivenAddress';
 import AccountBalances, { AccountBalanceRef } from 'screens/Home/components/AccountBalances';
 import { DPMImages } from 'types/images';
 import EmptyList from 'components/EmptyList';

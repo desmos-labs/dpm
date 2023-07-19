@@ -52,7 +52,7 @@ const useSaveChainLinkAccount = () => {
         creationTime: new Date(Date.now()),
       };
 
-      storeChainLinks(activeAccountAddress, [chainLinks]);
+      storeChainLinks(activeAccountAddress, [chainLinks], true);
     },
     [activeAccountAddress, storeChainLinks],
   );

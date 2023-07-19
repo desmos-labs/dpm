@@ -3,12 +3,10 @@ import ProfileHeader from 'components/ProfileHeader';
 import { View } from 'react-native';
 import Typography from 'components/Typography';
 import { Rect } from 'react-content-loader/native';
-import { ApplicationLink, ChainLink, DesmosProfile } from 'types/desmos';
+import { ApplicationLink, DesmosProfile } from 'types/desmos';
 import Spacer from 'components/Spacer';
 import ApplicationLinks from 'screens/Profile/components/ApplicationLinks';
 import ThemedContentLoader from 'components/ThemedContentLoader';
-import NonExistingProfile from '../NonExistingProfile';
-import ChainLinks from '../ChainLinksList';
 import useStyles from './useStyles';
 
 export interface ProfileDataProps {
@@ -16,10 +14,6 @@ export interface ProfileDataProps {
    * Profile data to be shown. If undefined, an empty profile page will be shown instead.
    */
   profile: DesmosProfile | undefined;
-  /**
-   * Chain links associated with the profile that should be displayed.
-   */
-  chainLinks: ChainLink[];
   /**
    * Application links associated with the profile that should be displayed.
    */
@@ -35,7 +29,7 @@ export interface ProfileDataProps {
 }
 
 const ProfileData = (props: ProfileDataProps) => {
-  const { profile, canEdit, chainLinks, applicationLinks, loading } = props;
+  const { profile, canEdit, applicationLinks, loading } = props;
   const styles = useStyles();
 
   return (
@@ -61,7 +55,7 @@ const ProfileData = (props: ProfileDataProps) => {
 
       {/* Main content */}
       <View style={styles.content}>
-        {profile || loading ? (
+        {profile !== undefined && loading && (
           <View style={styles.linksContainer}>
             {applicationLinks.length > 0 || (loading && <Spacer paddingVertical={4} />)}
             <ApplicationLinks
@@ -69,11 +63,7 @@ const ProfileData = (props: ProfileDataProps) => {
               canEdit={canEdit}
               loading={loading}
             />
-            <Spacer paddingVertical={8} />
-            <ChainLinks chainLinks={chainLinks} canEdit={canEdit} loading={loading} />
           </View>
-        ) : (
-          <NonExistingProfile canCreate={canEdit} />
         )}
       </View>
     </View>

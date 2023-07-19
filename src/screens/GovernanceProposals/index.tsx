@@ -9,7 +9,7 @@ import StyledSafeAreaView from 'components/StyledSafeAreaView';
 import TopBar from 'components/TopBar';
 import ProfileImage from 'components/ProfileImage';
 import useDrawerContext from 'lib/AppDrawer/context';
-import useProfileGivenAddress from 'hooks/useProfileGivenAddress';
+import useProfileGivenAddress from 'hooks/profile/useProfileGivenAddress';
 import { useTheme } from 'react-native-paper';
 import { useTranslation } from 'react-i18next';
 import { FlashList } from '@shopify/flash-list';
