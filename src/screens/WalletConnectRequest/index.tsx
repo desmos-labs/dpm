@@ -100,11 +100,7 @@ const WalletConnectRequest: React.FC<NavProps> = (props) => {
   }, [request, showErrorModal, unlockWallet, walletConnectResponse]);
 
   return request !== null ? (
-    <StyledSafeAreaView
-      topBar={<TopBar stackProps={props} title={t('common:tx details')} />}
-      divider
-      padding={0}
-    >
+    <StyledSafeAreaView topBar={<TopBar stackProps={props} title={t('common:tx details')} />}>
       <TransactionDetails style={styles.txDetails} messages={messages} fee={stdFee} memo={memo} />
       <View style={styles.buttonsContainer}>
         <Button style={styles.button} mode="contained" accent onPress={onReject} disabled={signing}>
