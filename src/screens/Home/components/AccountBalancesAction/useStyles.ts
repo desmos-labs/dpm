@@ -13,14 +13,14 @@ const useStyles = makeStyle((theme) => ({
     marginHorizontal: theme.spacing.xs,
 
     // Shadows
-    shadowColor: '#000',
+    shadowColor: 'rgba(10, 10, 10, 0.05)',
     shadowOffset: {
       width: 0,
-      height: 1,
+      height: 3,
     },
-    shadowOpacity: 0.2,
-    shadowRadius: 1.41,
-    elevation: 2,
+    shadowRadius: 20,
+    elevation: 20,
+    shadowOpacity: 1,
   },
   actionValues: {
     display: 'flex',

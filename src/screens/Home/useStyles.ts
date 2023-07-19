@@ -20,10 +20,13 @@ const useStyles = makeStyle((theme) => ({
     marginRight: 16,
   },
   transactionsContainer: {
-    paddingHorizontal: theme.spacing.m,
+    paddingHorizontal: -theme.spacing.m,
     borderTopLeftRadius: theme.roundness,
     borderTopRightRadius: theme.roundness,
     flex: 1,
+  },
+  transactionsContentContainer: {
+    padding: theme.spacing.m,
   },
   noTransactionsView: {
     display: 'flex',

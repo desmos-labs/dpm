@@ -117,6 +117,7 @@ const Home: React.FC<NavProps> = (props) => {
       <View style={styles.transactionsContainer}>
         <FlashList
           data={transactions}
+          contentContainerStyle={styles.transactionsContentContainer}
           onEndReached={fetchMoreTransactions}
           onEndReachedThreshold={0.4}
           onRefresh={refreshData}
