@@ -9,9 +9,18 @@ const useStyles = makeStyle((theme) => ({
     alignSelf: 'flex-start',
     padding: theme.spacing.m,
     borderRadius: theme.roundness,
-    backgroundColor: theme.colors.background,
+    backgroundColor: theme.colors.surface2,
     marginHorizontal: theme.spacing.xs,
-    elevation: 1.5,
+
+    // Shadows
+    shadowColor: theme.colors.shadow,
+    shadowOffset: {
+      width: 0,
+      height: 3,
+    },
+    shadowRadius: 20,
+    elevation: 8,
+    shadowOpacity: 1,
   },
   actionValues: {
     display: 'flex',

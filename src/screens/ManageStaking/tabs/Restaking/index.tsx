@@ -16,6 +16,7 @@ import { formatCoin } from 'lib/FormatUtils';
 import EmptyList from 'components/EmptyList';
 import { DPMImages } from 'types/images';
 import Button from 'components/Button';
+import StyledRefreshControl from 'components/StyledRefreshControl';
 import { useFetchAccountRedelegations } from './hooks';
 import useStyeles from './useStyles';
 
@@ -81,8 +82,7 @@ const RestakingTab: React.FC = () => {
       <FlashList
         data={data}
         renderItem={renderItem}
-        refreshing={refreshing}
-        onRefresh={refreshData}
+        refreshControl={<StyledRefreshControl refreshing={refreshing} onRefresh={refreshData} />}
         onEndReached={fetchMore}
         onEndReachedThreshold={0.4}
         estimatedItemSize={251}

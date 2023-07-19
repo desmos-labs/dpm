@@ -47,7 +47,7 @@ const ManageStaking: React.FC<NavProps> = (props) => {
         stackProps={{ ...props, navigation: { ...props.navigation, openDrawer } }}
         title={t('manage staking')}
         rightElement={
-          <Button mode={'text'} onPress={onStakePressed}>
+          <Button mode={'text'} onPress={onStakePressed} labelStyle={{ minWidth: 46 }}>
             {t('stake:stake')}
           </Button>
         }

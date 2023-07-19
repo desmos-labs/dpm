@@ -77,6 +77,8 @@ declare global {
        */
       button: ButtonColors;
 
+      shadow: string;
+
       // New style colors
       primary100: string;
       secondary100: string;

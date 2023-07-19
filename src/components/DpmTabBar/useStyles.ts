@@ -1,4 +1,5 @@
 import { makeStyle } from 'config/theme';
+import { TypographyConfigSemiBold14 } from 'components/Typography/config';
 
 const useStyles = makeStyle((theme) => ({
   tabBar: {
@@ -16,6 +17,10 @@ const useStyles = makeStyle((theme) => ({
     borderRadius: 2,
     backgroundColor: '#FEB027',
     marginTop: 3,
+  },
+  tabText: {
+    ...TypographyConfigSemiBold14,
+    color: theme.colors.text,
   },
 }));
 

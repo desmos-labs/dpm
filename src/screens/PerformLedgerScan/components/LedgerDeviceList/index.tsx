@@ -49,6 +49,7 @@ const LedgerDeviceList: FC<LedgerDeviceListProps> = ({ devices, ledgerApp, onCon
   return (
     <FlatList
       style={styles.deviceList}
+      contentContainerStyle={{ padding: 16 }}
       data={devices}
       renderItem={renderLedgerDevice}
       keyExtractor={(item) => item.id}

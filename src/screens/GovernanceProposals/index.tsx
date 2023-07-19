@@ -21,6 +21,7 @@ import { DPMImages } from 'types/images';
 import Button from 'components/Button';
 import Spacer from 'components/Spacer';
 import StyledActivityIndicator from 'components/StyledActivityIndicator';
+import StyledRefreshControl from 'components/StyledRefreshControl';
 import { useFetchProposals } from './hooks';
 import useStyles from './useStyles';
 
@@ -92,8 +93,7 @@ const GovernanceProposals: React.FC<NavProps> = (props) => {
         data={data}
         renderItem={renderProposal}
         estimatedItemSize={155}
-        refreshing={refreshing}
-        onRefresh={refresh}
+        refreshControl={<StyledRefreshControl refreshing={refreshing} onRefresh={refresh} />}
         onEndReached={fetchMore}
         onEndReachedThreshold={0.4}
         ListEmptyComponent={

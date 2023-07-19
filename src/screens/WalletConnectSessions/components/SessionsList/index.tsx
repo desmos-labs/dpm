@@ -16,6 +16,7 @@ const SessionsList = (props: SessionsListProps) => {
     <FlatList
       style={styles.root}
       data={sessions}
+      contentContainerStyle={{ padding: 16 }}
       renderItem={({ item }) => <SessionListItem session={item} />}
       keyExtractor={(item) => item.topic}
       ItemSeparatorComponent={ListItemSeparator}

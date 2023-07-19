@@ -6,6 +6,7 @@ import {
   ListRenderItemInfo as FlashListRenderItemInfo,
 } from '@shopify/flash-list';
 import { useTheme } from 'react-native-paper';
+import StyledRefreshControl from 'components/StyledRefreshControl';
 
 export type ListRenderItemInfo<T> = FlashListRenderItemInfo<T>;
 
@@ -102,8 +103,7 @@ const PaginatedFlatList = (props: PaginatedFlashListProps<any>) => {
       {...props}
       data={data}
       onEndReached={onPageEndReached}
-      refreshing={refreshing}
-      onRefresh={onRefresh}
+      refreshControl={<StyledRefreshControl refreshing={refreshing} onRefresh={onRefresh} />}
       ListFooterComponent={
         <StyledActivityIndicator
           style={{ paddingBottom: theme.spacing.s }}
