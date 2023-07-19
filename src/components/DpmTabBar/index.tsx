@@ -31,7 +31,9 @@ function DpmTabBar<T extends Route>(tabProps: TabBarProps<T>): ReactElement<any,
             onPress={() => tabProps.jumpTo(route.key)}
             key={i}
           >
-            <Animated.Text style={{ opacity: titleOpacity }}>{route.title}</Animated.Text>
+            <Animated.Text style={[styles.tabText, { opacity: titleOpacity }]}>
+              {route.title}
+            </Animated.Text>
             <Animated.View style={[styles.tabDot, { opacity: dotOpacity }]} />
           </TouchableOpacity>
         );
