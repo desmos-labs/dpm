@@ -1,3 +1,17 @@
+# Version 2.3.0
+## Features
+- Voting and Depositing on Governance Proposals: Users can now actively participate in governance by voting and depositing on proposals;
+- Redesigned Bottom Bar: The home screen's bottom bar has been updated with a new design, enhancing the user experience;
+- Hide User Balance Option: Users now have the flexibility to hide their balance from the home screen, providing more privacy;
+- Profile Refresh Gesture: A pull-to-refresh gesture has been added to the Profile screen, allowing users to refresh their profile easily.
+
+## Bug Fixes
+- Crash on Deleting Last Account: The issue causing the application to crash when deleting the last account has been resolved;
+- Improved Visualization of Delegations: Delegations with an amount equal to 0 are now hide;
+- Profile Refresh Issue: Fixed the problem where the profile refresh upon returning to the Profile screen;
+- Corrected `MsgExec` Description: The description for `MsgExec` has been fixed for better clarity;
+- iOS Components Shadows: Shadows for components on iOS have been fixed to display correctly.
+
 # Version 2.2.0
 ## Features
 - New transaction list UI
