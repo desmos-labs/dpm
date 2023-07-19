@@ -16,7 +16,6 @@ import { DeliverTxResponse } from '@desmoslabs/desmjs';
 import useOnScreenDetached from 'hooks/useOnScreenDetached';
 import { useSetHomeShouldReloadData } from '@recoil/home';
 import { DPMImageProps } from 'components/DPMImage';
-import { ImageSourcePropType } from 'react-native';
 import useTrackScreen from 'hooks/analytics/useTrackScreen';
 import { Screens } from 'types/analytics';
 import useStyles from './useStyles';
