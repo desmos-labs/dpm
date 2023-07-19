@@ -15,7 +15,7 @@ import { BiometricAuthorizations } from 'types/settings';
 import useDeletePasswordFromBiometrics from 'hooks/useDelletPasswordFromBiometrics';
 import useShowPrivacyPolicy from 'hooks/legal/useShowPrivacyPolicy';
 import useShowToS from 'hooks/legal/useShowToS';
-import { usePostHog } from 'posthog-react-native';
+import { useToggleAnalytics } from 'screens/Settings/hooks';
 import useStyles from './useStyles';
 
 export type NavProps = StackScreenProps<RootNavigatorParamList, ROUTES.SETTINGS>;
@@ -43,15 +43,13 @@ const Settings = (props: NavProps) => {
 
   const deletePasswordFromBiometrics = useDeletePasswordFromBiometrics();
 
-  const analyticsEnabled = useSetting('analyticsEnabled');
-  const setAnalyticsEnabled = useSetSetting('analyticsEnabled');
+  const { toggleAnalytics, analyticsEnabled } = useToggleAnalytics();
 
   // --------------------------------------------------------------------------------------
   // --- Local state
   // --------------------------------------------------------------------------------------
 
   const [biometricsSupported, setBiometricsSupported] = React.useState(false);
-  const postHog = usePostHog();
 
   // --------------------------------------------------------------------------------------
   // --- Actions
@@ -115,20 +113,6 @@ const Settings = (props: NavProps) => {
     [deletePasswordFromBiometrics, setLoginWithBiometrics, setUnlockWalletWalletWithBiometrics],
   );
 
-  const handleAnalyticsToggle = React.useCallback(() => {
-    setAnalyticsEnabled((enabled) => {
-      const newState = !enabled;
-      if (postHog) {
-        if (newState) {
-          postHog.optIn();
-        } else {
-          postHog.optOut();
-        }
-      }
-      return newState;
-    });
-  }, [postHog, setAnalyticsEnabled]);
-
   // --------------------------------------------------------------------------------------
   // --- Effects
   // --------------------------------------------------------------------------------------
@@ -154,8 +138,8 @@ const Settings = (props: NavProps) => {
         <Flexible.SectionSwitch
           label={t('analytics')}
           value={analyticsEnabled}
-          isDisabled={!biometricsSupported}
-          onPress={handleAnalyticsToggle}
+          isDisabled={false}
+          onPress={toggleAnalytics}
         />
       </Flexible.Section>
 

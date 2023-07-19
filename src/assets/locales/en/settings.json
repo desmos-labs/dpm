@@ -31,5 +31,7 @@
   "insert your password to enable biometrics login": "Insert your password to allow login into the app with biometrics",
   "insert your password to enable biometrics signature": "Insert your password to allow to confirm transactions signature with biometrics",
   "unlock application": "Unlock application",
-  "analytics": "Analytics"
+  "analytics": "Analytics",
+  "enable analytics": "Enable analytics",
+  "enable analytics message": "By enabling in-app analytics, we'll track only anonymous data on how you use the app—like feature engagement and navigation patterns.\nNo personal info is collected.\nDo you want to enable the analytics?"
 }

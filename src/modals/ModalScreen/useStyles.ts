@@ -29,10 +29,6 @@ const useStyles = makeStyle((theme) => ({
     borderTopRightRadius: theme.roundness,
     padding: theme.spacing.l,
   },
-  successImage: {
-    width: 200,
-    height: 100,
-  },
   closePopupArea: {
     flex: 1,
   },
