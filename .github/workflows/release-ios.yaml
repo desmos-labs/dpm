@@ -43,6 +43,8 @@ jobs:
       - name: Get version info ⚙
         id: version-info
         run: bundle exec fastlane common populate_github_env
+        env:
+          VERSION_OVERRIDE: "2.3.2-RC1"
 
       - name: Install yarn dependencies 🔨
         run: yarn install --immutable
