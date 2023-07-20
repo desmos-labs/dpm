@@ -16,9 +16,8 @@ PROVISIONING_PROFILE_SPECIFIER = ENV["PROVISIONING_PROFILE_SPECIFIER"]
 TEMP_KEYCHAIN_USER = ENV["TEMP_KEYCHAIN_USER"]
 TEMP_KEYCHAIN_PASSWORD = ENV["TEMP_KEYCHAIN_PASSWORD"]
 APPLE_ISSUER_ID = ENV["APPLE_ISSUER_ID"]
-APPLE_KEY_ID = ENV["APPLE_KEY_ID"]
-APPLE_KEY_CONTENT = ENV["APPLE_KEY_CONTENT"]
 GIT_AUTHORIZATION = ENV["GIT_AUTHORIZATION"]
+FASTLANE_APPLE_ID = ENV["FASTLANE_APPLE_ID"]
 
 # Android variable
 ANDROID_PLAYSTORE_JSON_KEY = ENV["PLAYSTORE_JSON_KEY"]
@@ -136,14 +135,6 @@ platform :ios do
     keychain_password = TEMP_KEYCHAIN_PASSWORD
     ensure_temp_keychain(keychain_name, keychain_password)
 
-    api_key = app_store_connect_api_key(
-      key_id: APPLE_KEY_ID,
-      issuer_id: APPLE_ISSUER_ID,
-      key_content: APPLE_KEY_CONTENT,
-      duration: 1200,
-      in_house: false
-    )
-
     version_name = version_name_from_git(true)
     build_number = build_number_from_git
 
@@ -170,7 +161,6 @@ platform :ios do
       readonly: true,
       keychain_name: keychain_name,
       keychain_password: keychain_password,
-      api_key: api_key
     )
 
     gym(
@@ -190,20 +180,11 @@ platform :ios do
   end
 
   lane :deploy do
-    # Get api key
-    api_key = app_store_connect_api_key(
-      key_id: APPLE_KEY_ID,
-      issuer_id: APPLE_ISSUER_ID,
-      key_content: APPLE_KEY_CONTENT,
-      duration: 1200,
-      in_house: false
-    )
-
     # Deploy to test flight
     pilot(
       apple_id: "#{DEVELOPER_APP_ID}",
       app_identifier: "#{DEVELOPER_APP_IDENTIFIER}",
-      api_key: api_key,
+      username: "#{FASTLANE_APPLE_ID}",
       skip_waiting_for_build_processing: false,
       skip_submission: true,
       distribute_external: false,

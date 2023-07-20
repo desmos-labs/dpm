@@ -5,6 +5,8 @@ on:
     tags:
       - 'v[0-9]+.[0-9]+.[0-9]+'
       - 'v[0-9]+.[0-9]+.[0-9]+-RC*'
+    branches:
+      - manuel/update-ios-release-ci
 
 jobs:
   deploy:
@@ -67,9 +69,7 @@ jobs:
           PROVISIONING_PROFILE_SPECIFIER: '${{ secrets.PROVISIONING_PROFILE_SPECIFIER }}'
           TEMP_KEYCHAIN_PASSWORD: '${{ secrets.TEMP_KEYCHAIN_PASSWORD }}'
           TEMP_KEYCHAIN_USER: '${{ secrets.TEMP_KEYCHAIN_USER }}'
-          APPLE_KEY_ID: '${{ secrets.APPLE_KEY_ID }}'
-          APPLE_ISSUER_ID: '${{ secrets.APPLE_ISSUER_ID }}'
-          APPLE_KEY_CONTENT: '${{ secrets.APPLE_KEY_CONTENT }}'
+          VERSION_OVERRIDE: "2.3.2-RC1"
 
       - name: Deploy 🚀
         run: bundle exec fastlane ios deploy
@@ -85,6 +85,4 @@ jobs:
           PROVISIONING_PROFILE_SPECIFIER: '${{ secrets.PROVISIONING_PROFILE_SPECIFIER }}'
           TEMP_KEYCHAIN_PASSWORD: '${{ secrets.TEMP_KEYCHAIN_PASSWORD }}'
           TEMP_KEYCHAIN_USER: '${{ secrets.TEMP_KEYCHAIN_USER }}'
-          APPLE_KEY_ID: '${{ secrets.APPLE_KEY_ID }}'
-          APPLE_ISSUER_ID: '${{ secrets.APPLE_ISSUER_ID }}'
-          APPLE_KEY_CONTENT: '${{ secrets.APPLE_KEY_CONTENT }}'
+          VERSION_OVERRIDE: "2.3.2-RC1"
