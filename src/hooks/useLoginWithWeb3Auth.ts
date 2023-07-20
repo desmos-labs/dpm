@@ -17,9 +17,10 @@ const useLoginWithWeb3Auth = (chain: SupportedChain, ignoreAddresses: string[]) 
 
   return useCallback(
     async (loginProvider: Web3AuthLoginProvider) => {
-      const keyProvider = new Web3AuthKeyProvider(newWeb3AuthClient(), {
+      const web3authClient = newWeb3AuthClient();
+      await web3authClient.init();
+      const keyProvider = new Web3AuthKeyProvider(web3authClient, {
         loginParams: web3AuthLoginParams(loginProvider),
-        logoutParams: {},
       });
 
       setAppState(
