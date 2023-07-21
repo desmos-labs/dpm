@@ -13,6 +13,7 @@ import useWalletConnectCloseSession from 'hooks/walletconnect/useWalletConnectCl
 import { useWalletConnectSessions } from '@recoil/walletConnectSessions';
 import { useTranslation } from 'react-i18next';
 import { useSetSettings } from '@recoil/settings';
+import { DPMImages } from 'types/images';
 
 const useCheckKeyChainIntegrity = () => {
   const { t } = useTranslation('dataIntegrity');
@@ -77,10 +78,12 @@ const useCheckKeyChainIntegrity = () => {
           showModal(
             SingleButtonModal,
             {
+              image: DPMImages.TxFailed,
               title: t('keychain corrupted'),
               message: t('keychain corrupted description'),
-              actionLabel: t('common:ok'),
+              actionLabel: t('delete all data'),
               action: clearData,
+              disableButtonFor: 5000,
             },
             {
               blockGoBack: true,

@@ -1,4 +1,5 @@
 {
-  "keychain corrupted": "Keychain corrupted",
-  "keychain corrupted description": "The data stored in the device's keychain is corrupted.\nTo continue using the application, you need to delete all the data."
+  "keychain corrupted": "Data Corrupted",
+  "keychain corrupted description": "It seems like there is an issue with the data on your device. To continue using the application, you will need to delete all the data.\nDon't worry; you can import your accounts again once this process is complete.",
+  "delete all data": "Delete all data"
 }
