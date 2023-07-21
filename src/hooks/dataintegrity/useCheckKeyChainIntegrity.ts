@@ -12,6 +12,7 @@ import { useDeleteAllChainLinks } from '@recoil/chainLinks';
 import useWalletConnectCloseSession from 'hooks/walletconnect/useWalletConnectCloseSession';
 import { useWalletConnectSessions } from '@recoil/walletConnectSessions';
 import { useTranslation } from 'react-i18next';
+import { useSetSettings } from '@recoil/settings';
 
 const useCheckKeyChainIntegrity = () => {
   const { t } = useTranslation('dataIntegrity');
@@ -26,6 +27,7 @@ const useCheckKeyChainIntegrity = () => {
   const deleteChainLinks = useDeleteAllChainLinks();
   const closeWalletConnectSession = useWalletConnectCloseSession();
   const walletConnectSessions = useWalletConnectSessions();
+  const setSettings = useSetSettings();
 
   const clearData = React.useCallback(() => {
     deleteAccounts();
@@ -33,6 +35,13 @@ const useCheckKeyChainIntegrity = () => {
     deleteAppLinks();
     deleteChainLinks();
     setActiveAccount(undefined);
+    // Reset the settings that depends on the secure storage.
+    setSettings((currVal) => ({
+      ...currVal,
+      unlockWalletWithBiometrics: false,
+      loginWithBiometrics: false,
+    }));
+    // Close all the WalletConnect sessions.
     Object.values(walletConnectSessions)
       .flatMap((sessions) => sessions)
       .forEach((session) => {
@@ -40,6 +49,7 @@ const useCheckKeyChainIntegrity = () => {
           // Ignore the exception.
         });
       });
+    // Return to the landing page.
     resetToLandingPage();
   }, [
     closeWalletConnectSession,
@@ -49,6 +59,7 @@ const useCheckKeyChainIntegrity = () => {
     deleteProfiles,
     resetToLandingPage,
     setActiveAccount,
+    setSettings,
     walletConnectSessions,
   ]);
 
