@@ -74,12 +74,18 @@ const useCheckKeyChainIntegrity = () => {
           // storage is in an incorrect state, this can be caused
           // from the migration that we made from the Forbole Limited
           // organization to the Desmos Labs on the Apple Store.
-          showModal(SingleButtonModal, {
-            title: t('keychain corrupted'),
-            message: t('keychain corrupted description'),
-            actionLabel: t('common:ok'),
-            action: clearData,
-          });
+          showModal(
+            SingleButtonModal,
+            {
+              title: t('keychain corrupted'),
+              message: t('keychain corrupted description'),
+              actionLabel: t('common:ok'),
+              action: clearData,
+            },
+            {
+              blockGoBack: true,
+            },
+          );
         }
       }
     })();
