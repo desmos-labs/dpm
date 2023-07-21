@@ -44,7 +44,7 @@ jobs:
         id: version-info
         run: bundle exec fastlane common populate_github_env
         env:
-          VERSION_OVERRIDE: "2.3.2-RC2"
+          VERSION_OVERRIDE: "2.3.2-RC3"
 
       - name: Install yarn dependencies 🔨
         run: yarn install --immutable
@@ -71,7 +71,10 @@ jobs:
           PROVISIONING_PROFILE_SPECIFIER: '${{ secrets.PROVISIONING_PROFILE_SPECIFIER }}'
           TEMP_KEYCHAIN_PASSWORD: '${{ secrets.TEMP_KEYCHAIN_PASSWORD }}'
           TEMP_KEYCHAIN_USER: '${{ secrets.TEMP_KEYCHAIN_USER }}'
-          VERSION_OVERRIDE: "2.3.2-RC2"
+          APPLE_KEY_ID: '${{ secrets.APPLE_KEY_ID }}'
+          APPLE_ISSUER_ID: '${{ secrets.APPLE_ISSUER_ID }}'
+          APPLE_KEY_CONTENT: '${{ secrets.APPLE_KEY_CONTENT }}'
+          VERSION_OVERRIDE: "2.3.2-RC3"
 
       - name: Deploy 🚀
         run: bundle exec fastlane ios deploy
@@ -87,5 +90,7 @@ jobs:
           PROVISIONING_PROFILE_SPECIFIER: '${{ secrets.PROVISIONING_PROFILE_SPECIFIER }}'
           TEMP_KEYCHAIN_PASSWORD: '${{ secrets.TEMP_KEYCHAIN_PASSWORD }}'
           TEMP_KEYCHAIN_USER: '${{ secrets.TEMP_KEYCHAIN_USER }}'
-          FASTLANE_PASSWORD: '${{ secrets.FASTLANE_APPLE_APPLICATION_SPECIFIC_PASSWORD }}'
-          VERSION_OVERRIDE: "2.3.2-RC2"
+          APPLE_KEY_ID: '${{ secrets.APPLE_KEY_ID }}'
+          APPLE_ISSUER_ID: '${{ secrets.APPLE_ISSUER_ID }}'
+          APPLE_KEY_CONTENT: '${{ secrets.APPLE_KEY_CONTENT }}'
+          VERSION_OVERRIDE: "2.3.2-RC3"
