@@ -44,7 +44,7 @@ jobs:
         id: version-info
         run: bundle exec fastlane common populate_github_env
         env:
-          VERSION_OVERRIDE: "2.3.2-RC1"
+          VERSION_OVERRIDE: "2.3.2-RC2"
 
       - name: Install yarn dependencies 🔨
         run: yarn install --immutable
@@ -71,7 +71,7 @@ jobs:
           PROVISIONING_PROFILE_SPECIFIER: '${{ secrets.PROVISIONING_PROFILE_SPECIFIER }}'
           TEMP_KEYCHAIN_PASSWORD: '${{ secrets.TEMP_KEYCHAIN_PASSWORD }}'
           TEMP_KEYCHAIN_USER: '${{ secrets.TEMP_KEYCHAIN_USER }}'
-          VERSION_OVERRIDE: "2.3.2-RC1"
+          VERSION_OVERRIDE: "2.3.2-RC2"
 
       - name: Deploy 🚀
         run: bundle exec fastlane ios deploy
@@ -87,4 +87,5 @@ jobs:
           PROVISIONING_PROFILE_SPECIFIER: '${{ secrets.PROVISIONING_PROFILE_SPECIFIER }}'
           TEMP_KEYCHAIN_PASSWORD: '${{ secrets.TEMP_KEYCHAIN_PASSWORD }}'
           TEMP_KEYCHAIN_USER: '${{ secrets.TEMP_KEYCHAIN_USER }}'
-          VERSION_OVERRIDE: "2.3.2-RC1"
+          FASTLANE_PASSWORD: '${{ secrets.FASTLANE_APPLE_APPLICATION_SPECIFIC_PASSWORD }}'
+          VERSION_OVERRIDE: "2.3.2-RC2"
