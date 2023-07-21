@@ -37,6 +37,11 @@ export interface ModalConfig {
    * If undefined will default to `ModalMode.Centred`.
    */
   readonly mode?: ModalMode;
+  /**
+   * If true prevent the user to close the modal using
+   * the back action.
+   */
+  readonly blockGoBack?: boolean;
 }
 
 export interface ModalScreenParams {
@@ -47,7 +52,7 @@ export interface ModalScreenParams {
 
 type NavProps = StackScreenProps<RootNavigatorParamList, ROUTES.MODAL>;
 
-const ModalScreen: React.FC<NavProps> = ({ route }) => {
+const ModalScreen: React.FC<NavProps> = ({ route, navigation }) => {
   const { component, params, config } = route.params;
   const styles = useStyles();
 
@@ -79,6 +84,22 @@ const ModalScreen: React.FC<NavProps> = ({ route }) => {
         return [styles.content, styles.centredContent];
     }
   }, [styles, mode]);
+
+  // -------- EFFECTS --------
+
+  React.useEffect(
+    () =>
+      navigation.addListener('beforeRemove', (e) => {
+        if (
+          e.data.action.type === 'GO_BACK' &&
+          e.target === route.key &&
+          config?.blockGoBack === true
+        ) {
+          e.preventDefault();
+        }
+      }),
+    [navigation, config?.blockGoBack, route.key],
+  );
 
   return (
     <View style={rootStyles}>
