@@ -4,6 +4,7 @@ import account from './account.json';
 import chainLinks from './chainLinks.json';
 import common from './common.json';
 import connectToLedger from './connectToLedger.json';
+import dataIntegrity from './dataIntegrity.json';
 import governance from './governance.json';
 import landing from './landing.json';
 import ledger from './ledger.json';
@@ -28,6 +29,7 @@ const en = {
   chainLinks,
   common,
   connectToLedger,
+  dataIntegrity,
   governance,
   landing,
   ledger,

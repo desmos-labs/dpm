@@ -1,0 +1,4 @@
+{
+  "keychain corrupted": "Keychain corrupted",
+  "keychain corrupted description": "The data stored in the device's keychain is corrupted.\nTo continue using the application, you need to delete all the data."
+}

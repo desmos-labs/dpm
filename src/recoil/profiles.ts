@@ -76,3 +76,14 @@ export const useDeleteProfile = () => {
     [setProfiles],
   );
 };
+
+/**
+ * Hook that provides a function to delete all the stored profiles.
+ */
+export const useDeleteAllProfiles = () => {
+  const setProfiles = useSetRecoilState(profilesAppState);
+
+  return React.useCallback(() => {
+    setProfiles({});
+  }, [setProfiles]);
+};

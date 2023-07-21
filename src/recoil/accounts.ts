@@ -63,6 +63,17 @@ export const useHasAccount = () => useRecoilValue(hasAccountAppState);
 export const useStoredAccounts = () => useRecoilValue(accountsAppState);
 
 /**
+ * Hook that provides a function to delete all the stored accounts.
+ */
+export const useDeleteAllAccounts = () => {
+  const setAccounts = useSetRecoilState(accountsAppState);
+
+  return React.useCallback(() => {
+    setAccounts({});
+  }, [setAccounts]);
+};
+
+/**
  * Selector that allows to easily get the number of stored accounts.
  */
 const storedAccountsNumberAppState = selector({
