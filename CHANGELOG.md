@@ -1,3 +1,10 @@
+# Version 2.3.2 Changelog
+## Features
+- Now handles corrupted keychain data on iOS effectively.
+
+## Bug Fixes
+- Resolved a bug that caused the application to reset to the landing page while performing an account import process.
+
 # Version 2.3.0
 ## Features
 - Voting and Depositing on Governance Proposals: Users can now actively participate in governance by voting and depositing on proposals;
