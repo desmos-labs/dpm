@@ -8,12 +8,13 @@ import { Web3AuthKeyProvider } from '@desmoslabs/desmjs-web3auth-mobile';
 import { newWeb3AuthClient, web3AuthLoginParams } from 'lib/Web3AuthUtils';
 import { PrivateKeyProviderStatus } from '@desmoslabs/desmjs';
 import { useSetAppState } from '@recoil/appState';
-import { Platform } from 'react-native';
+import { useHasAccount } from '@recoil/accounts';
 
 const useLoginWithWeb3Auth = (chain: SupportedChain, ignoreAddresses: string[]) => {
   const selectAccount = useSelectAccount();
   const saveAccount = useSaveGeneratedAccount(false);
   const setAppState = useSetAppState();
+  const hasAccounts = useHasAccount();
 
   return useCallback(
     async (loginProvider: Web3AuthLoginProvider) => {
@@ -23,18 +24,13 @@ const useLoginWithWeb3Auth = (chain: SupportedChain, ignoreAddresses: string[]) 
         loginParams: web3AuthLoginParams(loginProvider),
       });
 
-      setAppState(
-        (currVal) =>
-          Platform.select({
-            android: currVal,
-            // Prevent splash visualization since the app will
-            // go on 'inactive' state to show a login popup to the user.
-            ios: {
-              ...currVal,
-              noSplashScreen: true,
-            },
-          })!,
-      );
+      // Disable splash visualization and app block during the
+      // Web3Auth login flow.
+      setAppState((currVal) => ({
+        ...currVal,
+        noSplashScreen: true,
+        noLockOnBackground: hasAccounts,
+      }));
 
       try {
         await keyProvider.connect();
