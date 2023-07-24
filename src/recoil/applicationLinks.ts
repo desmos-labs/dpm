@@ -74,3 +74,13 @@ export const useDeleteApplicationLinks = () => {
     [setApplicationLinks],
   );
 };
+
+/**
+ * Hook that provides a function to delete all the cached app links.
+ */
+export const useDeleteAllAppLinks = () => {
+  const setAppLinks = useSetRecoilState(applicationLinksAppState);
+  return React.useCallback(() => {
+    setAppLinks({});
+  }, [setAppLinks]);
+};

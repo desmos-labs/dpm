@@ -120,3 +120,13 @@ export const useDeleteChainLinks = () => {
     [setChainLinks],
   );
 };
+
+/**
+ * Hook that provides a function to delete all the cached chain links.
+ */
+export const useDeleteAllChainLinks = () => {
+  const setChainLinks = useSetRecoilState(chainLinksAppState);
+  return React.useCallback(() => {
+    setChainLinks({});
+  }, [setChainLinks]);
+};

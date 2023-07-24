@@ -14,6 +14,7 @@ import DesmosPostHogProvider from 'components/DesmosPostHogProvider';
 import * as Sentry from '@sentry/react-native';
 import numbro from 'numbro';
 import { getDecimalSeparator, getThousandsSeparator } from 'lib/FormatUtils';
+import useCheckKeyChainIntegrity from 'hooks/dataintegrity/useCheckKeyChainIntegrity';
 
 Object.assign(process.env, { SENTRY_AUTH_TOKEN });
 Sentry.init({
@@ -41,7 +42,8 @@ numbro.registerLanguage(
 
 const AppLockLogic = () => {
   useLockApplicationOnBlur();
-  return <></>;
+  useCheckKeyChainIntegrity();
+  return null;
 };
 
 const Navigation = () => (

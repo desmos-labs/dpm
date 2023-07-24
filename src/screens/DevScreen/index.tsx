@@ -18,6 +18,7 @@ import useShowTestTransaction from 'hooks/dev/useShowTestTransaction';
 import GovernanceVoteModal from 'modals/GovernanceVoteModal';
 import AmountAndMemoModal from 'modals/AmountAndMemoModal';
 import { AmountLimit } from 'components/CoinAmountInput/limits';
+import { resetSecureStorage } from 'lib/SecureStorage';
 import useStyles from './useStyles';
 
 enum DevRoutes {
@@ -149,6 +150,10 @@ const DevScreen: FC<NavProps> = ({ navigation }) => {
     navigation.navigate(ROUTES.LANDING);
   }, [navigation]);
 
+  const clearSecureStorage = React.useCallback(() => {
+    resetSecureStorage();
+  }, []);
+
   const testPostHogEvent = useCallback(() => {
     postHog.capture('Test event');
   }, [postHog]);
@@ -177,6 +182,12 @@ const DevScreen: FC<NavProps> = ({ navigation }) => {
 
       <Button mode="contained" onPress={navigateToLandingPage}>
         Go to landing page
+      </Button>
+
+      <Spacer paddingVertical={4} />
+
+      <Button mode="contained" onPress={clearSecureStorage}>
+        Clear secure storage
       </Button>
 
       <Spacer paddingVertical={4} />
