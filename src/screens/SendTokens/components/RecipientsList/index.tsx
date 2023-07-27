@@ -1,5 +1,5 @@
 import React, { forwardRef, useImperativeHandle } from 'react';
-import { Dimensions, Keyboard, View } from 'react-native';
+import { Dimensions, View } from 'react-native';
 import { useProfilesFromNickNameOrDtag } from 'screens/SendTokens/components/RecipientsList/hooks';
 import { FlashList } from '@shopify/flash-list';
 import StyledRefreshControl from 'components/StyledRefreshControl';
@@ -18,7 +18,7 @@ export interface RecipientsListProps {
   /**
    * The value that will be used to perform the search.
    */
-  readonly searchValue: string;
+  readonly searchValue?: string;
   /**
    * Callback called when the user pres on one of the item displayed.
    */
@@ -59,7 +59,7 @@ const RecipientsList = forwardRef<RecipientsListRef, RecipientsListProps>(
     // -------- VARIABLES --------
 
     const searchValueIsAddress = React.useMemo(
-      () => searchValue.indexOf('desmos1') === 0,
+      () => searchValue?.indexOf('desmos1') === 0,
       [searchValue],
     );
 

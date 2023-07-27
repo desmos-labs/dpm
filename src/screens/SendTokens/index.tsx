@@ -42,19 +42,25 @@ const SendTokens = () => {
 
   // -------- STATES --------
 
-  const [profile, setProfile] = React.useState<DesmosProfile>({ address: '' });
+  const [profile, setProfile] = React.useState<DesmosProfile>();
   const [sendAmount, setSendAmount] = React.useState<Coin | undefined>();
   const [memo, setMemo] = React.useState('');
 
   // -------- VARIABLES --------
 
   const isAddressValid = React.useMemo(
-    () => profile.address.length > 0 && validateDesmosAddress(profile.address),
-    [profile.address],
+    () =>
+      profile === undefined ||
+      (profile.address.length > 0 && validateDesmosAddress(profile.address)),
+    [profile],
   );
 
   const sendEnabled = React.useMemo(
-    () => profile.address.length > 0 && isAddressValid && sendAmount !== undefined,
+    () =>
+      profile !== undefined &&
+      profile.address.length > 0 &&
+      isAddressValid &&
+      sendAmount !== undefined,
     [profile, isAddressValid, sendAmount],
   );
 
@@ -85,7 +91,7 @@ const SendTokens = () => {
 
   const sendTokens = useSendTokens({ onSuccess: onSendSuccess });
   const onNextPressed = React.useCallback(async () => {
-    if (sendAmount) {
+    if (sendAmount && profile) {
       await sendTokens(profile.address, safeParseInt(sendAmount.amount), memo);
     }
   }, [profile, sendAmount, memo, sendTokens]);
@@ -102,10 +108,10 @@ const SendTokens = () => {
         inputRef={inputRef}
         style={styles.topMarginSmall}
         leftElement={
-          profile.dtag !== undefined ? <ProfileImage size={28} profile={profile} /> : undefined
+          profile?.dtag !== undefined ? <ProfileImage size={28} profile={profile} /> : undefined
         }
         placeholder={t('insert dtag, nickname or address')}
-        value={profile.dtag ? profile.dtag : profile.address}
+        value={profile?.dtag ? profile.dtag : profile?.address}
         onChangeText={onAddressChange}
         numberOfLines={1}
         error={!isAddressValid}
@@ -115,7 +121,7 @@ const SendTokens = () => {
       <RecipientsList
         ref={recipientsListRef}
         attachTo={inputRef}
-        searchValue={profile.address}
+        searchValue={profile?.address}
         onSelect={setProfile}
       />
 

@@ -12,6 +12,13 @@ const useFetchProfiles = () => {
 
   return React.useCallback<FetchDataFunction<DesmosProfile, string>>(
     async (offset, limit, filter) => {
+      if (filter === undefined) {
+        return {
+          data: [],
+          endReached: true,
+        };
+      }
+
       const { data, error } = await apolloClient.query({
         query: GetProfilesFromNickNameOrDtag,
         fetchPolicy: 'network-only',
