@@ -97,20 +97,20 @@ const SendTokens = () => {
       touchableWithoutFeedbackOnPress={touchableWithoutFeedbackOnPress}
     >
       {/* Address */}
-      <Typography.Subtitle style={styles.topMarginSmall}>
-        {t('recipient address')}
-      </Typography.Subtitle>
+      <Typography.Subtitle style={styles.topMarginSmall}>{t('recipient')}</Typography.Subtitle>
       <TextInput
         inputRef={inputRef}
         style={styles.topMarginSmall}
         leftElement={
           profile.dtag !== undefined ? <ProfileImage size={28} profile={profile} /> : undefined
         }
-        placeholder={t('insert address')}
-        value={profile.address}
+        placeholder={t('insert dtag, nickname or address')}
+        value={profile.dtag ? profile.dtag : profile.address}
         onChangeText={onAddressChange}
         numberOfLines={1}
         error={!isAddressValid}
+        autoCorrect={false}
+        autoCapitalize="none"
       />
       <RecipientsList
         ref={recipientsListRef}

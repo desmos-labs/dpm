@@ -1,7 +1,7 @@
 {
-  "recipient address": "Recipient address",
+  "recipient": "Recipient",
   "amount": "Amount",
-  "insert address": "Insert address",
+  "insert dtag, nickname or address": "Insert DTag, nickname or address",
   "insert amount": "Insert amount",
   "max": "Max"
 }
