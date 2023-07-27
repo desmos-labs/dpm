@@ -1,5 +1,5 @@
 import React, { forwardRef, useImperativeHandle } from 'react';
-import { Dimensions, View } from 'react-native';
+import { Dimensions, Keyboard, View } from 'react-native';
 import { useProfilesFromNickNameOrDtag } from 'screens/SendTokens/components/RecipientsList/hooks';
 import { FlashList } from '@shopify/flash-list';
 import StyledRefreshControl from 'components/StyledRefreshControl';
@@ -102,8 +102,8 @@ const RecipientsList = forwardRef<RecipientsListRef, RecipientsListProps>(
         setLocation({
           x,
           y: y + height + 48,
-          width: width + 16,
-          height: Dimensions.get('window').height * 0.4,
+          width,
+          height: Dimensions.get('window').height * 0.35,
         });
       });
 
