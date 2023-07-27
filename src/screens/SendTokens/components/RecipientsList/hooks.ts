@@ -12,7 +12,7 @@ const useFetchProfiles = () => {
 
   return React.useCallback<FetchDataFunction<DesmosProfile, string>>(
     async (offset, limit, filter) => {
-      if (filter === undefined) {
+      if (filter === undefined || filter.length === 0) {
         return {
           data: [],
           endReached: true,
