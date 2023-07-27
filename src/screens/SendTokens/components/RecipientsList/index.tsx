@@ -56,13 +56,6 @@ const RecipientsList = forwardRef<RecipientsListRef, RecipientsListProps>(
     const [location, setLocation] = React.useState<ComponentDimensions>();
     const [hidden, setHidden] = React.useState(false);
 
-    // -------- VARIABLES --------
-
-    const searchValueIsAddress = React.useMemo(
-      () => searchValue?.indexOf('desmos1') === 0,
-      [searchValue],
-    );
-
     // -------- HOOKS --------
 
     useImperativeHandle(ref, () => ({
@@ -123,7 +116,7 @@ const RecipientsList = forwardRef<RecipientsListRef, RecipientsListProps>(
     // Prevent component rendering if:
     // - We don't have the component location.
     // - The search value is an address.
-    if (data.length === 0 || hidden || location === undefined || searchValueIsAddress) {
+    if (data.length === 0 || hidden || location === undefined) {
       return null;
     }
 

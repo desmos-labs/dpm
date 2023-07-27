@@ -3,23 +3,32 @@ import ProfileFields from 'services/graphql/queries/fragments/ProfilesFields';
 
 /**
  * Gets the profiles that have the nickname or dtag that matches the provided
- * like expression.
+ * like expression or a profile that matches the provided address.
  * @example
  * const { data, loading, error } = useQuery(GetProfilesFromNickNameOrDtag, {
  *   variables: {
  *      likeExpression: // like expression used to find the profiles
+ *      address: // address that will be used to search the profile
  *      limit
  *      offset
  *   },
  * });
  */
-const GetProfilesFromNickNameOrDtag = gql`
+const GetProfilesFromNickNameOrDtagOrAddress = gql`
   ${ProfileFields}
-  query GetProfilesFromNickNameOrDtag($likeExpression: String, $limit: Int = 100, $offset: Int = 0)
-  @api(name: desmos) {
+  query GetProfilesFromNickNameOrDtag(
+    $likeExpression: String
+    $address: String
+    $limit: Int = 100
+    $offset: Int = 0
+  ) @api(name: desmos) {
     profile(
       where: {
-        _or: [{ dtag: { _ilike: $likeExpression } }, { nickname: { _ilike: $likeExpression } }]
+        _or: [
+          { dtag: { _ilike: $likeExpression } }
+          { nickname: { _ilike: $likeExpression } }
+          { address: { _eq: $address } }
+        ]
       }
       limit: $limit
       offset: $offset
@@ -30,4 +39,4 @@ const GetProfilesFromNickNameOrDtag = gql`
   }
 `;
 
-export default GetProfilesFromNickNameOrDtag;
+export default GetProfilesFromNickNameOrDtagOrAddress;
