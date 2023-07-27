@@ -21,6 +21,8 @@ import useTrackScreen from 'hooks/analytics/useTrackScreen';
 import { Screens } from 'types/analytics';
 import { Keyboard, TextInput as NativeTextInput } from 'react-native';
 import RecipientsList, { RecipientsListRef } from 'screens/SendTokens/components/RecipientsList';
+import { DesmosProfile } from 'types/desmos';
+import ProfileImage from 'components/ProfileImage';
 import useStyles from './useStyles';
 import useSendTokens from './useHooks';
 
@@ -31,25 +33,37 @@ const SendTokens = () => {
   const styles = useStyles();
   const navigation = useNavigation();
 
-  const [address, setAddress] = React.useState('');
-  const [isAddressValid, setIsAddressValid] = React.useState(true);
-  const [sendAmount, setSendAmount] = React.useState<Coin | undefined>();
-  const [memo, setMemo] = React.useState('');
-  const sendEnabled = React.useMemo(
-    () => address.length > 0 && isAddressValid && sendAmount !== undefined,
-    [address.length, isAddressValid, sendAmount],
-  );
-
   useTrackScreen(Screens.SendTokens);
+
+  // -------- REFS --------
 
   const inputRef = React.useRef<NativeTextInput>(null);
   const recipientsListRef = React.useRef<RecipientsListRef>(null);
 
+  // -------- STATES --------
+
+  const [profile, setProfile] = React.useState<DesmosProfile>({ address: '' });
+  const [sendAmount, setSendAmount] = React.useState<Coin | undefined>();
+  const [memo, setMemo] = React.useState('');
+
+  // -------- VARIABLES --------
+
+  const isAddressValid = React.useMemo(
+    () => profile.address.length > 0 && validateDesmosAddress(profile.address),
+    [profile.address],
+  );
+
+  const sendEnabled = React.useMemo(
+    () => profile.address.length > 0 && isAddressValid && sendAmount !== undefined,
+    [profile, isAddressValid, sendAmount],
+  );
+
   // -------- CALLBACKS --------
 
   const onAddressChange = React.useCallback((newAddress: string) => {
-    setAddress(newAddress);
-    setIsAddressValid(newAddress.length > 0 && validateDesmosAddress(newAddress));
+    setProfile({
+      address: newAddress,
+    });
   }, []);
 
   const onAmountChange = React.useCallback((newAmount: Coin | undefined, isValid: boolean) => {
@@ -65,9 +79,6 @@ const SendTokens = () => {
     recipientsListRef.current?.hide();
   }, []);
 
-  /**
-   * Called when the transaction has been sent successfully
-   */
   const onSendSuccess = React.useCallback(() => {
     navigation.goBack();
   }, [navigation]);
@@ -75,9 +86,9 @@ const SendTokens = () => {
   const sendTokens = useSendTokens({ onSuccess: onSendSuccess });
   const onNextPressed = React.useCallback(async () => {
     if (sendAmount) {
-      await sendTokens(address, safeParseInt(sendAmount.amount), memo);
+      await sendTokens(profile.address, safeParseInt(sendAmount.amount), memo);
     }
-  }, [address, sendAmount, memo, sendTokens]);
+  }, [profile, sendAmount, memo, sendTokens]);
 
   return (
     <StyledSafeAreaView
@@ -92,8 +103,11 @@ const SendTokens = () => {
       <TextInput
         inputRef={inputRef}
         style={styles.topMarginSmall}
+        leftElement={
+          profile.dtag !== undefined ? <ProfileImage size={28} profile={profile} /> : undefined
+        }
         placeholder={t('insert address')}
-        value={address}
+        value={profile.address}
         onChangeText={onAddressChange}
         numberOfLines={1}
         error={!isAddressValid}
@@ -101,10 +115,8 @@ const SendTokens = () => {
       <RecipientsList
         ref={recipientsListRef}
         attachTo={inputRef}
-        searchValue={address}
-        onSelect={(p) => {
-          onAddressChange(p.address);
-        }}
+        searchValue={profile.address}
+        onSelect={setProfile}
       />
 
       {/* Amount */}
