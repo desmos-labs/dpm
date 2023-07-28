@@ -12,8 +12,11 @@ const useStyles = makeStyle((theme) => ({
   hideButton: {
     backgroundColor: theme.colors.surface,
   },
+  iconButton: {
+    marginRight: -4,
+  },
   addressContainer: {
-    displaye: 'flex',
+    display: 'flex',
     flexDirection: 'row',
     backgroundColor: theme.colors.surface,
     borderRadius: theme.roundness,

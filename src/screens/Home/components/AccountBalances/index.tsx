@@ -20,8 +20,12 @@ import useStakeFlow from 'hooks/staking/useStakeFlow';
 import { HomeTabsNavigationProp } from 'navigation/RootNavigator/HomeTabs/props';
 import { useSetSetting, useSetting } from '@recoil/settings';
 import IconButton from 'components/IconButton';
-import { useClaimAllRewards } from './hooks';
+import useShowModal from 'hooks/useShowModal';
+import QRCodeAddressModal from 'modals/QRCodeAddressModal';
+import { ModalMode } from 'modals/ModalScreen';
+import { qrCodeIcon } from 'assets/images';
 import useStyles from './useStyles';
+import { useClaimAllRewards } from './hooks';
 
 /**
  * Interface to interact with this component from a parent component.
@@ -76,6 +80,7 @@ const AccountBalances: React.FC<AccountBalancesProps> = ({ reference }) => {
   const claimAllRewards = useClaimAllRewards();
   const hideBalance = useSetting('hideBalance');
   const setHideBalance = useSetSetting('hideBalance');
+  const showModal = useShowModal();
 
   // -------- DATA --------
 
@@ -136,6 +141,18 @@ const AccountBalances: React.FC<AccountBalancesProps> = ({ reference }) => {
     claimAllRewards();
   }, [claimAllRewards]);
 
+  const showAddressQRCode = React.useCallback(() => {
+    showModal(
+      QRCodeAddressModal,
+      {
+        address: activeAccountAddress,
+      },
+      {
+        mode: ModalMode.BottomSheet,
+      },
+    );
+  }, [showModal, activeAccountAddress]);
+
   // -------- EFFECTS --------
 
   React.useEffect(() => {
@@ -160,7 +177,13 @@ const AccountBalances: React.FC<AccountBalancesProps> = ({ reference }) => {
         <Typography.Regular14 style={styles.address} numberOfLines={1} ellipsizeMode={'middle'}>
           {activeAccountAddress}
         </Typography.Regular14>
-        <CopyButton value={activeAccountAddress} />
+        <CopyButton style={styles.iconButton} value={activeAccountAddress} />
+        <IconButton
+          style={styles.iconButton}
+          icon={qrCodeIcon}
+          onPress={showAddressQRCode}
+          size={20}
+        />
       </View>
 
       <Spacer paddingVertical={24} />
