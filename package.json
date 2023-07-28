@@ -93,6 +93,7 @@
     "react-native-pager-view": "^6.2.0",
     "react-native-paper": "^4.12.1",
     "react-native-permissions": "^3.6.1",
+    "react-native-qrcode-svg": "^6.2.0",
     "react-native-randombytes": "3.6.1",
     "react-native-reanimated": "2.14.1",
     "react-native-safe-area-context": "^3.2.0",
