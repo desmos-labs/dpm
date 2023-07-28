@@ -1,7 +1,7 @@
 import React from 'react';
 import TextInput from 'components/TextInput';
 import Button from 'components/Button';
-import { StyleProp, View, ViewStyle } from 'react-native';
+import { Image, StyleProp, TouchableOpacity, View, ViewStyle } from 'react-native';
 import Typography from 'components/Typography';
 import {
   formatCoin,
@@ -17,17 +17,20 @@ import { coin } from '@cosmjs/amino';
 import { useAmountInputLimit } from 'components/CoinAmountInput/hooks';
 import StyledActivityIndicator from 'components/StyledActivityIndicator';
 import { zeroCoinFiatValue } from 'types/prices';
+import { iconCurrencyDSM, iconCurrencyUSD } from 'assets/images';
+import Spacer from 'components/Spacer';
 import useStyles from './useStyles';
 import { AmountLimit, AmountLimitConfig } from './limits';
 
 export enum CoinAmountInputMode {
   /**
-   * In this mode, the input only accepts an amount of coins to be typed by the user.
+   * In this mode, the input only accepts an amount of coins to
+   * be entered by the user.
    */
   CoinOnly,
   /**
-   * In this mode, the input allows the user to
-   * toggle between entering an amount in coins or its fiat value.
+   * In this mode, the input allows the user to toggle between
+   * entering an amount in coins or its fiat value.
    */
   CoinAndFiatValue,
 }
@@ -165,11 +168,11 @@ const CoinAmountInput: React.FC<CoinAmountInputProps> = ({
         {t('max')}
       </Button>
     ) : (
-      <View style={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
+      <View style={styles.currencyToggleContainer}>
         <Typography.Regular16>
           {isFiatMode ? 'USD' : chainInfo.stakeCurrency.coinDenom.toUpperCase()}
         </Typography.Regular16>
-        <Button
+        <TouchableOpacity
           onPress={() => {
             setIsFiatMode((prevState) => !prevState);
             setInputAmount('');
@@ -178,8 +181,11 @@ const CoinAmountInput: React.FC<CoinAmountInputProps> = ({
           }}
           disabled={loading || spendable.fiatValue === 0}
         >
-          {isFiatMode ? chainInfo.stakeCurrency.coinDenom : 'USD'}
-        </Button>
+          <Image
+            source={isFiatMode ? iconCurrencyDSM : iconCurrencyUSD}
+            style={styles.currencyToggleIcon}
+          />
+        </TouchableOpacity>
       </View>
     );
   }, [
@@ -190,6 +196,8 @@ const CoinAmountInput: React.FC<CoinAmountInputProps> = ({
     onMaxPressed,
     t,
     chainInfo.stakeCurrency.coinDenom,
+    styles.currencyToggleIcon,
+    styles.currencyToggleContainer,
   ]);
 
   return (
@@ -204,6 +212,9 @@ const CoinAmountInput: React.FC<CoinAmountInputProps> = ({
         rightElement={inputRightElement}
       />
 
+      <Spacer padding={4} />
+
+      {/* Tokens Equivalent when in fiat mode */}
       {inputMode === CoinAmountInputMode.CoinAndFiatValue && currentCoin && isFiatMode && (
         <Typography.Regular14 style={styles.dsmEquivalentLabel}>
           {t('equivalent')} {formatCoin(currentCoin)}

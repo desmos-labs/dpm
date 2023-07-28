@@ -1,12 +1,21 @@
 import { makeStyle } from 'config/theme';
 
 const useStyles = makeStyle((theme) => ({
+  currencyToggleContainer: {
+    display: 'flex',
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  currencyToggleIcon: {
+    width: 24,
+    height: 24,
+    marginLeft: theme.spacing.xs,
+    marginTop: 2,
+  },
   dsmEquivalentLabel: {
-    marginTop: 6,
     color: theme.colors.primary,
   },
   spendableContainer: {
-    marginTop: 6,
     flexDirection: 'row',
     alignItems: 'center',
   },
