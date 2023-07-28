@@ -12,7 +12,7 @@ import { RootNavigatorParamList } from 'navigation/RootNavigator';
 import ROUTES from 'navigation/routes';
 import { useNavigation } from '@react-navigation/native';
 import { safeParseInt } from 'lib/FormatUtils';
-import CoinAmountInput from 'components/CoinAmountInput';
+import CoinAmountInput, { CoinAmountInputMode } from 'components/CoinAmountInput';
 import { Coin } from '@desmoslabs/desmjs-types/cosmos/base/v1beta1/coin';
 import TxMemoInput from 'components/TxMemoInput';
 import { AmountLimit } from 'components/CoinAmountInput/limits';
@@ -136,6 +136,7 @@ const SendTokens = () => {
         )}
         onChange={onAmountChange}
         containerStyle={styles.topMarginSmall}
+        inputMode={CoinAmountInputMode.CoinAndFiatValue}
       />
 
       {/* Transaction note / memo */}
