@@ -163,6 +163,8 @@ const CoinAmountInput: React.FC<CoinAmountInputProps> = ({
 
   const inputRightElement = React.useMemo(() => {
     const mode = inputMode ?? CoinAmountInputMode.CoinOnly;
+    const currencyButtonDisabled = loading || spendable.fiatValue === 0;
+
     return mode === CoinAmountInputMode.CoinOnly ? (
       <Button onPress={onMaxPressed} disabled={loading}>
         {t('max')}
@@ -179,11 +181,14 @@ const CoinAmountInput: React.FC<CoinAmountInputProps> = ({
             setCurrentCoin(undefined);
             setIsInputValid(true);
           }}
-          disabled={loading || spendable.fiatValue === 0}
+          disabled={currencyButtonDisabled}
         >
           <Image
             source={isFiatMode ? iconCurrencyDSM : iconCurrencyUSD}
-            style={styles.currencyToggleIcon}
+            style={[
+              styles.currencyIcon,
+              currencyButtonDisabled ? styles.currencyIconDisabled : undefined,
+            ]}
           />
         </TouchableOpacity>
       </View>
@@ -196,8 +201,9 @@ const CoinAmountInput: React.FC<CoinAmountInputProps> = ({
     onMaxPressed,
     t,
     chainInfo.stakeCurrency.coinDenom,
-    styles.currencyToggleIcon,
+    styles.currencyIcon,
     styles.currencyToggleContainer,
+    styles.currencyIconDisabled,
   ]);
 
   return (

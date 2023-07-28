@@ -6,11 +6,14 @@ const useStyles = makeStyle((theme) => ({
     flexDirection: 'row',
     alignItems: 'center',
   },
-  currencyToggleIcon: {
+  currencyIcon: {
     width: 24,
     height: 24,
     marginLeft: theme.spacing.xs,
     marginTop: 2,
+  },
+  currencyIconDisabled: {
+    opacity: 0.3,
   },
   dsmEquivalentLabel: {
     color: theme.colors.primary,
