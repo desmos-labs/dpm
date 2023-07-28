@@ -99,6 +99,19 @@ export const formatCoins = (
 ): string => (amount || []).map(formatCoin).join(separator);
 
 /**
+ * Formats the provided amount using the application's fiat representation style.
+ * @param amount - The amount to be formatted.
+ */
+export const formatFiatAmount = (amount: number): string => {
+  const roundFactor = 10 ** 2;
+  const roundedAmount = Math.round(amount * roundFactor) / roundFactor;
+  if (roundedAmount === 0 && amount > 0) {
+    return `<${formatNumber(0.01)}`;
+  }
+  return formatNumber(roundedAmount);
+};
+
+/**
  * Formats the given inputs and returns a string representing the overall amount
  * @param inputs - Amount to be formatted.
  * @param separator - Optional separator to be used when separating each input's value.
