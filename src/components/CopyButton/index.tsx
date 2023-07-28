@@ -3,13 +3,13 @@ import IconButton, { IconButtonProps } from 'components/IconButton';
 import Clipboard from '@react-native-community/clipboard';
 import { useTranslation } from 'react-i18next';
 import { useShowSnackBar } from 'lib/SnackBarProvider/recoil';
-import useStyles from './useStyles';
 
 export interface CopyButtonProps extends Omit<IconButtonProps, 'icon'> {
   /**
    * Value to be set in the clipboard when the user press on this component.
    */
   value: string;
+  style?: IconButtonProps['style'];
 }
 
 /**
@@ -18,8 +18,7 @@ export interface CopyButtonProps extends Omit<IconButtonProps, 'icon'> {
  */
 const CopyButton: React.FC<CopyButtonProps> = (props) => {
   const { t } = useTranslation();
-  const { value } = props;
-  const styles = useStyles();
+  const { value, style } = props;
   const showSnackBar = useShowSnackBar();
 
   const onCopyPressed = useCallback(() => {
@@ -28,13 +27,7 @@ const CopyButton: React.FC<CopyButtonProps> = (props) => {
   }, [value, showSnackBar, t]);
 
   return (
-    <IconButton
-      style={styles.icon}
-      icon="content-copy"
-      size={16}
-      onPress={onCopyPressed}
-      {...props}
-    />
+    <IconButton style={style} icon="content-copy" size={16} onPress={onCopyPressed} {...props} />
   );
 };
 
