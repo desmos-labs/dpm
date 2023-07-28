@@ -6,8 +6,14 @@ const useStyles = makeStyle((theme) => ({
     flexDirection: 'column',
     alignItems: 'center',
   },
-  qrCodeContainer: {
-    marginTop: theme.spacing.m,
+  qrCodeView: {
+    marginTop: theme.spacing.l,
+    padding: 12,
+    backgroundColor: theme.colors.background,
+    borderRadius: theme.roundness,
+    justifyContent: 'center',
+    alignItems: 'center',
+
     // Shadows
     shadowColor: theme.colors.shadow,
     shadowOffset: {
@@ -17,11 +23,6 @@ const useStyles = makeStyle((theme) => ({
     shadowRadius: 20,
     elevation: 8,
     shadowOpacity: 1,
-  },
-  qrCodeView: {
-    padding: 8,
-    backgroundColor: theme.colors.background,
-    borderRadius: theme.roundness,
   },
   addressContainer: {
     marginTop: theme.spacing.xl,

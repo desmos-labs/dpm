@@ -38,15 +38,13 @@ const QRCodeAddressModal: React.FC<ModalComponentProps<QRCodeAddressProps>> = ({
   return (
     <View style={styles.root}>
       <Typography.SemiBold16 capitalize>{t('my address')}</Typography.SemiBold16>
-      <View style={styles.qrCodeContainer}>
-        <View style={styles.qrCodeView}>
-          <QRCode
-            size={200}
-            color={theme.colors.primary}
-            backgroundColor={theme.colors.background}
-            value={`dpm://address/${address}`}
-          />
-        </View>
+      <View style={styles.qrCodeView}>
+        <QRCode
+          size={200}
+          color={theme.colors.primary}
+          backgroundColor={theme.colors.background}
+          value={`dpm://address/${address}`}
+        />
       </View>
       <Typography.Regular14 style={styles.addressContainer} numberOfLines={2}>
         {address}
