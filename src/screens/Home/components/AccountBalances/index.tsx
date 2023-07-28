@@ -7,7 +7,7 @@ import useActiveAccountBalance from 'hooks/useActiveAccountBalance';
 import { useTranslation } from 'react-i18next';
 import CopyButton from 'components/CopyButton';
 import TypographyContentLoaders from 'components/ContentLoaders/Typography';
-import { formatCoins, safeParseFloat } from 'lib/FormatUtils';
+import { formatCoins, formatFiatAmount, safeParseFloat } from 'lib/FormatUtils';
 import useTotalDelegatedAmount from 'hooks/staking/useTotalDelegatedAmount';
 import { Coin } from '@desmoslabs/desmjs';
 import { sumCoins } from 'lib/CoinsUtils';
@@ -178,7 +178,7 @@ const AccountBalances: React.FC<AccountBalancesProps> = ({ reference }) => {
         <TypographyContentLoaders.SemiBold30 width={200} />
       ) : (
         <Typography.SemiBold30>
-          {hideBalance ? '••••' : `${fiatAmount} ${fiatSymbol}`}
+          {hideBalance ? '••••' : `${formatFiatAmount(fiatAmount)} ${fiatSymbol}`}
         </Typography.SemiBold30>
       )}
 
