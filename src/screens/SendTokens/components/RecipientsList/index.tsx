@@ -1,5 +1,5 @@
 import React, { forwardRef, useImperativeHandle } from 'react';
-import { Dimensions, View } from 'react-native';
+import { Dimensions, TextInput, View } from 'react-native';
 import { useProfilesFromNickNameOrDtag } from 'screens/SendTokens/components/RecipientsList/hooks';
 import { FlashList } from '@shopify/flash-list';
 import StyledRefreshControl from 'components/StyledRefreshControl';
@@ -14,7 +14,7 @@ export interface RecipientsListProps {
   /**
    * Ref to the view where this component will attach to.
    */
-  readonly attachTo: React.RefObject<View>;
+  readonly attachTo: React.RefObject<TextInput>;
   /**
    * The value that will be used to perform the search.
    */
@@ -116,7 +116,12 @@ const RecipientsList = forwardRef<RecipientsListRef, RecipientsListProps>(
     // Prevent component rendering if:
     // - We don't have the component location.
     // - The search value is an address.
-    if (data.length === 0 || hidden || location === undefined) {
+    if (
+      data.length === 0 ||
+      hidden ||
+      location === undefined ||
+      attachTo?.current?.isFocused() !== true
+    ) {
       return null;
     }
 
