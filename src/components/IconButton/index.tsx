@@ -1,9 +1,9 @@
 import React, { useMemo } from 'react';
 import { IconButton as BaseIconButton, useTheme } from 'react-native-paper';
-import { StyleProp, ViewStyle } from 'react-native';
+import { ImageSourcePropType, StyleProp, ViewStyle } from 'react-native';
 
 export type IconButtonProps = {
-  icon: string;
+  icon: string | ImageSourcePropType;
   size?: number;
   color?: string | null;
   onPress?: (() => void) | undefined;
