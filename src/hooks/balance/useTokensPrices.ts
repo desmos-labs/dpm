@@ -6,7 +6,7 @@ import { useQuery } from '@apollo/client';
 import GetTokensPrices from 'services/graphql/queries/GetTokensPrices';
 import React from 'react';
 import { DesmosMainnet } from '@desmoslabs/desmjs';
-import { CoinFiatValue } from 'types/prices';
+import { CoinFiatValue, zeroCoinFiatValue } from 'types/prices';
 
 /**
  * Get the prices of a given list of coins from the GraphQL data.
@@ -21,11 +21,7 @@ const getPrices = (data: any, coins: Coin[]) => {
     // Can't find a currency for this denom, we can't get the price of the
     // coin.
     if (currency === undefined) {
-      return {
-        denom: coin.denom,
-        amount: coin.amount,
-        fiatValue: 0,
-      };
+      return zeroCoinFiatValue(coin.denom);
     }
 
     // Compare the denoms in a case-insensitive way because the currency.coinDenom
@@ -35,11 +31,7 @@ const getPrices = (data: any, coins: Coin[]) => {
 
     // Can't find the price for this currency fallback to 0
     if (currencyPrice === undefined) {
-      return {
-        denom: coin.denom,
-        amount: coin.amount,
-        fiatValue: 0,
-      };
+      return zeroCoinFiatValue(coin.denom);
     }
 
     // Factor to convert the coin from its minimal denom to the currency denom.
@@ -50,23 +42,43 @@ const getPrices = (data: any, coins: Coin[]) => {
     const coinAmount = safeParseFloat(coin.amount, 'en-US') / coinConversionFactory;
 
     return {
-      denom: coin.denom,
-      amount: coin.amount,
+      coin,
       fiatValue: coinAmount * currencyPrice.price,
+      coinConversionFactory: currencyPrice.price / coinConversionFactory,
+      // We hardcode US dollar because the prices api only support this currency.
+      currency: 'USD',
+      currencySymbol: '$',
     };
   });
 };
 
 /**
  * Hook that allows to get the price of a given token.
- * @param coins The coins to get the price for.
+ * @param coins - The coins to get the price for.
+ * @param lazy - Tells if the data should be lazy fetched.
  */
-const useTokensPrices = (coins: Coin[]) => {
-  const { data, refetch, loading } = useQuery(GetTokensPrices, {
+const useTokensPrices = (coins: Coin[], lazy?: boolean) => {
+  const {
+    data,
+    refetch: refetchData,
+    loading,
+  } = useQuery(GetTokensPrices, {
     variables: {
       denoms: DesmosMainnet.currencies.map((currency) => currency.coinMinimalDenom),
     },
+    skip: lazy,
   });
+
+  const refetch = React.useCallback(
+    async (providedCoins?: Coin[]) => {
+      const result = await refetchData();
+      return {
+        ...result,
+        data: getPrices(result.data, providedCoins ?? coins),
+      };
+    },
+    [coins, refetchData],
+  );
 
   const prices = React.useMemo(() => getPrices(data, coins), [data, coins]);
 
