@@ -1,6 +1,10 @@
 import { makeStyle } from 'config/theme';
 
-const useStyles = makeStyle(() => ({
+const useStyles = makeStyle((theme) => ({
+  dsmEquivalentLabel: {
+    marginTop: 6,
+    color: theme.colors.primary,
+  },
   spendableContainer: {
     marginTop: 6,
     flexDirection: 'row',
