@@ -11,6 +11,11 @@ export type TextInputProps = Omit<React.ComponentProps<typeof NativeTextInput>, 
    */
   error?: boolean;
   /**
+   * Element to show on the left side of the
+   * input area.
+   */
+  leftElement?: React.ReactNode | null;
+  /**
    * Element to show on the right side of the
    * input area.
    */
@@ -21,19 +26,20 @@ export type TextInputProps = Omit<React.ComponentProps<typeof NativeTextInput>, 
 };
 
 const TextInput: React.FC<TextInputProps> = (props) => {
-  const { rightElement, style, inputRef, inputStyle } = props;
+  const { leftElement, rightElement, style, inputRef, inputStyle } = props;
   const styles = useStyles(props);
   const theme = useTheme();
 
   return (
     <View style={[styles.container, style]}>
+      {leftElement && <View style={styles.left}>{leftElement}</View>}
       <NativeTextInput
         ref={inputRef}
         {...props}
         style={[styles.input, inputStyle]}
         placeholderTextColor={theme.colors.font['3']}
       />
-      <View style={styles.right}>{rightElement}</View>
+      {rightElement && <View style={styles.right}>{rightElement}</View>}
     </View>
   );
 };

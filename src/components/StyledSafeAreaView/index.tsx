@@ -43,6 +43,12 @@ export type StyledSafeAreaViewProps = ViewProps & {
    * Enable touchable without feeback to close keyboard
    */
   touchableWithoutFeedbackDisabled?: boolean;
+  /**
+   * Callback that will be called if `touchableWithoutFeedbackDisabled` is
+   * false. If this value is undefined this will default to `Keyboard.dismiss`
+   * to hide the user keyboard on iOS devices.
+   */
+  touchableWithoutFeedbackOnPress?: () => any;
 };
 
 const StyledSafeAreaView: React.FC<StyledSafeAreaViewProps> = (props) => {
@@ -54,6 +60,7 @@ const StyledSafeAreaView: React.FC<StyledSafeAreaViewProps> = (props) => {
     children,
     style,
     touchableWithoutFeedbackDisabled,
+    touchableWithoutFeedbackOnPress,
   } = props;
   const styles = useStyles(props);
   const theme = useTheme();
@@ -69,7 +76,7 @@ const StyledSafeAreaView: React.FC<StyledSafeAreaViewProps> = (props) => {
       {divider && <Divider />}
       <TouchableWithoutFeedback
         disabled={touchableWithoutFeedbackDisabled ?? true}
-        onPress={Keyboard.dismiss}
+        onPress={touchableWithoutFeedbackOnPress ?? Keyboard.dismiss}
       >
         <View style={[styles.content, style]}>
           {scrollable ? (
