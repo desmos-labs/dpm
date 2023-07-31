@@ -18,7 +18,7 @@ import { AmountLimit } from 'components/CoinAmountInput/limits';
 import DKeyboardAvoidingView from 'components/DKeyboardAvoidingView';
 import useTrackScreen from 'hooks/analytics/useTrackScreen';
 import { Screens } from 'types/analytics';
-import { Keyboard, TextInput as NativeTextInput } from 'react-native';
+import { Keyboard, View } from 'react-native';
 import RecipientsList, { RecipientsListRef } from 'screens/SendTokens/components/RecipientsList';
 import { DesmosProfile } from 'types/desmos';
 import ProfileImage from 'components/ProfileImage';
@@ -43,7 +43,7 @@ const SendTokens: React.FC<NavProps> = ({ navigation, route }) => {
 
   // -------- REFS --------
 
-  const inputRef = React.useRef<NativeTextInput>(null);
+  const inputRef = React.useRef<View>(null);
   const recipientsListRef = React.useRef<RecipientsListRef>(null);
 
   // -------- STATES --------
@@ -136,7 +136,7 @@ const SendTokens: React.FC<NavProps> = ({ navigation, route }) => {
       {/* Address */}
       <Typography.Subtitle style={styles.topMarginSmall}>{t('recipient')}</Typography.Subtitle>
       <TextInput
-        inputRef={inputRef}
+        ref={inputRef}
         style={styles.topMarginSmall}
         leftElement={
           profile?.dtag !== undefined ? <ProfileImage size={28} profile={profile} /> : undefined
