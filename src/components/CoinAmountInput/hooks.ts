@@ -8,6 +8,8 @@ import { Coin } from '@desmoslabs/desmjs';
 import GetAccountDelegations from 'services/graphql/queries/GetAccountDelegations';
 import { convertGraphQLDelegation } from 'lib/GraphQLUtils';
 import { Delegation } from 'types/distribution';
+import useTokensPrices from 'hooks/balance/useTokensPrices';
+import { CoinFiatValue, zeroCoinFiatValue } from 'types/prices';
 import { AmountLimit, AmountLimitConfig } from './limits';
 
 /**
@@ -67,31 +69,37 @@ const useGetDelegatedToValidator = () => {
  * @param amountLimitConfig - Configurations used to fetch the limit amount.
  */
 export const useAmountInputLimit = (amountLimitConfig: AmountLimitConfig) => {
-  const [amount, setAmount] = React.useState<Coin>();
+  const [amount, setAmount] = React.useState<CoinFiatValue>();
   const [loading, setLoading] = React.useState(true);
 
   const chainInfo = useCurrentChainInfo();
   const getUserBalance = useGetActiveAccountBalance();
   const getDelegateToValidator = useGetDelegatedToValidator();
+  const { refetch: getTokenPrices } = useTokensPrices(
+    React.useMemo(() => [], []),
+    true,
+  );
 
   const fetchAmount = React.useCallback(async () => {
     setLoading(true);
-    switch (amountLimitConfig.mode) {
-      case AmountLimit.UserBalance:
-        setAmount(await getUserBalance());
-        break;
-      case AmountLimit.DelegatedToValidator:
-        setAmount(await getDelegateToValidator(amountLimitConfig.validatorAddress));
-        break;
-      default:
-        setAmount(coin(0, chainInfo.stakeCurrency.coinMinimalDenom));
-        break;
+    let computedAmount: CoinFiatValue | undefined;
+
+    if (amountLimitConfig.mode === AmountLimit.UserBalance) {
+      const userBalance = await getUserBalance();
+      const { data: prices } = await getTokenPrices([userBalance]);
+      [computedAmount] = prices;
+    } else if (amountLimitConfig.mode === AmountLimit.DelegatedToValidator) {
+      const delegated = await getDelegateToValidator(amountLimitConfig.validatorAddress);
+      const { data: prices } = await getTokenPrices([delegated]);
+      [computedAmount] = prices;
     }
+    setAmount(computedAmount ?? zeroCoinFiatValue(chainInfo.stakeCurrency.coinMinimalDenom));
     setLoading(false);
   }, [
     amountLimitConfig,
     chainInfo.stakeCurrency.coinMinimalDenom,
     getDelegateToValidator,
+    getTokenPrices,
     getUserBalance,
   ]);
 

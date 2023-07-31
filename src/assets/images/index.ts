@@ -77,3 +77,5 @@ export const thumpsDownBlack = require('./icons/thumpsDownBlack.png');
 export const thumpsDownWhite = require('./icons/thumpsDownWhite.png');
 export const slashBlack = require('./icons/slashBlack.png');
 export const slashWhite = require('./icons/slashWhite.png');
+export const iconCurrencyDSM = require('./icons/currencyDSM.png');
+export const iconCurrencyUSD = require('./icons/currencyUSD.png');

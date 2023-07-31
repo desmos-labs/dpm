@@ -1,3 +1,5 @@
+import { Coin } from '@desmoslabs/desmjs';
+
 /**
  * Contains the information of a given token price.
  */
@@ -21,15 +23,34 @@ export interface TokenPrice {
  */
 export interface CoinFiatValue {
   /**
-   * Coin denomination.
+   * The {@link Coin} for which the fiat value has been computed.
    */
-  readonly denom: string;
-  /**
-   * Coin amount.
-   */
-  readonly amount: string;
+  readonly coin: Coin;
   /**
    * Coin fiat value.
    */
   readonly fiatValue: number;
+  /**
+   * Factor used to convert the coin amount to its fiat value.
+   */
+  readonly coinConversionFactory: number;
+  /**
+   * The fiat currency name like USD or EUR.
+   */
+  readonly currency: string;
+  /**
+   * The fiat currency symbol like $ or €.
+   */
+  readonly currencySymbol: string;
 }
+
+export const zeroCoinFiatValue = (coinDenom: string): CoinFiatValue => ({
+  coin: {
+    amount: '0',
+    denom: coinDenom,
+  },
+  coinConversionFactory: 0,
+  fiatValue: 0,
+  currency: 'USD',
+  currencySymbol: '$',
+});
