@@ -1,40 +1,75 @@
 import { StackScreenProps } from '@react-navigation/stack';
-import React, { useCallback, useState } from 'react';
+import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import SingleButtonModal from 'modals/SingleButtonModal';
 import useShowModal from 'hooks/useShowModal';
 import useWalletConnectPair from 'hooks/walletconnect/useWalletConnectPair';
 import IconButton from 'components/IconButton';
 import ROUTES from 'navigation/routes';
-import { HomeTabsParamList } from 'navigation/RootNavigator/HomeTabs';
 import { Barcode } from 'vision-camera-code-scanner';
 import StyledSafeAreaView from 'components/StyledSafeAreaView';
 import TextInput from 'components/TextInput';
 import { Vibration } from 'react-native';
-import { CompositeScreenProps } from '@react-navigation/native';
 import { RootNavigatorParamList } from 'navigation/RootNavigator';
 import StyledActivityIndicator from 'components/StyledActivityIndicator';
+import { DPMUriType } from 'types/uri';
+import { parseDPMUri } from 'lib/DPMUris';
 import useStyles from './useStyles';
 import QrCodeScanner from './components/QrCodeScanner';
 
-type NavProps = CompositeScreenProps<
-  StackScreenProps<RootNavigatorParamList>,
-  StackScreenProps<HomeTabsParamList, ROUTES.SCAN_QR_CODE>
->;
+export enum QrCodeType {
+  /**
+   * Parse WalletConnect QR codes.
+   */
+  WalletConnect,
+  /**
+   * Parse QR codes that may contain a DPM style uri.
+   */
+  DPMUris,
+}
 
-const ScanQr: React.FC<NavProps> = ({ navigation }) => {
+export interface ScanQrCodeParams {
+  /**
+   * Type of qrcode that should be read, if this field is undefined
+   * this screen will try to detect the type of qr code that is being
+   * processed automatically.
+   */
+  readonly qrCodeType?: QrCodeType;
+  /**
+   * Tells if the screen should be removed from the stack history.
+   */
+  readonly pop?: boolean;
+}
+
+type NavProps = StackScreenProps<RootNavigatorParamList, ROUTES.SCAN_QR_CODE>;
+
+const ScanQr: React.FC<NavProps> = ({ navigation, route }) => {
   const styles = useStyles();
   const { t } = useTranslation();
+  const { qrCodeType, pop } = route.params ?? {};
+
   const [pairing, setPairing] = useState(false);
   const [devUri, setDevUri] = useState('');
   const pair = useWalletConnectPair();
   const openModal = useShowModal();
 
-  const goBack = useCallback(() => {
+  const navigate = React.useCallback<(typeof navigation)['navigate']>(
+    (...args) => {
+      if (pop) {
+        navigation.goBack();
+      }
+
+      // @ts-ignore
+      navigation.navigate(...args);
+    },
+    [navigation, pop],
+  );
+
+  const goBack = React.useCallback(() => {
     navigation.goBack();
   }, [navigation]);
 
-  const openErrorModal = useCallback(
+  const openErrorModal = React.useCallback(
     (message: string) => {
       openModal(SingleButtonModal, {
         title: t('error'),
@@ -45,13 +80,13 @@ const ScanQr: React.FC<NavProps> = ({ navigation }) => {
     [openModal, t],
   );
 
-  const startPairProcedure = useCallback(
+  const startPairProcedure = React.useCallback(
     async (uri: string) => {
       try {
         setPairing(true);
         setDevUri('');
         const proposal = await pair(uri);
-        navigation.navigate(ROUTES.WALLET_CONNECT_SESSION_PROPOSAL, {
+        navigate(ROUTES.WALLET_CONNECT_SESSION_PROPOSAL, {
           proposal,
         });
       } catch (e) {
@@ -60,14 +95,48 @@ const ScanQr: React.FC<NavProps> = ({ navigation }) => {
         setPairing(false);
       }
     },
-    [navigation, openErrorModal, pair],
+    [navigate, openErrorModal, pair],
   );
 
-  const onDevUriSubmitted = useCallback(async () => {
-    await startPairProcedure(devUri);
-  }, [startPairProcedure, devUri]);
+  const handleDPMUri = React.useCallback(
+    (uri: string) => {
+      const parsedUri = parseDPMUri(uri);
+      if (parsedUri) {
+        if (parsedUri.type === DPMUriType.UserAddress) {
+          navigate(ROUTES.SEND_TOKENS, {
+            receipinat: parsedUri.address,
+          });
+        } else {
+          openErrorModal(t('invalid qr code'));
+        }
+      } else {
+        openErrorModal(t('invalid qr code'));
+      }
+    },
+    [navigate, openErrorModal, t],
+  );
 
-  const onQrCodeDetected = useCallback(
+  const processQrCodeData = React.useCallback(
+    async (data: string) => {
+      if (qrCodeType === QrCodeType.WalletConnect) {
+        await startPairProcedure(data);
+      } else if (qrCodeType === QrCodeType.DPMUris) {
+        handleDPMUri(data);
+      } else if (data.indexOf('dpm://') === 0) {
+        // This is a dpm uri, try to parse it.
+        handleDPMUri(data);
+      } else {
+        openErrorModal(t('invalid qr code'));
+      }
+    },
+    [handleDPMUri, openErrorModal, qrCodeType, startPairProcedure, t],
+  );
+
+  const onDevUriSubmitted = React.useCallback(async () => {
+    await processQrCodeData(devUri);
+  }, [processQrCodeData, devUri]);
+
+  const onQrCodeDetected = React.useCallback(
     async (barCode: Barcode) => {
       // Provide a feedback that the qr code has been detected.
       Vibration.vibrate();
@@ -75,10 +144,10 @@ const ScanQr: React.FC<NavProps> = ({ navigation }) => {
       if (barCode.rawValue === undefined) {
         openErrorModal(t('invalid qr code'));
       } else {
-        await startPairProcedure(barCode.rawValue);
+        await processQrCodeData(barCode.rawValue);
       }
     },
-    [openErrorModal, startPairProcedure, t],
+    [openErrorModal, processQrCodeData, t],
   );
 
   return (

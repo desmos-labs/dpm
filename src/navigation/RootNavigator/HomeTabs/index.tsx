@@ -8,7 +8,6 @@ import BottomBar from 'navigation/RootNavigator/HomeTabs/components/BottomBar';
 import WalletConnectSessions from 'screens/WalletConnectSessions';
 import AppDrawerContent from 'screens/Home/components/AppDrawer';
 import AppDrawer from 'lib/AppDrawer';
-import ScanQr from 'screens/ScanQr';
 import { useAllWalletConnectSessionsRequests } from '@recoil/walletConnectRequests';
 import ManageStaking from 'screens/ManageStaking';
 import GovernanceProposals from 'screens/GovernanceProposals';
@@ -37,7 +36,7 @@ type NavProps = StackScreenProps<RootNavigatorParamList, ROUTES.HOME_TABS>;
 
 const HomeBottomTabs = createBottomTabNavigator<HomeTabsParamList>();
 
-const HomeTabs: FC<NavProps> = () => {
+const HomeTabs: FC<NavProps> = ({ navigation }) => {
   const requests = useAllWalletConnectSessionsRequests();
   const requestsCount = useMemo(() => {
     if (requests.length === 0) {
@@ -46,13 +45,27 @@ const HomeTabs: FC<NavProps> = () => {
     return requests.length;
   }, [requests]);
 
-  const tabBar = (tabBarProps: BottomTabBarProps) => {
-    const currentRoute = tabBarProps.state.routes[tabBarProps.state.index];
-    if (currentRoute.name === ROUTES.SCAN_QR_CODE) {
-      return null;
-    }
-    return <BottomBar {...tabBarProps} />;
-  };
+  const tabBar = React.useCallback(
+    (tabBarProps: BottomTabBarProps) => {
+      const currentRoute = tabBarProps.state.routes[tabBarProps.state.index];
+      if (currentRoute.name === ROUTES.SCAN_QR_CODE) {
+        return null;
+      }
+      return (
+        <BottomBar
+          {...tabBarProps}
+          customRouteNavigation={{
+            // Custom action to navigate to the SCAN_QR_CODE
+            // route declared in the root navigator.
+            [ROUTES.SCAN_QR_CODE]: () => navigation.navigate(ROUTES.SCAN_QR_CODE),
+          }}
+        />
+      );
+    },
+    [navigation],
+  );
+
+  const nullComponent = React.useCallback(() => null, []);
 
   return (
     <AppDrawer renderContent={() => <AppDrawerContent />} drawerType="slide">
@@ -88,7 +101,7 @@ const HomeTabs: FC<NavProps> = () => {
         />
         <HomeBottomTabs.Screen
           name={ROUTES.SCAN_QR_CODE}
-          component={ScanQr}
+          component={nullComponent}
           options={{
             tabBarIcon: ({ size }) => <BottomBarIcon source={scanQRButton} size={size} />,
           }}

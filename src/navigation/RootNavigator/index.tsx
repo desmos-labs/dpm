@@ -20,7 +20,7 @@ import ImportAccountSelectType, {
 } from 'screens/ImportAccountSelectType';
 import ImportAccountSelectLedgerApp from 'screens/ImportAccountSelectLedgerApp';
 import UnlockWallet, { UnlockWalletParams } from 'screens/UnlockWallet';
-import SendTokens from 'screens/SendTokens';
+import SendTokens, { SendTokensParams } from 'screens/SendTokens';
 import BroadcastTx, { BroadcastTxParams } from 'screens/BroadcastTx';
 import ModalScreen, { ModalScreenParams } from 'modals/ModalScreen';
 import EditProfile, { EditProfileParams } from 'screens/EditProfile';
@@ -57,6 +57,7 @@ import SelectNewMnemonicLength from 'screens/SelectNewMnemonicLength';
 import GovernanceProposalDetails, {
   GovernanceProposalDetailsParams,
 } from 'screens/GovernanceProposalDetails';
+import ScanQr, { ScanQrCodeParams } from 'screens/ScanQr';
 
 export type RootNavigatorParamList = {
   [ROUTES.DEV_SCREEN]: undefined;
@@ -78,14 +79,14 @@ export type RootNavigatorParamList = {
   [ROUTES.CONNECT_TO_LEDGER_STACK]: ConnectToLedgerStackParams;
   [ROUTES.HOME_TABS]: undefined;
   [ROUTES.HOME]: undefined;
-  [ROUTES.SCAN_QR_CODE]: undefined;
+  [ROUTES.SCAN_QR_CODE]: ScanQrCodeParams | undefined;
   [ROUTES.WALLET_CONNECT_SESSIONS]: undefined;
   [ROUTES.WALLET_CONNECT_SESSION_PROPOSAL]: WalletConnectSessionProposalParams;
   [ROUTES.WALLET_CONNECT_REQUEST]: undefined;
 
   [ROUTES.PROFILE]: ProfileParams | undefined;
   [ROUTES.EDIT_PROFILE]: EditProfileParams | undefined;
-  [ROUTES.SEND_TOKENS]: undefined;
+  [ROUTES.SEND_TOKENS]: SendTokensParams | undefined;
   [ROUTES.CHAIN_LINK_DETAILS]: ChainLinkDetailsParams;
   [ROUTES.UNLOCK_WALLET]: UnlockWalletParams;
   [ROUTES.BROADCAST_TX]: BroadcastTxParams;
@@ -246,6 +247,9 @@ const RootNavigator = () => {
         name={ROUTES.GOVERNANCE_PROPOSAL_DETAILS}
         component={GovernanceProposalDetails}
       />
+
+      {/* Misc screens */}
+      <Stack.Screen name={ROUTES.SCAN_QR_CODE} component={ScanQr} />
     </Stack.Navigator>
   );
 };

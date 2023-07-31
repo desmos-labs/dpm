@@ -1,4 +1,4 @@
-import { BottomTabBarProps } from '@react-navigation/bottom-tabs';
+import { BottomTabBarProps as ReactBottomTabBarProps } from '@react-navigation/bottom-tabs';
 import { TabActions } from '@react-navigation/native';
 import Typography from 'components/Typography';
 import React, { FC } from 'react';
@@ -6,8 +6,12 @@ import { TouchableOpacity, View } from 'react-native';
 import { useTheme } from 'react-native-paper';
 import useStyles from './useStyles';
 
+export type BottomTabBarProps = ReactBottomTabBarProps & {
+  readonly customRouteNavigation?: Record<string, () => any>;
+};
+
 const BottomBar: FC<BottomTabBarProps> = (props) => {
-  const { navigation, descriptors, state } = props;
+  const { navigation, descriptors, state, customRouteNavigation } = props;
   const styles = useStyles();
   const theme = useTheme();
 
@@ -21,9 +25,17 @@ const BottomBar: FC<BottomTabBarProps> = (props) => {
         const textStyle = focused ? [styles.btnText, styles.btnTextSelected] : styles.btnText;
 
         const onPress = () => {
-          const action = TabActions.jumpTo(route.name);
-          navigation.dispatch(action);
+          const customNavigateAction = customRouteNavigation
+            ? customRouteNavigation[route.name]
+            : undefined;
+
+          if (customNavigateAction) {
+            customNavigateAction();
+          } else {
+            navigation.dispatch(TabActions.jumpTo(route.name));
+          }
         };
+
         return (
           <TouchableOpacity key={route.key} style={styles.btn} onPress={onPress}>
             {options.tabBarBadge && (
