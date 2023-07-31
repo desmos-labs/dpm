@@ -1,5 +1,4 @@
 import { DPMUri, DPMUriType, DPMUserAddressUri } from 'types/uri';
-import { URL } from 'url';
 
 const DPM_URI_PROTOCOL = 'dpm:';
 
