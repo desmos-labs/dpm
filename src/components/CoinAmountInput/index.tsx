@@ -91,7 +91,12 @@ const CoinAmountInput: React.FC<CoinAmountInputProps> = ({
   // -------- CONSTANTS --------
 
   const spendable = React.useMemo(
-    () => amount ?? zeroCoinFiatValue(chainInfo.stakeCurrency.coinMinimalDenom),
+    () =>
+      amount ??
+      zeroCoinFiatValue({
+        amount: '0',
+        denom: chainInfo.stakeCurrency.coinMinimalDenom,
+      }),
     [chainInfo, amount],
   );
   // Factor to convert the input value to the stake currency coin.
