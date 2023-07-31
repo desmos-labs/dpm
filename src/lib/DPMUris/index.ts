@@ -24,7 +24,7 @@ const parseUserAddressUri = (url: URL): DPMUserAddressUri | undefined => {
  * - dpm://<context>/...data
  * @param uri - The uri to parse.
  */
-const parseDPMUri = (uri: string): DPMUri | undefined => {
+export const parseDPMUri = (uri: string): DPMUri | undefined => {
   try {
     const parsedUri = new URL(uri);
 
@@ -49,4 +49,15 @@ const parseDPMUri = (uri: string): DPMUri | undefined => {
   }
 };
 
-export default parseDPMUri;
+/**
+ * Function that given a {@link DPMUri} generates its uri representation.
+ * @param uri - Uri that will be converted to its string representation.
+ */
+export const generateDPMUri = (uri: DPMUri): string => {
+  switch (uri.type) {
+    case DPMUriType.UserAddress:
+      return `${DPM_URI_PROTOCOL}//${DPMUriType.UserAddress}/${uri.address}`;
+    default:
+      throw new Error(`unsupported uri type: ${uri.type}`);
+  }
+};

@@ -2,7 +2,7 @@
 // used in the application.
 import 'react-native-url-polyfill/auto';
 import { DPMUriType } from 'types/uri';
-import parseDPMUri from 'lib/DPMUris/index';
+import { generateDPMUri, parseDPMUri } from 'lib/DPMUris/index';
 
 describe('DPM Uris', () => {
   it('parse valid user address uri', () => {
@@ -20,5 +20,15 @@ describe('DPM Uris', () => {
 
     const parsedUri = parseDPMUri(testUri);
     expect(parsedUri?.type).toBe(undefined);
+  });
+
+  it('generate user address uri correctly', () => {
+    const testAddress = 'desmos1nm6kh6jwqmsezwtnmgdd4w4tzyk9f8gvqu5en0';
+
+    const url = generateDPMUri({
+      type: DPMUriType.UserAddress,
+      address: testAddress,
+    });
+    expect(url).toBe(`dpm://${DPMUriType.UserAddress}/${testAddress}`);
   });
 });
