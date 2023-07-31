@@ -8,6 +8,8 @@ import { ModalComponentProps } from 'modals/ModalScreen';
 import Button from 'components/Button';
 import Clipboard from '@react-native-community/clipboard';
 import { useShowSnackBar } from 'lib/SnackBarProvider/recoil';
+import { generateDPMUri } from 'lib/DPMUris';
+import { DPMUriType } from 'types/uri';
 import useStyles from './useStyles';
 
 export interface QRCodeAddressProps {
@@ -28,6 +30,17 @@ const QRCodeAddressModal: React.FC<ModalComponentProps<QRCodeAddressProps>> = ({
 
   const showSnackBar = useShowSnackBar();
 
+  // -------- VARIABLES --------
+
+  const qrCodeData = React.useMemo(
+    () =>
+      generateDPMUri({
+        type: DPMUriType.UserAddress,
+        address,
+      }),
+    [address],
+  );
+
   // -------- CALLBACKS --------
 
   const onCopyPressed = React.useCallback(() => {
@@ -43,7 +56,7 @@ const QRCodeAddressModal: React.FC<ModalComponentProps<QRCodeAddressProps>> = ({
           size={200}
           color={theme.colors.primary}
           backgroundColor={theme.colors.background}
-          value={`dpm://address/${address}`}
+          value={qrCodeData}
         />
       </View>
       <Typography.Regular14 style={styles.addressContainer} numberOfLines={2}>
