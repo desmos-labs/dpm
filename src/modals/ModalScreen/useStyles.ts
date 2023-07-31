@@ -25,9 +25,10 @@ const useStyles = makeStyle((theme) => ({
     alignItems: 'center',
   },
   bottomContent: {
-    borderTopLeftRadius: theme.roundness,
-    borderTopRightRadius: theme.roundness,
+    borderTopLeftRadius: 28,
+    borderTopRightRadius: 28,
     padding: theme.spacing.l,
+    paddingTop: 28,
   },
   closePopupArea: {
     flex: 1,

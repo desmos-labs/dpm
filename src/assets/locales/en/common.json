@@ -42,5 +42,7 @@
   "yes": "Yes",
   "no": "No",
   "description": "Description",
-  "i understand": "I understand"
+  "i understand": "I understand",
+  "my address": "My address",
+  "copy address": "Copy address"
 }
