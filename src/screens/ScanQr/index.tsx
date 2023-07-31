@@ -104,7 +104,7 @@ const ScanQr: React.FC<NavProps> = ({ navigation, route }) => {
       if (parsedUri) {
         if (parsedUri.type === DPMUriType.UserAddress) {
           navigate(ROUTES.SEND_TOKENS, {
-            receipinat: parsedUri.address,
+            recipient: parsedUri.address,
           });
         } else {
           openErrorModal(t('invalid qr code'));

@@ -29,7 +29,7 @@ import useStyles from './useStyles';
 import useSendTokens from './useHooks';
 
 export interface SendTokensParams {
-  readonly receipinat?: string;
+  readonly recipient?: string;
 }
 
 export type NavProps = StackScreenProps<RootNavigatorParamList, ROUTES.SEND_TOKENS>;
@@ -37,7 +37,7 @@ export type NavProps = StackScreenProps<RootNavigatorParamList, ROUTES.SEND_TOKE
 const SendTokens: React.FC<NavProps> = ({ navigation, route }) => {
   const { t } = useTranslation('sendTokens');
   const styles = useStyles();
-  const { receipinat } = route.params ?? {};
+  const { recipient } = route.params ?? {};
 
   useTrackScreen(Screens.SendTokens);
 
@@ -105,14 +105,14 @@ const SendTokens: React.FC<NavProps> = ({ navigation, route }) => {
   // -------- EFFECTS --------
 
   React.useEffect(() => {
-    if (receipinat !== undefined) {
-      onAddressChange(receipinat);
+    if (recipient !== undefined) {
+      onAddressChange(recipient);
     }
-  }, [onAddressChange, receipinat]);
+  }, [onAddressChange, recipient]);
 
   // -------- COMPONENTS --------
 
-  const receipianRightElement = React.useMemo(
+  const recipientRightElement = React.useMemo(
     () => (
       <IconButton
         icon={scanIcon}
@@ -148,7 +148,7 @@ const SendTokens: React.FC<NavProps> = ({ navigation, route }) => {
         error={!isAddressValid}
         autoCorrect={false}
         autoCapitalize="none"
-        rightElement={receipianRightElement}
+        rightElement={recipientRightElement}
       />
       <RecipientsList
         ref={recipientsListRef}
