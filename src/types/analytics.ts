@@ -34,6 +34,7 @@ export enum Events {
 
   // Profile events
   SaveProfile = 'Save Profile',
+  BeginLinkChain = 'Begin Link Chain Account',
   LinkChain = 'Link Chain Account',
   UnlinkChain = 'Unlink Chain Account',
 
