@@ -28,6 +28,8 @@ import useSignTx, { SignMode } from 'hooks/tx/useSignTx';
 import { ChainLink } from 'types/desmos';
 import { useStoreUserChainLinks } from '@recoil/chainLinks';
 import { err, ok, Result } from 'neverthrow';
+import useTrackEvent from 'hooks/analytics/useTrackEvent';
+import { Events } from 'types/analytics';
 
 const useSaveChainLinkAccount = () => {
   const activeAccountAddress = useActiveAccountAddress();
@@ -178,13 +180,14 @@ const useConnectChain = (onSuccess: () => void, userChainLinks: ChainLink[]) => 
   const generateMsgChainLink = useGenerateMsgLinkChainAccount();
   const broadcastTx = useBroadcastTx();
   const saveChainLinkAccount = useSaveChainLinkAccount();
+  const trackEvent = useTrackEvent();
 
   return useCallback(async () => {
+    trackEvent(Events.BeginLinkChain);
     const accountWithChain = await importAccount();
     if (accountWithChain === undefined) {
       return;
     }
-
     const { account, chain } = accountWithChain;
 
     const generateMsgResult = await generateMsgChainLink(chain, account);
@@ -203,7 +206,14 @@ const useConnectChain = (onSuccess: () => void, userChainLinks: ChainLink[]) => 
         onSuccess();
       },
     });
-  }, [broadcastTx, generateMsgChainLink, importAccount, onSuccess, saveChainLinkAccount]);
+  }, [
+    trackEvent,
+    broadcastTx,
+    generateMsgChainLink,
+    importAccount,
+    onSuccess,
+    saveChainLinkAccount,
+  ]);
 };
 
 export default useConnectChain;
