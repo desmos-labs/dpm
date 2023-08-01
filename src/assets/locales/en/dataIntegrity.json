@@ -1,5 +1,5 @@
 {
-  "keychain corrupted": "Data Corrupted",
-  "keychain corrupted description": "It seems like there is an issue with the data on your device. To continue using the application, you will need to delete all the data.\nDon't worry; you can import your accounts again once this process is complete.",
-  "delete all data": "Delete all data"
+  "keychain warning title": "Data Migration Complete",
+  "keychain warning description": "Great news! We have successfully migrated your app's data to enhance security and performance. While doing so, we improved the way your data is stored on your device. To continue enjoying our app seamlessly, we kindly request you to perform a quick re-import of your accounts.\nNo worries, your data is safe and secure throughout this process.",
+  "fix keychain button": "Re-Import Data"
 }
