@@ -44,11 +44,8 @@ export interface CoinFiatValue {
   readonly currencySymbol: string;
 }
 
-export const zeroCoinFiatValue = (coinDenom: string): CoinFiatValue => ({
-  coin: {
-    amount: '0',
-    denom: coinDenom,
-  },
+export const zeroCoinFiatValue = (coin: Coin): CoinFiatValue => ({
+  coin,
   coinConversionFactory: 0,
   fiatValue: 0,
   currency: 'USD',

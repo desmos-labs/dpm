@@ -10,7 +10,6 @@ import TextInput from 'components/TextInput';
 import Button from 'components/Button';
 import { RootNavigatorParamList } from 'navigation/RootNavigator';
 import ROUTES from 'navigation/routes';
-import { useNavigation } from '@react-navigation/native';
 import { safeParseInt } from 'lib/FormatUtils';
 import CoinAmountInput, { CoinAmountInputMode } from 'components/CoinAmountInput';
 import { Coin } from '@desmoslabs/desmjs-types/cosmos/base/v1beta1/coin';
@@ -19,25 +18,32 @@ import { AmountLimit } from 'components/CoinAmountInput/limits';
 import DKeyboardAvoidingView from 'components/DKeyboardAvoidingView';
 import useTrackScreen from 'hooks/analytics/useTrackScreen';
 import { Screens } from 'types/analytics';
-import { Keyboard, TextInput as NativeTextInput } from 'react-native';
+import { Keyboard, View } from 'react-native';
 import RecipientsList, { RecipientsListRef } from 'screens/SendTokens/components/RecipientsList';
 import { DesmosProfile } from 'types/desmos';
 import ProfileImage from 'components/ProfileImage';
+import { QrCodeType } from 'screens/ScanQr';
+import IconButton from 'components/IconButton';
+import { scanIcon } from 'assets/images';
 import useStyles from './useStyles';
 import useSendTokens from './useHooks';
 
+export interface SendTokensParams {
+  readonly recipient?: string;
+}
+
 export type NavProps = StackScreenProps<RootNavigatorParamList, ROUTES.SEND_TOKENS>;
 
-const SendTokens = () => {
+const SendTokens: React.FC<NavProps> = ({ navigation, route }) => {
   const { t } = useTranslation('sendTokens');
   const styles = useStyles();
-  const navigation = useNavigation();
+  const { recipient } = route.params ?? {};
 
   useTrackScreen(Screens.SendTokens);
 
   // -------- REFS --------
 
-  const inputRef = React.useRef<NativeTextInput>(null);
+  const inputRef = React.useRef<View>(null);
   const recipientsListRef = React.useRef<RecipientsListRef>(null);
 
   // -------- STATES --------
@@ -96,6 +102,31 @@ const SendTokens = () => {
     }
   }, [profile, sendAmount, memo, sendTokens]);
 
+  // -------- EFFECTS --------
+
+  React.useEffect(() => {
+    if (recipient !== undefined) {
+      onAddressChange(recipient);
+    }
+  }, [onAddressChange, recipient]);
+
+  // -------- COMPONENTS --------
+
+  const recipientRightElement = React.useMemo(
+    () => (
+      <IconButton
+        icon={scanIcon}
+        size={24}
+        onPress={() => {
+          navigation.navigate(ROUTES.SCAN_QR_CODE, {
+            qrCodeType: QrCodeType.DPMUris,
+          });
+        }}
+      ></IconButton>
+    ),
+    [navigation],
+  );
+
   return (
     <StyledSafeAreaView
       topBar={<TopBar stackProps={{ navigation }} title={t('common:send')} />}
@@ -105,7 +136,7 @@ const SendTokens = () => {
       {/* Address */}
       <Typography.Subtitle style={styles.topMarginSmall}>{t('recipient')}</Typography.Subtitle>
       <TextInput
-        inputRef={inputRef}
+        ref={inputRef}
         style={styles.topMarginSmall}
         leftElement={
           profile?.dtag !== undefined ? <ProfileImage size={28} profile={profile} /> : undefined
@@ -117,6 +148,7 @@ const SendTokens = () => {
         error={!isAddressValid}
         autoCorrect={false}
         autoCapitalize="none"
+        rightElement={recipientRightElement}
       />
       <RecipientsList
         ref={recipientsListRef}

@@ -1,4 +1,4 @@
-import React, { MutableRefObject } from 'react';
+import React, { MutableRefObject, Ref } from 'react';
 import { StyleProp, TextInput as NativeTextInput, TextStyle, View, ViewStyle } from 'react-native';
 import { useTheme } from 'react-native-paper';
 import useStyles from './useStyles';
@@ -25,13 +25,13 @@ export type TextInputProps = Omit<React.ComponentProps<typeof NativeTextInput>, 
   inputStyle?: StyleProp<TextStyle>;
 };
 
-const TextInput: React.FC<TextInputProps> = (props) => {
+const TextInput = React.forwardRef<View, TextInputProps>((props, ref: Ref<View>) => {
   const { leftElement, rightElement, style, inputRef, inputStyle } = props;
   const styles = useStyles(props);
   const theme = useTheme();
 
   return (
-    <View style={[styles.container, style]}>
+    <View style={[styles.container, style]} ref={ref}>
       {leftElement && <View style={styles.left}>{leftElement}</View>}
       <NativeTextInput
         ref={inputRef}
@@ -42,6 +42,6 @@ const TextInput: React.FC<TextInputProps> = (props) => {
       {rightElement && <View style={styles.right}>{rightElement}</View>}
     </View>
   );
-};
+});
 
 export default TextInput;

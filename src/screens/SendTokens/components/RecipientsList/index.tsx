@@ -1,5 +1,5 @@
 import React, { forwardRef, useImperativeHandle } from 'react';
-import { Dimensions, TextInput, View } from 'react-native';
+import { Dimensions, View } from 'react-native';
 import { useProfilesFromNickNameOrDtag } from 'screens/SendTokens/components/RecipientsList/hooks';
 import { FlashList } from '@shopify/flash-list';
 import StyledRefreshControl from 'components/StyledRefreshControl';
@@ -14,7 +14,7 @@ export interface RecipientsListProps {
   /**
    * Ref to the view where this component will attach to.
    */
-  readonly attachTo: React.RefObject<TextInput>;
+  readonly attachTo: React.RefObject<View>;
   /**
    * The value that will be used to perform the search.
    */
@@ -55,6 +55,7 @@ const RecipientsList = forwardRef<RecipientsListRef, RecipientsListProps>(
 
     const [location, setLocation] = React.useState<ComponentDimensions>();
     const [hidden, setHidden] = React.useState(false);
+    const [selected, setSelected] = React.useState<DesmosProfile>();
 
     // -------- HOOKS --------
 
@@ -70,7 +71,7 @@ const RecipientsList = forwardRef<RecipientsListRef, RecipientsListProps>(
     const onProfileItemPressed = React.useCallback(
       (profile: DesmosProfile) => {
         // Hide this component when the user press on an item.
-        setHidden(true);
+        setSelected(profile);
         if (onSelect) {
           onSelect(profile);
         }
@@ -110,18 +111,16 @@ const RecipientsList = forwardRef<RecipientsListRef, RecipientsListProps>(
       updateFilter(searchValue);
       // If the value has changed after the user have selected an
       // item re-display this component.
-      setHidden(false);
-    }, [searchValue, updateFilter]);
+      if (searchValue !== selected?.address) {
+        setHidden(false);
+        setSelected(undefined);
+      }
+    }, [searchValue, updateFilter, selected, selected?.address]);
 
     // Prevent component rendering if:
     // - We don't have the component location.
     // - The search value is an address.
-    if (
-      data.length === 0 ||
-      hidden ||
-      location === undefined ||
-      attachTo?.current?.isFocused() !== true
-    ) {
+    if (data.length === 0 || hidden || location === undefined || selected !== undefined) {
       return null;
     }
 

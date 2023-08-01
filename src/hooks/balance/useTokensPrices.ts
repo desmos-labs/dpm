@@ -21,7 +21,7 @@ const getPrices = (data: any, coins: Coin[]) => {
     // Can't find a currency for this denom, we can't get the price of the
     // coin.
     if (currency === undefined) {
-      return zeroCoinFiatValue(coin.denom);
+      return zeroCoinFiatValue(coin);
     }
 
     // Compare the denoms in a case-insensitive way because the currency.coinDenom
@@ -31,7 +31,7 @@ const getPrices = (data: any, coins: Coin[]) => {
 
     // Can't find the price for this currency fallback to 0
     if (currencyPrice === undefined) {
-      return zeroCoinFiatValue(coin.denom);
+      return zeroCoinFiatValue(coin);
     }
 
     // Factor to convert the coin from its minimal denom to the currency denom.

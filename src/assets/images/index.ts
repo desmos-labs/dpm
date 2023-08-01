@@ -80,3 +80,4 @@ export const slashWhite = require('./icons/slashWhite.png');
 export const iconCurrencyDSM = require('./icons/currencyDSM.png');
 export const iconCurrencyUSD = require('./icons/currencyUSD.png');
 export const qrCodeIcon = require('./icons/qrCode.png');
+export const scanIcon = require('./icons/scan.png');
