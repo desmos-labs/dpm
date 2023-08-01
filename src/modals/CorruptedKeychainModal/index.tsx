@@ -43,9 +43,11 @@ const CorruptedKeychainModal: React.FC<ModalComponentProps<undefined>> = (props)
   return (
     <View>
       <DpmImage style={styles.image} resizeMode="contain" source={DPMImages.TxFailed} />
-      <Typography.SemiBold16 style={styles.title}>{t('keychain corrupted')}</Typography.SemiBold16>
+      <Typography.SemiBold16 style={styles.title}>
+        {t('keychain warning title')}
+      </Typography.SemiBold16>
       <Typography.Regular16 style={styles.message}>
-        {t('keychain corrupted description')}
+        {t('keychain warning description')}
       </Typography.Regular16>
       <View style={styles.checkboxContainer}>
         <DpmCheckBox
@@ -61,7 +63,7 @@ const CorruptedKeychainModal: React.FC<ModalComponentProps<undefined>> = (props)
         onPress={btnAction}
         disabled={!checkBoxChecked}
       >
-        {t('delete all data')}
+        {t('fix keychain button')}
       </Button>
     </View>
   );
