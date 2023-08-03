@@ -11,7 +11,7 @@ import Button from 'components/Button';
 import { RootNavigatorParamList } from 'navigation/RootNavigator';
 import ROUTES from 'navigation/routes';
 import { useSetting } from '@recoil/settings';
-import { checkUserPassword } from 'lib/SecureStorage';
+import { checkUserPassword, isKeyChainInitialized } from 'lib/SecureStorage';
 import { BiometricAuthorizations } from 'types/settings';
 import { useSetAppState } from '@recoil/appState';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
@@ -89,10 +89,13 @@ const UnlockApplication: React.FC<NavProps> = (props) => {
 
   // Use the biometrics authentication if the user has enabled it
   useEffect(() => {
-    if (areBiometricsEnabled) {
-      setLoading(true);
-      setTimeout(unlockWithBiometrics, 500);
-    }
+    (async () => {
+      const keyChainInitialized = await isKeyChainInitialized();
+      if (keyChainInitialized && areBiometricsEnabled) {
+        setLoading(true);
+        setTimeout(unlockWithBiometrics, 500);
+      }
+    })();
     // eslint-disable-next-line
   }, []);
 
