@@ -1,3 +1,8 @@
+# Version 2.3.3 Changelog
+## Bug Fixes
+- Resolved issue with corrupted data popup not displaying correctly on iOS.
+
+
 # Version 2.3.2 Changelog
 ## Features
 - Now handles corrupted keychain data on iOS effectively.
