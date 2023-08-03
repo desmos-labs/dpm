@@ -1,7 +1,6 @@
 import * as Keychain from 'react-native-keychain';
 import {
   getAllGenericPasswordServices,
-  hasInternetCredentials,
   resetGenericPassword,
   Result as KeychainResult,
 } from 'react-native-keychain';
@@ -373,10 +372,9 @@ export const getBiometricPassword = async (authorizationType: BiometricAuthoriza
 };
 
 /**
- * Checks if there is an item associated to the provided key.
- * @param key - The item key.
+ * Checks if the keychain has been initialized.
  */
-export const containsData = async (key: string): Promise<boolean> => {
-  const result = await hasInternetCredentials(key);
-  return typeof result !== 'boolean';
+export const isKeyChainInitialized = async (): Promise<boolean> => {
+  const result = await getItem(SecureStorageKeys.PASSWORD_CHALLENGE);
+  return result.unwrapOr(undefined) !== undefined;
 };

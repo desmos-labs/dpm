@@ -1,7 +1,7 @@
 import useShowModal from 'hooks/useShowModal';
 import { useHasAccount } from '@recoil/accounts';
 import React from 'react';
-import { containsData, SecureStorageKeys } from 'lib/SecureStorage';
+import { isKeyChainInitialized } from 'lib/SecureStorage';
 import CorruptedKeychainModal from 'modals/CorruptedKeychainModal';
 
 const useCheckKeyChainIntegrity = () => {
@@ -11,11 +11,11 @@ const useCheckKeyChainIntegrity = () => {
   React.useEffect(() => {
     (async () => {
       if (hasAccount) {
-        // Since the user have at least one account the password challenge
-        // should exist in the secure storage.
-        const passwordChallengeExists = await containsData(SecureStorageKeys.PASSWORD_CHALLENGE);
-        if (!passwordChallengeExists) {
-          // The password challenge don't exist, this means that the secure
+        // Since the user have at least one account the keychain should
+        // be initialized.
+        const keyChainInitialized = await isKeyChainInitialized();
+        if (!keyChainInitialized) {
+          // The keychain is not initialized, this means that the secure
           // storage is in an incorrect state, this can be caused
           // from the migration that we made from the Forbole Limited
           // organization to the Desmos Labs on the Apple Store.
