@@ -3271,6 +3271,11 @@
     "@nodelib/fs.scandir" "2.1.5"
     fastq "^1.6.0"
 
+"@notifee/react-native@^7.8.0":
+  version "7.8.0"
+  resolved "https://registry.npmjs.org/@notifee/react-native/-/react-native-7.8.0.tgz#2990883753990f3585aa0cb5becc5cbdbcd87a43"
+  integrity sha512-sx8h62U4FrR4pqlbN1rkgPsdamDt9Tad0zgfO6VtP6rNJq/78k8nxUnh0xIX3WPDcCV8KAzdYCE7+UNvhF1CpQ==
+
 "@os-team/i18next-react-native-language-detector@1.0.5":
   version "1.0.5"
   resolved "https://registry.yarnpkg.com/@os-team/i18next-react-native-language-detector/-/i18next-react-native-language-detector-1.0.5.tgz#4f3c090a84b8a6be638ab35b26ce84f3919aa56d"

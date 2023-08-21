@@ -31,6 +31,7 @@
     "@json-rpc-tools/types": "^2.0.0-beta.12",
     "@json-rpc-tools/utils": "^2.0.0-beta.12",
     "@ledgerhq/react-native-hw-transport-ble": "^6.27.1",
+    "@notifee/react-native": "^7.8.0",
     "@os-team/i18next-react-native-language-detector": "1.0.5",
     "@react-native-async-storage/async-storage": "^1.17.11",
     "@react-native-community/clipboard": "1.5.1",
