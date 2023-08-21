@@ -16,6 +16,7 @@ import numbro from 'numbro';
 import { getDecimalSeparator, getThousandsSeparator } from 'lib/FormatUtils';
 import useCheckKeyChainIntegrity from 'hooks/dataintegrity/useCheckKeyChainIntegrity';
 import useInitNotifications from 'hooks/notifications/useInitNotifications';
+import setupBackgroundNotificationsHandler from 'hooks/notifications/setupBackgroundNotificationsHandler';
 
 Object.assign(process.env, { SENTRY_AUTH_TOKEN });
 Sentry.init({
@@ -40,6 +41,9 @@ numbro.registerLanguage(
   },
   true,
 );
+
+// Initialize the background notification reception logic.
+setupBackgroundNotificationsHandler();
 
 const AppLockLogic = () => {
   useLockApplicationOnBlur();
