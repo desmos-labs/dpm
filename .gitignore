@@ -79,3 +79,6 @@ buck-out/
 
 # SonarQube files
 .scannerwork/
+
+# Google services files
+android/app/google-services.json

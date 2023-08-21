@@ -27,6 +27,7 @@ ANDROID_SIGNING_STORE_PASSWORD = ENV["ANDROID_SIGNING_STORE_PASSWORD"]
 ANDROID_SIGNING_ALIAS = ENV["ANDROID_SIGNING_ALIAS"]
 ANDROID_SIGNING_KEY_PASSWORD = ENV["ANDROID_SIGNING_KEY_PASSWORD"]
 ANDROID_USE_LOCAL_KEYSTORE = ENV["ANDROID_USE_LOCAL_KEYSTORE"] != nil
+ANDROID_GOOGLE_SERVICES_JSON = ENV["ANDROID_GOOGLE_SERVICES_JSON"]
 
 # Define utility function to check if a string is a valid integer
 def is_integer(value)
@@ -270,6 +271,13 @@ platform :android do
     )
   end
 
+  lane :prepare_google_services_json do
+    sh(
+      command: "printf '#{ANDROID_GOOGLE_SERVICES_JSON}' > ../android/app/google-services.json",
+      log: true
+    )
+  end
+
   lane :clean do
     gradle(task: 'clean', project_dir: "android/")
   end
@@ -289,6 +297,8 @@ platform :android do
   lane :build_apk do
     # Prepares keystore to sign the application in /tmp/keystore.jks
     prepare_keystore
+    # Prepare the google-services.json file.
+    prepare_google_services_json
 
     gradle(
       task: "assemble",
@@ -302,6 +312,8 @@ platform :android do
   lane :build_bundle do
     # Prepares keystore to sign the application in /tmp/keystore.jks
     prepare_keystore
+    # Prepare the google-services.json file.
+    prepare_google_services_json
 
     gradle(
       task: "bundle",
