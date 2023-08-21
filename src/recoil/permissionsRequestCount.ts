@@ -5,6 +5,7 @@ import { PermissionsRequestsCount } from 'types/permissions';
 const defaultValue: PermissionsRequestsCount = {
   camera: 0,
   bluetooth: 0,
+  notifications: 0,
 };
 
 /**
@@ -12,7 +13,13 @@ const defaultValue: PermissionsRequestsCount = {
  */
 const permissionsRequestsCountAppState = atom<PermissionsRequestsCount>({
   key: 'permissionsRequestsCount',
-  default: getMMKV(MMKVKEYS.PERMISSIONS_REQUEST_COUNT) ?? defaultValue,
+  default: (() => {
+    const storedValue = getMMKV(MMKVKEYS.PERMISSIONS_REQUEST_COUNT) ?? {};
+    return {
+      ...defaultValue,
+      ...storedValue,
+    };
+  })(),
   effects: [
     ({ onSet }) => {
       onSet((newValue) => {
