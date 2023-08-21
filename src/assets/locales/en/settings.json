@@ -33,5 +33,6 @@
   "unlock application": "Unlock application",
   "analytics": "Analytics",
   "enable analytics": "Enable analytics",
-  "enable analytics message": "By enabling in-app analytics, we'll track only anonymous data on how you use the app—like feature engagement and navigation patterns.\nNo personal info is collected.\nDo you want to enable the analytics?"
+  "enable analytics message": "By enabling in-app analytics, we'll track only anonymous data on how you use the app—like feature engagement and navigation patterns.\nNo personal info is collected.\nDo you want to enable the analytics?",
+  "notifications": "Notifications"
 }

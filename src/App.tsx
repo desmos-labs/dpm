@@ -15,6 +15,7 @@ import * as Sentry from '@sentry/react-native';
 import numbro from 'numbro';
 import { getDecimalSeparator, getThousandsSeparator } from 'lib/FormatUtils';
 import useCheckKeyChainIntegrity from 'hooks/dataintegrity/useCheckKeyChainIntegrity';
+import useInitNotifications from 'hooks/notifications/useInitNotifications';
 
 Object.assign(process.env, { SENTRY_AUTH_TOKEN });
 Sentry.init({
@@ -43,6 +44,7 @@ numbro.registerLanguage(
 const AppLockLogic = () => {
   useLockApplicationOnBlur();
   useCheckKeyChainIntegrity();
+  useInitNotifications();
   return null;
 };
 
