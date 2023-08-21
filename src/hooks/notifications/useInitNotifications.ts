@@ -5,6 +5,7 @@ import { usePermissionRequestCount } from '@recoil/permissionsRequestCount';
 import React from 'react';
 import messaging from '@react-native-firebase/messaging';
 import { AppState } from 'react-native';
+import notificationsHandler from 'hooks/notifications/notificationsHandler';
 
 /**
  * Hook that initialize the notifications reception logic.
@@ -38,9 +39,7 @@ const useInitNotifications = () => {
           .then((token) => console.log('messaging token', token));
       }
       // The notifications are enabled, init the firebase notifications logic.
-      return messaging().onMessage(async (message) => {
-        console.log('A new FCM message arrived!', JSON.stringify(message));
-      });
+      return messaging().onMessage(notificationsHandler);
     }
 
     return undefined;
