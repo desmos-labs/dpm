@@ -1,18 +1,33 @@
-import messaging, { RemoteMessage } from '@react-native-firebase/messaging';
+import messaging, { FirebaseMessagingTypes } from '@react-native-firebase/messaging';
+import notifee, { AndroidImportance, AndroidVisibility } from '@notifee/react-native';
 
 /**
  * Function that handles the notifications received from firebase.
- * @param message
  */
-const notificationsHandler = async (message: RemoteMessage) => {
+const notificationsHandler = async (message: FirebaseMessagingTypes.RemoteMessage) => {
   console.log('Received a message', message);
   const permission = await messaging().hasPermission();
   if (
     permission === messaging.AuthorizationStatus.AUTHORIZED ||
     messaging.AuthorizationStatus.PROVISIONAL
   ) {
-    // We have the permissions to post the notification.
-    console.log('notifications permissions granted');
+    // Create a channel (required for Android)
+    const channelId = await notifee.createChannel({
+      id: 'default',
+      name: 'Default Channel',
+      importance: AndroidImportance.DEFAULT,
+      visibility: AndroidVisibility.PUBLIC,
+    });
+
+    // Display the notification
+    await notifee.displayNotification({
+      title: message.notification?.title,
+      body: message.notification?.body,
+      android: {
+        channelId,
+        smallIcon: 'ic_notification',
+      },
+    });
   }
 };
 
