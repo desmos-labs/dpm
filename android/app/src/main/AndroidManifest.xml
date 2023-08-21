@@ -16,6 +16,8 @@
                      android:usesPermissionFlags="neverForLocation"/>
     <uses-permission android:name="android.permission.BLUETOOTH_CONNECT" />
 
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
+
     <application
       android:name="network.desmos.dpm.MainApplication"
       android:label="@string/app_name"
