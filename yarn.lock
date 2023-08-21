@@ -3551,6 +3551,11 @@
     opencollective-postinstall "^2.0.1"
     superstruct "^0.6.2"
 
+"@react-native-firebase/messaging@^18.3.0":
+  version "18.3.0"
+  resolved "https://registry.npmjs.org/@react-native-firebase/messaging/-/messaging-18.3.0.tgz#062e4844d1a5e409e035efc13ecd68f403165568"
+  integrity sha512-MolNWboyN+ZwfHgFTQ4NspIzpFxbtlROxrsiGjwpfzBcKL6cjpfS6uxwupidycuzVL+gaIq1xbCLQaNhv/bToA==
+
 "@react-native-masked-view/masked-view@0.2.0":
   version "0.2.0"
   resolved "https://registry.yarnpkg.com/@react-native-masked-view/masked-view/-/masked-view-0.2.0.tgz#3309ada28dafd7ac1fead4eb99286acd43180b2a"
