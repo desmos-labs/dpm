@@ -5,7 +5,6 @@ import notifee, { AndroidImportance, AndroidVisibility } from '@notifee/react-na
  * Function that handles the notifications received from firebase.
  */
 const notificationsHandler = async (message: FirebaseMessagingTypes.RemoteMessage) => {
-  console.log('Received a message', message);
   const permission = await messaging().hasPermission();
   if (
     permission === messaging.AuthorizationStatus.AUTHORIZED ||
