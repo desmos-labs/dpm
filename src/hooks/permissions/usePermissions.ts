@@ -64,16 +64,22 @@ const notificationsPermissionsFunctions = (): PermissionsFunctions => {
     );
   };
   const request = async () => {
-    const result = await messaging().requestPermission({
-      alert: true,
-      badge: true,
-      sound: true,
-      carPlay: true,
-    });
-    return (
-      result === messaging.AuthorizationStatus.AUTHORIZED ||
-      result === messaging.AuthorizationStatus.EPHEMERAL
-    );
+    if (Platform.OS === 'ios') {
+      const result = await messaging().requestPermission({
+        alert: true,
+        badge: true,
+        sound: true,
+        carPlay: true,
+      });
+      return (
+        result === messaging.AuthorizationStatus.AUTHORIZED ||
+        result === messaging.AuthorizationStatus.EPHEMERAL
+      );
+    }
+
+    // On Android fallback to react-native permissions.
+    const result = await Permissions.requestNotifications([]);
+    return result.status === 'granted';
   };
 
   return {
