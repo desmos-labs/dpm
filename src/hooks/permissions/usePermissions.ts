@@ -8,8 +8,7 @@ import {
   useSetPermissionsRequestCount,
 } from '@recoil/permissionsRequestCount';
 import { useSetAppState } from '@recoil/appState';
-import messaging, { FirebaseMessagingTypes } from '@react-native-firebase/messaging';
-import AuthorizationStatus = FirebaseMessagingTypes.AuthorizationStatus;
+import messaging from '@react-native-firebase/messaging';
 
 /**
  * Type that represents an object that provides the functions
@@ -59,7 +58,10 @@ const permissionsFunctionsFromPermissionsList = (
 const notificationsPermissionsFunctions = (): PermissionsFunctions => {
   const check = async () => {
     const result = await messaging().hasPermission();
-    return result === AuthorizationStatus.AUTHORIZED || result === AuthorizationStatus.EPHEMERAL;
+    return (
+      result === messaging.AuthorizationStatus.AUTHORIZED ||
+      result === messaging.AuthorizationStatus.EPHEMERAL
+    );
   };
   const request = async () => {
     const result = await messaging().requestPermission({
@@ -68,7 +70,10 @@ const notificationsPermissionsFunctions = (): PermissionsFunctions => {
       sound: true,
       carPlay: true,
     });
-    return result === AuthorizationStatus.AUTHORIZED || result === AuthorizationStatus.EPHEMERAL;
+    return (
+      result === messaging.AuthorizationStatus.AUTHORIZED ||
+      result === messaging.AuthorizationStatus.EPHEMERAL
+    );
   };
 
   return {
