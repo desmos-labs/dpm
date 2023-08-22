@@ -53,6 +53,7 @@ jobs:
           ENV_POSTHOG_API_KEY: ${{ secrets.ENV_POSTHOG_API_KEY }}
           ENV_SENTRY_AUTH_TOKEN: ${{ secrets.ENV_SENTRY_AUTH_TOKEN }}
           IOS_GOOGLE_SERVICES_INFO_PLIST: ${{ secrets.IOS_GOOGLE_SERVICES_INFO_PLIST }}
+          IOS_BRANCH_INFO_PLIST: ${{ secrets.IOS_BRANCH_INFO_PLIST }}
 
       - name: Build ipa 🔨
         run: bundle exec fastlane ios build

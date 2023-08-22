@@ -20,6 +20,7 @@ APPLE_KEY_ID = ENV["APPLE_KEY_ID"]
 APPLE_KEY_CONTENT = ENV["APPLE_KEY_CONTENT"]
 GIT_AUTHORIZATION = ENV["GIT_AUTHORIZATION"]
 IOS_GOOGLE_SERVICES_INFO_PLIST = ENV["IOS_GOOGLE_SERVICES_INFO_PLIST"]
+IOS_BRANCH_INFO_PLIST = ENV["IOS_BRANCH_INFO_PLIST"]
 
 # Android variable
 ANDROID_PLAYSTORE_JSON_KEY = ENV["PLAYSTORE_JSON_KEY"]
@@ -380,6 +381,14 @@ platform :common do
       UI.message "Expanding IOS_GOOGLE_SERVICES_INFO_PLIST"
       sh(
         command: "printf '#{IOS_GOOGLE_SERVICES_INFO_PLIST}' | base64 --decode > ../ios/GoogleService-Info.plist",
+        log: false
+      )
+    end
+
+    if IOS_BRANCH_INFO_PLIST != nil
+      UI.message "Expanding IOS_BRANCH_INFO_PLIST"
+      sh(
+        command: "printf '#{IOS_BRANCH_INFO_PLIST}' > ../ios/Branch-Info.plist",
         log: false
       )
     end
