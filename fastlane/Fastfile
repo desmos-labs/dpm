@@ -29,6 +29,7 @@ ANDROID_SIGNING_ALIAS = ENV["ANDROID_SIGNING_ALIAS"]
 ANDROID_SIGNING_KEY_PASSWORD = ENV["ANDROID_SIGNING_KEY_PASSWORD"]
 ANDROID_USE_LOCAL_KEYSTORE = ENV["ANDROID_USE_LOCAL_KEYSTORE"] != nil
 ANDROID_GOOGLE_SERVICES_JSON = ENV["ANDROID_GOOGLE_SERVICES_JSON"]
+ANDROID_BRANCH_KEYS = ENV["ANDROID_BRANCH_KEYS"]
 
 # Define utility function to check if a string is a valid integer
 def is_integer(value)
@@ -133,13 +134,6 @@ def is_internal_release
 end
 
 platform :ios do
-  lane :prepare_google_service_info_plist do
-    sh(
-      command: "printf '#{IOS_GOOGLE_SERVICES_INFO_PLIST}' | base64 --decode > ../ios/GoogleService-Info.plist",
-      log: false
-    )
-  end
-
   lane :build do
     # Prepare the GoogleService-Info.plist
     prepare_google_service_info_plist
@@ -282,13 +276,6 @@ platform :android do
     )
   end
 
-  lane :prepare_google_services_json do
-    sh(
-      command: "printf '#{ANDROID_GOOGLE_SERVICES_JSON}' > ../android/app/google-services.json",
-      log: true
-    )
-  end
-
   lane :clean do
     gradle(task: 'clean', project_dir: "android/")
   end
@@ -306,10 +293,7 @@ platform :android do
   end
 
   lane :build_apk do
-    # Prepares keystore to sign the application in /tmp/keystore.jks
     prepare_keystore
-    # Prepare the google-services.json file.
-    prepare_google_services_json
 
     gradle(
       task: "assemble",
@@ -321,10 +305,7 @@ platform :android do
   end
 
   lane :build_bundle do
-    # Prepares keystore to sign the application in /tmp/keystore.jks
     prepare_keystore
-    # Prepare the google-services.json file.
-    prepare_google_services_json
 
     gradle(
       task: "bundle",
@@ -367,9 +348,9 @@ platform :common do
     sh("echo IS_INTERNAL_RELEASE=#{is_internal_release} >> $GITHUB_OUTPUT")
   end
 
-  lane :write_env_file do
+  lane :expand_secrets do
+    # Prepare .env file
     sh("rm #{ENV_FILE} || echo #{ENV_FILE} not present")
-
     ENV.keys.select { |value| value.start_with?('ENV_') }
        .each { |env|
          env_key = env.sub('ENV_', '')
@@ -378,5 +359,29 @@ platform :common do
          # Don't log to prevent secrets leaking during the CI execution.
          sh("echo '#{env_key}=#{ENV[env]}' >> #{ENV_FILE}", log: false)
        }
+
+    if ANDROID_GOOGLE_SERVICES_JSON != nil
+      UI.message "Expanding ANDROID_GOOGLE_SERVICES_JSON"
+      sh(
+        command: "printf '#{ANDROID_GOOGLE_SERVICES_JSON}' > ../android/app/google-services.json",
+        log: false
+      )
+    end
+
+    if ANDROID_BRANCH_KEYS != nil
+      UI.message "Expanding ANDROID_BRANCH_KEYS"
+      sh(
+        command: "printf '#{ANDROID_BRANCH_KEYS}' > ../android/app/src/main/res/values/branch_keys.xml",
+        log: false
+      )
+    end
+
+    if IOS_GOOGLE_SERVICES_INFO_PLIST != nil
+      UI.message "Expanding IOS_GOOGLE_SERVICES_INFO_PLIST"
+      sh(
+        command: "printf '#{IOS_GOOGLE_SERVICES_INFO_PLIST}' | base64 --decode > ../ios/GoogleService-Info.plist",
+        log: false
+      )
+    end
   end
 end
