@@ -10,6 +10,7 @@ import landing from './landing.json';
 import ledger from './ledger.json';
 import legal from './legal.json';
 import manageStaking from './manageStaking.json';
+import notificationChannels from './notificationChannels.json';
 import profile from './profile.json';
 import restaking from './restaking.json';
 import selectNewMnemonicLength from './selectNewMnemonicLength.json';
@@ -35,6 +36,7 @@ const en = {
   ledger,
   legal,
   manageStaking,
+  notificationChannels,
   profile,
   restaking,
   selectNewMnemonicLength,
