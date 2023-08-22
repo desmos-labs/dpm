@@ -16,6 +16,7 @@ import numbro from 'numbro';
 import { getDecimalSeparator, getThousandsSeparator } from 'lib/FormatUtils';
 import useCheckKeyChainIntegrity from 'hooks/dataintegrity/useCheckKeyChainIntegrity';
 import useInitNotifications from 'hooks/notifications/useInitNotifications';
+import branch from 'react-native-branch';
 
 Object.assign(process.env, { SENTRY_AUTH_TOKEN });
 Sentry.init({
@@ -40,6 +41,20 @@ numbro.registerLanguage(
   },
   true,
 );
+
+// Init branch.
+branch.skipCachedEvents();
+branch.subscribe({
+  onOpenStart: ({ uri }) => {
+    console.log(`subscribe onOpenStart, will open ${uri}`);
+    const url = new URL(uri);
+    console.log(url.searchParams.get('address'));
+  },
+  onOpenComplete: () => {
+    // Ignore the onOpenComplete since if the user have an adblock
+    // this function will always fail.
+  },
+});
 
 const AppLockLogic = () => {
   useLockApplicationOnBlur();
