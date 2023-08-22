@@ -6,9 +6,17 @@ install! 'cocoapods', :deterministic_uuids => false
 
 target 'DesmosProfileManager' do
   config = use_native_modules!
+
+  pod 'TrezorCrypto', :modular_headers => true
+  # firebase configuration
+  pod 'Firebase', :modular_headers => true
+  pod 'FirebaseCore', :modular_headers => true
+  pod 'FirebaseCoreInternal', :modular_headers => true
+  pod 'GoogleUtilities', :modular_headers => true
+  $RNFirebaseAsStaticFramework = true
+
   pod 'react-native-randombytes', :path => '../node_modules/react-native-randombytes'
   pod 'RNVectorIcons', :path => '../node_modules/react-native-vector-icons'
-  pod 'TrezorCrypto', :modular_headers => true
   pod 'RNDeviceInfo', :path => '../node_modules/react-native-device-info'
   # Flags change depending on the env values.
   flags = get_default_flags()
