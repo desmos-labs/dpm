@@ -1,7 +1,6 @@
 import { useSetSetting, useSetting } from '@recoil/settings';
 import usePermissions from 'hooks/permissions/usePermissions';
 import { AppPermissions, AppPermissionStatus } from 'types/permissions';
-import { usePermissionRequestCount } from '@recoil/permissionsRequestCount';
 import React from 'react';
 import messaging from '@react-native-firebase/messaging';
 import { AppState } from 'react-native';
@@ -13,23 +12,9 @@ import notificationsHandler from 'hooks/notifications/notificationsHandler';
 const useInitNotifications = () => {
   const notificationsEnabled = useSetting('notifications');
   const setNotificationsEnabled = useSetSetting('notifications');
-  const { requestPermission, checkPermission } = usePermissions(AppPermissions.Notifications);
-  const permissionRequestCount = usePermissionRequestCount(AppPermissions.Notifications);
+  const { checkPermission } = usePermissions(AppPermissions.Notifications);
 
   React.useEffect(() => {
-    // If we didn't have request the permission to post a notification
-    // and the notifications are disabled, request the permission.
-    if (permissionRequestCount === 0 && !notificationsEnabled) {
-      (async () => {
-        const result = await requestPermission();
-        if (result === AppPermissionStatus.Granted) {
-          // We have notifications post permission.
-          setNotificationsEnabled(true);
-        }
-      })();
-      return undefined;
-    }
-
     // If the notifications are enabled, subscribe to the firebase reception logic.
     if (notificationsEnabled) {
       // In dev mode print the google messaging token.
@@ -43,7 +28,7 @@ const useInitNotifications = () => {
     }
 
     return undefined;
-  }, [notificationsEnabled, permissionRequestCount, requestPermission, setNotificationsEnabled]);
+  }, [notificationsEnabled]);
 
   // Effect to disable the notifications if the user removes the notifications
   // permissions from outside the application.
