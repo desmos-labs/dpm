@@ -4,5 +4,12 @@
 <dict>
 	<key>aps-environment</key>
 	<string>development</string>
+	<key>com.apple.developer.associated-domains</key>
+	<array>
+		<string>applinks:desmos.app.link</string>
+		<string>applinks:desmos-alternate.app.link</string>
+		<string>applinks:desmos.test-app.link</string>
+		<string>applinks:desmos-alternate.test-app.link</string>
+	</array>
 </dict>
 </plist>

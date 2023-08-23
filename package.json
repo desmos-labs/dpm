@@ -160,7 +160,8 @@
     "react-native-dotenv": "^3.4.7",
     "react-test-renderer": "18.1.0",
     "rn-nodeify": "10.3.0",
-    "typescript": "^5.1.6"
+    "typescript": "^5.1.6",
+    "uri-scheme": "^1.1.0"
   },
   "resolutions": {
     "@types/react": "17",

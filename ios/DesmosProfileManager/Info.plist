@@ -20,6 +20,19 @@
 	<string>$(MARKETING_VERSION)</string>
 	<key>CFBundleSignature</key>
 	<string>????</string>
+	<key>CFBundleURLTypes</key>
+	<array>
+		<dict>
+			<key>CFBundleTypeRole</key>
+			<string>Editor</string>
+			<key>CFBundleURLName</key>
+			<string>network.desmos.dpm</string>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>dpm</string>
+			</array>
+		</dict>
+	</array>
 	<key>CFBundleVersion</key>
 	<string>$(CURRENT_PROJECT_VERSION)</string>
 	<key>LSRequiresIPhoneOS</key>
@@ -118,5 +131,19 @@
 	</array>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
+    <key>branch_universal_link_domains</key>
+    <array>
+    <string>desmos.app.link</string>
+    <string>desmos-alternate.app.link</string>
+    <string>desmos.test-app.link</string>
+    <string>desmos-alternate.test-app.link</string>
+    </array>
+    <key>branch_key</key>
+    <dict>
+    <key>live</key>
+    <string>key_live</string>
+    <key>test</key>
+    <string>key_test</string>
+    </dict>
 </dict>
 </plist>

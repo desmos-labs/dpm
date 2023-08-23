@@ -1,5 +1,6 @@
 PODS:
   - boost (1.76.0)
+  - BranchSDK (2.2.0)
   - CocoaAsyncSocket (7.6.5)
   - DoubleConversion (1.1.6)
   - FBLazyVector (0.70.9)
@@ -482,6 +483,9 @@ PODS:
   - react-native-ble-plx (2.0.3):
     - MultiplatformBleAdapter (= 0.1.9)
     - React-Core
+  - react-native-branch (5.9.0):
+    - BranchSDK (= 2.2.0)
+    - React-Core
   - react-native-encrypted-storage (4.0.3):
     - React-Core
   - react-native-get-random-values (1.8.0):
@@ -720,6 +724,7 @@ DEPENDENCIES:
   - React-logger (from `../node_modules/react-native/ReactCommon/logger`)
   - react-native-aes (from `../node_modules/react-native-aes-crypto`)
   - react-native-ble-plx (from `../node_modules/react-native-ble-plx`)
+  - react-native-branch (from `../node_modules/react-native-branch`)
   - react-native-encrypted-storage (from `../node_modules/react-native-encrypted-storage`)
   - react-native-get-random-values (from `../node_modules/react-native-get-random-values`)
   - react-native-image-picker (from `../node_modules/react-native-image-picker`)
@@ -767,6 +772,7 @@ DEPENDENCIES:
 
 SPEC REPOS:
   trunk:
+    - BranchSDK
     - CocoaAsyncSocket
     - Firebase
     - FirebaseAnalytics
@@ -868,6 +874,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native-aes-crypto"
   react-native-ble-plx:
     :path: "../node_modules/react-native-ble-plx"
+  react-native-branch:
+    :path: "../node_modules/react-native-branch"
   react-native-encrypted-storage:
     :path: "../node_modules/react-native-encrypted-storage"
   react-native-get-random-values:
@@ -957,6 +965,7 @@ EXTERNAL SOURCES:
 
 SPEC CHECKSUMS:
   boost: a7c83b31436843459a1961bfd74b96033dc77234
+  BranchSDK: 8749d10e30725d08b6c188ab90e6fd6223d204db
   CocoaAsyncSocket: 065fd1e645c7abab64f7a6a2007a48038fdc6a99
   DoubleConversion: 5189b271737e1565bdce30deb4a08d647e3f5f54
   FBLazyVector: bc76253beb7463b688aa6af913b822ed631de31a
@@ -1021,6 +1030,7 @@ SPEC CHECKSUMS:
   React-logger: 1b3522f1e05c6360e93df3607a016c39e30a7351
   react-native-aes: c75c46aa744bef7c2415fdf7f5b2dcb75ca4364d
   react-native-ble-plx: f10240444452dfb2d2a13a0e4f58d7783e92d76e
+  react-native-branch: 43f1c46d9a971cae0eeb337313991ce72b467351
   react-native-encrypted-storage: db300a3f2f0aba1e818417c1c0a6be549038deb7
   react-native-get-random-values: a6ea6a8a65dc93e96e24a11105b1a9c8cfe1d72a
   react-native-image-picker: 60f4246eb5bb7187fc15638a8c1f13abd3820695
