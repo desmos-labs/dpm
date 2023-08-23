@@ -1,4 +1,5 @@
 import { GenericActionUri, UriAction, UriActionType, UserAddressActionUri } from 'types/uri';
+import { ChainType } from 'types/chains';
 
 const DPM_URI_PROTOCOL = 'dpm:';
 
@@ -70,7 +71,7 @@ const parseGenericActionUri = (url: URL): GenericActionUri | undefined => {
   }
 
   // Ensure that the provided chain id is "mainnet" or "testnet".
-  if (chainId !== 'mainnet' && chainId !== 'testnet') {
+  if (chainId !== ChainType.Mainnet && chainId !== ChainType.Mainnet) {
     return undefined;
   }
 

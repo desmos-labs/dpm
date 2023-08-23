@@ -1,3 +1,5 @@
+import { ChainType } from 'types/chains';
+
 /**
  * Enum that defines the uris that the application supports.
  */
@@ -41,7 +43,7 @@ export interface GenericActionUri {
   /**
    * The user's chain id.
    */
-  readonly chainId: 'mainnet' | 'testnet';
+  readonly chainId: ChainType;
 }
 
 export type UriAction = UserAddressActionUri | GenericActionUri;

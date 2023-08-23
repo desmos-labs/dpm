@@ -3,6 +3,7 @@
 import 'react-native-url-polyfill/auto';
 import { GenericActionUri, UriActionType } from 'types/uri';
 import { parseUriAction, uriFromUriAction } from 'lib/UriActions/index';
+import { ChainType } from 'types/chains';
 
 describe('UriActions', () => {
   it('parse valid user address uri', () => {
@@ -46,7 +47,7 @@ describe('UriActions', () => {
 
   it('generate generic uri correctly', () => {
     const testAddress = 'desmos1nm6kh6jwqmsezwtnmgdd4w4tzyk9f8gvqu5en0';
-    const testChainId = 'testnet';
+    const testChainId = ChainType.Testnet;
 
     const action = uriFromUriAction({
       type: UriActionType.Generic,
