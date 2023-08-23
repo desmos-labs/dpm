@@ -1,9 +1,15 @@
 // Import the polyfilled URL instance to test the URL instance that is
 // used in the application.
 import 'react-native-url-polyfill/auto';
-import { GenericActionUri, UriActionType, ViewProfileActionUri } from 'types/uri';
+import {
+  GenericActionUri,
+  SendTokensActionUri,
+  UriActionType,
+  ViewProfileActionUri,
+} from 'types/uri';
 import { parseUriAction, uriFromUriAction } from 'lib/UriActions/index';
 import { ChainType } from 'types/chains';
+import { coin } from '@cosmjs/amino';
 
 describe('UriActions', () => {
   it('parse valid user address uri', () => {
@@ -80,6 +86,60 @@ describe('UriActions', () => {
     });
     expect(action).toBe(
       `dpm://${UriActionType.ViewProfile}?address=${testAddress}&chain_type=${testChainId}`,
+    );
+  });
+
+  it('parse send tokens uri with amount', () => {
+    const testAddress = 'desmos1nm6kh6jwqmsezwtnmgdd4w4tzyk9f8gvqu5en0';
+    const testChainId = ChainType.Testnet;
+    const amount = coin(1000, 'udsm');
+    const testUri = `dpm://${UriActionType.SendTokens}?address=${testAddress}&chain_type=${testChainId}&amount=${amount.amount}${amount.denom}`;
+
+    const parsedAction = parseUriAction(testUri) as SendTokensActionUri;
+
+    expect(parsedAction).toBeDefined();
+    expect(parsedAction.type).toEqual(UriActionType.SendTokens);
+    expect(parsedAction.address).toEqual(testAddress);
+    expect(parsedAction.chainType).toEqual(testChainId);
+    expect(parsedAction.amount).toEqual(amount);
+  });
+
+  it('parse send tokens uri without amount', () => {
+    const testAddress = 'desmos1nm6kh6jwqmsezwtnmgdd4w4tzyk9f8gvqu5en0';
+    const testChainId = ChainType.Testnet;
+    const testUri = `dpm://${UriActionType.SendTokens}?address=${testAddress}&chain_type=${testChainId}`;
+
+    const parsedAction = parseUriAction(testUri) as SendTokensActionUri;
+
+    expect(parsedAction).toBeDefined();
+    expect(parsedAction.type).toEqual(UriActionType.SendTokens);
+    expect(parsedAction.address).toEqual(testAddress);
+    expect(parsedAction.chainType).toEqual(testChainId);
+    expect(parsedAction.amount).toBeUndefined();
+  });
+
+  it('generate send tokens uri correctly', () => {
+    const testAddress = 'desmos1nm6kh6jwqmsezwtnmgdd4w4tzyk9f8gvqu5en0';
+    const testChainId = ChainType.Testnet;
+    const amount = coin(1000, 'udsm');
+
+    const uri = uriFromUriAction({
+      type: UriActionType.SendTokens,
+      address: testAddress,
+      chainType: testChainId,
+      amount,
+    });
+    expect(uri).toBe(
+      `dpm://${UriActionType.SendTokens}?address=${testAddress}&chain_type=${testChainId}&amount=${amount.amount}${amount.denom}`,
+    );
+
+    const uriWithoutAmount = uriFromUriAction({
+      type: UriActionType.SendTokens,
+      address: testAddress,
+      chainType: testChainId,
+    });
+    expect(uriWithoutAmount).toBe(
+      `dpm://${UriActionType.SendTokens}?address=${testAddress}&chain_type=${testChainId}`,
     );
   });
 });

@@ -1,4 +1,5 @@
 import { ChainType } from 'types/chains';
+import { Coin } from '@desmoslabs/desmjs';
 
 /**
  * Enum that defines the uris that the application supports.
@@ -20,6 +21,11 @@ export enum UriActionType {
    * to display the profile of a user.
    */
   ViewProfile = 'view_profile',
+  /**
+   * Type representing a URI action that tells the application
+   * to send some tokens to a user.
+   */
+  SendTokens = 'send_tokens',
 }
 
 /**
@@ -67,4 +73,28 @@ export interface ViewProfileActionUri {
   readonly chainType: ChainType;
 }
 
-export type UriAction = UserAddressActionUri | GenericActionUri | ViewProfileActionUri;
+/**
+ * Interface representing a URI action that tells the application
+ * to send some tokens to a user.
+ */
+export interface SendTokensActionUri {
+  readonly type: UriActionType.SendTokens;
+  /**
+   * The user's bech32 address.
+   */
+  readonly address: string;
+  /**
+   * The user's chain id.
+   */
+  readonly chainType: ChainType;
+  /**
+   * Optional amount to be sent.
+   */
+  readonly amount?: Coin;
+}
+
+export type UriAction =
+  | UserAddressActionUri
+  | GenericActionUri
+  | ViewProfileActionUri
+  | SendTokensActionUri;

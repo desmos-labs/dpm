@@ -1,11 +1,14 @@
 import {
   GenericActionUri,
+  SendTokensActionUri,
   UriAction,
   UriActionType,
   UserAddressActionUri,
   ViewProfileActionUri,
 } from 'types/uri';
 import { ChainType } from 'types/chains';
+import { parseCoins } from '@cosmjs/amino';
+import { Coin } from '@desmoslabs/desmjs';
 
 const DPM_URI_PROTOCOL = 'dpm:';
 
@@ -96,6 +99,44 @@ const parseViewProfileAction = (url: URL): ViewProfileActionUri | undefined => {
 };
 
 /**
+ * Parse the provided url if represents a valid {@link SendTokensActionUri} or
+ * undefined otherwise.
+ * @param url - The url to parse.
+ */
+const parseSendTokensActionUri = (url: URL): SendTokensActionUri | undefined => {
+  const address = url.searchParams.get('address');
+  const chainType = url.searchParams.get('chain_type');
+  const rawAmount = url.searchParams.get('amount');
+
+  // Ensure that the provided chain type is "mainnet" or "testnet".
+  if (!isChainTypeValid(chainType)) {
+    return undefined;
+  }
+
+  // Ensure that the provided address is valid.
+  if (!isAddressValid(address)) {
+    return undefined;
+  }
+
+  // Try to parse the amount if is defined.
+  let amount: Coin | undefined;
+  if (typeof rawAmount === 'string') {
+    try {
+      [amount] = parseCoins(rawAmount);
+    } catch (e) {
+      return undefined;
+    }
+  }
+
+  return {
+    type: UriActionType.SendTokens,
+    amount,
+    chainType,
+    address,
+  };
+};
+
+/**
  * Function to parse an uri string into a {@link UriAction} that the application can use to
  * perform an operation.
  * The uri format can be:
@@ -123,6 +164,8 @@ export const parseUriAction = (uri: string): UriAction | undefined => {
         return parseGenericActionUri(parsedUri);
       case UriActionType.ViewProfile:
         return parseViewProfileAction(parsedUri);
+      case UriActionType.SendTokens:
+        return parseSendTokensActionUri(parsedUri);
       default:
         return undefined;
     }
@@ -143,6 +186,12 @@ export const uriFromUriAction = (uri: UriAction): string => {
       return `${DPM_URI_PROTOCOL}//?address=${uri.address}&chain_id=${uri.chainId}`;
     case UriActionType.ViewProfile:
       return `${DPM_URI_PROTOCOL}//${UriActionType.ViewProfile}?address=${uri.address}&chain_type=${uri.chainType}`;
+    case UriActionType.SendTokens:
+      if (uri.amount) {
+        return `${DPM_URI_PROTOCOL}//${UriActionType.SendTokens}?address=${uri.address}&chain_type=${uri.chainType}&amount=${uri.amount.amount}${uri.amount.denom}`;
+      }
+      return `${DPM_URI_PROTOCOL}//${UriActionType.SendTokens}?address=${uri.address}&chain_type=${uri.chainType}`;
+
     default:
       // @ts-ignore
       throw new Error(`unsupported uri type: ${uri.type}`);
