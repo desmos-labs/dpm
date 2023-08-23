@@ -34,17 +34,19 @@ const GenericUriActionModal: React.FC<ModalComponentProps<GenericUriActionModalP
     closeModal();
     navigation.navigate(ROUTES.SEND_TOKENS, {
       recipient: action.address,
-      // TODO: Add chain id
+      // @ts-ignore
+      chainType: action.chainId,
     });
-  }, [action.address, closeModal, navigation]);
+  }, [action, closeModal, navigation]);
 
   const showProfile = React.useCallback(() => {
     closeModal();
     navigation.navigate(ROUTES.PROFILE, {
       visitingProfile: action.address,
-      // TODO: Add chain id
+      // @ts-ignore
+      chainType: action.chainId,
     });
-  }, [action.address, closeModal, navigation]);
+  }, [action, closeModal, navigation]);
 
   return (
     <View>
