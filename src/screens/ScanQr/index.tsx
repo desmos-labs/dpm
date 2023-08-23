@@ -12,8 +12,8 @@ import TextInput from 'components/TextInput';
 import { Vibration } from 'react-native';
 import { RootNavigatorParamList } from 'navigation/RootNavigator';
 import StyledActivityIndicator from 'components/StyledActivityIndicator';
-import { DPMUriType } from 'types/uri';
-import { parseDPMUri } from 'lib/DPMUris';
+import { UriActionType } from 'types/uri';
+import { parseUriAction } from 'lib/UriActions';
 import useStyles from './useStyles';
 import QrCodeScanner from './components/QrCodeScanner';
 
@@ -100,9 +100,9 @@ const ScanQr: React.FC<NavProps> = ({ navigation, route }) => {
 
   const handleDPMUri = React.useCallback(
     (uri: string) => {
-      const parsedUri = parseDPMUri(uri);
+      const parsedUri = parseUriAction(uri);
       if (parsedUri) {
-        if (parsedUri.type === DPMUriType.UserAddress) {
+        if (parsedUri.type === UriActionType.UserAddress) {
           navigate(ROUTES.SEND_TOKENS, {
             recipient: parsedUri.address,
           });
