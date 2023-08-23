@@ -134,12 +134,14 @@ const Settings = (props: NavProps) => {
       <Flexible.Section title={t('general')}>
         <OpenSettingScreenButton title={t('display mode')} route={ROUTES.SETTINGS_DISPLAY_MODE} />
         <OpenSettingScreenButton title={t('switch chain')} route={ROUTES.SETTINGS_SWITCH_CHAIN} />
-        <Flexible.SectionSwitch
-          label={t('notifications')}
-          value={notificationsEnabled}
-          isDisabled={false}
-          onPress={toggleNotifications}
-        />
+        {__DEV__ && (
+          <Flexible.SectionSwitch
+            label={t('notifications')}
+            value={notificationsEnabled}
+            isDisabled={false}
+            onPress={toggleNotifications}
+          />
+        )}
         <Flexible.SectionSwitch
           label={t('analytics')}
           value={analyticsEnabled}
