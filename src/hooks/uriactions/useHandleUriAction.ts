@@ -32,6 +32,13 @@ const useHandleUriAction = () => {
             chainType: action.chainType,
           });
           break;
+        case UriActionType.SendTokens:
+          navigation.navigate(ROUTES.SEND_TOKENS, {
+            recipient: action.address,
+            chainType: action.chainType,
+            amount: action.amount,
+          });
+          break;
         default:
           // @ts-ignore
           console.error(`Unsupported uri type: ${action.type}`);
