@@ -1,7 +1,7 @@
 // Import the polyfilled URL instance to test the URL instance that is
 // used in the application.
 import 'react-native-url-polyfill/auto';
-import { GenericActionUri, UriActionType } from 'types/uri';
+import { GenericActionUri, UriActionType, ViewProfileActionUri } from 'types/uri';
 import { parseUriAction, uriFromUriAction } from 'lib/UriActions/index';
 import { ChainType } from 'types/chains';
 
@@ -55,5 +55,31 @@ describe('UriActions', () => {
       chainId: testChainId,
     });
     expect(action).toBe(`dpm://?address=${testAddress}&chain_id=${testChainId}`);
+  });
+
+  it('parse valid view profile uri', () => {
+    const testAddress = 'desmos1nm6kh6jwqmsezwtnmgdd4w4tzyk9f8gvqu5en0';
+    const testChainId = ChainType.Testnet;
+
+    const testUri = `dpm://${UriActionType.ViewProfile}?address=${testAddress}&chain_type=${testChainId}`;
+    const parsedUri = parseUriAction(testUri) as ViewProfileActionUri;
+    expect(parsedUri).toBeDefined();
+    expect(parsedUri.type).toEqual(UriActionType.ViewProfile);
+    expect(parsedUri.address).toEqual(testAddress);
+    expect(parsedUri.chainType).toEqual(testChainId);
+  });
+
+  it('generate view profile uri correctly', () => {
+    const testAddress = 'desmos1nm6kh6jwqmsezwtnmgdd4w4tzyk9f8gvqu5en0';
+    const testChainId = ChainType.Testnet;
+
+    const action = uriFromUriAction({
+      type: UriActionType.ViewProfile,
+      address: testAddress,
+      chainType: testChainId,
+    });
+    expect(action).toBe(
+      `dpm://${UriActionType.ViewProfile}?address=${testAddress}&chain_type=${testChainId}`,
+    );
   });
 });

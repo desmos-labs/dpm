@@ -15,6 +15,11 @@ export enum UriActionType {
    * `chain_type` parameter.
    */
   Generic = '',
+  /**
+   * Type representing a URI action that tells the application
+   * to display the profile of a user.
+   */
+  ViewProfile = 'view_profile',
 }
 
 /**
@@ -46,4 +51,20 @@ export interface GenericActionUri {
   readonly chainId: ChainType;
 }
 
-export type UriAction = UserAddressActionUri | GenericActionUri;
+/**
+ * Interface representing a URI action that tells the application
+ * to display the profile of a user.
+ */
+export interface ViewProfileActionUri {
+  readonly type: UriActionType.ViewProfile;
+  /**
+   * The user's bech32 address.
+   */
+  readonly address: string;
+  /**
+   * The user's chain id.
+   */
+  readonly chainType: ChainType;
+}
+
+export type UriAction = UserAddressActionUri | GenericActionUri | ViewProfileActionUri;
