@@ -17,6 +17,7 @@ import { getDecimalSeparator, getThousandsSeparator } from 'lib/FormatUtils';
 import useCheckKeyChainIntegrity from 'hooks/dataintegrity/useCheckKeyChainIntegrity';
 import useInitNotifications from 'hooks/notifications/useInitNotifications';
 import branch from 'react-native-branch';
+import { parseUriAction, setCachedUriAction } from 'lib/UriActions';
 
 Object.assign(process.env, { SENTRY_AUTH_TOKEN });
 Sentry.init({
@@ -44,16 +45,19 @@ numbro.registerLanguage(
 
 // Init branch.
 branch.skipCachedEvents();
-branch.subscribe({
-  onOpenStart: ({ uri }) => {
-    console.log(`subscribe onOpenStart, will open ${uri}`);
-    const url = new URL(uri);
-    console.log(url.searchParams.get('address'));
-  },
-  onOpenComplete: () => {
-    // Ignore the onOpenComplete since if the user have an adblock
-    // this function will always fail.
-  },
+branch.subscribe(({ params, error }) => {
+  if (error === null) {
+    const deepLinkPath = params.$deeplink_path;
+    if (typeof deepLinkPath === 'string') {
+      // Generate the deep link uri using the received path.
+      const deepLink = `dpm://${deepLinkPath}`;
+      // Parse the action and if defined store it.
+      const parsedUriAction = parseUriAction(deepLink);
+      if (parsedUriAction !== undefined) {
+        setCachedUriAction(parsedUriAction);
+      }
+    }
+  }
 });
 
 const AppLockLogic = () => {
