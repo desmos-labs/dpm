@@ -2,15 +2,16 @@ import { ChainType } from 'types/chains';
 import { useSetSetting, useSetting } from '@recoil/settings';
 import React from 'react';
 import { DesmosMainnet, DesmosTestnet } from '@desmoslabs/desmjs';
+import { useNavigation } from '@react-navigation/native';
 
 /**
- * Hook that changes the current chain until the component where this hook
- * is changed is unmounted.
+ * Hook that changes the current chain until the screen where this hook
+ * has been called is in the navigation stack.
  */
 const useTemporaryChainType = (chainType?: ChainType) => {
+  const navigation = useNavigation();
   const setChainName = useSetSetting('chainName');
   const currentChainName = useSetting('chainName');
-
   const oldChainName = React.useMemo(
     () => currentChainName,
     // Safe to ignore, we want to memoize the first value so we can
@@ -24,12 +25,17 @@ const useTemporaryChainType = (chainType?: ChainType) => {
       const chainName =
         chainType === ChainType.Mainnet ? DesmosMainnet.chainName : DesmosTestnet.chainName;
       setChainName(chainName);
-      return () => {
-        setChainName(oldChainName);
-      };
     }
-    return undefined;
   }, [setChainName, oldChainName, chainType]);
+
+  React.useEffect(
+    () =>
+      navigation.addListener('beforeRemove', () => {
+        console.log('restore chain', oldChainName);
+        setChainName(oldChainName);
+      }),
+    [navigation, oldChainName, setChainName],
+  );
 };
 
 export default useTemporaryChainType;
