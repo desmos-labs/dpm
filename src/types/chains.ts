@@ -4,6 +4,15 @@ import { HdPath } from '@cosmjs/crypto';
 import { ChainInfo } from '@desmoslabs/desmjs';
 
 /**
+ * Enum that represents the type of chain that are
+ * supported within our application.
+ */
+export enum ChainType {
+  Mainnet = 'mainnet',
+  Testnet = 'testnet',
+}
+
+/**
  * Type that represents a chain that is supported within our wallet.
  * It can be either a chain that can be linked or imported as the main wallet.
  */
