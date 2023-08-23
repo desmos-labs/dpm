@@ -6,6 +6,13 @@ export enum UriActionType {
    * Uri that contains the address of a user.
    */
   UserAddress = 'address',
+  /**
+   * Type representing a URI without context.
+   * This URI should include the account's address in the
+   * `address` query parameter and the chain ID in the
+   * `chain_type` parameter.
+   */
+  Generic = '',
 }
 
 /**
@@ -19,4 +26,22 @@ export interface UserAddressActionUri {
   readonly address: string;
 }
 
-export type UriAction = UserAddressActionUri;
+/**
+ * Interface representing a generic URI action that includes the user's address
+ * and its chain ID.
+ * When the application receives this action, it should display a popup
+ * allowing the user to make a decision on how to proceed.
+ */
+export interface GenericActionUri {
+  readonly type: UriActionType.Generic;
+  /**
+   * The user's bech32 address.
+   */
+  readonly address: string;
+  /**
+   * The user's chain id.
+   */
+  readonly chainId: 'mainnet' | 'testnet';
+}
+
+export type UriAction = UserAddressActionUri | GenericActionUri;

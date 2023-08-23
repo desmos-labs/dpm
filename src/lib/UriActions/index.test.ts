@@ -1,7 +1,7 @@
 // Import the polyfilled URL instance to test the URL instance that is
 // used in the application.
 import 'react-native-url-polyfill/auto';
-import { UriActionType } from 'types/uri';
+import { GenericActionUri, UriActionType } from 'types/uri';
 import { parseUriAction, uriFromUriAction } from 'lib/UriActions/index';
 
 describe('UriActions', () => {
@@ -30,5 +30,29 @@ describe('UriActions', () => {
       address: testAddress,
     });
     expect(url).toBe(`dpm://${UriActionType.UserAddress}/${testAddress}`);
+  });
+
+  it('parse valid generic uri', () => {
+    const testAddress = 'desmos1nm6kh6jwqmsezwtnmgdd4w4tzyk9f8gvqu5en0';
+    const testChainId = 'testnet';
+    const testUri = `dpm://?address=${testAddress}&chain_id=${testChainId}`;
+
+    const parsedUri = parseUriAction(testUri) as GenericActionUri;
+    expect(parsedUri).toBeDefined();
+    expect(parsedUri.type).toEqual(UriActionType.Generic);
+    expect(parsedUri.address).toEqual(testAddress);
+    expect(parsedUri.chainId).toEqual(testChainId);
+  });
+
+  it('generate generic uri correctly', () => {
+    const testAddress = 'desmos1nm6kh6jwqmsezwtnmgdd4w4tzyk9f8gvqu5en0';
+    const testChainId = 'testnet';
+
+    const action = uriFromUriAction({
+      type: UriActionType.Generic,
+      address: testAddress,
+      chainId: testChainId,
+    });
+    expect(action).toBe(`dpm://?address=${testAddress}&chain_id=${testChainId}`);
   });
 });
