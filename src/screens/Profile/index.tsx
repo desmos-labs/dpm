@@ -4,7 +4,6 @@ import StyledSafeAreaView from 'components/StyledSafeAreaView';
 import TopBar from 'components/TopBar';
 import { RootNavigatorParamList } from 'navigation/RootNavigator';
 import ROUTES from 'navigation/routes';
-import { useNavigation, useRoute } from '@react-navigation/native';
 import EditProfileButton from 'screens/Profile/components/EditProfileButton';
 import useTrackScreen from 'hooks/analytics/useTrackScreen';
 import { Screens } from 'types/analytics';
@@ -30,6 +29,8 @@ import ChainLinkContentLoader from 'components/ContentLoaders/ChainLink';
 import { View } from 'react-native';
 import ProfileData from 'screens/Profile/components/ProfileData';
 import StyledRefreshControl from 'components/StyledRefreshControl';
+import { ChainType } from 'types/chains';
+import useTemporaryChainType from 'hooks/chainselect/useTemporaryChainType';
 import useConnectChain from './hooks';
 import useStyles from './useStyles';
 
@@ -40,14 +41,17 @@ export interface ProfileParams {
    * Address of the profile that the user is visiting.
    * If no address is provided, this screen will load the current user profile data instead.
    */
-  visitingProfile?: string;
+  readonly visitingProfile?: string;
+  /**
+   * Temporary chain type used to display the user profile.
+   */
+  readonly chainType?: ChainType;
 }
 
-const Profile = () => {
+const Profile: React.FC<NavProps> = ({ navigation, route: { params } }) => {
   const styles = useStyles();
-  const navigation = useNavigation<NavProps['navigation']>();
-  const { params } = useRoute<NavProps['route']>();
   const visitingProfile = params?.visitingProfile;
+  const chainType = params?.chainType;
   const canEdit = !visitingProfile;
   const { t } = useTranslation();
 
@@ -58,6 +62,7 @@ const Profile = () => {
   // -------- HOOKS --------
 
   useTrackScreen(Screens.Profile, { 'Is owner': !visitingProfile });
+  useTemporaryChainType(chainType);
   const {
     profile,
     loading: loadingProfile,
