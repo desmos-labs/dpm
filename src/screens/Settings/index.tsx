@@ -16,6 +16,7 @@ import useDeletePasswordFromBiometrics from 'hooks/useDelletPasswordFromBiometri
 import useShowPrivacyPolicy from 'hooks/legal/useShowPrivacyPolicy';
 import useShowToS from 'hooks/legal/useShowToS';
 import { useToggleAnalytics } from 'screens/Settings/hooks';
+import useToggleNotifications from 'hooks/notifications/useToggleNotifications';
 import useStyles from './useStyles';
 
 export type NavProps = StackScreenProps<RootNavigatorParamList, ROUTES.SETTINGS>;
@@ -37,13 +38,11 @@ const Settings = (props: NavProps) => {
 
   const unlockWalletWithBiometrics = useSetting('unlockWalletWithBiometrics');
   const setUnlockWalletWalletWithBiometrics = useSetSetting('unlockWalletWithBiometrics');
-
   const loginWithBiometrics = useSetting('loginWithBiometrics');
   const setLoginWithBiometrics = useSetSetting('loginWithBiometrics');
-
   const deletePasswordFromBiometrics = useDeletePasswordFromBiometrics();
-
   const { toggleAnalytics, analyticsEnabled } = useToggleAnalytics();
+  const { toggleNotifications, notificationsEnabled } = useToggleNotifications();
 
   // --------------------------------------------------------------------------------------
   // --- Local state
@@ -135,6 +134,14 @@ const Settings = (props: NavProps) => {
       <Flexible.Section title={t('general')}>
         <OpenSettingScreenButton title={t('display mode')} route={ROUTES.SETTINGS_DISPLAY_MODE} />
         <OpenSettingScreenButton title={t('switch chain')} route={ROUTES.SETTINGS_SWITCH_CHAIN} />
+        {__DEV__ && (
+          <Flexible.SectionSwitch
+            label={t('notifications')}
+            value={notificationsEnabled}
+            isDisabled={false}
+            onPress={toggleNotifications}
+          />
+        )}
         <Flexible.SectionSwitch
           label={t('analytics')}
           value={analyticsEnabled}

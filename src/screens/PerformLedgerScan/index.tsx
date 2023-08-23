@@ -13,7 +13,7 @@ import { ConnectToLedgerStackParamList } from 'navigation/RootNavigator/ConnectT
 import useOnBackAction from 'hooks/useOnBackAction';
 import { AppPermissions, AppPermissionStatus } from 'types/permissions';
 import LedgerDeviceList from 'screens/PerformLedgerScan/components/LedgerDeviceList';
-import usePermissions from 'hooks/usePermissions';
+import usePermissions from 'hooks/permissions/usePermissions';
 import DpmImage from 'components/DPMImage';
 import useStyles from './useStyles';
 import { ScanErrorType, useBleScan, useRequestEnableBt } from './useHooks';

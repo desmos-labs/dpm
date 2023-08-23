@@ -10,7 +10,7 @@ import Typography from 'components/Typography';
 import Button from 'components/Button';
 import Spacer from 'components/Spacer';
 import { AppPermissions, AppPermissionStatus } from 'types/permissions';
-import usePermissions from 'hooks/usePermissions';
+import usePermissions from 'hooks/permissions/usePermissions';
 import StyledActivityIndicator from 'components/StyledActivityIndicator';
 import useStyles from './useStyles';
 

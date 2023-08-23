@@ -1,10 +1,11 @@
-import { atom, useRecoilValue, useSetRecoilState } from 'recoil';
+import { atom, selectorFamily, useRecoilValue, useSetRecoilState } from 'recoil';
 import { getMMKV, MMKVKEYS, setMMKV } from 'lib/MMKVStorage';
 import { PermissionsRequestsCount } from 'types/permissions';
 
 const defaultValue: PermissionsRequestsCount = {
   camera: 0,
   bluetooth: 0,
+  notifications: 0,
 };
 
 /**
@@ -12,7 +13,13 @@ const defaultValue: PermissionsRequestsCount = {
  */
 const permissionsRequestsCountAppState = atom<PermissionsRequestsCount>({
   key: 'permissionsRequestsCount',
-  default: getMMKV(MMKVKEYS.PERMISSIONS_REQUEST_COUNT) ?? defaultValue,
+  default: (() => {
+    const storedValue = getMMKV(MMKVKEYS.PERMISSIONS_REQUEST_COUNT) ?? {};
+    return {
+      ...defaultValue,
+      ...storedValue,
+    };
+  })(),
   effects: [
     ({ onSet }) => {
       onSet((newValue) => {
@@ -20,6 +27,19 @@ const permissionsRequestsCountAppState = atom<PermissionsRequestsCount>({
       });
     },
   ],
+});
+
+/**
+ * Recoil that allows to get a single permission request count.
+ */
+const permissionRequestsCountAppState = selectorFamily({
+  key: 'permissionRequestsCountAppState',
+  get:
+    (key: keyof PermissionsRequestsCount) =>
+    ({ get }) => {
+      const permissionsRequestsCount = get(permissionsRequestsCountAppState);
+      return permissionsRequestsCount[key] ?? 0;
+    },
 });
 
 /**
@@ -32,3 +52,11 @@ export const usePermissionsRequestCount = () => useRecoilValue(permissionsReques
  */
 export const useSetPermissionsRequestCount = () =>
   useSetRecoilState(permissionsRequestsCountAppState);
+
+/**
+ * Hook that provides the number of time that a permission has been requested to the user.
+ * @param key - The key associated with the permission request count to be retrieved.
+ * @return The number of times the permission has been requested.
+ */
+export const usePermissionRequestCount = <K extends keyof PermissionsRequestsCount>(key: K) =>
+  useRecoilValue(permissionRequestsCountAppState(key));

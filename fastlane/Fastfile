@@ -19,6 +19,7 @@ APPLE_ISSUER_ID = ENV["APPLE_ISSUER_ID"]
 APPLE_KEY_ID = ENV["APPLE_KEY_ID"]
 APPLE_KEY_CONTENT = ENV["APPLE_KEY_CONTENT"]
 GIT_AUTHORIZATION = ENV["GIT_AUTHORIZATION"]
+IOS_GOOGLE_SERVICES_INFO_PLIST = ENV["IOS_GOOGLE_SERVICES_INFO_PLIST"]
 
 # Android variable
 ANDROID_PLAYSTORE_JSON_KEY = ENV["PLAYSTORE_JSON_KEY"]
@@ -27,6 +28,7 @@ ANDROID_SIGNING_STORE_PASSWORD = ENV["ANDROID_SIGNING_STORE_PASSWORD"]
 ANDROID_SIGNING_ALIAS = ENV["ANDROID_SIGNING_ALIAS"]
 ANDROID_SIGNING_KEY_PASSWORD = ENV["ANDROID_SIGNING_KEY_PASSWORD"]
 ANDROID_USE_LOCAL_KEYSTORE = ENV["ANDROID_USE_LOCAL_KEYSTORE"] != nil
+ANDROID_GOOGLE_SERVICES_JSON = ENV["ANDROID_GOOGLE_SERVICES_JSON"]
 
 # Define utility function to check if a string is a valid integer
 def is_integer(value)
@@ -131,7 +133,17 @@ def is_internal_release
 end
 
 platform :ios do
+  lane :prepare_google_service_info_plist do
+    sh(
+      command: "printf '#{IOS_GOOGLE_SERVICES_INFO_PLIST}' | base64 --decode > ../ios/GoogleService-Info.plist",
+      log: false
+    )
+  end
+
   lane :build do
+    # Prepare the GoogleService-Info.plist
+    prepare_google_service_info_plist
+
     keychain_name = TEMP_KEYCHAIN_USER
     keychain_password = TEMP_KEYCHAIN_PASSWORD
     ensure_temp_keychain(keychain_name, keychain_password)
@@ -270,6 +282,13 @@ platform :android do
     )
   end
 
+  lane :prepare_google_services_json do
+    sh(
+      command: "printf '#{ANDROID_GOOGLE_SERVICES_JSON}' > ../android/app/google-services.json",
+      log: true
+    )
+  end
+
   lane :clean do
     gradle(task: 'clean', project_dir: "android/")
   end
@@ -289,6 +308,8 @@ platform :android do
   lane :build_apk do
     # Prepares keystore to sign the application in /tmp/keystore.jks
     prepare_keystore
+    # Prepare the google-services.json file.
+    prepare_google_services_json
 
     gradle(
       task: "assemble",
@@ -302,6 +323,8 @@ platform :android do
   lane :build_bundle do
     # Prepares keystore to sign the application in /tmp/keystore.jks
     prepare_keystore
+    # Prepare the google-services.json file.
+    prepare_google_services_json
 
     gradle(
       task: "bundle",

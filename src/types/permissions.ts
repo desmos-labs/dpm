@@ -25,6 +25,7 @@ export enum AppPermissionStatus {
 export enum AppPermissions {
   Camera = 'camera',
   Bluetooth = 'bluetooth',
+  Notifications = 'notifications',
 }
 
 /**
