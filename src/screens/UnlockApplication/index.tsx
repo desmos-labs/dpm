@@ -17,6 +17,7 @@ import { useSetAppState } from '@recoil/appState';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import useGetPasswordFromBiometrics from 'hooks/useGetPasswordFromBiometrics';
 import Spacer from 'components/Spacer';
+import useHandleUriAction from 'hooks/uriactions/useHandleUriAction';
 import useStyles from './useStyles';
 
 // Development related
@@ -53,6 +54,8 @@ const UnlockApplication: React.FC<NavProps> = (props) => {
     const currentRoute = routes[routes.length - 2];
     return { key: currentRoute.key, params: currentRoute.params };
   }, [navigation]);
+
+  const handleUriAction = useHandleUriAction();
 
   // --------------------------------------------------------------------------------------
   // --- Local state
@@ -123,9 +126,15 @@ const UnlockApplication: React.FC<NavProps> = (props) => {
         });
       }
 
+      if (passwordOk) {
+        // The application has been unlocked correctly,
+        // handle the uri action.
+        handleUriAction();
+      }
+
       setLoading(false);
     },
-    [navigation, previousScreenParams, t],
+    [handleUriAction, navigation, previousScreenParams, t],
   );
 
   const unlockWithBiometrics = useCallback(async () => {
