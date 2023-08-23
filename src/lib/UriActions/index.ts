@@ -71,7 +71,7 @@ const parseGenericActionUri = (url: URL): GenericActionUri | undefined => {
   }
 
   // Ensure that the provided chain id is "mainnet" or "testnet".
-  if (chainId !== ChainType.Mainnet && chainId !== ChainType.Mainnet) {
+  if (chainId !== ChainType.Mainnet && chainId !== ChainType.Testnet) {
     return undefined;
   }
 
