@@ -3,6 +3,10 @@ import { UriActionType } from 'types/uri';
 import useShowModal from 'hooks/useShowModal';
 import GenericUriActionModal from 'modals/GenericUriActionModal';
 import { getCachedUriAction } from 'lib/UriActions';
+import { useNavigation } from '@react-navigation/native';
+import { RootNavigatorParamList } from 'navigation/RootNavigator';
+import { StackNavigationProp } from '@react-navigation/stack';
+import ROUTES from 'navigation/routes';
 
 /**
  * Hook that provides a function that will handle the uri action
@@ -10,6 +14,7 @@ import { getCachedUriAction } from 'lib/UriActions';
  */
 const useHandleUriAction = () => {
   const showModal = useShowModal();
+  const navigation = useNavigation<StackNavigationProp<RootNavigatorParamList>>();
 
   return React.useCallback(() => {
     const action = getCachedUriAction();
@@ -21,14 +26,19 @@ const useHandleUriAction = () => {
             action,
           });
           break;
-
+        case UriActionType.ViewProfile:
+          navigation.navigate(ROUTES.PROFILE, {
+            visitingProfile: action.address,
+            chainType: action.chainType,
+          });
+          break;
         default:
           // @ts-ignore
           console.error(`Unsupported uri type: ${action.type}`);
           break;
       }
     }
-  }, [showModal]);
+  }, [navigation, showModal]);
 };
 
 export default useHandleUriAction;
