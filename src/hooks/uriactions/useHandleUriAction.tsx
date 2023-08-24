@@ -77,8 +77,6 @@ const useHandleUriAction = () => {
           });
           break;
         default:
-          // @ts-ignore
-          console.error(`Unsupported uri type: ${action.type}`);
           break;
       }
     }
