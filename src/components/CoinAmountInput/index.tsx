@@ -7,6 +7,7 @@ import {
   formatCoin,
   formatFiatAmount,
   formatNumber,
+  getDecimalSeparator,
   isStringNumberValid,
   safeParseFloat,
 } from 'lib/FormatUtils';
@@ -171,12 +172,28 @@ const CoinAmountInput: React.FC<CoinAmountInputProps> = ({
     }
   }, [currencyConversionFactor, onChange, spendable]);
 
+  // Effect to update the input value with the received initial value.
   React.useEffect(() => {
-    console.log('initialValue', initialValue);
     if (initialValue && initialValue.denom === chainInfo.stakeCurrency.coinMinimalDenom) {
+      // Parse the amount
       const value = bigInt(initialValue.amount);
+      // Parse the conversion factor.
       const conversion = bigInt(currencyConversionFactor);
-      onAmountChange(value.divide(conversion).toString());
+      // Perform the division to have the decimal and the integer part.
+      const result = value.divmod(conversion);
+
+      let remainder = result.remainder.toString();
+      if (remainder !== '0') {
+        // We have a remainder, prepend 0s to make the remainder have the
+        // same length as the stake currency decimals.
+        for (let i = remainder.length; i < chainInfo.stakeCurrency.coinDecimals; i += 1) {
+          remainder = `0${remainder}`;
+        }
+      }
+
+      // Build the decimal value.
+      const stringAmount = `${result.quotient}${getDecimalSeparator()}${remainder}`;
+      onAmountChange(stringAmount);
     }
 
     // Ignore the change of onAmountChange, we want to trigger this effect only
@@ -184,6 +201,7 @@ const CoinAmountInput: React.FC<CoinAmountInputProps> = ({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [initialValue, currencyConversionFactor, chainInfo.stakeCurrency.coinMinimalDenom]);
 
+  // Effect to re-validate the input after the input limit has been loaded.
   React.useEffect(() => {
     if (!loadingAmountLimit) {
       onAmountChange(inputAmount);
