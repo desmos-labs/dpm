@@ -1,5 +1,5 @@
 import { Coin } from '@desmoslabs/desmjs-types/cosmos/base/v1beta1/coin';
-import { convertCoin, Currency } from '@desmoslabs/desmjs';
+import { convertCoin, Currency, DesmosMainnet, DesmosTestnet } from '@desmoslabs/desmjs';
 import { Slip10RawIndex } from '@cosmjs/crypto';
 import SupportedChains from 'config/LinkableChains';
 import numbro from 'numbro';
@@ -7,6 +7,7 @@ import { Input } from 'cosmjs-types/cosmos/bank/v1beta1/bank';
 import Long from 'long';
 import { format } from 'date-fns';
 import { MarkdownIt, stringToTokens } from 'react-native-markdown-display';
+import { ChainType } from 'types/chains';
 
 /**
  * Gets the decimal separator used on the provided locale.
@@ -220,3 +221,10 @@ export const makrdownToPlainText = (markdownText: string): string => {
       return `${previousValue}\n`;
     }, '');
 };
+
+/**
+ * Function to convert a {@link ChainType} to its chain name.
+ * @param chainType - The chain type to convert.
+ */
+export const chainTypeToChainName = (chainType: ChainType): string =>
+  chainType === ChainType.Mainnet ? DesmosMainnet.chainName : DesmosTestnet.chainName;
