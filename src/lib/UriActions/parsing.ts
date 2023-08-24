@@ -67,7 +67,6 @@ const UriActionParsers: Record<string, UriActionParser> = {
       try {
         [amount] = parseCoins(rawAmount);
       } catch (e) {
-        console.error(e);
         return undefined;
       }
     }

@@ -96,6 +96,7 @@ const ScanQr: React.FC<NavProps> = ({ navigation, route }) => {
     [navigate, openErrorModal, pair],
   );
 
+  // eslint-disable-next-line no-unused-vars, @typescript-eslint/no-unused-vars
   const handleDPMUri = React.useCallback((uri: string) => {
     // TODO: Resolve the deep link uri.
   }, []);
