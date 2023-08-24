@@ -29,8 +29,6 @@ import ChainLinkContentLoader from 'components/ContentLoaders/ChainLink';
 import { View } from 'react-native';
 import ProfileData from 'screens/Profile/components/ProfileData';
 import StyledRefreshControl from 'components/StyledRefreshControl';
-import { ChainType } from 'types/chains';
-import useTemporaryChainType from 'hooks/chainselect/useTemporaryChainType';
 import useConnectChain from './hooks';
 import useStyles from './useStyles';
 
@@ -42,16 +40,11 @@ export interface ProfileParams {
    * If no address is provided, this screen will load the current user profile data instead.
    */
   readonly visitingProfile?: string;
-  /**
-   * Temporary chain type used to display the user profile.
-   */
-  readonly chainType?: ChainType;
 }
 
 const Profile: React.FC<NavProps> = ({ navigation, route: { params } }) => {
   const styles = useStyles();
   const visitingProfile = params?.visitingProfile;
-  const chainType = params?.chainType;
   const canEdit = !visitingProfile;
   const { t } = useTranslation();
 
@@ -62,7 +55,6 @@ const Profile: React.FC<NavProps> = ({ navigation, route: { params } }) => {
   // -------- HOOKS --------
 
   useTrackScreen(Screens.Profile, { 'Is owner': !visitingProfile });
-  useTemporaryChainType(chainType);
   const {
     profile,
     loading: loadingProfile,

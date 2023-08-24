@@ -25,14 +25,11 @@ import ProfileImage from 'components/ProfileImage';
 import { QrCodeType } from 'screens/ScanQr';
 import IconButton from 'components/IconButton';
 import { scanIcon } from 'assets/images';
-import { ChainType } from 'types/chains';
-import useTemporaryChainType from 'hooks/chainselect/useTemporaryChainType';
 import useStyles from './useStyles';
 import useSendTokens from './useHooks';
 
 export interface SendTokensParams {
   readonly recipient?: string;
-  readonly chainType?: ChainType;
   readonly amount?: Coin;
 }
 
@@ -41,10 +38,9 @@ export type NavProps = StackScreenProps<RootNavigatorParamList, ROUTES.SEND_TOKE
 const SendTokens: React.FC<NavProps> = ({ navigation, route }) => {
   const { t } = useTranslation('sendTokens');
   const styles = useStyles();
-  const { recipient, chainType, amount } = route.params ?? {};
+  const { recipient, amount } = route.params ?? {};
 
   useTrackScreen(Screens.SendTokens);
-  useTemporaryChainType(chainType);
 
   // -------- REFS --------
 
