@@ -10,6 +10,9 @@ import Button from 'components/Button';
 import { useTranslation } from 'react-i18next';
 import Typography from 'components/Typography';
 import Spacer from 'components/Spacer';
+import { useCurrentChainType } from '@recoil/settings';
+import useRequestChainChange from 'hooks/chainselect/useRequestChainChange';
+import { chainTypeToChainName } from 'lib/FormatUtils';
 
 export type GenericUriActionModalParams = {
   /**
@@ -27,26 +30,54 @@ const GenericUriActionModal: React.FC<ModalComponentProps<GenericUriActionModalP
 ) => {
   const { closeModal, params } = props;
   const { action } = params;
-  const { t } = useTranslation();
+  const { t } = useTranslation('uriActions');
   const navigation = useNavigation<StackNavigationProp<RootNavigatorParamList>>();
+
+  // ------- HOOKS --------
+
+  const requestChainChange = useRequestChainChange();
+  const currentChainType = useCurrentChainType();
+
+  // -------- VARIABLES --------
+
+  const actionChainType = React.useMemo(
+    () =>
+      // @ts-ignore
+      action.chainType ?? currentChainType,
+    [action, currentChainType],
+  );
+
+  // -------- CALLBACKS --------
 
   const sendToken = React.useCallback(() => {
     closeModal();
-    navigation.navigate(ROUTES.SEND_TOKENS, {
-      recipient: action.address,
-      // @ts-ignore
-      chainType: action.chainType,
+    requestChainChange({
+      message: t('send action on another network', {
+        chain: chainTypeToChainName(actionChainType),
+      }),
+      newChainType: actionChainType,
+      onSuccess: () => {
+        navigation.navigate(ROUTES.SEND_TOKENS, {
+          recipient: action.address,
+        });
+      },
     });
-  }, [action, closeModal, navigation]);
+  }, [action.address, actionChainType, closeModal, navigation, requestChainChange, t]);
 
   const showProfile = React.useCallback(() => {
     closeModal();
-    navigation.navigate(ROUTES.PROFILE, {
-      visitingProfile: action.address,
-      // @ts-ignore
-      chainType: action.chainType,
+    requestChainChange({
+      message: t('view profile on another network', {
+        chain: chainTypeToChainName(actionChainType),
+      }),
+      newChainType: actionChainType,
+      onSuccess: () => {
+        navigation.navigate(ROUTES.PROFILE, {
+          visitingProfile: action.address,
+        });
+      },
     });
-  }, [action, closeModal, navigation]);
+  }, [action.address, actionChainType, closeModal, navigation, requestChainChange, t]);
 
   return (
     <View>

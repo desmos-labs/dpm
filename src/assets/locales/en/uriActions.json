@@ -1,0 +1,7 @@
+{
+  "select action": "Select action",
+  "show profile": "Show profile",
+  "send tokens": "Send tokens",
+  "send action on another network": "The token transfer will be executed on the {{ chain }}.\nWould you like to switch network?",
+  "view profile on another network": "The profile you wish to view is on the {{ chain }}.\nWould you like to switch network?"
+}

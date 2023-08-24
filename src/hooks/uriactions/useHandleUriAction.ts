@@ -7,13 +7,18 @@ import { useNavigation } from '@react-navigation/native';
 import { RootNavigatorParamList } from 'navigation/RootNavigator';
 import { StackNavigationProp } from '@react-navigation/stack';
 import ROUTES from 'navigation/routes';
+import useRequestChainChange from 'hooks/chainselect/useRequestChainChange';
+import { useTranslation } from 'react-i18next';
+import { chainTypeToChainName } from 'lib/FormatUtils';
 
 /**
  * Hook that provides a function that will handle the uri action
  * if present.
  */
 const useHandleUriAction = () => {
+  const { t } = useTranslation('uriActions');
   const showModal = useShowModal();
+  const requestChainChange = useRequestChainChange();
   const navigation = useNavigation<StackNavigationProp<RootNavigatorParamList>>();
 
   return React.useCallback(() => {
@@ -27,16 +32,30 @@ const useHandleUriAction = () => {
           });
           break;
         case UriActionType.ViewProfile:
-          navigation.navigate(ROUTES.PROFILE, {
-            visitingProfile: action.address,
-            chainType: action.chainType,
+          requestChainChange({
+            message: t('view profile on another network', {
+              chain: chainTypeToChainName(action.chainType),
+            }),
+            newChainType: action.chainType,
+            onSuccess: () => {
+              navigation.navigate(ROUTES.PROFILE, {
+                visitingProfile: action.address,
+              });
+            },
           });
           break;
         case UriActionType.SendTokens:
-          navigation.navigate(ROUTES.SEND_TOKENS, {
-            recipient: action.address,
-            chainType: action.chainType,
-            amount: action.amount,
+          requestChainChange({
+            message: t('send action on another network', {
+              chain: chainTypeToChainName(action.chainType),
+            }),
+            newChainType: action.chainType,
+            onSuccess: () => {
+              navigation.navigate(ROUTES.SEND_TOKENS, {
+                recipient: action.address,
+                amount: action.amount,
+              });
+            },
           });
           break;
         default:
@@ -45,7 +64,7 @@ const useHandleUriAction = () => {
           break;
       }
     }
-  }, [navigation, showModal]);
+  }, [navigation, requestChainChange, showModal, t]);
 };
 
 export default useHandleUriAction;

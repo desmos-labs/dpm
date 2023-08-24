@@ -21,6 +21,7 @@ import stake from './stake.json';
 import staking from './staking.json';
 import transaction from './transaction.json';
 import unbonding from './unbonding.json';
+import uriActions from './uriActions.json';
 import validatorDetails from './validatorDetails.json';
 import walletConnect from './walletConnect.json';
 import web3auth from './web3auth.json';
@@ -47,6 +48,7 @@ const en = {
   staking,
   transaction,
   unbonding,
+  uriActions,
   validatorDetails,
   walletConnect,
   web3auth,
