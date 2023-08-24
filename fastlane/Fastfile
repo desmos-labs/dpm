@@ -21,6 +21,7 @@ APPLE_KEY_CONTENT = ENV["APPLE_KEY_CONTENT"]
 GIT_AUTHORIZATION = ENV["GIT_AUTHORIZATION"]
 IOS_GOOGLE_SERVICES_INFO_PLIST = ENV["IOS_GOOGLE_SERVICES_INFO_PLIST"]
 IOS_BRANCH_INFO_PLIST = ENV["IOS_BRANCH_INFO_PLIST"]
+IOS_BRANCH_LIVE_KEY = ENV["IOS_BRANCH_LIVE_KEY"]
 
 # Android variable
 ANDROID_PLAYSTORE_JSON_KEY = ENV["PLAYSTORE_JSON_KEY"]
@@ -385,10 +386,10 @@ platform :common do
       )
     end
 
-    if IOS_BRANCH_INFO_PLIST != nil
-      UI.message "Expanding IOS_BRANCH_INFO_PLIST"
+    if IOS_BRANCH_LIVE_KEY != nil
+      UI.message "Expanding IOS_BRANCH_LIVE_KEY"
       sh(
-        command: "printf '#{IOS_BRANCH_INFO_PLIST}' > ../ios/Branch-Info.plist",
+        command: "sed -i -e 's#<string>key_live</string>#<string>#{IOS_BRANCH_LIVE_KEY}</string>#' ../ios/DesmosProfileManager/Info.plist",
         log: false
       )
     end

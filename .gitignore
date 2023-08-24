@@ -86,4 +86,3 @@ ios/GoogleService-Info.plist
 
 # Branch files
 android/app/src/main/res/values/branch_keys.xml
-ios/Branch-Info.plist
