@@ -10,7 +10,7 @@ export type ChangeChainParams = {
   /**
    * The message that will be displayed to the user.
    */
-  message: string;
+  message: string | React.ReactNode;
   /**
    * The new chain that you want to switch to.
    */

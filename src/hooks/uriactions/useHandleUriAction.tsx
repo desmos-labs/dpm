@@ -8,15 +8,15 @@ import { RootNavigatorParamList } from 'navigation/RootNavigator';
 import { StackNavigationProp } from '@react-navigation/stack';
 import ROUTES from 'navigation/routes';
 import useRequestChainChange from 'hooks/chainselect/useRequestChainChange';
-import { useTranslation } from 'react-i18next';
+import { Trans } from 'react-i18next';
 import { chainTypeToChainName } from 'lib/FormatUtils';
+import Typography from 'components/Typography';
 
 /**
  * Hook that provides a function that will handle the uri action
  * if present.
  */
 const useHandleUriAction = () => {
-  const { t } = useTranslation('uriActions');
   const showModal = useShowModal();
   const requestChainChange = useRequestChainChange();
   const navigation = useNavigation<StackNavigationProp<RootNavigatorParamList>>();
@@ -33,9 +33,18 @@ const useHandleUriAction = () => {
           break;
         case UriActionType.ViewProfile:
           requestChainChange({
-            message: t('view profile on another network', {
-              chain: chainTypeToChainName(action.chainType),
-            }),
+            message: (
+              <Typography.Regular16>
+                <Trans
+                  ns="uriActions"
+                  i18nKey="view profile on another network"
+                  values={{
+                    chain: chainTypeToChainName(action.chainType),
+                  }}
+                  components={[<Typography.SemiBold16 />]}
+                />
+              </Typography.Regular16>
+            ),
             newChainType: action.chainType,
             onSuccess: () => {
               navigation.navigate(ROUTES.PROFILE, {
@@ -46,9 +55,18 @@ const useHandleUriAction = () => {
           break;
         case UriActionType.SendTokens:
           requestChainChange({
-            message: t('send action on another network', {
-              chain: chainTypeToChainName(action.chainType),
-            }),
+            message: (
+              <Typography.Regular16>
+                <Trans
+                  ns="uriActions"
+                  i18nKey="send action on another network"
+                  values={{
+                    chain: chainTypeToChainName(action.chainType),
+                  }}
+                  components={[<Typography.SemiBold16 />]}
+                />
+              </Typography.Regular16>
+            ),
             newChainType: action.chainType,
             onSuccess: () => {
               navigation.navigate(ROUTES.SEND_TOKENS, {
@@ -64,7 +82,7 @@ const useHandleUriAction = () => {
           break;
       }
     }
-  }, [navigation, requestChainChange, showModal, t]);
+  }, [navigation, requestChainChange, showModal]);
 };
 
 export default useHandleUriAction;

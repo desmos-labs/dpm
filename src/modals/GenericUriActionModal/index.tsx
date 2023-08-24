@@ -7,7 +7,7 @@ import { StackNavigationProp } from '@react-navigation/stack';
 import { RootNavigatorParamList } from 'navigation/RootNavigator';
 import ROUTES from 'navigation/routes';
 import Button from 'components/Button';
-import { useTranslation } from 'react-i18next';
+import { Trans, useTranslation } from 'react-i18next';
 import Typography from 'components/Typography';
 import Spacer from 'components/Spacer';
 import { useCurrentChainType } from '@recoil/settings';
@@ -52,9 +52,18 @@ const GenericUriActionModal: React.FC<ModalComponentProps<GenericUriActionModalP
   const sendToken = React.useCallback(() => {
     closeModal();
     requestChainChange({
-      message: t('send action on another network', {
-        chain: chainTypeToChainName(actionChainType),
-      }),
+      message: (
+        <Typography.Regular16>
+          <Trans
+            ns="uriActions"
+            i18nKey="send action on another network"
+            values={{
+              chain: chainTypeToChainName(actionChainType),
+            }}
+            components={[<Typography.SemiBold16 />]}
+          />
+        </Typography.Regular16>
+      ),
       newChainType: actionChainType,
       onSuccess: () => {
         navigation.navigate(ROUTES.SEND_TOKENS, {
@@ -62,14 +71,23 @@ const GenericUriActionModal: React.FC<ModalComponentProps<GenericUriActionModalP
         });
       },
     });
-  }, [action.address, actionChainType, closeModal, navigation, requestChainChange, t]);
+  }, [action.address, actionChainType, closeModal, navigation, requestChainChange]);
 
   const showProfile = React.useCallback(() => {
     closeModal();
     requestChainChange({
-      message: t('view profile on another network', {
-        chain: chainTypeToChainName(actionChainType),
-      }),
+      message: (
+        <Typography.Regular16>
+          <Trans
+            ns="uriActions"
+            i18nKey="view profile on another network"
+            values={{
+              chain: chainTypeToChainName(actionChainType),
+            }}
+            components={[<Typography.SemiBold16 />]}
+          />
+        </Typography.Regular16>
+      ),
       newChainType: actionChainType,
       onSuccess: () => {
         navigation.navigate(ROUTES.PROFILE, {
@@ -77,7 +95,7 @@ const GenericUriActionModal: React.FC<ModalComponentProps<GenericUriActionModalP
         });
       },
     });
-  }, [action.address, actionChainType, closeModal, navigation, requestChainChange, t]);
+  }, [action.address, actionChainType, closeModal, navigation, requestChainChange]);
 
   return (
     <View>

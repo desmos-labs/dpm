@@ -2,8 +2,7 @@ import { makeStyle } from 'config/theme';
 
 const useStyles = makeStyle((theme) => ({
   root: {
-    minWidth: '60%',
-    maxWidth: '70%',
+    minWidth: '90%',
   },
   title: {
     marginTop: theme.spacing.xs,
