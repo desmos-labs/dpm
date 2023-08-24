@@ -31,6 +31,7 @@ export const generateUriActionUrl = async (
  * Function that resolves the {@link UriAction} from a give url.
  * @param url - The url from which the action will be resolved.
  */
+// eslint-disable-next-line no-unused-vars,@typescript-eslint/no-unused-vars
 export const resolveUriActionFromUrl = async (url: string): Promise<Result<UriAction, Error>> =>
   // TODO: Implement this feature after we have the api.
   err(Error('Feature not implemented'));
