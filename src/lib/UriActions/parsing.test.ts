@@ -7,139 +7,67 @@ import {
   UriActionType,
   ViewProfileActionUri,
 } from 'types/uri';
-import { parseUriAction, uriFromUriAction } from 'lib/UriActions/index';
+import { actionUriFromRecord } from 'lib/UriActions/index';
 import { ChainType } from 'types/chains';
 import { coin } from '@cosmjs/amino';
 
 describe('UriActions', () => {
-  it('parse valid user address uri', () => {
-    const testAddress = 'desmos1nm6kh6jwqmsezwtnmgdd4w4tzyk9f8gvqu5en0';
-    const testUri = `dpm://${UriActionType.UserAddress}/${testAddress}`;
+  it('parse GenericActionUri', () => {
+    const params = {
+      action: UriActionType.Generic,
+      address: 'desmos1nm6kh6jwqmsezwtnmgdd4w4tzyk9f8gvqu5en0',
+      chain_type: ChainType.Testnet,
+    };
 
-    const parsedUri = parseUriAction(testUri);
-    expect(parsedUri?.type).toEqual(UriActionType.UserAddress);
-    expect(parsedUri?.address).toEqual(testAddress);
-  });
-
-  it('parse invalid user address uri', () => {
-    const testAddress = 'desmos1sadsa';
-    const testUri = `dpm://${UriActionType.UserAddress}/${testAddress}`;
-
-    const parsedUri = parseUriAction(testUri);
-    expect(parsedUri?.type).toBe(undefined);
-  });
-
-  it('generate user address uri correctly', () => {
-    const testAddress = 'desmos1nm6kh6jwqmsezwtnmgdd4w4tzyk9f8gvqu5en0';
-
-    const url = uriFromUriAction({
-      type: UriActionType.UserAddress,
-      address: testAddress,
-    });
-    expect(url).toBe(`dpm://${UriActionType.UserAddress}/${testAddress}`);
-  });
-
-  it('parse valid generic uri', () => {
-    const testAddress = 'desmos1nm6kh6jwqmsezwtnmgdd4w4tzyk9f8gvqu5en0';
-    const testChainId = 'testnet';
-    const testUri = `dpm://?address=${testAddress}&chain_type=${testChainId}`;
-
-    const parsedUri = parseUriAction(testUri) as GenericActionUri;
+    const parsedUri = actionUriFromRecord(params) as GenericActionUri;
     expect(parsedUri).toBeDefined();
     expect(parsedUri.type).toEqual(UriActionType.Generic);
-    expect(parsedUri.address).toEqual(testAddress);
-    expect(parsedUri.chainId).toEqual(testChainId);
+    expect(parsedUri.address).toEqual(params.address);
+    expect(parsedUri.chainType).toEqual(params.chain_type);
   });
 
-  it('generate generic uri correctly', () => {
-    const testAddress = 'desmos1nm6kh6jwqmsezwtnmgdd4w4tzyk9f8gvqu5en0';
-    const testChainId = ChainType.Testnet;
+  it('parse ViewProfileActionUri', () => {
+    const params = {
+      action: UriActionType.ViewProfile,
+      address: 'desmos1nm6kh6jwqmsezwtnmgdd4w4tzyk9f8gvqu5en0',
+      chain_type: ChainType.Testnet,
+    };
 
-    const action = uriFromUriAction({
-      type: UriActionType.Generic,
-      address: testAddress,
-      chainId: testChainId,
-    });
-    expect(action).toBe(`dpm://?address=${testAddress}&chain_type=${testChainId}`);
-  });
-
-  it('parse valid view profile uri', () => {
-    const testAddress = 'desmos1nm6kh6jwqmsezwtnmgdd4w4tzyk9f8gvqu5en0';
-    const testChainId = ChainType.Testnet;
-
-    const testUri = `dpm://${UriActionType.ViewProfile}?address=${testAddress}&chain_type=${testChainId}`;
-    const parsedUri = parseUriAction(testUri) as ViewProfileActionUri;
+    const parsedUri = actionUriFromRecord(params) as ViewProfileActionUri;
     expect(parsedUri).toBeDefined();
     expect(parsedUri.type).toEqual(UriActionType.ViewProfile);
-    expect(parsedUri.address).toEqual(testAddress);
-    expect(parsedUri.chainType).toEqual(testChainId);
+    expect(parsedUri.address).toEqual(params.address);
+    expect(parsedUri.chainType).toEqual(params.chain_type);
   });
 
-  it('generate view profile uri correctly', () => {
-    const testAddress = 'desmos1nm6kh6jwqmsezwtnmgdd4w4tzyk9f8gvqu5en0';
-    const testChainId = ChainType.Testnet;
+  it('parse SendTokensActionUri with amount', () => {
+    const params = {
+      action: UriActionType.SendTokens,
+      address: 'desmos1nm6kh6jwqmsezwtnmgdd4w4tzyk9f8gvqu5en0',
+      chain_type: ChainType.Testnet,
+      amount: '100000udaric',
+    };
 
-    const action = uriFromUriAction({
-      type: UriActionType.ViewProfile,
-      address: testAddress,
-      chainType: testChainId,
-    });
-    expect(action).toBe(
-      `dpm://${UriActionType.ViewProfile}?address=${testAddress}&chain_type=${testChainId}`,
-    );
-  });
-
-  it('parse send tokens uri with amount', () => {
-    const testAddress = 'desmos1nm6kh6jwqmsezwtnmgdd4w4tzyk9f8gvqu5en0';
-    const testChainId = ChainType.Testnet;
-    const amount = coin(1000, 'udsm');
-    const testUri = `dpm://${UriActionType.SendTokens}?address=${testAddress}&chain_type=${testChainId}&amount=${amount.amount}${amount.denom}`;
-
-    const parsedAction = parseUriAction(testUri) as SendTokensActionUri;
-
+    const parsedAction = actionUriFromRecord(params) as SendTokensActionUri;
     expect(parsedAction).toBeDefined();
     expect(parsedAction.type).toEqual(UriActionType.SendTokens);
-    expect(parsedAction.address).toEqual(testAddress);
-    expect(parsedAction.chainType).toEqual(testChainId);
-    expect(parsedAction.amount).toEqual(amount);
+    expect(parsedAction.address).toEqual(params.address);
+    expect(parsedAction.chainType).toEqual(params.chain_type);
+    expect(parsedAction.amount).toEqual(coin(100000, 'udaric'));
   });
 
-  it('parse send tokens uri without amount', () => {
-    const testAddress = 'desmos1nm6kh6jwqmsezwtnmgdd4w4tzyk9f8gvqu5en0';
-    const testChainId = ChainType.Testnet;
-    const testUri = `dpm://${UriActionType.SendTokens}?address=${testAddress}&chain_type=${testChainId}`;
+  it('parse SendTokensActionUri without amount', () => {
+    const params = {
+      action: UriActionType.SendTokens,
+      address: 'desmos1nm6kh6jwqmsezwtnmgdd4w4tzyk9f8gvqu5en0',
+      chain_type: ChainType.Testnet,
+    };
 
-    const parsedAction = parseUriAction(testUri) as SendTokensActionUri;
-
+    const parsedAction = actionUriFromRecord(params) as SendTokensActionUri;
     expect(parsedAction).toBeDefined();
     expect(parsedAction.type).toEqual(UriActionType.SendTokens);
-    expect(parsedAction.address).toEqual(testAddress);
-    expect(parsedAction.chainType).toEqual(testChainId);
+    expect(parsedAction.address).toEqual(params.address);
+    expect(parsedAction.chainType).toEqual(params.chain_type);
     expect(parsedAction.amount).toBeUndefined();
-  });
-
-  it('generate send tokens uri correctly', () => {
-    const testAddress = 'desmos1nm6kh6jwqmsezwtnmgdd4w4tzyk9f8gvqu5en0';
-    const testChainId = ChainType.Testnet;
-    const amount = coin(1000, 'udsm');
-
-    const uri = uriFromUriAction({
-      type: UriActionType.SendTokens,
-      address: testAddress,
-      chainType: testChainId,
-      amount,
-    });
-    expect(uri).toBe(
-      `dpm://${UriActionType.SendTokens}?address=${testAddress}&chain_type=${testChainId}&amount=${amount.amount}${amount.denom}`,
-    );
-
-    const uriWithoutAmount = uriFromUriAction({
-      type: UriActionType.SendTokens,
-      address: testAddress,
-      chainType: testChainId,
-    });
-    expect(uriWithoutAmount).toBe(
-      `dpm://${UriActionType.SendTokens}?address=${testAddress}&chain_type=${testChainId}`,
-    );
   });
 });

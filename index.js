@@ -5,7 +5,7 @@ import './shim';
 import { AppRegistry, LogBox } from 'react-native';
 import setupBackgroundNotificationsHandlers from 'hooks/notifications/setupBackgroundNotificationsHandlers';
 import branch from 'react-native-branch';
-import { parseUriAction, setCachedUriAction } from 'lib/UriActions';
+import { actionUriFromRecord, setCachedUriAction } from 'lib/UriActions';
 import 'react-native-gesture-handler';
 import './src/assets/locales/i18n';
 import * as Sentry from '@sentry/react-native';
@@ -46,17 +46,10 @@ setupBackgroundNotificationsHandlers();
 
 // Init branch.
 branch.subscribe(({ params, error }) => {
-  console.log(params, error);
   if (error === null) {
-    const deepLinkPath = params.$deeplink_path;
-    if (typeof deepLinkPath === 'string') {
-      // Generate the deep link uri using the received path.
-      const deepLink = `dpm://${deepLinkPath}`;
-      // Parse the action and if defined store it.
-      const parsedUriAction = parseUriAction(deepLink);
-      if (parsedUriAction !== undefined) {
-        setCachedUriAction(parsedUriAction);
-      }
+    const parsedUriAction = actionUriFromRecord(params);
+    if (parsedUriAction !== undefined) {
+      setCachedUriAction(parsedUriAction);
     }
   }
 });

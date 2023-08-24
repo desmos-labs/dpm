@@ -12,8 +12,6 @@ import TextInput from 'components/TextInput';
 import { Vibration } from 'react-native';
 import { RootNavigatorParamList } from 'navigation/RootNavigator';
 import StyledActivityIndicator from 'components/StyledActivityIndicator';
-import { UriActionType } from 'types/uri';
-import { parseUriAction } from 'lib/UriActions';
 import useStyles from './useStyles';
 import QrCodeScanner from './components/QrCodeScanner';
 
@@ -98,23 +96,9 @@ const ScanQr: React.FC<NavProps> = ({ navigation, route }) => {
     [navigate, openErrorModal, pair],
   );
 
-  const handleDPMUri = React.useCallback(
-    (uri: string) => {
-      const parsedUri = parseUriAction(uri);
-      if (parsedUri) {
-        if (parsedUri.type === UriActionType.UserAddress) {
-          navigate(ROUTES.SEND_TOKENS, {
-            recipient: parsedUri.address,
-          });
-        } else {
-          openErrorModal(t('invalid qr code'));
-        }
-      } else {
-        openErrorModal(t('invalid qr code'));
-      }
-    },
-    [navigate, openErrorModal, t],
-  );
+  const handleDPMUri = React.useCallback((uri: string) => {
+    // TODO: Resolve the deep link uri.
+  }, []);
 
   const processQrCodeData = React.useCallback(
     async (data: string) => {

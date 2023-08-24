@@ -35,7 +35,7 @@ const GenericUriActionModal: React.FC<ModalComponentProps<GenericUriActionModalP
     navigation.navigate(ROUTES.SEND_TOKENS, {
       recipient: action.address,
       // @ts-ignore
-      chainType: action.chainId,
+      chainType: action.chainType,
     });
   }, [action, closeModal, navigation]);
 
@@ -44,7 +44,7 @@ const GenericUriActionModal: React.FC<ModalComponentProps<GenericUriActionModalP
     navigation.navigate(ROUTES.PROFILE, {
       visitingProfile: action.address,
       // @ts-ignore
-      chainType: action.chainId,
+      chainType: action.chainType,
     });
   }, [action, closeModal, navigation]);
 

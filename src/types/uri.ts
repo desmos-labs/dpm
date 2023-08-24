@@ -7,6 +7,7 @@ import { Coin } from '@desmoslabs/desmjs';
 export enum UriActionType {
   /**
    * Uri that contains the address of a user.
+   * @deprecated This has been replaced by: {@link UriActionType.ViewProfile}.
    */
   UserAddress = 'address',
   /**
@@ -54,7 +55,7 @@ export interface GenericActionUri {
   /**
    * The user's chain id.
    */
-  readonly chainId: ChainType;
+  readonly chainType: ChainType;
 }
 
 /**
