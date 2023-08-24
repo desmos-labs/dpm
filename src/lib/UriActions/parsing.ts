@@ -53,7 +53,7 @@ const parseUserAddressUri = (url: URL): UserAddressActionUri | undefined => {
  */
 const parseGenericActionUri = (url: URL): GenericActionUri | undefined => {
   const address = url.searchParams.get('address');
-  const chainId = url.searchParams.get('chain_id');
+  const chainId = url.searchParams.get('chain_type');
 
   // Ensure that the provided chain id is "mainnet" or "testnet".
   if (!isChainTypeValid(chainId)) {
@@ -183,7 +183,7 @@ export const uriFromUriAction = (uri: UriAction): string => {
     case UriActionType.UserAddress:
       return `${DPM_URI_PROTOCOL}//${UriActionType.UserAddress}/${uri.address}`;
     case UriActionType.Generic:
-      return `${DPM_URI_PROTOCOL}//?address=${uri.address}&chain_id=${uri.chainId}`;
+      return `${DPM_URI_PROTOCOL}//?address=${uri.address}&chain_type=${uri.chainId}`;
     case UriActionType.ViewProfile:
       return `${DPM_URI_PROTOCOL}//${UriActionType.ViewProfile}?address=${uri.address}&chain_type=${uri.chainType}`;
     case UriActionType.SendTokens:

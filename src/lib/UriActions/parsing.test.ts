@@ -42,7 +42,7 @@ describe('UriActions', () => {
   it('parse valid generic uri', () => {
     const testAddress = 'desmos1nm6kh6jwqmsezwtnmgdd4w4tzyk9f8gvqu5en0';
     const testChainId = 'testnet';
-    const testUri = `dpm://?address=${testAddress}&chain_id=${testChainId}`;
+    const testUri = `dpm://?address=${testAddress}&chain_type=${testChainId}`;
 
     const parsedUri = parseUriAction(testUri) as GenericActionUri;
     expect(parsedUri).toBeDefined();
@@ -60,7 +60,7 @@ describe('UriActions', () => {
       address: testAddress,
       chainId: testChainId,
     });
-    expect(action).toBe(`dpm://?address=${testAddress}&chain_id=${testChainId}`);
+    expect(action).toBe(`dpm://?address=${testAddress}&chain_type=${testChainId}`);
   });
 
   it('parse valid view profile uri', () => {
