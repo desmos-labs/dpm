@@ -46,5 +46,6 @@
   "i understand": "I understand",
   "my address": "My address",
   "copy address": "Copy address",
-  "change network": "Change network"
+  "change network": "Change network",
+  "generating": "Generating..."
 }
