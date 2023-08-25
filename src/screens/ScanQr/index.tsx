@@ -12,6 +12,8 @@ import TextInput from 'components/TextInput';
 import { Vibration } from 'react-native';
 import { RootNavigatorParamList } from 'navigation/RootNavigator';
 import StyledActivityIndicator from 'components/StyledActivityIndicator';
+import { resolveUriActionFromUrl } from 'lib/UriActions';
+import useHandleUriAction from 'hooks/uriactions/useHandleUriAction';
 import useStyles from './useStyles';
 import QrCodeScanner from './components/QrCodeScanner';
 
@@ -50,6 +52,7 @@ const ScanQr: React.FC<NavProps> = ({ navigation, route }) => {
   const [devUri, setDevUri] = useState('');
   const pair = useWalletConnectPair();
   const openModal = useShowModal();
+  const handleUriAction = useHandleUriAction();
 
   const navigate = React.useCallback<(typeof navigation)['navigate']>(
     (...args) => {
@@ -97,18 +100,33 @@ const ScanQr: React.FC<NavProps> = ({ navigation, route }) => {
   );
 
   // eslint-disable-next-line no-unused-vars, @typescript-eslint/no-unused-vars
-  const handleDPMUri = React.useCallback((uri: string) => {
-    // TODO: Resolve the deep link uri.
-  }, []);
+  const handleDPMUri = React.useCallback(
+    async (uri: string) => {
+      setPairing(true);
+      const resolveResult = await resolveUriActionFromUrl(uri);
+      if (resolveResult.isErr()) {
+        openErrorModal(resolveResult.error.message);
+      } else {
+        const action = resolveResult.value;
+        if (action === undefined) {
+          openErrorModal(t('invalid qr code'));
+        } else {
+          handleUriAction(action);
+        }
+      }
+      setPairing(false);
+    },
+    [handleUriAction, openErrorModal, t],
+  );
 
   const processQrCodeData = React.useCallback(
     async (data: string) => {
       if (qrCodeType === QrCodeType.WalletConnect) {
         await startPairProcedure(data);
-      } else if (qrCodeType === QrCodeType.DPMUris) {
-        handleDPMUri(data);
-      } else if (data.indexOf('dpm://') === 0) {
-        // This is a dpm uri, try to parse it.
+      } else if (
+        data.indexOf('https://desmos.app.link/') === 0 ||
+        qrCodeType === QrCodeType.DPMUris
+      ) {
         handleDPMUri(data);
       } else {
         openErrorModal(t('invalid qr code'));
