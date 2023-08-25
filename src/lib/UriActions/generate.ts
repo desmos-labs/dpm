@@ -1,6 +1,8 @@
 import axios from 'axios';
 import { UriAction, UriActionType } from 'types/uri';
 import { err, Result, ResultAsync } from 'neverthrow';
+import { actionUriFromRecord } from 'lib/UriActions/parsing';
+import { fromBase64 } from '@cosmjs/encoding';
 
 const axiosInstance = axios.create({
   baseURL: 'http://57.128.144.235:33000/deep-links',
@@ -31,7 +33,17 @@ export const generateUriActionUrl = async (
  * Function that resolves the {@link UriAction} from a give url.
  * @param url - The url from which the action will be resolved.
  */
-// eslint-disable-next-line no-unused-vars,@typescript-eslint/no-unused-vars
-export const resolveUriActionFromUrl = async (url: string): Promise<Result<UriAction, Error>> =>
-  // TODO: Implement this feature after we have the api.
-  err(Error('Feature not implemented'));
+export const resolveUriActionFromUrl = async (
+  url: string,
+): Promise<Result<UriAction | undefined, Error>> =>
+  ResultAsync.fromPromise(
+    axiosInstance
+      .get(`config?url=${url}`)
+      .then((r) => {
+        const decodedData = Buffer.from(fromBase64(r.data.config.custom_data)).toString();
+        const customData = JSON.parse(decodedData);
+        return customData as Record<string, any>;
+      })
+      .then(actionUriFromRecord),
+    (e) => (e as Error) ?? Error('Error while resolving uri'),
+  );
