@@ -4,7 +4,6 @@ import StyledSafeAreaView from 'components/StyledSafeAreaView';
 import TopBar from 'components/TopBar';
 import { RootNavigatorParamList } from 'navigation/RootNavigator';
 import ROUTES from 'navigation/routes';
-import { useNavigation, useRoute } from '@react-navigation/native';
 import EditProfileButton from 'screens/Profile/components/EditProfileButton';
 import useTrackScreen from 'hooks/analytics/useTrackScreen';
 import { Screens } from 'types/analytics';
@@ -40,13 +39,11 @@ export interface ProfileParams {
    * Address of the profile that the user is visiting.
    * If no address is provided, this screen will load the current user profile data instead.
    */
-  visitingProfile?: string;
+  readonly visitingProfile?: string;
 }
 
-const Profile = () => {
+const Profile: React.FC<NavProps> = ({ navigation, route: { params } }) => {
   const styles = useStyles();
-  const navigation = useNavigation<NavProps['navigation']>();
-  const { params } = useRoute<NavProps['route']>();
   const visitingProfile = params?.visitingProfile;
   const canEdit = !visitingProfile;
   const { t } = useTranslation();

@@ -7,6 +7,7 @@ import {
   formatCoin,
   formatFiatAmount,
   formatNumber,
+  getDecimalSeparator,
   isStringNumberValid,
   safeParseFloat,
 } from 'lib/FormatUtils';
@@ -19,6 +20,7 @@ import StyledActivityIndicator from 'components/StyledActivityIndicator';
 import { zeroCoinFiatValue } from 'types/prices';
 import { iconCurrencyDSM, iconCurrencyUSD } from 'assets/images';
 import Spacer from 'components/Spacer';
+import bigInt from 'big-integer';
 import useStyles from './useStyles';
 import { AmountLimit, AmountLimitConfig } from './limits';
 
@@ -61,6 +63,10 @@ export interface CoinAmountInputProps {
    * If this value is undefine will default to `CoinOnly`.
    */
   inputMode?: CoinAmountInputMode;
+  /**
+   * The initial amount that this component will show.
+   */
+  initialValue?: Coin;
 }
 
 /**
@@ -72,6 +78,7 @@ const CoinAmountInput: React.FC<CoinAmountInputProps> = ({
   onChange,
   containerStyle,
   inputMode,
+  initialValue,
 }) => {
   const styles = useStyles();
   const { t } = useTranslation('components.coinAmountInput');
@@ -85,19 +92,20 @@ const CoinAmountInput: React.FC<CoinAmountInputProps> = ({
 
   // -------- HOOKS --------
 
-  const { loading, amount } = useAmountInputLimit(amountLimitConfig);
+  const { loading: loadingAmountLimit, amount: amountInputLimit } =
+    useAmountInputLimit(amountLimitConfig);
   const chainInfo = useCurrentChainInfo();
 
   // -------- CONSTANTS --------
 
   const spendable = React.useMemo(
     () =>
-      amount ??
+      amountInputLimit ??
       zeroCoinFiatValue({
         amount: '0',
         denom: chainInfo.stakeCurrency.coinMinimalDenom,
       }),
-    [chainInfo, amount],
+    [chainInfo, amountInputLimit],
   );
   // Factor to convert the input value to the stake currency coin.
   const currencyConversionFactor = React.useMemo(
@@ -164,14 +172,54 @@ const CoinAmountInput: React.FC<CoinAmountInputProps> = ({
     }
   }, [currencyConversionFactor, onChange, spendable]);
 
+  // Effect to update the input value with the received initial value.
+  React.useEffect(() => {
+    if (initialValue && initialValue.denom === chainInfo.stakeCurrency.coinMinimalDenom) {
+      // Parse the amount
+      const value = bigInt(initialValue.amount);
+      // Parse the conversion factor.
+      const conversion = bigInt(currencyConversionFactor);
+      // Perform the division to have the decimal and the integer part.
+      const result = value.divmod(conversion);
+
+      let remainder = result.remainder.toString();
+      if (remainder !== '0') {
+        // We have a remainder, prepend 0s to make the remainder have the
+        // same length as the stake currency decimals.
+        for (let i = remainder.length; i < chainInfo.stakeCurrency.coinDecimals; i += 1) {
+          remainder = `0${remainder}`;
+        }
+      }
+
+      // Build the decimal value.
+      const stringAmount = `${result.quotient}${getDecimalSeparator()}${remainder}`;
+      onAmountChange(stringAmount);
+    }
+
+    // Ignore the change of onAmountChange, we want to trigger this effect only
+    // when the initialValue changes.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [initialValue, currencyConversionFactor, chainInfo.stakeCurrency.coinMinimalDenom]);
+
+  // Effect to re-validate the input after the input limit has been loaded.
+  React.useEffect(() => {
+    if (!loadingAmountLimit) {
+      onAmountChange(inputAmount);
+    }
+
+    // Safe to ignore, we want to trigger this effect only when the
+    // spendable amount changes to revalidate the input.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [loadingAmountLimit]);
+
   // -------- COMPONENTS --------
 
   const inputRightElement = React.useMemo(() => {
     const mode = inputMode ?? CoinAmountInputMode.CoinOnly;
-    const currencyButtonDisabled = loading || spendable.fiatValue === 0;
+    const currencyButtonDisabled = loadingAmountLimit || spendable.fiatValue === 0;
 
     return mode === CoinAmountInputMode.CoinOnly ? (
-      <Button onPress={onMaxPressed} disabled={loading}>
+      <Button onPress={onMaxPressed} disabled={loadingAmountLimit}>
         {t('max')}
       </Button>
     ) : (
@@ -202,7 +250,7 @@ const CoinAmountInput: React.FC<CoinAmountInputProps> = ({
     spendable.fiatValue,
     inputMode,
     isFiatMode,
-    loading,
+    loadingAmountLimit,
     onMaxPressed,
     t,
     chainInfo.stakeCurrency.coinDenom,
@@ -237,7 +285,7 @@ const CoinAmountInput: React.FC<CoinAmountInputProps> = ({
         <Typography.Regular14 style={styles.spendableAmountLabel}>
           {amountLabel}:
         </Typography.Regular14>
-        {loading ? (
+        {loadingAmountLimit ? (
           <StyledActivityIndicator />
         ) : (
           <Typography.Regular14>

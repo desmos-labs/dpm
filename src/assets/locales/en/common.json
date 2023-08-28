@@ -14,6 +14,7 @@
   "loading": "Loading",
   "next": "Next",
   "ok": "OK",
+  "cancel": "Cancel",
   "something went wrong": "Something went wrong",
   "password": "Password",
   "retry": "Retry",
@@ -44,5 +45,6 @@
   "description": "Description",
   "i understand": "I understand",
   "my address": "My address",
-  "copy address": "Copy address"
+  "copy address": "Copy address",
+  "change network": "Change network"
 }

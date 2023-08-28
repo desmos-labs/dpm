@@ -19,6 +19,8 @@ import GovernanceVoteModal from 'modals/GovernanceVoteModal';
 import AmountAndMemoModal from 'modals/AmountAndMemoModal';
 import { AmountLimit } from 'components/CoinAmountInput/limits';
 import { resetSecureStorage } from 'lib/SecureStorage';
+import useHandleUriAction from 'hooks/uriactions/useHandleUriAction';
+import { isUriActionPending } from 'lib/UriActions';
 import useStyles from './useStyles';
 
 enum DevRoutes {
@@ -55,6 +57,7 @@ const DevScreen: FC<NavProps> = ({ navigation }) => {
   const postHog = usePostHog()!;
   const showModal = useShowModal();
   const appFeatureFlags = useAppFeatureFlags();
+  const handleUriAction = useHandleUriAction();
 
   const itemSeparator = React.useCallback(() => <Spacer paddingVertical={4} />, []);
   const showTestTransaction = useShowTestTransaction();
@@ -182,6 +185,12 @@ const DevScreen: FC<NavProps> = ({ navigation }) => {
 
       <Button mode="contained" onPress={navigateToLandingPage}>
         Go to landing page
+      </Button>
+
+      <Spacer paddingVertical={4} />
+
+      <Button mode="contained" onPress={handleUriAction} disabled={!isUriActionPending()}>
+        Handle Uri Action
       </Button>
 
       <Spacer paddingVertical={4} />

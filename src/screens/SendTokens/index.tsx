@@ -30,6 +30,7 @@ import useSendTokens from './useHooks';
 
 export interface SendTokensParams {
   readonly recipient?: string;
+  readonly amount?: Coin;
 }
 
 export type NavProps = StackScreenProps<RootNavigatorParamList, ROUTES.SEND_TOKENS>;
@@ -37,7 +38,7 @@ export type NavProps = StackScreenProps<RootNavigatorParamList, ROUTES.SEND_TOKE
 const SendTokens: React.FC<NavProps> = ({ navigation, route }) => {
   const { t } = useTranslation('sendTokens');
   const styles = useStyles();
-  const { recipient } = route.params ?? {};
+  const { recipient, amount } = route.params ?? {};
 
   useTrackScreen(Screens.SendTokens);
 
@@ -169,6 +170,7 @@ const SendTokens: React.FC<NavProps> = ({ navigation, route }) => {
         onChange={onAmountChange}
         containerStyle={styles.topMarginSmall}
         inputMode={CoinAmountInputMode.CoinAndFiatValue}
+        initialValue={amount}
       />
 
       {/* Transaction note / memo */}

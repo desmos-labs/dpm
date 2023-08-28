@@ -4,6 +4,7 @@ import { atom, selectorFamily, useRecoilValue, useSetRecoilState } from 'recoil'
 import { AppSettings } from 'types/settings';
 import { findChainInfoByName } from 'lib/ChainsUtils';
 import { DesmosMainnet, DesmosTestnet, GasPrice } from '@desmoslabs/desmjs';
+import { ChainType } from 'types/chains';
 
 /**
  * Default application settings
@@ -49,6 +50,18 @@ const settingsAppState = atom<AppSettings>({
 export const useCurrentChainInfo = () => {
   const settings = useSettings();
   return useMemo(() => findChainInfoByName(settings.chainName)!, [settings.chainName]);
+};
+
+/**
+ * Hook that provides the current {@link ChainType}.
+ */
+export const useCurrentChainType = () => {
+  const chainName = useSetting('chainName');
+
+  return React.useMemo(
+    () => (chainName === DesmosMainnet.chainName ? ChainType.Mainnet : ChainType.Testnet),
+    [chainName],
+  );
 };
 
 export const useCurrentChainGasPrice = () => {

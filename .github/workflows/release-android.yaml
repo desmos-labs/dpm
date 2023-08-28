@@ -55,13 +55,15 @@ jobs:
       - name: Install yarn dependencies 🔨
         run: yarn install --immutable
 
-      - name: Prepare production .env file 🔨
-        run: bundler exec fastlane common write_env_file
+      - name: Expand secrets 🔨
+        run: bundler exec fastlane common expand_secrets
         env:
           ENV_WALLET_CONNECT_PROJECT_ID: ${{ secrets.ENV_WALLET_CONNECT_PROJECT_ID }}
           ENV_WEB3_AUTH_CLIENT_ID_MAINNET: ${{ secrets.ENV_WEB3_AUTH_CLIENT_ID_MAINNET }}
           ENV_POSTHOG_API_KEY: ${{ secrets.ENV_POSTHOG_API_KEY }}
           ENV_SENTRY_AUTH_TOKEN: ${{ secrets.ENV_SENTRY_AUTH_TOKEN }}
+          ANDROID_GOOGLE_SERVICES_JSON: ${{ secrets.ANDROID_GOOGLE_SERVICES_JSON }}
+          ANDROID_BRANCH_KEYS: ${{ secrets.ANDROID_BRANCH_KEYS }}
 
       - name: Build bundle 🔨
         run: bundle exec fastlane android build_bundle
@@ -70,7 +72,6 @@ jobs:
           ANDROID_SIGNING_STORE_PASSWORD: ${{ secrets.ANDROID_SIGNING_STORE_PASSWORD }}
           ANDROID_SIGNING_ALIAS: ${{ secrets.ANDROID_SIGNING_ALIAS }}
           ANDROID_SIGNING_KEY_PASSWORD: ${{ secrets.ANDROID_SIGNING_KEY_PASSWORD }}
-          ANDROID_GOOGLE_SERVICES_JSON: ${{ secrets.ANDROID_GOOGLE_SERVICES_JSON }}
 
       - name: Build apk 🔨
         run: bundle exec fastlane android build_apk
@@ -79,7 +80,6 @@ jobs:
           ANDROID_SIGNING_STORE_PASSWORD: ${{ secrets.ANDROID_SIGNING_STORE_PASSWORD }}
           ANDROID_SIGNING_ALIAS: ${{ secrets.ANDROID_SIGNING_ALIAS }}
           ANDROID_SIGNING_KEY_PASSWORD: ${{ secrets.ANDROID_SIGNING_KEY_PASSWORD }}
-          ANDROID_GOOGLE_SERVICES_JSON: ${{ secrets.ANDROID_GOOGLE_SERVICES_JSON }}
 
       - name: Deploy on Play Store 🚀
         run: bundle exec fastlane android deploy_bundle

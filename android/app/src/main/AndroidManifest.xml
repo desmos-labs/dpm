@@ -25,6 +25,12 @@
       android:roundIcon="@mipmap/ic_launcher_round"
       android:allowBackup="false"
       android:theme="@style/BootTheme">
+
+      <!-- Branch init -->
+      <meta-data android:name="io.branch.sdk.BranchKey" android:value="@string/branch_key" />
+      <meta-data android:name="io.branch.sdk.BranchKey.test" android:value="@string/branch_key_test" />
+      <meta-data android:name="io.branch.sdk.TestMode" android:value="false" />
+
       <activity
         android:name="network.desmos.dpm.MainActivity"
         android:label="@string/app_name"
@@ -32,9 +38,36 @@
         android:launchMode="singleTask"
         android:windowSoftInputMode="adjustResize"
         android:exported="true">
+
         <intent-filter>
             <action android:name="android.intent.action.MAIN" />
             <category android:name="android.intent.category.LAUNCHER" />
+        </intent-filter>
+
+        <!-- Branch URI Scheme -->
+        <intent-filter>
+            <data android:scheme="dpm" android:host="*" />
+            <action android:name="android.intent.action.VIEW" />
+            <category android:name="android.intent.category.DEFAULT" />
+            <category android:name="android.intent.category.BROWSABLE" />
+        </intent-filter>
+
+        <!-- Branch App Links - Live App -->
+        <intent-filter android:autoVerify="true">
+            <action android:name="android.intent.action.VIEW" />
+            <category android:name="android.intent.category.DEFAULT" />
+            <category android:name="android.intent.category.BROWSABLE" />
+            <data android:scheme="https" android:host="desmos.app.link" />
+            <data android:scheme="https" android:host="desmos-alternate.app.link" />
+        </intent-filter>
+
+        <!-- Branch App Links - Test App -->
+        <intent-filter android:autoVerify="true">
+            <action android:name="android.intent.action.VIEW" />
+            <category android:name="android.intent.category.DEFAULT" />
+            <category android:name="android.intent.category.BROWSABLE" />
+            <data android:scheme="https" android:host="desmos.test-app.link" />
+            <data android:scheme="https" android:host="desmos-alternate.test-app.link" />
         </intent-filter>
 
         <intent-filter>

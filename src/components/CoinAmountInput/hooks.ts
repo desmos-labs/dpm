@@ -1,6 +1,6 @@
 import { useActiveAccountAddress } from '@recoil/activeAccount';
 import { useCurrentChainInfo } from '@recoil/settings';
-import { useLazyQuery } from '@apollo/client';
+import { useApolloClient } from '@apollo/client';
 import GetAccountBalance from 'services/graphql/queries/GetAccountBalance';
 import React from 'react';
 import { coin } from '@cosmjs/amino';
@@ -18,21 +18,31 @@ import { AmountLimit, AmountLimitConfig } from './limits';
 const useGetActiveAccountBalance = () => {
   const address = useActiveAccountAddress()!;
   const currentChainInfo = useCurrentChainInfo();
+  const apolloClient = useApolloClient();
 
-  const [getAccountBalance] = useLazyQuery(GetAccountBalance, {
-    variables: { address },
-    fetchPolicy: 'network-only',
-  });
+  return React.useCallback(
+    async (abortController: AbortController) => {
+      // Use the client directly to handle the case where the chain is changed
+      // while displaying this component.
+      const { data } = await apolloClient.query({
+        query: GetAccountBalance,
+        variables: { address },
+        fetchPolicy: 'network-only',
+        context: {
+          fetchOptions: {
+            signal: abortController.signal,
+          },
+        },
+      });
 
-  return React.useCallback(async () => {
-    const { data } = await getAccountBalance();
+      const userBalance: Coin | undefined = data?.accountBalance?.coins?.find(
+        (c: Coin) => c.denom === currentChainInfo.stakeCurrency.coinMinimalDenom,
+      );
 
-    const userBalance: Coin | undefined = data?.accountBalance?.coins?.find(
-      (c: Coin) => c.denom === currentChainInfo.stakeCurrency.coinMinimalDenom,
-    );
-
-    return userBalance ?? coin('0', currentChainInfo.stakeCurrency.coinMinimalDenom);
-  }, [currentChainInfo.stakeCurrency.coinMinimalDenom, getAccountBalance]);
+      return userBalance ?? coin('0', currentChainInfo.stakeCurrency.coinMinimalDenom);
+    },
+    [apolloClient, address, currentChainInfo.stakeCurrency.coinMinimalDenom],
+  );
 };
 
 /**
@@ -42,15 +52,22 @@ const useGetActiveAccountBalance = () => {
 const useGetDelegatedToValidator = () => {
   const address = useActiveAccountAddress()!;
   const currentChainInfo = useCurrentChainInfo();
-
-  const [getAccountDelegations] = useLazyQuery(GetAccountDelegations, {
-    variables: { address },
-    fetchPolicy: 'network-only',
-  });
+  const apolloClient = useApolloClient();
 
   return React.useCallback(
-    async (validatorAddress: string) => {
-      const { data } = await getAccountDelegations();
+    async (abortController: AbortController, validatorAddress: string) => {
+      // Use the client directly to handle the case where the chain is changed
+      // while displaying this component.
+      const { data } = await apolloClient.query({
+        query: GetAccountDelegations,
+        variables: { address },
+        fetchPolicy: 'network-only',
+        context: {
+          fetchOptions: {
+            signal: abortController.signal,
+          },
+        },
+      });
       const coins: Coin[] | undefined = data?.action_delegation?.delegations
         ?.map(convertGraphQLDelegation)
         ?.find((d: Delegation) => d.validatorAddress === validatorAddress)?.coins;
@@ -60,7 +77,7 @@ const useGetDelegatedToValidator = () => {
         coin(0, currentChainInfo.stakeCurrency.coinMinimalDenom)
       );
     },
-    [currentChainInfo.stakeCurrency.coinMinimalDenom, getAccountDelegations],
+    [currentChainInfo.stakeCurrency.coinMinimalDenom, apolloClient, address],
   );
 };
 
@@ -80,31 +97,42 @@ export const useAmountInputLimit = (amountLimitConfig: AmountLimitConfig) => {
     true,
   );
 
-  const fetchAmount = React.useCallback(async () => {
-    setLoading(true);
-    let computedAmount: CoinFiatValue | undefined;
+  const fetchAmount = React.useCallback(
+    async (abortController: AbortController) => {
+      setLoading(true);
+      let computedAmount: CoinFiatValue | undefined;
 
-    if (amountLimitConfig.mode === AmountLimit.UserBalance) {
-      const userBalance = await getUserBalance();
-      const { data: prices } = await getTokenPrices([userBalance]);
-      [computedAmount] = prices;
-    } else if (amountLimitConfig.mode === AmountLimit.DelegatedToValidator) {
-      const delegated = await getDelegateToValidator(amountLimitConfig.validatorAddress);
-      const { data: prices } = await getTokenPrices([delegated]);
-      [computedAmount] = prices;
-    }
-    setAmount(computedAmount ?? zeroCoinFiatValue(chainInfo.stakeCurrency.coinMinimalDenom));
-    setLoading(false);
-  }, [
-    amountLimitConfig,
-    chainInfo.stakeCurrency.coinMinimalDenom,
-    getDelegateToValidator,
-    getTokenPrices,
-    getUserBalance,
-  ]);
+      if (amountLimitConfig.mode === AmountLimit.UserBalance) {
+        const userBalance = await getUserBalance(abortController);
+        const { data: prices } = await getTokenPrices([userBalance]);
+        [computedAmount] = prices;
+      } else if (amountLimitConfig.mode === AmountLimit.DelegatedToValidator) {
+        const delegated = await getDelegateToValidator(
+          abortController,
+          amountLimitConfig.validatorAddress,
+        );
+        const { data: prices } = await getTokenPrices([delegated]);
+        [computedAmount] = prices;
+      }
+      const coins =
+        computedAmount ?? zeroCoinFiatValue(coin(0, chainInfo.stakeCurrency.coinMinimalDenom));
+      setAmount(coins);
+      setLoading(false);
+      return coins;
+    },
+    [
+      amountLimitConfig,
+      chainInfo.stakeCurrency.coinMinimalDenom,
+      getDelegateToValidator,
+      getTokenPrices,
+      getUserBalance,
+    ],
+  );
 
   React.useEffect(() => {
-    fetchAmount();
+    const abortController = new AbortController();
+    fetchAmount(abortController);
+    return () => abortController.abort();
   }, [fetchAmount]);
 
   return { amount, loading, refetch: fetchAmount };

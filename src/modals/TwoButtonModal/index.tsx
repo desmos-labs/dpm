@@ -13,7 +13,7 @@ export type TwoButtonModalParams = {
   /**
    * Modal message.
    */
-  message: string;
+  message: string | React.ReactNode;
   /**
    * Text displayed on the positive action button.
    */

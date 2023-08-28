@@ -6,6 +6,8 @@ import com.facebook.react.ReactRootView;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import com.zoontek.rnbootsplash.RNBootSplash;
+import io.branch.rnbranch.*;
+import android.content.Intent;
 
 public class MainActivity extends ReactActivity {
 
@@ -51,6 +53,18 @@ public class MainActivity extends ReactActivity {
   protected void onCreate(Bundle savedInstanceState) {
     RNBootSplash.init(this);
     super.onCreate(null);
+  }
+
+  @Override
+  protected void onStart() {
+    super.onStart();
+    RNBranchModule.initSession(getIntent().getData(), this);
+  }
+
+  @Override
+  public void onNewIntent(Intent intent) {
+    super.onNewIntent(intent);
+    RNBranchModule.onNewIntent(intent);
   }
 
   @Override

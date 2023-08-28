@@ -8,8 +8,8 @@ import { ModalComponentProps } from 'modals/ModalScreen';
 import Button from 'components/Button';
 import Clipboard from '@react-native-community/clipboard';
 import { useShowSnackBar } from 'lib/SnackBarProvider/recoil';
-import { generateDPMUri } from 'lib/DPMUris';
-import { DPMUriType } from 'types/uri';
+import { uriFromUriAction } from 'lib/UriActions';
+import { UriActionType } from 'types/uri';
 import useStyles from './useStyles';
 
 export interface QRCodeAddressProps {
@@ -34,8 +34,8 @@ const QRCodeAddressModal: React.FC<ModalComponentProps<QRCodeAddressProps>> = ({
 
   const qrCodeData = React.useMemo(
     () =>
-      generateDPMUri({
-        type: DPMUriType.UserAddress,
+      uriFromUriAction({
+        type: UriActionType.UserAddress,
         address,
       }),
     [address],

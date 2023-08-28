@@ -1,5 +1,4 @@
 // eslint-disable-next-line import/no-unresolved
-import { SENTRY_AUTH_TOKEN } from '@env';
 import React from 'react';
 import { RecoilRoot } from 'recoil';
 import { NavigationContainer } from '@react-navigation/native';
@@ -11,35 +10,8 @@ import useLockApplicationOnBlur from 'hooks/useLockApplicationOnBlur';
 import RNBootSplash from 'react-native-bootsplash';
 import SnackBarProvider from 'lib/SnackBarProvider';
 import DesmosPostHogProvider from 'components/DesmosPostHogProvider';
-import * as Sentry from '@sentry/react-native';
-import numbro from 'numbro';
-import { getDecimalSeparator, getThousandsSeparator } from 'lib/FormatUtils';
 import useCheckKeyChainIntegrity from 'hooks/dataintegrity/useCheckKeyChainIntegrity';
 import useInitNotifications from 'hooks/notifications/useInitNotifications';
-
-Object.assign(process.env, { SENTRY_AUTH_TOKEN });
-Sentry.init({
-  dsn: 'https://ca4a1761ac6b411f95471cf933b8477f@o4505149831118848.ingest.sentry.io/4505149839048704',
-  debug: __DEV__,
-  // Keep Sentry disabled in Debug to avoid crash report caused when we are
-  // hot reloading the code and there are some errors.
-  enabled: !__DEV__,
-  environment: __DEV__ ? 'development' : 'production',
-});
-
-// Init numbro with the appropriate decimal separators.
-const languageData = numbro.languageData();
-numbro.registerLanguage(
-  {
-    ...languageData,
-    delimiters: {
-      ...languageData.delimiters,
-      decimal: getDecimalSeparator(),
-      thousands: getThousandsSeparator(),
-    },
-  },
-  true,
-);
 
 const AppLockLogic = () => {
   useLockApplicationOnBlur();

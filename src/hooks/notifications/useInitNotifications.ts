@@ -21,6 +21,7 @@ const useInitNotifications = () => {
       if (__DEV__) {
         messaging()
           .getToken()
+          // eslint-disable-next-line no-console
           .then((token) => console.log('messaging token', token));
       }
       // The notifications are enabled, init the firebase notifications logic.

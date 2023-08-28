@@ -11,6 +11,7 @@ const setupBackgroundNotificationsHandlers = () => {
   messaging().setBackgroundMessageHandler(notificationsHandler);
   notifee.onBackgroundEvent(async ({ type, detail }) => {
     if (__DEV__) {
+      // eslint-disable-next-line no-console
       console.log('notifee background event', type, detail);
     }
   });

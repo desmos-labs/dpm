@@ -59,7 +59,7 @@ const useLoginWithWeb3Auth = (chain: SupportedChain, ignoreAddresses: string[]) 
         },
       );
     },
-    [setAppState, selectAccount, ignoreAddresses, chain.prefix, saveAccount],
+    [setAppState, selectAccount, ignoreAddresses, chain.prefix, saveAccount, hasAccounts],
   );
 };
 

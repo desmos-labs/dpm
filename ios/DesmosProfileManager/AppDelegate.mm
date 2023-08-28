@@ -8,6 +8,7 @@
 #import <React/RCTAppSetupUtils.h>
 #import <Firebase.h>
 #import "RNFBMessagingModule.h"
+#import <RNBranch/RNBranch.h>
 
 #if RCT_NEW_ARCH_ENABLED
 #import <React/CoreModulesPlugins.h>
@@ -33,6 +34,9 @@ static NSString *const kRNConcurrentRoot = @"concurrentRoot";
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
+  //[RNBranch useTestInstance];
+  [RNBranch initSessionWithLaunchOptions:launchOptions isReferrable:YES];
+  NSURL *jsCodeLocation;
   [FIRApp configure];
   RCTAppSetupPrepareApp(application);
 
@@ -62,6 +66,16 @@ static NSString *const kRNConcurrentRoot = @"concurrentRoot";
   self.window.rootViewController = rootViewController;
   [self.window makeKeyAndVisible];
   [RNBootSplash initWithStoryboard:@"BootSplash" rootView:rootView];
+  return YES;
+}
+
+- (BOOL)application:(UIApplication *)app openURL:(NSURL *)url options:(NSDictionary<UIApplicationOpenURLOptionsKey,id> *)options {
+    [RNBranch application:app openURL:url options:options];
+    return YES;
+}
+
+- (BOOL)application:(UIApplication *)application continueUserActivity:(NSUserActivity *)userActivity restorationHandler:(void (^)(NSArray<id<UIUserActivityRestoring>> * _Nullable))restorationHandler {
+  [RNBranch continueUserActivity:userActivity];
   return YES;
 }
 
