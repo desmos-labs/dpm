@@ -20,6 +20,7 @@ import {
   Staking,
   Subspaces,
   timestampFromDate,
+  TokenFactory,
 } from '@desmoslabs/desmjs';
 import { MsgExec, MsgGrant, MsgRevoke } from 'cosmjs-types/cosmos/authz/v1beta1/tx';
 import { GenericAuthorization, Grant } from 'cosmjs-types/cosmos/authz/v1beta1/authz';
@@ -41,12 +42,17 @@ import { MsgDeposit, MsgSubmitProposal, MsgVote } from 'cosmjs-types/cosmos/gov/
 import { VoteOption } from 'cosmjs-types/cosmos/gov/v1beta1/gov';
 import { MsgTransfer } from 'cosmjs-types/ibc/applications/transfer/v1/tx';
 import {
+  MsgAcceptPostOwnerTransferRequest,
   MsgAddPostAttachment,
   MsgAnswerPoll,
+  MsgCancelPostOwnerTransferRequest,
   MsgCreatePost,
   MsgDeletePost,
   MsgEditPost,
+  MsgMovePost,
+  MsgRefusePostOwnerTransferRequest,
   MsgRemovePostAttachment,
+  MsgRequestPostOwnerTransfer,
 } from '@desmoslabs/desmjs-types/desmos/posts/v3/msgs';
 import { Media, Poll, ReplySetting } from '@desmoslabs/desmjs-types/desmos/posts/v3/models';
 import {
@@ -119,7 +125,16 @@ import {
   MsgRemoveUserFromUserGroup,
   MsgSetUserGroupPermissions,
   MsgSetUserPermissions,
+  MsgUpdateSubspaceFeeTokens,
 } from '@desmoslabs/desmjs-types/desmos/subspaces/v3/msgs';
+import {
+  MsgBurn,
+  MsgCreateDenom,
+  MsgMint,
+  MsgSetDenomMetadata,
+  MsgUpdateParams,
+} from '@desmoslabs/desmjs-types/desmos/tokenfactory/v1/msgs';
+import { Metadata } from '@desmoslabs/desmjs-types/cosmos/bank/v1beta1/bank';
 
 const TEST_ADDRESS1 = 'desmos1nm6kh6jwqmsezwtnmgdd4w4tzyk9f8gvqu5en0';
 const TEST_ADDRESS2 = 'desmos1jvw63nnapa899l753dh4znw5u6kc9zycpc043v';
@@ -484,6 +499,49 @@ const useShowTestTransaction = () => {
           postId: 1,
           subspaceId: 2,
           attachmentId: 3,
+        }),
+      },
+      {
+        typeUrl: Posts.v3.MsgMovePostTypeUrl,
+        value: MsgMovePost.fromPartial({
+          postId: 1,
+          subspaceId: 1,
+          targetSubspaceId: 2,
+          targetSectionId: 0,
+          owner: 'owner',
+        }),
+      },
+      {
+        typeUrl: Posts.v3.MsgRequestPostOwnerTransferTypeUrl,
+        value: MsgRequestPostOwnerTransfer.fromPartial({
+          sender: 'sender',
+          subspaceId: 1,
+          postId: 1,
+          receiver: 'receiver',
+        }),
+      },
+      {
+        typeUrl: Posts.v3.MsgCancelPostOwnerTransferRequestTypeUrl,
+        value: MsgCancelPostOwnerTransferRequest.fromPartial({
+          sender: 'sender',
+          subspaceId: 1,
+          postId: 1,
+        }),
+      },
+      {
+        typeUrl: Posts.v3.MsgAcceptPostOwnerTransferRequestTypeUrl,
+        value: MsgAcceptPostOwnerTransferRequest.fromPartial({
+          postId: 1,
+          subspaceId: 1,
+          receiver: 'receiver',
+        }),
+      },
+      {
+        typeUrl: Posts.v3.MsgRefusePostOwnerTransferRequestTypeUrl,
+        value: MsgRefusePostOwnerTransferRequest.fromPartial({
+          postId: 1,
+          subspaceId: 1,
+          receiver: 'receiver',
         }),
       },
 
@@ -995,6 +1053,65 @@ const useShowTestTransaction = () => {
           sectionId: 0,
           user: 'user',
           permissions: ['P1', 'P2'],
+        }),
+      },
+      {
+        typeUrl: Subspaces.v3.MsgUpdateSubspaceFeeTokensTypeUrl,
+        value: MsgUpdateSubspaceFeeTokens.fromPartial({
+          subspaceId: 1,
+          authority: 'authority',
+          additionalFeeTokens: [{ denom: 'test', amount: '1000' }],
+        }),
+      },
+
+      // Token factory module.
+      {
+        typeUrl: TokenFactory.v1.MsgCreateDenomTypeUrl,
+        value: MsgCreateDenom.fromPartial({
+          sender: 'sender',
+          subspaceId: 1,
+          subdenom: 'test',
+        }),
+      },
+      {
+        typeUrl: TokenFactory.v1.MsgMintTypeUrl,
+        value: MsgMint.fromPartial({
+          sender: 'sender',
+          subspaceId: 1,
+          amount: { amount: '100', denom: 'test' },
+        }),
+      },
+      {
+        typeUrl: TokenFactory.v1.MsgBurnTypeUrl,
+        value: MsgBurn.fromPartial({
+          sender: 'sender',
+          subspaceId: 1,
+          amount: { amount: '100', denom: 'test' },
+        }),
+      },
+      {
+        typeUrl: TokenFactory.v1.MsgSetDenomMetadataTypeUrl,
+        value: MsgSetDenomMetadata.fromPartial({
+          sender: 'sender',
+          subspaceId: 1,
+          metadata: Metadata.fromPartial({
+            name: 'test',
+            description: 'test coin',
+            base: 'test',
+            display: 'test',
+            symbol: 'test',
+            denomUnits: [{ denom: 'test', exponent: 0, aliases: ['test'] }],
+          }),
+        }),
+      },
+      {
+        typeUrl: TokenFactory.v1.MsgUpdateParamsTypeUrl,
+        value: MsgUpdateParams.fromPartial({
+          params: {
+            sendEnabled: [{ denom: 'test', enabled: true }],
+            defaultSendEnabled: false,
+          },
+          authority: 'authority',
         }),
       },
     ];
