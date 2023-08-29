@@ -28,6 +28,11 @@ import MsgEditValidatorDetails from 'components/Messages/staking/MsgEditValidato
 import MsgUpdateStakingModuleParams from 'components/Messages/staking/MsgUpdateParams';
 import SoftwareUpgradeProposal from 'components/Messages/upgrade/v1beta1/SoftwareUpgradeProposal';
 import MsgSoftwareUpgrade from 'components/Messages/upgrade/v1beta1/MsgSoftwareUpgrade';
+import MsgMovePostDetails from 'components/Messages/posts/MsgMovePostDetails';
+import MsgRequestPostOwnerTransferDetails from 'components/Messages/posts/MsgRequestPostOwnerTransfer';
+import MsgCancelPostOwnerTransferRequestDetails from 'components/Messages/posts/MsgCancelPostOwnerTransferRequest';
+import MsgAcceptPostOwnerTransferRequestDetails from 'components/Messages/posts/MsgAcceptPostOwnerTransferRequest';
+import MsgRefusePostOwnerTransferRequestDetails from 'components/Messages/posts/MsgRefusePostOwnerTransferRequest';
 import MsgSendComponentDetails from './bank/MsgSendDetails';
 import MsgMultiSendComponentDetails from './bank/MsgMultiSendDetails';
 import MsgVoteComponentDetails from './gov/MsgVoteDetails';
@@ -173,6 +178,11 @@ export const messageDetailsComponents: Record<string, MessageDetailsComponent<an
   [Posts.v3.MsgAddPostAttachmentTypeUrl]: MsgAddPostAttachmentComponentDetails,
   [Posts.v3.MsgRemovePostAttachmentTypeUrl]: MsgRemovePostAttachmentComponentDetails,
   [Posts.v3.MsgAnswerPollTypeUrl]: MsgAnswerPollComponentDetails,
+  [Posts.v3.MsgMovePostTypeUrl]: MsgMovePostDetails,
+  [Posts.v3.MsgRequestPostOwnerTransferTypeUrl]: MsgRequestPostOwnerTransferDetails,
+  [Posts.v3.MsgCancelPostOwnerTransferRequestTypeUrl]: MsgCancelPostOwnerTransferRequestDetails,
+  [Posts.v3.MsgAcceptPostOwnerTransferRequestTypeUrl]: MsgAcceptPostOwnerTransferRequestDetails,
+  [Posts.v3.MsgRefusePostOwnerTransferRequestTypeUrl]: MsgRefusePostOwnerTransferRequestDetails,
 
   // x/reactions
   [Reactions.v1.MsgAddReactionTypeUrl]: MsgAddReactionComponentDetails,
