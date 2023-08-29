@@ -14,6 +14,7 @@
   "add user to group": "Add user to group",
   "remove user from group": "Remove user from group",
   "set user permissions": "Set user permissions",
+  "update subspace fee tokens": "Update subspace fee tokens",
   "name": "Name",
   "description": "Description",
   "treasury": "Treasury",

@@ -11,6 +11,7 @@ import relationships from './relationships.json';
 import reports from './reports.json';
 import staking from './staking.json';
 import subspaces from './subspaces.json';
+import tokenfactory from './tokenfactory.json';
 import feegrant from './feegrant.json';
 import unknown from './unknown.json';
 import upgrade from './upgrade.json';
@@ -29,6 +30,7 @@ const messages = {
   'messages.reports': reports,
   'messages.staking': staking,
   'messages.subspaces': subspaces,
+  'messages.tokenfactory': tokenfactory,
   'messages.feegrant': feegrant,
   'messages.unknown': unknown,
   'messages.upgrade': upgrade,
