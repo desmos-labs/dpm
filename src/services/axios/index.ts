@@ -5,7 +5,7 @@ import axios from 'axios';
  */
 const dpmApiAxiosInstance = axios.create({
   // TODO: Use a proper domain name instead of the ip.
-  baseURL: 'http://57.128.144.235:33000/deep-links',
+  baseURL: 'http://57.128.144.235:33000',
   timeout: 1500,
 });
 

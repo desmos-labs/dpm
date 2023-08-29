@@ -11,11 +11,11 @@ import dpmApiAxiosInstance from 'services/axios';
 const generateGenerationUrl = (uriAction: UriAction): string | undefined => {
   switch (uriAction.type) {
     case UriActionType.Generic:
-      return `${uriAction.address}?chain_type=${uriAction.chainType}`;
+      return `deep-links/${uriAction.address}?chain_type=${uriAction.chainType}`;
     case UriActionType.ViewProfile:
-      return `${uriAction.address}/view_profile?chain_type=${uriAction.chainType}`;
+      return `deep-links/${uriAction.address}/view_profile?chain_type=${uriAction.chainType}`;
     case UriActionType.SendTokens:
-      return `${uriAction.address}/send?chain_type=${uriAction.chainType}${
+      return `deep-links/${uriAction.address}/send?chain_type=${uriAction.chainType}${
         uriAction.amount ? `&amount=${uriAction.amount.amount}${uriAction.amount.denom}` : ''
       }`;
     default:
@@ -51,7 +51,7 @@ export const resolveUriActionFromUrl = async (
 ): Promise<Result<UriAction | undefined, Error>> =>
   ResultAsync.fromPromise(
     dpmApiAxiosInstance
-      .get(`config?url=${url}`)
+      .get(`deep-links/config?url=${url}`)
       .then((r) => {
         const decodedData = Buffer.from(fromBase64(r.data.config.custom_data)).toString();
         const customData = JSON.parse(decodedData);
