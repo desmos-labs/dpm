@@ -11,6 +11,7 @@ import {
   Reports,
   Staking,
   Subspaces,
+  TokenFactory,
 } from '@desmoslabs/desmjs';
 import {
   MsgExecTypeUrl,
@@ -94,6 +95,12 @@ import MsgRemoveReasonComponentDetails from './reports/MsgRemoveReasonDetails';
 import MsgSetWithdrawAddressDetails from './distribution/MsgSetWithdrawAddressDetails';
 import MsgWithdrawValidatorCommissionDetails from './distribution/MsgWithdrawValidatorCommissionDetails';
 import MsgFundCommunityPoolDetails from './distribution/MsgFundCommunityPoolDetails';
+import MsgUpdateSubspaceFeeTokensDetails from './subspaces/MsgUpdateSubspaceFeeTokensDetails';
+import MsgCreateDenomDetails from './tokenfactory/MsgCreateDenomDetails';
+import MsgMintDetails from './tokenfactory/MsgMintDetails';
+import MsgBurnDetails from './tokenfactory/MsgBurnDetails';
+import MsgSetDenomMetadataDetails from './tokenfactory/MsgSetDenomMetadataDetails';
+import MsgUpdateParamsDetails from './tokenfactory/MsgUpdateParamsDetails';
 
 export const messageDetailsComponents: Record<string, MessageDetailsComponent<any>> = {
   // x/authz
@@ -170,6 +177,7 @@ export const messageDetailsComponents: Record<string, MessageDetailsComponent<an
   [Subspaces.v3.MsgAddUserToUserGroupTypeUrl]: MsgAddUserToUserGroupComponentDetails,
   [Subspaces.v3.MsgRemoveUserFromUserGroupTypeUrl]: MsgRemoveUserFromUserGroupComponentDetails,
   [Subspaces.v3.MsgSetUserPermissionsTypeUrl]: MsgSetUserPermissionsComponentDetails,
+  [Subspaces.v3.MsgUpdateSubspaceFeeTokensTypeUrl]: MsgUpdateSubspaceFeeTokensDetails,
 
   // x/posts
   [Posts.v3.MsgCreatePostTypeUrl]: MsgCreatePostComponentDetails,
@@ -198,6 +206,13 @@ export const messageDetailsComponents: Record<string, MessageDetailsComponent<an
   [Reports.v1.MsgSupportStandardReasonTypeUrl]: MsgSupportStandardReasonComponentDetails,
   [Reports.v1.MsgAddReasonTypeUrl]: MsgAddReasonComponentDetails,
   [Reports.v1.MsgRemoveReasonTypeUrl]: MsgRemoveReasonComponentDetails,
+
+  // x/tokenfactory
+  [TokenFactory.v1.MsgCreateDenomTypeUrl]: MsgCreateDenomDetails,
+  [TokenFactory.v1.MsgMintTypeUrl]: MsgMintDetails,
+  [TokenFactory.v1.MsgBurnTypeUrl]: MsgBurnDetails,
+  [TokenFactory.v1.MsgSetDenomMetadataTypeUrl]: MsgSetDenomMetadataDetails,
+  [TokenFactory.v1.MsgUpdateParamsTypeUrl]: MsgUpdateParamsDetails,
 
   // x/upgrade
   [SoftwareUpgradeProposalTypeUrl]: SoftwareUpgradeProposal,
