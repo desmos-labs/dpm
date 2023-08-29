@@ -1,12 +1,8 @@
-import axios from 'axios';
 import { UriAction, UriActionType } from 'types/uri';
 import { err, Result, ResultAsync } from 'neverthrow';
 import { actionUriFromRecord } from 'lib/UriActions/parsing';
 import { fromBase64 } from '@cosmjs/encoding';
-
-const axiosInstance = axios.create({
-  baseURL: 'http://57.128.144.235:33000/deep-links',
-});
+import dpmApiAxiosInstance from 'services/axios';
 
 /**
  * Function that generates the url to perform the request to generate a deep link.
@@ -41,7 +37,7 @@ export const generateUriActionUrl = async (
   }
 
   return ResultAsync.fromPromise(
-    axiosInstance.get(getUrl).then((r) => r.data.deep_link as string),
+    dpmApiAxiosInstance.get(getUrl).then((r) => r.data.deep_link as string),
     (e) => (e as Error) ?? Error('Error while generating uri'),
   );
 };
@@ -54,7 +50,7 @@ export const resolveUriActionFromUrl = async (
   url: string,
 ): Promise<Result<UriAction | undefined, Error>> =>
   ResultAsync.fromPromise(
-    axiosInstance
+    dpmApiAxiosInstance
       .get(`config?url=${url}`)
       .then((r) => {
         const decodedData = Buffer.from(fromBase64(r.data.config.custom_data)).toString();
