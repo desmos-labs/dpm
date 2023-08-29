@@ -50,6 +50,7 @@ import {
   MsgRemoveUserFromUserGroup,
   MsgSetUserGroupPermissions,
   MsgSetUserPermissions,
+  MsgUpdateSubspaceFeeTokens,
 } from '@desmoslabs/desmjs-types/desmos/subspaces/v3/msgs';
 import { GenericAuthorization, Grant } from 'cosmjs-types/cosmos/authz/v1beta1/authz';
 import { GenericSubspaceAuthorization } from '@desmoslabs/desmjs-types/desmos/subspaces/v3/authz/authz';
@@ -984,6 +985,16 @@ const decodeSubspaceMessage = (type: string, value: any): EncodeObject | undefin
           creator: value.creator,
         },
       } as Subspaces.v3.MsgCreateSubspaceEncodeObject;
+
+    case Subspaces.v3.MsgUpdateSubspaceFeeTokensTypeUrl:
+      return {
+        typeUrl: Subspaces.v3.MsgUpdateSubspaceFeeTokensTypeUrl,
+        value: MsgUpdateSubspaceFeeTokens.fromPartial({
+          subspaceId: value.subspace_id,
+          authority: value.authority,
+          additionalFeeTokens: value.additional_fee_tokens,
+        }),
+      } as Subspaces.v3.MsgUpdateSubspaceFeeTokensEncodeObject;
 
     default:
       return undefined;
