@@ -1,5 +1,5 @@
 import { Message } from 'types/transactions';
-import { Bank, Coin, Distribution, Gov, Staking } from '@desmoslabs/desmjs';
+import { Bank, Coin, Distribution, Gov, Staking, TokenFactory } from '@desmoslabs/desmjs';
 import { MsgMultiSend, MsgSend } from 'cosmjs-types/cosmos/bank/v1beta1/tx';
 import { sumCoins } from 'lib/CoinsUtils';
 import { MsgFundCommunityPool } from 'cosmjs-types/cosmos/distribution/v1beta1/tx';
@@ -12,6 +12,7 @@ import {
   MsgUndelegate,
 } from 'cosmjs-types/cosmos/staking/v1beta1/tx';
 import { MsgDeposit as MsgDepositV1 } from '@desmoslabs/desmjs-types/cosmos/gov/v1/tx';
+import { MsgBurn, MsgMint } from '@desmoslabs/desmjs-types/desmos/tokenfactory/v1/msgs';
 
 /**
  * Converts a {@link Coin} into a list of {@link Coin}.
@@ -54,6 +55,12 @@ export const getMessageAmount = (message: Message) => {
       return coinToCoins((message.value as MsgUndelegate).amount);
     case Staking.v1beta1.MsgBeginRedelegateTypeUrl:
       return coinToCoins((message.value as MsgBeginRedelegate).amount);
+
+    // Tokenfactory module
+    case TokenFactory.v1.MsgMintTypeUrl:
+      return coinToCoins((message.value as MsgMint).amount);
+    case TokenFactory.v1.MsgBurnTypeUrl:
+      return coinToCoins((message.value as MsgBurn).amount);
 
     default:
       return undefined;

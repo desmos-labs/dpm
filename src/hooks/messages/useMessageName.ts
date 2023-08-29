@@ -37,6 +37,11 @@ const NameMap: Record<string, string> = {
   MsgAddPostAttachment: 'messages.posts:add post attachment',
   MsgRemovePostAttachment: 'messages.posts:remove post attachment',
   MsgAnswerPoll: 'messages.posts:answer poll',
+  MsgMovePost: 'messages.posts: move post',
+  MsgRequestPostOwnerTransfer: 'messages.posts:request post owner transfer',
+  MsgCancelPostOwnerTransferRequest: 'messages.posts:cancel post owner transfer request',
+  MsgAcceptPostOwnerTransferRequest: 'messages.posts:accept post owner transfer request',
+  MsgRefusePostOwnerTransferRequest: 'messages.posts:refuse post owner transfer request',
 
   // Profiles module,
   MsgSaveProfile: 'messages.profiles:save profile',
@@ -94,6 +99,13 @@ const NameMap: Record<string, string> = {
   MsgAddUserToUserGroup: 'messages.subspaces:add user to group',
   MsgRemoveUserFromUserGroup: 'messages.subspaces:remove user from group',
   MsgSetUserPermissions: 'messages.subspaces:set user permissions',
+  MsgUpdateSubspaceFeeTokens: 'messages.subspaces:update subspace fee tokens',
+
+  // Tokenfactory module
+  MsgCreateDenom: 'messages.tokenfactory:create denom',
+  MsgMint: 'messages.tokenfactory:mint',
+  MsgBurn: 'messages.tokenfactory:burn',
+  MsgSetDenomMetadata: 'messages.tokenfactory:set denom metadata',
 
   // Upgrade module
   SoftwareUpgradeProposal: 'messages.upgrade:upgrade chain',

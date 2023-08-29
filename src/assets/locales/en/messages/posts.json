@@ -5,6 +5,11 @@
   "add post attachment": "Add post attachment",
   "remove post attachment": "Remove post attachment",
   "answer poll": "Answer poll",
+  "move post": "Move post",
+  "request post owner transfer": "Request post owner transfer",
+  "cancel post owner transfer request": "Cancel post owner transfer request",
+  "accept post owner transfer request": "Accept post owner transfer",
+  "refuse post owner transfer request": "Refuse post owner transfer",
   "post id": "Post id",
   "external id": "External id",
   "text": "Text",
@@ -40,5 +45,15 @@
   "edit post description": "Edit post <1>{{ postId }}</1> on subspace <2>{{ subspaceId }}</2>",
   "edited post description": "<0/> edited post <1>{{ postId }}</1> on subspace <2>{{ subspaceId }}</2>",
   "remove post attachment description": "Remove attachment <1>{{ attachmentId }}</1> from post <2>{{ postId }}</2> on subspace <3>{{ subspaceId }}</3>",
-  "removed post attachment description": "<0/> removed attachment <1>{{ attachmentId }}</1> from post <2>{{ postId }}</2> on subspace <3>{{ subspaceId }}</3>"
+  "removed post attachment description": "<0/> removed attachment <1>{{ attachmentId }}</1> from post <2>{{ postId }}</2> on subspace <3>{{ subspaceId }}</3>",
+  "move post description": "Move post <1>{{ postId }}</1> from subspace <2>{{ subspaceId }}</2> to subspace <3>{{ targetSubspaceId }}</3> in section <4>{{ targetSectionId }}</4>",
+  "moved post description": "<0/> moved post <1>{{ postId }}</1> from subspace <2>{{ subspaceId }}</2> to subspace <3>{{ targetSubspaceId }}</3> in section <4>{{ targetSectionId }}</4>",
+  "request post owner transfer description": "Request transfer ownership of post <1>{{ postId }}</1> in subspace <2>{{ subspaceId }}</2> to <3/>",
+  "requested post owner transfer description": "<0/> requested transfer ownership of post <1>{{ postId }}</1> in subspace <2>{{ subspaceId }}</2> to <3/>",
+  "cancel post owner transfer request description": "Cancel transfer ownership of post <1>{{ postId }}</1> in subspace <2>{{ subspaceId }}</2>",
+  "canceled post owner transfer request description": "<0/> canceled transfer ownership of post <1>{{ postId }}</1> in subspace <2>{{ subspaceId }}</2>",
+  "accept post owner transfer request description": "Accept transfer ownership of post <1>{{ postId }}</1> in subspace <2>{{ subspaceId }}</2>",
+  "accepted post owner transfer request description": "<0/> accepted transfer ownership of post <1>{{ postId }}</1> in subspace <2>{{ subspaceId }}</2>",
+  "refuse post owner transfer request description": "Refuse transfer ownership of post <1>{{ postId }}</1> in subspace <2>{{ subspaceId }}</2>",
+  "refused post owner transfer request description": "<0/> refused transfer ownership of post <1>{{ postId }}</1> in subspace <2>{{ subspaceId }}</2>"
 }

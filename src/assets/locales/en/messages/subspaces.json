@@ -14,6 +14,7 @@
   "add user to group": "Add user to group",
   "remove user from group": "Remove user from group",
   "set user permissions": "Set user permissions",
+  "update subspace fee tokens": "Update subspace fee tokens",
   "name": "Name",
   "description": "Description",
   "treasury": "Treasury",
@@ -31,6 +32,7 @@
   "permissions": "Permissions",
   "default permissions": "Default permissions",
   "user": "User",
+  "fee tokens": "Fee tokens",
   "create subspace description": "Create subspace <1>{{ name }}</1>",
   "created subspace description": "<0/> created subspace <1>{{ name }}</1>",
   "edit subspace description": "Modify subspace <1>{{ subspaceId }}</1>",
@@ -60,5 +62,7 @@
   "remove user from group description": "Remove <1/> from group <2>{{ groupId }}</2> of subspace <3>{{ subspaceId }}</3>",
   "removed user from group description": "<0/> removed <1/> from group <2>{{ groupId }}</2> of subspace <3>{{ subspaceId }}</3>",
   "set user permissions description": "Set permissions for <1/> in subspace <2>{{ subspaceId }}</2> and section <3>{{ sectionId }}</3>",
-  "user set user permissions description": "<0/> set permissions for <1/> in subspace <2>{{ subspaceId }}</2> and section <3>{{ sectionId }}</3>"
+  "user set user permissions description": "<0/> set permissions for <1/> in subspace <2>{{ subspaceId }}</2> and section <3>{{ sectionId }}</3>",
+  "update subspace fee token": "Update fee tokens for subspace <1>{{ subspaceId }}</1>",
+  "user updated subspace fee token": "<0/> updated fee tokens for subspace <1>{{ subspaceId }}</1>"
 }
