@@ -29,6 +29,7 @@ import {
   Staking,
   Subspaces,
   timestampFromDate,
+  TokenFactory,
 } from '@desmoslabs/desmjs';
 import { Bech32Address } from '@desmoslabs/desmjs-types/desmos/profiles/v3/models_chain_links';
 import { Any } from 'cosmjs-types/google/protobuf/any';
@@ -137,6 +138,14 @@ import {
   MsgVote as MsgVoteV1,
 } from '@desmoslabs/desmjs-types/cosmos/gov/v1/tx';
 import { voteOptionFromJSON as voteOptionV1Beat1FromJSON } from '@desmoslabs/desmjs-types/cosmos/gov/v1beta1/gov';
+import {
+  MsgBurn,
+  MsgCreateDenom,
+  MsgMint,
+  MsgSetDenomMetadata,
+  MsgUpdateParams,
+} from '@desmoslabs/desmjs-types/desmos/tokenfactory/v1/msgs';
+import { Metadata } from '@desmoslabs/desmjs-types/cosmos/bank/v1beta1/bank';
 
 const decodePubKey = (gqlPubKey: any): Any | undefined => {
   const type = gqlPubKey['@type'];
@@ -1528,6 +1537,74 @@ const decodeUpgradeMessage = (type: string, value: any): EncodeObject | undefine
   }
 };
 
+const decodeTokenFactoryMessages = (type: string, value: any): EncodeObject | undefined => {
+  switch (type) {
+    case TokenFactory.v1.MsgCreateDenomTypeUrl:
+      return {
+        typeUrl: TokenFactory.v1.MsgCreateDenomTypeUrl,
+        value: MsgCreateDenom.fromPartial({
+          subspaceId: value.subspace_id,
+          sender: value.sender,
+          subdenom: value.subdenom,
+        }),
+      };
+
+    case TokenFactory.v1.MsgMintTypeUrl:
+      return {
+        typeUrl: TokenFactory.v1.MsgMintTypeUrl,
+        value: MsgMint.fromPartial({
+          subspaceId: value.subspace_id,
+          sender: value.sender,
+          amount: value.amount,
+        }),
+      };
+
+    case TokenFactory.v1.MsgBurnTypeUrl:
+      return {
+        typeUrl: TokenFactory.v1.MsgBurnTypeUrl,
+        value: MsgBurn.fromPartial({
+          subspaceId: value.subspace_id,
+          sender: value.sender,
+          amount: value.amount,
+        }),
+      };
+
+    case TokenFactory.v1.MsgSetDenomMetadataTypeUrl:
+      return {
+        typeUrl: TokenFactory.v1.MsgSetDenomMetadataTypeUrl,
+        value: MsgSetDenomMetadata.fromPartial({
+          subspaceId: value.subspace_id,
+          sender: value.sender,
+          metadata: Metadata.fromPartial({
+            description: value.metadata.metadata,
+            name: value.metadata.name,
+            symbol: value.metadata.symbol,
+            display: value.metadata.display,
+            base: value.metadata.base,
+            denomUnits: value.metadata.denom_units,
+            uri: value.metadata.uri,
+            uriHash: value.metadata.uri_hash,
+          }),
+        }),
+      };
+
+    case TokenFactory.v1.MsgUpdateParamsTypeUrl:
+      return {
+        typeUrl: TokenFactory.v1.MsgUpdateParamsTypeUrl,
+        value: MsgUpdateParams.fromPartial({
+          authority: value.authority,
+          params: {
+            defaultSendEnabled: value.params.default_send_enabled,
+            sendEnabled: value.params.send_enabled,
+          },
+        }),
+      };
+
+    default:
+      return undefined;
+  }
+};
+
 const converters = [
   decodeAuthzMessage,
   decodeBankMessage,
@@ -1543,6 +1620,7 @@ const converters = [
   decodeStakingMessage,
   decodeSubspaceMessage,
   decodeUpgradeMessage,
+  decodeTokenFactoryMessages,
 ];
 
 const decodeGqlRawMessage = (message: GQLRawMessage): Message => {
