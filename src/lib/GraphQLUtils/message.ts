@@ -80,12 +80,17 @@ import {
   PeriodicAllowance,
 } from 'cosmjs-types/cosmos/feegrant/v1beta1/feegrant';
 import {
+  MsgAcceptPostOwnerTransferRequest,
   MsgAddPostAttachment,
   MsgAnswerPoll,
+  MsgCancelPostOwnerTransferRequest,
   MsgCreatePost,
   MsgDeletePost,
   MsgEditPost,
+  MsgMovePost,
+  MsgRefusePostOwnerTransferRequest,
   MsgRemovePostAttachment,
+  MsgRequestPostOwnerTransfer,
 } from '@desmoslabs/desmjs-types/desmos/posts/v3/msgs';
 import {
   Attachment,
@@ -1168,6 +1173,59 @@ const decodePostsMessage = (type: string, value: any): EncodeObject | undefined 
           signer: value.signer,
         }),
       } as Posts.v3.MsgAnswerPollEncodeObject;
+
+    case Posts.v3.MsgMovePostTypeUrl:
+      return {
+        typeUrl: Posts.v3.MsgMovePostTypeUrl,
+        value: MsgMovePost.fromPartial({
+          postId: value.post_id,
+          subspaceId: value.subspace_id,
+          targetSectionId: value.target_section_id,
+          targetSubspaceId: value.target_subspace_id,
+          owner: value.owner,
+        }),
+      };
+
+    case Posts.v3.MsgRequestPostOwnerTransferTypeUrl:
+      return {
+        typeUrl: Posts.v3.MsgRequestPostOwnerTransferTypeUrl,
+        value: MsgRequestPostOwnerTransfer.fromPartial({
+          postId: value.post_id,
+          subspaceId: value.subspace_id,
+          receiver: value.receiver,
+          sender: value.sender,
+        }),
+      };
+
+    case Posts.v3.MsgCancelPostOwnerTransferRequestTypeUrl:
+      return {
+        typeUrl: Posts.v3.MsgCancelPostOwnerTransferRequestTypeUrl,
+        value: MsgCancelPostOwnerTransferRequest.fromPartial({
+          postId: value.post_id,
+          subspaceId: value.subspace_id,
+          sender: value.sender,
+        }),
+      };
+
+    case Posts.v3.MsgAcceptPostOwnerTransferRequestTypeUrl:
+      return {
+        typeUrl: Posts.v3.MsgAcceptPostOwnerTransferRequestTypeUrl,
+        value: MsgAcceptPostOwnerTransferRequest.fromPartial({
+          postId: value.post_id,
+          subspaceId: value.subspace_id,
+          receiver: value.receiver,
+        }),
+      };
+
+    case Posts.v3.MsgRefusePostOwnerTransferRequestTypeUrl:
+      return {
+        typeUrl: Posts.v3.MsgRefusePostOwnerTransferRequestTypeUrl,
+        value: MsgRefusePostOwnerTransferRequest.fromPartial({
+          postId: value.post_id,
+          subspaceId: value.subspace_id,
+          receiver: value.receiver,
+        }),
+      };
 
     default:
       return undefined;
