@@ -63,6 +63,11 @@ const useMessageIcon = (message: EncodeObject) =>
       case 'MsgAddPostAttachment':
       case 'MsgRemovePostAttachment':
       case 'MsgAnswerPoll':
+      case 'MsgMovePost':
+      case 'MsgRequestPostOwnerTransfer':
+      case 'MsgCancelPostOwnerTransferRequest':
+      case 'MsgAcceptPostOwnerTransferRequest':
+      case 'MsgRefusePostOwnerTransferRequest':
         return iconModulePosts;
 
       // Profiles module
@@ -126,7 +131,15 @@ const useMessageIcon = (message: EncodeObject) =>
       case 'MsgAddUserToUserGroup':
       case 'MsgRemoveUserFromUserGroup':
       case 'MsgSetUserPermissions':
+      case 'MsgUpdateSubspaceFeeTokens':
         return iconModuleSubspaces;
+
+      // Tokenfactory module
+      case 'MsgCreateDenom':
+      case 'MsgMint':
+      case 'MsgBurn':
+      case 'MsgSetDenomMetadata':
+        return iconModuleBank;
 
       // Unsupported message.
       default:
