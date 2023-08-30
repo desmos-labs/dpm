@@ -136,9 +136,6 @@ end
 
 platform :ios do
   lane :build do
-    # Prepare the GoogleService-Info.plist
-    prepare_google_service_info_plist
-
     keychain_name = TEMP_KEYCHAIN_USER
     keychain_password = TEMP_KEYCHAIN_PASSWORD
     ensure_temp_keychain(keychain_name, keychain_password)
