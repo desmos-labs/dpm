@@ -1,4 +1,11 @@
-# Version 2.3.2 Changelog
+# Version 2.4.0
+## Features
+- Compatibility with the new Desmos v6;
+- Ability to search for a token send recipient using their DTag or nickname;
+- Option to send a DSM amount based on its USD value;
+- QR code generation for sharing your profile or receiving tokens.
+
+# Version 2.3.2
 ## Features
 - Now handles corrupted keychain data on iOS effectively.
 
