@@ -8,8 +8,10 @@ import { ModalComponentProps } from 'modals/ModalScreen';
 import Button from 'components/Button';
 import Clipboard from '@react-native-community/clipboard';
 import { useShowSnackBar } from 'lib/SnackBarProvider/recoil';
-import { uriFromUriAction } from 'lib/UriActions';
-import { UriActionType } from 'types/uri';
+import { useCurrentChainType } from '@recoil/settings';
+import StyledActivityIndicator from 'components/StyledActivityIndicator';
+import Spacer from 'components/Spacer';
+import { useGenerateQrCodeUrl } from 'modals/QRCodeAddressModal/hooks';
 import useStyles from './useStyles';
 
 export interface QRCodeAddressProps {
@@ -28,18 +30,9 @@ const QRCodeAddressModal: React.FC<ModalComponentProps<QRCodeAddressProps>> = ({
   const { t } = useTranslation('common');
   const { address } = params;
 
+  const chainType = useCurrentChainType();
   const showSnackBar = useShowSnackBar();
-
-  // -------- VARIABLES --------
-
-  const qrCodeData = React.useMemo(
-    () =>
-      uriFromUriAction({
-        type: UriActionType.UserAddress,
-        address,
-      }),
-    [address],
-  );
+  const { loading, url, error, regenerate } = useGenerateQrCodeUrl(address, chainType);
 
   // -------- CALLBACKS --------
 
@@ -48,17 +41,58 @@ const QRCodeAddressModal: React.FC<ModalComponentProps<QRCodeAddressProps>> = ({
     showSnackBar(t('value copied'));
   }, [address, showSnackBar, t]);
 
+  // -------- COMPONENTS ---------
+
+  const qrCodeView = React.useMemo(() => {
+    if (loading) {
+      return (
+        <View>
+          <Typography.Regular16>{t('generating')}</Typography.Regular16>
+          <Spacer paddingVertical={8} />
+          <StyledActivityIndicator />
+        </View>
+      );
+    }
+    if (url) {
+      return (
+        <View style={styles.qrCodeView}>
+          <QRCode
+            size={200}
+            color={theme.colors.primary}
+            backgroundColor={theme.colors.background}
+            value={url}
+          />
+        </View>
+      );
+    }
+
+    return (
+      <View>
+        <Typography.Regular16>{error?.toString()}</Typography.Regular16>
+        <Spacer paddingVertical={8} />
+        <Button mode={'contained'} onPress={regenerate}>
+          {t('retry')}
+        </Button>
+      </View>
+    );
+  }, [
+    loading,
+    url,
+    error,
+    regenerate,
+    t,
+    styles.qrCodeView,
+    theme.colors.primary,
+    theme.colors.background,
+  ]);
+
   return (
     <View style={styles.root}>
       <Typography.SemiBold16 capitalize>{t('my address')}</Typography.SemiBold16>
-      <View style={styles.qrCodeView}>
-        <QRCode
-          size={200}
-          color={theme.colors.primary}
-          backgroundColor={theme.colors.background}
-          value={qrCodeData}
-        />
-      </View>
+
+      <Spacer paddingVertical={12} />
+
+      {qrCodeView}
       <Typography.Regular14 style={styles.addressContainer} numberOfLines={2}>
         {address}
       </Typography.Regular14>

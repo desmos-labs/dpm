@@ -7,7 +7,6 @@ const useStyles = makeStyle((theme) => ({
     alignItems: 'center',
   },
   qrCodeView: {
-    marginTop: theme.spacing.l,
     padding: 12,
     backgroundColor: theme.colors.background,
     borderRadius: theme.roundness,
