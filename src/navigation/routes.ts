@@ -115,6 +115,12 @@ enum ROUTES {
    */
   SCAN_QR_CODE = 'SCAN_QR_CODE',
   /**
+   * This is just a fake root so that we can add the
+   * scan qr code button. The reeal scan qr code screen
+   * is in the root stack navigation.
+   */
+  SCAN_QR_CODE_BOTTOM_BAR_BUTTON = 'SCAN_QR_CODE_BOTTOM_BAR_BUTTON',
+  /**
    * Screen that shows the user the data of the Desmos Profile associated to the current profile wallet.
    */
   PROFILE = 'PROFILE',

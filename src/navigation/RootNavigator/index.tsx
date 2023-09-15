@@ -24,7 +24,7 @@ import SendTokens, { SendTokensParams } from 'screens/SendTokens';
 import BroadcastTx, { BroadcastTxParams } from 'screens/BroadcastTx';
 import ModalScreen, { ModalScreenParams } from 'modals/ModalScreen';
 import EditProfile, { EditProfileParams } from 'screens/EditProfile';
-import HomeTabs from 'navigation/RootNavigator/HomeTabs';
+import HomeTabs, { HomeTabsParamList } from 'navigation/RootNavigator/HomeTabs';
 import useInitWalletConnectClient from 'hooks/walletconnect/useInitWalletConnectClient';
 import Settings from 'screens/Settings';
 import SettingsDisplayMode from 'screens/SettingsDisplayMode';
@@ -58,6 +58,7 @@ import GovernanceProposalDetails, {
   GovernanceProposalDetailsParams,
 } from 'screens/GovernanceProposalDetails';
 import ScanQr, { ScanQrCodeParams } from 'screens/ScanQr';
+import { NavigatorScreenParams } from '@react-navigation/native';
 
 export type RootNavigatorParamList = {
   [ROUTES.DEV_SCREEN]: undefined;
@@ -77,10 +78,8 @@ export type RootNavigatorParamList = {
   [ROUTES.CHECK_WALLET_PASSWORD]: CheckWalletPasswordParams;
 
   [ROUTES.CONNECT_TO_LEDGER_STACK]: ConnectToLedgerStackParams;
-  [ROUTES.HOME_TABS]: undefined;
-  [ROUTES.HOME]: undefined;
+  [ROUTES.HOME_TABS]: NavigatorScreenParams<HomeTabsParamList>;
   [ROUTES.SCAN_QR_CODE]: ScanQrCodeParams | undefined;
-  [ROUTES.WALLET_CONNECT_SESSIONS]: undefined;
   [ROUTES.WALLET_CONNECT_SESSION_PROPOSAL]: WalletConnectSessionProposalParams;
   [ROUTES.WALLET_CONNECT_REQUEST]: undefined;
 
