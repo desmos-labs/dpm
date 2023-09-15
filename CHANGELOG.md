@@ -1,3 +1,8 @@
+# Version 2.4.1
+## Bug fixes
+- Fixed a bug that caused the application to not open the QR code scanner from the authorizations screen;
+- Fixed a bug that caused the wrong visualization of the Ledger icon when looking for a device.
+
 # Version 2.4.0
 ## Features
 - Compatibility with the new Desmos v6;
