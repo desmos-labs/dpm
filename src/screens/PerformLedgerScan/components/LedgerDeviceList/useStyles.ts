@@ -25,6 +25,7 @@ const useStyles = makeStyle((theme) => ({
     shadowOpacity: 1,
   },
   ledgerIcon: {
+    color: theme.colors.text,
     marginLeft: 16,
     width: 8,
     height: 32,
