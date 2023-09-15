@@ -5,11 +5,11 @@ import { BottomTabNavigationProp, BottomTabScreenProps } from '@react-navigation
 import { HomeTabsParamList } from 'navigation/RootNavigator/HomeTabs/index';
 
 export type HomeTabsScreenProps<R extends keyof HomeTabsParamList> = CompositeScreenProps<
-  StackScreenProps<RootNavigatorParamList>,
-  BottomTabScreenProps<HomeTabsParamList, R>
+  BottomTabScreenProps<HomeTabsParamList, R>,
+  StackScreenProps<RootNavigatorParamList>
 >;
 
 export type HomeTabsNavigationProp<R extends keyof HomeTabsParamList> = CompositeNavigationProp<
-  StackNavigationProp<RootNavigatorParamList>,
-  BottomTabNavigationProp<HomeTabsParamList, R>
+  BottomTabNavigationProp<HomeTabsParamList, R>,
+  StackNavigationProp<RootNavigatorParamList>
 >;

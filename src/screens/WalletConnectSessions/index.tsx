@@ -1,8 +1,6 @@
-import { StackScreenProps } from '@react-navigation/stack';
 import React, { useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
 import StyledSafeAreaView from 'components/StyledSafeAreaView';
-import { RootNavigatorParamList } from 'navigation/RootNavigator';
 import ROUTES from 'navigation/routes';
 import TopBar from 'components/TopBar';
 import useDrawerContext from 'lib/AppDrawer/context';
@@ -13,9 +11,10 @@ import { useActiveAccountWalletConnectSessions } from '@recoil/activeAccountWall
 import { useAllWalletConnectSessionsRequests } from '@recoil/walletConnectRequests';
 import Button from 'components/Button';
 import ProfileImage from 'components/ProfileImage';
+import { HomeTabsScreenProps } from 'navigation/RootNavigator/HomeTabs/props';
 import useStyles from './useStyles';
 
-export type NavProps = StackScreenProps<RootNavigatorParamList, ROUTES.WALLET_CONNECT_SESSIONS>;
+export type NavProps = HomeTabsScreenProps<ROUTES.WALLET_CONNECT_SESSIONS>;
 
 /**
  * Screen that shows the current active account's WalletConnect sessions.

@@ -27,7 +27,7 @@ import BottomBarIcon from './components/BottomBarIcon';
 export type HomeTabsParamList = {
   [ROUTES.HOME]: undefined;
   [ROUTES.MANAGE_STAKING]: undefined;
-  [ROUTES.SCAN_QR_CODE]: undefined;
+  [ROUTES.SCAN_QR_CODE_BOTTOM_BAR_BUTTON]: undefined;
   [ROUTES.GOVERNANCE_PROPOSALS]: undefined;
   [ROUTES.WALLET_CONNECT_SESSIONS]: undefined;
 };
@@ -57,7 +57,7 @@ const HomeTabs: FC<NavProps> = ({ navigation }) => {
           customRouteNavigation={{
             // Custom action to navigate to the SCAN_QR_CODE
             // route declared in the root navigator.
-            [ROUTES.SCAN_QR_CODE]: () => navigation.navigate(ROUTES.SCAN_QR_CODE),
+            [ROUTES.SCAN_QR_CODE_BOTTOM_BAR_BUTTON]: () => navigation.navigate(ROUTES.SCAN_QR_CODE),
           }}
         />
       );
@@ -100,7 +100,7 @@ const HomeTabs: FC<NavProps> = ({ navigation }) => {
           }}
         />
         <HomeBottomTabs.Screen
-          name={ROUTES.SCAN_QR_CODE}
+          name={ROUTES.SCAN_QR_CODE_BOTTOM_BAR_BUTTON}
           component={nullComponent}
           options={{
             tabBarIcon: ({ size }) => <BottomBarIcon source={scanQRButton} size={size} />,
