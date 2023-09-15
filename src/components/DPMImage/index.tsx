@@ -34,6 +34,7 @@ type ImageProps = React.ComponentProps<typeof FastImage>;
 
 export type DPMImageProps = Omit<ImageProps, 'source'> & {
   source: DPMImages | ImageProps['source'];
+  style?: ImageProps['style'] & { color?: string };
 };
 
 const DpmImage = (props: DPMImageProps) => {
@@ -84,7 +85,7 @@ const DpmImage = (props: DPMImageProps) => {
     }
   }, [source, darkTheme]);
 
-  return <FastImage {...props} source={imageSource} />;
+  return <FastImage {...props} source={imageSource} tintColor={props.style?.color} />;
 };
 
 export default DpmImage;
