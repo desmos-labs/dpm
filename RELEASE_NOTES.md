@@ -1,4 +1,4 @@
-# Version 2.4.0
+# Version 2.4.1
 
 ## Android
 🚀 Desmos Profile Manager v2.4.1 is here! 🚀
