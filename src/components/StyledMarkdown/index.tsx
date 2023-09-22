@@ -11,17 +11,7 @@ export interface StyledMarkDownProps {}
  */
 const StyledMarkDown: React.FC<PropsWithChildren<StyledMarkDownProps>> = ({ children }) => {
   const styles = useStyles();
-  return (
-    <Markdown
-      style={{
-        paragraph: styles.paragraph,
-        strong: styles.strong,
-        link: styles.link,
-      }}
-    >
-      {children}
-    </Markdown>
-  );
+  return <Markdown style={styles}>{children}</Markdown>;
 };
 
 export default StyledMarkDown;
