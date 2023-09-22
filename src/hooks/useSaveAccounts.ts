@@ -23,12 +23,12 @@ import { SecureStorageError } from 'lib/SecureStorage/errors';
 import useResetToHomeScreen from 'hooks/navigation/useResetToHomeScreen';
 
 /**
- * Hook to save a new account to the device.
- * If it's the first account, it will also save the user password.
+ * Hook to save a list of accounts to the device.
+ * If it's the first time that the user is saving the accounts, it will also save the user password.
  *
  * During the saving, it displays a modal in order to inform the user that the account is being saved.
  */
-const useSaveAccount = () => {
+const useSaveAccounts = () => {
   const { t } = useTranslation('account');
   const navigation = useNavigation<StackNavigationProp<RootNavigatorParamList>>();
 
@@ -43,7 +43,7 @@ const useSaveAccount = () => {
   const { showModal: showErrorModal } = useModal();
 
   // Local state
-  const [savingAccount, setSavingAccount] = useState(false);
+  const [savingAccounts, setSavingAccounts] = useState(false);
 
   // Callback to be used when the saving fails
   const onErrorPressed = useCallback(() => {
@@ -57,7 +57,7 @@ const useSaveAccount = () => {
   const onError = useCallback(
     (account: AccountWithWallet) => {
       // Stop the loading
-      setSavingAccount(false);
+      setSavingAccounts(false);
 
       // Remove any possible saved data
       if (savingFirstAccount) {
@@ -75,37 +75,42 @@ const useSaveAccount = () => {
   );
 
   // Callback to save the account
-  const saveAccount = useCallback(
+  const saveAccounts = useCallback(
     async (
-      account: AccountWithWallet,
+      accounts: AccountWithWallet[],
       password: string,
     ): Promise<Result<void, SecureStorageError>> => {
-      setSavingAccount(true);
+      setSavingAccounts(true);
 
       // Show the loading modal
       showLoadingModal(LoadingModal, {
-        text: t('saving account'),
+        text: accounts.length > 1 ? t('saving accounts') : t('saving account'),
       });
 
-      // Save everything
-      const saveResult = await saveWallet(account.wallet, password);
-      if (saveResult.isErr()) {
-        onError(account);
-        return saveResult;
-      }
-
-      if (savingFirstAccount) {
-        // Set the wallet password
-        const passwordResult = await setUserPassword(password);
-        if (passwordResult.isErr()) {
+      for (let i = 0; i < accounts.length; i += 1) {
+        const account = accounts[i];
+        // Save everything
+        // eslint-disable-next-line no-await-in-loop
+        const saveResult = await saveWallet(account.wallet, password);
+        if (saveResult.isErr()) {
           onError(account);
           return saveResult;
         }
-      }
 
-      // Store the account and set it as active
-      storeAccount(account.account);
-      setActiveAccountAddress(account.wallet.address);
+        if (i === 0 && savingFirstAccount) {
+          // Set the wallet password
+          // eslint-disable-next-line no-await-in-loop
+          const passwordResult = await setUserPassword(password);
+          if (passwordResult.isErr()) {
+            onError(account);
+            return saveResult;
+          }
+        }
+
+        // Store the account
+        storeAccount(account.account);
+      }
+      setActiveAccountAddress(accounts[0].wallet.address);
 
       // Hide the loading modal
       hideLoadingModal();
@@ -113,14 +118,15 @@ const useSaveAccount = () => {
       // Show the success modal
       showSuccessModal(SingleButtonModal, {
         image: DPMImages.Success,
-        title: t('account saved'),
-        message: t('account ready to be used'),
+        title: accounts.length > 1 ? t('accounts saved') : t('account saved'),
+        message:
+          accounts.length > 1 ? t('accounts ready to be used') : t('account ready to be used'),
         actionLabel: t('common:continue'),
         action: onContinuePressed,
       });
 
       // Stop the loading indicator
-      setSavingAccount(false);
+      setSavingAccounts(false);
       return ok(undefined);
     },
     [
@@ -137,9 +143,9 @@ const useSaveAccount = () => {
   );
 
   return {
-    saveAccount,
-    savingAccount,
+    saveAccounts,
+    savingAccounts,
   };
 };
 
-export default useSaveAccount;
+export default useSaveAccounts;

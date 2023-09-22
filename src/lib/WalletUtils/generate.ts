@@ -23,7 +23,7 @@ export const generateLedgerAccountWallets = async (
   transport: BluetoothTransport,
 ): Promise<AccountWithWallet[]> => {
   const signer = new OfflineSignerAdapter(
-    new LedgerSigner(transport!, {
+    new LedgerSigner(transport, {
       minLedgerAppVersion: app.minVersion,
       ledgerAppName: app.name,
       prefix,

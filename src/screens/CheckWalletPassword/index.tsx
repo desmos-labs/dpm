@@ -14,13 +14,13 @@ import { checkUserPassword } from 'lib/SecureStorage';
 import { useSetting } from '@recoil/settings';
 import { BiometricAuthorizations } from 'types/settings';
 import useGetPasswordFromBiometrics from 'hooks/useGetPasswordFromBiometrics';
-import useSaveAccount from 'hooks/useSaveAccount';
+import useSaveAccounts from 'hooks/useSaveAccounts';
 import useTrackNewAccountAdded from 'hooks/analytics/useTrackNewAccountAdded';
 import Spacer from 'components/Spacer';
 import useStyles from './useStyles';
 
 export interface CheckWalletPasswordParams {
-  account: AccountWithWallet;
+  accounts: AccountWithWallet[];
   /**
    * Tells if the account is a new one or if has been imported.
    */
@@ -46,7 +46,7 @@ const CheckWalletPassword = (props: NavProps) => {
 
   const { route } = props;
   const { params } = route;
-  const { account, password, isImported } = params;
+  const { accounts, password, isImported } = params;
 
   // --------------------------------------------------------------------------------------
   // --- Hooks
@@ -56,7 +56,7 @@ const CheckWalletPassword = (props: NavProps) => {
   const getPasswordFromBiometrics = useGetPasswordFromBiometrics(
     BiometricAuthorizations.UnlockWallet,
   );
-  const { saveAccount } = useSaveAccount();
+  const { saveAccounts } = useSaveAccounts();
   const trackNewAccountAdded = useTrackNewAccountAdded(isImported);
 
   // --------------------------------------------------------------------------------------
@@ -81,15 +81,17 @@ const CheckWalletPassword = (props: NavProps) => {
     setCheckingPassword(true);
     const isPasswordCorrect = await checkUserPassword(inputPassword);
     if (isPasswordCorrect) {
-      const saveResult = await saveAccount(account, inputPassword);
+      const saveResult = await saveAccounts(accounts, inputPassword);
       if (saveResult.isOk()) {
-        trackNewAccountAdded(account.account);
+        accounts.forEach((account) => {
+          trackNewAccountAdded(account.account);
+        });
       }
     } else {
       setErrorMessage(t('wrong confirmation password'));
     }
     setCheckingPassword(false);
-  }, [inputPassword, saveAccount, account, t, trackNewAccountAdded]);
+  }, [inputPassword, saveAccounts, accounts, t, trackNewAccountAdded]);
 
   // Handles the continue button press when the biometrics are enabled
   const continueWithBiometrics = useCallback(async () => {
@@ -100,16 +102,18 @@ const CheckWalletPassword = (props: NavProps) => {
       const isPasswordCorrect = await checkUserPassword(biometricPassword);
       if (isPasswordCorrect) {
         // Save the account
-        const saveResult = await saveAccount(account, biometricPassword);
+        const saveResult = await saveAccounts(accounts, biometricPassword);
         if (saveResult.isOk()) {
-          trackNewAccountAdded(account.account);
+          accounts.forEach((account) => {
+            trackNewAccountAdded(account.account);
+          });
         }
       } else {
         setErrorMessage(t('wrong confirmation password'));
       }
     }
     setCheckingPassword(false);
-  }, [getPasswordFromBiometrics, account, saveAccount, t, trackNewAccountAdded]);
+  }, [getPasswordFromBiometrics, accounts, saveAccounts, t, trackNewAccountAdded]);
 
   // --------------------------------------------------------------------------------------
   // --- Effects

@@ -48,8 +48,10 @@ const useImportAccount = (
         ignoreAddresses: ignoreAddresses ?? [],
         supportedImportMode:
           selectedChain === undefined ? undefined : getChainSupportedWalletTypes(chains[0]),
-        onSuccess: (accountWithChain) => {
-          resolve(accountWithChain);
+        allowMultiSelect: false,
+        onSuccess: (accountsWithChain) => {
+          const { chain } = accountsWithChain;
+          resolve({ chain, account: accountsWithChain.accounts[0] });
         },
         onCancel: () => {
           resolve(undefined);

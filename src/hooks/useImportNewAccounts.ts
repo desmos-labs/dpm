@@ -7,7 +7,7 @@ import { SupportedChain } from 'types/chains';
 import { useRecoilState } from 'recoil';
 import importAccountAppState from '@recoil/importAccountState';
 import { getChainSupportedWalletTypes } from 'lib/ChainsUtils';
-import useSaveGeneratedAccount from 'hooks/useSaveGeneratedAccount';
+import useSaveGeneratedAccounts from 'hooks/useSaveGeneratedAccounts';
 import { useTranslation } from 'react-i18next';
 
 /**
@@ -19,11 +19,11 @@ import { useTranslation } from 'react-i18next';
  * <b>Note</b>: If the {@param chains} list only contains one item, the screen allowing to select the chain
  * to be imported will be skipped.
  */
-const useImportNewAccount = (chains: SupportedChain[], ignoreAddresses?: string[]) => {
+const useImportNewAccounts = (chains: SupportedChain[], ignoreAddresses?: string[]) => {
   const { t } = useTranslation('account');
   const navigation = useNavigation<StackNavigationProp<RootNavigatorParamList>>();
   const [, setImportAccountState] = useRecoilState(importAccountAppState);
-  const saveAccount = useSaveGeneratedAccount(true);
+  const saveAccounts = useSaveGeneratedAccounts(true);
 
   return useCallback(() => {
     const selectedChain: SupportedChain | undefined = chains.length === 1 ? chains[0] : undefined;
@@ -33,8 +33,9 @@ const useImportNewAccount = (chains: SupportedChain[], ignoreAddresses?: string[
       ignoreAddresses: ignoreAddresses ?? [],
       supportedImportMode:
         selectedChain === undefined ? undefined : getChainSupportedWalletTypes(chains[0]),
+      allowMultiSelect: true,
       onSuccess: (accountWithChain) => {
-        saveAccount(accountWithChain.account);
+        saveAccounts(accountWithChain.accounts);
       },
       onCancel: () => {},
     });
@@ -50,7 +51,7 @@ const useImportNewAccount = (chains: SupportedChain[], ignoreAddresses?: string[
         });
         break;
     }
-  }, [chains, ignoreAddresses, navigation, saveAccount, setImportAccountState, t]);
+  }, [chains, ignoreAddresses, navigation, saveAccounts, setImportAccountState, t]);
 };
 
-export default useImportNewAccount;
+export default useImportNewAccounts;

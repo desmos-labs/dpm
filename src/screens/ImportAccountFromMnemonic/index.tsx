@@ -15,7 +15,7 @@ import { RootNavigatorParamList } from 'navigation/RootNavigator';
 import ROUTES from 'navigation/routes';
 import { WalletPickerMode } from 'screens/SelectAccount/components/AccountPicker/types';
 import { useRecoilValue } from 'recoil';
-import useSelectAccount from 'hooks/useSelectAccount';
+import useSelectAccounts from 'hooks/useSelectAccounts';
 import importAccountAppState from '@recoil/importAccountState';
 import useStyles from './useStyles';
 
@@ -30,9 +30,9 @@ const ImportAccountFromMnemonic: FC<NavProps> = (props) => {
 
   // -------- HOOKS --------
 
-  const selectAccount = useSelectAccount();
+  const selectAccounts = useSelectAccounts();
   const importAccountState = useRecoilValue(importAccountAppState);
-  const { ignoreAddresses, selectedChain, onSuccess } = importAccountState!;
+  const { ignoreAddresses, selectedChain, onSuccess, allowMultiSelect } = importAccountState!;
 
   // -------- STATES --------
 
@@ -54,7 +54,7 @@ const ImportAccountFromMnemonic: FC<NavProps> = (props) => {
       const sanitizedMnemonic = sanitizeMnemonic(mnemonic);
 
       if (checkMnemonic(sanitizedMnemonic)) {
-        selectAccount(
+        selectAccounts(
           {
             mode: WalletPickerMode.Mnemonic,
             mnemonic: sanitizedMnemonic,
@@ -62,10 +62,11 @@ const ImportAccountFromMnemonic: FC<NavProps> = (props) => {
             ignoreAddresses,
             addressPrefix: selectedChain!.prefix,
             allowCoinTypeEdit: false,
+            allowMultiSelect,
           },
           {
-            onSuccess: (account) => {
-              onSuccess({ account, chain: selectedChain! });
+            onSuccess: (accounts) => {
+              onSuccess({ accounts, chain: selectedChain! });
             },
           },
         );
@@ -82,7 +83,7 @@ const ImportAccountFromMnemonic: FC<NavProps> = (props) => {
         }
       }
     }
-  }, [mnemonic, t, selectAccount, selectedChain, ignoreAddresses, onSuccess]);
+  }, [mnemonic, t, selectAccounts, selectedChain, ignoreAddresses, allowMultiSelect, onSuccess]);
 
   const useDebugMnemonic = React.useCallback(() => {
     setMnemonic(

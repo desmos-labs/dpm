@@ -12,7 +12,7 @@ import { RootNavigatorParamList } from 'navigation/RootNavigator';
 import ROUTES from 'navigation/routes';
 import { AccountWithWallet } from 'types/account';
 import Spacer from 'components/Spacer';
-import useSaveAccount from 'hooks/useSaveAccount';
+import useSaveAccounts from 'hooks/useSaveAccounts';
 import useTrackNewAccountAdded from 'hooks/analytics/useTrackNewAccountAdded';
 import ErrorMessage from 'components/ErrorMessage';
 import Flexible from 'components/Flexible';
@@ -22,7 +22,7 @@ import useStyles from './useStyles';
 export type NavProps = StackScreenProps<RootNavigatorParamList, ROUTES.CREATE_WALLET_PASSWORD>;
 
 export interface CreateWalletPasswordParams {
-  account: AccountWithWallet;
+  accounts: AccountWithWallet[];
   /**
    * Tells if the account is a new one or if has been imported.
    */
@@ -40,13 +40,13 @@ const CreateWalletPassword = (props: NavProps) => {
 
   const { route } = props;
   const { params } = route;
-  const { account, isImported } = params;
+  const { accounts, isImported } = params;
 
   // --------------------------------------------------------------------------------------
   // --- Hooks
   // --------------------------------------------------------------------------------------
 
-  const { saveAccount } = useSaveAccount();
+  const { saveAccounts } = useSaveAccounts();
   const trackNewAccountAdded = useTrackNewAccountAdded(isImported);
 
   // --------------------------------------------------------------------------------------
@@ -78,14 +78,16 @@ const CreateWalletPassword = (props: NavProps) => {
 
   const onContinuePressed = useCallback(async () => {
     if (password === confirmationPassword) {
-      const saveResult = await saveAccount(account, password);
+      const saveResult = await saveAccounts(accounts, password);
       if (saveResult.isOk()) {
-        trackNewAccountAdded(account.account);
+        accounts.forEach((account) => {
+          trackNewAccountAdded(account.account);
+        });
       }
     } else {
       setErrorMessage(t('wrong confirmation password'));
     }
-  }, [password, confirmationPassword, saveAccount, account, t, trackNewAccountAdded]);
+  }, [password, confirmationPassword, saveAccounts, accounts, t, trackNewAccountAdded]);
 
   // --------------------------------------------------------------------------------------
   // --- Screen rendering

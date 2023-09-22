@@ -1,4 +1,4 @@
-import { useCallback, useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import { HdPath, Slip10RawIndex } from '@cosmjs/crypto';
 import { WalletGenerationData, WalletType } from 'types/wallet';
 import _ from 'lodash';
@@ -7,6 +7,8 @@ import {
   AccountPickerParams,
   WalletPickerMode,
 } from 'screens/SelectAccount/components/AccountPicker/types';
+import { FetchDataFunction, usePaginatedData } from 'hooks/usePaginatedData';
+import { AccountWithWallet } from 'types/account';
 
 function generationParamsToWalletGenerationData(
   params: AccountPickerParams,
@@ -59,7 +61,8 @@ export const useGenerateAccountWithWalletFromHdPath = () => {
 
         return wallets[0];
       } catch (e) {
-        setGenerationError(e.toString());
+        // @ts-ignore
+        setGenerationError(e.message);
         return null;
       }
     },
@@ -72,44 +75,78 @@ export const useGenerateAccountWithWalletFromHdPath = () => {
   };
 };
 
-export const useFetchWallets = (params: AccountPickerParams) => {
-  const fetchWallets = useCallback(
-    async (start: number, end: number) => {
-      let paths: HdPath[] = [];
+/**
+ * Hook that provides a function that can be used in the
+ * usePaginatedData hook to generate the wallets.
+ */
+const useGetGenerateWalletFunction = () =>
+  React.useCallback<FetchDataFunction<AccountWithWallet, AccountPickerParams>>(
+    async (offset, limit, params) => {
+      // Don't generate the accounst if the params are undefined.
+      if (params === undefined) {
+        return {
+          data: [],
+          endReached: true,
+        };
+      }
 
-      if (params.mode === WalletPickerMode.Mnemonic || params.mode === WalletPickerMode.Ledger) {
-        paths = _.range(start, end)
+      let lastIndex = offset + limit;
+      let unFilteredAccounts: AccountWithWallet[] = [];
+      let accounts: AccountWithWallet[] = [];
+
+      // Special case for the Ledger, the hard wallet can derive
+      // private keys from an HdPath that have the account index that
+      // is inisde the [0, 100] range.
+      if (params.mode === WalletPickerMode.Ledger && lastIndex > 100) {
+        lastIndex = 100;
+      }
+
+      if (params.mode === WalletPickerMode.Ledger || params.mode === WalletPickerMode.Mnemonic) {
+        const paths: HdPath[] = _.range(offset, lastIndex)
           .map(Slip10RawIndex.hardened)
           .map((accountIndex) => {
             const path = [...params.masterHdPath];
             path[2] = accountIndex;
             return path;
           });
+
+        unFilteredAccounts = await generateAccountWithWallets(
+          generationParamsToWalletGenerationData(params, paths),
+        );
+      } else if (params.mode === WalletPickerMode.Web3Auth && offset === 0) {
+        // Here we can generate just one account.
+        unFilteredAccounts = await generateAccountWithWallets(
+          generationParamsToWalletGenerationData(params, []),
+        );
       }
 
-      if (paths.length === 0 && start !== 0) {
-        // Fetching a second page from a mode that can't generate more than
-        // one address, in this case just return null on the second page to
-        // signal that the elements are finished.
-        return null;
+      if (params.ignoreAddresses !== undefined && params.ignoreAddresses.length > 0) {
+        accounts = unFilteredAccounts.filter(
+          ({ account }) => params.ignoreAddresses!.indexOf(account.address) === -1,
+        );
+      } else {
+        accounts = unFilteredAccounts;
       }
 
-      const accounts = await generateAccountWithWallets(
-        generationParamsToWalletGenerationData(params, paths),
-      );
-
-      if (params.ignoreAddresses === undefined || params.ignoreAddresses.length === 0) {
-        return accounts;
-      }
-
-      return accounts.filter(
-        ({ account }) => params.ignoreAddresses!.indexOf(account.address) === -1,
-      );
+      return {
+        data: accounts,
+        endReached: unFilteredAccounts.length < limit,
+      };
     },
-    [params],
+    [],
   );
 
-  return {
-    fetchWallets,
-  };
+/**
+ * Hook that provides a set of function to lazily generate the wallets.
+ */
+export const useGeneratePaginatedWallets = (params: AccountPickerParams) => {
+  const generateFunction = useGetGenerateWalletFunction();
+
+  return usePaginatedData(
+    generateFunction,
+    {
+      itemsPerPage: 10,
+    },
+    params,
+  );
 };

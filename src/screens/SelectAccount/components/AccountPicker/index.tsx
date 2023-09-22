@@ -4,13 +4,17 @@ import { StyleProp, View, ViewStyle } from 'react-native';
 import Typography from 'components/Typography';
 import { HdPath } from '@cosmjs/crypto';
 import {
-  useFetchWallets,
   useGenerateAccountWithWalletFromHdPath,
+  useGeneratePaginatedWallets,
 } from 'screens/SelectAccount/components/AccountPicker/useHooks';
 import { AccountWithWallet } from 'types/account';
 import Button from 'components/Button';
 import Spacer from 'components/Spacer';
-import PaginatedFlatList, { ListRenderItemInfo } from '../PaginatedFlatList';
+import { FlashList, ListRenderItemInfo } from '@shopify/flash-list';
+import StyledActivityIndicator from 'components/StyledActivityIndicator';
+import EmptyList from 'components/EmptyList';
+import { DPMImages } from 'types/images';
+import { useNavigation } from '@react-navigation/native';
 import HdPathPicker from '../HdPathPicker';
 import AccountListItem from '../AccountListItem';
 import useStyles from './useStyles';
@@ -21,7 +25,7 @@ export type AccountPickerProps = {
    * Callback called when the user select a wallet.
    * @param wallet
    */
-  onAccountSelected: (wallet: AccountWithWallet | null) => void;
+  onSelectedAccountsChange: (accounts: AccountWithWallet[]) => void;
   /**
    * Params that tells the component how to generate the addresses that are showed to the
    * user.
@@ -30,7 +34,12 @@ export type AccountPickerProps = {
   style?: StyleProp<ViewStyle>;
 };
 
-const AccountPicker: React.FC<AccountPickerProps> = ({ onAccountSelected, params, style }) => {
+const AccountPicker: React.FC<AccountPickerProps> = ({
+  onSelectedAccountsChange,
+  params,
+  style,
+}) => {
+  const { goBack } = useNavigation();
   const styles = useStyles();
   const { t } = useTranslation('account');
 
@@ -42,11 +51,21 @@ const AccountPicker: React.FC<AccountPickerProps> = ({ onAccountSelected, params
   }, [params]);
   const [toggleAddressPickerDisabled, setToggleAddressPickerDisabled] = useState(true);
   const [selectedHdPath, setSelectedHdPath] = useState<HdPath | undefined>(masterHdPath);
-  const [selectedAccount, setSelectedAccount] = useState<AccountWithWallet | null>(null);
+  const [selectedAccounts, setSelectedAccounts] = useState<AccountWithWallet[]>([]);
   const [addressPickerVisible, setAddressPickerVisible] = useState(true);
 
   const { generateWalletAccountFromHdPath } = useGenerateAccountWithWalletFromHdPath();
-  const { fetchWallets } = useFetchWallets(params);
+  const {
+    data: wallets,
+    loading: loadingWallets,
+    fetchMore,
+    error: paginatedWalletsError,
+  } = useGeneratePaginatedWallets(params);
+  React.useEffect(() => {
+    // Disable the possibility to toggle between the hd path input and
+    // the list of address.
+    setToggleAddressPickerDisabled(loadingWallets);
+  }, [loadingWallets]);
 
   const allowCoinTypeEdit = useMemo(() => {
     if (params.mode === WalletPickerMode.Mnemonic) {
@@ -61,66 +80,99 @@ const AccountPicker: React.FC<AccountPickerProps> = ({ onAccountSelected, params
         if (!visible) {
           // The address picker is being displayed,
           // remove the wallet generated from the derivation path.
-          setSelectedAccount(null);
+          setSelectedAccounts([]);
           setSelectedHdPath(masterHdPath);
-        } else if (selectedAccount === null) {
+        } else {
+          // Returning to HdPathPicker, lets clear the selected accounts.
+          setToggleAddressPickerDisabled(true);
+          setSelectedAccounts([]);
           setSelectedHdPath(masterHdPath);
           generateWalletAccountFromHdPath(masterHdPath, params).then((account) => {
-            setSelectedAccount(account);
+            setSelectedAccounts(account ? [account] : []);
+            setToggleAddressPickerDisabled(false);
           });
         }
         return !visible;
       });
     }
-  }, [selectedAccount, masterHdPath, generateWalletAccountFromHdPath, params]);
+  }, [masterHdPath, generateWalletAccountFromHdPath, params]);
 
   const renderListItem = useCallback(
     (info: ListRenderItemInfo<AccountWithWallet>) => {
       const { address } = info.item.account;
+      const highlight = selectedAccounts.some((a) => a.account.address === address);
       return (
         <>
           <AccountListItem
             address={address}
-            highlight={selectedAccount?.account.address === address}
+            highlight={highlight}
             onPress={() => {
-              const account = selectedAccount?.account.address === address ? null : info.item;
-              setSelectedAccount(account);
-              onAccountSelected(account);
+              if (params.allowMultiSelect === true) {
+                setSelectedAccounts((accounts) =>
+                  highlight
+                    ? accounts.filter((a) => a.account.address !== address)
+                    : [...accounts, info.item],
+                );
+              } else {
+                setSelectedAccounts([info.item]);
+              }
             }}
           />
           <Spacer paddingVertical={8} />
         </>
       );
     },
-    [selectedAccount?.account.address, onAccountSelected],
+    [selectedAccounts, params.allowMultiSelect],
   );
 
   const listKeyExtractor = useCallback((item: AccountWithWallet) => item.account.address, []);
 
   const onHdPathChange = useCallback(
     async (hdPath: HdPath) => {
-      setSelectedAccount(null);
+      setToggleAddressPickerDisabled(true);
+      setSelectedAccounts([]);
       setSelectedHdPath(hdPath);
-      const wallet = await generateWalletAccountFromHdPath(hdPath, params);
-      setSelectedAccount(wallet);
-      onAccountSelected(wallet);
+      generateWalletAccountFromHdPath(hdPath, params)
+        .then((wallet) => setSelectedAccounts(wallet ? [wallet] : []))
+        .finally(() => setToggleAddressPickerDisabled(false));
     },
-    [generateWalletAccountFromHdPath, params, onAccountSelected],
+    [generateWalletAccountFromHdPath, params],
   );
+
+  // -------- EFFECTS --------
+
+  React.useEffect(() => {
+    onSelectedAccountsChange(selectedAccounts);
+  }, [selectedAccounts, onSelectedAccountsChange]);
 
   return (
     <View style={[style, styles.root]}>
       {/* Address picker */}
       {addressPickerVisible ? (
-        <PaginatedFlatList
-          extraData={selectedAccount}
-          loadPage={fetchWallets}
-          onLoadStateChange={setToggleAddressPickerDisabled}
-          itemsPerPage={10}
+        <FlashList
+          data={paginatedWalletsError ? [] : wallets}
+          extraData={selectedAccounts}
           renderItem={renderListItem}
           keyExtractor={listKeyExtractor}
+          onEndReached={fetchMore}
           onEndReachedThreshold={0.2}
           estimatedItemSize={89}
+          ListFooterComponent={
+            <StyledActivityIndicator animating={loadingWallets} hidesWhenStopped size="small" />
+          }
+          ListEmptyComponent={
+            paginatedWalletsError ? (
+              <EmptyList
+                image={DPMImages.NoData}
+                message={paginatedWalletsError?.message}
+                extraComponent={
+                  <Button onPress={goBack} mode="contained">
+                    {t('common:go back')}
+                  </Button>
+                }
+              />
+            ) : undefined
+          }
         />
       ) : (
         <View style={styles.hdPathPickerView}>
@@ -132,7 +184,7 @@ const AccountPicker: React.FC<AccountPickerProps> = ({ onAccountSelected, params
             style={styles.hdPathPicker}
             onChange={onHdPathChange}
             value={selectedHdPath}
-            disabled={!selectedAccount || addressPickerVisible}
+            disabled={selectedAccounts.length === 0 || addressPickerVisible}
             allowCoinTypeEdit={allowCoinTypeEdit}
           />
 
@@ -140,8 +192,8 @@ const AccountPicker: React.FC<AccountPickerProps> = ({ onAccountSelected, params
 
           {/* Last generated address */}
           {!addressPickerVisible &&
-            (selectedAccount?.account.address ? (
-              <AccountListItem address={selectedAccount.account.address} fetchDelay={0} />
+            (selectedAccounts.length > 0 ? (
+              <AccountListItem address={selectedAccounts[0].account.address} fetchDelay={0} />
             ) : (
               <Typography.Body numberOfLines={1} ellipsizeMode="middle">
                 {`${t('generating address')}...`}

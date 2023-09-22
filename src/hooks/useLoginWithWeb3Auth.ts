@@ -1,5 +1,5 @@
-import useSelectAccount from 'hooks/useSelectAccount';
-import useSaveGeneratedAccount from 'hooks/useSaveGeneratedAccount';
+import useSelectAccounts from 'hooks/useSelectAccounts';
+import useSaveGeneratedAccounts from 'hooks/useSaveGeneratedAccounts';
 import { useCallback } from 'react';
 import { SupportedChain } from 'types/chains';
 import { Web3AuthLoginProvider } from 'types/web3auth';
@@ -11,8 +11,8 @@ import { useSetAppState } from '@recoil/appState';
 import { useHasAccount } from '@recoil/accounts';
 
 const useLoginWithWeb3Auth = (chain: SupportedChain, ignoreAddresses: string[]) => {
-  const selectAccount = useSelectAccount();
-  const saveAccount = useSaveGeneratedAccount(false);
+  const selectAccounts = useSelectAccounts();
+  const saveAccounts = useSaveGeneratedAccounts(false);
   const setAppState = useSetAppState();
   const hasAccounts = useHasAccount();
 
@@ -46,20 +46,21 @@ const useLoginWithWeb3Auth = (chain: SupportedChain, ignoreAddresses: string[]) 
       // Get the obtained private key.
       const privateKey = await keyProvider.getPrivateKey();
 
-      selectAccount(
+      selectAccounts(
         {
           mode: WalletPickerMode.Web3Auth,
           loginProvider,
           ignoreAddresses,
           addressPrefix: chain.prefix,
           privateKey: privateKey.key,
+          allowMultiSelect: false,
         },
         {
-          onSuccess: saveAccount,
+          onSuccess: saveAccounts,
         },
       );
     },
-    [setAppState, selectAccount, ignoreAddresses, chain.prefix, saveAccount, hasAccounts],
+    [setAppState, selectAccounts, ignoreAddresses, chain.prefix, saveAccounts, hasAccounts],
   );
 };
 

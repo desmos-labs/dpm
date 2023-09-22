@@ -7,7 +7,7 @@ import IconButton from 'components/IconButton';
 import Button from 'components/Button';
 import { RootNavigatorParamList } from 'navigation/RootNavigator';
 import ROUTES from 'navigation/routes';
-import useImportNewAccount from 'hooks/useImportNewAccount';
+import useImportNewAccounts from 'hooks/useImportNewAccounts';
 import { DesmosChain } from 'config/LinkableChains';
 import { applicationsIconsMap, desmosLogoWhite, landingBackground } from 'assets/images';
 import { useStoredAccountsAddresses } from '@recoil/accounts';
@@ -34,7 +34,7 @@ const Landing = ({ navigation }: NavProps) => {
   // -------- HOOKS --------
 
   const accountsAddresses = useStoredAccountsAddresses();
-  const importNewAccount = useImportNewAccount([DesmosChain], accountsAddresses);
+  const importNewAccounts = useImportNewAccounts([DesmosChain], accountsAddresses);
   const loginWithWeb3Auth = useLoginWithWeb3Auth(DesmosChain, accountsAddresses);
   const showModal = useShowModal();
 
@@ -88,9 +88,9 @@ const Landing = ({ navigation }: NavProps) => {
     if (showLegalSection && !tosAccepted) {
       showAcceptLegalPopup();
     } else {
-      importNewAccount();
+      importNewAccounts();
     }
-  }, [importNewAccount, showAcceptLegalPopup, showLegalSection, tosAccepted]);
+  }, [importNewAccounts, showAcceptLegalPopup, showLegalSection, tosAccepted]);
 
   const importFromSocial = React.useCallback(
     (social: Web3AuthLoginProvider) => {
