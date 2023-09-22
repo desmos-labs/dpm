@@ -47,5 +47,6 @@
   "my address": "My address",
   "copy address": "Copy address",
   "change network": "Change network",
-  "generating": "Generating..."
+  "generating": "Generating...",
+  "balance": "Balance"
 }

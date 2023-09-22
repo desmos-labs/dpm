@@ -7,6 +7,7 @@ import { getProfileDisplayName } from 'lib/ProfileUtils';
 import { useFetchProfile } from 'screens/SelectAccount/components/AccountListItem/useHooks';
 import { desmosLogoRound } from 'assets/images';
 import useStyles from './useStyles';
+import AccountListItemBalance from '../AccountListItemBalance';
 
 export type AccountListItemProps = {
   /**
@@ -34,6 +35,13 @@ const AccountListItem = (props: AccountListItemProps) => {
   const styles = useStyles(highlight);
   const { profile, profileLoading } = useFetchProfile(address, fetchDelay ?? 1000);
 
+  const showBalance = React.useMemo(
+    () =>
+      // We display the balance only for desmos addresses
+      address.indexOf('desmos1') === 0,
+    [address],
+  );
+
   return (
     <TouchableOpacity style={styles.container} onPress={onPress} disabled={!onPress}>
       <View style={styles.row}>
@@ -60,6 +68,8 @@ const AccountListItem = (props: AccountListItemProps) => {
           <Typography.Caption style={styles.address} ellipsizeMode="middle" numberOfLines={1}>
             {address}
           </Typography.Caption>
+
+          {showBalance && <AccountListItemBalance address={address} />}
         </View>
       </View>
     </TouchableOpacity>
