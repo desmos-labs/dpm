@@ -22,6 +22,7 @@ import {
   iconModuleGovernanceGray,
   scanQRButton,
 } from 'assets/images';
+import { QrCodeType } from 'screens/ScanQr';
 import BottomBarIcon from './components/BottomBarIcon';
 
 export type HomeTabsParamList = {
@@ -57,7 +58,10 @@ const HomeTabs: FC<NavProps> = ({ navigation }) => {
           customRouteNavigation={{
             // Custom action to navigate to the SCAN_QR_CODE
             // route declared in the root navigator.
-            [ROUTES.SCAN_QR_CODE_BOTTOM_BAR_BUTTON]: () => navigation.navigate(ROUTES.SCAN_QR_CODE),
+            [ROUTES.SCAN_QR_CODE_BOTTOM_BAR_BUTTON]: () =>
+              navigation.navigate(ROUTES.SCAN_QR_CODE, {
+                qrCodeType: QrCodeType.WalletConnect,
+              }),
           }}
         />
       );

@@ -9,6 +9,7 @@ import { useNavigation } from '@react-navigation/native';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { RootNavigatorParamList } from 'navigation/RootNavigator';
 import ROUTES from 'navigation/routes';
+import { QrCodeType } from 'screens/ScanQr';
 import useStyles from './useStyles';
 
 const EmptySessions = () => {
@@ -17,7 +18,9 @@ const EmptySessions = () => {
   const styles = useStyles();
 
   const onAuthorize = React.useCallback(() => {
-    navigate.navigate(ROUTES.SCAN_QR_CODE);
+    navigate.navigate(ROUTES.SCAN_QR_CODE, {
+      qrCodeType: QrCodeType.WalletConnect,
+    });
   }, [navigate]);
 
   return (
