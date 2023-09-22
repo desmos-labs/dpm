@@ -59,6 +59,12 @@ export interface GenericActionUri {
 }
 
 /**
+ * Type that defines the actions that can be pefromed when we receive a
+ * {@link GenericActionUri}.
+ */
+export type GenericActionsTypes = UriActionType.SendTokens | UriActionType.ViewProfile;
+
+/**
  * Interface representing a URI action that tells the application
  * to display the profile of a user.
  */

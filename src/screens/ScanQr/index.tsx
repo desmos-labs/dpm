@@ -14,6 +14,7 @@ import { RootNavigatorParamList } from 'navigation/RootNavigator';
 import StyledActivityIndicator from 'components/StyledActivityIndicator';
 import { resolveUriActionFromUrl } from 'lib/UriActions';
 import useHandleUriAction from 'hooks/uriactions/useHandleUriAction';
+import { GenericActionsTypes } from 'types/uri';
 import useStyles from './useStyles';
 import QrCodeScanner from './components/QrCodeScanner';
 
@@ -36,6 +37,12 @@ export interface ScanQrCodeParams {
    */
   readonly qrCodeType?: QrCodeType;
   /**
+   * If defined sets wich action will be pefromed in case we
+   * receive a `UriActionType.Generic` instead of presenting
+   * the selction modal to the user.
+   */
+  readonly genericDpmUriActionOverride?: GenericActionsTypes;
+  /**
    * Tells if the screen should be removed from the stack history.
    */
   readonly pop?: boolean;
@@ -46,7 +53,7 @@ type NavProps = StackScreenProps<RootNavigatorParamList, ROUTES.SCAN_QR_CODE>;
 const ScanQr: React.FC<NavProps> = ({ navigation, route }) => {
   const styles = useStyles();
   const { t } = useTranslation();
-  const { qrCodeType, pop } = route.params ?? {};
+  const { qrCodeType, genericDpmUriActionOverride, pop } = route.params ?? {};
 
   const [pairing, setPairing] = useState(false);
   const [devUri, setDevUri] = useState('');
@@ -111,25 +118,35 @@ const ScanQr: React.FC<NavProps> = ({ navigation, route }) => {
         if (action === undefined) {
           openErrorModal(t('invalid qr code'));
         } else {
-          handleUriAction(action);
+          handleUriAction(action, genericDpmUriActionOverride);
         }
       }
       setPairing(false);
     },
-    [handleUriAction, openErrorModal, t],
+    [handleUriAction, openErrorModal, t, genericDpmUriActionOverride],
   );
 
   const processQrCodeData = React.useCallback(
     async (data: string) => {
-      if (qrCodeType === QrCodeType.WalletConnect) {
-        await startPairProcedure(data);
-      } else if (
-        data.indexOf('https://desmos.app.link/') === 0 ||
-        qrCodeType === QrCodeType.DPMUris
-      ) {
-        handleDPMUri(data);
-      } else {
-        openErrorModal(t('invalid qr code'));
+      let toDetectQrCodeType = qrCodeType;
+      // We don't have a specif qr code type, let's try to detect it.
+      if (toDetectQrCodeType === undefined) {
+        if (data.indexOf('wc:') === 0) {
+          toDetectQrCodeType = QrCodeType.WalletConnect;
+        } else if (data.indexOf('https://desmos.app.link/') === 0) {
+          toDetectQrCodeType = QrCodeType.DPMUris;
+        }
+      }
+
+      switch (toDetectQrCodeType) {
+        case QrCodeType.WalletConnect:
+          await startPairProcedure(data);
+          break;
+        case QrCodeType.DPMUris:
+          handleDPMUri(data);
+          break;
+        default:
+          openErrorModal(t('invalid qr code'));
       }
     },
     [handleDPMUri, openErrorModal, qrCodeType, startPairProcedure, t],
