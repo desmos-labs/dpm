@@ -32,13 +32,13 @@ const SelectAccount: FC<NavProps> = (props) => {
   const { navigation } = props;
   const { onSelect, onCancel, accountPickerParams } = props.route.params;
 
-  const [selectedAccount, setSelectedAccount] = useState<AccountWithWallet | null>(null);
+  const [selectedAccounts, setSelectedAccounts] = useState<AccountWithWallet[]>([]);
 
   const onNextPressed = useCallback(() => {
-    if (selectedAccount !== null) {
-      onSelect(selectedAccount);
+    if (selectedAccounts.length > 0) {
+      onSelect(selectedAccounts[0]);
     }
-  }, [onSelect, selectedAccount]);
+  }, [onSelect, selectedAccounts]);
 
   const descriptionText = useMemo(() => {
     if (
@@ -71,9 +71,9 @@ const SelectAccount: FC<NavProps> = (props) => {
 
       <Spacer paddingVertical={8} />
 
-      <AccountPicker onAccountSelected={setSelectedAccount} params={accountPickerParams} />
+      <AccountPicker onSelectedAccountsChange={setSelectedAccounts} params={accountPickerParams} />
 
-      <Button mode="contained" disabled={!selectedAccount} onPress={onNextPressed}>
+      <Button mode="contained" disabled={selectedAccounts.length === 0} onPress={onNextPressed}>
         {t('next')}
       </Button>
     </StyledSafeAreaView>

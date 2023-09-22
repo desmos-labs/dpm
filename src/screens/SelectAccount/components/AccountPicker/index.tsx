@@ -25,7 +25,7 @@ export type AccountPickerProps = {
    * Callback called when the user select a wallet.
    * @param wallet
    */
-  onAccountSelected: (wallet: AccountWithWallet | null) => void;
+  onSelectedAccountsChange: (accounts: AccountWithWallet[]) => void;
   /**
    * Params that tells the component how to generate the addresses that are showed to the
    * user.
@@ -34,7 +34,11 @@ export type AccountPickerProps = {
   style?: StyleProp<ViewStyle>;
 };
 
-const AccountPicker: React.FC<AccountPickerProps> = ({ onAccountSelected, params, style }) => {
+const AccountPicker: React.FC<AccountPickerProps> = ({
+  onSelectedAccountsChange,
+  params,
+  style,
+}) => {
   const { goBack } = useNavigation();
   const styles = useStyles();
   const { t } = useTranslation('account');
@@ -47,7 +51,7 @@ const AccountPicker: React.FC<AccountPickerProps> = ({ onAccountSelected, params
   }, [params]);
   const [toggleAddressPickerDisabled, setToggleAddressPickerDisabled] = useState(true);
   const [selectedHdPath, setSelectedHdPath] = useState<HdPath | undefined>(masterHdPath);
-  const [selectedAccount, setSelectedAccount] = useState<AccountWithWallet | null>(null);
+  const [selectedAccounts, setSelectedAccounts] = useState<AccountWithWallet[]>([]);
   const [addressPickerVisible, setAddressPickerVisible] = useState(true);
 
   const { generateWalletAccountFromHdPath } = useGenerateAccountWithWalletFromHdPath();
@@ -76,52 +80,62 @@ const AccountPicker: React.FC<AccountPickerProps> = ({ onAccountSelected, params
         if (!visible) {
           // The address picker is being displayed,
           // remove the wallet generated from the derivation path.
-          setSelectedAccount(null);
+          setSelectedAccounts([]);
           setSelectedHdPath(masterHdPath);
-        } else if (selectedAccount === null) {
+        } else {
+          // Returning to HdPathPicker, lets clear the selected accounts.
+          setSelectedAccounts([]);
           setSelectedHdPath(masterHdPath);
           generateWalletAccountFromHdPath(masterHdPath, params).then((account) => {
-            setSelectedAccount(account);
+            setSelectedAccounts(account ? [account] : []);
           });
         }
         return !visible;
       });
     }
-  }, [selectedAccount, masterHdPath, generateWalletAccountFromHdPath, params]);
+  }, [masterHdPath, generateWalletAccountFromHdPath, params]);
 
   const renderListItem = useCallback(
     (info: ListRenderItemInfo<AccountWithWallet>) => {
       const { address } = info.item.account;
+      const highlight = selectedAccounts.some((a) => a.account.address === address);
       return (
         <>
           <AccountListItem
             address={address}
-            highlight={selectedAccount?.account.address === address}
+            highlight={highlight}
             onPress={() => {
-              const account = selectedAccount?.account.address === address ? null : info.item;
-              setSelectedAccount(account);
-              onAccountSelected(account);
+              setSelectedAccounts((accounts) =>
+                highlight
+                  ? accounts.filter((a) => a.account.address !== address)
+                  : [...accounts, info.item],
+              );
             }}
           />
           <Spacer paddingVertical={8} />
         </>
       );
     },
-    [selectedAccount?.account.address, onAccountSelected],
+    [selectedAccounts],
   );
 
   const listKeyExtractor = useCallback((item: AccountWithWallet) => item.account.address, []);
 
   const onHdPathChange = useCallback(
     async (hdPath: HdPath) => {
-      setSelectedAccount(null);
+      setSelectedAccounts([]);
       setSelectedHdPath(hdPath);
       const wallet = await generateWalletAccountFromHdPath(hdPath, params);
-      setSelectedAccount(wallet);
-      onAccountSelected(wallet);
+      setSelectedAccounts(wallet ? [wallet] : []);
     },
-    [generateWalletAccountFromHdPath, params, onAccountSelected],
+    [generateWalletAccountFromHdPath, params],
   );
+
+  // -------- EFFECTS --------
+
+  React.useEffect(() => {
+    onSelectedAccountsChange(selectedAccounts);
+  }, [selectedAccounts, onSelectedAccountsChange]);
 
   return (
     <View style={[style, styles.root]}>
@@ -129,7 +143,7 @@ const AccountPicker: React.FC<AccountPickerProps> = ({ onAccountSelected, params
       {addressPickerVisible ? (
         <FlashList
           data={paginatedWalletsError ? [] : wallets}
-          extraData={selectedAccount}
+          extraData={selectedAccounts}
           renderItem={renderListItem}
           keyExtractor={listKeyExtractor}
           onEndReached={fetchMore}
@@ -162,7 +176,7 @@ const AccountPicker: React.FC<AccountPickerProps> = ({ onAccountSelected, params
             style={styles.hdPathPicker}
             onChange={onHdPathChange}
             value={selectedHdPath}
-            disabled={!selectedAccount || addressPickerVisible}
+            disabled={!selectedAccounts || addressPickerVisible}
             allowCoinTypeEdit={allowCoinTypeEdit}
           />
 
@@ -170,8 +184,8 @@ const AccountPicker: React.FC<AccountPickerProps> = ({ onAccountSelected, params
 
           {/* Last generated address */}
           {!addressPickerVisible &&
-            (selectedAccount?.account.address ? (
-              <AccountListItem address={selectedAccount.account.address} fetchDelay={0} />
+            (selectedAccounts.length > 0 ? (
+              <AccountListItem address={selectedAccounts[0].account.address} fetchDelay={0} />
             ) : (
               <Typography.Body numberOfLines={1} ellipsizeMode="middle">
                 {`${t('generating address')}...`}
