@@ -17,6 +17,10 @@ export interface BaseWalletPickerParams {
    * list.
    */
   readonly ignoreAddresses?: string[];
+  /**
+   * If true the UI will allow the user to select multiple accounts.
+   */
+  readonly allowMultiSelect?: boolean;
 }
 
 export interface WalletPickerMnemonicParams extends BaseWalletPickerParams {

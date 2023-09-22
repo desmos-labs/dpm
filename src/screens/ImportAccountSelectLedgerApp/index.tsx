@@ -14,7 +14,7 @@ import { useRecoilState } from 'recoil';
 import { CosmosLedgerApp, CryptoOrgLedgerApp, DesmosLedgerApp } from 'config/LedgerApps';
 import { CryptoDotOrgChain, DesmosChain } from 'config/LinkableChains';
 import useConnectToLedger from 'hooks/useConnectToLedger';
-import useSelectAccount from 'hooks/useSelectAccount';
+import useSelectAccounts from 'hooks/useSelectAccounts';
 import { WalletPickerMode } from 'screens/SelectAccount/components/AccountPicker/types';
 import importAccountAppState from '@recoil/importAccountState';
 import useStyles from './useStyles';
@@ -26,9 +26,9 @@ const ImportAccountSelectLedgerApp: React.FC<NavProps> = ({ navigation }) => {
   const styles = useStyles();
 
   const [importAccountState] = useRecoilState(importAccountAppState);
-  const { ignoreAddresses, selectedChain, onSuccess } = importAccountState!;
+  const { ignoreAddresses, selectedChain, onSuccess, allowMultiSelect } = importAccountState!;
   const connectToLedger = useConnectToLedger();
-  const selectAccount = useSelectAccount();
+  const selectAccounts = useSelectAccounts();
 
   const ledgerApplications = useMemo(() => {
     if (selectedChain!.name === CryptoDotOrgChain.name) {
@@ -47,7 +47,7 @@ const ImportAccountSelectLedgerApp: React.FC<NavProps> = ({ navigation }) => {
         return;
       }
 
-      selectAccount(
+      selectAccounts(
         {
           mode: WalletPickerMode.Ledger,
           ignoreAddresses,
@@ -55,15 +55,16 @@ const ImportAccountSelectLedgerApp: React.FC<NavProps> = ({ navigation }) => {
           transport,
           addressPrefix: selectedChain!.prefix,
           masterHdPath: ledgerApp.masterHdPath,
+          allowMultiSelect,
         },
         {
-          onSuccess: (account) => {
-            onSuccess({ account, chain: selectedChain! });
+          onSuccess: (accounts) => {
+            onSuccess({ accounts, chain: selectedChain! });
           },
         },
       );
     },
-    [connectToLedger, selectAccount, ignoreAddresses, selectedChain, onSuccess],
+    [connectToLedger, selectAccounts, ignoreAddresses, selectedChain, onSuccess, allowMultiSelect],
   );
 
   const renderLedgerApp = useCallback(

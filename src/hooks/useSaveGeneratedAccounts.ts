@@ -1,4 +1,4 @@
-import { useCallback, useMemo } from 'react';
+import { useCallback } from 'react';
 import { useNavigation } from '@react-navigation/native';
 import { StackNavigationProp } from '@react-navigation/stack/lib/typescript/src/types';
 import { RootNavigatorParamList } from 'navigation/RootNavigator';
@@ -15,18 +15,17 @@ import ROUTES from 'navigation/routes';
  * Once the user has entered their password the account will be stored on the device, and they will be
  * redirected to the home screen.
  */
-const useSaveGeneratedAccount = (isImported: boolean) => {
+const useSaveGeneratedAccounts = (isImported: boolean) => {
   const navigator = useNavigation<StackNavigationProp<RootNavigatorParamList>>();
   const hasAccount = useHasAccount();
-  const createWalletPassword = useMemo(() => !hasAccount, [hasAccount]);
 
   return useCallback(
-    (account: AccountWithWallet) => {
-      if (createWalletPassword) {
+    (accounts: AccountWithWallet[]) => {
+      if (!hasAccount) {
         navigator.navigate({
           name: ROUTES.CREATE_WALLET_PASSWORD,
           params: {
-            account,
+            accounts,
             isImported,
           },
         });
@@ -34,14 +33,14 @@ const useSaveGeneratedAccount = (isImported: boolean) => {
         navigator.navigate({
           name: ROUTES.CHECK_WALLET_PASSWORD,
           params: {
-            account,
+            accounts,
             isImported,
           },
         });
       }
     },
-    [navigator, createWalletPassword, isImported],
+    [hasAccount, navigator, isImported],
   );
 };
 
-export default useSaveGeneratedAccount;
+export default useSaveGeneratedAccounts;

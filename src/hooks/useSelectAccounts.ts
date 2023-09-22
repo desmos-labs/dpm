@@ -7,11 +7,15 @@ import { AccountPickerParams } from 'screens/SelectAccount/components/AccountPic
 import { AccountWithWallet } from 'types/account';
 
 export interface ResultCallbacks {
-  onSuccess: (account: AccountWithWallet) => any;
+  onSuccess: (accounts: AccountWithWallet[]) => any;
   onCancel?: () => any;
 }
 
-const useSelectAccount = () => {
+/**
+ * Hook that provides a function that will present to the user
+ * a screen from which they can select a list of accounts.
+ */
+const useSelectAccounts = () => {
   const navigator = useNavigation<StackNavigationProp<RootNavigatorParamList>>();
 
   return useCallback(
@@ -28,4 +32,4 @@ const useSelectAccount = () => {
   );
 };
 
-export default useSelectAccount;
+export default useSelectAccounts;

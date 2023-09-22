@@ -10,8 +10,8 @@ import Button from 'components/Button';
 import { RootNavigatorParamList } from 'navigation/RootNavigator';
 import ROUTES from 'navigation/routes';
 import { WalletPickerMode } from 'screens/SelectAccount/components/AccountPicker/types';
-import useSaveGeneratedAccount from 'hooks/useSaveGeneratedAccount';
-import useSelectAccount from 'hooks/useSelectAccount';
+import useSaveGeneratedAccounts from 'hooks/useSaveGeneratedAccounts';
+import useSelectAccounts from 'hooks/useSelectAccounts';
 import { DesmosHdPath } from 'config/HdPaths';
 import { useStoredAccountsAddresses } from '@recoil/accounts';
 import Flexible from 'components/Flexible';
@@ -41,8 +41,8 @@ const CheckMnemonic: FC<NavProps> = (props) => {
   const [availableWords, setAvailableWords] = useState<string[]>([...words]);
 
   const accountsAddresses = useStoredAccountsAddresses();
-  const saveAccount = useSaveGeneratedAccount(false);
-  const selectAccount = useSelectAccount();
+  const saveAccounts = useSaveGeneratedAccounts(false);
+  const selectAccounts = useSelectAccounts();
 
   const onWordSelected = useCallback((word: string) => {
     setAvailableWords((currentAvailableWords) => {
@@ -79,7 +79,7 @@ const CheckMnemonic: FC<NavProps> = (props) => {
     } else {
       const composedMnemonic = selectedWords.join(' ');
       if (receivedMnemonic === composedMnemonic) {
-        selectAccount(
+        selectAccounts(
           {
             mode: WalletPickerMode.Mnemonic,
             mnemonic,
@@ -87,9 +87,10 @@ const CheckMnemonic: FC<NavProps> = (props) => {
             addressPrefix: 'desmos',
             allowCoinTypeEdit: false,
             ignoreAddresses: accountsAddresses,
+            allowMultiSelect: true,
           },
           {
-            onSuccess: saveAccount,
+            onSuccess: saveAccounts,
           },
         );
       } else {
@@ -101,10 +102,10 @@ const CheckMnemonic: FC<NavProps> = (props) => {
     words.length,
     t,
     receivedMnemonic,
-    selectAccount,
+    selectAccounts,
     mnemonic,
     accountsAddresses,
-    saveAccount,
+    saveAccounts,
   ]);
 
   return (

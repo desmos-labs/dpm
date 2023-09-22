@@ -105,18 +105,22 @@ const AccountPicker: React.FC<AccountPickerProps> = ({
             address={address}
             highlight={highlight}
             onPress={() => {
-              setSelectedAccounts((accounts) =>
-                highlight
-                  ? accounts.filter((a) => a.account.address !== address)
-                  : [...accounts, info.item],
-              );
+              if (params.allowMultiSelect === true) {
+                setSelectedAccounts((accounts) =>
+                  highlight
+                    ? accounts.filter((a) => a.account.address !== address)
+                    : [...accounts, info.item],
+                );
+              } else {
+                setSelectedAccounts([info.item]);
+              }
             }}
           />
           <Spacer paddingVertical={8} />
         </>
       );
     },
-    [selectedAccounts],
+    [selectedAccounts, params.allowMultiSelect],
   );
 
   const listKeyExtractor = useCallback((item: AccountWithWallet) => item.account.address, []);

@@ -17,7 +17,7 @@ export interface ImportAccountState {
   /**
    * Function called after the user have selected the account that want to import.
    */
-  readonly onSuccess: (data: { account: AccountWithWallet; chain: SupportedChain }) => any;
+  readonly onSuccess: (data: { accounts: AccountWithWallet[]; chain: SupportedChain }) => any;
   /**
    * Function called if the user cancel the import flow.
    */
@@ -38,6 +38,11 @@ export interface ImportAccountState {
    * Ledger app selected from the user.
    */
   readonly ledgerApp?: LedgerApp;
+  /**
+   * Tells if the ui should allow to select more then
+   * on account.
+   */
+  readonly allowMultiSelect?: boolean;
 }
 
 /**

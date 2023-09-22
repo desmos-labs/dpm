@@ -17,7 +17,7 @@ import AccountPicker from './components/AccountPicker';
 
 export type SelectAccountParams = {
   accountPickerParams: AccountPickerParams;
-  onSelect: (wallet: AccountWithWallet) => any;
+  onSelect: (accounts: AccountWithWallet[]) => any;
   onCancel?: () => any;
 };
 
@@ -36,16 +36,28 @@ const SelectAccount: FC<NavProps> = (props) => {
 
   const onNextPressed = useCallback(() => {
     if (selectedAccounts.length > 0) {
-      onSelect(selectedAccounts[0]);
+      onSelect(selectedAccounts);
     }
   }, [onSelect, selectedAccounts]);
+
+  const onSelectedAccountsChange = React.useCallback(
+    (accounts: AccountWithWallet[]) => {
+      setSelectedAccounts(accounts);
+      if (accounts.length > 0 && accountPickerParams.allowMultiSelect !== true) {
+        onNextPressed();
+      }
+    },
+    [accountPickerParams.allowMultiSelect, onNextPressed],
+  );
 
   const descriptionText = useMemo(() => {
     if (
       accountPickerParams.mode === WalletPickerMode.Ledger ||
       accountPickerParams.mode === WalletPickerMode.Mnemonic
     ) {
-      return t('select account or enter derivation path');
+      return accountPickerParams.allowMultiSelect
+        ? t('select accounts or enter derivation path')
+        : t('select account or enter derivation path');
     }
 
     return t('select account');
@@ -66,16 +78,23 @@ const SelectAccount: FC<NavProps> = (props) => {
       topBar={<TopBar stackProps={props} />}
       touchableWithoutFeedbackDisabled={false}
     >
-      <Typography.H5 capitalize>{t('select account')}</Typography.H5>
+      <Typography.H5 capitalize>
+        {accountPickerParams?.allowMultiSelect ? t('select accounts') : t('select account')}
+      </Typography.H5>
       <Typography.Regular14>{descriptionText}.</Typography.Regular14>
 
       <Spacer paddingVertical={8} />
 
-      <AccountPicker onSelectedAccountsChange={setSelectedAccounts} params={accountPickerParams} />
+      <AccountPicker
+        onSelectedAccountsChange={onSelectedAccountsChange}
+        params={accountPickerParams}
+      />
 
-      <Button mode="contained" disabled={selectedAccounts.length === 0} onPress={onNextPressed}>
-        {t('next')}
-      </Button>
+      {accountPickerParams?.allowMultiSelect && (
+        <Button mode="contained" disabled={selectedAccounts.length === 0} onPress={onNextPressed}>
+          {t('next')}
+        </Button>
+      )}
     </StyledSafeAreaView>
   );
 };
