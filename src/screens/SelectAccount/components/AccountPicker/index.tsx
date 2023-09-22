@@ -4,13 +4,17 @@ import { StyleProp, View, ViewStyle } from 'react-native';
 import Typography from 'components/Typography';
 import { HdPath } from '@cosmjs/crypto';
 import {
-  useFetchWallets,
   useGenerateAccountWithWalletFromHdPath,
+  useGeneratePaginatedWallets,
 } from 'screens/SelectAccount/components/AccountPicker/useHooks';
 import { AccountWithWallet } from 'types/account';
 import Button from 'components/Button';
 import Spacer from 'components/Spacer';
-import PaginatedFlatList, { ListRenderItemInfo } from '../PaginatedFlatList';
+import { FlashList, ListRenderItemInfo } from '@shopify/flash-list';
+import StyledActivityIndicator from 'components/StyledActivityIndicator';
+import EmptyList from 'components/EmptyList';
+import { DPMImages } from 'types/images';
+import { useNavigation } from '@react-navigation/native';
 import HdPathPicker from '../HdPathPicker';
 import AccountListItem from '../AccountListItem';
 import useStyles from './useStyles';
@@ -31,6 +35,7 @@ export type AccountPickerProps = {
 };
 
 const AccountPicker: React.FC<AccountPickerProps> = ({ onAccountSelected, params, style }) => {
+  const { goBack } = useNavigation();
   const styles = useStyles();
   const { t } = useTranslation('account');
 
@@ -46,7 +51,17 @@ const AccountPicker: React.FC<AccountPickerProps> = ({ onAccountSelected, params
   const [addressPickerVisible, setAddressPickerVisible] = useState(true);
 
   const { generateWalletAccountFromHdPath } = useGenerateAccountWithWalletFromHdPath();
-  const { fetchWallets } = useFetchWallets(params);
+  const {
+    data: wallets,
+    loading: loadingWallets,
+    fetchMore,
+    error: paginatedWalletsError,
+  } = useGeneratePaginatedWallets(params);
+  React.useEffect(() => {
+    // Disable the possibility to toggle between the hd path input and
+    // the list of address.
+    setToggleAddressPickerDisabled(loadingWallets);
+  }, [loadingWallets]);
 
   const allowCoinTypeEdit = useMemo(() => {
     if (params.mode === WalletPickerMode.Mnemonic) {
@@ -112,15 +127,30 @@ const AccountPicker: React.FC<AccountPickerProps> = ({ onAccountSelected, params
     <View style={[style, styles.root]}>
       {/* Address picker */}
       {addressPickerVisible ? (
-        <PaginatedFlatList
+        <FlashList
+          data={paginatedWalletsError ? [] : wallets}
           extraData={selectedAccount}
-          loadPage={fetchWallets}
-          onLoadStateChange={setToggleAddressPickerDisabled}
-          itemsPerPage={10}
           renderItem={renderListItem}
           keyExtractor={listKeyExtractor}
+          onEndReached={fetchMore}
           onEndReachedThreshold={0.2}
           estimatedItemSize={89}
+          ListFooterComponent={
+            <StyledActivityIndicator animating={loadingWallets} hidesWhenStopped size="small" />
+          }
+          ListEmptyComponent={
+            paginatedWalletsError ? (
+              <EmptyList
+                image={DPMImages.NoData}
+                message={paginatedWalletsError?.message}
+                extraComponent={
+                  <Button onPress={goBack} mode="contained">
+                    {t('common:go back')}
+                  </Button>
+                }
+              />
+            ) : undefined
+          }
         />
       ) : (
         <View style={styles.hdPathPickerView}>

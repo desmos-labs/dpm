@@ -48,5 +48,6 @@
   "copy address": "Copy address",
   "change network": "Change network",
   "generating": "Generating...",
-  "balance": "Balance"
+  "balance": "Balance",
+  "go back": "Go back"
 }

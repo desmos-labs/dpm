@@ -23,6 +23,9 @@ export type SelectAccountParams = {
 
 type NavProps = StackScreenProps<RootNavigatorParamList, ROUTES.SELECT_ACCOUNT>;
 
+/**
+ * Screen that let the user select a list of accounts.
+ */
 const SelectAccount: FC<NavProps> = (props) => {
   const { t } = useTranslation('account');
 
