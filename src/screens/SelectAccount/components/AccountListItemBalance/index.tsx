@@ -56,7 +56,7 @@ const AccountListItemBalance: React.FC<AccountListItemBalanceProps> = ({ address
 
   return (
     <View style={styles.root}>
-      <Typography.Regular12>{t('balance')} </Typography.Regular12>
+      <Typography.Regular12>{t('balance')}: </Typography.Regular12>
       {loading ? (
         <TypographyContentLoaders.Regular12 width={100} />
       ) : (
