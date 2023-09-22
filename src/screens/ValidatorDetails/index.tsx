@@ -6,7 +6,6 @@ import React, { FC } from 'react';
 import StyledSafeAreaView from 'components/StyledSafeAreaView';
 import TopBar from 'components/TopBar';
 import { getValidatorBio } from 'lib/ValidatorUtils';
-import Markdown from 'react-native-markdown-display';
 import { ScrollView } from 'react-native';
 import Button from 'components/Button';
 import { useTranslation } from 'react-i18next';
@@ -18,6 +17,7 @@ import {
 } from 'screens/ValidatorDetails/hooks';
 import { formatNumber, roundFloat } from 'lib/FormatUtils';
 import ValidatorNameWithStatus from 'components/ValidatorNameWithStatus';
+import StyledMarkDown from 'components/StyledMarkdown';
 import useStyles from './useStyles';
 import ValidatorInfoField from './components/ValidatorInfoField';
 
@@ -91,12 +91,12 @@ const ValidatorDetails: FC<NavProps> = (props) => {
   }, [stakeCoins, validator]);
 
   return (
-    <StyledSafeAreaView topBar={<TopBar stackProps={props} />}>
+    <StyledSafeAreaView topBar={<TopBar stackProps={props} />} touchableWithoutFeedbackDisabled>
       {/* Validator avatar and online status */}
       <ValidatorNameWithStatus validator={validator} />
 
       {/* Validator description */}
-      <Markdown>{validatorDescription}</Markdown>
+      <StyledMarkDown>{validatorDescription}</StyledMarkDown>
 
       {/* Validator info */}
       <ScrollView style={styles.infoContainer}>
