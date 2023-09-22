@@ -25,6 +25,7 @@ import ProfileImage from 'components/ProfileImage';
 import { QrCodeType } from 'screens/ScanQr';
 import IconButton from 'components/IconButton';
 import { scanIcon } from 'assets/images';
+import { UriActionType } from 'types/uri';
 import useStyles from './useStyles';
 import useSendTokens from './useHooks';
 
@@ -121,6 +122,7 @@ const SendTokens: React.FC<NavProps> = ({ navigation, route }) => {
         onPress={() => {
           navigation.navigate(ROUTES.SCAN_QR_CODE, {
             qrCodeType: QrCodeType.DPMUris,
+            genericDpmUriActionOverride: UriActionType.SendTokens,
           });
         }}
       ></IconButton>
