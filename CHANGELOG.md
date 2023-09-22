@@ -1,3 +1,8 @@
+# Version 2.4.2
+## Bug fixed
+- Fixed a bug that caused the QR code scanner to not work properly when authorizing an application with WalletConnect.
+- Fixed a bug that caused the validator description to not show properly when in dark mode.
+
 # Version 2.4.1
 ## Bug fixes
 - Fixed a bug that caused the application to not open the QR code scanner from the authorizations screen;
