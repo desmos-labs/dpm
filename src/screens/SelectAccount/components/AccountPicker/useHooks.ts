@@ -90,46 +90,47 @@ const useGetGenerateWalletFunction = () =>
         };
       }
 
-      if (params.mode !== WalletPickerMode.Mnemonic && params.mode !== WalletPickerMode.Ledger) {
-        return {
-          data: [],
-          endReached: true,
-        };
-      }
-
       let lastIndex = offset + limit;
-      let endReached = false;
+      let unFilteredAccounts: AccountWithWallet[] = [];
+      let accounts: AccountWithWallet[] = [];
+
       // Special case for the Ledger, the hard wallet can derive
       // private keys from an HdPath that have the account index that
       // is inisde the [0, 254] range.
       if (params.mode === WalletPickerMode.Ledger && lastIndex > 255) {
         lastIndex = 254;
-        endReached = true;
       }
 
-      const paths: HdPath[] = _.range(offset, lastIndex)
-        .map(Slip10RawIndex.hardened)
-        .map((accountIndex) => {
-          const path = [...params.masterHdPath];
-          path[2] = accountIndex;
-          return path;
-        });
+      if (params.mode === WalletPickerMode.Ledger || params.mode === WalletPickerMode.Mnemonic) {
+        const paths: HdPath[] = _.range(offset, lastIndex)
+          .map(Slip10RawIndex.hardened)
+          .map((accountIndex) => {
+            const path = [...params.masterHdPath];
+            path[2] = accountIndex;
+            return path;
+          });
 
-      const accounts = await generateAccountWithWallets(
-        generationParamsToWalletGenerationData(params, paths),
-      ).then((generatedAccounts) => {
-        if (params.ignoreAddresses === undefined || params.ignoreAddresses.length === 0) {
-          return generatedAccounts;
-        }
-        // Filter out the list of accounts that should be ignored
-        return generatedAccounts.filter(
+        unFilteredAccounts = await generateAccountWithWallets(
+          generationParamsToWalletGenerationData(params, paths),
+        );
+      } else if (params.mode === WalletPickerMode.Web3Auth && offset === 0) {
+        // Here we can generate just one account.
+        unFilteredAccounts = await generateAccountWithWallets(
+          generationParamsToWalletGenerationData(params, []),
+        );
+      }
+
+      if (params.ignoreAddresses !== undefined && params.ignoreAddresses.length > 0) {
+        accounts = unFilteredAccounts.filter(
           ({ account }) => params.ignoreAddresses!.indexOf(account.address) === -1,
         );
-      });
+      } else {
+        accounts = unFilteredAccounts;
+      }
 
       return {
         data: accounts,
-        endReached,
+        endReached: unFilteredAccounts.length < limit,
       };
     },
     [],
