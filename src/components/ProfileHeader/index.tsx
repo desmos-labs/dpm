@@ -1,4 +1,4 @@
-import React, { ReactNode, useCallback, useMemo, useState } from 'react';
+import React, { ReactNode, useCallback, useState } from 'react';
 import { View } from 'react-native';
 import FastImage from 'react-native-fast-image';
 import { useTheme } from 'react-native-paper';
@@ -8,16 +8,29 @@ import Typography from 'components/Typography';
 import { DesmosProfile } from 'types/desmos';
 import { defaultProfileCover, defaultProfilePicture } from 'assets/images';
 import CopyButton from 'components/CopyButton';
-import usePickPicture from 'components/ProfileHeader/useHooks';
 import { Circle, Rect } from 'react-content-loader/native';
 import ThemedContentLoader from 'components/ThemedContentLoader';
 import Spacer from 'components/Spacer';
 import TypographyContentLoaders from 'components/ContentLoaders/Typography';
 import StyledActivityIndicator from 'components/StyledActivityIndicator';
+import { Validator } from 'types/validator';
+import { usePickPicture, useMemoizedPictureSource } from './useHooks';
 import useStyles from './useStyles';
 
 export type ProfileHeaderProps = {
+  /**
+   * The profile to display.
+   */
   profile: DesmosProfile | undefined;
+  /**
+   * If defined this component will show the validator's information
+   * if the `profile` prop is undefined.
+   */
+  validator?: Validator;
+  /**
+   * If true the component will show some animations
+   * to inform the user that the profile is being fetched.
+   */
   loading?: boolean;
   canEdit?: boolean;
   topRightElement?: ReactNode | null;
@@ -31,6 +44,7 @@ export type ProfileHeaderProps = {
 const ProfileHeader: React.FC<ProfileHeaderProps> = (props) => {
   const {
     profile,
+    validator,
     loading,
     canEdit,
     topRightElement,
@@ -45,14 +59,31 @@ const ProfileHeader: React.FC<ProfileHeaderProps> = (props) => {
 
   const pickPicture = usePickPicture();
 
-  const useMemoizedPictureSource = (url: string | undefined, picture: any) =>
-    useMemo(() => (url ? { uri: url } : picture), [url, picture]);
-
   const [coverPicSrc, setCoverPicSrc] = useState<string | undefined>(profile?.coverPicture);
   const [profilePicSrc, setProfilePicSrc] = useState<string | undefined>(profile?.profilePicture);
 
+  // -------- VARIABLES --------
+
   const coverPicture = useMemoizedPictureSource(coverPicSrc, defaultProfileCover);
   const profilePicture = useMemoizedPictureSource(profilePicSrc, defaultProfilePicture);
+  const dtag = React.useMemo(() => (loading ? undefined : profile?.dtag), [loading, profile?.dtag]);
+  const nickname = React.useMemo(() => {
+    if (loading) {
+      return undefined;
+    }
+
+    return profile?.nickname ?? validator?.moniker;
+  }, [loading, profile?.nickname, validator?.moniker]);
+  const address = React.useMemo(() => {
+    if (loading) {
+      return undefined;
+    }
+
+    // We return first the validator address becouse if both validator and
+    // profile are defined means that we are displaying a validator's profile
+    // and in this case we want to display the validator's operator address.
+    return validator?.operatorAddress ?? profile?.address;
+  }, [loading, validator?.operatorAddress, profile?.address]);
 
   const pickCoverPicture = useCallback(() => {
     pickPicture((imageUri: string | undefined) => {
@@ -77,8 +108,8 @@ const ProfileHeader: React.FC<ProfileHeaderProps> = (props) => {
   // Effect to update the profile and cover picture when they change.
   React.useEffect(() => {
     setCoverPicSrc(profile?.coverPicture);
-    setProfilePicSrc(profile?.profilePicture);
-  }, [profile?.coverPicture, profile?.profilePicture]);
+    setProfilePicSrc(profile?.profilePicture ?? validator?.avatarUrl);
+  }, [profile?.coverPicture, profile?.profilePicture, validator?.avatarUrl]);
 
   return (
     <View style={styles.root}>
@@ -134,16 +165,14 @@ const ProfileHeader: React.FC<ProfileHeaderProps> = (props) => {
         {loading ? (
           <TypographyContentLoaders.Body width={200} />
         ) : (
-          profile?.nickname && (
-            <Typography.Body style={styles.nickName}>{profile.nickname}</Typography.Body>
-          )
+          nickname && <Typography.Body style={styles.nickName}>{nickname}</Typography.Body>
         )}
 
         {/* DTag */}
         {loading ? (
           <TypographyContentLoaders.Caption width={120} />
         ) : (
-          profile?.dtag && <Typography.Caption>@{profile.dtag}</Typography.Caption>
+          dtag && <Typography.Caption>@{dtag}</Typography.Caption>
         )}
 
         {/* Address */}
@@ -152,12 +181,12 @@ const ProfileHeader: React.FC<ProfileHeaderProps> = (props) => {
             <Rect width="100%" height="16" y="10" />
           </ThemedContentLoader>
         ) : (
-          profile?.address && (
+          address && (
             <View style={styles.addressContainer}>
               <Typography.Caption ellipsizeMode="middle" numberOfLines={1}>
-                {profile.address}
+                {address}
               </Typography.Caption>
-              <CopyButton value={profile.address} color="#c4c4c4" />
+              <CopyButton value={address} color="#c4c4c4" />
             </View>
           )
         )}

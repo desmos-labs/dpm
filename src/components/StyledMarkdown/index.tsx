@@ -11,7 +11,29 @@ export interface StyledMarkDownProps {}
  */
 const StyledMarkDown: React.FC<PropsWithChildren<StyledMarkDownProps>> = ({ children }) => {
   const styles = useStyles();
-  return <Markdown style={styles}>{children}</Markdown>;
+  const content = React.useMemo(() => {
+    if (typeof children !== 'string') {
+      return children;
+    }
+    return (
+      children
+        // Replace <br/> with a new line
+        .replace(/<\/?br\/?>/g, '\n')
+        // Replace <b> with **
+        .replace(/<\/?b>/g, '**')
+        // Replace <i> with *
+        .replace(/<\/?i>/g, '*')
+        // Remove all <p> tags
+        .replace(/<\/?p.*>/g, '')
+        // Replace <a> with a markdown link
+        .replace(
+          /<a.*?href=('|")(.*?)('|").*?>(.*?)<\/a>/g,
+          (_1, _2, url, _3, text) => `[${text}](${url})`,
+        )
+    );
+  }, [children]);
+
+  return <Markdown style={styles}>{content}</Markdown>;
 };
 
 export default StyledMarkDown;

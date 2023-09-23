@@ -16,8 +16,9 @@ import {
   useTotalVotingPower,
 } from 'screens/ValidatorDetails/hooks';
 import { formatNumber, roundFloat } from 'lib/FormatUtils';
-import ValidatorNameWithStatus from 'components/ValidatorNameWithStatus';
 import StyledMarkDown from 'components/StyledMarkdown';
+import ProfileHeader from 'components/ProfileHeader';
+import ValidatorStatus from 'components/ValidatorStatus';
 import useStyles from './useStyles';
 import ValidatorInfoField from './components/ValidatorInfoField';
 
@@ -59,13 +60,7 @@ const ValidatorDetails: FC<NavProps> = (props) => {
 
   // -------- FIELDS VALUES ------------
 
-  const validatorDescription = React.useMemo(
-    () =>
-      // Replace all the <br/> with a new line because the markdown component
-      // don't handle them correctly.
-      getValidatorBio(validator)?.replace(/<br\/>/g, '\n') ?? '',
-    [validator],
-  );
+  const validatorDescription = React.useMemo(() => getValidatorBio(validator), [validator]);
 
   const validatorCommissions = React.useMemo(() => {
     const percentage = validator.commission * 100;
@@ -91,15 +86,21 @@ const ValidatorDetails: FC<NavProps> = (props) => {
   }, [stakeCoins, validator]);
 
   return (
-    <StyledSafeAreaView topBar={<TopBar stackProps={props} />} touchableWithoutFeedbackDisabled>
-      {/* Validator avatar and online status */}
-      <ValidatorNameWithStatus validator={validator} />
+    <StyledSafeAreaView
+      padding={0}
+      topBar={
+        <TopBar style={styles.topBar} leftIconStyle={styles.topBarButton} stackProps={props} />
+      }
+      touchableWithoutFeedbackDisabled
+    >
+      <ProfileHeader profile={validator.profile} validator={validator} />
 
-      {/* Validator description */}
-      <StyledMarkDown>{validatorDescription}</StyledMarkDown>
+      <ValidatorStatus style={styles.validatorStatus} validator={validator} />
 
       {/* Validator info */}
-      <ScrollView style={styles.infoContainer}>
+      <ScrollView style={styles.infoContainer} showsHorizontalScrollIndicator>
+        {/* Validator description */}
+        <StyledMarkDown>{validatorDescription}</StyledMarkDown>
         <ValidatorInfoField label={t('website')} value={validator.website ?? 'N/A'} />
         <ValidatorInfoField
           label={t('voting power')}
