@@ -96,9 +96,9 @@ const useGetGenerateWalletFunction = () =>
 
       // Special case for the Ledger, the hard wallet can derive
       // private keys from an HdPath that have the account index that
-      // is inisde the [0, 254] range.
-      if (params.mode === WalletPickerMode.Ledger && lastIndex > 255) {
-        lastIndex = 254;
+      // is inisde the [0, 100] range.
+      if (params.mode === WalletPickerMode.Ledger && lastIndex > 100) {
+        lastIndex = 100;
       }
 
       if (params.mode === WalletPickerMode.Ledger || params.mode === WalletPickerMode.Mnemonic) {
