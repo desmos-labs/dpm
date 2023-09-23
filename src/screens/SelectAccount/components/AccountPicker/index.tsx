@@ -84,10 +84,12 @@ const AccountPicker: React.FC<AccountPickerProps> = ({
           setSelectedHdPath(masterHdPath);
         } else {
           // Returning to HdPathPicker, lets clear the selected accounts.
+          setToggleAddressPickerDisabled(true);
           setSelectedAccounts([]);
           setSelectedHdPath(masterHdPath);
           generateWalletAccountFromHdPath(masterHdPath, params).then((account) => {
             setSelectedAccounts(account ? [account] : []);
+            setToggleAddressPickerDisabled(false);
           });
         }
         return !visible;
@@ -127,10 +129,12 @@ const AccountPicker: React.FC<AccountPickerProps> = ({
 
   const onHdPathChange = useCallback(
     async (hdPath: HdPath) => {
+      setToggleAddressPickerDisabled(true);
       setSelectedAccounts([]);
       setSelectedHdPath(hdPath);
-      const wallet = await generateWalletAccountFromHdPath(hdPath, params);
-      setSelectedAccounts(wallet ? [wallet] : []);
+      generateWalletAccountFromHdPath(hdPath, params)
+        .then((wallet) => setSelectedAccounts(wallet ? [wallet] : []))
+        .finally(() => setToggleAddressPickerDisabled(false));
     },
     [generateWalletAccountFromHdPath, params],
   );
@@ -180,7 +184,7 @@ const AccountPicker: React.FC<AccountPickerProps> = ({
             style={styles.hdPathPicker}
             onChange={onHdPathChange}
             value={selectedHdPath}
-            disabled={!selectedAccounts || addressPickerVisible}
+            disabled={selectedAccounts.length === 0 || addressPickerVisible}
             allowCoinTypeEdit={allowCoinTypeEdit}
           />
 
