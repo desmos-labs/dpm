@@ -26,7 +26,8 @@ export const getDecimalSeparator = (locale?: string) => {
 export const getThousandsSeparator = (locale?: string) => {
   // Get the thousands separator characters used in the locale.
   const [, separator] = (1000).toLocaleString(locale);
-  return separator;
+  // Handle the case of locales without thousands separator.
+  return separator === '0' ? '' : separator;
 };
 
 /**
