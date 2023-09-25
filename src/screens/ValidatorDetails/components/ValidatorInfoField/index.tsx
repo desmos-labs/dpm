@@ -55,7 +55,10 @@ const ValidatorInfoField: React.FC<ValidatorInfoFieldProps> = ({
   const valueText = React.useMemo(() => {
     if (url) {
       // If the value is a valid url just the display the url without the protocol.
-      return value.replace(`${url.protocol}//`, '');
+      const urlWithoutProtocol = value.replace(`${url.protocol}//`, '');
+      return urlWithoutProtocol.endsWith('/')
+        ? urlWithoutProtocol.slice(0, -1)
+        : urlWithoutProtocol;
     }
 
     return value;

@@ -1,8 +1,11 @@
-import { useCallback } from 'react';
+import { useCallback, useMemo } from 'react';
 import { launchImageLibrary } from 'react-native-image-picker';
 import { ImagePickerResponse } from 'react-native-image-picker/src/types';
 import { useSetAppState } from '@recoil/appState';
 import { Platform } from 'react-native';
+
+export const useMemoizedPictureSource = (url: string | undefined, picture: any) =>
+  useMemo(() => (url ? { uri: url } : picture), [url, picture]);
 
 export const usePickPicture = () => {
   const setAppState = useSetAppState();
@@ -33,5 +36,3 @@ export const usePickPicture = () => {
     [setAppState],
   );
 };
-
-export default usePickPicture;

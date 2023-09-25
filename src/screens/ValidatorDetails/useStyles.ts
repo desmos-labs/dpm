@@ -1,11 +1,29 @@
 import { makeStyle } from 'config/theme';
 
 const useStyles = makeStyle((theme) => ({
+  topBar: {
+    backgroundColor: 'transparent',
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    zIndex: 1,
+  },
+  topBarButton: {
+    color: theme.colors.icon['5'],
+    backgroundColor: 'rgba(80, 80, 80, 0.4)',
+  },
+  validatorStatus: {
+    marginLeft: theme.spacing.m,
+  },
   infoContainer: {
-    marginTop: theme.spacing.m,
+    marginTop: theme.spacing.s,
+    marginHorizontal: theme.spacing.m,
+    flex: 1,
   },
   stakeButton: {
+    marginTop: theme.spacing.s,
     marginBottom: theme.spacing.xl,
+    marginHorizontal: theme.spacing.m,
   },
 }));
 
