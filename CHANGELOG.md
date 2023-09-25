@@ -1,3 +1,13 @@
+# Version 2.5.0
+## Features
+- Added the ability to import multiple accounts at once 
+- Added the amount of tokens that each account owns in the account list during import
+- Added the validator cover image inside the validator details screen
+- Replaced "Secret Recovery Passphrase" with "Secret Recovery Phrase" in the account creation screen
+
+## Bug fixes
+- Fixed a bug that caused the staking and redelegating amount to not be properly formatted on some locales
+
 # Version 2.4.2
 ## Bug fixed
 - Fixed a bug that caused the QR code scanner to not work properly when authorizing an application with WalletConnect.
