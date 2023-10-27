@@ -20,6 +20,7 @@ export const DefaultAppSettings: AppSettings = {
   currentTimezone: '',
   analyticsEnabled: true,
   hideBalance: false,
+  autoAppLock: true,
 };
 
 /**

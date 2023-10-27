@@ -1,5 +1,5 @@
 import React, { useCallback } from 'react';
-import { View } from 'react-native';
+import { StyleProp, TextStyle, View } from 'react-native';
 import Typography from 'components/Typography';
 import Button from 'components/Button';
 import { ModalComponentProps } from 'modals/ModalScreen';
@@ -14,6 +14,10 @@ export type TwoButtonModalParams = {
    * Modal message.
    */
   message: string | React.ReactNode;
+  /**
+   * Optional style that will be applied to the message text view.
+   */
+  messageStyle?: StyleProp<TextStyle>;
   /**
    * Text displayed on the positive action button.
    */
@@ -53,7 +57,9 @@ const TwoButtonModal: React.FC<ModalComponentProps<TwoButtonModalParams>> = (pro
   return (
     <View style={styles.root}>
       <Typography.Title style={[styles.centred, styles.title]}>{params.title}</Typography.Title>
-      <Typography.Body style={styles.message}>{params.message}</Typography.Body>
+      <Typography.Body style={[styles.message, params.messageStyle]}>
+        {params.message}
+      </Typography.Body>
       <View style={styles.buttonsRow}>
         <Button mode="contained" onPress={negativeAction} accent>
           {params.negativeActionLabel}

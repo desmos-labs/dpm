@@ -59,6 +59,7 @@ import GovernanceProposalDetails, {
 } from 'screens/GovernanceProposalDetails';
 import ScanQr, { ScanQrCodeParams } from 'screens/ScanQr';
 import { NavigatorScreenParams } from '@react-navigation/native';
+import { useSetting } from '@recoil/settings';
 
 export type RootNavigatorParamList = {
   [ROUTES.DEV_SCREEN]: undefined;
@@ -118,6 +119,7 @@ export type RootNavigatorParamList = {
 const Stack = createStackNavigator<RootNavigatorParamList>();
 
 const RootNavigator = () => {
+  const showUnlockApplicationScreen = useSetting('autoAppLock');
   const activeAccount = useActiveAccount();
   const initWalletConnect = useInitWalletConnectClient();
   // Hook to update all the profiles, this will also take care of updating
@@ -133,7 +135,7 @@ const RootNavigator = () => {
       return ROUTES.LANDING;
     }
 
-    return ROUTES.UNLOCK_APPLICATION;
+    return showUnlockApplicationScreen ? ROUTES.UNLOCK_APPLICATION : ROUTES.HOME_TABS;
 
     // Safe to ignore the activeAccount deps since we need to check
     // just if exists when the apps opens.

@@ -6,12 +6,14 @@ import ROUTES from 'navigation/routes';
 import { useNavigation } from '@react-navigation/native';
 import { StackNavigationProp } from '@react-navigation/stack/lib/typescript/src/types';
 import { useHasAccount } from '@recoil/accounts';
+import { useSetting } from '@recoil/settings';
 
 const useLockApplicationOnBlur = () => {
   const navigation = useNavigation<StackNavigationProp<RootNavigatorParamList>>();
   const appState = useAppState();
   const setAppState = useSetAppState();
   const hasAccount = useHasAccount();
+  const lockApplication = useSetting('autoAppLock');
 
   const showSplashScreen = useCallback(() => {
     setAppState((currentState) => {
@@ -67,7 +69,7 @@ const useLockApplicationOnBlur = () => {
               ...currentState,
               noLockOnBackground: false,
               // Lock only if we shouldn't ignore the app state change.
-              locked: !currentState.noLockOnBackground,
+              locked: lockApplication && !currentState.noLockOnBackground,
               lastObBlur: undefined,
             };
           }
@@ -88,7 +90,15 @@ const useLockApplicationOnBlur = () => {
       blurSubscription?.remove();
       focusSubscription?.remove();
     };
-  }, [hasAccount, navigation, setAppState, appState, showSplashScreen, removeSplashScreen]);
+  }, [
+    hasAccount,
+    navigation,
+    setAppState,
+    appState,
+    showSplashScreen,
+    removeSplashScreen,
+    lockApplication,
+  ]);
 
   useEffect(() => {
     if (appState.locked) {
