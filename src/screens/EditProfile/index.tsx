@@ -17,16 +17,27 @@ import SingleButtonModal from 'modals/SingleButtonModal';
 import { DPMImages } from 'types/images';
 import useTrackScreen from 'hooks/analytics/useTrackScreen';
 import { Screens } from 'types/analytics';
-import { useSaveProfile, useValidationHooks } from './useHooks';
+import _ from 'lodash';
+import Spacer from 'components/Spacer';
+import { useCheckDTagAvailability, useSaveProfile, useValidationHooks } from './useHooks';
 import InlineInput from './components/InlineInput';
 import useStyles from './useStyles';
+import DTagAvailability from './components/DTagAvailability';
 
 export type NavProps = StackScreenProps<RootNavigatorParamList, ROUTES.EDIT_PROFILE>;
 
 export interface EditProfileParams {
+  /**
+   * The user's profile to edit.
+   * If this is undefined, the user is creating a new profile.
+   */
   profile: DesmosProfile | undefined;
 }
 
+/**
+ * Screen that allows the user to create a new profile or edit their
+ * profile.
+ */
 const EditProfile = () => {
   const styles = useStyles();
   const theme = useTheme();
@@ -50,6 +61,13 @@ const EditProfile = () => {
   const showModal = useShowModal();
   useTrackScreen(Screens.ProfileEdit);
 
+  const { checkDTagAvailability, isDTagAvailable, checkingDTagAvailability } =
+    useCheckDTagAvailability(profileParams);
+  const debouncedCheckDTagAvailability = React.useMemo(
+    () => _.debounce(checkDTagAvailability, 500),
+    [checkDTagAvailability],
+  );
+
   const showErrorModal = useCallback(
     (title: string, message: string) => {
       showModal(SingleButtonModal, {
@@ -64,6 +82,8 @@ const EditProfile = () => {
 
   const canSave = useMemo(
     () =>
+      !checkingDTagAvailability &&
+      (isDTagAvailable === true || dTag === profile?.dtag) &&
       (dTag !== profile?.dtag ||
         nickname !== profile?.nickname ||
         biography !== profile?.bio ||
@@ -72,14 +92,18 @@ const EditProfile = () => {
       !dTagError &&
       !nicknameError,
     [
-      profile,
-      biography,
+      checkingDTagAvailability,
+      isDTagAvailable,
       dTag,
-      dTagError,
+      profile?.dtag,
+      profile?.nickname,
+      profile?.bio,
       nickname,
-      nicknameError,
-      selectedCoverPicture,
+      biography,
       selectedProfilePicture,
+      selectedCoverPicture,
+      dTagError,
+      nicknameError,
     ],
   );
 
@@ -138,14 +162,22 @@ const EditProfile = () => {
         disabled={!enabled}
       />
     );
-  }, [preparing, canSave, onSavePressed, styles, theme]);
+  }, [
+    canSave,
+    preparing,
+    styles.saveBtn,
+    theme.colors.primary,
+    theme.colors.disabled,
+    onSavePressed,
+  ]);
 
   const onDTagChanged = useCallback(
     (newDTag: string) => {
+      debouncedCheckDTagAvailability(newDTag);
       setDTag(newDTag);
       setDTagError(validateDTag(newDTag));
     },
-    [validateDTag],
+    [debouncedCheckDTagAvailability, validateDTag],
   );
 
   const onNicknameChanged = useCallback(
@@ -185,6 +217,7 @@ const EditProfile = () => {
         />
       }
       touchableWithoutFeedbackDisabled={false}
+      scrollable
     >
       <KeyboardAvoidingView
         keyboardVerticalOffset={Platform.OS === 'ios' ? 110 : 0}
@@ -203,17 +236,6 @@ const EditProfile = () => {
           />
 
           <View style={styles.input}>
-            {/* Nickname */}
-            <InlineInput
-              label={t('nickname')}
-              placeholder={t('nickname')}
-              value={nickname}
-              onChangeText={onNicknameChanged}
-              error={nicknameError}
-            />
-
-            <Divider />
-
             {/* DTag */}
             <InlineInput
               label={t('dtag')}
@@ -222,7 +244,25 @@ const EditProfile = () => {
               error={dTagError}
               onChangeText={onDTagChanged}
             />
+            {dTagError === undefined && dTag !== profile?.dtag && (
+              <>
+                <DTagAvailability
+                  loading={checkingDTagAvailability}
+                  isAvailable={isDTagAvailable}
+                />
+                <Spacer paddingBottom={8} />
+              </>
+            )}
+            <Divider />
 
+            {/* Nickname */}
+            <InlineInput
+              label={t('nickname')}
+              placeholder={t('nickname')}
+              value={nickname}
+              onChangeText={onNicknameChanged}
+              error={nicknameError}
+            />
             <Divider />
 
             {/* Biography */}

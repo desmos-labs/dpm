@@ -17,5 +17,6 @@
   "user does not have profile": "This user does not yet have a Desmos profile",
   "cover picture upload failed": "Error while uploading cover picture",
   "profile picture upload failed": "Error while uploading profile picture",
-  "cancel error": "Cancel"
+  "cancel error": "Cancel",
+  "dtag required": "DTag is required",
 }
