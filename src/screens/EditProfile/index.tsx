@@ -51,7 +51,9 @@ const EditProfile = () => {
   const { validateDTag, validateNickname, validateBiography } = useValidationHooks(profileParams);
 
   const [dTag, setDTag] = useState<string | undefined>(profile?.dtag);
-  const [dTagError, setDTagError] = useState<string | undefined>(undefined);
+  const [dTagError, setDTagError] = useState<string | undefined>(
+    profile === undefined ? t('dtag required') : undefined,
+  );
   const [nickname, setNickname] = useState<string | undefined>(profile?.nickname);
   const [nicknameError, setNicknameError] = useState<string | undefined>(undefined);
   const [biography, setBiography] = useState<string | undefined>(profile?.bio);
