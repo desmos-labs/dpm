@@ -16,10 +16,12 @@ const Section: React.FC<Props> = (props) => {
     const count = React.Children.count(children);
     return React.Children.map(children, (c, index) => {
       const last = count === index + 1;
-      return c && (
-        <View style={[!last && styles.interBorder]} key={`w_${index.toString()}`}>
-          {c}
-        </View>
+      return (
+        c && (
+          <View style={[!last && styles.interBorder]} key={`w_${index.toString()}`}>
+            {c}
+          </View>
+        )
       );
     });
   }, [children, styles.interBorder]);
