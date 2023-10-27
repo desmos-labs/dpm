@@ -19,6 +19,7 @@
   "password": "Password",
   "retry": "Retry",
   "available": "Available",
+  "not available": "Not available",
   "send": "Send",
   "transactions": "Transactions",
   "transaction": "Transaction",

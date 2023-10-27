@@ -1,6 +1,7 @@
 import React, { ComponentProps } from 'react';
 import { StyleProp, TextInput, TextStyle, View, ViewStyle } from 'react-native';
 import Typography from 'components/Typography';
+import Spacer from 'components/Spacer';
 import useStyles from './useStyles';
 
 export type InlineInputProps = Omit<ComponentProps<typeof TextInput>, 'style'> & {
@@ -21,7 +22,10 @@ const InlineInput: React.FC<InlineInputProps> = (props) => {
         <TextInput {...props} style={[styles.input, inputStyle]} textAlignVertical="top" />
       </View>
       {error !== undefined && (
-        <Typography.Caption style={styles.errorLabel}>{error}</Typography.Caption>
+        <>
+          <Typography.Caption style={styles.errorLabel}>{error}</Typography.Caption>
+          <Spacer paddingBottom={8} />
+        </>
       )}
     </View>
   );

@@ -6,6 +6,8 @@ import useUploadPicture from 'hooks/useUploadPicture';
 import { Profiles } from '@desmoslabs/desmjs';
 import { useActiveAccount } from '@recoil/activeAccount';
 import { useStoreProfile } from '@recoil/profiles';
+import { useLazyQuery } from '@apollo/client';
+import GetProfileForDTag from 'services/graphql/queries/GetProfileForDTag';
 
 export const useValidationHooks = (params: ProfileParams | undefined) => {
   const { t } = useTranslation('profile');
@@ -63,6 +65,52 @@ export const useValidationHooks = (params: ProfileParams | undefined) => {
     validateDTag,
     validateNickname,
     validateBiography,
+  };
+};
+
+/**
+ * Hook that provides a function to check if a DTag is available.
+ */
+export const useCheckDTagAvailability = (profileParams: ProfileParams) => {
+  const [getProfileForDTag] = useLazyQuery(GetProfileForDTag);
+  const [loading, setLoading] = useState(false);
+  const [isAvailable, setIsAvailable] = useState<boolean>();
+  const checkDTagAvailability = React.useCallback(
+    async (dtag: string) => {
+      if (
+        dtag.length < profileParams.dTag.minLength ||
+        dtag.length > profileParams.dTag.maxLength ||
+        !dtag.match(profileParams.dTag.regEx)
+      ) {
+        setIsAvailable(false);
+        return;
+      }
+      setLoading(true);
+      const { data, error } = await getProfileForDTag({
+        fetchPolicy: 'network-only',
+        variables: {
+          dtag,
+        },
+      });
+      if (error || data?.profile === undefined) {
+        setIsAvailable(undefined);
+      } else {
+        setIsAvailable(data.profile.length === 0);
+      }
+      setLoading(false);
+    },
+    [
+      getProfileForDTag,
+      profileParams.dTag.maxLength,
+      profileParams.dTag.minLength,
+      profileParams.dTag.regEx,
+    ],
+  );
+
+  return {
+    checkDTagAvailability,
+    isDTagAvailable: isAvailable,
+    checkingDTagAvailability: loading,
   };
 };
 
