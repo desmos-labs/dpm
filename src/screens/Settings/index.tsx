@@ -43,7 +43,7 @@ const Settings = (props: NavProps) => {
   const deletePasswordFromBiometrics = useDeletePasswordFromBiometrics();
   const { toggleAnalytics, analyticsEnabled } = useToggleAnalytics();
   const { toggleNotifications, notificationsEnabled } = useToggleNotifications();
-  const { toggleAppLock, appLockEnabled } = useToggleAppLock();
+  const { toggleAppLock } = useToggleAppLock();
 
   // --------------------------------------------------------------------------------------
   // --- Local state
@@ -153,12 +153,7 @@ const Settings = (props: NavProps) => {
 
       {/* Security section */}
       <Flexible.Section style={styles.sectionMargin} title={t('security')}>
-        <Flexible.SectionSwitch
-          label={t('disable app lock')}
-          value={!appLockEnabled}
-          isDisabled={false}
-          onPress={toggleAppLock}
-        />
+        <Flexible.SectionButton label={t('disable app lock')} onPress={toggleAppLock} />
         <OpenSettingScreenButton
           title={t('change application password')}
           route={ROUTES.SETTINGS_CHANGE_APPLICATION_PASSWORD}

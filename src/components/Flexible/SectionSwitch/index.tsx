@@ -1,5 +1,5 @@
 import React from 'react';
-import { View } from 'react-native';
+import { StyleProp, View, ViewStyle } from 'react-native';
 import Switch from 'components/Switch';
 import Typography from 'components/Typography';
 import useStyles from './useStyles';
@@ -9,14 +9,14 @@ export type Props = {
   value: boolean;
   isDisabled: boolean;
   onPress: () => void;
+  style?: StyleProp<ViewStyle>;
 };
 
-const SectionSwitch: React.FC<Props> = (props) => {
-  const { label, value, isDisabled, onPress } = props;
+const SectionSwitch: React.FC<Props> = ({ label, value, isDisabled, onPress, style }) => {
   const styles = useStyles();
 
   return (
-    <View style={styles.root}>
+    <View style={[styles.root, style]}>
       <Typography.Body1 style={[styles.label, isDisabled ? styles.disabled : null]}>
         {label}
       </Typography.Body1>

@@ -164,6 +164,11 @@ enum ROUTES {
   SETTINGS_ENABLE_BIOMETRICS_AUTHORIZATION = 'SETTINGS_ENABLE_BIOMETRICS_AUTHORIZATION',
   SETTINGS_CHANGE_APPLICATION_PASSWORD = 'SETTINGS_CHANGE_APPLICATION_PASSWORD',
   SETTINGS_JOIN_COMMUNITY = 'SETTINGS_JOIN_COMMUNITY',
+  /**
+   * Screen that display a switch with a detailed description
+   * about the setting that the user can change.
+   */
+  SETTINGS_SWITCH_SCREEN = 'SETTINGS_SWITCH_SCREEN',
 
   /**
    * Screen that allows rendering a Markdown text.

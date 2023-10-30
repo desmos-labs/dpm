@@ -60,6 +60,7 @@ import GovernanceProposalDetails, {
 import ScanQr, { ScanQrCodeParams } from 'screens/ScanQr';
 import { NavigatorScreenParams } from '@react-navigation/native';
 import { useSetting } from '@recoil/settings';
+import SettingsSwitchScreen, { SettingsSwitchScreenProps } from 'screens/SettingsSwitchScreen';
 
 export type RootNavigatorParamList = {
   [ROUTES.DEV_SCREEN]: undefined;
@@ -93,12 +94,14 @@ export type RootNavigatorParamList = {
   [ROUTES.TRANSACTION_DETAILS]: TransactionDetailsParams;
   [ROUTES.MODAL]: ModalScreenParams;
 
+  // -------------- Settings related screens ---------------
   [ROUTES.SETTINGS]: undefined;
   [ROUTES.SETTINGS_DISPLAY_MODE]: undefined;
   [ROUTES.SETTINGS_SWITCH_CHAIN]: undefined;
   [ROUTES.SETTINGS_ENABLE_BIOMETRICS_AUTHORIZATION]: EnableBiometricsAuthorizationParams;
   [ROUTES.SETTINGS_CHANGE_APPLICATION_PASSWORD]: undefined;
   [ROUTES.SETTINGS_JOIN_COMMUNITY]: undefined;
+  [ROUTES.SETTINGS_SWITCH_SCREEN]: SettingsSwitchScreenProps;
 
   [ROUTES.MARKDOWN_TEXT]: MarkdownTextProps;
 
@@ -230,6 +233,7 @@ const RootNavigator = () => {
         name={ROUTES.SETTINGS_CHANGE_APPLICATION_PASSWORD}
         component={SettingsChangeWalletPassword}
       />
+      <Stack.Screen name={ROUTES.SETTINGS_SWITCH_SCREEN} component={SettingsSwitchScreen} />
 
       <Stack.Screen name={ROUTES.UNLOCK_APPLICATION} component={UnlockApplication} />
 

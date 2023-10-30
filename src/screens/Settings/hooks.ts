@@ -4,6 +4,10 @@ import React from 'react';
 import TwoButtonModal from 'modals/TwoButtonModal';
 import { useTranslation } from 'react-i18next';
 import { usePostHog } from 'posthog-react-native';
+import { useNavigation } from '@react-navigation/native';
+import { StackNavigationProp } from '@react-navigation/stack';
+import { RootNavigatorParamList } from 'navigation/RootNavigator';
+import ROUTES from 'navigation/routes';
 
 /**
  * Hooks that provides a function to enable or disable the analytics
@@ -43,26 +47,20 @@ export const useToggleAnalytics = () => {
  */
 export const useToggleAppLock = () => {
   const { t } = useTranslation('settings');
+  const navigation = useNavigation<StackNavigationProp<RootNavigatorParamList>>();
   const appLockEnabled = useSetting('autoAppLock');
   const setAppLockEnabled = useSetSetting('autoAppLock');
-  const showModal = useShowModal();
 
   const toggleAppLock = React.useCallback(() => {
-    if (appLockEnabled) {
-      showModal(TwoButtonModal, {
-        title: t('disable app lock'),
-        message: t('disable app lock message'),
-        messageStyle: { textAlign: 'auto' },
-        positiveActionLabel: t('common:yes'),
-        positiveAction: () => {
-          setAppLockEnabled(false);
-        },
-        negativeActionLabel: t('common:no'),
-      });
-    } else {
-      setAppLockEnabled(true);
-    }
-  }, [appLockEnabled, setAppLockEnabled, showModal, t]);
+    navigation.navigate(ROUTES.SETTINGS_SWITCH_SCREEN, {
+      title: t('disable app lock'),
+      description: t('disable app lock message'),
+      intialValue: !appLockEnabled,
+      toggleSetting: () => {
+        setAppLockEnabled((currentValue) => !currentValue);
+      },
+    });
+  }, [appLockEnabled, navigation, setAppLockEnabled, t]);
 
-  return { appLockEnabled, toggleAppLock };
+  return { toggleAppLock };
 };
