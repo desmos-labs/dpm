@@ -8,7 +8,7 @@ import { useTranslation } from 'react-i18next';
 import Typography from 'components/Typography';
 import TxMemoInput from 'components/TxMemoInput';
 import Spacer from 'components/Spacer';
-import DKeyboardAvoidingView from 'components/DKeyboardAvoidingView';
+import { View } from 'react-native';
 import useStyles from './useStyles';
 
 export type ErrorModalParams = {
@@ -63,7 +63,7 @@ const AmountAndMemoModal: React.FC<ModalComponentProps<ErrorModalParams>> = (pro
   }, [amount, closeModal, memo, onSelect]);
 
   return (
-    <DKeyboardAvoidingView>
+    <View style={styles.root}>
       <Typography.H6 style={styles.title}>{title}</Typography.H6>
 
       <Spacer paddingVertical={12} />
@@ -83,7 +83,7 @@ const AmountAndMemoModal: React.FC<ModalComponentProps<ErrorModalParams>> = (pro
       <Button onPress={onNextPressed} disabled={amount === undefined} mode="contained">
         {t('common:next')}
       </Button>
-    </DKeyboardAvoidingView>
+    </View>
   );
 };
 
