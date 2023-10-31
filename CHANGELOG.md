@@ -1,3 +1,11 @@
+# Version 2.5.1
+## Features
+- Improved the DTag availability checks while creating a Desmos profile
+- Removed unwanted double dividers inside the settings screen
+
+## Bug fixes
+- Fixed a bug that caused the keyboard to overlap the bottom modal on iOS devices
+
 # Version 2.5.0
 ## Features
 - Added the ability to import multiple accounts at once 
