@@ -1,7 +1,6 @@
 import React from 'react';
 import { ModalComponentProps } from 'modals/ModalScreen';
 import { Coin } from '@desmoslabs/desmjs';
-import { View } from 'react-native';
 import CoinAmountInput from 'components/CoinAmountInput';
 import { AmountLimitConfig } from 'components/CoinAmountInput/limits';
 import Button from 'components/Button';
@@ -9,6 +8,7 @@ import { useTranslation } from 'react-i18next';
 import Typography from 'components/Typography';
 import TxMemoInput from 'components/TxMemoInput';
 import Spacer from 'components/Spacer';
+import { View } from 'react-native';
 import useStyles from './useStyles';
 
 export type ErrorModalParams = {
@@ -63,7 +63,7 @@ const AmountAndMemoModal: React.FC<ModalComponentProps<ErrorModalParams>> = (pro
   }, [amount, closeModal, memo, onSelect]);
 
   return (
-    <View>
+    <View style={styles.root}>
       <Typography.H6 style={styles.title}>{title}</Typography.H6>
 
       <Spacer paddingVertical={12} />
