@@ -4,7 +4,6 @@ import { TouchableOpacity, View } from 'react-native';
 import { RootNavigatorParamList } from 'navigation/RootNavigator';
 import ROUTES from 'navigation/routes';
 import DKeyboardAvoidingView from 'components/DKeyboardAvoidingView';
-import { useTheme } from 'react-native-paper';
 import { useCloseModal } from './useHooks';
 import useStyles from './useStyles';
 
@@ -57,7 +56,6 @@ type NavProps = StackScreenProps<RootNavigatorParamList, ROUTES.MODAL>;
 const ModalScreen: React.FC<NavProps> = ({ route, navigation }) => {
   const { component, params, config } = route.params;
   const styles = useStyles();
-  const theme = useTheme();
   const closeModal = useCloseModal();
   const ModalContent = component;
 
