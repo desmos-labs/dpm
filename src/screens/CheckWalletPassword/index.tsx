@@ -1,7 +1,6 @@
 import { StackScreenProps } from '@react-navigation/stack';
 import React, { useCallback, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { KeyboardAvoidingView, Platform } from 'react-native';
 import SecureTextInput from 'components/SecureTextInput';
 import Typography from 'components/Typography';
 import StyledSafeAreaView from 'components/StyledSafeAreaView';
@@ -17,6 +16,7 @@ import useGetPasswordFromBiometrics from 'hooks/useGetPasswordFromBiometrics';
 import useSaveAccounts from 'hooks/useSaveAccounts';
 import useTrackNewAccountAdded from 'hooks/analytics/useTrackNewAccountAdded';
 import Spacer from 'components/Spacer';
+import DKeyboardAvoidingView from 'components/DKeyboardAvoidingView';
 import useStyles from './useStyles';
 
 export interface CheckWalletPasswordParams {
@@ -158,10 +158,7 @@ const CheckWalletPassword = (props: NavProps) => {
         </>
       )}
       <Typography.Body style={styles.errorParagraph}>{errorMessage}</Typography.Body>
-      <KeyboardAvoidingView
-        keyboardVerticalOffset={Platform.OS === 'ios' ? 110 : 0}
-        {...(Platform.OS === 'ios' ? { behavior: 'padding' } : {})}
-      >
+      <DKeyboardAvoidingView>
         <Button
           style={styles.continueButton}
           mode="contained"
@@ -171,7 +168,7 @@ const CheckWalletPassword = (props: NavProps) => {
         >
           {t('common:next')}
         </Button>
-      </KeyboardAvoidingView>
+      </DKeyboardAvoidingView>
     </StyledSafeAreaView>
   );
 };

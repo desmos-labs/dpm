@@ -1,7 +1,7 @@
 import { StackScreenProps } from '@react-navigation/stack';
 import React, { useCallback, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { KeyboardAvoidingView, Platform, View } from 'react-native';
+import { View } from 'react-native';
 import Padding from 'components/Flexible/Padding';
 import SecureTextInput from 'components/SecureTextInput';
 import Typography from 'components/Typography';
@@ -19,6 +19,7 @@ import { BiometricAuthorizations } from 'types/settings';
 import useGetPasswordFromBiometrics from 'hooks/useGetPasswordFromBiometrics';
 import { isInvalidPasswordError } from 'lib/SecureStorage/errors';
 import Spacer from 'components/Spacer';
+import DKeyboardAvoidingView from 'components/DKeyboardAvoidingView';
 import useStyles from './useStyles';
 
 export interface UnlockWalletParams {
@@ -166,10 +167,7 @@ const UnlockWallet: React.FC<Props> = (props) => {
         )}
         <Typography.Body style={styles.errorMsg}>{error}</Typography.Body>
         <Padding flex={1} />
-        <KeyboardAvoidingView
-          keyboardVerticalOffset={Platform.OS === 'ios' ? 110 : 0}
-          {...(Platform.OS === 'ios' ? { behavior: 'padding' } : {})}
-        >
+        <DKeyboardAvoidingView>
           <Button
             mode="contained"
             loading={loading}
@@ -178,7 +176,7 @@ const UnlockWallet: React.FC<Props> = (props) => {
           >
             {loading ? t('unlocking') : t('common:confirm')}
           </Button>
-        </KeyboardAvoidingView>
+        </DKeyboardAvoidingView>
       </StyledSafeAreaView>
     </View>
   );
