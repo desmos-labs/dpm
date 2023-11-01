@@ -9,11 +9,10 @@ import { Result, ResultAsync } from 'neverthrow';
 export const promiseToResult = <T>(
   promise: Promise<T>,
   errorMessage: string,
-): ResultAsync<T, Error> => {
-  return ResultAsync.fromPromise(promise, (e: any) =>
+): ResultAsync<T, Error> =>
+  ResultAsync.fromPromise(promise, (e: any) =>
     e?.message ? (e as Error) : new Error(errorMessage),
   );
-};
 
 /**
  * Function to unwrap the value from {@link Result} object.
