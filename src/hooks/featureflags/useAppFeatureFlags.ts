@@ -1,17 +1,19 @@
-import { useFeatureFlags } from 'posthog-react-native';
 import React from 'react';
-import { convertPostHogFeatureFlags } from 'components/FeatureFlags';
+import { useCachedFeatureFlags } from '@recoil/featureFlags';
+import useFetchAppFeatureFlags from './useFetchAppFeatureFlags';
 
 /**
  * Hook that provides the application feature flags.
  */
 const useAppFeatureFlags = () => {
-  const postHogFeatureFlags = useFeatureFlags();
+  const fetchFeatureFlags = useFetchAppFeatureFlags();
+  const [appFeatureFlags] = useCachedFeatureFlags();
 
-  return React.useMemo(
-    () => convertPostHogFeatureFlags(postHogFeatureFlags),
-    [postHogFeatureFlags],
-  );
+  React.useEffect(() => {
+    fetchFeatureFlags();
+  }, [fetchFeatureFlags]);
+
+  return appFeatureFlags;
 };
 
 export default useAppFeatureFlags;
