@@ -13,10 +13,12 @@ import { useSetting } from '@recoil/settings';
 import { checkUserPassword, isKeyChainInitialized } from 'lib/SecureStorage';
 import { BiometricAuthorizations } from 'types/settings';
 import { useSetAppState } from '@recoil/appState';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import useGetPasswordFromBiometrics from 'hooks/useGetPasswordFromBiometrics';
 import Spacer from 'components/Spacer';
 import useHandleUriAction from 'hooks/uriactions/useHandleUriAction';
 import DKeyboardAvoidingView from 'components/DKeyboardAvoidingView';
+import { Platform } from 'react-native';
 import useStyles from './useStyles';
 
 // Development related
@@ -42,6 +44,7 @@ const UnlockApplication: React.FC<NavProps> = (props) => {
   const areBiometricsEnabled = useSetting('loginWithBiometrics');
   const setAppState = useSetAppState();
 
+  const { bottom } = useSafeAreaInsets();
   const getPasswordFromBiometrics = useGetPasswordFromBiometrics(BiometricAuthorizations.Login);
 
   const previousScreenParams = useMemo(() => {
@@ -178,7 +181,7 @@ const UnlockApplication: React.FC<NavProps> = (props) => {
       )}
       <Typography.Body style={styles.errorMsg}>{error}</Typography.Body>
       <Padding flex={1} />
-      <DKeyboardAvoidingView>
+      <DKeyboardAvoidingView keyboardVerticalOffset={Platform.OS === 'ios' ? bottom + 100 : 0}>
         <Button mode="contained" onPress={unlockWithPassword} loading={loading} disabled={loading}>
           {loading ? t('common:loading') : t('common:confirm')}
         </Button>
