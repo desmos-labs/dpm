@@ -16,7 +16,6 @@ const useFetchAppFeatureFlags = () => {
 
   return React.useCallback(async () => {
     if (!posthog) {
-      console.log('PostHog not found');
       return false;
     }
 
@@ -24,7 +23,6 @@ const useFetchAppFeatureFlags = () => {
       posthog.reloadFeatureFlagsAsync(),
       'Unknown error while fetching feature flags',
     );
-    console.log(featureFlagsFetchResult);
 
     if (featureFlagsFetchResult.isOk()) {
       setAppFeatureFlags(
