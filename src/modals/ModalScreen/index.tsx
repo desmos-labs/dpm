@@ -3,7 +3,6 @@ import React from 'react';
 import { TouchableOpacity, View } from 'react-native';
 import { RootNavigatorParamList } from 'navigation/RootNavigator';
 import ROUTES from 'navigation/routes';
-import DKeyboardAvoidingView from 'components/DKeyboardAvoidingView';
 import { useCloseModal } from './useHooks';
 import useStyles from './useStyles';
 
@@ -112,9 +111,9 @@ const ModalScreen: React.FC<NavProps> = ({ route, navigation }) => {
         <TouchableOpacity onPress={closeModal} style={styles.closePopupArea} />
       ) : null}
 
-      <DKeyboardAvoidingView style={contentStyle} keyboardVerticalOffset={0}>
+      <View style={contentStyle}>
         <ModalContent params={params} closeModal={closeModal} />
-      </DKeyboardAvoidingView>
+      </View>
     </View>
   );
 };

@@ -1,8 +1,9 @@
 import { makeStyle } from 'config/theme';
+import { Platform } from 'react-native';
 
 const useStyles = makeStyle((theme) => ({
   root: {
-    paddingBottom: theme.spacing.l,
+    paddingBottom: Platform.OS === 'ios' ? theme.spacing.l : 0,
   },
   title: {
     alignSelf: 'center',
