@@ -37,7 +37,7 @@ const GovernanceProposalDetails: React.FC<NavProps> = (props) => {
   const styles = useStyles();
   const { t } = useTranslation('governance');
 
-  const [tabsWidth, setTabsWidth] = React.useState(Dimensions.get('window').width);
+  const [tabsWidth, setTabsWidth] = React.useState(Dimensions.get('window').width - 32);
 
   // -------- VARIABLES --------
 
@@ -56,7 +56,7 @@ const GovernanceProposalDetails: React.FC<NavProps> = (props) => {
   const Header = React.useCallback(
     () => (
       <View>
-        <TopBar title={t('proposal')} stackProps={props} />
+        <TopBar style={styles.topBar} title={t('proposal')} stackProps={props} />
         {/* Proposal id and status */}
         <View style={styles.proposalIdContainer}>
           <Typography.Regular16>#{proposal.id}</Typography.Regular16>
@@ -77,7 +77,15 @@ const GovernanceProposalDetails: React.FC<NavProps> = (props) => {
         <Spacer paddingTop={40} />
       </View>
     ),
-    [isActiveProposal, isCompletedProposal, proposal, props, styles.proposalIdContainer, t],
+    [
+      isActiveProposal,
+      isCompletedProposal,
+      proposal,
+      props,
+      styles.proposalIdContainer,
+      styles.topBar,
+      t,
+    ],
   );
 
   const proposalDetails = React.useMemo(() => {
