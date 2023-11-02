@@ -43,7 +43,7 @@ const Settings = (props: NavProps) => {
   const deletePasswordFromBiometrics = useDeletePasswordFromBiometrics();
   const { toggleAnalytics, analyticsEnabled } = useToggleAnalytics();
   const { toggleNotifications, notificationsEnabled } = useToggleNotifications();
-  const { toggleAppLock } = useToggleAppLock();
+  const toggleAppLock = useToggleAppLock();
 
   // --------------------------------------------------------------------------------------
   // --- Local state

@@ -62,5 +62,5 @@ export const useToggleAppLock = () => {
     });
   }, [appLockEnabled, navigation, setAppLockEnabled, t]);
 
-  return { toggleAppLock };
+  return toggleAppLock;
 };
