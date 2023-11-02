@@ -34,5 +34,7 @@
   "analytics": "Analytics",
   "enable analytics": "Enable analytics",
   "enable analytics message": "By enabling in-app analytics, we'll track only anonymous data on how you use the app—like feature engagement and navigation patterns.\nNo personal info is collected.\nDo you want to enable the analytics?",
-  "notifications": "Notifications"
+  "notifications": "Notifications",
+  "disable app lock": "Disable app lock",
+  "disable app lock message": "If you turn off the app lock:\n\n• You won't need to enter your password every time you open the app.\n• But you'll still need to enter your password when making a transaction.\n\nKeep in mind that with the app lock off, anyone who can access your phone can open the app and see your personal information, including token holdings and your DTag."
 }

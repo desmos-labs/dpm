@@ -35,4 +35,9 @@ export type AppSettings = {
   currentTimezone: '';
   analyticsEnabled: boolean;
   hideBalance: boolean;
+  /**
+   * Indicates whether the application will be locked when started and whether it will be
+   * automatically locked when it loses focus.
+   */
+  autoAppLock: boolean;
 };
