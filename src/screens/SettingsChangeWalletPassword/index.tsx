@@ -1,6 +1,6 @@
 import { StackScreenProps } from '@react-navigation/stack';
 import React, { useCallback, useMemo, useState } from 'react';
-import { KeyboardAvoidingView, Platform, View } from 'react-native';
+import { View } from 'react-native';
 import SecureTextInput from 'components/SecureTextInput';
 import Typography from 'components/Typography';
 import StyledSafeAreaView from 'components/StyledSafeAreaView';
@@ -11,6 +11,7 @@ import ROUTES from 'navigation/routes';
 import { useTranslation } from 'react-i18next';
 import { setUserPassword } from 'lib/SecureStorage';
 import Spacer from 'components/Spacer';
+import DKeyboardAvoidingView from 'components/DKeyboardAvoidingView';
 import { useChangeUserPassword } from './hooks';
 import useStyles from './useStyles';
 
@@ -137,10 +138,7 @@ const SettingsChangeWalletPassword = (props: NavProps) => {
       </View>
 
       {/* Continue button */}
-      <KeyboardAvoidingView
-        keyboardVerticalOffset={Platform.OS === 'ios' ? 110 : 0}
-        {...(Platform.OS === 'ios' ? { behavior: 'padding' } : {})}
-      >
+      <DKeyboardAvoidingView>
         <Button
           mode="contained"
           onPress={onContinue}
@@ -154,7 +152,7 @@ const SettingsChangeWalletPassword = (props: NavProps) => {
         {errorMessage && (
           <Typography.Body style={styles.errorParagraph}>{{ errorMessage }}</Typography.Body>
         )}
-      </KeyboardAvoidingView>
+      </DKeyboardAvoidingView>
     </StyledSafeAreaView>
   );
 };
