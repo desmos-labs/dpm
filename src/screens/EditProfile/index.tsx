@@ -2,7 +2,7 @@ import { useNavigation, useRoute } from '@react-navigation/native';
 import { StackScreenProps } from '@react-navigation/stack';
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { KeyboardAvoidingView, Platform, ScrollView, View } from 'react-native';
+import { ScrollView, View } from 'react-native';
 import { DesmosProfile } from 'types/desmos';
 import StyledSafeAreaView from 'components/StyledSafeAreaView';
 import TopBar from 'components/TopBar';
@@ -17,16 +17,28 @@ import SingleButtonModal from 'modals/SingleButtonModal';
 import { DPMImages } from 'types/images';
 import useTrackScreen from 'hooks/analytics/useTrackScreen';
 import { Screens } from 'types/analytics';
-import { useSaveProfile, useValidationHooks } from './useHooks';
+import _ from 'lodash';
+import Spacer from 'components/Spacer';
+import DKeyboardAvoidingView from 'components/DKeyboardAvoidingView';
+import { useCheckDTagAvailability, useSaveProfile, useValidationHooks } from './useHooks';
 import InlineInput from './components/InlineInput';
 import useStyles from './useStyles';
+import DTagAvailability from './components/DTagAvailability';
 
 export type NavProps = StackScreenProps<RootNavigatorParamList, ROUTES.EDIT_PROFILE>;
 
 export interface EditProfileParams {
+  /**
+   * The user's profile to edit.
+   * If this is undefined, the user is creating a new profile.
+   */
   profile: DesmosProfile | undefined;
 }
 
+/**
+ * Screen that allows the user to create a new profile or edit their
+ * profile.
+ */
 const EditProfile = () => {
   const styles = useStyles();
   const theme = useTheme();
@@ -40,7 +52,9 @@ const EditProfile = () => {
   const { validateDTag, validateNickname, validateBiography } = useValidationHooks(profileParams);
 
   const [dTag, setDTag] = useState<string | undefined>(profile?.dtag);
-  const [dTagError, setDTagError] = useState<string | undefined>(undefined);
+  const [dTagError, setDTagError] = useState<string | undefined>(
+    profile === undefined ? t('dtag required') : undefined,
+  );
   const [nickname, setNickname] = useState<string | undefined>(profile?.nickname);
   const [nicknameError, setNicknameError] = useState<string | undefined>(undefined);
   const [biography, setBiography] = useState<string | undefined>(profile?.bio);
@@ -49,6 +63,13 @@ const EditProfile = () => {
   const [selectedCoverPicture, setCoverPicture] = useState<string | undefined>(undefined);
   const showModal = useShowModal();
   useTrackScreen(Screens.ProfileEdit);
+
+  const { checkDTagAvailability, isDTagAvailable, checkingDTagAvailability } =
+    useCheckDTagAvailability(profileParams);
+  const debouncedCheckDTagAvailability = React.useMemo(
+    () => _.debounce(checkDTagAvailability, 500),
+    [checkDTagAvailability],
+  );
 
   const showErrorModal = useCallback(
     (title: string, message: string) => {
@@ -64,6 +85,8 @@ const EditProfile = () => {
 
   const canSave = useMemo(
     () =>
+      !checkingDTagAvailability &&
+      (isDTagAvailable === true || dTag === profile?.dtag) &&
       (dTag !== profile?.dtag ||
         nickname !== profile?.nickname ||
         biography !== profile?.bio ||
@@ -72,14 +95,18 @@ const EditProfile = () => {
       !dTagError &&
       !nicknameError,
     [
-      profile,
-      biography,
+      checkingDTagAvailability,
+      isDTagAvailable,
       dTag,
-      dTagError,
+      profile?.dtag,
+      profile?.nickname,
+      profile?.bio,
       nickname,
-      nicknameError,
-      selectedCoverPicture,
+      biography,
       selectedProfilePicture,
+      selectedCoverPicture,
+      dTagError,
+      nicknameError,
     ],
   );
 
@@ -138,14 +165,22 @@ const EditProfile = () => {
         disabled={!enabled}
       />
     );
-  }, [preparing, canSave, onSavePressed, styles, theme]);
+  }, [
+    canSave,
+    preparing,
+    styles.saveBtn,
+    theme.colors.primary,
+    theme.colors.disabled,
+    onSavePressed,
+  ]);
 
   const onDTagChanged = useCallback(
     (newDTag: string) => {
+      debouncedCheckDTagAvailability(newDTag);
       setDTag(newDTag);
       setDTagError(validateDTag(newDTag));
     },
-    [validateDTag],
+    [debouncedCheckDTagAvailability, validateDTag],
   );
 
   const onNicknameChanged = useCallback(
@@ -185,12 +220,9 @@ const EditProfile = () => {
         />
       }
       touchableWithoutFeedbackDisabled={false}
+      scrollable
     >
-      <KeyboardAvoidingView
-        keyboardVerticalOffset={Platform.OS === 'ios' ? 110 : 0}
-        style={{ flex: 1 }}
-        {...(Platform.OS === 'ios' ? { behavior: 'padding' } : {})}
-      >
+      <DKeyboardAvoidingView style={{ flex: 1 }}>
         <ScrollView style={styles.content} keyboardDismissMode={'on-drag'}>
           {/* Header */}
           <ProfileHeader
@@ -203,17 +235,6 @@ const EditProfile = () => {
           />
 
           <View style={styles.input}>
-            {/* Nickname */}
-            <InlineInput
-              label={t('nickname')}
-              placeholder={t('nickname')}
-              value={nickname}
-              onChangeText={onNicknameChanged}
-              error={nicknameError}
-            />
-
-            <Divider />
-
             {/* DTag */}
             <InlineInput
               label={t('dtag')}
@@ -222,7 +243,25 @@ const EditProfile = () => {
               error={dTagError}
               onChangeText={onDTagChanged}
             />
+            {dTagError === undefined && dTag !== profile?.dtag && (
+              <>
+                <DTagAvailability
+                  loading={checkingDTagAvailability}
+                  isAvailable={isDTagAvailable}
+                />
+                <Spacer paddingBottom={8} />
+              </>
+            )}
+            <Divider />
 
+            {/* Nickname */}
+            <InlineInput
+              label={t('nickname')}
+              placeholder={t('nickname')}
+              value={nickname}
+              onChangeText={onNicknameChanged}
+              error={nicknameError}
+            />
             <Divider />
 
             {/* Biography */}
@@ -239,7 +278,7 @@ const EditProfile = () => {
             />
           </View>
         </ScrollView>
-      </KeyboardAvoidingView>
+      </DKeyboardAvoidingView>
     </StyledSafeAreaView>
   );
 };

@@ -2,7 +2,6 @@ import { EnglishMnemonic } from '@cosmjs/crypto';
 import { StackScreenProps } from '@react-navigation/stack';
 import React, { FC, useCallback, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { KeyboardAvoidingView, Platform } from 'react-native';
 import Flexible from 'components/Flexible';
 import Typography from 'components/Typography';
 import { checkMnemonic } from 'lib/WalletUtils/mnemonic';
@@ -17,6 +16,7 @@ import { WalletPickerMode } from 'screens/SelectAccount/components/AccountPicker
 import { useRecoilValue } from 'recoil';
 import useSelectAccounts from 'hooks/useSelectAccounts';
 import importAccountAppState from '@recoil/importAccountState';
+import DKeyboardAvoidingView from 'components/DKeyboardAvoidingView';
 import useStyles from './useStyles';
 
 declare type NavProps = StackScreenProps<
@@ -123,10 +123,7 @@ const ImportAccountFromMnemonic: FC<NavProps> = (props) => {
       )}
 
       <Flexible.Padding flex={1} />
-      <KeyboardAvoidingView
-        keyboardVerticalOffset={Platform.OS === 'ios' ? 110 : 0}
-        {...(Platform.OS === 'ios' ? { behavior: 'padding' } : {})}
-      >
+      <DKeyboardAvoidingView>
         {__DEV__ && (
           <Button style={styles.nextBtn} mode="contained" onPress={useDebugMnemonic}>
             Use debug mnemonic
@@ -135,7 +132,7 @@ const ImportAccountFromMnemonic: FC<NavProps> = (props) => {
         <Button mode="contained" onPress={onNextPressed}>
           {t('next')}
         </Button>
-      </KeyboardAvoidingView>
+      </DKeyboardAvoidingView>
     </StyledSafeAreaView>
   );
 };

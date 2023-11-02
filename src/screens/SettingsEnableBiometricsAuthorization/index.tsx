@@ -1,7 +1,6 @@
 import { StackScreenProps } from '@react-navigation/stack';
 import React, { useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
-import { KeyboardAvoidingView, Platform } from 'react-native';
 import SecureTextInput from 'components/SecureTextInput';
 import Typography from 'components/Typography';
 import StyledSafeAreaView from 'components/StyledSafeAreaView';
@@ -14,6 +13,7 @@ import { RootNavigatorParamList } from 'navigation/RootNavigator';
 import ROUTES from 'navigation/routes';
 import * as SecureSettings from 'lib/SecureStorage';
 import Spacer from 'components/Spacer';
+import DKeyboardAvoidingView from 'components/DKeyboardAvoidingView';
 import useStyles from './useStyles';
 
 export interface EnableBiometricsAuthorizationParams {
@@ -100,10 +100,7 @@ const SettingsEnableBiometricsAuthorization: React.FC<Props> = (props) => {
       />
       <Typography.Body style={styles.errorMsg}>{error}</Typography.Body>
       <Flexible.Padding flex={1} />
-      <KeyboardAvoidingView
-        keyboardVerticalOffset={Platform.OS === 'ios' ? 110 : 0}
-        {...(Platform.OS === 'ios' ? { behavior: 'padding' } : {})}
-      >
+      <DKeyboardAvoidingView>
         <Button
           style={styles.button}
           mode="contained"
@@ -113,7 +110,7 @@ const SettingsEnableBiometricsAuthorization: React.FC<Props> = (props) => {
         >
           {loading ? t('common:loading') : t('settings:enable')}
         </Button>
-      </KeyboardAvoidingView>
+      </DKeyboardAvoidingView>
     </StyledSafeAreaView>
   );
 };

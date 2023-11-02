@@ -80,7 +80,7 @@ const ProposalDetails: React.FC<ProposalDetailsProps> = ({ proposal }) => {
     <View>
       {/* Description */}
       <Typography.SemiBold14>{t('common:description')}</Typography.SemiBold14>
-      <StyledMarkDown>{proposal.description.replace(/\\n/gm, '\n')}</StyledMarkDown>
+      <StyledMarkDown>{proposal.description}</StyledMarkDown>
       <Spacer paddingVertical={12} />
 
       {/* Plan */}

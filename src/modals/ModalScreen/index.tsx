@@ -55,7 +55,6 @@ type NavProps = StackScreenProps<RootNavigatorParamList, ROUTES.MODAL>;
 const ModalScreen: React.FC<NavProps> = ({ route, navigation }) => {
   const { component, params, config } = route.params;
   const styles = useStyles();
-
   const closeModal = useCloseModal();
   const ModalContent = component;
 

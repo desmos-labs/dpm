@@ -19,6 +19,11 @@ export interface AppFeatureFlags {
    * times out.
    */
   gasOnFeeEstimationTimeout: number;
+  /**
+   * Feature flag that tells on which version of
+   * the application the social logins should be disabled.
+   */
+  hideSocialLoginsOnVersion: string;
 }
 
 /**
@@ -29,6 +34,7 @@ export interface PostHogFeatureFlags extends Record<string, string | boolean> {
   trackFeeEstimation: boolean;
   feeEstimationTimeoutMs: string;
   gasOnFeeEstimationTimeout: string;
+  hideSocialLoginsOnVersion: string;
 }
 
 /**
@@ -38,4 +44,5 @@ export const DefaultPostHogFeatureFlags: PostHogFeatureFlags = {
   trackFeeEstimation: false,
   feeEstimationTimeoutMs: '5000',
   gasOnFeeEstimationTimeout: '200000',
+  hideSocialLoginsOnVersion: '',
 };

@@ -1,7 +1,6 @@
 import { StackScreenProps } from '@react-navigation/stack';
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { KeyboardAvoidingView, Platform } from 'react-native';
 import Padding from 'components/Flexible/Padding';
 import SecureTextInput from 'components/SecureTextInput';
 import Typography from 'components/Typography';
@@ -18,6 +17,8 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import useGetPasswordFromBiometrics from 'hooks/useGetPasswordFromBiometrics';
 import Spacer from 'components/Spacer';
 import useHandleUriAction from 'hooks/uriactions/useHandleUriAction';
+import DKeyboardAvoidingView from 'components/DKeyboardAvoidingView';
+import { Platform } from 'react-native';
 import useStyles from './useStyles';
 
 // Development related
@@ -180,14 +181,11 @@ const UnlockApplication: React.FC<NavProps> = (props) => {
       )}
       <Typography.Body style={styles.errorMsg}>{error}</Typography.Body>
       <Padding flex={1} />
-      <KeyboardAvoidingView
-        keyboardVerticalOffset={Platform.OS === 'ios' ? bottom + 100 : 0}
-        {...(Platform.OS === 'ios' ? { behavior: 'padding' } : {})}
-      >
+      <DKeyboardAvoidingView keyboardVerticalOffset={Platform.OS === 'ios' ? bottom + 100 : 0}>
         <Button mode="contained" onPress={unlockWithPassword} loading={loading} disabled={loading}>
           {loading ? t('common:loading') : t('common:confirm')}
         </Button>
-      </KeyboardAvoidingView>
+      </DKeyboardAvoidingView>
     </StyledSafeAreaView>
   );
 };

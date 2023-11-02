@@ -23,6 +23,7 @@ import useShowPrivacyPolicy from 'hooks/legal/useShowPrivacyPolicy';
 import DpmCheckBox from 'components/CheckBox';
 import SingleButtonModal from 'modals/SingleButtonModal';
 import { ModalMode } from 'modals/ModalScreen';
+import { useAreSocialLoginOptionsDisabled } from 'screens/Landing/hooks';
 import useStyles from './useStyles';
 
 export type NavProps = StackScreenProps<RootNavigatorParamList, ROUTES.LANDING>;
@@ -37,6 +38,7 @@ const Landing = ({ navigation }: NavProps) => {
   const importNewAccounts = useImportNewAccounts([DesmosChain], accountsAddresses);
   const loginWithWeb3Auth = useLoginWithWeb3Auth(DesmosChain, accountsAddresses);
   const showModal = useShowModal();
+  const areSocialMediaLoginOptionsDisabled = useAreSocialLoginOptionsDisabled();
 
   // -------- STATES --------
 
@@ -208,45 +210,51 @@ const Landing = ({ navigation }: NavProps) => {
               {t('account:import account')}
             </Button>
 
-            <Spacer paddingVertical={12} />
+            {!areSocialMediaLoginOptionsDisabled && (
+              <>
+                {/* Or Login With */}
+                <Spacer paddingVertical={12} />
 
-            <View style={styles.loginWithContainer}>
-              <View style={styles.loginDivider} />
-              <Spacer paddingHorizontal={8} />
-              <Typography.Regular16 style={styles.loginWithLabel}>
-                {t('or login with')}
-              </Typography.Regular16>
-              <Spacer paddingHorizontal={8} />
-              <View style={styles.loginDivider} />
-            </View>
+                <View style={styles.loginWithContainer}>
+                  <View style={styles.loginDivider} />
+                  <Spacer paddingHorizontal={8} />
+                  <Typography.Regular16 style={styles.loginWithLabel}>
+                    {t('or login with')}
+                  </Typography.Regular16>
+                  <Spacer paddingHorizontal={8} />
+                  <View style={styles.loginDivider} />
+                </View>
 
-            <Spacer paddingVertical={8} />
+                <Spacer paddingVertical={8} />
 
-            {/* Social login buttons */}
-            <View style={styles.socialButtonsContainer}>
-              {primaryLoginProviders.map((loginProvider, index) => (
-                <IconButton
-                  key={`login-button-${index}`}
-                  style={styles.socialButton}
-                  icon={applicationsIconsMap[loginProvider]}
-                  color={null}
-                  onPress={() => importFromSocial(loginProvider)}
-                />
-              ))}
-            </View>
+                {/* Social login buttons */}
+                <View style={styles.socialButtonsContainer}>
+                  {primaryLoginProviders.map((loginProvider, index) => (
+                    <IconButton
+                      key={`login-button-${index}`}
+                      style={styles.socialButton}
+                      icon={applicationsIconsMap[loginProvider]}
+                      color={null}
+                      onPress={() => importFromSocial(loginProvider)}
+                    />
+                  ))}
+                </View>
 
-            <Spacer paddingVertical={4} />
+                <Spacer paddingVertical={4} />
 
-            <Button
-              style={styles.buttons}
-              color="#ffffff"
-              onPress={showOtherSocialLogin}
-              labelStyle={{
-                fontSize: 14,
-              }}
-            >
-              {t('show more')}
-            </Button>
+                {/* Show more buttons */}
+                <Button
+                  style={styles.buttons}
+                  color="#ffffff"
+                  onPress={showOtherSocialLogin}
+                  labelStyle={{
+                    fontSize: 14,
+                  }}
+                >
+                  {t('show more')}
+                </Button>
+              </>
+            )}
           </Animated.View>
         </View>
 
