@@ -214,12 +214,18 @@ export const makrdownToPlainText = (markdownText: string): string => {
   return stringToTokens(withNewLines, markdownItInstance)
     .filter((t) => t.children !== null)
     .flatMap((t) => t.children)
-    .filter((t) => (t.type === 'text' && t.content !== '') || t.type === 'softbreak')
+    .filter(
+      (t) =>
+        (t.type === 'text' && t.content !== '') ||
+        t.type === 'softbreak' ||
+        t.type === 'code_inline',
+    )
     .reduce((previousValue, token) => {
-      if (token.type === 'text') {
-        return `${previousValue}${token.content} `;
+      if (token.type === 'softbreak') {
+        return `${previousValue}\n`;
       }
-      return `${previousValue}\n`;
+
+      return `${previousValue}${token.content} `;
     }, '');
 };
 
