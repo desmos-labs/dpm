@@ -61,6 +61,7 @@ const StyledSafeAreaView: React.FC<StyledSafeAreaViewProps> = (props) => {
     style,
     touchableWithoutFeedbackDisabled,
     touchableWithoutFeedbackOnPress,
+    ...viewProps
   } = props;
   const styles = useStyles(props);
   const theme = useTheme();
@@ -80,7 +81,11 @@ const StyledSafeAreaView: React.FC<StyledSafeAreaViewProps> = (props) => {
       >
         <View style={[styles.content, style]}>
           {scrollable ? (
-            <View style={styles.scrollViewContainer} onStartShouldSetResponder={() => false}>
+            <View
+              {...viewProps}
+              style={styles.scrollViewContainer}
+              onStartShouldSetResponder={() => false}
+            >
               <ScrollView
                 style={{ margin: -theme.spacing.m }}
                 contentContainerStyle={{ padding: theme.spacing.m, flexGrow: 1 }}
@@ -89,7 +94,7 @@ const StyledSafeAreaView: React.FC<StyledSafeAreaViewProps> = (props) => {
               </ScrollView>
             </View>
           ) : (
-            <View style={{ flex: 1 }} onStartShouldSetResponder={() => false}>
+            <View {...viewProps} style={{ flex: 1 }} onStartShouldSetResponder={() => false}>
               {children}
             </View>
           )}
