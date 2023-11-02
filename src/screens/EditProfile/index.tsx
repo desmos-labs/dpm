@@ -2,7 +2,7 @@ import { useNavigation, useRoute } from '@react-navigation/native';
 import { StackScreenProps } from '@react-navigation/stack';
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { KeyboardAvoidingView, Platform, ScrollView, View } from 'react-native';
+import { ScrollView, View } from 'react-native';
 import { DesmosProfile } from 'types/desmos';
 import StyledSafeAreaView from 'components/StyledSafeAreaView';
 import TopBar from 'components/TopBar';
@@ -19,6 +19,7 @@ import useTrackScreen from 'hooks/analytics/useTrackScreen';
 import { Screens } from 'types/analytics';
 import _ from 'lodash';
 import Spacer from 'components/Spacer';
+import DKeyboardAvoidingView from 'components/DKeyboardAvoidingView';
 import { useCheckDTagAvailability, useSaveProfile, useValidationHooks } from './useHooks';
 import InlineInput from './components/InlineInput';
 import useStyles from './useStyles';
@@ -221,11 +222,7 @@ const EditProfile = () => {
       touchableWithoutFeedbackDisabled={false}
       scrollable
     >
-      <KeyboardAvoidingView
-        keyboardVerticalOffset={Platform.OS === 'ios' ? 110 : 0}
-        style={{ flex: 1 }}
-        {...(Platform.OS === 'ios' ? { behavior: 'padding' } : {})}
-      >
+      <DKeyboardAvoidingView style={{ flex: 1 }}>
         <ScrollView style={styles.content} keyboardDismissMode={'on-drag'}>
           {/* Header */}
           <ProfileHeader
@@ -281,7 +278,7 @@ const EditProfile = () => {
             />
           </View>
         </ScrollView>
-      </KeyboardAvoidingView>
+      </DKeyboardAvoidingView>
     </StyledSafeAreaView>
   );
 };
