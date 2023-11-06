@@ -31,12 +31,19 @@ export interface PaginatedDataConfig {
   /**
    * Number of items that should be fetched per page.
    */
-  itemsPerPage: number;
+  readonly itemsPerPage: number;
   /**
    * Debounce time applied to the update filter function.
    * If undefined will be used 300ms.
    */
-  updateFilterDebounceTimeMs?: number;
+  readonly updateFilterDebounceTimeMs?: number;
+  /**
+   * If this field is true the first page will be automatically fetched
+   * instead of waiting for a call to the fetchMore function.
+   * Thi can be usefull when using this hook with a FlatList component
+   * that don't call the fetchMore function if the list is empty.
+   */
+  readonly autoFetchFirstPage?: boolean;
 }
 
 /**
@@ -51,6 +58,8 @@ export function usePaginatedData<T, F>(
   config: PaginatedDataConfig,
   initialFilter?: F,
 ) {
+  const { autoFetchFirstPage } = config;
+
   // Variables saved as ref to prevent the recreation of fetchMore
   const currentOffsetRef = useRef(0);
 
@@ -84,7 +93,7 @@ export function usePaginatedData<T, F>(
           fetchedData = fetchResult.data;
           endReached = fetchResult.endReached;
         } catch (e) {
-          setError(e);
+          setError(e as Error);
           fetchedData = [];
           endReached = true;
         }
@@ -151,6 +160,15 @@ export function usePaginatedData<T, F>(
     // has changed.
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [filter, fetchFunction]);
+
+  React.useEffect(() => {
+    if (autoFetchFirstPage) {
+      fetchMore();
+    }
+    // Safe to disable we want to execute this effect only when
+    // the autoFetchFirstPage flag changes.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [autoFetchFirstPage]);
 
   return {
     data,
