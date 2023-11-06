@@ -106,7 +106,7 @@ const ActiveProposalHeader: React.FC<Props> = ({ proposal, onProposalVoted, onDe
   return (
     <View>
       {/* Information header */}
-      <View style={styles.fieldsContainer}>
+      <View style={styles.fieldsContainer} pointerEvents="none">
         {/* Start time */}
         <View style={styles.field}>
           <Typography.SemiBold14 style={styles.text} capitalize>

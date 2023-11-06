@@ -55,7 +55,7 @@ const GovernanceProposalDetails: React.FC<NavProps> = (props) => {
 
   const Header = React.useCallback(
     () => (
-      <View>
+      <View pointerEvents="box-none">
         <TopBar style={styles.topBar} title={t('proposal')} stackProps={props} />
         {/* Proposal id and status */}
         <View style={styles.proposalIdContainer}>
@@ -63,17 +63,12 @@ const GovernanceProposalDetails: React.FC<NavProps> = (props) => {
           <Spacer paddingHorizontal={4} />
           <ProposalStatusBadge status={proposal.status} />
         </View>
-
         <Spacer paddingVertical={4} />
-
         <Typography.H6>{proposal.title}</Typography.H6>
-
         <Spacer paddingVertical={12} />
-
         {/* Proposal information */}
         {isActiveProposal && <ActiveProposalHeader proposal={proposal} />}
         {isCompletedProposal && <CompletedProposalHeader proposal={proposal} />}
-
         <Spacer paddingTop={40} />
       </View>
     ),
@@ -94,7 +89,7 @@ const GovernanceProposalDetails: React.FC<NavProps> = (props) => {
       proposal.status === ProposalStatus.Invalid
     ) {
       return (
-        <ScrollView>
+        <ScrollView showsVerticalScrollIndicator={false}>
           <Header />
           <ProposalDetails proposal={proposal} />
         </ScrollView>
@@ -110,7 +105,7 @@ const GovernanceProposalDetails: React.FC<NavProps> = (props) => {
       >
         <Tabs.Tab name={ProposalDetailsTabs.PROPOSAL_DETAILS} label={t('proposal details')}>
           {/* @ts-ignore */}
-          <Tabs.ScrollView>
+          <Tabs.ScrollView showsVerticalScrollIndicator={false}>
             <ProposalDetails proposal={proposal} />
           </Tabs.ScrollView>
         </Tabs.Tab>
