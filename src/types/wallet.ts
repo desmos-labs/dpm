@@ -95,12 +95,16 @@ export interface LedgerWallet extends BaseWallet {
    * Name of the app used to generate this wallet.
    */
   readonly ledgerAppName: string;
+  /**
+   * Transport used to connect to the Ledger device.
+   */
+  readonly transport: BluetoothTransport;
 }
 
 /**
  * [LedgerWallet] that can be serialized to JSON.
  */
-export type SerializableLedgerWallet = Omit<LedgerWallet, 'signer' | 'hdPath'> & {
+export type SerializableLedgerWallet = Omit<LedgerWallet, 'signer' | 'hdPath' | 'transport'> & {
   version: WalletSerializationVersion.Ledger;
   /**
    * HD Derivation path used to generate the user

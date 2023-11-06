@@ -80,6 +80,7 @@ const useInitLedgerWallet = () => {
             hdPaths: [hdPath],
           }),
         ),
+        transport,
       } as LedgerWallet);
     },
     [connectToLedger],
