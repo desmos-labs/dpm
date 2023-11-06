@@ -44,6 +44,7 @@ export const generateLedgerAccountWallets = async (
       hdPath: hdPaths[i],
       ledgerAppName: app.name,
       addressPrefix: prefix,
+      transport,
     },
     account: {
       walletType: WalletType.Ledger,
