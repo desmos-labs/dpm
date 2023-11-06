@@ -47,4 +47,5 @@ const useFetchPaginatedProposalVotes = (proposalId: number) => {
 export const useFetchProposalVotes = (proposalId: number) =>
   usePaginatedData(useFetchPaginatedProposalVotes(proposalId), {
     itemsPerPage: 20,
+    autoFetchFirstPage: true,
   });

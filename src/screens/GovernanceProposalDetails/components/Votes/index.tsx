@@ -32,14 +32,6 @@ const Votes: React.FC<VotesProps> = ({ proposalId }) => {
     [],
   );
 
-  React.useEffect(() => {
-    fetchMore();
-
-    // Safe to ignore, we want to perform the first fetch
-    // since the FlatList don't call this method when is empty.
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
   return (
     <Tabs.FlatList
       data={data}
