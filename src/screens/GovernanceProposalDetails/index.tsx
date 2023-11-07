@@ -90,34 +90,37 @@ const GovernanceProposalDetails: React.FC<NavProps> = (props) => {
     }
 
     return (
-      <Tabs.Container
-        renderHeader={Header}
-        headerContainerStyle={styles.headerContainer}
-        width={tabsWidth}
-        renderTabBar={StyledMaterialTabBar}
-        minHeaderHeight={-25}
+      <View
+        style={styles.tabsContainer}
+        onLayout={(e) => {
+          setTabsWidth(e.nativeEvent.layout.width);
+        }}
       >
-        <Tabs.Tab name={ProposalDetailsTabs.PROPOSAL_DETAILS} label={t('proposal details')}>
-          {/* @ts-ignore */}
-          <Tabs.ScrollView showsVerticalScrollIndicator={false}>
-            <ProposalDetails proposal={proposal} />
-          </Tabs.ScrollView>
-        </Tabs.Tab>
-        <Tabs.Tab name={ProposalDetailsTabs.VOTES} label={t('votes')}>
-          <Votes proposalId={proposal.id} />
-        </Tabs.Tab>
-      </Tabs.Container>
+        <Tabs.Container
+          renderHeader={Header}
+          headerContainerStyle={styles.headerContainer}
+          width={tabsWidth}
+          renderTabBar={StyledMaterialTabBar}
+        >
+          <Tabs.Tab name={ProposalDetailsTabs.PROPOSAL_DETAILS} label={t('proposal details')}>
+            {/* @ts-ignore */}
+            <Tabs.ScrollView showsVerticalScrollIndicator={false}>
+              <ProposalDetails proposal={proposal} />
+            </Tabs.ScrollView>
+          </Tabs.Tab>
+          <Tabs.Tab name={ProposalDetailsTabs.VOTES} label={t('votes')}>
+            <Votes proposalId={proposal.id} />
+          </Tabs.Tab>
+        </Tabs.Container>
+      </View>
     );
-  }, [proposal, Header, styles.headerContainer, tabsWidth, t]);
+  }, [proposal, styles.tabsContainer, styles.headerContainer, Header, tabsWidth, t]);
 
   return (
     <StyledSafeAreaView
       scrollable={false}
       touchableWithoutFeedbackDisabled={true}
       topBar={<TopBar style={styles.topBar} title={t('proposal')} stackProps={props} />}
-      onLayout={(e) => {
-        setTabsWidth(e.nativeEvent.layout.width);
-      }}
     >
       {proposalDetails}
     </StyledSafeAreaView>
