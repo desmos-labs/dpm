@@ -173,7 +173,7 @@ const ScanQr: React.FC<NavProps> = ({ navigation, route }) => {
   return (
     <StyledSafeAreaView
       style={styles.root}
-      padding={0}
+      paddingHorizontal={0}
       touchableWithoutFeedbackDisabled={false}
       edges={[]}
     >

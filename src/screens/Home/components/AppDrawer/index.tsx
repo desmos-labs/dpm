@@ -32,9 +32,11 @@ const AppDrawerContent = () => {
   }, [closeDrawer, navigator]);
 
   return (
-    <StyledSafeAreaView>
-      <IconButton style={styles.settingsBtn} icon="settings" onPress={openSettings} size={24} />
-      <FastImage style={styles.desmosIcon} source={desmosLogoOrange} resizeMode="contain" />
+    <StyledSafeAreaView paddingVertical={24}>
+      <View style={styles.topSection}>
+        <FastImage style={styles.desmosIcon} source={desmosLogoOrange} resizeMode="contain" />
+        <IconButton style={styles.settingsBtn} icon="settings" onPress={openSettings} size={24} />
+      </View>
 
       <View style={styles.accountsContainer}>
         <Typography.Subtitle>{t('account:accounts')}</Typography.Subtitle>

@@ -23,9 +23,13 @@ export type StyledSafeAreaViewProps = ViewProps & {
    */
   scrollable?: boolean;
   /**
-   * View padding.
+   * View padding horizontal.
    */
-  padding?: number;
+  paddingHorizontal?: number;
+  /**
+   * View padding vertical.
+   */
+  paddingVertical?: number;
   /**
    * Shows an element as a top bar.
    */
@@ -79,42 +83,38 @@ const StyledSafeAreaView: React.FC<StyledSafeAreaViewProps> = (props) => {
   const statusBarVariant = theme.dark ? 'light-content' : 'dark-content';
 
   return (
-    <SafeAreaView
-      style={[styles.root, { backgroundColor: customBackgroundColor ?? theme.colors.background }]}
-      edges={edges}
+    <TouchableWithoutFeedback
+      disabled={touchableWithoutFeedbackDisabled ?? true}
+      onPress={touchableWithoutFeedbackOnPress ?? Keyboard.dismiss}
     >
-      <StatusBar barStyle={statusBarVariant} backgroundColor="transparent" />
-      {background !== undefined && (
-        <ImageBackground style={styles.background} source={background} />
-      )}
-      {topBar}
-      {divider && <Divider />}
-      <TouchableWithoutFeedback
-        disabled={touchableWithoutFeedbackDisabled ?? true}
-        onPress={touchableWithoutFeedbackOnPress ?? Keyboard.dismiss}
+      <SafeAreaView
+        style={[
+          styles.root,
+          { backgroundColor: customBackgroundColor ?? theme.colors.background },
+          style,
+        ]}
+        edges={edges}
       >
-        <View style={[styles.content, style]}>
-          {scrollable ? (
-            <View
-              {...viewProps}
-              style={styles.scrollViewContainer}
-              onStartShouldSetResponder={() => false}
+        <StatusBar barStyle={statusBarVariant} backgroundColor="transparent" />
+        {background !== undefined && (
+          <ImageBackground style={styles.background} source={background} />
+        )}
+        <View style={styles.topBar}>{topBar}</View>
+        {divider && <Divider />}
+        {scrollable ? (
+          <View style={styles.scrollViewContainer} onStartShouldSetResponder={() => false}>
+            <ScrollView
+              style={{ margin: -theme.spacing.m }}
+              contentContainerStyle={{ padding: theme.spacing.m, flexGrow: 1 }}
             >
-              <ScrollView
-                style={{ margin: -theme.spacing.m }}
-                contentContainerStyle={{ padding: theme.spacing.m, flexGrow: 1 }}
-              >
-                {children}
-              </ScrollView>
-            </View>
-          ) : (
-            <View {...viewProps} style={{ flex: 1 }} onStartShouldSetResponder={() => false}>
               {children}
-            </View>
-          )}
-        </View>
-      </TouchableWithoutFeedback>
-    </SafeAreaView>
+            </ScrollView>
+          </View>
+        ) : (
+          children
+        )}
+      </SafeAreaView>
+    </TouchableWithoutFeedback>
   );
 };
 

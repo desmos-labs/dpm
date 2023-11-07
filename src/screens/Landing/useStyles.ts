@@ -18,6 +18,7 @@ const useStyle = makeStyle((theme) => ({
     justifyContent: 'center',
   },
   backArrow: {
+    top: 32,
     position: 'absolute',
     left: 0,
     zIndex: 1,

@@ -89,7 +89,7 @@ const ValidatorDetails: FC<NavProps> = (props) => {
   return (
     <StyledSafeAreaView
       edges={[]}
-      padding={0}
+      paddingHorizontal={0}
       topBar={
         <TopBar
           style={[styles.topBar, { marginTop: insets.top }]}

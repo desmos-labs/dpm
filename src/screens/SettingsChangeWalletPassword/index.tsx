@@ -101,44 +101,44 @@ const SettingsChangeWalletPassword = (props: NavProps) => {
       topBar={<TopBar stackProps={props} title={t('change password')} />}
       touchableWithoutFeedbackDisabled={false}
     >
-      {/* Description */}
-      <Typography.Body>{t('change application password description')}</Typography.Body>
-
-      <Spacer paddingVertical={8} />
-
-      {/* Inputs */}
-      <View style={styles.inputContainer}>
-        <View>
-          {/* Old password input */}
-          <Typography.Body>{t('enter your old password')}</Typography.Body>
-          <SecureTextInput
-            placeholder={t('common:password')}
-            style={styles.password}
-            value={oldPassword}
-            onChangeText={onOldPasswordChange}
-            error={oldPasswordError !== undefined}
-            autoFocus
-          />
-          <Typography.Body style={styles.errorParagraph}>{oldPasswordError}</Typography.Body>
-        </View>
+      <DKeyboardAvoidingView style={{ flex: 1, backgroundColor: 'blue' }}>
+        {/* Description */}
+        <Typography.Body>{t('change application password description')}</Typography.Body>
 
         <Spacer paddingVertical={8} />
 
-        <View>
-          {/* New password input */}
-          <Typography.Body>{t('enter your new password')}</Typography.Body>
-          <SecureTextInput
-            placeholder={t('common:password')}
-            style={styles.password}
-            value={newPassword}
-            onChangeText={onNewPasswordChange}
-            onSubmitEditing={onContinue}
-          />
-        </View>
-      </View>
+        {/* Inputs */}
+        <View style={styles.inputContainer}>
+          <View style={{ flex: 1 }}>
+            {/* Old password input */}
+            <Typography.Body>{t('enter your old password')}</Typography.Body>
+            <SecureTextInput
+              placeholder={t('common:password')}
+              style={styles.password}
+              value={oldPassword}
+              onChangeText={onOldPasswordChange}
+              error={oldPasswordError !== undefined}
+              autoFocus
+            />
+            <Typography.Body style={styles.errorParagraph}>{oldPasswordError}</Typography.Body>
+          </View>
 
-      {/* Continue button */}
-      <DKeyboardAvoidingView>
+          <Spacer paddingVertical={8} />
+
+          <View style={{ flex: 1 }}>
+            {/* New password input */}
+            <Typography.Body>{t('enter your new password')}</Typography.Body>
+            <SecureTextInput
+              placeholder={t('common:password')}
+              style={styles.password}
+              value={newPassword}
+              onChangeText={onNewPasswordChange}
+              onSubmitEditing={onContinue}
+            />
+          </View>
+        </View>
+
+        {/* Continue button */}
         <Button
           mode="contained"
           onPress={onContinue}

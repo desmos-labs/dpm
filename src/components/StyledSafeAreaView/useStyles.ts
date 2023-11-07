@@ -3,9 +3,12 @@ import { StyledSafeAreaViewProps } from 'components/StyledSafeAreaView/index';
 
 const useStyles = makeStyleWithProps((props: StyledSafeAreaViewProps, theme) => ({
   root: {
-    flex: 1,
+    flexGrow: 1,
     display: 'flex',
     flexDirection: 'column',
+    paddingHorizontal: props?.paddingHorizontal ?? theme.spacing.m,
+    paddingVertical: props?.paddingVertical ?? theme.spacing.m,
+    backgroundColor: props.background === undefined ? theme.colors.background : 'transparent',
   },
   background: {
     position: 'absolute',
@@ -15,16 +18,10 @@ const useStyles = makeStyleWithProps((props: StyledSafeAreaViewProps, theme) => 
     bottom: 0,
     zIndex: 0,
   },
-  content: {
-    display: 'flex',
-    flexDirection: 'column',
-    flexGrow: 1,
-    padding: props?.padding ?? theme.spacing.m,
-    backgroundColor: props.background === undefined ? theme.colors.background : 'transparent',
-  },
   scrollViewContainer: {
     flex: 1,
   },
+  topBar: { marginHorizontal: -theme.spacing.m, marginTop: -theme.spacing.m, zIndex: 10 },
 }));
 
 export default useStyles;

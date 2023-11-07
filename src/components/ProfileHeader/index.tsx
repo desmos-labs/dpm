@@ -14,7 +14,7 @@ import Spacer from 'components/Spacer';
 import TypographyContentLoaders from 'components/ContentLoaders/Typography';
 import StyledActivityIndicator from 'components/StyledActivityIndicator';
 import { Validator } from 'types/validator';
-import { usePickPicture, useMemoizedPictureSource } from './useHooks';
+import { useMemoizedPictureSource, usePickPicture } from './useHooks';
 import useStyles from './useStyles';
 
 export type ProfileHeaderProps = {
@@ -112,7 +112,7 @@ const ProfileHeader: React.FC<ProfileHeaderProps> = (props) => {
   }, [profile?.coverPicture, profile?.profilePicture, validator?.avatarUrl]);
 
   return (
-    <View style={styles.root}>
+    <View style={styles.root} onStartShouldSetResponder={() => true}>
       <View style={styles.topRight}>{topRightElement}</View>
       <View style={styles.topLeft}>{topLeftElement}</View>
 

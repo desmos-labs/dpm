@@ -5,8 +5,8 @@ const useStyle = makeStyle((theme) => ({
     width: '100%',
     flex: 1,
   },
+  topSection: { flex: 1, flexDirection: 'row' },
   settingsBtn: {
-    position: 'absolute',
     right: 0,
     zIndex: 1,
   },

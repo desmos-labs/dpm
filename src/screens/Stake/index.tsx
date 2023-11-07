@@ -72,7 +72,7 @@ const Stake: React.FC<NavProps> = (props) => {
   return (
     <StyledSafeAreaView
       topBar={<TopBar stackProps={props} title={t('stake')} />}
-      padding={0}
+      paddingHorizontal={0}
       touchableWithoutFeedbackDisabled={false}
     >
       {/* Staking lock period warning message */}

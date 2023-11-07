@@ -5,7 +5,7 @@ const useStyles = makeStyle((theme) => ({
     paddingTop: 0,
   },
   inputContainer: {
-    flexGrow: 1,
+    flex: 1,
   },
   passwordLabel: {
     display: 'flex',
