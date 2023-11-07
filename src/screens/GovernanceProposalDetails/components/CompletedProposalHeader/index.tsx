@@ -68,7 +68,7 @@ const CompletedProposalHeader: React.FC<CompletedProposalHeaderProps> = ({ propo
   }
 
   return (
-    <View>
+    <View pointerEvents="none">
       <Typography.SemiBold16>{t('voting time')}</Typography.SemiBold16>
       <Typography.Regular16>{votingTime}</Typography.Regular16>
 

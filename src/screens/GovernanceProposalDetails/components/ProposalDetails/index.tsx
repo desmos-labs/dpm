@@ -78,6 +78,7 @@ const ProposalDetails: React.FC<ProposalDetailsProps> = ({ proposal }) => {
 
   return (
     <View>
+      <Spacer paddingTop={24} />
       {/* Description */}
       <Typography.SemiBold14>{t('common:description')}</Typography.SemiBold14>
       <StyledMarkDown>{proposal.description}</StyledMarkDown>
