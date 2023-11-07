@@ -75,8 +75,8 @@ const StyledSafeAreaView: React.FC<StyledSafeAreaViewProps> = (props) => {
     style,
     touchableWithoutFeedbackDisabled,
     touchableWithoutFeedbackOnPress,
-    ...viewProps
     customBackgroundColor,
+    ...viewProps
   } = props;
   const styles = useStyles(props);
   const theme = useTheme();
@@ -94,6 +94,7 @@ const StyledSafeAreaView: React.FC<StyledSafeAreaViewProps> = (props) => {
           style,
         ]}
         edges={edges}
+        {...viewProps}
       >
         <StatusBar barStyle={statusBarVariant} backgroundColor="transparent" />
         {background !== undefined && (
