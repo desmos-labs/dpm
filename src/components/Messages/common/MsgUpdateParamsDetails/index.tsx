@@ -4,7 +4,7 @@ import BaseMessageDetails, {
   MessageDetailsField,
 } from 'components/Messages/BaseMessage/BaseMessageDetails';
 import Typography from 'components/Typography';
-import { formatCoin } from 'lib/FormatUtils';
+import { formatCoin, formatCoins, isCoin } from 'lib/FormatUtils';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 
@@ -23,11 +23,19 @@ const MsgUpdateParamsDetails: MessageDetailsComponent<EncodeObject> = ({ message
 
       if (typeof objectValue === 'object') {
         // Special case for the coin object.
-        if (typeof objectValue.denom === 'string' && typeof objectValue.amount === 'string') {
+        if (isCoin(objectValue)) {
           serializedValue = formatCoin(objectValue);
+        } else if (
+          Object.prototype.toString.call(objectValue) === '[object Array]' &&
+          isCoin(objectValue[0])
+        ) {
+          // Special case for array of coins.
+          serializedValue = formatCoins(objectValue);
         } else {
           serializedValue = JSON.stringify(objectValue, undefined, 4);
         }
+      } else if (objectValue === null || objectValue === undefined) {
+        serializedValue = 'null';
       } else {
         serializedValue = objectValue.toString();
       }
