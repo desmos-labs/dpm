@@ -2,6 +2,7 @@ import { EncodeObject } from '@cosmjs/proto-signing';
 import React from 'react';
 import { messageDetailsComponents } from './components';
 import MsgUnknownComponents from './MsgUnknown';
+import MsgUpdateParamsDetails from './common/MsgUpdateParamsDetails';
 
 export type MessageDetailsProps = {
   /**
@@ -18,6 +19,9 @@ export type MessageDetailsProps = {
 
 const MessageDetails: React.FC<MessageDetailsProps> = ({ message, toBroadcastMessage }) =>
   React.useMemo(() => {
+    if (message.typeUrl.indexOf('MsgUpdateParams') > 0) {
+      return <MsgUpdateParamsDetails message={message} toBroadcastMessage={toBroadcastMessage} />;
+    }
     const DetailsComponent = messageDetailsComponents[message.typeUrl] || MsgUnknownComponents;
     return <DetailsComponent message={message} toBroadcastMessage={toBroadcastMessage} />;
   }, [message, toBroadcastMessage]);
