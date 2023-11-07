@@ -4,7 +4,6 @@ import Typography from 'components/Typography';
 import { useTranslation } from 'react-i18next';
 import { Proposal, ProposalContent } from 'types/proposals';
 import StyledMarkDown from 'components/StyledMarkdown';
-import CopiableAddress from 'components/CopiableAddress';
 import { format } from 'date-fns';
 import Spacer from 'components/Spacer';
 import decodeGqlRawMessage from 'lib/GraphQLUtils/message';
