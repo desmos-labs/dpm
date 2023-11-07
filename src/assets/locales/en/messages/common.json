@@ -1,5 +1,6 @@
 {
   "signer": "Signer",
   "user": "User",
-  "update params": "Update params"
+  "update params": "Update params",
+  "update module params": "Update {{ module }} module params",
 }

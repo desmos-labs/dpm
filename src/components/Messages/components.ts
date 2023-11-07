@@ -17,7 +17,6 @@ import {
   MsgExecTypeUrl,
   MsgSoftwareUpgradeTypeUrl,
   MsgTransferTypeUrl,
-  MsgUpdateStakingModuleParamsTypeUrl,
   SoftwareUpgradeProposalTypeUrl,
 } from 'types/cosmos';
 import MsgExecDetails from 'components/Messages/authz/MsgExecDetails';
@@ -26,7 +25,6 @@ import MsgDepositDetails from 'components/Messages/gov/MsgDepositDetails';
 import MsgTransferDetails from 'components/Messages/ibc/MsgTransferDetails';
 import MsgCreateValidatorDetails from 'components/Messages/staking/MsgCreateValidatorDetails';
 import MsgEditValidatorDetails from 'components/Messages/staking/MsgEditValidatorDetails';
-import MsgUpdateStakingModuleParams from 'components/Messages/staking/MsgUpdateParams';
 import SoftwareUpgradeProposal from 'components/Messages/upgrade/v1beta1/SoftwareUpgradeProposal';
 import MsgSoftwareUpgrade from 'components/Messages/upgrade/v1beta1/MsgSoftwareUpgrade';
 import MsgMovePostDetails from 'components/Messages/posts/MsgMovePostDetails';
@@ -100,7 +98,6 @@ import MsgCreateDenomDetails from './tokenfactory/MsgCreateDenomDetails';
 import MsgMintDetails from './tokenfactory/MsgMintDetails';
 import MsgBurnDetails from './tokenfactory/MsgBurnDetails';
 import MsgSetDenomMetadataDetails from './tokenfactory/MsgSetDenomMetadataDetails';
-import MsgUpdateParamsDetails from './tokenfactory/MsgUpdateParamsDetails';
 
 export const messageDetailsComponents: Record<string, MessageDetailsComponent<any>> = {
   // x/authz
@@ -137,7 +134,6 @@ export const messageDetailsComponents: Record<string, MessageDetailsComponent<an
   [Staking.v1beta1.MsgUndelegateTypeUrl]: MsgUndelegateComponentDetails,
   [Staking.v1beta1.MsgCreateValidatorTypeUrl]: MsgCreateValidatorDetails,
   [Staking.v1beta1.MsgEditValidatorTypeUrl]: MsgEditValidatorDetails,
-  [MsgUpdateStakingModuleParamsTypeUrl]: MsgUpdateStakingModuleParams,
 
   // x/feegrant
   [Feegrant.v1beta1.MsgGrantAllowanceTypeUrl]: MsgGrantAllowanceComponentDetails,
@@ -212,7 +208,6 @@ export const messageDetailsComponents: Record<string, MessageDetailsComponent<an
   [TokenFactory.v1.MsgMintTypeUrl]: MsgMintDetails,
   [TokenFactory.v1.MsgBurnTypeUrl]: MsgBurnDetails,
   [TokenFactory.v1.MsgSetDenomMetadataTypeUrl]: MsgSetDenomMetadataDetails,
-  [TokenFactory.v1.MsgUpdateParamsTypeUrl]: MsgUpdateParamsDetails,
 
   // x/upgrade
   [SoftwareUpgradeProposalTypeUrl]: SoftwareUpgradeProposal,

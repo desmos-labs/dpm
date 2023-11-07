@@ -101,6 +101,18 @@ export const formatCoins = (
 ): string => (amount || []).map(formatCoin).join(separator);
 
 /**
+ * Checks if the given value is a Coin.
+ * @param value - The value to check.
+ */
+export const isCoin = (value: any): value is Coin =>
+  value &&
+  typeof value === 'object' &&
+  'denom' in value &&
+  'amount' in value &&
+  typeof value.denom === 'string' &&
+  typeof value.amount === 'string';
+
+/**
  * Formats the provided amount using the application's fiat representation style.
  * @param amount - The amount to be formatted.
  */
