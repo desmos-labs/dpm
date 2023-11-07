@@ -5,8 +5,8 @@ const useStyles = makeStyle((theme) => ({
     backgroundColor: 'transparent',
     position: 'absolute',
     top: 0,
-    left: 0,
     zIndex: 1,
+    marginHorizontal: theme.spacing.m,
   },
   topBarButton: {
     color: theme.colors.icon['5'],

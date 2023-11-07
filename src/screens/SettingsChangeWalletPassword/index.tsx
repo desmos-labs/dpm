@@ -101,7 +101,7 @@ const SettingsChangeWalletPassword = (props: NavProps) => {
       topBar={<TopBar stackProps={props} title={t('change password')} />}
       touchableWithoutFeedbackDisabled={false}
     >
-      <DKeyboardAvoidingView style={{ flex: 1, backgroundColor: 'blue' }}>
+      <DKeyboardAvoidingView style={{ flex: 1 }}>
         {/* Description */}
         <Typography.Body>{t('change application password description')}</Typography.Body>
 
@@ -109,7 +109,7 @@ const SettingsChangeWalletPassword = (props: NavProps) => {
 
         {/* Inputs */}
         <View style={styles.inputContainer}>
-          <View style={{ flex: 1 }}>
+          <View>
             {/* Old password input */}
             <Typography.Body>{t('enter your old password')}</Typography.Body>
             <SecureTextInput
@@ -125,7 +125,7 @@ const SettingsChangeWalletPassword = (props: NavProps) => {
 
           <Spacer paddingVertical={8} />
 
-          <View style={{ flex: 1 }}>
+          <View>
             {/* New password input */}
             <Typography.Body>{t('enter your new password')}</Typography.Body>
             <SecureTextInput
