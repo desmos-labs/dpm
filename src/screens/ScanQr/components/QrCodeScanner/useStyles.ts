@@ -8,6 +8,7 @@ const useStyles = makeStyle((theme) => ({
     justifyContent: 'center',
     height: '100%',
   },
+  indicatorView: { flex: 1, justifyContent: 'center' },
 }));
 
 export default useStyles;

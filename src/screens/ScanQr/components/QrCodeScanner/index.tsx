@@ -83,7 +83,11 @@ const QrCodeScanner: FC<QrCodeScannerProps> = ({ onQrCodeDetected, stopRecogniti
       );
     }
     if (backCameraDevice === undefined) {
-      return <StyledActivityIndicator />;
+      return (
+        <View style={styles.indicatorView}>
+          <StyledActivityIndicator />
+        </View>
+      );
     }
     return (
       <Camera

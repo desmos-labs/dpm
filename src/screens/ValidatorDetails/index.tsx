@@ -19,6 +19,7 @@ import { formatNumber, roundFloat } from 'lib/FormatUtils';
 import StyledMarkDown from 'components/StyledMarkdown';
 import ProfileHeader from 'components/ProfileHeader';
 import ValidatorStatus from 'components/ValidatorStatus';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import useStyles from './useStyles';
 import ValidatorInfoField from './components/ValidatorInfoField';
 
@@ -39,7 +40,7 @@ const ValidatorDetails: FC<NavProps> = (props) => {
   const { validator } = props.route.params;
   const styles = useStyles();
   const { t } = useTranslation('validatorDetails');
-
+  const insets = useSafeAreaInsets();
   // -------- HOOKS --------
 
   const { data: apr, loading: aprLoading, error: aprError } = useValidatorStakingApr(validator);
@@ -87,9 +88,14 @@ const ValidatorDetails: FC<NavProps> = (props) => {
 
   return (
     <StyledSafeAreaView
+      edges={[]}
       padding={0}
       topBar={
-        <TopBar style={styles.topBar} leftIconStyle={styles.topBarButton} stackProps={props} />
+        <TopBar
+          style={[styles.topBar, { marginTop: insets.top }]}
+          leftIconStyle={styles.topBarButton}
+          stackProps={props}
+        />
       }
       touchableWithoutFeedbackDisabled
     >
