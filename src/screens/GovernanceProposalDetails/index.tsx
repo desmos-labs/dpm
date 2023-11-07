@@ -56,7 +56,6 @@ const GovernanceProposalDetails: React.FC<NavProps> = (props) => {
   const Header = React.useCallback(
     () => (
       <View pointerEvents="box-none">
-        <TopBar style={styles.topBar} title={t('proposal')} stackProps={props} />
         {/* Proposal id and status */}
         <View style={styles.proposalIdContainer}>
           <Typography.Regular16>#{proposal.id}</Typography.Regular16>
@@ -64,7 +63,9 @@ const GovernanceProposalDetails: React.FC<NavProps> = (props) => {
           <ProposalStatusBadge status={proposal.status} />
         </View>
         <Spacer paddingVertical={4} />
-        <Typography.H6>{proposal.title}</Typography.H6>
+        <View pointerEvents="none">
+          <Typography.H6>{proposal.title}</Typography.H6>
+        </View>
         <Spacer paddingVertical={12} />
         {/* Proposal information */}
         {isActiveProposal && <ActiveProposalHeader proposal={proposal} />}
@@ -72,15 +73,7 @@ const GovernanceProposalDetails: React.FC<NavProps> = (props) => {
         <Spacer paddingTop={40} />
       </View>
     ),
-    [
-      isActiveProposal,
-      isCompletedProposal,
-      proposal,
-      props,
-      styles.proposalIdContainer,
-      styles.topBar,
-      t,
-    ],
+    [isActiveProposal, isCompletedProposal, proposal, styles.proposalIdContainer],
   );
 
   const proposalDetails = React.useMemo(() => {
@@ -102,6 +95,7 @@ const GovernanceProposalDetails: React.FC<NavProps> = (props) => {
         headerContainerStyle={styles.headerContainer}
         width={tabsWidth}
         renderTabBar={StyledMaterialTabBar}
+        minHeaderHeight={-25}
       >
         <Tabs.Tab name={ProposalDetailsTabs.PROPOSAL_DETAILS} label={t('proposal details')}>
           {/* @ts-ignore */}
@@ -120,6 +114,7 @@ const GovernanceProposalDetails: React.FC<NavProps> = (props) => {
     <StyledSafeAreaView
       scrollable={false}
       touchableWithoutFeedbackDisabled={true}
+      topBar={<TopBar style={styles.topBar} title={t('proposal')} stackProps={props} />}
       onLayout={(e) => {
         setTabsWidth(e.nativeEvent.layout.width);
       }}

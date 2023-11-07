@@ -16,6 +16,10 @@ type Props = {
  * HOC that wraps a child component with optional padding to create space
  * between sibling components.
  */
-const Spacer = ({ children, ...rest }: Props) => <View style={rest}>{children}</View>;
+const Spacer = ({ children, ...rest }: Props) => (
+  <View style={rest} pointerEvents="none">
+    {children}
+  </View>
+);
 
 export default Spacer;

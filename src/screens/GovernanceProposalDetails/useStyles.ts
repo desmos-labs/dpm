@@ -2,8 +2,7 @@ import { makeStyle } from 'config/theme';
 
 const useStyles = makeStyle((theme) => ({
   topBar: {
-    marginTop: -theme.spacing.m,
-    marginHorizontal: -theme.spacing.m,
+    zIndex: 5,
   },
   proposalIdContainer: {
     display: 'flex',
