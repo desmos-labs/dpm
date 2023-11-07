@@ -118,7 +118,10 @@ const GovernanceProposalDetails: React.FC<NavProps> = (props) => {
 
   return (
     <StyledSafeAreaView
+      edges={['bottom']}
       scrollable={false}
+      paddingVertical={0}
+      fakeTopBar={true}
       touchableWithoutFeedbackDisabled={true}
       topBar={<TopBar style={styles.topBar} title={t('proposal')} stackProps={props} />}
     >

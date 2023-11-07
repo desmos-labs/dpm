@@ -23,6 +23,12 @@ const useStyles = makeStyleWithProps((props: StyledSafeAreaViewProps, theme) => 
     flex: 1,
   },
   topBar: { marginHorizontal: -theme.spacing.m, marginTop: -theme.spacing.m, zIndex: 10 },
+  fakeView: {
+    width: Dimensions.get('window').width,
+    backgroundColor: theme.colors.background,
+    zIndex: 10,
+    alignSelf: 'center',
+  },
 }));
 
 export default useStyles;

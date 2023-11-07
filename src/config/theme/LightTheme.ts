@@ -77,6 +77,7 @@ export const LightTheme: ReactNativePaper.Theme = {
     neutral300: '#E8E8E8',
     neutral700: '#5C5C5C',
     neutral900: '#0A0A0A',
+    placeholder: '#0A0A0A',
     feedbackSuccess: '#1EC490',
     feedbackSuccessBg: '#DEF9E4',
     feedbackError: '#E44A4A',

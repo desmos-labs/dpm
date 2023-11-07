@@ -10,7 +10,7 @@ import {
 } from 'react-native';
 import { useTheme } from 'react-native-paper';
 import Divider from 'components/Divider';
-import { SafeAreaView, SafeAreaViewProps } from 'react-native-safe-area-context';
+import { SafeAreaView, SafeAreaViewProps, useSafeAreaInsets } from 'react-native-safe-area-context';
 import useStyles from './useStyles';
 
 export type StyledSafeAreaViewProps = ViewProps & {
@@ -62,6 +62,10 @@ export type StyledSafeAreaViewProps = ViewProps & {
    * Override themed background color.
    */
   customBackgroundColor?: string;
+  /**
+   * Add a fake top bar to the view.
+   */
+  fakeTopBar?: boolean;
 };
 
 const StyledSafeAreaView: React.FC<StyledSafeAreaViewProps> = (props) => {
@@ -76,11 +80,12 @@ const StyledSafeAreaView: React.FC<StyledSafeAreaViewProps> = (props) => {
     touchableWithoutFeedbackDisabled,
     touchableWithoutFeedbackOnPress,
     customBackgroundColor,
+    fakeTopBar,
   } = props;
   const styles = useStyles(props);
   const theme = useTheme();
   const statusBarVariant = theme.dark ? 'light-content' : 'dark-content';
-
+  const insets = useSafeAreaInsets();
   return (
     <TouchableWithoutFeedback
       disabled={touchableWithoutFeedbackDisabled ?? true}
@@ -94,6 +99,7 @@ const StyledSafeAreaView: React.FC<StyledSafeAreaViewProps> = (props) => {
         ]}
         edges={edges}
       >
+        {fakeTopBar && <View style={[styles.fakeView, { height: insets.top }]} />}
         <StatusBar barStyle={statusBarVariant} backgroundColor="transparent" />
         {background !== undefined && (
           <ImageBackground style={styles.background} source={background} />
