@@ -1,5 +1,4 @@
 import { makeStyleWithProps } from 'config/theme';
-import { Platform } from 'react-native';
 import { StyledSafeAreaViewProps } from 'components/StyledSafeAreaView/index';
 
 const useStyles = makeStyleWithProps((props: StyledSafeAreaViewProps, theme) => ({
@@ -7,8 +6,6 @@ const useStyles = makeStyleWithProps((props: StyledSafeAreaViewProps, theme) => 
     flex: 1,
     display: 'flex',
     flexDirection: 'column',
-    paddingBottom: Platform.OS === 'android' || props.noIosPadding === true ? 0 : 24,
-    backgroundColor: theme.colors.background,
   },
   background: {
     position: 'absolute',

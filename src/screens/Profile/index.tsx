@@ -141,7 +141,7 @@ const Profile: React.FC<NavProps> = ({ navigation, route: { params } }) => {
 
   return (
     <StyledSafeAreaView
-      edges={[]}
+      edges={['bottom']}
       padding={0}
       topBar={
         <TopBar

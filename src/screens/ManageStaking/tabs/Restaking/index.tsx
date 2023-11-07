@@ -1,5 +1,4 @@
 import React from 'react';
-import StyledSafeAreaView from 'components/StyledSafeAreaView';
 import Typography from 'components/Typography';
 import { usePaginatedData } from 'hooks/usePaginatedData';
 import { FlashList } from '@shopify/flash-list';
@@ -60,7 +59,7 @@ const RestakingTab: React.FC = () => {
   }, [refreshDelegations, refreshTotalRedelegatingAmount]);
 
   return (
-    <StyledSafeAreaView>
+    <View style={styles.container}>
       {/* Total redelegating amount */}
       {errorTotalRedelegating === undefined && (
         <View style={styles.totalRestaking}>
@@ -109,7 +108,7 @@ const RestakingTab: React.FC = () => {
           />
         }
       />
-    </StyledSafeAreaView>
+    </View>
   );
 };
 

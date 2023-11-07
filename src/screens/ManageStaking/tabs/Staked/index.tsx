@@ -80,7 +80,7 @@ const StakedTab: React.FC = () => {
   }, [refetchTotalDelegatedAmount, refreshDelegations]);
 
   return (
-    <View style={{ flex: 1, paddingTop: 16 }}>
+    <View style={styles.container}>
       {/* Total staked amount */}
       {totalDelegatedError === undefined && (
         <View style={styles.totalStaked}>

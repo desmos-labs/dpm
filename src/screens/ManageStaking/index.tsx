@@ -44,6 +44,7 @@ const ManageStaking: React.FC<NavProps> = (props) => {
 
   return (
     <StyledSafeAreaView
+      edges={['top']}
       topBar={
         <TopBar
           stackProps={{ ...props, navigation: { ...props.navigation, openDrawer } }}

@@ -44,7 +44,7 @@ const WalletConnectSessions = (props: NavProps) => {
   return (
     <StyledSafeAreaView
       padding={0}
-      noIosPadding
+      edges={['top']}
       topBar={
         <TopBar
           stackProps={{ ...props, navigation: { ...navigation, openDrawer } }}
