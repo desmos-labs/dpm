@@ -4,6 +4,10 @@ import React from 'react';
 import TwoButtonModal from 'modals/TwoButtonModal';
 import { useTranslation } from 'react-i18next';
 import { usePostHog } from 'posthog-react-native';
+import { useNavigation } from '@react-navigation/native';
+import { StackNavigationProp } from '@react-navigation/stack';
+import { RootNavigatorParamList } from 'navigation/RootNavigator';
+import ROUTES from 'navigation/routes';
 
 /**
  * Hooks that provides a function to enable or disable the analytics
@@ -35,4 +39,28 @@ export const useToggleAnalytics = () => {
   }, [analyticsEnabled, postHog, setAnalyticsEnabled, showModal, t]);
 
   return { analyticsEnabled, toggleAnalytics };
+};
+
+/**
+ * Hook that provides a function to enable or disable the
+ * prompt for unlocking the application and the current status.
+ */
+export const useToggleAppLock = () => {
+  const { t } = useTranslation('settings');
+  const navigation = useNavigation<StackNavigationProp<RootNavigatorParamList>>();
+  const appLockEnabled = useSetting('autoAppLock');
+  const setAppLockEnabled = useSetSetting('autoAppLock');
+
+  const toggleAppLock = React.useCallback(() => {
+    navigation.navigate(ROUTES.SETTINGS_SWITCH_SCREEN, {
+      title: t('disable app lock'),
+      description: t('disable app lock message'),
+      intialValue: !appLockEnabled,
+      toggleSetting: () => {
+        setAppLockEnabled((currentValue) => !currentValue);
+      },
+    });
+  }, [appLockEnabled, navigation, setAppLockEnabled, t]);
+
+  return toggleAppLock;
 };

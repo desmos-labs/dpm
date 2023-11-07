@@ -36,11 +36,12 @@ export const useEstimateFee = () => {
       setEstimatedFee(undefined);
 
       // Compute a fallback fee amount.
-      const fallbackFee = calculateFee(gasOnFeeEstimationTimeout, gasPrice!);
+      const fallbackFee = calculateFee(gasOnFeeEstimationTimeout, gasPrice!.toString());
 
       const feeEstimationPromise = PromiseTimeout.wrap(
         DesmosClient.connect(chainInfo.rpcUrl, {
           gasPrice,
+          gasAdjustment: 1.8,
         }).then((c) =>
           c.estimateTxFee(activeAccount.address, messages, {
             publicKey: {

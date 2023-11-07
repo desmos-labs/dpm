@@ -15,7 +15,7 @@ import { BiometricAuthorizations } from 'types/settings';
 import useDeletePasswordFromBiometrics from 'hooks/useDelletPasswordFromBiometrics';
 import useShowPrivacyPolicy from 'hooks/legal/useShowPrivacyPolicy';
 import useShowToS from 'hooks/legal/useShowToS';
-import { useToggleAnalytics } from 'screens/Settings/hooks';
+import { useToggleAnalytics, useToggleAppLock } from 'screens/Settings/hooks';
 import useToggleNotifications from 'hooks/notifications/useToggleNotifications';
 import useStyles from './useStyles';
 
@@ -43,6 +43,7 @@ const Settings = (props: NavProps) => {
   const deletePasswordFromBiometrics = useDeletePasswordFromBiometrics();
   const { toggleAnalytics, analyticsEnabled } = useToggleAnalytics();
   const { toggleNotifications, notificationsEnabled } = useToggleNotifications();
+  const toggleAppLock = useToggleAppLock();
 
   // --------------------------------------------------------------------------------------
   // --- Local state
@@ -152,6 +153,7 @@ const Settings = (props: NavProps) => {
 
       {/* Security section */}
       <Flexible.Section style={styles.sectionMargin} title={t('security')}>
+        <Flexible.SectionButton label={t('disable app lock')} onPress={toggleAppLock} />
         <OpenSettingScreenButton
           title={t('change application password')}
           route={ROUTES.SETTINGS_CHANGE_APPLICATION_PASSWORD}
