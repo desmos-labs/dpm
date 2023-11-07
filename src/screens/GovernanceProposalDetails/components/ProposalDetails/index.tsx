@@ -1,5 +1,5 @@
 import React from 'react';
-import { Dimensions, View } from 'react-native';
+import { View } from 'react-native';
 import Typography from 'components/Typography';
 import { useTranslation } from 'react-i18next';
 import { Proposal, ProposalContent } from 'types/proposals';
@@ -10,7 +10,6 @@ import Spacer from 'components/Spacer';
 import decodeGqlRawMessage from 'lib/GraphQLUtils/message';
 import MessageDetails from 'components/Messages/MessageDetails';
 import { Message } from 'types/transactions';
-import { FlashList } from '@shopify/flash-list';
 
 export interface ProposalDetailsProps {
   /**
@@ -65,6 +64,15 @@ const ProposalDetails: React.FC<ProposalDetailsProps> = ({ proposal }) => {
   return (
     <View>
       <Spacer paddingTop={24} />
+      {/* Summary */}
+      {proposal.summary && proposal.summary.length > 0 && (
+        <>
+          <Typography.SemiBold14>{t('common:summary')}</Typography.SemiBold14>
+          <StyledMarkDown>{proposal.summary}</StyledMarkDown>
+          <Spacer paddingVertical={12} />
+        </>
+      )}
+
       {/* Description */}
       <Typography.SemiBold14>{t('common:description')}</Typography.SemiBold14>
       <StyledMarkDown>{proposal.description}</StyledMarkDown>

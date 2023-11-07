@@ -4,6 +4,7 @@ const ProposalFields = gql`
   fragment ProposalFields on proposal {
     id
     title
+    summary
     description
     proposerAddress: proposer_address
     status
