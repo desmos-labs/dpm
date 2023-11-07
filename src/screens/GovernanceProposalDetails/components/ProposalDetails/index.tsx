@@ -10,6 +10,7 @@ import Spacer from 'components/Spacer';
 import decodeGqlRawMessage from 'lib/GraphQLUtils/message';
 import MessageDetails from 'components/Messages/MessageDetails';
 import { Message } from 'types/transactions';
+import InlineProfile from 'components/InlineProfile';
 
 export interface ProposalDetailsProps {
   /**
@@ -86,7 +87,7 @@ const ProposalDetails: React.FC<ProposalDetailsProps> = ({ proposal }) => {
 
       {/* Proposer */}
       <Typography.SemiBold14>{t('proposer')}</Typography.SemiBold14>
-      <CopiableAddress address={proposal.proposerAddress} />
+      <InlineProfile address={proposal.proposerAddress} />
       <Spacer paddingVertical={12} />
 
       {/* Submit time */}
