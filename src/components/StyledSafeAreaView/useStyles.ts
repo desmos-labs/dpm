@@ -1,9 +1,10 @@
 import { makeStyleWithProps } from 'config/theme';
 import { StyledSafeAreaViewProps } from 'components/StyledSafeAreaView/index';
+import { Dimensions } from 'react-native';
 
 const useStyles = makeStyleWithProps((props: StyledSafeAreaViewProps, theme) => ({
   root: {
-    flexGrow: 1,
+    flex: 1,
     display: 'flex',
     flexDirection: 'column',
     paddingHorizontal: props?.paddingHorizontal ?? theme.spacing.m,
@@ -12,8 +13,8 @@ const useStyles = makeStyleWithProps((props: StyledSafeAreaViewProps, theme) => 
   },
   background: {
     position: 'absolute',
-    width: '100%',
-    height: undefined,
+    width: Dimensions.get('window').width,
+    height: Dimensions.get('window').height,
     top: 0,
     bottom: 0,
     zIndex: 0,
