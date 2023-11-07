@@ -91,7 +91,7 @@ const Home: React.FC<NavProps> = (props) => {
   );
 
   return (
-    <StyledSafeAreaView padding={0} noIosPadding>
+    <StyledSafeAreaView paddingHorizontal={0} edges={['top']}>
       {/* Testnet chain badge */}
       {chainName !== DesmosMainnet.chainName && (
         <View style={styles.testnetBadge}>

@@ -16,6 +16,7 @@ const useStyles = makeStyle((theme) => ({
   saveBtn: {
     margin: theme.spacing.m,
   },
+  topBar: { marginTop: -theme.spacing.m, marginHorizontal: theme.spacing.m },
 }));
 
 export default useStyles;

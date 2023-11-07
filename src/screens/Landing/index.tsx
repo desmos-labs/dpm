@@ -1,7 +1,7 @@
 import { StackScreenProps } from '@react-navigation/stack';
 import React, { useMemo, useRef } from 'react';
 import { Trans, useTranslation } from 'react-i18next';
-import { Animated, ImageBackground, Platform, View } from 'react-native';
+import { Animated, Platform, View } from 'react-native';
 import StyledSafeAreaView from 'components/StyledSafeAreaView';
 import IconButton from 'components/IconButton';
 import Button from 'components/Button';
@@ -154,137 +154,135 @@ const Landing = ({ navigation }: NavProps) => {
   }, [animate, iconOpacity, profileManagerTextOpacity, buttonsOpacity]);
 
   return (
-    <StyledSafeAreaView style={styles.root} noIosPadding>
-      <ImageBackground source={landingBackground} resizeMode="stretch" style={styles.background}>
-        {navigation.canGoBack() ? (
-          <IconButton style={styles.backArrow} icon="back" onPress={goBack} color="#ffffff" />
-        ) : null}
-        <View style={styles.content}>
-          {/* Desmos logo */}
-          <Animated.View
-            style={{
-              ...styles.icon,
-              opacity: iconOpacity,
-            }}
+    <StyledSafeAreaView style={styles.root} noIosPadding background={landingBackground}>
+      {navigation.canGoBack() ? (
+        <IconButton style={styles.backArrow} icon="back" onPress={goBack} color="#ffffff" />
+      ) : null}
+      <View style={styles.content}>
+        {/* Desmos logo */}
+        <Animated.View
+          style={{
+            ...styles.icon,
+            opacity: iconOpacity,
+          }}
+        >
+          <FastImage style={styles.icon} source={desmosLogoWhite} resizeMode="contain" />
+        </Animated.View>
+        <Animated.View
+          style={{
+            opacity: profileManagerTextOpacity,
+          }}
+        >
+          <Typography.Regular16 style={styles.profileManagerText}>
+            Desmos Profile Manager
+          </Typography.Regular16>
+        </Animated.View>
+
+        {/* Screen content */}
+        <Animated.View
+          style={{
+            ...styles.buttonsContainer,
+            opacity: buttonsOpacity,
+          }}
+        >
+          {/* Create new wallet */}
+          <Button
+            style={styles.buttons}
+            labelStyle={styles.buttonsLabel}
+            mode="contained"
+            color="#ffffff"
+            onPress={onCreateAccount}
           >
-            <FastImage style={styles.icon} source={desmosLogoWhite} resizeMode="contain" />
-          </Animated.View>
-          <Animated.View
-            style={{
-              opacity: profileManagerTextOpacity,
-            }}
+            {t('create wallet')}
+          </Button>
+
+          <Spacer paddingVertical={12} />
+
+          {/* Import wallet */}
+          <Button
+            style={styles.buttons}
+            labelStyle={styles.buttonsLabel}
+            mode="contained"
+            color="#ffffff"
+            onPress={onImportAccount}
           >
-            <Typography.Regular16 style={styles.profileManagerText}>
-              Desmos Profile Manager
-            </Typography.Regular16>
-          </Animated.View>
+            {t('account:import account')}
+          </Button>
 
-          {/* Screen content */}
-          <Animated.View
-            style={{
-              ...styles.buttonsContainer,
-              opacity: buttonsOpacity,
-            }}
-          >
-            {/* Create new wallet */}
-            <Button
-              style={styles.buttons}
-              labelStyle={styles.buttonsLabel}
-              mode="contained"
-              color="#ffffff"
-              onPress={onCreateAccount}
-            >
-              {t('create wallet')}
-            </Button>
+          {!areSocialMediaLoginOptionsDisabled && (
+            <>
+              {/* Or Login With */}
+              <Spacer paddingVertical={12} />
 
-            <Spacer paddingVertical={12} />
+              <View style={styles.loginWithContainer}>
+                <View style={styles.loginDivider} />
+                <Spacer paddingHorizontal={8} />
+                <Typography.Regular16 style={styles.loginWithLabel}>
+                  {t('or login with')}
+                </Typography.Regular16>
+                <Spacer paddingHorizontal={8} />
+                <View style={styles.loginDivider} />
+              </View>
 
-            {/* Import wallet */}
-            <Button
-              style={styles.buttons}
-              labelStyle={styles.buttonsLabel}
-              mode="contained"
-              color="#ffffff"
-              onPress={onImportAccount}
-            >
-              {t('account:import account')}
-            </Button>
+              <Spacer paddingVertical={8} />
 
-            {!areSocialMediaLoginOptionsDisabled && (
-              <>
-                {/* Or Login With */}
-                <Spacer paddingVertical={12} />
+              {/* Social login buttons */}
+              <View style={styles.socialButtonsContainer}>
+                {primaryLoginProviders.map((loginProvider, index) => (
+                  <IconButton
+                    key={`login-button-${index}`}
+                    style={styles.socialButton}
+                    icon={applicationsIconsMap[loginProvider]}
+                    color={null}
+                    onPress={() => importFromSocial(loginProvider)}
+                  />
+                ))}
+              </View>
 
-                <View style={styles.loginWithContainer}>
-                  <View style={styles.loginDivider} />
-                  <Spacer paddingHorizontal={8} />
-                  <Typography.Regular16 style={styles.loginWithLabel}>
-                    {t('or login with')}
-                  </Typography.Regular16>
-                  <Spacer paddingHorizontal={8} />
-                  <View style={styles.loginDivider} />
-                </View>
+              <Spacer paddingVertical={4} />
 
-                <Spacer paddingVertical={8} />
-
-                {/* Social login buttons */}
-                <View style={styles.socialButtonsContainer}>
-                  {primaryLoginProviders.map((loginProvider, index) => (
-                    <IconButton
-                      key={`login-button-${index}`}
-                      style={styles.socialButton}
-                      icon={applicationsIconsMap[loginProvider]}
-                      color={null}
-                      onPress={() => importFromSocial(loginProvider)}
-                    />
-                  ))}
-                </View>
-
-                <Spacer paddingVertical={4} />
-
-                {/* Show more buttons */}
-                <Button
-                  style={styles.buttons}
-                  color="#ffffff"
-                  onPress={showOtherSocialLogin}
-                  labelStyle={{
-                    fontSize: 14,
-                  }}
-                >
-                  {t('show more')}
-                </Button>
-              </>
-            )}
-          </Animated.View>
-        </View>
-
-        {/* Footer */}
-        {showLegalSection && (
-          <Animated.View
-            style={{
-              opacity: buttonsOpacity,
-              ...styles.footer,
-            }}
-          >
-            <DpmCheckBox status={tosAccepted} onPress={() => setToSAccepted(!tosAccepted)} />
-
-            <Typography.Caption style={styles.legalText}>
-              <Trans
-                t={t}
-                i18nKey={"i've read and accepted the tos and privacy policy"}
-                components={{
-                  tos: <Typography.Caption style={styles.clickableText} onPress={showToS} />,
-                  privacy: (
-                    <Typography.Caption style={styles.clickableText} onPress={showPrivacyPolicy} />
-                  ),
+              {/* Show more buttons */}
+              <Button
+                style={styles.buttons}
+                color="#ffffff"
+                onPress={showOtherSocialLogin}
+                labelStyle={{
+                  fontSize: 14,
                 }}
-              />
-            </Typography.Caption>
-          </Animated.View>
-        )}
+              >
+                {t('show more')}
+              </Button>
+            </>
+          )}
+        </Animated.View>
+      </View>
 
-        <Spacer paddingVertical={24} />
-      </ImageBackground>
+      {/* Footer */}
+      {showLegalSection && (
+        <Animated.View
+          style={{
+            opacity: buttonsOpacity,
+            ...styles.footer,
+          }}
+        >
+          <DpmCheckBox status={tosAccepted} onPress={() => setToSAccepted(!tosAccepted)} />
+
+          <Typography.Caption style={styles.legalText}>
+            <Trans
+              t={t}
+              i18nKey={"i've read and accepted the tos and privacy policy"}
+              components={{
+                tos: <Typography.Caption style={styles.clickableText} onPress={showToS} />,
+                privacy: (
+                  <Typography.Caption style={styles.clickableText} onPress={showPrivacyPolicy} />
+                ),
+              }}
+            />
+          </Typography.Caption>
+        </Animated.View>
+      )}
+
+      <Spacer paddingVertical={24} />
     </StyledSafeAreaView>
   );
 };

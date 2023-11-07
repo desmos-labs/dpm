@@ -10,17 +10,26 @@ import {
 } from 'react-native';
 import { useTheme } from 'react-native-paper';
 import Divider from 'components/Divider';
+import { SafeAreaView, SafeAreaViewProps, useSafeAreaInsets } from 'react-native-safe-area-context';
 import useStyles from './useStyles';
 
 export type StyledSafeAreaViewProps = ViewProps & {
+  /**
+   * Edges to apply to the SafeAreaView.
+   */
+  edges?: SafeAreaViewProps['edges'];
   /**
    * True if the content should be wrapped inside a ScrollView.
    */
   scrollable?: boolean;
   /**
-   * View padding.
+   * View padding horizontal.
    */
-  padding?: number;
+  paddingHorizontal?: number;
+  /**
+   * View padding vertical.
+   */
+  paddingVertical?: number;
   /**
    * Shows an element as a top bar.
    */
@@ -49,10 +58,19 @@ export type StyledSafeAreaViewProps = ViewProps & {
    * to hide the user keyboard on iOS devices.
    */
   touchableWithoutFeedbackOnPress?: () => any;
+  /**
+   * Override themed background color.
+   */
+  customBackgroundColor?: string;
+  /**
+   * Add a fake top bar to the view.
+   */
+  fakeTopBar?: boolean;
 };
 
 const StyledSafeAreaView: React.FC<StyledSafeAreaViewProps> = (props) => {
   const {
+    edges,
     scrollable,
     topBar,
     divider,
@@ -61,46 +79,47 @@ const StyledSafeAreaView: React.FC<StyledSafeAreaViewProps> = (props) => {
     style,
     touchableWithoutFeedbackDisabled,
     touchableWithoutFeedbackOnPress,
-    ...viewProps
+    customBackgroundColor,
+    fakeTopBar,
   } = props;
   const styles = useStyles(props);
   const theme = useTheme();
   const statusBarVariant = theme.dark ? 'light-content' : 'dark-content';
-
+  const insets = useSafeAreaInsets();
   return (
-    <View style={styles.root}>
-      <StatusBar barStyle={statusBarVariant} backgroundColor="transparent" />
-      {background !== undefined && (
-        <ImageBackground style={styles.background} source={background} />
-      )}
-      {topBar}
-      {divider && <Divider />}
-      <TouchableWithoutFeedback
-        disabled={touchableWithoutFeedbackDisabled ?? true}
-        onPress={touchableWithoutFeedbackOnPress ?? Keyboard.dismiss}
+    <TouchableWithoutFeedback
+      disabled={touchableWithoutFeedbackDisabled ?? true}
+      onPress={touchableWithoutFeedbackOnPress ?? Keyboard.dismiss}
+    >
+      <SafeAreaView
+        style={[
+          styles.root,
+          { backgroundColor: customBackgroundColor ?? theme.colors.background },
+          style,
+        ]}
+        edges={edges}
       >
-        <View style={[styles.content, style]}>
-          {scrollable ? (
-            <View
-              {...viewProps}
-              style={styles.scrollViewContainer}
-              onStartShouldSetResponder={() => false}
+        {fakeTopBar && <View style={[styles.fakeView, { height: insets.top }]} />}
+        <StatusBar barStyle={statusBarVariant} backgroundColor="transparent" />
+        {background !== undefined && (
+          <ImageBackground style={styles.background} source={background} />
+        )}
+        <View style={styles.topBar}>{topBar}</View>
+        {divider && <Divider />}
+        {scrollable ? (
+          <View style={styles.scrollViewContainer} onStartShouldSetResponder={() => false}>
+            <ScrollView
+              style={{ margin: -theme.spacing.m }}
+              contentContainerStyle={{ padding: theme.spacing.m, flexGrow: 1 }}
             >
-              <ScrollView
-                style={{ margin: -theme.spacing.m }}
-                contentContainerStyle={{ padding: theme.spacing.m, flexGrow: 1 }}
-              >
-                {children}
-              </ScrollView>
-            </View>
-          ) : (
-            <View {...viewProps} style={{ flex: 1 }} onStartShouldSetResponder={() => false}>
               {children}
-            </View>
-          )}
-        </View>
-      </TouchableWithoutFeedback>
-    </View>
+            </ScrollView>
+          </View>
+        ) : (
+          children
+        )}
+      </SafeAreaView>
+    </TouchableWithoutFeedback>
   );
 };
 

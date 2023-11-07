@@ -1,29 +1,33 @@
 import { makeStyleWithProps } from 'config/theme';
-import { Platform } from 'react-native';
 import { StyledSafeAreaViewProps } from 'components/StyledSafeAreaView/index';
+import { Dimensions } from 'react-native';
 
 const useStyles = makeStyleWithProps((props: StyledSafeAreaViewProps, theme) => ({
   root: {
+    flex: 1,
     display: 'flex',
     flexDirection: 'column',
-    flexGrow: 1,
-    paddingBottom: Platform.OS === 'android' || props.noIosPadding === true ? 0 : 24,
-    backgroundColor: theme.colors.background,
+    paddingHorizontal: props?.paddingHorizontal ?? theme.spacing.m,
+    paddingVertical: props?.paddingVertical ?? theme.spacing.m,
+    backgroundColor: props.background === undefined ? theme.colors.background : 'transparent',
   },
   background: {
     position: 'absolute',
-    width: '100%',
-    height: '100%',
-  },
-  content: {
-    display: 'flex',
-    flexDirection: 'column',
-    flexGrow: 1,
-    padding: props?.padding ?? theme.spacing.m,
-    backgroundColor: props.background === undefined ? theme.colors.background : 'transparent',
+    width: Dimensions.get('window').width,
+    height: Dimensions.get('window').height,
+    top: 0,
+    bottom: 0,
+    zIndex: 0,
   },
   scrollViewContainer: {
     flex: 1,
+  },
+  topBar: { marginHorizontal: -theme.spacing.m, marginTop: -theme.spacing.m, zIndex: 10 },
+  fakeView: {
+    width: Dimensions.get('window').width,
+    backgroundColor: theme.colors.background,
+    zIndex: 10,
+    alignSelf: 'center',
   },
 }));
 

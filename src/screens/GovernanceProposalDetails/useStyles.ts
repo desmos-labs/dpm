@@ -21,6 +21,9 @@ const useStyles = makeStyle((theme) => ({
     elevation: 0,
     zIndex: 4,
   },
+  tabsContainer: {
+    flex: 1,
+  },
 }));
 
 export default useStyles;

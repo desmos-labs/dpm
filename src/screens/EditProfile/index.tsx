@@ -211,19 +211,19 @@ const EditProfile = () => {
 
   return (
     <StyledSafeAreaView
-      padding={0}
+      paddingHorizontal={0}
       topBar={
         <TopBar
+          style={styles.topBar}
           stackProps={{ navigation }}
           rightElement={DoneButton}
           title={profile ? t('edit profile') : t('create profile')}
         />
       }
       touchableWithoutFeedbackDisabled={false}
-      scrollable
     >
       <DKeyboardAvoidingView style={{ flex: 1 }}>
-        <ScrollView style={styles.content} keyboardDismissMode={'on-drag'}>
+        <ScrollView style={styles.content}>
           {/* Header */}
           <ProfileHeader
             canEdit={true}

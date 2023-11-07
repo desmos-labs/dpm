@@ -2,13 +2,11 @@ import { makeStyle } from 'config/theme';
 
 const useStyle = makeStyle((theme) => ({
   desmosIcon: {
-    marginTop: 40,
     width: '100%',
     flex: 1,
   },
+  topSection: { flex: 1, flexDirection: 'row' },
   settingsBtn: {
-    position: 'absolute',
-    top: 32,
     right: 0,
     zIndex: 1,
   },

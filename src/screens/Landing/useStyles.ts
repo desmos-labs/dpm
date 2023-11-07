@@ -5,8 +5,12 @@ const useStyle = makeStyle((theme) => ({
     padding: 0,
   },
   background: {
+    position: 'absolute',
     width: '100%',
     height: '100%',
+    zIndex: 0,
+    top: 0,
+    bottom: 0,
   },
   content: {
     display: 'flex',
@@ -14,8 +18,8 @@ const useStyle = makeStyle((theme) => ({
     justifyContent: 'center',
   },
   backArrow: {
+    top: 32,
     position: 'absolute',
-    top: 40,
     left: 0,
     zIndex: 1,
   },

@@ -11,6 +11,7 @@ import Spacer from 'components/Spacer';
 import { RootNavigatorParamList } from 'navigation/RootNavigator';
 import ROUTES from 'navigation/routes';
 import { useSetHomeShouldReloadData } from '@recoil/home';
+import { useTheme } from 'react-native-paper';
 import useStyles from './useStyles';
 
 type NavProps = StackScreenProps<RootNavigatorParamList, ROUTES.SETTINGS_SWITCH_CHAIN>;
@@ -18,6 +19,7 @@ type NavProps = StackScreenProps<RootNavigatorParamList, ROUTES.SETTINGS_SWITCH_
 const SettingsSwitchChain = (props: NavProps) => {
   const { t } = useTranslation('settings');
   const styles = useStyles();
+  const theme = useTheme();
 
   const chainName = useSetting('chainName');
   const setChainName = useSetSetting('chainName');
@@ -51,6 +53,7 @@ const SettingsSwitchChain = (props: NavProps) => {
 
   return (
     <StyledSafeAreaView
+      customBackgroundColor={theme.colors.background2}
       scrollable
       style={styles.background}
       topBar={<TopBar style={styles.background} stackProps={props} title={t('switch chain')} />}

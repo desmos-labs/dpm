@@ -1,5 +1,4 @@
 import React from 'react';
-import StyledSafeAreaView from 'components/StyledSafeAreaView';
 import Typography from 'components/Typography';
 import useTotalUnbondingAmount from 'hooks/staking/useTotalUnbondingAmount';
 import Spacer from 'components/Spacer';
@@ -81,7 +80,7 @@ const UnbondingTab: React.FC = () => {
   }, [refreshTotalUnbondingAmount, refreshUnbondingDelegations]);
 
   return (
-    <StyledSafeAreaView>
+    <View style={styles.container}>
       {/* Total amount of coins currently unbonding */}
       <View style={styles.totalUnbonding}>
         <Typography.Body>{t('total unbonding')}</Typography.Body>
@@ -133,7 +132,7 @@ const UnbondingTab: React.FC = () => {
           />
         }
       />
-    </StyledSafeAreaView>
+    </View>
   );
 };
 

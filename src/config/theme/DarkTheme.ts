@@ -52,6 +52,7 @@ const DarkTheme: ReactNativePaper.Theme = {
     neutral900: '#E6E6E6',
     neutral700: '#AFAFAF',
     neutral300: '#E8E8E8',
+    placeholder: '#FFF0EC',
   },
 };
 

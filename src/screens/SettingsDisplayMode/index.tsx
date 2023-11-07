@@ -9,6 +9,7 @@ import Typography from 'components/Typography';
 import Spacer from 'components/Spacer';
 import { RootNavigatorParamList } from 'navigation/RootNavigator';
 import ROUTES from 'navigation/routes';
+import { useTheme } from 'react-native-paper';
 import useStyles from './useStyles';
 
 export type NavProps = StackScreenProps<RootNavigatorParamList, ROUTES.SETTINGS_DISPLAY_MODE>;
@@ -16,7 +17,7 @@ export type NavProps = StackScreenProps<RootNavigatorParamList, ROUTES.SETTINGS_
 const SettingsDisplayMode = (props: NavProps) => {
   const { t } = useTranslation('settings');
   const styles = useStyles();
-
+  const appTheme = useTheme();
   const theme = useSetting('theme');
   const setTheme = useSetSetting('theme');
 
@@ -43,6 +44,7 @@ const SettingsDisplayMode = (props: NavProps) => {
 
   return (
     <StyledSafeAreaView
+      customBackgroundColor={appTheme.colors.background2}
       style={styles.background}
       topBar={<TopBar style={styles.background} stackProps={props} title={t('display mode')} />}
     >

@@ -17,6 +17,7 @@ import useShowPrivacyPolicy from 'hooks/legal/useShowPrivacyPolicy';
 import useShowToS from 'hooks/legal/useShowToS';
 import { useToggleAnalytics, useToggleAppLock } from 'screens/Settings/hooks';
 import useToggleNotifications from 'hooks/notifications/useToggleNotifications';
+import { useTheme } from 'react-native-paper';
 import useStyles from './useStyles';
 
 export type NavProps = StackScreenProps<RootNavigatorParamList, ROUTES.SETTINGS>;
@@ -29,6 +30,7 @@ export type NavProps = StackScreenProps<RootNavigatorParamList, ROUTES.SETTINGS>
 const Settings = (props: NavProps) => {
   const { t } = useTranslation('settings');
   const styles = useStyles();
+  const theme = useTheme();
 
   const { navigation } = props;
 
@@ -127,6 +129,7 @@ const Settings = (props: NavProps) => {
 
   return (
     <StyledSafeAreaView
+      customBackgroundColor={theme.colors.background2}
       scrollable
       style={styles.background}
       topBar={<TopBar style={styles.topBar} stackProps={{ navigation }} title={t('settings')} />}

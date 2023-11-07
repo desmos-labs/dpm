@@ -73,6 +73,7 @@ const GovernanceProposals: React.FC<NavProps> = (props) => {
 
   return (
     <StyledSafeAreaView
+      edges={['top']}
       topBar={
         <TopBar
           leftIconColor={theme.colors.icon['1']}

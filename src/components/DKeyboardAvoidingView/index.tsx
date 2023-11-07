@@ -11,7 +11,7 @@ const DKeyboardAvoidingView: React.FC<PropsWithChildren<KeyboardAvoidingViewProp
   ...props
 }) => (
   <KeyboardAvoidingView
-    keyboardVerticalOffset={Platform.OS === 'ios' ? 110 : 0}
+    keyboardVerticalOffset={Platform.OS === 'ios' ? 12 : 0}
     {...(Platform.OS === 'ios' ? { behavior: 'padding' } : {})}
     children={children}
     {...props}
