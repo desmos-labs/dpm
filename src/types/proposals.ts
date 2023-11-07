@@ -45,6 +45,7 @@ export interface ProposalContent extends Record<string, any> {
 export interface Proposal {
   readonly id: number;
   readonly title: string;
+  readonly summary: string;
   readonly description: string;
   readonly proposerAddress: string;
   readonly status: ProposalStatus;

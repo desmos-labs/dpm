@@ -44,11 +44,12 @@
   "yes": "Yes",
   "no": "No",
   "description": "Description",
+  "summary": "Summary",
   "i understand": "I understand",
   "my address": "My address",
   "copy address": "Copy address",
   "change network": "Change network",
   "generating": "Generating...",
   "balance": "Balance",
-  "go back": "Go back"
+  "go back": "Go back",
 }

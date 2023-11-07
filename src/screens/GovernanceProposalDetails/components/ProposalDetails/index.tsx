@@ -1,16 +1,15 @@
 import React from 'react';
-import { Dimensions, View } from 'react-native';
+import { View } from 'react-native';
 import Typography from 'components/Typography';
 import { useTranslation } from 'react-i18next';
 import { Proposal, ProposalContent } from 'types/proposals';
 import StyledMarkDown from 'components/StyledMarkdown';
-import CopiableAddress from 'components/CopiableAddress';
 import { format } from 'date-fns';
 import Spacer from 'components/Spacer';
 import decodeGqlRawMessage from 'lib/GraphQLUtils/message';
 import MessageDetails from 'components/Messages/MessageDetails';
 import { Message } from 'types/transactions';
-import { FlashList } from '@shopify/flash-list';
+import InlineProfile from 'components/InlineProfile';
 
 export interface ProposalDetailsProps {
   /**
@@ -45,28 +44,14 @@ const ProposalDetails: React.FC<ProposalDetailsProps> = ({ proposal }) => {
 
   const planContent = React.useMemo(() => {
     if (proposal.content.map !== undefined) {
-      const { width: windowWidth } = Dimensions.get('window');
-      const messages: Message[] = proposal.content.map((content: ProposalContent) =>
-        decodeGqlRawMessage(content),
-      );
-
-      // The proposal content is an array, so we have a gov v1 content.
-      return (
-        <FlashList
-          data={messages}
-          renderItem={(i) => (
-            // We use the window width instead of '100%' as width because
-            // we are displaying the items in a horizontal list and so
-            // width = '100%' means infinite width.
-            <View style={{ width: windowWidth - 32 }}>
-              <MessageDetails message={i.item} toBroadcastMessage={false} />
-            </View>
-          )}
-          horizontal={true}
-          estimatedItemSize={299}
-          ItemSeparatorComponent={() => <Spacer paddingHorizontal={8} />}
-        />
-      );
+      return proposal.content
+        .map((content: ProposalContent) => decodeGqlRawMessage(content))
+        .map((message: Message, index: number) => (
+          <View key={`msg-detail-${index}`}>
+            {index > 0 && <Spacer paddingTop={12} />}
+            <MessageDetails message={message} toBroadcastMessage={false} />
+          </View>
+        ));
     }
 
     // The proposal content is an object, treat it as a gov v1beta1 proposal.
@@ -79,6 +64,15 @@ const ProposalDetails: React.FC<ProposalDetailsProps> = ({ proposal }) => {
   return (
     <View>
       <Spacer paddingTop={24} />
+      {/* Summary */}
+      {proposal.summary && proposal.summary.length > 0 && (
+        <>
+          <Typography.SemiBold14>{t('common:summary')}</Typography.SemiBold14>
+          <StyledMarkDown>{proposal.summary}</StyledMarkDown>
+          <Spacer paddingVertical={12} />
+        </>
+      )}
+
       {/* Description */}
       <Typography.SemiBold14>{t('common:description')}</Typography.SemiBold14>
       <StyledMarkDown>{proposal.description}</StyledMarkDown>
@@ -92,7 +86,7 @@ const ProposalDetails: React.FC<ProposalDetailsProps> = ({ proposal }) => {
 
       {/* Proposer */}
       <Typography.SemiBold14>{t('proposer')}</Typography.SemiBold14>
-      <CopiableAddress address={proposal.proposerAddress} />
+      <InlineProfile address={proposal.proposerAddress} />
       <Spacer paddingVertical={12} />
 
       {/* Submit time */}

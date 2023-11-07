@@ -143,7 +143,6 @@ import {
   MsgCreateDenom,
   MsgMint,
   MsgSetDenomMetadata,
-  MsgUpdateParams,
 } from '@desmoslabs/desmjs-types/desmos/tokenfactory/v1/msgs';
 import { Metadata } from '@desmoslabs/desmjs-types/cosmos/bank/v1beta1/bank';
 
@@ -1591,13 +1590,12 @@ const decodeTokenFactoryMessages = (type: string, value: any): EncodeObject | un
     case TokenFactory.v1.MsgUpdateParamsTypeUrl:
       return {
         typeUrl: TokenFactory.v1.MsgUpdateParamsTypeUrl,
-        value: MsgUpdateParams.fromPartial({
+        value: {
           authority: value.authority,
           params: {
-            defaultSendEnabled: value.params.default_send_enabled,
-            sendEnabled: value.params.send_enabled,
+            denomCreationFee: value.params.denom_creation_fee,
           },
-        }),
+        },
       };
 
     default:
