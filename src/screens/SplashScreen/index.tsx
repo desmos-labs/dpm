@@ -1,5 +1,5 @@
 import React, { useEffect, useRef } from 'react';
-import { Animated, ImageBackground, Platform, Text } from 'react-native';
+import { Animated, Platform, Text, View } from 'react-native';
 import StyledSafeAreaView from 'components/StyledSafeAreaView';
 import FastImage from 'react-native-fast-image';
 import { desmosLogoWhite, landingBackground } from 'assets/images';
@@ -36,8 +36,8 @@ const SplashScreen: React.FC = () => {
   }, [iconOpacity, profileManagerTextOpacity]);
 
   return (
-    <StyledSafeAreaView style={styles.root} noIosPadding>
-      <ImageBackground source={landingBackground} resizeMode="stretch" style={styles.background}>
+    <StyledSafeAreaView style={styles.root} noIosPadding background={landingBackground}>
+      <View style={styles.container}>
         <Animated.View
           style={{
             ...styles.icon,
@@ -53,7 +53,7 @@ const SplashScreen: React.FC = () => {
         >
           <Text style={styles.profileManagerText}>Profile Manager</Text>
         </Animated.View>
-      </ImageBackground>
+      </View>
     </StyledSafeAreaView>
   );
 };

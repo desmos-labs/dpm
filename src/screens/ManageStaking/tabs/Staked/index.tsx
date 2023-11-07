@@ -1,5 +1,4 @@
 import React from 'react';
-import StyledSafeAreaView from 'components/StyledSafeAreaView';
 import Typography from 'components/Typography';
 import useTotalDelegatedAmount from 'hooks/staking/useTotalDelegatedAmount';
 import { useTranslation } from 'react-i18next';
@@ -81,7 +80,7 @@ const StakedTab: React.FC = () => {
   }, [refetchTotalDelegatedAmount, refreshDelegations]);
 
   return (
-    <StyledSafeAreaView>
+    <View style={{ flex: 1, paddingTop: 16 }}>
       {/* Total staked amount */}
       {totalDelegatedError === undefined && (
         <View style={styles.totalStaked}>
@@ -139,7 +138,7 @@ const StakedTab: React.FC = () => {
           />
         }
       />
-    </StyledSafeAreaView>
+    </View>
   );
 };
 

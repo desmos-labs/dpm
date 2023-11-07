@@ -9,6 +9,7 @@ import Button from 'components/Button';
 import useStakeFlow from 'hooks/staking/useStakeFlow';
 import { HomeTabsScreenProps } from 'navigation/RootNavigator/HomeTabs/props';
 import useDrawerContext from 'lib/AppDrawer/context';
+import StyledSafeAreaView from 'components/StyledSafeAreaView';
 import StakedTab from './tabs/Staked';
 import RestakingTab from './tabs/Restaking';
 import UnbondingTab from './tabs/Unbonding';
@@ -42,16 +43,19 @@ const ManageStaking: React.FC<NavProps> = (props) => {
   const onStakePressed = useStakeFlow();
 
   return (
-    <>
-      <TopBar
-        stackProps={{ ...props, navigation: { ...props.navigation, openDrawer } }}
-        title={t('manage staking')}
-        rightElement={
-          <Button mode={'text'} onPress={onStakePressed} labelStyle={{ minWidth: 46 }}>
-            {t('stake:stake')}
-          </Button>
-        }
-      />
+    <StyledSafeAreaView
+      topBar={
+        <TopBar
+          stackProps={{ ...props, navigation: { ...props.navigation, openDrawer } }}
+          title={t('manage staking')}
+          rightElement={
+            <Button mode={'text'} onPress={onStakePressed} labelStyle={{ minWidth: 46 }}>
+              {t('stake:stake')}
+            </Button>
+          }
+        />
+      }
+    >
       <TabView
         navigationState={{ index, routes }}
         renderScene={renderScene}
@@ -59,7 +63,7 @@ const ManageStaking: React.FC<NavProps> = (props) => {
         onIndexChange={setIndex}
         initialLayout={{ width: layout.width }}
       />
-    </>
+    </StyledSafeAreaView>
   );
 };
 

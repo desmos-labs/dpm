@@ -214,6 +214,7 @@ const EditProfile = () => {
       padding={0}
       topBar={
         <TopBar
+          style={{ marginTop: -10 }}
           stackProps={{ navigation }}
           rightElement={DoneButton}
           title={profile ? t('edit profile') : t('create profile')}
@@ -222,7 +223,7 @@ const EditProfile = () => {
       touchableWithoutFeedbackDisabled={false}
       scrollable
     >
-      <DKeyboardAvoidingView style={{ flex: 1 }}>
+      <DKeyboardAvoidingView style={{ flex: 1 }} onStartShouldSetResponder={() => true}>
         <ScrollView style={styles.content} keyboardDismissMode={'on-drag'}>
           {/* Header */}
           <ProfileHeader

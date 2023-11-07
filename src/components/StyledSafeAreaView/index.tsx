@@ -10,9 +10,14 @@ import {
 } from 'react-native';
 import { useTheme } from 'react-native-paper';
 import Divider from 'components/Divider';
+import { SafeAreaView, SafeAreaViewProps } from 'react-native-safe-area-context';
 import useStyles from './useStyles';
 
 export type StyledSafeAreaViewProps = ViewProps & {
+  /**
+   * Edges to apply to the SafeAreaView.
+   */
+  edges?: SafeAreaViewProps['edges'];
   /**
    * True if the content should be wrapped inside a ScrollView.
    */
@@ -49,10 +54,15 @@ export type StyledSafeAreaViewProps = ViewProps & {
    * to hide the user keyboard on iOS devices.
    */
   touchableWithoutFeedbackOnPress?: () => any;
+  /**
+   * Override themed background color.
+   */
+  customBackgroundColor?: string;
 };
 
 const StyledSafeAreaView: React.FC<StyledSafeAreaViewProps> = (props) => {
   const {
+    edges,
     scrollable,
     topBar,
     divider,
@@ -62,13 +72,17 @@ const StyledSafeAreaView: React.FC<StyledSafeAreaViewProps> = (props) => {
     touchableWithoutFeedbackDisabled,
     touchableWithoutFeedbackOnPress,
     ...viewProps
+    customBackgroundColor,
   } = props;
   const styles = useStyles(props);
   const theme = useTheme();
   const statusBarVariant = theme.dark ? 'light-content' : 'dark-content';
 
   return (
-    <View style={styles.root}>
+    <SafeAreaView
+      style={[styles.root, { backgroundColor: customBackgroundColor ?? theme.colors.background }]}
+      edges={edges}
+    >
       <StatusBar barStyle={statusBarVariant} backgroundColor="transparent" />
       {background !== undefined && (
         <ImageBackground style={styles.background} source={background} />
@@ -100,7 +114,7 @@ const StyledSafeAreaView: React.FC<StyledSafeAreaViewProps> = (props) => {
           )}
         </View>
       </TouchableWithoutFeedback>
-    </View>
+    </SafeAreaView>
   );
 };
 

@@ -4,6 +4,7 @@ const useStyles = makeStyle(() => ({
   root: {
     padding: 0,
   },
+  container: { flex: 1, justifyContent: 'center' },
   background: {
     justifyContent: 'center',
     width: '100%',

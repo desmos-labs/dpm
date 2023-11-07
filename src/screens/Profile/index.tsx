@@ -29,6 +29,7 @@ import ChainLinkContentLoader from 'components/ContentLoaders/ChainLink';
 import { View } from 'react-native';
 import ProfileData from 'screens/Profile/components/ProfileData';
 import StyledRefreshControl from 'components/StyledRefreshControl';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import useConnectChain from './hooks';
 import useStyles from './useStyles';
 
@@ -47,6 +48,7 @@ const Profile: React.FC<NavProps> = ({ navigation, route: { params } }) => {
   const visitingProfile = params?.visitingProfile;
   const canEdit = !visitingProfile;
   const { t } = useTranslation();
+  const insets = useSafeAreaInsets();
 
   // -------- STATES --------
 
@@ -139,10 +141,11 @@ const Profile: React.FC<NavProps> = ({ navigation, route: { params } }) => {
 
   return (
     <StyledSafeAreaView
+      edges={[]}
       padding={0}
       topBar={
         <TopBar
-          style={styles.topBar}
+          style={[styles.topBar, { paddingTop: insets.top }]}
           leftIconStyle={styles.topBarButton}
           stackProps={{ navigation }}
           rightElement={

@@ -13,6 +13,7 @@ import useOnBackAction from 'hooks/useOnBackAction';
 import { useRecoilState } from 'recoil';
 import { getChainSupportedWalletTypes } from 'lib/ChainsUtils';
 import importAccountAppState, { ImportAccountState } from '@recoil/importAccountState';
+import { useTheme } from 'react-native-paper';
 import useStyles from './useStyles';
 
 export type NavProps = StackScreenProps<RootNavigatorParamList, ROUTES.IMPORT_ACCOUNT_SELECT_CHAIN>;
@@ -20,6 +21,7 @@ export type NavProps = StackScreenProps<RootNavigatorParamList, ROUTES.IMPORT_AC
 const ImportAccountSelectChain: React.FC<NavProps> = ({ navigation }) => {
   const { t } = useTranslation('account');
   const styles = useStyles();
+  const theme = useTheme();
 
   const [importAccountState, setImportAccountState] = useRecoilState(importAccountAppState)!;
   const { chains, onCancel } = importAccountState!;
@@ -58,6 +60,7 @@ const ImportAccountSelectChain: React.FC<NavProps> = ({ navigation }) => {
 
   return (
     <StyledSafeAreaView
+      customBackgroundColor={theme.colors.background2}
       style={styles.background}
       topBar={
         <TopBar style={styles.background} stackProps={{ navigation }} title={t('select chain')} />
