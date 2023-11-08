@@ -67,25 +67,20 @@ const UnbondingDelegationListItem: React.FC<UnbondingDelegationListItemProps> = 
         <Spacer paddingVertical={8} />
 
         {/* Amount of coins that the user unbonded from the validator */}
-        <View style={styles.dataField}>
-          <Typography.Body>{t('unbonding')}</Typography.Body>
-          <Typography.Body>{formatCoin(coinAmount)}</Typography.Body>
-        </View>
+        <Typography.Body>
+          {t('amount', { ns: 'common' })}: {formatCoin(coinAmount)}
+        </Typography.Body>
 
         {/* Unbond completion info */}
-        <View style={styles.dataField}>
-          <Typography.Body>{t('expected delivery')}</Typography.Body>
-          <View style={styles.dataFieldMultipleValue}>
-            <Typography.Body>
-              {format(unbondingDelegation.completionTime, 'dd MMM, hh:mm')}
-            </Typography.Body>
-            <Typography.Body style={styles.daysToComplete}>
-              {t('common:in days', {
-                count: differenceInDays(unbondingDelegation.completionTime, new Date()),
-              })}
-            </Typography.Body>
-          </View>
-        </View>
+        <Typography.Body>
+          {t('completition time', { ns: 'common' })}:{' '}
+          {format(unbondingDelegation.completionTime, 'EEEE do MMMM, HH:mm')} {'('}
+          {t('days from now', {
+            ns: 'common',
+            count: differenceInDays(unbondingDelegation.completionTime, new Date()),
+          })}
+          {')'}
+        </Typography.Body>
       </View>
     </TouchableOpacity>
   );

@@ -11,13 +11,6 @@ const useStyles = makeStyle((theme) => ({
     flexDirection: 'row',
     justifyContent: 'space-between',
   },
-  dataFieldMultipleValue: {
-    display: 'flex',
-    alignItems: 'flex-end',
-  },
-  daysToComplete: {
-    color: theme.colors.primary,
-  },
 }));
 
 export default useStyles;
