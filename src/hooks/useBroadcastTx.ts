@@ -27,9 +27,13 @@ const useBroadcastTx = (): ((msgs: EncodeObject[], options?: BroadcastTxOptions)
   const navigation = useNavigation<StackNavigationProp<RootNavigatorParamList>>();
   return useCallback(
     (msgs: EncodeObject[], options?: BroadcastTxOptions) => {
+      let memo = 'Broadcast using DPM';
+      if (options?.memo && options.memo.length > 0) {
+        memo = options.memo;
+      }
       navigation.navigate(ROUTES.BROADCAST_TX, {
         messages: msgs,
-        memo: options?.memo,
+        memo,
         customSuccessImage: options?.customSuccessImage,
         customSuccessMessage: options?.customSuccessMessage,
         customFailedImage: options?.customFailedImage,
