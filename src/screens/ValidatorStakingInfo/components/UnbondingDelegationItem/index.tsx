@@ -6,7 +6,6 @@ import { formatCoin } from 'lib/FormatUtils';
 import { format } from 'date-fns';
 import Typography from 'components/Typography';
 import { useTranslation } from 'react-i18next';
-import useStyles from './useStyles';
 
 export interface UnbondingDelegationItemParams {
   /**
@@ -25,7 +24,6 @@ const UnbondingDelegationItem: React.FC<UnbondingDelegationItemParams> = ({
 }) => {
   const { t } = useTranslation();
   const chainInfo = useCurrentChainInfo();
-  const styles = useStyles();
 
   // -------- DATA --------
 
@@ -46,18 +44,14 @@ const UnbondingDelegationItem: React.FC<UnbondingDelegationItemParams> = ({
   return (
     <View>
       {/* Amount being redelegate */}
-      <View style={styles.inlineFieldsContainer}>
-        <Typography.Regular16>{t('amount')}:</Typography.Regular16>
-        <Typography.Regular16 style={styles.fieldValue}>{unbondingAmount}</Typography.Regular16>
-      </View>
+      <Typography.Regular16>
+        {t('amount')}: {unbondingAmount}
+      </Typography.Regular16>
 
       {/* Completion date */}
-      <View style={styles.inlineFieldsContainer}>
-        <Typography.Regular16>{t('completition date')}:</Typography.Regular16>
-        <Typography.Regular16 style={styles.fieldValue}>
-          {unbondingCompletitionTime}
-        </Typography.Regular16>
-      </View>
+      <Typography.Regular16>
+        {t('completition date')}: {unbondingCompletitionTime}
+      </Typography.Regular16>
     </View>
   );
 };

@@ -15,13 +15,6 @@ const useStyles = makeStyle((theme) => ({
     display: 'flex',
     flexDirection: 'column',
   },
-  inlineFieldsContainer: {
-    flexDirection: 'row',
-  },
-  fieldValue: {
-    color: theme.colors.primary,
-    marginStart: theme.spacing.s,
-  },
 }));
 
 export default useStyles;

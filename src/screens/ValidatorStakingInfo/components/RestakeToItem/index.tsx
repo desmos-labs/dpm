@@ -65,16 +65,14 @@ const RestakeToItem: React.FC<RestakeToItemParams> = ({ redelegation }) => {
       )}
 
       {/* Amount being redelegate */}
-      <View style={styles.inlineFieldsContainer}>
-        <Typography.Regular16>{t('amount')}:</Typography.Regular16>
-        <Typography.Regular16 style={styles.fieldValue}>{redelegatedAmount}</Typography.Regular16>
-      </View>
+      <Typography.Regular16>
+        {t('amount')}: {redelegatedAmount}
+      </Typography.Regular16>
 
       {/* Completion date */}
-      <View style={styles.inlineFieldsContainer}>
-        <Typography.Regular16>{t('completition date')}:</Typography.Regular16>
-        <Typography.Regular16 style={styles.fieldValue}>{redelegationEndDate}</Typography.Regular16>
-      </View>
+      <Typography.Regular16>
+        {t('completition date')}: {redelegationEndDate}
+      </Typography.Regular16>
     </View>
   );
 };
