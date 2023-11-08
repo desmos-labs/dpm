@@ -132,6 +132,57 @@ const ValidatorStakingInfo: React.FC<NavProps> = (props) => {
     unbondTokens(onSuccess);
   }, [refetchTotalStaked, refetchUnbondigDelegations, unbondTokens]);
 
+  const redelgationView = React.useMemo(() => {
+    if (!redelegationsLoading && (redelegations?.length ?? 0) === 0) {
+      return undefined;
+    }
+
+    /* User redelegations from this validator torward other ones */
+    return (
+      <>
+        <View style={redelegationsLoading ? styles.inlineDataField : styles.dataField}>
+          <Typography.Body1>{t('restake to')}</Typography.Body1>
+          {redelegationsLoading ? (
+            <StyledActivityIndicator />
+          ) : (
+            redelegations?.map((r, i) => (
+              <RestakeToItem redelegation={r} key={`redelegation-${i}`} />
+            ))
+          )}
+        </View>
+        <Divider />
+      </>
+    );
+  }, [redelegations, redelegationsLoading, styles.dataField, styles.inlineDataField, t]);
+
+  const unbondingView = React.useMemo(() => {
+    if (!loadingUnbondingTokens && (unbondingTokens?.length ?? 0) === 0) {
+      return undefined;
+    }
+
+    // User unbonding tokens from this validator
+    return (
+      <>
+        <View style={loadingUnbondingTokens ? styles.inlineDataField : styles.dataField}>
+          <Typography.Body1>{t('unbonding')}</Typography.Body1>
+          {loadingUnbondingTokens ? (
+            <StyledActivityIndicator />
+          ) : (
+            <View>
+              {unbondingTokens?.map((u, i, a) => (
+                <View key={`unbonding-${i}`}>
+                  <UnbondingDelegationItem unbondingDelegation={u} />
+                  {i + 1 < a.length ? <Spacer paddingVertical={8} /> : null}
+                </View>
+              ))}
+            </View>
+          )}
+        </View>
+        <Divider />
+      </>
+    );
+  }, [loadingUnbondingTokens, styles.dataField, styles.inlineDataField, t, unbondingTokens]);
+
   return (
     <StyledSafeAreaView topBar={<TopBar stackProps={props} />}>
       <ValidatorNameWithStatus
@@ -154,36 +205,8 @@ const ValidatorStakingInfo: React.FC<NavProps> = (props) => {
         </View>
         <Divider />
 
-        {/* User redelegations from this validator torward other ones */}
-        <View style={redelegationsLoading ? styles.inlineDataField : styles.dataField}>
-          <Typography.Body1>{t('restake to')}</Typography.Body1>
-          {redelegationsLoading ? (
-            <StyledActivityIndicator />
-          ) : (
-            redelegations?.map((r, i) => (
-              <RestakeToItem redelegation={r} key={`redelegation-${i}`} />
-            ))
-          )}
-        </View>
-        <Divider />
-
-        {/* User unbonding tokens from this validator */}
-        <View style={styles.inlineDataField}>
-          <Typography.Body1>{t('unbonding')}</Typography.Body1>
-          {loadingUnbondingTokens ? (
-            <StyledActivityIndicator />
-          ) : (
-            <View>
-              {unbondingTokens?.map((u, i, a) => (
-                <View key={`unbonding-${i}`}>
-                  <UnbondingDelegationItem unbondingDelegation={u} />
-                  {i + 1 < a.length ? <Spacer paddingVertical={8} /> : null}
-                </View>
-              ))}
-            </View>
-          )}
-        </View>
-        <Divider />
+        {redelgationView}
+        {unbondingView}
 
         {/* User pending rewards torward the validator */}
         <View style={styles.inlineDataField}>

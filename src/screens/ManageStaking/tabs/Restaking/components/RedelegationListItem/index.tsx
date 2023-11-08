@@ -56,23 +56,20 @@ const RedelegationListItem: React.FC<RedelegationListItemProps> = ({ redelegatio
       <Spacer paddingVertical={8} />
 
       {/* Restake amount */}
-      <View style={styles.dataField}>
-        <Typography.Body>{t('restaking')}</Typography.Body>
-        <Typography.Body>{amount}</Typography.Body>
-      </View>
+      <Typography.Body>
+        {t('amount', { ns: 'common' })}: {amount}
+      </Typography.Body>
 
       {/* Restake completion info */}
-      <View style={styles.dataField}>
-        <Typography.Body>{t('staking:expected delivery')}</Typography.Body>
-        <View style={styles.dataFieldMultipleValue}>
-          <Typography.Body>{format(redelegation.completionTime, 'dd MMM, hh:mm')}</Typography.Body>
-          <Typography.Body style={styles.daysToComplete}>
-            {t('common:in days', {
-              count: differenceInDays(redelegation.completionTime, new Date()),
-            })}
-          </Typography.Body>
-        </View>
-      </View>
+      <Typography.Body>
+        {t('completition time', { ns: 'common' })}:{' '}
+        {format(redelegation.completionTime, 'EEEE do MMMM, HH:mm')} {'('}
+        {t('days from now', {
+          ns: 'common',
+          count: differenceInDays(redelegation.completionTime, new Date()),
+        })}
+        {')'}
+      </Typography.Body>
     </View>
   );
 };

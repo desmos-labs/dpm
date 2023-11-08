@@ -3,7 +3,6 @@ import { makeStyle } from 'config/theme';
 const useStyles = makeStyle((theme) => ({
   root: {
     display: 'flex',
-    flexDirection: 'row',
     justifyContent: 'space-between',
     paddingVertical: theme.spacing.s,
   },
@@ -15,10 +14,6 @@ const useStyles = makeStyle((theme) => ({
   valuesContainer: {
     display: 'flex',
     flexDirection: 'column',
-    alignItems: 'flex-end',
-  },
-  redelegationCompletionText: {
-    color: theme.colors.primary,
   },
 }));
 
