@@ -39,7 +39,7 @@ const useTotalRedelegatingAmount = (userAddress?: string) => {
     let amount = 0;
     let fetchError: ApolloError | undefined;
 
-    while (!completed && userAddress !== undefined) {
+    while (!completed && address !== undefined) {
       // eslint-disable-next-line no-await-in-loop
       const { data, error: apolloError } = await client.query({
         query: GetAccountRedelegations,
@@ -87,7 +87,7 @@ const useTotalRedelegatingAmount = (userAddress?: string) => {
     }
 
     setLoading(false);
-  }, [userAddress, client, address, currentChainInfo.stakeCurrency.coinMinimalDenom]);
+  }, [client, address, currentChainInfo.stakeCurrency.coinMinimalDenom]);
 
   // Effect to trigger the data fetch logic.
   React.useEffect(() => {
