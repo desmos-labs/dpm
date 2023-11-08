@@ -5,6 +5,7 @@ import { useCurrentChainInfo } from '@recoil/settings';
 import { formatCoin } from 'lib/FormatUtils';
 import { format } from 'date-fns';
 import Typography from 'components/Typography';
+import { useTranslation } from 'react-i18next';
 import useStyles from './useStyles';
 
 export interface UnbondingDelegationItemParams {
@@ -22,6 +23,7 @@ export interface UnbondingDelegationItemParams {
 const UnbondingDelegationItem: React.FC<UnbondingDelegationItemParams> = ({
   unbondingDelegation,
 }) => {
+  const { t } = useTranslation();
   const chainInfo = useCurrentChainInfo();
   const styles = useStyles();
 
@@ -37,16 +39,25 @@ const UnbondingDelegationItem: React.FC<UnbondingDelegationItemParams> = ({
   );
 
   const unbondingCompletitionTime = React.useMemo(
-    () => format(unbondingDelegation.completionTime, 'yyyy-MM-dd HH:mm'),
+    () => format(unbondingDelegation.completionTime, 'EEEE do MMMM, HH:mm'),
     [unbondingDelegation.completionTime],
   );
 
   return (
-    <View style={styles.root}>
-      <Typography.Body1>{unbondingAmount}</Typography.Body1>
-      <Typography.Body style={styles.unbondingCompletionText}>
-        {unbondingCompletitionTime}
-      </Typography.Body>
+    <View>
+      {/* Amount being redelegate */}
+      <View style={styles.inlineFieldsContainer}>
+        <Typography.Regular16>{t('amount')}:</Typography.Regular16>
+        <Typography.Regular16 style={styles.fieldValue}>{unbondingAmount}</Typography.Regular16>
+      </View>
+
+      {/* Completion date */}
+      <View style={styles.inlineFieldsContainer}>
+        <Typography.Regular16>{t('completition date')}:</Typography.Regular16>
+        <Typography.Regular16 style={styles.fieldValue}>
+          {unbondingCompletitionTime}
+        </Typography.Regular16>
+      </View>
     </View>
   );
 };

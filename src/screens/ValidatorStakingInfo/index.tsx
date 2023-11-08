@@ -163,7 +163,7 @@ const ValidatorStakingInfo: React.FC<NavProps> = (props) => {
     // User unbonding tokens from this validator
     return (
       <>
-        <View style={styles.inlineDataField}>
+        <View style={loadingUnbondingTokens ? styles.inlineDataField : styles.dataField}>
           <Typography.Body1>{t('unbonding')}</Typography.Body1>
           {loadingUnbondingTokens ? (
             <StyledActivityIndicator />
@@ -181,7 +181,7 @@ const ValidatorStakingInfo: React.FC<NavProps> = (props) => {
         <Divider />
       </>
     );
-  }, [loadingUnbondingTokens, styles.inlineDataField, t, unbondingTokens]);
+  }, [loadingUnbondingTokens, styles.dataField, styles.inlineDataField, t, unbondingTokens]);
 
   return (
     <StyledSafeAreaView topBar={<TopBar stackProps={props} />}>

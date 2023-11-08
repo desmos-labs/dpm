@@ -1,12 +1,11 @@
 import { makeStyle } from 'config/theme';
 
 const useStyles = makeStyle((theme) => ({
-  root: {
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'flex-end',
+  inlineFieldsContainer: {
+    flexDirection: 'row',
   },
-  unbondingCompletionText: {
+  fieldValue: {
+    marginStart: theme.spacing.s,
     color: theme.colors.primary,
   },
 }));

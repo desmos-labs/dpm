@@ -11,6 +11,7 @@ import { formatCoin } from 'lib/FormatUtils';
 import { useCurrentChainInfo } from '@recoil/settings';
 import { format } from 'date-fns';
 import Spacer from 'components/Spacer';
+import { useTranslation } from 'react-i18next';
 import useStyles from './useStyles';
 
 export interface RestakeToItemParams {
@@ -26,6 +27,7 @@ export interface RestakeToItemParams {
  * - Date of when the redelegation completes.
  */
 const RestakeToItem: React.FC<RestakeToItemParams> = ({ redelegation }) => {
+  const { t } = useTranslation();
   const chainInfo = useCurrentChainInfo();
   const styles = useStyles();
 
@@ -42,7 +44,7 @@ const RestakeToItem: React.FC<RestakeToItemParams> = ({ redelegation }) => {
   );
 
   const redelegationEndDate = React.useMemo(
-    () => format(redelegation.completionTime, 'yyyy-MM-dd HH:mm'),
+    () => format(redelegation.completionTime, 'EEEE do MMMM, HH:mm'),
     [redelegation.completionTime],
   );
 
@@ -62,12 +64,16 @@ const RestakeToItem: React.FC<RestakeToItemParams> = ({ redelegation }) => {
         </View>
       )}
 
-      {/* Redelegation information */}
-      <View style={styles.valuesContainer}>
-        <Typography.Body1>{redelegatedAmount}</Typography.Body1>
-        <Typography.Body style={styles.redelegationCompletionText}>
-          {redelegationEndDate}
-        </Typography.Body>
+      {/* Amount being redelegate */}
+      <View style={styles.inlineFieldsContainer}>
+        <Typography.Regular16>{t('amount')}:</Typography.Regular16>
+        <Typography.Regular16 style={styles.fieldValue}>{redelegatedAmount}</Typography.Regular16>
+      </View>
+
+      {/* Completion date */}
+      <View style={styles.inlineFieldsContainer}>
+        <Typography.Regular16>{t('completition date')}:</Typography.Regular16>
+        <Typography.Regular16 style={styles.fieldValue}>{redelegationEndDate}</Typography.Regular16>
       </View>
     </View>
   );
