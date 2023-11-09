@@ -1,31 +1,17 @@
-# Version 2.5
+# Version 2.6
 
 ## Android
+🚀 Elevate your DPM experience with version 2.6! 🚀
+🔒 Password Freedom: Choose to disable the password prompt for quick access.
+🏷️ DTag Check: Ensure your account's uniqueness with the new availability check.
+📈 Enhanced Governance: Dive into improved proposals visualization.
+💼 Sleeker Staking: Enjoy a polished staking UI for seamless participation.
+🔐 Transaction Ease: Your wallet password needed only for the first operation. Upgrade to DPM v2.6 for a smoother ride!
 
-🚀 DPM v2.5 is here! 🚀  
-🔀 Import with Ease: Now import multiple accounts effortlessly.  
-💰 Token Visibility: See how many tokens each account holds during import.  
-🖼️ Enhanced UI: Validator cover images added for a better experience.  
-🔒 Improved Security: Say hello to "Secret Recovery Phrase" on the account creation screen.  
-🐞 Bug Fix: Staking and redelegating amounts are now correctly formatted across locales.
-
-## iOS
-We are excited to introduce Desmos Profile Manager version 2.5, bringing significant enhancements to elevate your
-blockchain experience!
-
-New Features:
-- Multiple Account Import: Importing accounts is now a breeze with the ability to import multiple accounts at once.
-- Token Transparency: Easily view the number of tokens each account owns directly in the account list during import.
-- Enhanced Validator Details: Get a visual boost with validator cover images now available within the validator details
-  screen.
-
-Improved Security:
-- Updated Terminology: We've made it clearer by replacing "Secret Recovery Passphrase" with "Secret Recovery Phrase" on
-  the account creation screen.
-
-Bug Fixes:
-- Locale-Friendly Formatting: Fixed a bug that previously caused issues with the formatting of staking and redelegating
-  amounts in some locales.
-
-Upgrade to DPM v2.5 now and enjoy these exciting new features for a better blockchain experience! Your voice and
-financial privacy matter to us.
+## iOS Release
+Welcome to the next level of blockchain with DPM v2.6!
+Password Freedom: No more repeated prompts. Your wallet password is now required only for the first operation.
+Exclusive DTags: Safeguard against duplicates with our availability check, ensuring your DTag is truly yours.
+Governance Excellence: Immerse yourself in refined proposals visualization for a comprehensive understanding.
+Staking Redefined: Experience a sleeker UI for effortless and stylish staking.
+Effortless Transactions: Streamlined transaction UX - insert your password only once! DPM v2.6 brings you enhanced security and a smoother journey through the blockchain landscape.
