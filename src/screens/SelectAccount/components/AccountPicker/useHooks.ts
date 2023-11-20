@@ -142,11 +142,8 @@ const useGetGenerateWalletFunction = () =>
 export const useGeneratePaginatedWallets = (params: AccountPickerParams) => {
   const generateFunction = useGetGenerateWalletFunction();
 
-  return usePaginatedData(
-    generateFunction,
-    {
-      itemsPerPage: 10,
-    },
-    params,
-  );
+  return usePaginatedData(generateFunction, {
+    itemsPerPage: 10,
+    initialFilter: params,
+  });
 };

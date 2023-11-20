@@ -29,10 +29,13 @@ const SelectValidator: FC<NavProps> = (props) => {
   const loadValidatorPage = useFetchValidators();
   const { data, loading, fetchMore, refresh, refreshing, updateFilter, error } = usePaginatedData(
     loadValidatorPage,
-    { itemsPerPage: 50, updateFilterDebounceTimeMs: 500 },
     {
-      moniker: '',
-      votingPowerOrder: 'desc',
+      itemsPerPage: 50,
+      updateFilterDebounceTimeMs: 500,
+      initialFilter: {
+        moniker: '',
+        votingPowerOrder: 'desc',
+      },
     },
   );
 

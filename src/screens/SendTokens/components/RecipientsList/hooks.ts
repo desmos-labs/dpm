@@ -55,10 +55,7 @@ const useFetchProfiles = () => {
 };
 
 export const useProfilesFromNickNameOrDtag = () =>
-  usePaginatedData<DesmosProfile, string>(
-    useFetchProfiles(),
-    {
-      itemsPerPage: 20,
-    },
-    '',
-  );
+  usePaginatedData<DesmosProfile, string>(useFetchProfiles(), {
+    itemsPerPage: 20,
+    initialFilter: '',
+  });
