@@ -337,4 +337,3 @@ export function usePaginatedData<T, F extends Object>(
     totalItemsCount,
   };
 }
-

@@ -105,6 +105,7 @@ const QrCodeScanner: FC<QrCodeScannerProps> = ({ onQrCodeDetected, stopRecogniti
     stopRecognition,
     frameProcessor,
     styles.noPermissionsContainer,
+    styles.indicatorView,
     requestPermission,
   ]);
 };
