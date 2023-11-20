@@ -205,11 +205,11 @@ export function usePaginatedData<T, F extends Object>(
         await delay(extraDelay);
       }
 
-      if (fetchedItems.length >= 0) {
-        dataRef.current = reset ? fetchedItems : [...dataRef.current, ...fetchedItems];
-        setData(dataRef.current);
-        onDataChangedRef.current?.(dataRef.current);
-      } else if (fetchError !== undefined) {
+      dataRef.current = reset ? fetchedItems : [...dataRef.current, ...fetchedItems];
+      setData(dataRef.current);
+      onDataChangedRef.current?.(dataRef.current);
+
+      if (fetchError !== undefined) {
         setError(fetchError);
       }
 
