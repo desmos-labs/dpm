@@ -1,5 +1,5 @@
 import { getMMKV, MMKVKEYS, setMMKV } from 'lib/MMKVStorage';
-import { atom, useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
+import { atom, useRecoilState } from 'recoil';
 import { AnalyticsStatus } from 'types/analytics';
 
 const DefaultAnalyticsStatus: AnalyticsStatus = {

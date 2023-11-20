@@ -1,4 +1,4 @@
-import { atom, selectorFamily, useRecoilValue, useSetRecoilState } from 'recoil';
+import { atom, useRecoilValue, useSetRecoilState } from 'recoil';
 import { getMMKV, MMKVKEYS, setMMKV } from 'lib/MMKVStorage';
 import { PermissionsRequestsCount } from 'types/permissions';
 
@@ -27,19 +27,6 @@ const permissionsRequestsCountAppState = atom<PermissionsRequestsCount>({
       });
     },
   ],
-});
-
-/**
- * Recoil that allows to get a single permission request count.
- */
-const permissionRequestsCountAppState = selectorFamily({
-  key: 'permissionRequestsCountAppState',
-  get:
-    (key: keyof PermissionsRequestsCount) =>
-    ({ get }) => {
-      const permissionsRequestsCount = get(permissionsRequestsCountAppState);
-      return permissionsRequestsCount[key] ?? 0;
-    },
 });
 
 /**

@@ -3,8 +3,6 @@ import { ChainType } from 'types/chains';
 import { parseCoins } from '@cosmjs/amino';
 import { Coin } from '@desmoslabs/desmjs';
 
-const DPM_URI_PROTOCOL = 'dpm:';
-
 type UriActionParser = (data: Record<string, any>) => UriAction | undefined;
 
 const UriActionParsers: Record<string, UriActionParser> = {
