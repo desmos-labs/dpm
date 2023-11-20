@@ -8,7 +8,7 @@ import Typography from 'components/Typography';
  * Displays the full details of an MsgUnknown message.
  * @constructor
  */
-export const MsgUnknownDetails: MessageDetailsComponent<EncodeObject> = ({ message }) => (
+const MsgUnknownDetails: MessageDetailsComponent<EncodeObject> = ({ message }) => (
   <BaseMessageDetails message={message}>
     <Typography.Regular14>{JSON.stringify(message.value)}</Typography.Regular14>
   </BaseMessageDetails>

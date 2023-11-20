@@ -4,7 +4,7 @@ import Typography from 'components/Typography';
 import { infoIcon } from 'assets/images';
 import useStyles from './useStyles';
 
-export interface Props {
+interface Props {
   /**
    * Message to display to the user.
    */

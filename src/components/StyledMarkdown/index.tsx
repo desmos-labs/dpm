@@ -2,7 +2,7 @@ import React, { PropsWithChildren } from 'react';
 import Markdown from 'react-native-markdown-display';
 import useStyles from './useStyles';
 
-export interface StyledMarkDownProps {}
+interface StyledMarkDownProps {}
 
 /**
  * Component to display markdown formatted text.

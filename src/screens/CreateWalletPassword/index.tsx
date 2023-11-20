@@ -20,7 +20,7 @@ import DKeyboardAvoidingView from 'components/DKeyboardAvoidingView';
 import PasswordComplexityScore from './components/PasswordComplexityScore';
 import useStyles from './useStyles';
 
-export type NavProps = StackScreenProps<RootNavigatorParamList, ROUTES.CREATE_WALLET_PASSWORD>;
+type NavProps = StackScreenProps<RootNavigatorParamList, ROUTES.CREATE_WALLET_PASSWORD>;
 
 export interface CreateWalletPasswordParams {
   accounts: AccountWithWallet[];

@@ -3,19 +3,17 @@ import { Media, Poll } from '@desmoslabs/desmjs-types/desmos/posts/v3/models';
 import { Any } from 'cosmjs-types/google/protobuf/any';
 import { err, ok, Result } from 'neverthrow';
 
-export interface MediaPostAttachmentEncodeObject {
+interface MediaPostAttachmentEncodeObject {
   readonly typeUrl: typeof Posts.v3.MediaTypeUrl;
   readonly value: Media;
 }
 
-export interface PollPostAttachmentEncodeObject {
+interface PollPostAttachmentEncodeObject {
   readonly typeUrl: typeof Posts.v3.PollTypeUrl;
   readonly value: Poll;
 }
 
-export type PostAttachmentEncodeObject =
-  | MediaPostAttachmentEncodeObject
-  | PollPostAttachmentEncodeObject;
+type PostAttachmentEncodeObject = MediaPostAttachmentEncodeObject | PollPostAttachmentEncodeObject;
 
 /**
  * Function to decode a raw post attachment.

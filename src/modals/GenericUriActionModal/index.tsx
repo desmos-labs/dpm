@@ -14,7 +14,7 @@ import { useCurrentChainType } from '@recoil/settings';
 import useRequestChainChange from 'hooks/chainselect/useRequestChainChange';
 import { chainTypeToChainName } from 'lib/FormatUtils';
 
-export type GenericUriActionModalParams = {
+type GenericUriActionModalParams = {
   /**
    * The received action.
    */

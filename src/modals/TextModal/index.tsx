@@ -4,7 +4,7 @@ import Typography from 'components/Typography';
 import { ModalComponentProps } from 'modals/ModalScreen';
 import useStyles from './useStyles';
 
-export type TextModalParams = {
+type TextModalParams = {
   /**
    * Modal title.
    */

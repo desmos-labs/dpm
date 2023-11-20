@@ -12,7 +12,7 @@ import Spacer from 'components/Spacer';
 import { differenceInDays, format } from 'date-fns';
 import useStyles from './useStyles';
 
-export interface RedelegationListItemProps {
+interface RedelegationListItemProps {
   /**
    * Redelegation to be displayed.
    */

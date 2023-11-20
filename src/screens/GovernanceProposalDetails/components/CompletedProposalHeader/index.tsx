@@ -8,7 +8,7 @@ import Spacer from 'components/Spacer';
 import ProgressBar from 'components/ProgressBar';
 import useStyles from './useStyles';
 
-export interface CompletedProposalHeaderProps {
+interface CompletedProposalHeaderProps {
   readonly proposal: Proposal;
 }
 

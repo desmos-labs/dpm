@@ -5,7 +5,7 @@ import FastImage from 'react-native-fast-image';
 import { getImageSource } from 'lib/ImageUtils';
 import useStyles from './useStyles';
 
-export type BlockchainListItemProps = {
+type BlockchainListItemProps = {
   name: string;
   icon: ImageSourcePropType;
   onPress?: () => void;

@@ -7,7 +7,7 @@ import { format } from 'date-fns';
 import Typography from 'components/Typography';
 import { useTranslation } from 'react-i18next';
 
-export interface UnbondingDelegationItemParams {
+interface UnbondingDelegationItemParams {
   /**
    * Unbonding delegation to be displayed.
    */

@@ -4,7 +4,7 @@ import Badge from 'components/Badge';
 import { useTranslation } from 'react-i18next';
 import { useTheme } from 'react-native-paper';
 
-export interface ProposalStatusBadgeProps {
+interface ProposalStatusBadgeProps {
   /**
    * The proposal status to display.
    */

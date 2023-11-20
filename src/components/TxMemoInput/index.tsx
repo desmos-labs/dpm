@@ -4,7 +4,7 @@ import { useTranslation } from 'react-i18next';
 import { StyleProp, ViewStyle } from 'react-native';
 import useStyles from './useStyles';
 
-export interface TxtMemoInputProps {
+interface TxtMemoInputProps {
   /**
    * Custom style that will be applied to the input component.
    */

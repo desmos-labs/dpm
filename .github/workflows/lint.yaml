@@ -24,3 +24,7 @@ jobs:
 
       - name: Run lint ✅
         run: yarn run lint
+
+      - name: Run ts-prune ✅
+        run: yarn run ts-prune -e
+

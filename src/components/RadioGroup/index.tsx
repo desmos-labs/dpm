@@ -11,7 +11,7 @@ export interface RadioValue {
   onPress: () => void;
 }
 
-export type RadioGroupProps = {
+type RadioGroupProps = {
   /**
    * Values to display, with a label, a value, a status and an onPress callback
    */

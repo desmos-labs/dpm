@@ -32,7 +32,7 @@ const deserializeCreationTime = (account: Partial<SerializableAccount>): Date =>
   return creationTime ?? new Date(deviceInfoModule.getFirstInstallTimeSync());
 };
 
-export const deserializeMnemonicAccount = (
+const deserializeMnemonicAccount = (
   account: Partial<SerializableMnemonicAccount>,
 ): MnemonicAccount => {
   if (
@@ -71,9 +71,7 @@ export const deserializeMnemonicAccount = (
   };
 };
 
-export const deserializeLedgerAccount = (
-  account: Partial<SerializableLedgerAccount>,
-): LedgerAccount => {
+const deserializeLedgerAccount = (account: Partial<SerializableLedgerAccount>): LedgerAccount => {
   if (
     account.version === undefined ||
     account.address === undefined ||
@@ -112,7 +110,7 @@ export const deserializeLedgerAccount = (
   };
 };
 
-export const deserializeWeb3AuthAccount = (
+const deserializeWeb3AuthAccount = (
   account: Partial<SerializableWeb3AuthAccount>,
 ): Web3AuthAccount => {
   if (
@@ -150,7 +148,7 @@ export const deserializeWeb3AuthAccount = (
   };
 };
 
-export const deserializeAccount = (account: Partial<SerializableAccount>): Account => {
+const deserializeAccount = (account: Partial<SerializableAccount>): Account => {
   if (account.walletType === undefined) {
     throw new Error('invalid account');
   }

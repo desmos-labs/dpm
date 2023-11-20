@@ -37,7 +37,7 @@ export enum CoinAmountInputMode {
   CoinAndFiatValue,
 }
 
-export interface CoinAmountInputProps {
+interface CoinAmountInputProps {
   /**
    * How this component defines the maximum amount that the user can input.
    * Note: to avoid unnecessary query to get the limit this value must be

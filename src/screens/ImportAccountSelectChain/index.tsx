@@ -16,7 +16,7 @@ import importAccountAppState, { ImportAccountState } from '@recoil/importAccount
 import { useTheme } from 'react-native-paper';
 import useStyles from './useStyles';
 
-export type NavProps = StackScreenProps<RootNavigatorParamList, ROUTES.IMPORT_ACCOUNT_SELECT_CHAIN>;
+type NavProps = StackScreenProps<RootNavigatorParamList, ROUTES.IMPORT_ACCOUNT_SELECT_CHAIN>;
 
 const ImportAccountSelectChain: React.FC<NavProps> = ({ navigation }) => {
   const { t } = useTranslation('account');

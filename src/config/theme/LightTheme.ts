@@ -3,7 +3,7 @@
 import { DefaultTheme } from 'react-native-paper';
 import { Platform } from 'react-native';
 
-export const LightTheme: ReactNativePaper.Theme = {
+const LightTheme: ReactNativePaper.Theme = {
   ...DefaultTheme,
   spacing: {
     xs: 4,

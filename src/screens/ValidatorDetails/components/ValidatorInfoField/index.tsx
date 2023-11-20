@@ -4,7 +4,7 @@ import Typography from 'components/Typography';
 import StyledActivityIndicator from 'components/StyledActivityIndicator';
 import useStyles from './useStyles';
 
-export interface ValidatorInfoFieldProps {
+interface ValidatorInfoFieldProps {
   /**
    * Label that describe the displayed value.
    */

@@ -1,7 +1,7 @@
 import React from 'react';
 import { usePostHog } from 'posthog-react-native';
 
-export type ScreenProperties = Record<string, string | number | boolean>;
+type ScreenProperties = Record<string, string | number | boolean>;
 
 /**
  * Hook to track a screen view.

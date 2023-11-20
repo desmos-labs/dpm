@@ -33,7 +33,7 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import useConnectChain from './hooks';
 import useStyles from './useStyles';
 
-export type NavProps = StackScreenProps<RootNavigatorParamList, ROUTES.PROFILE>;
+type NavProps = StackScreenProps<RootNavigatorParamList, ROUTES.PROFILE>;
 
 export interface ProfileParams {
   /**

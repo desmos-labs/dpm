@@ -1,5 +1,5 @@
 import { getMMKV, MMKVKEYS, setMMKV } from 'lib/MMKVStorage';
-import { atom, useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
+import { atom, useRecoilState } from 'recoil';
 import { AnalyticsStatus } from 'types/analytics';
 
 const DefaultAnalyticsStatus: AnalyticsStatus = {
@@ -36,13 +36,3 @@ const analyticsStatusAppState = atom<AnalyticsStatus>({
  * Hook that provides the analytics status and a function to set the analytics status.
  */
 export const useAnalyticsStatus = () => useRecoilState(analyticsStatusAppState);
-
-/**
- * Hook that provides the analytics status.
- */
-export const useGetAnalyticsStatus = () => useRecoilValue(analyticsStatusAppState);
-
-/**
- * Hook that provides a function update the analytics status.
- */
-export const useSetAnalyticsStatus = () => useSetRecoilState(analyticsStatusAppState);

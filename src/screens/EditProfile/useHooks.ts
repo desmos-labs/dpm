@@ -161,7 +161,7 @@ const compareValue = (original: string | undefined, updated: string | undefined)
   return updated === undefined ? DoNotModify : updated;
 };
 
-export interface SaveProfileParams {
+interface SaveProfileParams {
   readonly dTag: string | undefined;
   readonly nickname: string | undefined;
   readonly biography: string | undefined;

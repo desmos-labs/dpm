@@ -1,6 +1,7 @@
 // Suppress lint error to keep all the SecureStorage related errors in on file.
 /* eslint-disable max-classes-per-file */
 
+// ts-prune-ignore-next
 export enum SecureStoreErrorType {
   InvalidPassword = 'SecureStorageErrorInvalidPassword',
   EncryptionFailed = 'SecureStorageErrorEncryptionFailed',
@@ -57,18 +58,22 @@ export function isInvalidPasswordError(error: Error): error is InvalidPasswordEr
   return error.name === SecureStoreErrorType.InvalidPassword;
 }
 
+// ts-prune-ignore-next
 export function isEncryptionFailedError(error: Error): error is EncryptionFailedError {
   return error.name === SecureStoreErrorType.EncryptionFailed;
 }
 
+// ts-prune-ignore-next
 export function isCorruptedDataError(error: Error): error is CorruptedDataError {
   return error.name === SecureStoreErrorType.CorruptedData;
 }
 
+// ts-prune-ignore-next
 export function isWalletNotFoundError(error: Error): error is WalletNotFoundError {
   return error.name === SecureStoreErrorType.WalletNotFound;
 }
 
+// ts-prune-ignore-next
 export function isUnknownSecureStorageError(error: Error): error is UnknownSecureStorageError {
   return error.name === SecureStoreErrorType.UnknownError;
 }

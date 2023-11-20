@@ -153,24 +153,24 @@ export type SerializableWallet =
   | SerializableLedgerWallet
   | SerializableWeb3AuthWallet;
 
-export interface BaseWalletGenerationData {
+interface BaseWalletGenerationData {
   readonly accountPrefix: string;
 }
 
-export interface MnemonicGenerationData extends BaseWalletGenerationData {
+interface MnemonicGenerationData extends BaseWalletGenerationData {
   readonly type: WalletType.Mnemonic;
   readonly mnemonic: string;
   readonly hdPaths: HdPath[];
 }
 
-export interface LedgerGenerationData extends BaseWalletGenerationData {
+interface LedgerGenerationData extends BaseWalletGenerationData {
   readonly type: WalletType.Ledger;
   readonly app: LedgerApp;
   readonly transport: BluetoothTransport;
   readonly hdPaths: HdPath[];
 }
 
-export interface Web3AuthGenerationData extends BaseWalletGenerationData {
+interface Web3AuthGenerationData extends BaseWalletGenerationData {
   readonly type: WalletType.Web3Auth;
   readonly privateKey: Uint8Array;
   readonly loginProvider: string;

@@ -6,7 +6,7 @@ import { useCallback } from 'react';
 import { AccountPickerParams } from 'screens/SelectAccount/components/AccountPicker/types';
 import { AccountWithWallet } from 'types/account';
 
-export interface ResultCallbacks {
+interface ResultCallbacks {
   onSuccess: (accounts: AccountWithWallet[]) => any;
   onCancel?: () => any;
 }

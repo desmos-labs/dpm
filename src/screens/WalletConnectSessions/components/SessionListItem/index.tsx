@@ -11,7 +11,7 @@ import useWalletConnectCloseSession from 'hooks/walletconnect/useWalletConnectCl
 import { walletConnectIconUriToImageSource } from 'lib/WalletConnectUtils';
 import useStyles from './useStyles';
 
-export type DAppSessionViewProps = {
+type DAppSessionViewProps = {
   session: WalletConnectSession;
 };
 

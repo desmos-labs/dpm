@@ -8,6 +8,7 @@ import {
 import { ApplicationLink } from 'types/desmos';
 
 // TODO: Move these inside DesmJS
+// ts-prune-ignore-next
 export enum ExternalApplications {
   DISCORD = 'discord',
   DOMAIN = 'domain',
@@ -19,7 +20,7 @@ export enum ExternalApplications {
 export const isApplicationSupported = (link: ApplicationLink) =>
   Object.values<string>(ExternalApplications).includes(link.application);
 
-export interface ApplicationData {
+interface ApplicationData {
   readonly image: any;
   readonly url: string;
 }

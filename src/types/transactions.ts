@@ -40,7 +40,7 @@ export interface GQLTransactionFee {
 /**
  * Interface that represents a transaction obtained from GQL.
  */
-export interface GQLTransaction {
+interface GQLTransaction {
   readonly messages: GQLRawMessage[];
   readonly hash: string;
   readonly success: boolean;

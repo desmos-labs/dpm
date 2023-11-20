@@ -3,7 +3,7 @@ import RNFS from 'react-native-fs';
 
 const IPFS_URL = 'https://ipfs.desmos.network';
 
-export type IPFSResponse = {
+type IPFSResponse = {
   hash: string;
   name: string;
   size: number;

@@ -11,6 +11,7 @@ export interface EncryptedData {
  * Derive a safe password using the pbkdf2 algorithm.
  * @param password The password from which will be derived the safer password.
  */
+// ts-prune-ignore-next
 export const deriveSecurePassword = async (password: string): Promise<string> => {
   const firstInstallTime = await DeviceInfo.getFirstInstallTime();
   return Aes.pbkdf2(password, firstInstallTime.toString(), 100_100, 256);

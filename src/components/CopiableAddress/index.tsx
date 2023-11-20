@@ -5,7 +5,7 @@ import { useShowSnackBar } from 'lib/SnackBarProvider/recoil';
 import Typography from 'components/Typography';
 import useStyles from './useStyles';
 
-export interface Props {
+interface Props {
   /**
    * The address to display.
    */

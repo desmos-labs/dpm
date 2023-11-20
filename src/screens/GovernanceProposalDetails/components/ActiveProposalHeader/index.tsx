@@ -11,7 +11,7 @@ import {
 } from 'screens/GovernanceProposalDetails/components/ActiveProposalHeader/hooks';
 import useStyles from './useStyles';
 
-export interface Props {
+interface Props {
   /**
    * The proposal to display.
    */

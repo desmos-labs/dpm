@@ -19,6 +19,7 @@ export const promiseToResult = <T>(
  * This function will throw the error if the {@link Result} object is an error.
  * @param result - The Result object to unwrap.
  */
+// ts-prune-ignore-next
 export const unwrapResult = <T>(result: Result<T, Error>): T => {
   if (result.isErr()) {
     throw result.error;

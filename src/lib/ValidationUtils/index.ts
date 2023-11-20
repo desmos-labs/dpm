@@ -1,18 +1,4 @@
-import { EnglishMnemonic } from '@cosmjs/crypto';
 import { fromBech32 } from '@cosmjs/encoding';
-
-/**
- * Validate a given mnemonic.
- * @param mnemonic - The mnemonic to be checked.
- */
-export const validateMnemonic = (mnemonic: string): boolean => {
-  try {
-    const check = new EnglishMnemonic(mnemonic);
-    return !!check;
-  } catch {
-    return false;
-  }
-};
 
 /**
  * Checks if the provided address is a valid desmos bech32 address.

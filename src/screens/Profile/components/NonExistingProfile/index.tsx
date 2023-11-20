@@ -11,7 +11,7 @@ import ROUTES from 'navigation/routes';
 import { StackNavigationProp } from '@react-navigation/stack/lib/typescript/src/types';
 import useStyles from './useStyles';
 
-export interface NonExitingProfileProps {
+interface NonExitingProfileProps {
   /**
    * Tells whether the non exiting profile can be created by the current app user, or not.
    */

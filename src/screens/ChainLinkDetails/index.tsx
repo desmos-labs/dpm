@@ -18,7 +18,7 @@ import FastImage from 'react-native-fast-image';
 import useStyles from './useStyles';
 import { useDisconnectChainLink } from './useHooks';
 
-export type NavProps = StackScreenProps<RootNavigatorParamList, ROUTES.CHAIN_LINK_DETAILS>;
+type NavProps = StackScreenProps<RootNavigatorParamList, ROUTES.CHAIN_LINK_DETAILS>;
 
 export interface ChainLinkDetailsParams {
   chainLink: ChainLink;

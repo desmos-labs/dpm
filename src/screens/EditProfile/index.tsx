@@ -25,7 +25,7 @@ import InlineInput from './components/InlineInput';
 import useStyles from './useStyles';
 import DTagAvailability from './components/DTagAvailability';
 
-export type NavProps = StackScreenProps<RootNavigatorParamList, ROUTES.EDIT_PROFILE>;
+type NavProps = StackScreenProps<RootNavigatorParamList, ROUTES.EDIT_PROFILE>;
 
 export interface EditProfileParams {
   /**

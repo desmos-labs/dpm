@@ -24,6 +24,7 @@ import {
   LunaHdPath,
 } from './HdPaths';
 
+// ts-prune-ignore-next
 export const AkashChain: SupportedChain = {
   name: 'Akash',
   prefix: 'akash',
@@ -34,6 +35,7 @@ export const AkashChain: SupportedChain = {
   }),
 };
 
+// ts-prune-ignore-next
 export const BandChain: SupportedChain = {
   name: 'Band',
   prefix: 'band',
@@ -44,6 +46,7 @@ export const BandChain: SupportedChain = {
   }),
 };
 
+// ts-prune-ignore-next
 export const CosmosHubChain: SupportedChain = {
   name: 'Cosmos Hub',
   prefix: 'cosmos',
@@ -75,6 +78,7 @@ export const CryptoDotOrgChain: SupportedChain = {
   }),
 };
 
+// ts-prune-ignore-next
 export const EMoneyChain: SupportedChain = {
   name: 'e-Money',
   prefix: 'emoney',
@@ -85,6 +89,7 @@ export const EMoneyChain: SupportedChain = {
   }),
 };
 
+// ts-prune-ignore-next
 export const JunoChain: SupportedChain = {
   name: 'Juno',
   prefix: 'juno',
@@ -95,6 +100,7 @@ export const JunoChain: SupportedChain = {
   }),
 };
 
+// ts-prune-ignore-next
 export const KavaChain: SupportedChain = {
   name: 'Kava',
   prefix: 'kava',
@@ -105,6 +111,7 @@ export const KavaChain: SupportedChain = {
   }),
 };
 
+// ts-prune-ignore-next
 export const LikeCoinChain: SupportedChain = {
   name: 'Likecoin',
   prefix: 'like',
@@ -115,6 +122,7 @@ export const LikeCoinChain: SupportedChain = {
   }),
 };
 
+// ts-prune-ignore-next
 export const OsmosisChain: SupportedChain = {
   name: 'Osmosis',
   prefix: 'osmo',
@@ -125,6 +133,7 @@ export const OsmosisChain: SupportedChain = {
   }),
 };
 
+// ts-prune-ignore-next
 export const RegenChain: SupportedChain = {
   name: 'Regen',
   prefix: 'regen',
@@ -135,6 +144,7 @@ export const RegenChain: SupportedChain = {
   }),
 };
 
+// ts-prune-ignore-next
 export const TerraChain: SupportedChain = {
   name: 'Terra',
   prefix: 'terra',
@@ -165,6 +175,6 @@ export const LinkableChains: SupportedChain[] = [
 /**
  * List of chains supported from the application.
  */
-export const SupportedChains: SupportedChain[] = [...LinkableChains, TerraChain];
+const SupportedChains: SupportedChain[] = [...LinkableChains, TerraChain];
 
 export default SupportedChains;

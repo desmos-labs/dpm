@@ -5,7 +5,7 @@ import Button from 'components/Button';
 import { ModalComponentProps } from 'modals/ModalScreen';
 import useStyles from './useStyles';
 
-export type TwoButtonModalParams = {
+type TwoButtonModalParams = {
   /**
    * Modal title.
    */

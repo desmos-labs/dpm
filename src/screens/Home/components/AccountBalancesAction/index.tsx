@@ -5,7 +5,7 @@ import TypographyContentLoaders from 'components/ContentLoaders/Typography';
 import Button from 'components/Button';
 import useStyles from './useStyles';
 
-export interface ListHeaderActionProps {
+interface ListHeaderActionProps {
   /**
    * Value label.
    */

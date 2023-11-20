@@ -5,7 +5,7 @@ import { Linking, TouchableOpacity, View } from 'react-native';
 import FastImage from 'react-native-fast-image';
 import useStyles from './useStyles';
 
-export interface ApplicationLinkItemProps {
+interface ApplicationLinkItemProps {
   readonly link: ApplicationLink;
 }
 

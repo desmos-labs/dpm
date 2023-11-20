@@ -19,7 +19,7 @@ import TxMemoInput from 'components/TxMemoInput';
 import Spacer from 'components/Spacer';
 import useStyles from './useStyles';
 
-export type GovernanceVoteModalParams = {
+type GovernanceVoteModalParams = {
   /**
    * The proposal to which the user voted.
    */

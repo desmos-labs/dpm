@@ -5,7 +5,7 @@ import { angleArrowDown } from 'assets/images';
 import Animated, { useAnimatedStyle, useSharedValue, withTiming } from 'react-native-reanimated';
 import useStyles from './useStyles';
 
-export type Props = SelectDropdownProps;
+type Props = SelectDropdownProps;
 
 function DropdownPicker(props: Props): ReactElement {
   const styles = useStyles();

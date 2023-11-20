@@ -9,7 +9,7 @@ import { ChainType } from 'types/chains';
 /**
  * Default application settings
  */
-export const DefaultAppSettings: AppSettings = {
+const DefaultAppSettings: AppSettings = {
   theme: 'light',
   chainName: __DEV__ ? DesmosTestnet.chainName : DesmosMainnet.chainName,
   balanceHidden: false,

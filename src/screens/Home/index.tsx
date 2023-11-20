@@ -27,7 +27,7 @@ import StyledRefreshControl from 'components/StyledRefreshControl';
 import { useActiveAccountTransactions } from './hooks';
 import useStyles from './useStyles';
 
-export type NavProps = HomeTabsScreenProps<ROUTES.HOME>;
+type NavProps = HomeTabsScreenProps<ROUTES.HOME>;
 
 /**
  * Screen that shows the user's balances and transactions history

@@ -14,7 +14,7 @@ import Spacer from 'components/Spacer';
 import { useGenerateQrCodeUrl } from 'modals/QRCodeAddressModal/hooks';
 import useStyles from './useStyles';
 
-export interface QRCodeAddressProps {
+interface QRCodeAddressProps {
   /**
    * The address to show.
    */

@@ -4,7 +4,7 @@ import { messageDetailsComponents } from './components';
 import MsgUnknownComponents from './MsgUnknown';
 import MsgUpdateParamsDetails from './common/MsgUpdateParamsDetails';
 
-export type MessageDetailsProps = {
+type MessageDetailsProps = {
   /**
    * The message to display.
    */

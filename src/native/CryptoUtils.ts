@@ -2,7 +2,7 @@ import { NativeModules } from 'react-native';
 
 export const { CryptoUtils } = NativeModules;
 
-export interface CryptoUtilsKeyPair {
+interface CryptoUtilsKeyPair {
   /**
    * Hex encoded private key.
    */
@@ -13,7 +13,7 @@ export interface CryptoUtilsKeyPair {
   readonly pubkey: string;
 }
 
-export interface NativeCryptoUtils {
+interface NativeCryptoUtils {
   deriveKeyPairFromMnemonic(
     mnemonic: String,
     coinType: number,

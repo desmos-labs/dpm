@@ -5,7 +5,7 @@ import { WalletConnectSession } from 'types/walletConnect';
 import SessionListItem from '../SessionListItem';
 import useStyles from './useStyles';
 
-export interface SessionsListProps {
+interface SessionsListProps {
   readonly sessions: WalletConnectSession[];
 }
 

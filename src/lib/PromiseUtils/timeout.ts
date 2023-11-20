@@ -40,7 +40,7 @@ export function completed<T>(data: T): CompletedResult<T> {
  * Class that represents the result when a promise
  * does not resolve within a timeout duration.
  */
-export class TimedOutResult<T> implements ResultI<T> {
+class TimedOutResult<T> implements ResultI<T> {
   isCompleted(): this is CompletedResult<T> {
     return false;
   }
@@ -83,7 +83,7 @@ interface ResultI<T> {
  * Type that represents the result of an operation that involves a timeout.
  * It can hold either a `CompletedResult` or a `TimedOutResult` object.
  */
-export type TimeoutResult<T> = CompletedResult<T> | TimedOutResult<T>;
+type TimeoutResult<T> = CompletedResult<T> | TimedOutResult<T>;
 
 /**
  * Class that wraps a promise to implement a timeout logic so that

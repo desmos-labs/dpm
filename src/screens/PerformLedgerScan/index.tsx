@@ -18,7 +18,7 @@ import DpmImage from 'components/DPMImage';
 import useStyles from './useStyles';
 import { ScanErrorType, useBleScan, useRequestEnableBt } from './useHooks';
 
-export type NavProps = StackScreenProps<ConnectToLedgerStackParamList, ROUTES.PERFORM_LEDGER_SCAN>;
+type NavProps = StackScreenProps<ConnectToLedgerStackParamList, ROUTES.PERFORM_LEDGER_SCAN>;
 
 const PerformLedgerScan: React.FC<NavProps> = ({ navigation, route }) => {
   const { ledgerApp, onConnect, onCancel } = route.params;

@@ -14,7 +14,7 @@ import ROUTES from 'navigation/routes';
 import { useStoredProfiles } from '@recoil/profiles';
 import useStyles from './useStyles';
 
-export interface ItemMenuProps {
+interface ItemMenuProps {
   readonly account: Account;
 }
 

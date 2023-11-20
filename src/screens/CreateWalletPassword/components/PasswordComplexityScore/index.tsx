@@ -4,7 +4,7 @@ import { useTheme } from 'react-native-paper';
 import { PasswordComplexity } from 'types/password';
 import useStyles from './useStyles';
 
-export type PasswordComplexityProps = {
+type PasswordComplexityProps = {
   score: PasswordComplexity;
 };
 

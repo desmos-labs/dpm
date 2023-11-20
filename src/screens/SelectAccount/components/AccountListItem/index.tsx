@@ -9,7 +9,7 @@ import { desmosLogoRound } from 'assets/images';
 import useStyles from './useStyles';
 import AccountListItemBalance from '../AccountListItemBalance';
 
-export type AccountListItemProps = {
+type AccountListItemProps = {
   /**
    * The Bech32 address that is displayed to the user.
    */

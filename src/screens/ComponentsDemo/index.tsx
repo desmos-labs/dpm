@@ -12,7 +12,7 @@ import { ThemeProvider } from 'react-native-paper';
 import { ScrollView, View } from 'react-native';
 import useStyles from './useStyles';
 
-export type NavProps = StackScreenProps<RootNavigatorParamList, ROUTES.COMPONENTS_DEMO>;
+type NavProps = StackScreenProps<RootNavigatorParamList, ROUTES.COMPONENTS_DEMO>;
 
 /**
  * Dev screen to showcase the components styles.

@@ -12,7 +12,7 @@ import ROUTES from 'navigation/routes';
 import { useTheme } from 'react-native-paper';
 import useStyles from './useStyles';
 
-export type NavProps = StackScreenProps<RootNavigatorParamList, ROUTES.SETTINGS_DISPLAY_MODE>;
+type NavProps = StackScreenProps<RootNavigatorParamList, ROUTES.SETTINGS_DISPLAY_MODE>;
 
 const SettingsDisplayMode = (props: NavProps) => {
   const { t } = useTranslation('settings');

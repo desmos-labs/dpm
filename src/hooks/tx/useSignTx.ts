@@ -28,7 +28,7 @@ export enum SignMode {
 /**
  * Parameters required to perform an offline signature.
  */
-export interface OfflineSignParams {
+interface OfflineSignParams {
   readonly mode: SignMode.Offline;
   readonly messages: EncodeObject[];
   readonly fees: StdFee;
@@ -39,14 +39,14 @@ export interface OfflineSignParams {
 /**
  * Parameters required to perform an offline signature.
  */
-export interface OnlineSignParams {
+interface OnlineSignParams {
   readonly mode: SignMode.Online;
   readonly messages: EncodeObject[];
   readonly fees: StdFee;
   readonly memo?: string;
 }
 
-export type SignParams = OfflineSignParams | OnlineSignParams;
+type SignParams = OfflineSignParams | OnlineSignParams;
 
 const useGetClientFromSignMode = () => {
   const { rpcUrl } = useCurrentChainInfo();

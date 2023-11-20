@@ -42,7 +42,7 @@ const defaultOptions: Keychain.Options = {
 /**
  * Options used to configure how the data will be stored into the device.
  */
-export interface StoreOptions {
+interface StoreOptions {
   /**
    * The password used to cipher the data.
    */

@@ -20,7 +20,7 @@ import useToggleNotifications from 'hooks/notifications/useToggleNotifications';
 import { useTheme } from 'react-native-paper';
 import useStyles from './useStyles';
 
-export type NavProps = StackScreenProps<RootNavigatorParamList, ROUTES.SETTINGS>;
+type NavProps = StackScreenProps<RootNavigatorParamList, ROUTES.SETTINGS>;
 
 /**
  * Screen that shows the settings of the app.

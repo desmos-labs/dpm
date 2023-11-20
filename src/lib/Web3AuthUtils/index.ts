@@ -6,8 +6,8 @@ import { Web3AuthLoginProvider } from 'types/web3auth';
 import EncryptedStorage from 'react-native-encrypted-storage';
 
 // Remember to change this value also in android/app/src/main/AndroidManifest.xml.
-export const Web3authScheme = 'dpmweb3auth';
-export const Web3authResolveRedirectUrl = `${Web3authScheme}://openlogin`;
+const Web3authScheme = 'dpmweb3auth';
+const Web3authResolveRedirectUrl = `${Web3authScheme}://openlogin`;
 
 export const newWeb3AuthClient = () =>
   new Web3Auth(WebBrowser, EncryptedStorage, {

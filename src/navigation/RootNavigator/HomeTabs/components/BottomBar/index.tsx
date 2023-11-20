@@ -6,7 +6,7 @@ import { TouchableOpacity, View } from 'react-native';
 import { useTheme } from 'react-native-paper';
 import useStyles from './useStyles';
 
-export type BottomTabBarProps = ReactBottomTabBarProps & {
+type BottomTabBarProps = ReactBottomTabBarProps & {
   readonly customRouteNavigation?: Record<string, () => any>;
 };
 

@@ -29,7 +29,7 @@ import {
   TypographyConfigTitle,
 } from './config';
 
-export type TypographyComponentProps = React.ComponentProps<typeof Text> & {
+type TypographyComponentProps = React.ComponentProps<typeof Text> & {
   capitalize?: boolean;
 };
 

@@ -7,7 +7,7 @@ import { View } from 'react-native';
 import { useTranslation } from 'react-i18next';
 import useStyles from './useStyles';
 
-export interface Props {
+interface Props {
   readonly canEdit: boolean;
   readonly createNewLink: () => any;
 }

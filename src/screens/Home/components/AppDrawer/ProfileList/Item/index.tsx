@@ -9,7 +9,7 @@ import ProfileImage from 'components/ProfileImage';
 import useStyles from './useStyles';
 import ItemMenu from '../ItemMenu';
 
-export type ProfileListItemProps = {
+type ProfileListItemProps = {
   readonly account: Account;
   readonly profile: DesmosProfile | undefined;
   readonly selected: boolean;

@@ -14,7 +14,7 @@ import Spacer from 'components/Spacer';
 import { useTranslation } from 'react-i18next';
 import useStyles from './useStyles';
 
-export interface RestakeToItemParams {
+interface RestakeToItemParams {
   /**
    * Redelegation to be displayed.
    */

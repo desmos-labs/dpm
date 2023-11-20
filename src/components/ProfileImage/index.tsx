@@ -4,7 +4,7 @@ import AvatarImage, { AvatarImageProps } from 'components/AvatarImage';
 import { defaultProfilePicture } from 'assets/images';
 import { Source } from 'react-native-fast-image';
 
-export interface ProfileImageProps extends Omit<AvatarImageProps, 'source'> {
+interface ProfileImageProps extends Omit<AvatarImageProps, 'source'> {
   readonly profile: DesmosProfile | undefined;
   /**
    * If defined use this provided image as fallback if the profile

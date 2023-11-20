@@ -9,7 +9,7 @@ export enum WalletPickerMode {
   Web3Auth,
 }
 
-export interface BaseWalletPickerParams {
+interface BaseWalletPickerParams {
   readonly mode: WalletPickerMode;
   readonly addressPrefix: string;
   /**
@@ -23,21 +23,21 @@ export interface BaseWalletPickerParams {
   readonly allowMultiSelect?: boolean;
 }
 
-export interface WalletPickerMnemonicParams extends BaseWalletPickerParams {
+interface WalletPickerMnemonicParams extends BaseWalletPickerParams {
   readonly mode: WalletPickerMode.Mnemonic;
   readonly masterHdPath: HdPath;
   readonly mnemonic: string;
   readonly allowCoinTypeEdit?: boolean;
 }
 
-export interface WalletPickerLedgerParams extends BaseWalletPickerParams {
+interface WalletPickerLedgerParams extends BaseWalletPickerParams {
   readonly mode: WalletPickerMode.Ledger;
   readonly masterHdPath: HdPath;
   readonly transport: BluetoothTransport;
   readonly ledgerApp: LedgerApp;
 }
 
-export interface WalletPickerWeb3AuthParams extends BaseWalletPickerParams {
+interface WalletPickerWeb3AuthParams extends BaseWalletPickerParams {
   readonly mode: WalletPickerMode.Web3Auth;
   readonly loginProvider: Web3AuthLoginProvider;
   readonly privateKey: Uint8Array;

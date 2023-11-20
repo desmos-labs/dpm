@@ -20,7 +20,7 @@ import AccountListItem from '../AccountListItem';
 import useStyles from './useStyles';
 import { AccountPickerParams, WalletPickerMode } from './types';
 
-export type AccountPickerProps = {
+type AccountPickerProps = {
   /**
    * Callback called when the user select a wallet.
    * @param wallet

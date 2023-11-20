@@ -13,7 +13,7 @@ import { useTranslation } from 'react-i18next';
 import useStyles from './useStyles';
 import TransactionInformation from './components/TransactionInformation';
 
-export type TransactionDetailsProps = {
+type TransactionDetailsProps = {
   /**
    * Optional transaction hash to display.
    */

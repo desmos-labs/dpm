@@ -1,7 +1,7 @@
 import React, { RefObject, useCallback, useMemo } from 'react';
 import { DrawerLayout } from 'react-native-gesture-handler';
 
-export interface DrawerState {
+interface DrawerState {
   /**
    * Open the drawer.
    */

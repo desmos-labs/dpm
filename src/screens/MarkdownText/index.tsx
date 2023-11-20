@@ -10,7 +10,7 @@ import { readAsset } from 'lib/FileUtils';
 import TopBar from 'components/TopBar';
 import useStyles from './useStyles';
 
-export type NavProps = StackScreenProps<RootNavigatorParamList, ROUTES.MARKDOWN_TEXT>;
+type NavProps = StackScreenProps<RootNavigatorParamList, ROUTES.MARKDOWN_TEXT>;
 
 export interface MarkdownTextProps {
   readonly title: string;

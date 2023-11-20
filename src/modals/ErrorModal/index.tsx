@@ -4,7 +4,7 @@ import { useTranslation } from 'react-i18next';
 import SingleButtonModal from 'modals/SingleButtonModal';
 import { DPMImages } from 'types/images';
 
-export type ErrorModalParams = {
+type ErrorModalParams = {
   /**
    * Text to be shown under the error icon.
    */

@@ -25,7 +25,7 @@ import StyledRefreshControl from 'components/StyledRefreshControl';
 import { useFetchProposals } from './hooks';
 import useStyles from './useStyles';
 
-export type NavProps = CompositeScreenProps<
+type NavProps = CompositeScreenProps<
   StackScreenProps<RootNavigatorParamList>,
   BottomTabScreenProps<HomeTabsParamList, ROUTES.GOVERNANCE_PROPOSALS>
 >;
