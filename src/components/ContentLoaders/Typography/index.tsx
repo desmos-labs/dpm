@@ -22,7 +22,7 @@ import {
 } from 'components/Typography/config';
 import ThemedContentLoader from 'components/ThemedContentLoader';
 
-export interface TypographyContentLoaderProps {
+interface TypographyContentLoaderProps {
   width: string | number;
   height?: string | number;
 }

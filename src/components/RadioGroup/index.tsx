@@ -4,14 +4,14 @@ import { RadioButton, useTheme } from 'react-native-paper';
 import Typography from 'components/Typography';
 import useStyles from './useStyles';
 
-export interface RadioValue {
+interface RadioValue {
   label: string;
   value: string;
   status: 'checked' | 'unchecked';
   onPress: () => void;
 }
 
-export type RadioGroupProps = {
+type RadioGroupProps = {
   /**
    * Values to display, with a label, a value, a status and an onPress callback
    */

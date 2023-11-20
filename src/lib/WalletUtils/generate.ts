@@ -16,7 +16,7 @@ import { AccountWithWallet } from 'types/account';
  * @param app - Ledger app that should be used to sign the transactions.
  * @param transport - Bluetooth Transport that should be used to connect to the Ledger device.
  */
-export const generateLedgerAccountWallets = async (
+const generateLedgerAccountWallets = async (
   prefix: string,
   hdPaths: HdPath[],
   app: LedgerApp,
@@ -65,7 +65,7 @@ export const generateLedgerAccountWallets = async (
  * the getAccounts() method will return all the information for each account.
  * @param mnemonic - Mnemonic from which to generate the wallet.
  */
-export const generateMnemonicWallets = async (
+const generateMnemonicWallets = async (
   prefix: string,
   hdPaths: HdPath[],
   mnemonic: string,
@@ -116,12 +116,12 @@ export const generateMnemonicWallets = async (
  * @param loginProvider - Login provided used from the user to obtain the private key.
  * @param privateKey - The private key obtained from Web3Auth.
  */
-export const generateWeb3AuthWallet = async (
+const generateWeb3AuthWallet = async (
   prefix: string,
   loginProvider: string,
   privateKey: Uint8Array,
 ): Promise<AccountWithWallet> => {
-  const signer = await PrivateKeySigner.fromSecp256k1(privateKey, SigningMode.DIRECT, {
+  const signer = PrivateKeySigner.fromSecp256k1(privateKey, SigningMode.DIRECT, {
     prefix,
   });
 

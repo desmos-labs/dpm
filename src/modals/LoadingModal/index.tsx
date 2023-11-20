@@ -6,7 +6,7 @@ import { DPMAnimations } from 'types/images';
 import { ModalComponentProps } from 'modals/ModalScreen';
 import useStyles from './useStyles';
 
-export type SingleButtonModalParams = {
+type LoadingModalParams = {
   /**
    * Text to be shown under the loading animation.
    */
@@ -17,7 +17,7 @@ export type SingleButtonModalParams = {
  * Modal that shows a loading animation.
  * @constructor
  */
-const LoadingModal: React.FC<ModalComponentProps<SingleButtonModalParams>> = (props) => {
+const LoadingModal: React.FC<ModalComponentProps<LoadingModalParams>> = (props) => {
   const { params } = props;
   const styles = useStyles();
 

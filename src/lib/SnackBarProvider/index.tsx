@@ -5,7 +5,7 @@ import Typography from 'components/Typography';
 import { useTranslation } from 'react-i18next';
 import useStyles from './useStyles';
 
-export interface SnackBarProviderProps {}
+interface SnackBarProviderProps {}
 
 const SnackBarProvider: FC<PropsWithChildren<SnackBarProviderProps>> = ({ children }) => {
   const { visible, onDismiss, text, duration } = useSnackBarState();

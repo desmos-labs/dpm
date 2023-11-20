@@ -7,7 +7,7 @@ import ProposalStatusBadge from 'components/ProposalStatusBadge';
 import { makrdownToPlainText } from 'lib/FormatUtils';
 import useStyles from './useStyles';
 
-export interface ProposalListItemProps {
+interface ProposalListItemProps {
   /**
    * The proposal to display.
    */

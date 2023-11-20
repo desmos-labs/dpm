@@ -11,7 +11,7 @@ import Spacer from 'components/Spacer';
 import DKeyboardAvoidingView from 'components/DKeyboardAvoidingView';
 import useStyles from './useStyles';
 
-export type ErrorModalParams = {
+type AmountAndMemoModalParams = {
   /**
    * Text to be shown on the top of the modal.
    */
@@ -34,7 +34,7 @@ export type ErrorModalParams = {
  * Modal that let the user pick an amount of {@link Coin} and
  * a transaction memo.
  */
-const AmountAndMemoModal: React.FC<ModalComponentProps<ErrorModalParams>> = (props) => {
+const AmountAndMemoModal: React.FC<ModalComponentProps<AmountAndMemoModalParams>> = (props) => {
   const { closeModal } = props;
   const { title, amountLimitConfig, hideMemoInput, onSelect } = props.params;
   const styles = useStyles();

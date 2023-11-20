@@ -4,7 +4,7 @@ import IconButton from 'components/IconButton';
 import Typography from 'components/Typography';
 import useStyles from './useStyles';
 
-export type MenuItemProps = {
+type MenuItemProps = {
   /**
    * The menu item text.
    */

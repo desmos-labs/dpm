@@ -6,7 +6,7 @@ import ROUTES from 'navigation/routes';
 import { RootNavigatorParamList } from 'navigation/RootNavigator';
 import IconButton, { IconButtonProps } from 'components/IconButton';
 
-export type EditProfileButtonProps = {
+type EditProfileButtonProps = {
   profile: DesmosProfile | undefined;
   style?: IconButtonProps['style'];
 };

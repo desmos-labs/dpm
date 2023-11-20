@@ -11,15 +11,12 @@ const walletConnectSessionRequestsAppState = atom<Record<string, WalletConnectRe
   default: {},
 });
 
-export const useSetWalletConnectSessionRequests = () =>
-  useSetRecoilState(walletConnectSessionRequestsAppState);
-
 /**
  * Hook that provides a function to add a wallet connect request to the
  * application state.
  */
 export const useStoreWalletConnectSessionRequest = () => {
-  const setSessions = useSetWalletConnectSessionRequests();
+  const setSessions = useSetRecoilState(walletConnectSessionRequestsAppState);
 
   return useCallback(
     (request: WalletConnectRequest) => {
@@ -40,7 +37,7 @@ export const useStoreWalletConnectSessionRequest = () => {
  * application state.
  */
 export const useRemoveWalletConnectSessionRequest = () => {
-  const setSessions = useSetWalletConnectSessionRequests();
+  const setSessions = useSetRecoilState(walletConnectSessionRequestsAppState);
 
   return useCallback(
     (request: WalletConnectRequest) => {

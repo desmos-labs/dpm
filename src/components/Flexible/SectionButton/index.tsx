@@ -5,7 +5,7 @@ import Icon from 'components/Flexible/Icon';
 import FastImage from 'react-native-fast-image';
 import useStyles from './useStyles';
 
-export type Props = {
+type Props = {
   label: string;
   onPress?: () => void;
   icon?: ImageProps['source'];

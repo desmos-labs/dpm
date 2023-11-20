@@ -7,22 +7,22 @@ import {
 } from 'cosmjs-types/cosmos/feegrant/v1beta1/feegrant';
 import { Feegrant } from '@desmoslabs/desmjs';
 
-export interface BasicAllowanceEncodeObject {
+interface BasicAllowanceEncodeObject {
   readonly typeUrl: typeof Feegrant.v1beta1.BasicAllowanceTypeUrl;
   readonly allowance: BasicAllowance;
 }
 
-export interface PeriodicAllowanceEncodeObject {
+interface PeriodicAllowanceEncodeObject {
   readonly typeUrl: typeof Feegrant.v1beta1.PeriodicAllowanceTypeUrl;
   readonly allowance: PeriodicAllowance;
 }
 
-export interface AllowedMsgAllowanceEncodeObject {
+interface AllowedMsgAllowanceEncodeObject {
   readonly typeUrl: typeof Feegrant.v1beta1.AllowedMsgAllowanceTypeUrl;
   readonly allowance: AllowedMsgAllowance;
 }
 
-export type AllowanceEncodeObject =
+type AllowanceEncodeObject =
   | BasicAllowanceEncodeObject
   | PeriodicAllowanceEncodeObject
   | AllowedMsgAllowanceEncodeObject;

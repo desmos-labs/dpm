@@ -21,7 +21,7 @@ const desmosIcons = [
 
 const CustomIcon = createIconSetFromIcoMoon(icoMoonConfig);
 
-export type DesmosIconProps = {
+type DesmosIconProps = {
   name: string;
   color: string;
   size: number;

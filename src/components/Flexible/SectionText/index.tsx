@@ -3,7 +3,7 @@ import { View } from 'react-native';
 import Typography from '../../Typography';
 import useStyles from './useStyles';
 
-export type Props = {
+type Props = {
   label: string;
   value: string;
 };

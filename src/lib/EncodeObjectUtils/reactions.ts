@@ -6,17 +6,17 @@ import {
 import { Any } from 'cosmjs-types/google/protobuf/any';
 import { err, ok, Result } from 'neverthrow';
 
-export interface FreeTextValueReactionEncodeObject {
+interface FreeTextValueReactionEncodeObject {
   readonly typeUrl: typeof Reactions.v1.FreeTextValueTypeUrl;
   readonly value: FreeTextValue;
 }
 
-export interface RegisteredReactionValueEncodeObject {
+interface RegisteredReactionValueEncodeObject {
   readonly typeUrl: typeof Reactions.v1.RegisteredReactionValueTypeUrl;
   readonly value: RegisteredReactionValue;
 }
 
-export type ReactionValueEncodeObject =
+type ReactionValueEncodeObject =
   | FreeTextValueReactionEncodeObject
   | RegisteredReactionValueEncodeObject;
 

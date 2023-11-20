@@ -7,7 +7,7 @@ import useTrackAppOpened from 'hooks/analytics/useTrackAppOpened';
 import { DefaultPostHogFeatureFlags } from 'types/appFeatureFlags';
 import useSyncPosthog from 'hooks/analytics/useEnableAnalytics';
 
-export interface Props {
+interface Props {
   children: React.ReactNode;
 }
 

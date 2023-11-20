@@ -8,7 +8,7 @@ import { Circle } from 'react-content-loader/native';
 import ThemedContentLoader from 'components/ThemedContentLoader';
 import useStyles from './useStyles';
 
-export interface ApplicationLinksProps {
+interface ApplicationLinksProps {
   readonly applicationLinks: ApplicationLink[];
   readonly canEdit: boolean;
 

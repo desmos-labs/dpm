@@ -26,7 +26,7 @@ import { ModalMode } from 'modals/ModalScreen';
 import { useAreSocialLoginOptionsDisabled } from 'screens/Landing/hooks';
 import useStyles from './useStyles';
 
-export type NavProps = StackScreenProps<RootNavigatorParamList, ROUTES.LANDING>;
+type NavProps = StackScreenProps<RootNavigatorParamList, ROUTES.LANDING>;
 
 const Landing = ({ navigation }: NavProps) => {
   const { t } = useTranslation('landing');

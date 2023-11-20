@@ -4,7 +4,7 @@ import SectionSwitch from './SectionSwitch';
 import SectionText from './SectionText';
 import Padding from './Padding';
 
-export const Flexible = {
+const Flexible = {
   Section,
   SectionText,
   SectionButton,

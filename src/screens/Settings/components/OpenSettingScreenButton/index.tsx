@@ -3,7 +3,7 @@ import React, { useCallback } from 'react';
 import { useNavigation } from '@react-navigation/native';
 import Flexible from 'components/Flexible';
 
-export interface OpenSettingScreenButtonProps {
+interface OpenSettingScreenButtonProps {
   readonly title: string;
   readonly route: ROUTES;
 }

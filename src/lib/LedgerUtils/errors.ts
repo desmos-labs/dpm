@@ -68,6 +68,7 @@ export const convertErrorToLedgerError = (e: unknown, fallbackMsg: string): Ledg
  * Function to check if the provided error is an instance of ConnectionFailedError.
  * @param error - Error to check.
  */
+// ts-prune-ignore-next
 export function isConnectionFailedError(error: LedgerError): error is ConnectionFailedError {
   return error.name === LedgerErrorType.ConnectionFailed;
 }
@@ -76,6 +77,7 @@ export function isConnectionFailedError(error: LedgerError): error is Connection
  * Function to check if the provided error is an instance of DeviceLockedError.
  * @param error - Error to check.
  */
+// ts-prune-ignore-next
 export function isDeviceLockedError(error: LedgerError): error is DeviceLockedError {
   return error.name === LedgerErrorType.DeviceLocked;
 }
@@ -100,6 +102,7 @@ export function isWrongApplicationError(error: LedgerError): error is WrongAppli
  * Function to check if the provided error is an instance of ApplicationOpenRejectedError.
  * @param error - Error to check.
  */
+// ts-prune-ignore-next
 export function isApplicationOpenRejectedError(
   error: LedgerError,
 ): error is ApplicationOpenRejectedError {
@@ -110,6 +113,7 @@ export function isApplicationOpenRejectedError(
  * Function to check if the provided error is an instance of ApplicationNotInstalledError.
  * @param error - Error to check.
  */
+// ts-prune-ignore-next
 export function isApplicationNotInstalledError(
   error: LedgerError,
 ): error is ApplicationNotInstalledError {
@@ -120,6 +124,7 @@ export function isApplicationNotInstalledError(
  * Function to check if the provided error is an instance of UnknownLedgerError.
  * @param error - Error to check.
  */
+// ts-prune-ignore-next
 export function isUnknownLedgerError(error: LedgerError): error is UnknownLedgerError {
   return error.name === LedgerErrorType.Unknown;
 }

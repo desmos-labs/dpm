@@ -12,7 +12,7 @@ import LoginProviderListItem from 'modals/Web3AuthLoginProvidersModal/components
 import { IconButton } from 'react-native-paper';
 import useStyles from './useStyles';
 
-export type Web3AuthLoginProviderParams = {
+type Web3AuthLoginProviderParams = {
   onSelect: (loginProvider: Web3AuthLoginProvider) => any;
 };
 

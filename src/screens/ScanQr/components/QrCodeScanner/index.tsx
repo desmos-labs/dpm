@@ -14,7 +14,7 @@ import usePermissions from 'hooks/permissions/usePermissions';
 import StyledActivityIndicator from 'components/StyledActivityIndicator';
 import useStyles from './useStyles';
 
-export interface QrCodeScannerProps {
+interface QrCodeScannerProps {
   /**
    * Callback to call when this component recognize a QRCode.
    */

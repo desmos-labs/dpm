@@ -7,7 +7,7 @@ import Typography from 'components/Typography';
 import { capitalize } from 'lib/FormatUtils';
 import useStyles from './useStyles';
 
-export interface LoginProviderListItemProps {
+interface LoginProviderListItemProps {
   loginProvider: Web3AuthLoginProvider;
   onPress?: () => void;
 }

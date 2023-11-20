@@ -3,7 +3,7 @@ import { StyleProp, View, ViewStyle } from 'react-native';
 import StyledActivityIndicator from 'components/StyledActivityIndicator';
 import Typography from '../Typography';
 
-export type LabeledValueProps = {
+type LabeledValueProps = {
   /**
    * Label that describe the value.
    */

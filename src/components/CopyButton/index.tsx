@@ -4,7 +4,7 @@ import Clipboard from '@react-native-community/clipboard';
 import { useTranslation } from 'react-i18next';
 import { useShowSnackBar } from 'lib/SnackBarProvider/recoil';
 
-export interface CopyButtonProps extends Omit<IconButtonProps, 'icon'> {
+interface CopyButtonProps extends Omit<IconButtonProps, 'icon'> {
   /**
    * Value to be set in the clipboard when the user press on this component.
    */

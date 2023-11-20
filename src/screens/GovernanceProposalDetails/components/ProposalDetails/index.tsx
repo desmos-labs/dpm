@@ -11,7 +11,7 @@ import MessageDetails from 'components/Messages/MessageDetails';
 import { Message } from 'types/transactions';
 import InlineProfile from 'components/InlineProfile';
 
-export interface ProposalDetailsProps {
+interface ProposalDetailsProps {
   /**
    * Proposal of which details will be shown.
    */

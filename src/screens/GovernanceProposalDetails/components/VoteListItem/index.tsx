@@ -12,7 +12,7 @@ import { desmosLogoRound } from 'assets/images';
 import useProfileGivenAddress from 'hooks/profile/useProfileGivenAddress';
 import useStyles from './useStyles';
 
-export interface VoteListItemProps {
+interface VoteListItemProps {
   /**
    * The user's proposal vote.
    */

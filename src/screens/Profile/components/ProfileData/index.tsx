@@ -9,7 +9,7 @@ import ApplicationLinks from 'screens/Profile/components/ApplicationLinks';
 import ThemedContentLoader from 'components/ThemedContentLoader';
 import useStyles from './useStyles';
 
-export interface ProfileDataProps {
+interface ProfileDataProps {
   /**
    * Profile data to be shown. If undefined, an empty profile page will be shown instead.
    */

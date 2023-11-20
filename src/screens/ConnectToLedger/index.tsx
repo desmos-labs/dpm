@@ -26,7 +26,7 @@ export interface ConnectToLedgerParams {
   readonly onConnect: (transport: BluetoothTransport) => any;
 }
 
-export type Props = StackScreenProps<ConnectToLedgerStackParamList, ROUTES.CONNECT_TO_LEDGER>;
+type Props = StackScreenProps<ConnectToLedgerStackParamList, ROUTES.CONNECT_TO_LEDGER>;
 
 const ConnectToLedger: React.FC<Props> = ({ navigation, route }) => {
   const { t } = useTranslation('connectToLedger');

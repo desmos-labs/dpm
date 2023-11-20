@@ -11,7 +11,7 @@ import { ChainLink } from 'types/desmos';
 import FastImage from 'react-native-fast-image';
 import useStyles from './useStyles';
 
-export interface ChainLinkItemProps {
+interface ChainLinkItemProps {
   chainLink: ChainLink;
   canEdit: boolean;
   style?: StyleProp<ViewStyle>;

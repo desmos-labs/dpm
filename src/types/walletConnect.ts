@@ -44,9 +44,9 @@ interface RequestExtraField {
   accountAddress: string;
 }
 
-export type WalletConnectGetAccountsRequest = GetAccountsRequest & RequestExtraField;
-export type WalletConnectSignAminoRequest = SignAminoRequest & RequestExtraField;
-export type WalletConnectSignDirectRequest = SignDirectRequest & RequestExtraField;
+type WalletConnectGetAccountsRequest = GetAccountsRequest & RequestExtraField;
+type WalletConnectSignAminoRequest = SignAminoRequest & RequestExtraField;
+type WalletConnectSignDirectRequest = SignDirectRequest & RequestExtraField;
 
 export type WalletConnectRequest =
   | WalletConnectGetAccountsRequest

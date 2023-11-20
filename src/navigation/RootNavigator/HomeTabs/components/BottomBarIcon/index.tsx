@@ -1,7 +1,7 @@
 import React from 'react';
 import { Image, ImageProps } from 'react-native';
 
-export type BottomBarIconProps = ImageProps & {
+type BottomBarIconProps = ImageProps & {
   size?: number;
 };
 

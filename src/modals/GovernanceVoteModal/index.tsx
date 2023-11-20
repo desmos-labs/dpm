@@ -17,7 +17,7 @@ import useIsCurrentThemeDark from 'hooks/useIsCurrentThemeDark';
 import { VoteOption } from '@desmoslabs/desmjs-types/cosmos/gov/v1/gov';
 import useStyles from './useStyles';
 
-export type GovernanceVoteModalParams = {
+type GovernanceVoteModalParams = {
   /**
    * Function called when the user clicks on the next button.
    */

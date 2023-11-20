@@ -21,14 +21,14 @@ export enum ProposalVoteOption {
   NoWithVeto = 'VOTE_OPTION_NO_WITH_VETO',
 }
 
-export interface ProposalDeposit {
+interface ProposalDeposit {
   readonly amount: Coin[];
   readonly depositorAddress: string;
   readonly height: number;
   readonly timestamp: string;
 }
 
-export interface ProposalResults {
+interface ProposalResults {
   readonly no: string;
   readonly noWithVeto: string;
   readonly yes: string;

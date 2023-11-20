@@ -3,7 +3,7 @@ import { StyleProp, View, ViewStyle } from 'react-native';
 import Typography from '../../Typography';
 import useStyles from './useStyles';
 
-export type Props = {
+type Props = {
   title?: string;
   style?: StyleProp<ViewStyle>;
 };

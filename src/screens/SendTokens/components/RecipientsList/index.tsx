@@ -10,7 +10,7 @@ import StyledActivityIndicator from 'components/StyledActivityIndicator';
 import Divider from 'components/Divider';
 import useStyles from './useStyles';
 
-export interface RecipientsListProps {
+interface RecipientsListProps {
   /**
    * Ref to the view where this component will attach to.
    */

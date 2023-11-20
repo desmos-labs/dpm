@@ -6,7 +6,7 @@ import { DesmosProfile } from 'types/desmos';
  * @param status - Validator status.
  * @return {ValidatorStatus} - A formatted ValidatorStatus.
  */
-export function converGraphQLValidatorStatus(status: any): ValidatorStatus {
+function converGraphQLValidatorStatus(status: any): ValidatorStatus {
   if (status === undefined) {
     return ValidatorStatus.Unspecified;
   }

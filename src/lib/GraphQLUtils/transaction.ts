@@ -7,7 +7,7 @@ import { StdFee } from '@cosmjs/amino';
  * a {@link StdFee} object that the application can handel.
  * @param gqlFee - The transaction fee obtained from GraphQL.
  */
-export const convertGqlFee = (gqlFee: GQLTransactionFee): StdFee => ({
+const convertGqlFee = (gqlFee: GQLTransactionFee): StdFee => ({
   gas: gqlFee.gas_limit,
   amount: gqlFee.amount,
   payer: gqlFee.payer,

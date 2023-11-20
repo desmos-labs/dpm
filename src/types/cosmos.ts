@@ -17,7 +17,7 @@ export const MsgUpdateStakingModuleParamsTypeUrl = '/cosmos.staking.v1beta1.MsgU
 export const SoftwareUpgradeProposalTypeUrl = '/cosmos.upgrade.v1beta1.SoftwareUpgradeProposal';
 export const MsgSoftwareUpgradeTypeUrl = '/cosmos.upgrade.v1beta1.MsgSoftwareUpgrade';
 
-export interface MsgUpdateStakingModuleParams {
+interface MsgUpdateStakingModuleParams {
   readonly params: {
     bondDenom: string;
     maxEntries: number;

@@ -4,7 +4,7 @@ import Typography from 'components/Typography';
 import Spacer from 'components/Spacer';
 import useStyles from './useStyles';
 
-export type InlineInputProps = Omit<ComponentProps<typeof TextInput>, 'style'> & {
+type InlineInputProps = Omit<ComponentProps<typeof TextInput>, 'style'> & {
   label: string;
   style?: StyleProp<ViewStyle>;
   inputStyle?: StyleProp<TextStyle>;

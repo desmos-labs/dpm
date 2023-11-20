@@ -3,7 +3,7 @@ import { StyleProp, StyleSheet, Text, TouchableOpacity, ViewStyle } from 'react-
 import Typography from 'components/Typography';
 import useStyles from './useStyles';
 
-export type MnemonicWordBadgeProps = {
+type MnemonicWordBadgeProps = {
   /**
    * The word to display.
    */

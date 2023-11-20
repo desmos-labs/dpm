@@ -1,20 +1,21 @@
 import { ApplicationLinkState } from '@desmoslabs/desmjs-types/desmos/profiles/v3/models_app_links';
 
-export interface NicknameParams {
+interface NicknameParams {
   readonly minLength: number;
   readonly maxLength: number;
 }
 
-export interface DTagParams {
+interface DTagParams {
   readonly regEx: string;
   readonly minLength: number;
   readonly maxLength: number;
 }
 
-export interface BioParams {
+interface BioParams {
   readonly maxLength: number;
 }
 
+// ts-prune-ignore-next
 export interface ProfileParams {
   readonly nickname: NicknameParams;
   readonly dTag: DTagParams;
@@ -63,7 +64,7 @@ export type ChainLink = {
  * Type that represents the information need to
  * prove the ownership of a different chain account.
  */
-export type ChainLinkProof = {
+type ChainLinkProof = {
   /**
    * Plain text that was signed to prove the ownership of the external account.
    */

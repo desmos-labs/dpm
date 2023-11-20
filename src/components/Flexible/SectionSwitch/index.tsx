@@ -4,7 +4,7 @@ import Switch from 'components/Switch';
 import Typography from 'components/Typography';
 import useStyles from './useStyles';
 
-export type Props = {
+type Props = {
   label: string;
   value: boolean;
   isDisabled: boolean;

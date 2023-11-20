@@ -6,7 +6,7 @@ import TwoButtonModal from 'modals/TwoButtonModal';
 import { useTranslation } from 'react-i18next';
 import { DesmosMainnet, DesmosTestnet } from '@desmoslabs/desmjs';
 
-export type ChangeChainParams = {
+type ChangeChainParams = {
   /**
    * The message that will be displayed to the user.
    */

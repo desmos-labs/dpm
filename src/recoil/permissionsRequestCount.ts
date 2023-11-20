@@ -52,11 +52,3 @@ export const usePermissionsRequestCount = () => useRecoilValue(permissionsReques
  */
 export const useSetPermissionsRequestCount = () =>
   useSetRecoilState(permissionsRequestsCountAppState);
-
-/**
- * Hook that provides the number of time that a permission has been requested to the user.
- * @param key - The key associated with the permission request count to be retrieved.
- * @return The number of times the permission has been requested.
- */
-export const usePermissionRequestCount = <K extends keyof PermissionsRequestsCount>(key: K) =>
-  useRecoilValue(permissionRequestsCountAppState(key));

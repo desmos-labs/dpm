@@ -8,7 +8,7 @@ import { failIcon, successIcon } from 'assets/images';
 import useStyles from './useStyles';
 import TransactionInfoField from '../TransactionInfoField';
 
-export interface TransactionInformationProps {
+interface TransactionInformationProps {
   readonly hash?: string;
   readonly dateTime?: Date;
   /**

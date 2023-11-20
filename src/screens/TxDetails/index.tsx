@@ -11,7 +11,7 @@ import ROUTES from 'navigation/routes';
 import { Transaction } from 'types/transactions';
 import { useGetTransactionExplorerUrl } from 'screens/TxDetails/useHooks';
 
-export type NavProps = StackScreenProps<RootNavigatorParamList, ROUTES.TRANSACTION_DETAILS>;
+type NavProps = StackScreenProps<RootNavigatorParamList, ROUTES.TRANSACTION_DETAILS>;
 
 export interface TransactionDetailsParams {
   /**

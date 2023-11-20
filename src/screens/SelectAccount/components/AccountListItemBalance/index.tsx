@@ -10,7 +10,7 @@ import GetAccountBalance from 'services/graphql/queries/GetAccountBalance';
 import { useTranslation } from 'react-i18next';
 import useStyles from './useStyles';
 
-export interface AccountListItemBalanceProps {
+interface AccountListItemBalanceProps {
   readonly address: string;
 }
 

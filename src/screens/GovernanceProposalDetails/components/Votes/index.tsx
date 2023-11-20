@@ -12,7 +12,7 @@ import Spacer from 'components/Spacer';
 import StyledRefreshControl from 'components/StyledRefreshControl';
 import { Tabs } from 'react-native-collapsible-tab-view';
 
-export interface VotesProps {
+interface VotesProps {
   readonly proposalId: number;
 }
 

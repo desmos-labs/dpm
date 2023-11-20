@@ -12,7 +12,7 @@ import DpmImage from 'components/DPMImage';
 import { DPMImages } from 'types/images';
 import useStyles from './useStyles';
 
-export interface LedgerDeviceListProps {
+interface LedgerDeviceListProps {
   ledgerApp: LedgerApp;
   devices: BLELedger[];
   onConnect: (transport: BluetoothTransport) => any;

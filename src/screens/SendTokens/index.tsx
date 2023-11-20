@@ -34,7 +34,7 @@ export interface SendTokensParams {
   readonly amount?: Coin;
 }
 
-export type NavProps = StackScreenProps<RootNavigatorParamList, ROUTES.SEND_TOKENS>;
+type NavProps = StackScreenProps<RootNavigatorParamList, ROUTES.SEND_TOKENS>;
 
 const SendTokens: React.FC<NavProps> = ({ navigation, route }) => {
   const { t } = useTranslation('sendTokens');

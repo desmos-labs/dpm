@@ -44,14 +44,17 @@ export const setMMKV = (key: MMKVKEYS, value: any) =>
 /**
  * Clear the whole MMKV storage
  */
+// ts-prune-ignore-next
 export const clearMMKV = () => MMKVStorage.clearAll();
 
 /**
  * Delete a value from MMKV by key
  */
+// ts-prune-ignore-next
 export const deleteMMKV = (key: MMKVKEYS) => MMKVStorage.delete(key);
 
 /**
  * A hook that wraps useMMKVObject to enforce MMKVKEYS enum usage.
  */
+// ts-prune-ignore-next
 export const useMMKVStorage = <T>(key: MMKVKEYS) => useMMKVObject<T>(key, MMKVStorage);

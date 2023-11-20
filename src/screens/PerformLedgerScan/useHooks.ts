@@ -19,7 +19,7 @@ export enum ScanErrorType {
  * Interface that represents a scan error caused by the bluetooth
  * adapter being off.
  */
-export interface ScanErrorBtOff {
+interface ScanErrorBtOff {
   readonly type: ScanErrorType.BtOff;
 }
 
@@ -27,14 +27,14 @@ export interface ScanErrorBtOff {
  * Interface that represents a scan error caused by some an
  * unknown error.
  */
-export interface ScanErrorUnknown {
+interface ScanErrorUnknown {
   readonly type: ScanErrorType.Unknown;
   readonly message: string;
 }
 
-export type ScanError = ScanErrorBtOff | ScanErrorUnknown;
+type ScanError = ScanErrorBtOff | ScanErrorUnknown;
 
-export const iOSOpenSettingsAndCheckBtStatus = async () => {
+const iOSOpenSettingsAndCheckBtStatus = async () => {
   // Prepare the promise that will check the settings after the application
   // come back to focus.
   const promise = new Promise<boolean>((resolve) => {

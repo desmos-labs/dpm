@@ -9,7 +9,7 @@ import { defaultProfilePicture } from 'assets/images';
 import TypographyContentLoaders from 'components/ContentLoaders/Typography';
 import useStyles from './useStyles';
 
-export interface ValidatorCompactProps {
+interface ValidatorCompactProps {
   /**
    * Validator to be displayed.
    */

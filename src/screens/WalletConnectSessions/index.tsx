@@ -14,7 +14,7 @@ import ProfileImage from 'components/ProfileImage';
 import { HomeTabsScreenProps } from 'navigation/RootNavigator/HomeTabs/props';
 import useStyles from './useStyles';
 
-export type NavProps = HomeTabsScreenProps<ROUTES.WALLET_CONNECT_SESSIONS>;
+type NavProps = HomeTabsScreenProps<ROUTES.WALLET_CONNECT_SESSIONS>;
 
 /**
  * Screen that shows the current active account's WalletConnect sessions.

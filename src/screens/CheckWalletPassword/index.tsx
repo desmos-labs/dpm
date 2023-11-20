@@ -33,7 +33,7 @@ export interface CheckWalletPasswordParams {
   password?: string;
 }
 
-export type NavProps = StackScreenProps<RootNavigatorParamList, ROUTES.CHECK_WALLET_PASSWORD>;
+type NavProps = StackScreenProps<RootNavigatorParamList, ROUTES.CHECK_WALLET_PASSWORD>;
 
 /**
  * This screen is used to check the password of the wallet.

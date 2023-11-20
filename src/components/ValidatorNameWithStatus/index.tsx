@@ -12,7 +12,7 @@ import Flexible from 'components/Flexible';
 import ValidatorStatus from 'components/ValidatorStatus';
 import useStyles from './useStyles';
 
-export interface ValidatorNameWithStatusPros {
+interface ValidatorNameWithStatusPros {
   /**
    * Validator to be displayed.
    */

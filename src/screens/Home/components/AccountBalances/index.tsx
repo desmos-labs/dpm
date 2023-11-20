@@ -37,7 +37,7 @@ export interface AccountBalanceRef {
   updateBalances(): void;
 }
 
-export interface AccountBalancesProps {
+interface AccountBalancesProps {
   /**
    * Reference to this component.
    */

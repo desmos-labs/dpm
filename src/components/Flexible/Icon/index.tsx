@@ -2,7 +2,7 @@ import React from 'react';
 import { useTheme } from 'react-native-paper';
 import DesmosIcon from '../../DesmosIcon';
 
-export type Props = {
+type Props = {
   name: string;
   color?: string;
   size?: number;

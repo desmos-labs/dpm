@@ -4,7 +4,7 @@
  * - dark: Dark color schema.
  * - auto: Set the color schema according to the system.
  */
-export type AppTheme = 'light' | 'dark' | 'auto';
+type AppTheme = 'light' | 'dark' | 'auto';
 
 /**
  * Enum that represents the supported biometrics

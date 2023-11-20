@@ -16,7 +16,7 @@ import useMessagesAmount from 'hooks/messages/useGetMessageAmount';
 import { useSetting } from '@recoil/settings';
 import useStyles from './useStyles';
 
-export interface TransactionsListItemProps {
+interface TransactionsListItemProps {
   /**
    * The transaction whose information will be displayed.
    */

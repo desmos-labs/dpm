@@ -2,7 +2,7 @@ import React from 'react';
 import { StyleProp, StyleSheet, View, ViewStyle } from 'react-native';
 import useStyles from './useStyles';
 
-export type DividerProps = {
+type DividerProps = {
   style?: StyleProp<ViewStyle>;
 };
 

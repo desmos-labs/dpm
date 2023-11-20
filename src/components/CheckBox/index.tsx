@@ -1,7 +1,7 @@
 import React from 'react';
 import { IconButton } from 'react-native-paper';
 
-export interface DpmCheckBoxProps {
+interface DpmCheckBoxProps {
   /**
    * Checkbox status, true means checked, false unchecked.
    */

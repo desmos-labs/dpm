@@ -11,7 +11,7 @@ import ValidatorNameWithStatus from 'components/ValidatorNameWithStatus';
 import { useTranslation } from 'react-i18next';
 import useStyles from './useStyles';
 
-export interface DelegationListItemProps {
+interface DelegationListItemProps {
   /**
    * Delegation object to display.
    */

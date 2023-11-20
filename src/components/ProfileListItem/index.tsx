@@ -5,7 +5,7 @@ import ProfileImage from 'components/ProfileImage';
 import Typography from 'components/Typography';
 import useStyles from './useStyles';
 
-export interface ProfileListItemProps {
+interface ProfileListItemProps {
   /**
    * The profile to display.
    */

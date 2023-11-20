@@ -12,7 +12,7 @@ import { coin } from '@cosmjs/amino';
 import { differenceInDays, format } from 'date-fns';
 import useStyles from './useStyles';
 
-export interface UnbondingDelegationListItemProps {
+interface UnbondingDelegationListItemProps {
   /**
    * Delegations to be displayed.
    */

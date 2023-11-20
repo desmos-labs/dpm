@@ -12,7 +12,7 @@ const snackBarAppState = atom<SnackBarState>({
  */
 export const useSnackBarState = () => useRecoilValue(snackBarAppState);
 
-export interface SnackBarShowOptions {
+interface SnackBarShowOptions {
   /**
    * Callback called when the snackbar is dismissed.
    */

@@ -6,7 +6,7 @@ import DpmImage from 'components/DPMImage';
 import { DPMImages } from 'types/images';
 import useStyles from './useStyles';
 
-export interface EmptyListProps {
+interface EmptyListProps {
   /**
    * Image displayed in the component.
    */

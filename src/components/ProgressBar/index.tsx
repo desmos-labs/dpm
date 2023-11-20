@@ -4,7 +4,7 @@ import Typography from 'components/Typography';
 import { roundFloat } from 'lib/FormatUtils';
 import useStyles from './useStyles';
 
-export interface ProgressBarProps {
+interface ProgressBarProps {
   /**
    * The percentage value to display.
    * This value must be in the [0, 1] range.

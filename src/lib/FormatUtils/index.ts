@@ -130,6 +130,7 @@ export const formatFiatAmount = (amount: number): string => {
  * @param inputs - Amount to be formatted.
  * @param separator - Optional separator to be used when separating each input's value.
  */
+// ts-prune-ignore-next
 export const formatMultiSendInput = (inputs: Input[], separator: string = '\n'): string =>
   inputs.map((input) => formatCoins(input.coins, separator)).join('\n');
 
@@ -162,18 +163,6 @@ export const slip10IndexToBaseNumber = (index: Slip10RawIndex): number =>
  */
 export const slip10IndexToString = (index: Slip10RawIndex): string =>
   slip10IndexToBaseNumber(index).toString();
-
-/**
- * Hides the given value, using * in order to cover each character.
- * @param value - Value to be hidden.
- */
-export const formatHiddenValue = (value: string): string => {
-  let toReturn = '';
-  for (let index = 0; index < value.length; index += 1) {
-    toReturn += '*';
-  }
-  return toReturn;
-};
 
 /**
  * Capitalize the provided string.

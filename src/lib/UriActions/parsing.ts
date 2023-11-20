@@ -120,29 +120,3 @@ export const actionUriFromRecord = (data: Record<string, any>): UriAction | unde
 
   return parser(data);
 };
-
-/**
- * Function that given a {@link UriAction} generates its uri representation.
- * @param uri - Uri that will be converted to its string representation.
- * @deprecated This function should be removed after we have the api that
- * generates the uri.
- */
-export const uriFromUriAction = (uri: UriAction): string => {
-  switch (uri.type) {
-    case UriActionType.UserAddress:
-      return `${DPM_URI_PROTOCOL}//${UriActionType.UserAddress}/${uri.address}`;
-    case UriActionType.Generic:
-      return `${DPM_URI_PROTOCOL}//?address=${uri.address}&chain_type=${uri.chainType}`;
-    case UriActionType.ViewProfile:
-      return `${DPM_URI_PROTOCOL}//${UriActionType.ViewProfile}?address=${uri.address}&chain_type=${uri.chainType}`;
-    case UriActionType.SendTokens:
-      if (uri.amount) {
-        return `${DPM_URI_PROTOCOL}//${UriActionType.SendTokens}?address=${uri.address}&chain_type=${uri.chainType}&amount=${uri.amount.amount}${uri.amount.denom}`;
-      }
-      return `${DPM_URI_PROTOCOL}//${UriActionType.SendTokens}?address=${uri.address}&chain_type=${uri.chainType}`;
-
-    default:
-      // @ts-ignore
-      throw new Error(`unsupported uri type: ${uri.type}`);
-  }
-};

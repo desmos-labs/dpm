@@ -18,7 +18,7 @@ export enum AmountLimit {
  * Interface that represents a limit that will use the
  * current active account balance.
  */
-export interface UserAmountLimitConfig {
+interface UserAmountLimitConfig {
   readonly mode: AmountLimit.UserBalance;
 }
 
@@ -27,7 +27,7 @@ export interface UserAmountLimitConfig {
  * amount of tokens staked torward a validator from the current
  * active user.
  */
-export interface DelegatedToValidatorLimitConfig {
+interface DelegatedToValidatorLimitConfig {
   readonly mode: AmountLimit.DelegatedToValidator;
   readonly validatorAddress: string;
 }

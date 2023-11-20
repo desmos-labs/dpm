@@ -13,9 +13,7 @@ import { WalletType } from 'types/wallet';
 import { pathToString } from '@cosmjs/crypto';
 import { toHex } from '@cosmjs/encoding';
 
-export const serializeMnemonicAccount = (
-  account: MnemonicAccount,
-): SerializableMnemonicAccount => ({
+const serializeMnemonicAccount = (account: MnemonicAccount): SerializableMnemonicAccount => ({
   version: AccountSerializationVersion.Mnemonic,
   walletType: WalletType.Mnemonic,
   address: account.address,
@@ -25,7 +23,7 @@ export const serializeMnemonicAccount = (
   creationTime: account.creationTime,
 });
 
-export const serializeLedgerAccount = (account: LedgerAccount): SerializableLedgerAccount => ({
+const serializeLedgerAccount = (account: LedgerAccount): SerializableLedgerAccount => ({
   version: AccountSerializationVersion.Ledger,
   walletType: WalletType.Ledger,
   address: account.address,
@@ -36,9 +34,7 @@ export const serializeLedgerAccount = (account: LedgerAccount): SerializableLedg
   creationTime: account.creationTime,
 });
 
-export const serializeWeb3AuthAccount = (
-  account: Web3AuthAccount,
-): SerializableWeb3AuthAccount => ({
+const serializeWeb3AuthAccount = (account: Web3AuthAccount): SerializableWeb3AuthAccount => ({
   version: AccountSerializationVersion.Web3Auth,
   walletType: WalletType.Web3Auth,
   address: account.address,
@@ -48,7 +44,7 @@ export const serializeWeb3AuthAccount = (
   creationTime: account.creationTime,
 });
 
-export const serializeAccount = (account: Account): SerializableAccount => {
+const serializeAccount = (account: Account): SerializableAccount => {
   switch (account.walletType) {
     case WalletType.Mnemonic:
       return serializeMnemonicAccount(account);

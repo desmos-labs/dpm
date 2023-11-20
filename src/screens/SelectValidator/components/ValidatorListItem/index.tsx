@@ -10,7 +10,7 @@ import TypographyContentLoaders from 'components/ContentLoaders/Typography';
 import { getValidatorAvatar, getValidatorName } from 'lib/ValidatorUtils';
 import useStyles from './useStyles';
 
-export interface ValidatorItemProps {
+interface ValidatorItemProps {
   readonly validator: Validator;
   readonly onPress?: (validator: Validator, profile?: DesmosProfile) => any;
 }

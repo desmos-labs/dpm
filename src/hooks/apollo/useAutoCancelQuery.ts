@@ -12,7 +12,7 @@ import React from 'react';
  * Hook that works like the apollo useQuery hook with the difference that
  * if the component is unmounted, it cancels the query.
  */
-export function useAutoCancelQuery<TData = any, TVariables = OperationVariables>(
+function useAutoCancelQuery<TData = any, TVariables = OperationVariables>(
   query: DocumentNode | TypedDocumentNode<TData, TVariables>,
   options?: QueryHookOptions<TData, TVariables>,
 ): QueryResult<TData, TVariables> {

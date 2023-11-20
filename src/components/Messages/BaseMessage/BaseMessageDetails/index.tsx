@@ -14,7 +14,7 @@ export interface MessageDetailsField {
   readonly hide?: boolean;
 }
 
-export type BaseMessageDetailsProps = {
+type BaseMessageDetailsProps = {
   message: EncodeObject;
   fields?: MessageDetailsField[];
 };

@@ -11,7 +11,7 @@ import { stringToPath } from '@cosmjs/crypto/build/slip10';
  * Deserialize a [SerializableMnemonicWallet] from a JSON parsed object.
  * @param value - The JSON parsed value that should be a [SerializableMnemonicWallet].
  */
-export const deserializeMnemonicWallet = (
+const deserializeMnemonicWallet = (
   value: Partial<SerializableMnemonicWallet>,
 ): SerializableMnemonicWallet => {
   if (
@@ -50,7 +50,7 @@ export const deserializeMnemonicWallet = (
  * Deserialize a [SerializableLedgerWallet] from a JSON parsed object.
  * @param value - The JSON parsed value that should be a [SerializableLedgerWallet].
  */
-export const deserializeLedgerWallet = (
+const deserializeLedgerWallet = (
   value: Partial<SerializableLedgerWallet>,
 ): SerializableLedgerWallet => {
   if (
@@ -89,7 +89,7 @@ export const deserializeLedgerWallet = (
  * Deserialize a [SerializableWeb3AuthWallet] from a JSON parsed object.
  * @param value - The JSON parsed value that should be a [SerializableWeb3AuthWallet].
  */
-export const deserializeWeb3AuthWallet = (
+const deserializeWeb3AuthWallet = (
   value: Partial<SerializableWeb3AuthWallet>,
 ): SerializableWeb3AuthWallet => {
   if (
