@@ -12,6 +12,7 @@
     "lint": "eslint --ext .js,.jsx,.ts,.tsx src",
     "check-dependencies": "rnx-dep-check",
     "fix-dependencies": "rnx-dep-check --write",
+    "find-deadcode": "ts-prune",
     "adb-reverse-tcp": "adb reverse tcp:8081 tcp:8081",
     "generate-splash": "react-native generate-bootsplash --background-color=#FF6C3E --logo-width=150 ./src/assets/images/desmosLogo-white.png"
   },
@@ -162,6 +163,7 @@
     "react-native-dotenv": "^3.4.7",
     "react-test-renderer": "18.1.0",
     "rn-nodeify": "10.3.0",
+    "ts-prune": "^0.10.3",
     "typescript": "^5.1.6",
     "uri-scheme": "^1.1.0"
   },
