@@ -31,7 +31,11 @@ export type FetchDataFunction<T, F extends Object = {}> = (
   filter?: F,
 ) => PaginatedResult<T> | Promise<PaginatedResult<T>>;
 
-interface PaginatedDataConfig {
+/**
+ * Interface that represents the configurations that can be provided to the
+ * usePaginatedData hook.
+ */
+interface PaginatedDataConfig<T, F extends Object> {
   /**
    * Number of items that should be fetched per page.
    */
