@@ -24,7 +24,6 @@ const useStyles = makeStyleWithProps((props: TextInputProps, theme) => ({
     flexGrow: 1,
     flexShrink: 1,
     textAlignVertical: props.multiline === true ? 'top' : 'center',
-    height: '100%',
     color: theme.colors.font['1'],
     minHeight: props.numberOfLines !== undefined ? 25 * props.numberOfLines : undefined,
   },
