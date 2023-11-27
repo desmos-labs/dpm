@@ -23,6 +23,7 @@ const GetTransactionsByAddress = gql`
     messages: messages_by_address(
       args: { addresses: $addresses, types: $types, limit: $limit, offset: $offset }
       where: { index: { _eq: "0" } }
+      order_by: { transaction: { block: { height: desc } } }
     ) {
       transaction {
         ...TransactionFields
