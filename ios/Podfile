@@ -5,6 +5,10 @@ require Pod::Executable.execute_command('node', ['-p',
     {paths: [process.argv[1]]},
   )', __dir__]).strip
 
+MIN_IOS_OVERRIDE = '13.0'
+if Gem::Version.new(MIN_IOS_OVERRIDE) > Gem::Version.new(min_ios_version_supported)
+    min_ios_version_supported = MIN_IOS_OVERRIDE
+end
 platform :ios, min_ios_version_supported
 prepare_react_native_project!
 
