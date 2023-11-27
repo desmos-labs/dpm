@@ -6,7 +6,6 @@ import useShowModal from 'hooks/useShowModal';
 import useWalletConnectPair from 'hooks/walletconnect/useWalletConnectPair';
 import IconButton from 'components/IconButton';
 import ROUTES from 'navigation/routes';
-import { Barcode } from 'vision-camera-code-scanner';
 import StyledSafeAreaView from 'components/StyledSafeAreaView';
 import TextInput from 'components/TextInput';
 import { Vibration } from 'react-native';
@@ -15,6 +14,7 @@ import StyledActivityIndicator from 'components/StyledActivityIndicator';
 import { resolveUriActionFromUrl } from 'lib/UriActions';
 import useHandleUriAction from 'hooks/uriactions/useHandleUriAction';
 import { GenericActionsTypes } from 'types/uri';
+import { QrCode } from 'types/qrcode';
 import useStyles from './useStyles';
 import QrCodeScanner from './components/QrCodeScanner';
 
@@ -78,11 +78,12 @@ const ScanQr: React.FC<NavProps> = ({ navigation, route }) => {
   }, [navigation]);
 
   const openErrorModal = React.useCallback(
-    (message: string) => {
+    (message: string, action?: () => void) => {
       openModal(SingleButtonModal, {
         title: t('error'),
         message,
         actionLabel: t('ok'),
+        action,
       });
     },
     [openModal, t],
@@ -146,7 +147,9 @@ const ScanQr: React.FC<NavProps> = ({ navigation, route }) => {
           handleDPMUri(data);
           break;
         default:
-          openErrorModal(t('invalid qr code'));
+          setPairing(true);
+          openErrorModal(t('invalid qr code'), () => setPairing(false));
+          break;
       }
     },
     [handleDPMUri, openErrorModal, qrCodeType, startPairProcedure, t],
@@ -157,14 +160,14 @@ const ScanQr: React.FC<NavProps> = ({ navigation, route }) => {
   }, [processQrCodeData, devUri]);
 
   const onQrCodeDetected = React.useCallback(
-    async (barCode: Barcode) => {
+    async (barCode: QrCode) => {
       // Provide a feedback that the qr code has been detected.
       Vibration.vibrate();
 
-      if (barCode.rawValue === undefined) {
+      if (barCode.data === undefined) {
         openErrorModal(t('invalid qr code'));
       } else {
-        await processQrCodeData(barCode.rawValue);
+        await processQrCodeData(barCode.data);
       }
     },
     [openErrorModal, processQrCodeData, t],
