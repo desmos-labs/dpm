@@ -6,7 +6,7 @@ import ButtonProps from './props';
 /**
  * Component that shows a button that follows the application styles and theme.
  */
-const Button: React.FC<ButtonProps> = (props) => {
+const Button: React.FC<React.PropsWithChildren<ButtonProps>> = (props) => {
   const {
     mode,
     color,

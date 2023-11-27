@@ -29,7 +29,7 @@ const LoadingModal: React.FC<ModalComponentProps<LoadingModalParams>> = (props) 
         autoPlay
         loop
         autoSize
-        resizeMode="cover"
+        resizeMode="contain"
       />
       <Typography.Body style={styles.title}>{params.text}</Typography.Body>
     </View>

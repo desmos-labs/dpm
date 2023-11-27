@@ -1,5 +1,4 @@
-<manifest xmlns:android="http://schemas.android.com/apk/res/android"
-  package="network.desmos.dpm">
+<manifest xmlns:android="http://schemas.android.com/apk/res/android" package="network.desmos.dpm">
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.VIBRATE"/>
@@ -30,6 +29,10 @@
       <meta-data android:name="io.branch.sdk.BranchKey" android:value="@string/branch_key" />
       <meta-data android:name="io.branch.sdk.BranchKey.test" android:value="@string/branch_key_test" />
       <meta-data android:name="io.branch.sdk.TestMode" android:value="false" />
+      
+      <meta-data
+          android:name="com.google.mlkit.vision.DEPENDENCIES"
+          android:value="barcode" />
 
       <activity
         android:name="network.desmos.dpm.MainActivity"

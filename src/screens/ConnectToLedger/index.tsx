@@ -135,7 +135,7 @@ const ConnectToLedger: React.FC<Props> = ({ navigation, route }) => {
           source={DPMAnimations.ConnectToLedger}
           autoPlay
           loop
-          autoSize
+          resizeMode="cover"
         />
       ) : (
         <DpmImage

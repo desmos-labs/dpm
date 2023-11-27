@@ -21,6 +21,7 @@ import { AmountLimit } from 'components/CoinAmountInput/limits';
 import { resetSecureStorage } from 'lib/SecureStorage';
 import useHandleUriAction from 'hooks/uriactions/useHandleUriAction';
 import { isUriActionPending } from 'lib/UriActions';
+import LoadingModal from 'modals/LoadingModal';
 import useStyles from './useStyles';
 
 enum DevRoutes {
@@ -29,6 +30,7 @@ enum DevRoutes {
   TEST_TRANSACTION = 'TEST_TRANSACTION',
   GOVERNANCE_VOTE_MODAL = 'GOVERNANCE_VOTE_MODAL',
   AMOUNT_AND_MEMO_MODAL = 'AMOUNT_AND_MEMO_MODAL',
+  LOADING_MODAL = 'LOADING_MODAL',
 }
 
 const routesToRender = [
@@ -48,6 +50,7 @@ const routesToRender = [
   DevRoutes.TEST_TRANSACTION,
   DevRoutes.GOVERNANCE_VOTE_MODAL,
   DevRoutes.AMOUNT_AND_MEMO_MODAL,
+  DevRoutes.LOADING_MODAL,
 ];
 
 type NavProps = StackScreenProps<RootNavigatorParamList, ROUTES.DEV_SCREEN>;
@@ -137,6 +140,11 @@ const DevScreen: FC<NavProps> = ({ navigation }) => {
                 mode: ModalMode.BottomSheet,
               },
             );
+            break;
+          case DevRoutes.LOADING_MODAL:
+            showModal(LoadingModal, {
+              text: 'test',
+            });
             break;
 
           default:

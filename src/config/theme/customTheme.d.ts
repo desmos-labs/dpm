@@ -1,3 +1,5 @@
+import { DimensionValue } from 'react-native';
+
 // treat this file as a module.
 export {};
 
@@ -96,11 +98,11 @@ declare global {
     }
 
     interface Spacing {
-      xs: number | string;
-      s: number | string;
-      m: number | string;
-      l: number | string;
-      xl: number | string;
+      xs: DimensionValue;
+      s: DimensionValue;
+      m: DimensionValue;
+      l: DimensionValue;
+      xl: DimensionValue;
     }
 
     interface Theme {
