@@ -1,6 +1,9 @@
 import { makeStyle } from 'config/theme';
 
 const useStyles = makeStyle((theme) => ({
+  topBar: {
+    marginHorizontal: theme.spacing.m,
+  },
   stakingMessageContainer: {
     padding: 4,
     // Add trailing 16 to make the 0.1 opacity

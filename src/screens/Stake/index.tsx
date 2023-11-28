@@ -71,7 +71,7 @@ const Stake: React.FC<NavProps> = (props) => {
 
   return (
     <StyledSafeAreaView
-      topBar={<TopBar stackProps={props} title={t('stake')} />}
+      topBar={<TopBar style={styles.topBar} stackProps={props} title={t('stake')} />}
       paddingHorizontal={0}
       touchableWithoutFeedbackDisabled={false}
     >

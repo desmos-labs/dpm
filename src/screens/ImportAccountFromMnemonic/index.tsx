@@ -104,7 +104,8 @@ const ImportAccountFromMnemonic: FC<NavProps> = (props) => {
         {t('recovery passphrase')}
       </Typography.Body>
       <TextInput
-        style={styles.mnemonicInput}
+        style={styles.mnemonic}
+        inputStyle={styles.mnemonicInput}
         textAlignVertical={'top'}
         placeholder={t('enter recovery passphrase placeholder')}
         value={mnemonic}
