@@ -5,9 +5,12 @@ const useStyles = makeStyle((theme) => ({
     marginTop: theme.spacing.l,
     textTransform: 'capitalize',
   },
-  mnemonicInput: {
+  mnemonic: {
     marginTop: theme.spacing.s,
     minHeight: 110,
+  },
+  mnemonicInput: {
+    height: '100%',
   },
   advanceSettingsBtn: {
     marginTop: theme.spacing.s,
