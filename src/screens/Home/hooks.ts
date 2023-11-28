@@ -10,14 +10,14 @@ import { useApolloClient } from '@apollo/client';
  * Hook that provides a {@link FetchDataFunction} for the {@link usePaginatedData}
  * hook to fetch the list of {@link Transaction} performed from the current active user.
  */
-const useFetchCurrentUserTransactions = (): FetchDataFunction<Transaction, undefined> => {
+const useFetchCurrentUserTransactions = (): FetchDataFunction<Transaction> => {
   // Here we use useApolloClient instead of useLazyQuery
   // to force the returned callback to change when the client instance changes
   // so that the usePaginatedData hook can properly update the data.
   const client = useApolloClient();
   const activeAccountAddress = useActiveAccountAddress();
 
-  return React.useCallback<FetchDataFunction<Transaction, undefined>>(
+  return React.useCallback<FetchDataFunction<Transaction>>(
     async (offset, limit) => {
       const { data, error } = await client.query<GQLGetTransactionsByAddress>({
         query: GetTransactionsByAddress,
@@ -38,7 +38,7 @@ const useFetchCurrentUserTransactions = (): FetchDataFunction<Transaction, undef
 
       return {
         data: convertedData,
-        endReached: convertedData.length < limit,
+        endReached: false,
       };
     },
     [activeAccountAddress, client],

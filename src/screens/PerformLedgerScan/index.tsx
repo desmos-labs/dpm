@@ -130,10 +130,10 @@ const PerformLedgerScan: React.FC<NavProps> = ({ navigation, route }) => {
             style={styles.lookingForDevices}
             source={DPMAnimations.LookingForDevices}
             loop
-            autoSize
             autoPlay
             speed={scanning ? 1 : 0}
             progress={scanning ? undefined : 0}
+            resizeMode="cover"
           />
           <Typography.SemiBold20 style={styles.title}>
             {t('looking for devices')}

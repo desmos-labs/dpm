@@ -8,6 +8,8 @@ const useStyles = makeStyle((theme) => ({
   },
   animation: {
     alignSelf: 'center',
+    width: 110,
+    height: 110,
   },
   status: {
     marginTop: theme.spacing.m,

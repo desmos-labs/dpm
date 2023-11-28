@@ -1,8 +1,6 @@
 import React, { FC, useCallback, useEffect, useMemo, useState } from 'react';
-import { Barcode, BarcodeFormat, scanBarcodes } from 'vision-camera-code-scanner';
 import { useIsFocused } from '@react-navigation/native';
-import { Camera, useCameraDevices, useFrameProcessor } from 'react-native-vision-camera';
-import { runOnJS } from 'react-native-reanimated';
+import { Camera, useCameraDevices, useCodeScanner } from 'react-native-vision-camera';
 import { StyleSheet, View } from 'react-native';
 import DpmImage from 'components/DPMImage';
 import { DPMImages } from 'types/images';
@@ -12,13 +10,14 @@ import Spacer from 'components/Spacer';
 import { AppPermissions, AppPermissionStatus } from 'types/permissions';
 import usePermissions from 'hooks/permissions/usePermissions';
 import StyledActivityIndicator from 'components/StyledActivityIndicator';
+import { QrCode } from 'types/qrcode';
 import useStyles from './useStyles';
 
 interface QrCodeScannerProps {
   /**
    * Callback to call when this component recognize a QRCode.
    */
-  readonly onQrCodeDetected: (qrCode: Barcode) => any;
+  readonly onQrCodeDetected: (qrCode: QrCode) => any;
   /**
    * Tells if the component should stop recognizing qr codes.
    */
@@ -30,7 +29,10 @@ const QrCodeScanner: FC<QrCodeScannerProps> = ({ onQrCodeDetected, stopRecogniti
   const [hasPermission, setHasPermission] = useState(false);
   const isFocused = useIsFocused();
   const devices = useCameraDevices();
-  const backCameraDevice = devices.back;
+  const backCameraDevice = React.useMemo(
+    () => devices.find((d) => d.position === 'back'),
+    [devices],
+  );
   const { checkPermission: checkCameraPermission, requestPermission: requestCameraPermission } =
     usePermissions(AppPermissions.Camera);
 
@@ -54,20 +56,16 @@ const QrCodeScanner: FC<QrCodeScannerProps> = ({ onQrCodeDetected, stopRecogniti
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const frameProcessor = useFrameProcessor(
-    (frame) => {
-      'worklet';
-
-      const detectedBarcodes = scanBarcodes(frame, [BarcodeFormat.QR_CODE], {
-        // Disable recognitions of qr codes with inverted black and white color.
-        checkInverted: false,
-      });
-      if (detectedBarcodes.length > 0) {
-        runOnJS(onQrCodeDetected)(detectedBarcodes[0]);
+  const codeScanner = useCodeScanner({
+    codeTypes: ['qr'],
+    onCodeScanned: (codes) => {
+      if (codes.length > 0 && !stopRecognition) {
+        onQrCodeDetected?.({
+          data: codes[0].value,
+        });
       }
     },
-    [onQrCodeDetected],
-  );
+  });
 
   return useMemo(() => {
     if (!hasPermission) {
@@ -94,16 +92,14 @@ const QrCodeScanner: FC<QrCodeScannerProps> = ({ onQrCodeDetected, stopRecogniti
         style={StyleSheet.absoluteFill}
         device={backCameraDevice}
         isActive={isFocused}
-        frameProcessor={stopRecognition !== true ? frameProcessor : undefined}
-        frameProcessorFps={5}
+        codeScanner={codeScanner}
       />
     );
   }, [
     hasPermission,
     backCameraDevice,
     isFocused,
-    stopRecognition,
-    frameProcessor,
+    codeScanner,
     styles.noPermissionsContainer,
     styles.indicatorView,
     requestPermission,

@@ -7,6 +7,8 @@ const useStyles = makeStyle((theme) => ({
   },
   lookingForDevices: {
     alignSelf: 'center',
+    width: 80,
+    height: 80,
   },
   title: {
     marginTop: theme.spacing.xl,
