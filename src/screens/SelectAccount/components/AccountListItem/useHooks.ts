@@ -18,7 +18,10 @@ export const useFetchProfile = (address: string, fetchDelay: number) => {
         const { data } = await lazyFetchProfile({
           variables: { address },
         });
-        setProfile(data.profile[0]);
+
+        if (data && data.profile && data.profile[0]) {
+          setProfile(data.profile[0]);
+        }
       } finally {
         setProfileLoading(false);
       }
