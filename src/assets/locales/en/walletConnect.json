@@ -11,5 +11,6 @@
   "show pending requests": "Show pending requests",
   "approve": "Approve",
   "reject": "Reject",
-  "authorization": "Authorization"
+  "authorization": "Authorization",
+  "error while closing session": "Ooops an error occured while terminating the session:\n{{error}}"
 }

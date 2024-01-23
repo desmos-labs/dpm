@@ -15,6 +15,7 @@ import { resolveUriActionFromUrl } from 'lib/UriActions';
 import useHandleUriAction from 'hooks/uriactions/useHandleUriAction';
 import { GenericActionsTypes } from 'types/uri';
 import { QrCode } from 'types/qrcode';
+import { delay } from 'lib/PromiseUtils';
 import useStyles from './useStyles';
 import QrCodeScanner from './components/QrCodeScanner';
 
@@ -57,6 +58,7 @@ const ScanQr: React.FC<NavProps> = ({ navigation, route }) => {
 
   const [pairing, setPairing] = useState(false);
   const [devUri, setDevUri] = useState('');
+  const [stopProcessing, setStopProcessing] = useState(false);
   const pair = useWalletConnectPair();
   const openModal = useShowModal();
   const handleUriAction = useHandleUriAction();
@@ -91,18 +93,18 @@ const ScanQr: React.FC<NavProps> = ({ navigation, route }) => {
 
   const startPairProcedure = React.useCallback(
     async (uri: string) => {
-      try {
-        setPairing(true);
-        setDevUri('');
-        const proposal = await pair(uri);
+      setPairing(true);
+      setDevUri('');
+      await delay(500);
+      const pairResult = await pair(uri);
+      if (pairResult.isOk()) {
         navigate(ROUTES.WALLET_CONNECT_SESSION_PROPOSAL, {
-          proposal,
+          proposal: pairResult.value,
         });
-      } catch (e) {
-        openErrorModal(e.message);
-      } finally {
-        setPairing(false);
+      } else {
+        openErrorModal(pairResult.error.message);
       }
+      setPairing(false);
     },
     [navigate, openErrorModal, pair],
   );
@@ -161,6 +163,7 @@ const ScanQr: React.FC<NavProps> = ({ navigation, route }) => {
 
   const onQrCodeDetected = React.useCallback(
     async (barCode: QrCode) => {
+      setStopProcessing(true);
       // Provide a feedback that the qr code has been detected.
       Vibration.vibrate();
 
@@ -169,6 +172,7 @@ const ScanQr: React.FC<NavProps> = ({ navigation, route }) => {
       } else {
         await processQrCodeData(barCode.data);
       }
+      setStopProcessing(false);
     },
     [openErrorModal, processQrCodeData, t],
   );
@@ -181,7 +185,7 @@ const ScanQr: React.FC<NavProps> = ({ navigation, route }) => {
       edges={[]}
     >
       <IconButton style={styles.backButton} icon="close" size={18} onPress={goBack} />
-      <QrCodeScanner onQrCodeDetected={onQrCodeDetected} stopRecognition={pairing} />
+      <QrCodeScanner onQrCodeDetected={onQrCodeDetected} stopRecognition={stopProcessing} />
       {__DEV__ && (
         <TextInput
           style={styles.debugUri}

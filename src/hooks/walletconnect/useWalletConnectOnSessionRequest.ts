@@ -15,18 +15,18 @@ import {
 } from '@desmoslabs/desmjs-walletconnect-v2';
 import ROUTES from 'navigation/routes';
 
-const useWalletConnectOnSessionRequest = (signClient: SignClient | undefined) => {
+const useWalletConnectOnSessionRequest = () => {
   const accounts = useStoredAccounts();
   const getSessionByTopic = useGetSessionByTopic();
   const storeSessionRequest = useStoreWalletConnectSessionRequest();
   const navigation = useNavigation<StackNavigationProp<RootNavigatorParamList>>();
 
   return useCallback(
-    (args: SignClientTypes.EventArguments['session_request'], showRequest?: boolean) => {
-      if (signClient === undefined) {
-        return;
-      }
-
+    (
+      signClient: SignClient,
+      args: SignClientTypes.EventArguments['session_request'],
+      showRequest?: boolean,
+    ) => {
       // Find the session from the app state sessions.
       const session = getSessionByTopic(args.topic);
       if (session === undefined) {
@@ -102,7 +102,7 @@ const useWalletConnectOnSessionRequest = (signClient: SignClient | undefined) =>
           break;
       }
     },
-    [accounts, getSessionByTopic, navigation, signClient, storeSessionRequest],
+    [accounts, getSessionByTopic, navigation, storeSessionRequest],
   );
 };
 

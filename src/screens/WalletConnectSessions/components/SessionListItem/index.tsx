@@ -9,6 +9,8 @@ import FastImage from 'react-native-fast-image';
 import Spacer from 'components/Spacer';
 import useWalletConnectCloseSession from 'hooks/walletconnect/useWalletConnectCloseSession';
 import { walletConnectIconUriToImageSource } from 'lib/WalletConnectUtils';
+import useModal from 'hooks/useModal';
+import ErrorModal from 'modals/ErrorModal';
 import useStyles from './useStyles';
 
 type DAppSessionViewProps = {
@@ -19,7 +21,9 @@ const SessionListItem = (props: DAppSessionViewProps) => {
   const { session } = props;
   const { t } = useTranslation('walletConnect');
   const styles = useStyles();
+  const [closingSession, setClosingSession] = React.useState(false);
   const closeSession = useWalletConnectCloseSession();
+  const { showModal } = useModal();
 
   const appIcon = useMemo(() => walletConnectIconUriToImageSource(session.icon), [session]);
 
@@ -28,9 +32,16 @@ const SessionListItem = (props: DAppSessionViewProps) => {
     return format(creationDate, 'PPP');
   }, [session]);
 
-  const onRevokePressed = useCallback(() => {
-    closeSession(session);
-  }, [closeSession, session]);
+  const onRevokePressed = useCallback(async () => {
+    setClosingSession(true);
+    const closeSessionResult = await closeSession(session);
+    if (closeSessionResult.isErr()) {
+      showModal(ErrorModal, {
+        text: t('error while closing session', { error: closeSessionResult.error.message }),
+      });
+    }
+    setClosingSession(false);
+  }, [closeSession, session, showModal, t]);
 
   return (
     <View style={styles.root}>
@@ -51,7 +62,12 @@ const SessionListItem = (props: DAppSessionViewProps) => {
       </View>
 
       {/* Revoke button */}
-      <Button mode="contained" onPress={onRevokePressed}>
+      <Button
+        mode="contained"
+        onPress={onRevokePressed}
+        loading={closingSession}
+        disabled={closingSession}
+      >
         {t('revoke')}
       </Button>
     </View>

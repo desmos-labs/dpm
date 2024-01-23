@@ -1,32 +1,38 @@
-import { useWalletConnectClient } from '@recoil/walletconnect';
 import { useRemoveWalletConnectSessionRequest } from '@recoil/walletConnectRequests';
 import { useCallback } from 'react';
 import { WalletConnectRequest } from 'types/walletConnect';
 import { ErrorResponse } from '@json-rpc-tools/types';
+import { err } from 'neverthrow';
+import { promiseToResult } from 'lib/NeverThrowUtils';
+import useGetOrConnectWalletConnectClient from './useGetOrConnectWalletConnetClient';
 
 const useWalletConnectRequestReject = () => {
   const removeRequest = useRemoveWalletConnectSessionRequest();
-  const wcClient = useWalletConnectClient();
+  const getClient = useGetOrConnectWalletConnectClient();
 
   return useCallback(
     async (request: WalletConnectRequest, errorResponse: ErrorResponse) => {
-      if (wcClient === undefined) {
-        throw new Error('wallet connect client not connected');
+      const getClientResult = await getClient();
+      if (getClientResult.isErr()) {
+        return err(getClientResult.error);
       }
 
-      const { client } = wcClient;
-      await client.respond({
-        topic: request.topic,
-        response: {
-          id: request.id,
-          jsonrpc: '2.0',
-          error: errorResponse,
-        },
-      });
-
-      removeRequest(request);
+      const client = getClientResult.value;
+      return promiseToResult(
+        client
+          .respond({
+            topic: request.topic,
+            response: {
+              id: request.id,
+              jsonrpc: '2.0',
+              error: errorResponse,
+            },
+          })
+          .then(() => removeRequest(request)),
+        `Unknown error while rejecting request ${request.id}`,
+      );
     },
-    [wcClient, removeRequest],
+    [getClient, removeRequest],
   );
 };
 

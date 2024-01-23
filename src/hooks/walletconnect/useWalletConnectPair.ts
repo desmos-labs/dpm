@@ -1,5 +1,4 @@
 import { useCallback } from 'react';
-import { useWalletConnectClient } from '@recoil/walletconnect';
 import { getSdkError } from '@walletconnect/utils';
 import { useActiveAccount } from '@recoil/activeAccount';
 import { SignClientTypes } from '@walletconnect/types';
@@ -8,6 +7,8 @@ import {
   getAccountSupportedMethods,
 } from 'lib/WalletConnectUtils';
 import { WalletConnectSessionProposal } from 'types/walletConnect';
+import { Result, err, ok } from 'neverthrow';
+import useGetOrConnectWalletConnectClient from './useGetOrConnectWalletConnetClient';
 
 const useValidateSessionRequest = () => {
   const activeAccount = useActiveAccount();
@@ -45,37 +46,37 @@ const useValidateSessionRequest = () => {
  * DApp that use WalletConnect.
  */
 const useWalletConnectPair = () => {
-  const wcClient = useWalletConnectClient();
+  const getClient = useGetOrConnectWalletConnectClient();
   const validateSessionRequest = useValidateSessionRequest();
 
   return useCallback(
-    (uri: string) => {
-      if (wcClient === undefined) {
-        throw new Error('wallet connect client not connected');
+    async (uri: string) => {
+      const getClientResult = await getClient();
+      if (getClientResult.isErr()) {
+        return err<WalletConnectSessionProposal, Error>(getClientResult.error);
       }
-
-      const { client } = wcClient;
+      const client = getClientResult.value;
 
       // Create the promise that resolves the session proposal.
-      const sessionProposalPromise = new Promise<WalletConnectSessionProposal>(
-        (resolve, reject) => {
-          const timoutTimer = setTimeout(() => {
-            reject(new Error('pair request timeout'));
+      const sessionProposalPromise = new Promise<Result<WalletConnectSessionProposal, Error>>(
+        (resolve) => {
+          const timeoutTimer = setTimeout(() => {
+            resolve(err(new Error('pair request timeout')));
           }, 5000);
 
           client.on('session_proposal', (proposal) => {
-            clearTimeout(timoutTimer);
-            const validationResul = validateSessionRequest(proposal);
-            if (validationResul !== undefined) {
+            clearTimeout(timeoutTimer);
+            const validationResult = validateSessionRequest(proposal);
+            if (validationResult !== undefined) {
               client
                 .reject({
                   id: proposal.id,
-                  reason: validationResul,
+                  reason: validationResult,
                 })
-                .then(() => reject(new Error(validationResul.message)))
-                .catch(reject);
+                .then(() => resolve(err(new Error(validationResult.message))))
+                .catch((rejection) => resolve(err(rejection)));
             } else {
-              resolve(convertWalletConnectSessionProposal(proposal));
+              resolve(ok(convertWalletConnectSessionProposal(proposal)));
             }
           });
         },
@@ -89,7 +90,7 @@ const useWalletConnectPair = () => {
 
       return sessionProposalPromise;
     },
-    [wcClient, validateSessionRequest],
+    [getClient, validateSessionRequest],
   );
 };
 

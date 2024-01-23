@@ -65,27 +65,25 @@ const WalletConnectSessionProposal: FC<NavProps> = (props) => {
   );
 
   const onDeny = useCallback(async () => {
-    try {
-      setRejecting(true);
-      await rejectSession(proposal);
+    setRejecting(true);
+    const rejectResult = await rejectSession(proposal);
+    if (rejectResult.isOk()) {
       navigation.goBack();
-    } catch (e) {
-      showErrorModal(e.message);
-    } finally {
-      setRejecting(false);
+    } else {
+      showErrorModal(rejectResult.error.message);
     }
+    setRejecting(false);
   }, [navigation, proposal, rejectSession, showErrorModal]);
 
   const onGrant = useCallback(async () => {
-    try {
-      setAuthorizing(true);
-      await approveSession(proposal);
+    setAuthorizing(true);
+    const approveSessionResult = await approveSession(proposal);
+    if (approveSessionResult.isOk()) {
       showSuccessModal();
-    } catch (e) {
-      showErrorModal(e.message);
-    } finally {
-      setAuthorizing(false);
+    } else {
+      showErrorModal(approveSessionResult.error.message);
     }
+    setAuthorizing(false);
   }, [approveSession, proposal, showErrorModal, showSuccessModal]);
 
   return (

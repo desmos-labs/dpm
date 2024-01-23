@@ -25,7 +25,7 @@ import BroadcastTx, { BroadcastTxParams } from 'screens/BroadcastTx';
 import ModalScreen, { ModalScreenParams } from 'modals/ModalScreen';
 import EditProfile, { EditProfileParams } from 'screens/EditProfile';
 import HomeTabs, { HomeTabsParamList } from 'navigation/RootNavigator/HomeTabs';
-import useInitWalletConnectClient from 'hooks/walletconnect/useInitWalletConnectClient';
+import useInitWalletConnectLogic from 'hooks/walletconnect/useInitWalletConnectLogic';
 import Settings from 'screens/Settings';
 import SettingsDisplayMode from 'screens/SettingsDisplayMode';
 import SettingsSwitchChain from 'screens/SettingsSwitchChain';
@@ -61,6 +61,7 @@ import ScanQr, { ScanQrCodeParams } from 'screens/ScanQr';
 import { NavigatorScreenParams } from '@react-navigation/native';
 import { useSetting } from '@recoil/settings';
 import SettingsSwitchScreen, { SettingsSwitchScreenProps } from 'screens/SettingsSwitchScreen';
+import { useConnectWalletConnect } from 'hooks/walletconnect/useConnectWalletConnect';
 
 export type RootNavigatorParamList = {
   [ROUTES.DEV_SCREEN]: undefined;
@@ -124,7 +125,8 @@ const Stack = createStackNavigator<RootNavigatorParamList>();
 const RootNavigator = () => {
   const showUnlockApplicationScreen = useSetting('autoAppLock');
   const activeAccount = useActiveAccount();
-  const initWalletConnect = useInitWalletConnectClient();
+  useInitWalletConnectLogic();
+  const connectWalletConnect = useConnectWalletConnect();
   // Hook to update all the profiles, this will also take care of updating
   // the profiles when the user change the chain.
   useUpdateAccountsProfiles();
@@ -146,7 +148,7 @@ const RootNavigator = () => {
   }, []);
 
   useEffect(() => {
-    initWalletConnect();
+    connectWalletConnect();
 
     // Safe to ignore the deps since we need to initialize the
     // wallet connect client when the app opens.
