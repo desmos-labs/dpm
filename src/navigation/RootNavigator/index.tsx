@@ -62,6 +62,7 @@ import { NavigatorScreenParams } from '@react-navigation/native';
 import { useSetting } from '@recoil/settings';
 import SettingsSwitchScreen, { SettingsSwitchScreenProps } from 'screens/SettingsSwitchScreen';
 import { useConnectWalletConnect } from 'hooks/walletconnect/useConnectWalletConnect';
+import useWalletConnectAutoReconnect from 'hooks/walletconnect/useWalletConnectAutoReconnect';
 
 export type RootNavigatorParamList = {
   [ROUTES.DEV_SCREEN]: undefined;
@@ -126,7 +127,7 @@ const RootNavigator = () => {
   const showUnlockApplicationScreen = useSetting('autoAppLock');
   const activeAccount = useActiveAccount();
   useInitWalletConnectLogic();
-  const connectWalletConnect = useConnectWalletConnect();
+  useWalletConnectAutoReconnect();
   // Hook to update all the profiles, this will also take care of updating
   // the profiles when the user change the chain.
   useUpdateAccountsProfiles();
@@ -144,14 +145,6 @@ const RootNavigator = () => {
 
     // Safe to ignore the activeAccount deps since we need to check
     // just if exists when the apps opens.
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
-  useEffect(() => {
-    connectWalletConnect();
-
-    // Safe to ignore the deps since we need to initialize the
-    // wallet connect client when the app opens.
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 

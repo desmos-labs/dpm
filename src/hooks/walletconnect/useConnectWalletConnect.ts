@@ -12,6 +12,7 @@ import React from 'react';
 import { WalletConnectClientStatus } from 'types/walletConnect';
 import * as WalletConnectMMKV from 'lib/MMKVStorage/walletconnect';
 import { promiseToResult } from 'lib/NeverThrowUtils';
+import NetInfo from '@react-native-community/netinfo';
 
 const CONNECTION_RESULT = 'connection_result';
 const ConnectionEventListener = new EventEmitter();
@@ -47,6 +48,12 @@ export const useConnectWalletConnect = () => {
           },
         );
       });
+    }
+
+    // Check for intern connection before connecting.
+    const netState = await NetInfo.fetch();
+    if (!netState.isInternetReachable) {
+      return err(new Error('No internet connection'));
     }
 
     setState({ status: WalletConnectClientStatus.Connecting });
