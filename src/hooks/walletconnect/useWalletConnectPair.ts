@@ -64,7 +64,7 @@ const useWalletConnectPair = () => {
             resolve(err(new Error('pair request timeout')));
           }, 5000);
 
-          client.on('session_proposal', (proposal) => {
+          client.once('session_proposal', (proposal) => {
             clearTimeout(timeoutTimer);
             const validationResult = validateSessionRequest(proposal);
             if (validationResult !== undefined) {
