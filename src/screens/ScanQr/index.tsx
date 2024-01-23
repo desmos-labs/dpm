@@ -95,12 +95,13 @@ const ScanQr: React.FC<NavProps> = ({ navigation, route }) => {
     async (uri: string) => {
       setPairing(true);
       setDevUri('');
-      await delay(500);
       const pairResult = await pair(uri);
       if (pairResult.isOk()) {
         navigate(ROUTES.WALLET_CONNECT_SESSION_PROPOSAL, {
           proposal: pairResult.value,
         });
+        // Add a delay to prevent multiple qr code scan.
+        await delay(1000);
       } else {
         openErrorModal(pairResult.error.message);
       }
