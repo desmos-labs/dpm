@@ -1,49 +1,67 @@
-import { useWalletConnectClient } from '@recoil/walletconnect';
 import { useCallback } from 'react';
 import { useActiveAccount } from '@recoil/activeAccount';
 import { getAccountSupportedMethods } from 'lib/WalletConnectUtils';
 import { useStoreWalletConnectSession } from '@recoil/walletConnectSessions';
 import { WalletConnectSessionProposal } from 'types/walletConnect';
 import useTrackWalletConnectSessionEstablished from 'hooks/analytics/useTrackWalletConnectSessionEstablished';
+import { err, ok } from 'neverthrow';
+import { promiseToResult } from 'lib/NeverThrowUtils';
+import useGetOrConnectWalletConnectClient from './useGetOrConnectWalletConnetClient';
 
 /**
  * Hook that provides a function to accept a session request.
  */
 const useWalletConnectApproveSessionProposal = () => {
-  const wcClient = useWalletConnectClient();
+  const getClient = useGetOrConnectWalletConnectClient();
   const activeAccount = useActiveAccount();
   const storeSession = useStoreWalletConnectSession();
-  const trackSessinEstablished = useTrackWalletConnectSessionEstablished();
+  const trackSessionEstablished = useTrackWalletConnectSessionEstablished();
 
   return useCallback(
     async (proposal: WalletConnectSessionProposal) => {
-      if (wcClient === undefined) {
-        throw new Error('wallet connect client not initialized');
-      }
-
       if (activeAccount === undefined) {
-        throw new Error('active account is undefined');
+        return err(new Error('active account is undefined'));
       }
 
-      const { client } = wcClient;
+      const getClientResult = await getClient();
+      if (getClientResult.isErr()) {
+        return err(getClientResult.error);
+      }
+
+      const client = getClientResult.value;
       const desmosNamespace = proposal.proposal.requiredNamespaces.desmos;
 
       const methods = getAccountSupportedMethods(activeAccount);
       const accounts = desmosNamespace.chains.map((chain) => `${chain}:${activeAccount!.address}`);
 
-      const approveResponse = await client.approve({
-        id: proposal.id,
-        namespaces: {
-          desmos: {
-            methods,
-            accounts,
-            events: [],
+      const approveResponseResult = await promiseToResult(
+        client.approve({
+          id: proposal.id,
+          namespaces: {
+            desmos: {
+              methods,
+              accounts,
+              events: [],
+            },
           },
-        },
-      });
+        }),
+        'Unknown error while approving the session proposal',
+      );
+      if (approveResponseResult.isErr()) {
+        return err(approveResponseResult.error);
+      }
 
-      const session = await approveResponse.acknowledged();
-      trackSessinEstablished(session);
+      const approveResponse = approveResponseResult.value;
+      const sessionResult = await promiseToResult(
+        approveResponse.acknowledged(),
+        'Unknown error while approving the session proposal',
+      );
+      if (sessionResult.isErr()) {
+        return err(sessionResult.error);
+      }
+
+      const session = sessionResult.value;
+      trackSessionEstablished(session);
       storeSession(activeAccount.address, {
         accountAddress: activeAccount.address,
         topic: session.topic,
@@ -53,8 +71,9 @@ const useWalletConnectApproveSessionProposal = () => {
         icon: session.peer.metadata.icons[0],
         url: session.peer.metadata.url,
       });
+      return ok(session);
     },
-    [activeAccount, storeSession, wcClient, trackSessinEstablished],
+    [activeAccount, getClient, trackSessionEstablished, storeSession],
   );
 };
 

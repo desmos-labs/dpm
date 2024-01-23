@@ -1,38 +1,42 @@
-import { useWalletConnectClient } from '@recoil/walletconnect';
-import { useCallback } from 'react';
-import {
-  useWalletConnectClearAccountSessions,
-  useWalletConnectSessions,
-} from '@recoil/walletConnectSessions';
+import { useRemoveSessionByTopic, useWalletConnectSessions } from '@recoil/walletConnectSessions';
 import { getSdkError } from '@walletconnect/utils';
+import { promiseToResult } from 'lib/NeverThrowUtils';
+import { err } from 'neverthrow';
+import React from 'react';
+import useGetOrConnectWalletConnectClient from './useGetOrConnectWalletConnetClient';
 
 /**
- * Hook that provides a function to accept a session request.
+ * Hook that provides a function to close all WalletConnect sessions of a user.
  */
 const useWalletConnectCloseAccountSessions = () => {
-  const wcClient = useWalletConnectClient();
+  const getClient = useGetOrConnectWalletConnectClient();
   const sessions = useWalletConnectSessions();
-  const clearAccountSessions = useWalletConnectClearAccountSessions();
+  const deleteSession = useRemoveSessionByTopic();
 
-  return useCallback(
+  return React.useCallback(
     async (account: string) => {
-      if (wcClient === undefined) {
-        throw new Error('wallet connect client not initialized');
+      const clientResult = await getClient();
+      if (clientResult.isErr()) {
+        return err(clientResult.error);
       }
 
+      const client = clientResult.value;
       const userSessions = sessions[account] ?? [];
-
       const promises = userSessions.map((session) =>
-        wcClient.client.disconnect({
-          topic: session.topic,
-          reason: getSdkError('USER_DISCONNECTED'),
-        }),
+        client
+          .disconnect({
+            topic: session.topic,
+            reason: getSdkError('USER_DISCONNECTED'),
+          })
+          .then(() => deleteSession(session.topic)),
       );
 
-      await Promise.all(promises);
-      clearAccountSessions(account);
+      return promiseToResult(
+        Promise.all(promises),
+        'Unknown error while closing account sessions',
+      ).then(() => undefined);
     },
-    [clearAccountSessions, sessions, wcClient],
+    [deleteSession, getClient, sessions],
   );
 };
 

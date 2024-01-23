@@ -56,10 +56,9 @@ const WalletConnectRequest: React.FC<NavProps> = (props) => {
 
   const onReject = useCallback(async () => {
     if (request !== undefined) {
-      try {
-        await walletConnectReject(request, getSdkError('USER_REJECTED'));
-      } catch (e) {
-        showErrorModal(e.message);
+      const rejectResult = await walletConnectReject(request, getSdkError('USER_REJECTED'));
+      if (rejectResult.isErr()) {
+        showErrorModal(rejectResult.error.message);
       }
     }
   }, [request, showErrorModal, walletConnectReject]);
@@ -74,28 +73,32 @@ const WalletConnectRequest: React.FC<NavProps> = (props) => {
         return;
       }
 
-      try {
-        setSigning(true);
-        if (request.method === CosmosRPCMethods.SignAmino) {
-          const signResponse = await wallet.signer.signAmino(
-            request.accountAddress,
-            request.signDoc,
-          );
-          await walletConnectResponse(request, encodeAminoSignRpcResponse(signResponse));
-        } else if (request.method === CosmosRPCMethods.SignDirect) {
-          const signResponse = await wallet.signer.signDirect(
-            request.accountAddress,
-            request.signDoc,
-          );
-          await walletConnectResponse(request, encodeDirectSignRpcResponse(signResponse));
-        } else {
-          showErrorModal(`Unsupported method ${request.method}`);
+      setSigning(true);
+      if (request.method === CosmosRPCMethods.SignAmino) {
+        const signResponse = await wallet.signer.signAmino(request.accountAddress, request.signDoc);
+        const responseResult = await walletConnectResponse(
+          request,
+          encodeAminoSignRpcResponse(signResponse),
+        );
+        if (responseResult.isErr()) {
+          showErrorModal(responseResult.error.message);
         }
-      } catch (e) {
-        showErrorModal(e.message);
-      } finally {
-        setSigning(false);
+      } else if (request.method === CosmosRPCMethods.SignDirect) {
+        const signResponse = await wallet.signer.signDirect(
+          request.accountAddress,
+          request.signDoc,
+        );
+        const responseResult = await walletConnectResponse(
+          request,
+          encodeDirectSignRpcResponse(signResponse),
+        );
+        if (responseResult.isErr()) {
+          showErrorModal(responseResult.error.message);
+        }
+      } else {
+        showErrorModal(`Unsupported method ${request.method}`);
       }
+      setSigning(false);
     }
   }, [request, showErrorModal, unlockWallet, walletConnectResponse]);
 

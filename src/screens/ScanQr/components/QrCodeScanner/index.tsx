@@ -59,7 +59,7 @@ const QrCodeScanner: FC<QrCodeScannerProps> = ({ onQrCodeDetected, stopRecogniti
   const codeScanner = useCodeScanner({
     codeTypes: ['qr'],
     onCodeScanned: (codes) => {
-      if (codes.length > 0 && !stopRecognition) {
+      if (codes.length > 0) {
         onQrCodeDetected?.({
           data: codes[0].value,
         });
@@ -91,7 +91,7 @@ const QrCodeScanner: FC<QrCodeScannerProps> = ({ onQrCodeDetected, stopRecogniti
       <Camera
         style={StyleSheet.absoluteFill}
         device={backCameraDevice}
-        isActive={isFocused}
+        isActive={isFocused && !stopRecognition}
         codeScanner={codeScanner}
       />
     );
@@ -99,6 +99,7 @@ const QrCodeScanner: FC<QrCodeScannerProps> = ({ onQrCodeDetected, stopRecogniti
     hasPermission,
     backCameraDevice,
     isFocused,
+    stopRecognition,
     codeScanner,
     styles.noPermissionsContainer,
     styles.indicatorView,
