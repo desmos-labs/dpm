@@ -15,7 +15,7 @@ import { resolveUriActionFromUrl } from 'lib/UriActions';
 import useHandleUriAction from 'hooks/uriactions/useHandleUriAction';
 import { GenericActionsTypes } from 'types/uri';
 import { QrCode } from 'types/qrcode';
-import { delay } from 'lib/PromiseUtils';
+import _ from 'lodash';
 import useStyles from './useStyles';
 import QrCodeScanner from './components/QrCodeScanner';
 
@@ -100,8 +100,6 @@ const ScanQr: React.FC<NavProps> = ({ navigation, route }) => {
         navigate(ROUTES.WALLET_CONNECT_SESSION_PROPOSAL, {
           proposal: pairResult.value,
         });
-        // Add a delay to prevent multiple qr code scan.
-        await delay(1000);
       } else {
         openErrorModal(pairResult.error.message);
       }
@@ -154,8 +152,13 @@ const ScanQr: React.FC<NavProps> = ({ navigation, route }) => {
           openErrorModal(t('invalid qr code'), () => setPairing(false));
           break;
       }
+      setStopProcessing(false);
     },
     [handleDPMUri, openErrorModal, qrCodeType, startPairProcedure, t],
+  );
+  const debouncedProcessQrCodeData = React.useMemo(
+    () => _.debounce(processQrCodeData, 300),
+    [processQrCodeData],
   );
 
   const onDevUriSubmitted = React.useCallback(async () => {
@@ -164,18 +167,17 @@ const ScanQr: React.FC<NavProps> = ({ navigation, route }) => {
 
   const onQrCodeDetected = React.useCallback(
     async (barCode: QrCode) => {
-      setStopProcessing(true);
       // Provide a feedback that the qr code has been detected.
       Vibration.vibrate();
 
       if (barCode.data === undefined) {
         openErrorModal(t('invalid qr code'));
       } else {
-        await processQrCodeData(barCode.data);
+        setStopProcessing(true);
+        await debouncedProcessQrCodeData(barCode.data);
       }
-      setStopProcessing(false);
     },
-    [openErrorModal, processQrCodeData, t],
+    [debouncedProcessQrCodeData, openErrorModal, t],
   );
 
   return (
