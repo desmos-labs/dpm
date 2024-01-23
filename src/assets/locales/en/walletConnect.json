@@ -12,5 +12,7 @@
   "approve": "Approve",
   "reject": "Reject",
   "authorization": "Authorization",
+  "app authorized": "{{app}} uthorized",
+  "go to authorization": "Go to authorization",
   "error while closing session": "Ooops an error occured while terminating the session:\n{{error}}"
 }

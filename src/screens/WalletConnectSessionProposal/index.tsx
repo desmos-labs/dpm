@@ -27,7 +27,7 @@ type NavProps = StackScreenProps<RootNavigatorParamList, ROUTES.WALLET_CONNECT_S
 const WalletConnectSessionProposal: FC<NavProps> = (props) => {
   const { route, navigation } = props;
   const { proposal } = route.params;
-  const { t } = useTranslation();
+  const { t } = useTranslation('walletConnect');
   const styles = useStyles();
   const openModal = useShowModal();
   const approveSession = useWalletConnectApproveSessionProposal();
@@ -56,9 +56,9 @@ const WalletConnectSessionProposal: FC<NavProps> = (props) => {
   const showErrorModal = useCallback(
     (errorMsg: string) => {
       openModal(SingleButtonModal, {
-        title: t('error'),
+        title: t('common:error'),
         message: errorMsg,
-        actionLabel: t('ok'),
+        actionLabel: t('common:ok'),
       });
     },
     [openModal, t],
@@ -94,13 +94,13 @@ const WalletConnectSessionProposal: FC<NavProps> = (props) => {
       <View style={styles.dappDetails}>
         <FastImage style={styles.dappIcon} source={dAppIcon} resizeMode="center" />
         <Typography.Body style={styles.permissionMessage}>
-          {t('walletConnect:authorize app', {
+          {t('authorize app', {
             app: appName,
           })}
         </Typography.Body>
       </View>
       <Typography.Body style={styles.bottomMessage}>
-        {t('note')}: {t('walletConnect:ability to revoke authorizations')}
+        {t('common:note')}: {t('ability to revoke authorizations')}
       </Typography.Body>
       <Button
         mode="contained"
@@ -108,7 +108,7 @@ const WalletConnectSessionProposal: FC<NavProps> = (props) => {
         loading={authorizing}
         disabled={authorizing || rejecting}
       >
-        {t('walletConnect:authorize')}
+        {t('authorize')}
       </Button>
       <Button
         style={styles.denyButton}
@@ -118,7 +118,7 @@ const WalletConnectSessionProposal: FC<NavProps> = (props) => {
         loading={rejecting}
         disabled={authorizing || rejecting}
       >
-        {t('walletConnect:deny')}
+        {t('deny')}
       </Button>
     </StyledSafeAreaView>
   );
