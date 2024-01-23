@@ -1,6 +1,6 @@
 import { CardStyleInterpolators, createStackNavigator } from '@react-navigation/stack';
 import ROUTES from 'navigation/routes';
-import React, { useEffect, useMemo } from 'react';
+import React, { useMemo } from 'react';
 import DevScreen from 'screens/DevScreen';
 import Landing from 'screens/Landing';
 import CreateNewMnemonic, { CreateNewMnemonicParams } from 'screens/CreateNewMnemonic';
@@ -61,7 +61,6 @@ import ScanQr, { ScanQrCodeParams } from 'screens/ScanQr';
 import { NavigatorScreenParams } from '@react-navigation/native';
 import { useSetting } from '@recoil/settings';
 import SettingsSwitchScreen, { SettingsSwitchScreenProps } from 'screens/SettingsSwitchScreen';
-import { useConnectWalletConnect } from 'hooks/walletconnect/useConnectWalletConnect';
 import useWalletConnectAutoReconnect from 'hooks/walletconnect/useWalletConnectAutoReconnect';
 
 export type RootNavigatorParamList = {

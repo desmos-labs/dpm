@@ -22,7 +22,7 @@ const ConnectionEventListener = new EventEmitter();
  * If the client is already connecting this function will wait until the client
  * is connected or an error occurs.
  */
-export const useConnectWalletConnect = () => {
+const useConnectWalletConnect = () => {
   const getState = useGetWalletConnectClientState();
   const setState = useSetWalletConnectClientState();
 
@@ -85,3 +85,5 @@ export const useConnectWalletConnect = () => {
     return signClientInitResult;
   }, [getState, setState]);
 };
+
+export default useConnectWalletConnect;

@@ -2,7 +2,7 @@ import { useGetWalletConnectClientState } from '@recoil/walletconnect';
 import { ok } from 'neverthrow';
 import React from 'react';
 import { WalletConnectClientStatus } from 'types/walletConnect';
-import { useConnectWalletConnect } from './useConnectWalletConnect';
+import useConnectWalletConnect from './useConnectWalletConnect';
 
 /**
  * Hook that provides a function that gets the local

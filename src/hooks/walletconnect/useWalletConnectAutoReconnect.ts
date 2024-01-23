@@ -2,7 +2,7 @@ import React from 'react';
 import { useSetWalletConnectClientState, useWalletConnectClientState } from '@recoil/walletconnect';
 import { WalletConnectClientStatus } from 'types/walletConnect';
 import { useNetInfo } from '@react-native-community/netinfo';
-import { useConnectWalletConnect } from './useConnectWalletConnect';
+import useConnectWalletConnect from './useConnectWalletConnect';
 
 /**
  * Hook that initialize the logic to automatically reconnect
