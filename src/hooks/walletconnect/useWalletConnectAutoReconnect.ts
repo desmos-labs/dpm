@@ -6,7 +6,7 @@ import { useConnectWalletConnect } from './useConnectWalletConnect';
 
 /**
  * Hook that initialize the logic to automatically reconnect
- *  the WalletConnect client if it disconnects.
+ * the WalletConnect client if it disconnects.
  */
 const useWalletConnectAutoReconnect = () => {
   const walletConnectState = useWalletConnectClientState();

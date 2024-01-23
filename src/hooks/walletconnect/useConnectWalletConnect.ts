@@ -50,7 +50,7 @@ export const useConnectWalletConnect = () => {
       });
     }
 
-    // Check for intern connection before connecting.
+    // Check for internet connection before connecting.
     const netState = await NetInfo.fetch();
     if (!netState.isInternetReachable) {
       return err(new Error('No internet connection'));
