@@ -73,12 +73,18 @@
             <data android:scheme="https" android:host="desmos-alternate.test-app.link" />
         </intent-filter>
 
-        <intent-filter>
+        <!-- WalletConnect intent URI -->
+        <intent-filter android:autoVerify="true">
             <action android:name="android.intent.action.VIEW" />
             <category android:name="android.intent.category.DEFAULT" />
             <category android:name="android.intent.category.BROWSABLE" />
-
-            <data android:scheme="dpmweb3auth" />
+            <data android:scheme="wc" />
+        </intent-filter>
+        <intent-filter>
+            <action android:name="android.intent.action.VIEW" />
+            <category android:name="android.intent.category.DEFAULT"/>
+            <category android:name="android.intent.category.BROWSABLE"/>
+            <data android:scheme="wc"/>
         </intent-filter>
       </activity>
     </application>
