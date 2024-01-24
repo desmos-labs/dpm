@@ -7,6 +7,7 @@ import {
   UriActionType,
   UserAddressActionUri,
   ViewProfileActionUri,
+  WalletConnectPairActionUri,
 } from 'types/uri';
 import useShowModal from 'hooks/useShowModal';
 import GenericUriActionModal from 'modals/GenericUriActionModal';
@@ -19,6 +20,7 @@ import useRequestChainChange from 'hooks/chainselect/useRequestChainChange';
 import { Trans } from 'react-i18next';
 import { chainTypeToChainName } from 'lib/FormatUtils';
 import Typography from 'components/Typography';
+import { useActiveAccountAddress } from '@recoil/activeAccount';
 
 const useHandleGenericAction = () => {
   const showModal = useShowModal();
@@ -97,6 +99,22 @@ const useHandleSendTokensAction = () => {
   );
 };
 
+const useHandleWalletConnectPairAction = () => {
+  const activeAccountAddress = useActiveAccountAddress();
+
+  return React.useCallback(
+    (action: WalletConnectPairActionUri) => {
+      if (activeAccountAddress === undefined) {
+        // Ignore it if we don't have an account.
+      }
+
+      // TODO: Implement the pair logic.
+      console.warn('handle wallet connect pair action', action);
+    },
+    [activeAccountAddress],
+  );
+};
+
 /**
  * Hook that provides a function that will handle the uri action
  * if present.
@@ -105,6 +123,7 @@ const useHandleUriAction = () => {
   const handleGenericAction = useHandleGenericAction();
   const handleViewProfileAction = useHandleViewProfileAction();
   const handleSendTokensAction = useHandleSendTokensAction();
+  const handleWalletConnectPairAction = useHandleWalletConnectPairAction();
 
   return React.useCallback(
     (uriAction?: UriAction, genericActionOverride?: GenericActionsTypes) => {
@@ -114,7 +133,6 @@ const useHandleUriAction = () => {
         if (toHandleAction === UriActionType.Generic && genericActionOverride !== undefined) {
           toHandleAction = genericActionOverride;
         }
-
         // In the following switch-cases we need to berform some casting
         // becouse ts is not able to infer the type of action
         // since we are performing the switch on another variable instead
@@ -130,12 +148,20 @@ const useHandleUriAction = () => {
           case UriActionType.SendTokens:
             handleSendTokensAction(action as SendTokensActionUri | GenericActionUri);
             break;
+          case UriActionType.WalletConnectPair:
+            handleWalletConnectPairAction(action as WalletConnectPairActionUri);
+            break;
           default:
             break;
         }
       }
     },
-    [handleGenericAction, handleSendTokensAction, handleViewProfileAction],
+    [
+      handleGenericAction,
+      handleSendTokensAction,
+      handleViewProfileAction,
+      handleWalletConnectPairAction,
+    ],
   );
 };
 

@@ -198,7 +198,7 @@ const DevScreen: FC<NavProps> = ({ navigation }) => {
 
       <Spacer paddingVertical={4} />
 
-      <Button mode="contained" onPress={handleUriAction} disabled={!isUriActionPending()}>
+      <Button mode="contained" onPress={() => handleUriAction()} disabled={!isUriActionPending()}>
         Handle Uri Action
       </Button>
 

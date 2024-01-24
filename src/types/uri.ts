@@ -27,6 +27,11 @@ export enum UriActionType {
    * to send some tokens to a user.
    */
   SendTokens = 'send_tokens',
+  /**
+   * Type representing a URI action that tells the application
+   * to create a new wallet connect session.
+   */
+  WalletConnectPair = 'walletconnect_pair',
 }
 
 /**
@@ -100,8 +105,21 @@ export interface SendTokensActionUri {
   readonly amount?: Coin;
 }
 
+/**
+ * Interface representing a URI action that tells the application
+ * to create a new wallet connect session.
+ */
+export interface WalletConnectPairActionUri {
+  readonly type: UriActionType.WalletConnectPair;
+  /**
+   * The wallet connect URI to be used.
+   */
+  readonly uri: string;
+}
+
 export type UriAction =
   | UserAddressActionUri
   | GenericActionUri
   | ViewProfileActionUri
-  | SendTokensActionUri;
+  | SendTokensActionUri
+  | WalletConnectPairActionUri;
