@@ -17,10 +17,14 @@ import { RootNavigatorParamList } from 'navigation/RootNavigator';
 import { StackNavigationProp } from '@react-navigation/stack';
 import ROUTES from 'navigation/routes';
 import useRequestChainChange from 'hooks/chainselect/useRequestChainChange';
-import { Trans } from 'react-i18next';
+import { Trans, useTranslation } from 'react-i18next';
 import { chainTypeToChainName } from 'lib/FormatUtils';
 import Typography from 'components/Typography';
 import { useActiveAccountAddress } from '@recoil/activeAccount';
+import useWalletConnectPair from 'hooks/walletconnect/useWalletConnectPair';
+import ErrorModal from 'modals/ErrorModal';
+import LoadingModal from 'modals/LoadingModal';
+import useModal from 'hooks/useModal';
 
 const useHandleGenericAction = () => {
   const showModal = useShowModal();
@@ -100,18 +104,35 @@ const useHandleSendTokensAction = () => {
 };
 
 const useHandleWalletConnectPairAction = () => {
+  const { t } = useTranslation('walletConnect');
   const activeAccountAddress = useActiveAccountAddress();
+  const pair = useWalletConnectPair();
+  const navigation = useNavigation<StackNavigationProp<RootNavigatorParamList>>();
+  const { showModal, hideModal } = useModal();
 
   return React.useCallback(
-    (action: WalletConnectPairActionUri) => {
+    async (action: WalletConnectPairActionUri) => {
       if (activeAccountAddress === undefined) {
         // Ignore it if we don't have an account.
+        return;
       }
 
-      // TODO: Implement the pair logic.
-      console.warn('handle wallet connect pair action', action);
+      showModal(LoadingModal, {
+        text: t('initializing new session'),
+      });
+      const pairResult = await pair(action.uri);
+      hideModal();
+      if (pairResult.isErr()) {
+        showModal(ErrorModal, {
+          text: pairResult.error.message,
+        });
+      } else {
+        navigation.navigate(ROUTES.WALLET_CONNECT_SESSION_PROPOSAL, {
+          proposal: pairResult.value,
+        });
+      }
     },
-    [activeAccountAddress],
+    [activeAccountAddress, hideModal, navigation, pair, showModal, t],
   );
 };
 
