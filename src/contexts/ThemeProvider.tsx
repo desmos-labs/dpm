@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { PropsWithChildren, useCallback, useEffect, useState } from 'react';
 import { Appearance, NativeEventSubscription } from 'react-native';
 import { Provider as PaperProvider } from 'react-native-paper';
 import { Settings } from 'react-native-paper/lib/typescript/core/settings';
@@ -12,7 +12,7 @@ const PaperProviderSettings: Settings = {
   icon: (props) => <DesmosIcon {...props} />,
 };
 
-const ThemeProvider: React.FC = ({ children }) => {
+const ThemeProvider: React.FC<PropsWithChildren> = ({ children }) => {
   const settings = useSettings();
   const [appTheme, setAppTheme] = useState(LightTheme);
   const colorScheme = useDebouncingColorScheme();
