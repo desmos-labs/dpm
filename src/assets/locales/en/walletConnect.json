@@ -8,6 +8,8 @@
   "ability to revoke authorizations": "You will be able to revoke such authorizations inside your Authorization page",
   "deny": "Deny",
   "authorize": "Authorize",
+  "paste uri": "Paste WalletConnect URI",
+  "no uri in clipboard": "No WalletConnect URI in clipboard",
   "show pending requests": "Show pending requests",
   "approve": "Approve",
   "reject": "Reject",
