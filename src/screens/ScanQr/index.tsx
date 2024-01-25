@@ -7,7 +7,6 @@ import useWalletConnectPair from 'hooks/walletconnect/useWalletConnectPair';
 import IconButton from 'components/IconButton';
 import ROUTES from 'navigation/routes';
 import StyledSafeAreaView from 'components/StyledSafeAreaView';
-import TextInput from 'components/TextInput';
 import { Vibration } from 'react-native';
 import { RootNavigatorParamList } from 'navigation/RootNavigator';
 import StyledActivityIndicator from 'components/StyledActivityIndicator';
@@ -16,6 +15,8 @@ import useHandleUriAction from 'hooks/uriactions/useHandleUriAction';
 import { GenericActionsTypes } from 'types/uri';
 import { QrCode } from 'types/qrcode';
 import _ from 'lodash';
+import Clipboard from '@react-native-community/clipboard';
+import Button from 'components/Button';
 import useStyles from './useStyles';
 import QrCodeScanner from './components/QrCodeScanner';
 
@@ -57,7 +58,6 @@ const ScanQr: React.FC<NavProps> = ({ navigation, route }) => {
   const { qrCodeType, genericDpmUriActionOverride, pop } = route.params ?? {};
 
   const [pairing, setPairing] = useState(false);
-  const [devUri, setDevUri] = useState('');
   const [stopProcessing, setStopProcessing] = useState(false);
   const pair = useWalletConnectPair();
   const openModal = useShowModal();
@@ -94,7 +94,6 @@ const ScanQr: React.FC<NavProps> = ({ navigation, route }) => {
   const startPairProcedure = React.useCallback(
     async (uri: string) => {
       setPairing(true);
-      setDevUri('');
       const pairResult = await pair(uri);
       if (pairResult.isOk()) {
         navigate(ROUTES.WALLET_CONNECT_SESSION_PROPOSAL, {
@@ -161,10 +160,6 @@ const ScanQr: React.FC<NavProps> = ({ navigation, route }) => {
     [processQrCodeData],
   );
 
-  const onDevUriSubmitted = React.useCallback(async () => {
-    await processQrCodeData(devUri);
-  }, [processQrCodeData, devUri]);
-
   const onQrCodeDetected = React.useCallback(
     async (barCode: QrCode) => {
       // Provide a feedback that the qr code has been detected.
@@ -180,6 +175,15 @@ const ScanQr: React.FC<NavProps> = ({ navigation, route }) => {
     [debouncedProcessQrCodeData, openErrorModal, t],
   );
 
+  const pasteWalletConnectUri = React.useCallback(async () => {
+    const uri = await Clipboard.getString();
+    if (uri.substring(0, 3) === 'wc:') {
+      await processQrCodeData(uri);
+    } else {
+      openErrorModal(t('no uri in clipboard', { ns: 'walletConnect' }));
+    }
+  }, [openErrorModal, processQrCodeData, t]);
+
   return (
     <StyledSafeAreaView
       style={styles.root}
@@ -189,13 +193,9 @@ const ScanQr: React.FC<NavProps> = ({ navigation, route }) => {
     >
       <IconButton style={styles.backButton} icon="close" size={18} onPress={goBack} />
       <QrCodeScanner onQrCodeDetected={onQrCodeDetected} stopRecognition={stopProcessing} />
-      {__DEV__ && (
-        <TextInput
-          style={styles.debugUri}
-          onChangeText={setDevUri}
-          onSubmitEditing={onDevUriSubmitted}
-        />
-      )}
+      <Button style={styles.pasteUri} mode="text" onPress={pasteWalletConnectUri}>
+        {t('paste uri', { ns: 'walletConnect' })}
+      </Button>
       {pairing && <StyledActivityIndicator style={styles.pairingIndicator} />}
     </StyledSafeAreaView>
   );

@@ -1,6 +1,6 @@
 import { makeStyle } from 'config/theme';
 
-const useStyles = makeStyle(() => ({
+const useStyles = makeStyle((theme) => ({
   root: {
     backgroundColor: 'rgba(0, 0, 0, 0.7)',
   },
@@ -16,10 +16,11 @@ const useStyles = makeStyle(() => ({
     elevation: 9,
     zIndex: 99,
   },
-  debugUri: {
+  pasteUri: {
     position: 'absolute',
-    bottom: 0,
+    bottom: theme.spacing.m,
     left: 0,
+    right: 0,
   },
   pairingIndicator: {
     position: 'absolute',
