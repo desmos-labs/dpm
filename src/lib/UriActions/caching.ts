@@ -1,6 +1,10 @@
+import EventEmitter from 'events';
 import { UriAction } from 'types/uri';
 
 let CachedUriAction: UriAction | undefined;
+
+const NEW_ACTION_EVENT = 'new_action';
+const UriActionEventEmitter = new EventEmitter();
 
 /**
  * Updates the cached uri action.
@@ -8,6 +12,7 @@ let CachedUriAction: UriAction | undefined;
  */
 export const setCachedUriAction = (action: UriAction): void => {
   CachedUriAction = action;
+  UriActionEventEmitter.emit(NEW_ACTION_EVENT, action);
 };
 
 /**
@@ -26,3 +31,15 @@ export const getCachedUriAction = (): UriAction | undefined => {
  * to be handled.
  */
 export const isUriActionPending = (): boolean => CachedUriAction !== undefined;
+
+/**
+ * Function to subscribe to the event raised when a new {@link UriAction}
+ * is received.
+ * @param callback - Callback that will be called when a new {@link UriAction} is received.
+ */
+export function onCachedUriActionChange(callback: (action: UriAction) => void) {
+  UriActionEventEmitter.addListener(NEW_ACTION_EVENT, callback);
+  return () => {
+    UriActionEventEmitter.removeListener(NEW_ACTION_EVENT, callback);
+  };
+}

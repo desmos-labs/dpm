@@ -11,7 +11,6 @@ import {
 } from 'types/uri';
 import useShowModal from 'hooks/useShowModal';
 import GenericUriActionModal from 'modals/GenericUriActionModal';
-import { getCachedUriAction } from 'lib/UriActions';
 import { useNavigation } from '@react-navigation/native';
 import { RootNavigatorParamList } from 'navigation/RootNavigator';
 import { StackNavigationProp } from '@react-navigation/stack';
@@ -25,6 +24,7 @@ import useWalletConnectPair from 'hooks/walletconnect/useWalletConnectPair';
 import ErrorModal from 'modals/ErrorModal';
 import LoadingModal from 'modals/LoadingModal';
 import useModal from 'hooks/useModal';
+import { useGetUriAction, useSetUriAction } from '@recoil/uriaction';
 
 const useHandleGenericAction = () => {
   const showModal = useShowModal();
@@ -145,10 +145,21 @@ const useHandleUriAction = () => {
   const handleViewProfileAction = useHandleViewProfileAction();
   const handleSendTokensAction = useHandleSendTokensAction();
   const handleWalletConnectPairAction = useHandleWalletConnectPairAction();
+  const getUriAction = useGetUriAction();
+  const setUriAction = useSetUriAction();
 
   return React.useCallback(
-    (uriAction?: UriAction, genericActionOverride?: GenericActionsTypes) => {
-      const action = uriAction ?? getCachedUriAction();
+    async (uriAction?: UriAction, genericActionOverride?: GenericActionsTypes) => {
+      const globalAction = await getUriAction();
+      const action = uriAction ?? globalAction;
+
+      // Clear the global action if is the one that
+      // we are handling.
+      if (action === globalAction) {
+        // Clear the global action.
+        setUriAction(undefined);
+      }
+
       if (action !== undefined) {
         let toHandleAction = action.type;
         if (toHandleAction === UriActionType.Generic && genericActionOverride !== undefined) {
@@ -178,10 +189,12 @@ const useHandleUriAction = () => {
       }
     },
     [
+      getUriAction,
       handleGenericAction,
       handleSendTokensAction,
       handleViewProfileAction,
       handleWalletConnectPairAction,
+      setUriAction,
     ],
   );
 };

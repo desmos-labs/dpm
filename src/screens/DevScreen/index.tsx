@@ -20,8 +20,8 @@ import AmountAndMemoModal from 'modals/AmountAndMemoModal';
 import { AmountLimit } from 'components/CoinAmountInput/limits';
 import { resetSecureStorage } from 'lib/SecureStorage';
 import useHandleUriAction from 'hooks/uriactions/useHandleUriAction';
-import { isUriActionPending } from 'lib/UriActions';
 import LoadingModal from 'modals/LoadingModal';
+import { useUriAction } from '@recoil/uriaction';
 import useStyles from './useStyles';
 
 enum DevRoutes {
@@ -62,6 +62,7 @@ const DevScreen: FC<NavProps> = ({ navigation }) => {
   const showModal = useShowModal();
   const appFeatureFlags = useAppFeatureFlags();
   const handleUriAction = useHandleUriAction();
+  const uriAction = useUriAction();
 
   const itemSeparator = React.useCallback(() => <Spacer paddingVertical={4} />, []);
   const showTestTransaction = useShowTestTransaction();
@@ -198,7 +199,11 @@ const DevScreen: FC<NavProps> = ({ navigation }) => {
 
       <Spacer paddingVertical={4} />
 
-      <Button mode="contained" onPress={() => handleUriAction()} disabled={!isUriActionPending()}>
+      <Button
+        mode="contained"
+        onPress={() => handleUriAction(uriAction)}
+        disabled={uriAction === undefined}
+      >
         Handle Uri Action
       </Button>
 
