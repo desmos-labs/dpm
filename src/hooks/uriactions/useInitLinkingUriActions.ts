@@ -1,4 +1,4 @@
-import { setCachedUriAction, walletConnectActionUriFromLink } from 'lib/UriActions';
+import { setCachedUriAction, parseNativeActionUri } from 'lib/UriActions';
 import React from 'react';
 import { Linking } from 'react-native';
 
@@ -9,7 +9,7 @@ import { Linking } from 'react-native';
 const useInitLinkingUriActions = () => {
   const handleLinkingUrl = React.useCallback((url: string | null) => {
     if (url) {
-      const action = walletConnectActionUriFromLink(url);
+      const action = parseNativeActionUri(url);
       if (action) {
         setCachedUriAction(action);
       }

@@ -1,4 +1,4 @@
-import { UriAction, UriActionType, WalletConnectPairActionUri } from 'types/uri';
+import { UriAction, UriActionType } from 'types/uri';
 import { ChainType } from 'types/chains';
 import { parseCoins } from '@cosmjs/amino';
 import { Coin } from '@desmoslabs/desmjs';
@@ -120,14 +120,11 @@ export const actionUriFromRecord = (data: Record<string, any>): UriAction | unde
 };
 
 /**
- * Generates a {@link WalletConnectPairActionUri} received from
- * the Linking library.
+ * Generates a {@link UriAction} received from the Linking library.
  * @param uri - The uri to be parsed.
  * @returns - The parsed action if it is valid, otherwise undefined.
  */
-export const walletConnectActionUriFromLink = (
-  uri: string,
-): WalletConnectPairActionUri | undefined => {
+export const parseNativeActionUri = (uri: string): UriAction | undefined => {
   try {
     const url = new URL(uri);
     if (url.hostname === 'wcV2' && url.searchParams.has('uri')) {
