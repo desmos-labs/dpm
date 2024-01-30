@@ -166,8 +166,8 @@ const useHandleUriAction = () => {
         if (toHandleAction === UriActionType.Generic && genericActionOverride !== undefined) {
           toHandleAction = genericActionOverride;
         }
-        // In the following switch-cases we need to berform some casting
-        // becouse ts is not able to infer the type of action
+        // In the following switch-cases we need to perform some casting
+        // because ts is not able to infer the type of action
         // since we are performing the switch on another variable instead
         // of action.type.
         switch (toHandleAction) {
