@@ -19,6 +19,7 @@ import Spacer from 'components/Spacer';
 import useHandleUriAction from 'hooks/uriactions/useHandleUriAction';
 import DKeyboardAvoidingView from 'components/DKeyboardAvoidingView';
 import { Platform } from 'react-native';
+import useResetToHomeScreen from 'hooks/navigation/useResetToHomeScreen';
 import useStyles from './useStyles';
 
 // Development related
@@ -31,11 +32,10 @@ type NavProps = StackScreenProps<RootNavigatorParamList, ROUTES.UNLOCK_APPLICATI
  * @constructor
  */
 const UnlockApplication: React.FC<NavProps> = (props) => {
-  const { t } = useTranslation('account');
-
-  const styles = useStyles();
-
   const { navigation } = props;
+  const { t } = useTranslation('account');
+  const styles = useStyles();
+  const resetToHome = useResetToHomeScreen();
 
   // --------------------------------------------------------------------------------------
   // --- Hooks
@@ -121,10 +121,7 @@ const UnlockApplication: React.FC<NavProps> = (props) => {
         navigation.navigate(previousScreenParams);
       } else {
         // Reset to home screen.
-        navigation.reset({
-          index: 0,
-          routes: [{ name: ROUTES.HOME_TABS }],
-        });
+        resetToHome();
       }
 
       if (passwordOk) {
@@ -135,7 +132,7 @@ const UnlockApplication: React.FC<NavProps> = (props) => {
 
       setLoading(false);
     },
-    [handleUriAction, navigation, previousScreenParams, t],
+    [handleUriAction, navigation, previousScreenParams, resetToHome, t],
   );
 
   const unlockWithBiometrics = useCallback(async () => {
