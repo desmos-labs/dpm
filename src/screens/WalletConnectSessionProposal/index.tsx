@@ -16,42 +16,57 @@ import useWalletConnectRejectSessionProposal from 'hooks/walletconnect/useWallet
 import { DPMImages } from 'types/images';
 import { walletConnectIconUriToImageSource } from 'lib/WalletConnectUtils';
 import FastImage from 'react-native-fast-image';
+import useResetToHomeScreen from 'hooks/navigation/useResetToHomeScreen';
 import useStyles from './useStyles';
 
 export interface WalletConnectSessionProposalParams {
   proposal: Proposal;
+  /**
+   * Tells if the application return to the app that has triggered the paring request
+   * after the session is approved.
+   */
+  returnToApp?: boolean;
 }
 
 type NavProps = StackScreenProps<RootNavigatorParamList, ROUTES.WALLET_CONNECT_SESSION_PROPOSAL>;
 
 const WalletConnectSessionProposal: FC<NavProps> = (props) => {
   const { route, navigation } = props;
-  const { proposal } = route.params;
+  const { proposal, returnToApp } = route.params;
   const { t } = useTranslation('walletConnect');
   const styles = useStyles();
   const openModal = useShowModal();
   const approveSession = useWalletConnectApproveSessionProposal();
   const rejectSession = useWalletConnectRejectSessionProposal();
+  const resetToHome = useResetToHomeScreen();
   const [authorizing, setAuthorizing] = useState(false);
   const [rejecting, setRejecting] = useState(false);
 
   const appName = useMemo(() => proposal.name, [proposal]);
-
   const dAppIcon = useMemo(() => walletConnectIconUriToImageSource(proposal.iconUri), [proposal]);
 
   const showSuccessModal = useCallback(() => {
     openModal(SingleButtonModal, {
       image: DPMImages.Success,
       title: t('common:success'),
-      message: t('app authorized', { app: appName }),
-      actionLabel: t('go to authorization'),
-      action: () =>
-        navigation.reset({
-          index: 0,
-          routes: [{ name: ROUTES.HOME_TABS, params: { screen: ROUTES.WALLET_CONNECT_SESSIONS } }],
-        }),
+      message: returnToApp
+        ? t('app authorized, you can return to the app', { app: appName })
+        : t('app authorized', { app: appName }),
+      actionLabel: returnToApp ? t('common:ok') : t('go to authorization'),
+      action: () => {
+        if (returnToApp) {
+          resetToHome();
+        } else {
+          navigation.reset({
+            index: 0,
+            routes: [
+              { name: ROUTES.HOME_TABS, params: { screen: ROUTES.WALLET_CONNECT_SESSIONS } },
+            ],
+          });
+        }
+      },
     });
-  }, [appName, navigation, openModal, t]);
+  }, [appName, navigation, openModal, resetToHome, returnToApp, t]);
 
   const showErrorModal = useCallback(
     (errorMsg: string) => {

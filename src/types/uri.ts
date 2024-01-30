@@ -115,6 +115,11 @@ export interface WalletConnectPairActionUri {
    * The wallet connect URI to be used.
    */
   readonly uri: string;
+  /**
+   * Indicates whether the application should return to the app that has
+   * triggered the pairing request after the user has accepted the pairing request.
+   */
+  readonly returnToApp?: boolean;
 }
 
 export type UriAction =

@@ -129,6 +129,7 @@ const useHandleWalletConnectPairAction = () => {
       } else {
         navigation.navigate(ROUTES.WALLET_CONNECT_SESSION_PROPOSAL, {
           proposal: pairResult.value,
+          returnToApp: action.returnToApp,
         });
       }
     },

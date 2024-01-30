@@ -131,6 +131,7 @@ export const parseNativeActionUri = (uri: string): UriAction | undefined => {
       return {
         type: UriActionType.WalletConnectPair,
         uri: url.searchParams.get('uri')!,
+        returnToApp: url.searchParams.get('returnToApp') === 'true',
       };
     }
   } catch (e) {
