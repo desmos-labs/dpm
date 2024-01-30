@@ -1,5 +1,4 @@
 import React from 'react';
-import { SessionTypes } from '@walletconnect/types';
 import useTrackEvent from 'hooks/analytics/useTrackEvent';
 import { Events } from 'types/analytics';
 
@@ -11,11 +10,11 @@ const useTrackWalletConnectSessionEstablished = () => {
   const trackEvent = useTrackEvent();
 
   return React.useCallback(
-    (session: SessionTypes.Struct) => {
+    (appName: string, namespaces: any) => {
       trackEvent(Events.WalletConnectSessionEstablished, {
         CreationTime: new Date().toISOString(),
-        ApplicationName: session.peer.metadata.name,
-        Namespaces: session.requiredNamespaces,
+        ApplicationName: appName,
+        Namespaces: namespaces,
       });
     },
     [trackEvent],
