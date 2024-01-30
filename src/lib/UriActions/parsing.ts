@@ -128,12 +128,16 @@ export const actionUriFromRecord = (data: Record<string, any>): UriAction | unde
 export const walletConnectActionUriFromLink = (
   uri: string,
 ): WalletConnectPairActionUri | undefined => {
-  const protocol = uri.substring(0, 3);
-  if (protocol === 'wc:') {
-    return {
-      type: UriActionType.WalletConnectPair,
-      uri,
-    };
+  try {
+    const url = new URL(uri);
+    if (url.hostname === 'wcV2' && url.searchParams.has('uri')) {
+      return {
+        type: UriActionType.WalletConnectPair,
+        uri: url.searchParams.get('uri')!,
+      };
+    }
+  } catch (e) {
+    return undefined;
   }
   return undefined;
 };
