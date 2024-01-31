@@ -20,6 +20,7 @@ import useUnlockWallet from 'hooks/useUnlockWallet';
 import { SigningMode } from '@desmoslabs/desmjs';
 import SingleButtonModal from 'modals/SingleButtonModal';
 import useShowModal from 'hooks/useShowModal';
+import { useRemoveWalletConnectSessionRequest } from '@recoil/walletConnectRequests';
 import { useRejectAllRequests, useRequestFields } from './useHooks';
 import useStyles from './useStyles';
 
@@ -36,6 +37,7 @@ const WalletConnectRequest: React.FC<NavProps> = (props) => {
   const showModal = useShowModal();
   const { request, memo, stdFee, messages } = useRequestFields();
   const rejectAllRequest = useRejectAllRequests();
+  const removeRequest = useRemoveWalletConnectSessionRequest();
 
   useEffect(
     () =>
@@ -55,11 +57,12 @@ const WalletConnectRequest: React.FC<NavProps> = (props) => {
   }, [request, navigation]);
 
   const showErrorModal = useCallback(
-    (errorMsg: string) => {
+    (errorMsg: string, action?: () => void) => {
       showModal(SingleButtonModal, {
         title: t('error'),
         message: errorMsg,
         actionLabel: t('ok'),
+        action,
       });
     },
     [showModal, t],
@@ -69,10 +72,12 @@ const WalletConnectRequest: React.FC<NavProps> = (props) => {
     if (request !== undefined) {
       const rejectResult = await walletConnectReject(request, getSdkError('USER_REJECTED'));
       if (rejectResult.isErr()) {
-        showErrorModal(rejectResult.error.message);
+        showErrorModal(rejectResult.error.message, () => {
+          removeRequest(request);
+        });
       }
     }
-  }, [request, showErrorModal, walletConnectReject]);
+  }, [removeRequest, request, showErrorModal, walletConnectReject]);
 
   const onApprove = useCallback(async () => {
     if (request !== undefined) {
