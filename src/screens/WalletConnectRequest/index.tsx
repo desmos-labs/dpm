@@ -20,7 +20,8 @@ import useUnlockWallet from 'hooks/useUnlockWallet';
 import { SigningMode } from '@desmoslabs/desmjs';
 import SingleButtonModal from 'modals/SingleButtonModal';
 import useShowModal from 'hooks/useShowModal';
-import { useRequestFields } from 'screens/WalletConnectRequest/useHooks';
+import { useRemoveWalletConnectSessionRequest } from '@recoil/walletConnectRequests';
+import { useRejectAllRequests, useRequestFields } from './useHooks';
 import useStyles from './useStyles';
 
 type NavProps = StackScreenProps<RootNavigatorParamList, ROUTES.WALLET_CONNECT_REQUEST>;
@@ -35,20 +36,33 @@ const WalletConnectRequest: React.FC<NavProps> = (props) => {
   const walletConnectReject = useWalletConnectRequestReject();
   const showModal = useShowModal();
   const { request, memo, stdFee, messages } = useRequestFields();
+  const rejectAllRequest = useRejectAllRequests();
+  const removeRequest = useRemoveWalletConnectSessionRequest();
+
+  useEffect(
+    () =>
+      navigation.addListener('beforeRemove', (e) => {
+        if (e.data.action.type === 'GO_BACK') {
+          rejectAllRequest();
+        }
+      }),
+    [navigation, rejectAllRequest],
+  );
 
   useEffect(() => {
     // Close the screen when we have processed all the requests.
     if (request === undefined) {
-      navigation.goBack();
+      navigation.pop();
     }
   }, [request, navigation]);
 
   const showErrorModal = useCallback(
-    (errorMsg: string) => {
+    (errorMsg: string, action?: () => void) => {
       showModal(SingleButtonModal, {
         title: t('error'),
         message: errorMsg,
         actionLabel: t('ok'),
+        action,
       });
     },
     [showModal, t],
@@ -58,10 +72,12 @@ const WalletConnectRequest: React.FC<NavProps> = (props) => {
     if (request !== undefined) {
       const rejectResult = await walletConnectReject(request, getSdkError('USER_REJECTED'));
       if (rejectResult.isErr()) {
-        showErrorModal(rejectResult.error.message);
+        showErrorModal(rejectResult.error.message, () => {
+          removeRequest(request);
+        });
       }
     }
-  }, [request, showErrorModal, walletConnectReject]);
+  }, [removeRequest, request, showErrorModal, walletConnectReject]);
 
   const onApprove = useCallback(async () => {
     if (request !== undefined) {

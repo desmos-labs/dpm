@@ -12,6 +12,8 @@ import SnackBarProvider from 'lib/SnackBarProvider';
 import DesmosPostHogProvider from 'components/DesmosPostHogProvider';
 import useCheckKeyChainIntegrity from 'hooks/dataintegrity/useCheckKeyChainIntegrity';
 import useInitNotifications from 'hooks/notifications/useInitNotifications';
+import { getCachedUriAction, isUriActionPending, onCachedUriActionChange } from 'lib/UriActions';
+import { useSetUriAction } from '@recoil/uriaction';
 
 const AppLockLogic = () => {
   useLockApplicationOnBlur();
@@ -20,14 +22,28 @@ const AppLockLogic = () => {
   return null;
 };
 
-const Navigation = () => (
-  <NavigationContainer onReady={() => RNBootSplash.hide({ fade: true, duration: 500 })}>
-    <AppLockLogic />
-    <DesmosPostHogProvider>
-      <RootNavigator />
-    </DesmosPostHogProvider>
-  </NavigationContainer>
-);
+const Navigation = () => {
+  const setUriAction = useSetUriAction();
+
+  React.useEffect(() => {
+    if (isUriActionPending()) {
+      const action = getCachedUriAction();
+      if (action) {
+        setUriAction(action);
+      }
+    }
+    return onCachedUriActionChange(setUriAction);
+  }, [setUriAction]);
+
+  return (
+    <NavigationContainer onReady={() => RNBootSplash.hide({ fade: true, duration: 500 })}>
+      <AppLockLogic />
+      <DesmosPostHogProvider>
+        <RootNavigator />
+      </DesmosPostHogProvider>
+    </NavigationContainer>
+  );
+};
 
 const App = () => (
   <RecoilRoot>

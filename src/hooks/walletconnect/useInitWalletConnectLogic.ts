@@ -63,8 +63,8 @@ const useInitWalletConnectLogic = () => {
         .filter((s) => !activeSessions.find((as) => as.topic === s.topic))
         .forEach(({ topic }) => deleteSessionByTopic(topic));
 
-      state.client.pendingRequest.values.forEach((pendingRequest, index, array) => {
-        onSessionRequest(state.client, pendingRequest, array.length - 1 === index);
+      state.client.pendingRequest.values.forEach((pendingRequest) => {
+        onSessionRequest(state.client, pendingRequest);
       });
     }
   }, [deleteSessionByTopic, onSessionRequest, savedSessions, state]);

@@ -62,6 +62,8 @@ import { NavigatorScreenParams } from '@react-navigation/native';
 import { useSetting } from '@recoil/settings';
 import SettingsSwitchScreen, { SettingsSwitchScreenProps } from 'screens/SettingsSwitchScreen';
 import useWalletConnectAutoReconnect from 'hooks/walletconnect/useWalletConnectAutoReconnect';
+import useInitLinkingUriActions from 'hooks/uriactions/useInitLinkingUriActions';
+import useHandleReceivedActions from 'hooks/useHandleReceivedActions';
 
 export type RootNavigatorParamList = {
   [ROUTES.DEV_SCREEN]: undefined;
@@ -130,6 +132,8 @@ const RootNavigator = () => {
   // Hook to update all the profiles, this will also take care of updating
   // the profiles when the user change the chain.
   useUpdateAccountsProfiles();
+  useInitLinkingUriActions();
+  useHandleReceivedActions();
 
   const initialRouteName = useMemo(() => {
     if (__DEV__) {

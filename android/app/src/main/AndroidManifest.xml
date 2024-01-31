@@ -73,11 +73,11 @@
             <data android:scheme="https" android:host="desmos-alternate.test-app.link" />
         </intent-filter>
 
+        <!-- Web3Auth URI Scheme -->
         <intent-filter>
             <action android:name="android.intent.action.VIEW" />
             <category android:name="android.intent.category.DEFAULT" />
             <category android:name="android.intent.category.BROWSABLE" />
-
             <data android:scheme="dpmweb3auth" />
         </intent-filter>
       </activity>

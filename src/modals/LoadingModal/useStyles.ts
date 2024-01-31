@@ -9,6 +9,7 @@ const useStyles = makeStyle((theme) => ({
   title: {
     marginTop: theme.spacing.s,
     alignSelf: 'center',
+    textAlign: 'center',
   },
 }));
 

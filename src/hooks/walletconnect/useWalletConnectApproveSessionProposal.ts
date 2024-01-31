@@ -4,7 +4,7 @@ import { getAccountSupportedMethods } from 'lib/WalletConnectUtils';
 import { useStoreWalletConnectSession } from '@recoil/walletConnectSessions';
 import { WalletConnectSessionProposal } from 'types/walletConnect';
 import useTrackWalletConnectSessionEstablished from 'hooks/analytics/useTrackWalletConnectSessionEstablished';
-import { err, ok } from 'neverthrow';
+import { Result, err, ok } from 'neverthrow';
 import { promiseToResult } from 'lib/NeverThrowUtils';
 import useGetOrConnectWalletConnectClient from './useGetOrConnectWalletConnetClient';
 
@@ -18,7 +18,7 @@ const useWalletConnectApproveSessionProposal = () => {
   const trackSessionEstablished = useTrackWalletConnectSessionEstablished();
 
   return useCallback(
-    async (proposal: WalletConnectSessionProposal) => {
+    async (proposal: WalletConnectSessionProposal): Promise<Result<void, Error>> => {
       if (activeAccount === undefined) {
         return err(new Error('active account is undefined'));
       }
@@ -52,28 +52,18 @@ const useWalletConnectApproveSessionProposal = () => {
       }
 
       const approveResponse = approveResponseResult.value;
-      const sessionResult = await promiseToResult(
-        approveResponse.acknowledged(),
-        'Unknown error while approving the session proposal',
-      );
-      if (sessionResult.isErr()) {
-        return err(sessionResult.error);
-      }
-
-      const session = sessionResult.value;
-      trackSessionEstablished(session);
+      trackSessionEstablished(proposal.name, proposal.proposal.requiredNamespaces);
       storeSession(activeAccount.address, {
         accountAddress: activeAccount.address,
-        topic: session.topic,
+        topic: approveResponse.topic,
         creationDate: new Date().toISOString(),
-        description: session.peer.metadata.description,
-        name: session.peer.metadata.name,
-        icon: session.peer.metadata.icons[0],
-        url: session.peer.metadata.url,
+        description: proposal.description,
+        name: proposal.name,
+        icon: proposal.iconUri,
       });
-      return ok(session);
+      return ok(undefined);
     },
-    [activeAccount, getClient, trackSessionEstablished, storeSession],
+    [activeAccount, getClient, storeSession, trackSessionEstablished],
   );
 };
 

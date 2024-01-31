@@ -15,6 +15,8 @@
   "reject": "Reject",
   "authorization": "Authorization",
   "app authorized": "{{app}} authorized",
+  "app authorized, you can return to the app": "{{app}} authorized, you can return to the app",
   "go to authorization": "Go to authorization",
-  "error while closing session": "Ooops an error occurred while terminating the session:\n{{error}}"
+  "error while closing session": "Ooops an error occurred while terminating the session:\n{{error}}",
+  "initializing new session": "Initializing new WalletConnect session..."
 }

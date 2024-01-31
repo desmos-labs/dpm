@@ -118,3 +118,24 @@ export const actionUriFromRecord = (data: Record<string, any>): UriAction | unde
 
   return parser(data);
 };
+
+/**
+ * Generates a {@link UriAction} received from the Linking library.
+ * @param uri - The uri to be parsed.
+ * @returns - The parsed action if it is valid, otherwise undefined.
+ */
+export const parseNativeActionUri = (uri: string): UriAction | undefined => {
+  try {
+    const url = new URL(uri);
+    if (url.hostname === 'wcV2' && url.searchParams.has('uri')) {
+      return {
+        type: UriActionType.WalletConnectPair,
+        uri: url.searchParams.get('uri')!,
+        returnToApp: url.searchParams.get('returnToApp') === 'true',
+      };
+    }
+  } catch (e) {
+    return undefined;
+  }
+  return undefined;
+};
