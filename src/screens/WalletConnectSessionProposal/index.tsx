@@ -22,8 +22,8 @@ import useStyles from './useStyles';
 export interface WalletConnectSessionProposalParams {
   proposal: Proposal;
   /**
-   * Tells if the application return to the app that has triggered the paring request
-   * after the session is approved.
+   * Tells if the application should return to the app that
+   * has triggered the paring request after the session is approved.
    */
   returnToApp?: boolean;
 }
