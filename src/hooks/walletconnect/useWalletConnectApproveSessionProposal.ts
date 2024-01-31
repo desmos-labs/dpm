@@ -60,7 +60,6 @@ const useWalletConnectApproveSessionProposal = () => {
         description: proposal.description,
         name: proposal.name,
         icon: proposal.iconUri,
-        url: '',
       });
       return ok(undefined);
     },

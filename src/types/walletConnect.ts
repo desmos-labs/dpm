@@ -69,7 +69,6 @@ export interface WalletConnectSession {
   readonly icon: string | undefined;
   readonly name: string;
   readonly description: string | undefined;
-  readonly url: string;
   // RFC 3339 date
   readonly creationDate: string;
 }
