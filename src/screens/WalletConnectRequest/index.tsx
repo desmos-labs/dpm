@@ -20,7 +20,7 @@ import useUnlockWallet from 'hooks/useUnlockWallet';
 import { SigningMode } from '@desmoslabs/desmjs';
 import SingleButtonModal from 'modals/SingleButtonModal';
 import useShowModal from 'hooks/useShowModal';
-import { useRequestFields } from 'screens/WalletConnectRequest/useHooks';
+import { useRejectAllRequests, useRequestFields } from './useHooks';
 import useStyles from './useStyles';
 
 type NavProps = StackScreenProps<RootNavigatorParamList, ROUTES.WALLET_CONNECT_REQUEST>;
@@ -35,11 +35,22 @@ const WalletConnectRequest: React.FC<NavProps> = (props) => {
   const walletConnectReject = useWalletConnectRequestReject();
   const showModal = useShowModal();
   const { request, memo, stdFee, messages } = useRequestFields();
+  const rejectAllRequest = useRejectAllRequests();
+
+  useEffect(
+    () =>
+      navigation.addListener('beforeRemove', (e) => {
+        if (e.data.action.type === 'GO_BACK') {
+          rejectAllRequest();
+        }
+      }),
+    [navigation, rejectAllRequest],
+  );
 
   useEffect(() => {
     // Close the screen when we have processed all the requests.
     if (request === undefined) {
-      navigation.goBack();
+      navigation.pop();
     }
   }, [request, navigation]);
 

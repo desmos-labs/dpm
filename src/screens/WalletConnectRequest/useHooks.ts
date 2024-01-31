@@ -1,9 +1,11 @@
 import { StdFee } from '@cosmjs/amino';
 import { EncodeObject } from '@desmoslabs/desmjs';
 import { CosmosRPCMethods } from '@desmoslabs/desmjs-walletconnect-v2';
-import { useMemo } from 'react';
+import React, { useMemo } from 'react';
 import { WalletConnectRequest as Request } from 'types/walletConnect';
 import { useAllWalletConnectSessionsRequests } from '@recoil/walletConnectRequests';
+import useWalletConnectRequestReject from 'hooks/walletconnect/useWalletConnectRequestReject';
+import { getSdkError } from '@walletconnect/utils';
 
 export const useRequestFields = () => {
   const requests = useAllWalletConnectSessionsRequests();
@@ -46,4 +48,13 @@ export const useRequestFields = () => {
   }, [request]);
 
   return { request, stdFee, memo, messages };
+};
+
+export const useRejectAllRequests = () => {
+  const requests = useAllWalletConnectSessionsRequests();
+  const rejectRequest = useWalletConnectRequestReject();
+
+  return React.useCallback(() => {
+    requests.forEach((request) => rejectRequest(request, getSdkError('USER_REJECTED')));
+  }, [requests, rejectRequest]);
 };
