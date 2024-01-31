@@ -14,7 +14,13 @@ const useReturnToCurrentScreen = () => {
   const navigator = useNavigation<StackNavigationProp<RootNavigatorParamList>>();
 
   const startingScreenNavigateParams = useMemo(() => {
-    const { routes } = navigator.getState();
+    const { routes } = navigator.getState() ?? { routes: [] };
+    // Handle the case where we default to the empty routes in case
+    // this hook is called while the navigator instance is not ready.
+    if (routes.length === 0) {
+      return undefined;
+    }
+
     let currentRoute = routes[routes.length - 1];
 
     // Check if the screen that we should return to is one of the modal that we
@@ -32,8 +38,9 @@ const useReturnToCurrentScreen = () => {
 
   return useCallback(() => {
     const canNavigate =
+      startingScreenNavigateParams !== undefined &&
       navigator.getState().routes.find((r) => r.key === startingScreenNavigateParams.key) !==
-      undefined;
+        undefined;
     if (canNavigate) {
       navigator.navigate(startingScreenNavigateParams);
     }

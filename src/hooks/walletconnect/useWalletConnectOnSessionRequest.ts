@@ -2,9 +2,6 @@ import SignClient from '@walletconnect/sign-client';
 import { useStoredAccounts } from '@recoil/accounts';
 import { useGetSessionByTopic } from '@recoil/walletConnectSessions';
 import { useStoreWalletConnectSessionRequest } from '@recoil/walletConnectRequests';
-import { useNavigation } from '@react-navigation/native';
-import { StackNavigationProp } from '@react-navigation/stack';
-import { RootNavigatorParamList } from 'navigation/RootNavigator';
 import { useCallback } from 'react';
 import { SignClientTypes } from '@walletconnect/types';
 import { getSdkError } from '@walletconnect/utils';
@@ -13,20 +10,14 @@ import {
   CosmosRPCMethods,
   encodeGetAccountsRpcResponse,
 } from '@desmoslabs/desmjs-walletconnect-v2';
-import ROUTES from 'navigation/routes';
 
 const useWalletConnectOnSessionRequest = () => {
   const accounts = useStoredAccounts();
   const getSessionByTopic = useGetSessionByTopic();
   const storeSessionRequest = useStoreWalletConnectSessionRequest();
-  const navigation = useNavigation<StackNavigationProp<RootNavigatorParamList>>();
 
   return useCallback(
-    (
-      signClient: SignClient,
-      args: SignClientTypes.EventArguments['session_request'],
-      showRequest?: boolean,
-    ) => {
+    async (signClient: SignClient, args: SignClientTypes.EventArguments['session_request']) => {
       // Find the session from the app state sessions.
       const session = getSessionByTopic(args.topic);
       if (session === undefined) {
@@ -85,10 +76,10 @@ const useWalletConnectOnSessionRequest = () => {
           break;
         case CosmosRPCMethods.SignAmino:
         case CosmosRPCMethods.SignDirect:
+          // In this case we just store the request since
+          // the logic to display the request to the user is inside the
+          // useHandleReceivedActions hook.
           storeSessionRequest(decodedRequest);
-          if (showRequest !== false) {
-            navigation.navigate(ROUTES.WALLET_CONNECT_REQUEST);
-          }
           break;
         default:
           signClient.respond({
@@ -102,7 +93,7 @@ const useWalletConnectOnSessionRequest = () => {
           break;
       }
     },
-    [accounts, getSessionByTopic, navigation, storeSessionRequest],
+    [accounts, getSessionByTopic, storeSessionRequest],
   );
 };
 

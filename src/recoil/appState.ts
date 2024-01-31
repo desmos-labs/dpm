@@ -1,4 +1,4 @@
-import { atom, useRecoilValue, useSetRecoilState } from 'recoil';
+import { atom, useRecoilCallback, useRecoilValue, useSetRecoilState } from 'recoil';
 import { AppState } from 'types/appState';
 
 const appStateAtom = atom<AppState>({
@@ -20,3 +20,13 @@ export const useAppState = () => useRecoilValue(appStateAtom);
  * Hook that provides a function to update the application state.
  */
 export const useSetAppState = () => useSetRecoilState(appStateAtom);
+
+/**
+ * Hook that provides a function to get the current app state.
+ */
+export const useGetAppState = () =>
+  useRecoilCallback(
+    ({ snapshot }) =>
+      async () =>
+        snapshot.getPromise(appStateAtom),
+  );

@@ -16,7 +16,6 @@ import { useSetAppState } from '@recoil/appState';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import useGetPasswordFromBiometrics from 'hooks/useGetPasswordFromBiometrics';
 import Spacer from 'components/Spacer';
-import useHandleUriAction from 'hooks/uriactions/useHandleUriAction';
 import DKeyboardAvoidingView from 'components/DKeyboardAvoidingView';
 import { Platform } from 'react-native';
 import useResetToHomeScreen from 'hooks/navigation/useResetToHomeScreen';
@@ -56,8 +55,6 @@ const UnlockApplication: React.FC<NavProps> = (props) => {
     return { key: currentRoute.key, params: currentRoute.params };
   }, [navigation]);
 
-  const handleUriAction = useHandleUriAction();
-
   // --------------------------------------------------------------------------------------
   // --- Local state
   // --------------------------------------------------------------------------------------
@@ -76,19 +73,20 @@ const UnlockApplication: React.FC<NavProps> = (props) => {
       if (!__DEV__ && ALLOWED_NAVIGATION_ACTIONS.indexOf(e.data.action.type) === -1) {
         e.preventDefault();
       } else {
-        // Unlock the application
-        setAppState((currentState) => ({
-          ...currentState,
-          locked: false,
-          noLockOnBackground: false,
-        }));
+        // Give time to the application to close the screen
+        // before marking it as unlocked.
+        setTimeout(() => {
+          // Unlock the application
+          setAppState((currentState) => ({
+            ...currentState,
+            locked: false,
+            noLockOnBackground: false,
+          }));
+        }, 200);
       }
     };
 
-    navigation.addListener('beforeRemove', listener);
-    return () => {
-      navigation.removeListener('beforeRemove', listener);
-    };
+    return navigation.addListener('beforeRemove', listener);
   }, [navigation, setAppState]);
 
   // Use the biometrics authentication if the user has enabled it
@@ -123,16 +121,9 @@ const UnlockApplication: React.FC<NavProps> = (props) => {
         // Reset to home screen.
         resetToHome();
       }
-
-      if (passwordOk) {
-        // The application has been unlocked correctly,
-        // handle the uri action.
-        handleUriAction();
-      }
-
       setLoading(false);
     },
-    [handleUriAction, navigation, previousScreenParams, resetToHome, t],
+    [navigation, previousScreenParams, resetToHome, t],
   );
 
   const unlockWithBiometrics = useCallback(async () => {
