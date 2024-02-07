@@ -530,6 +530,8 @@ PODS:
   - react-native-mmkv (2.11.0):
     - MMKV (>= 1.2.13)
     - React-Core
+  - react-native-netinfo (11.2.1):
+    - React-Core
   - react-native-pager-view (6.2.0):
     - React-Core
   - react-native-randombytes (3.6.1):
@@ -810,6 +812,7 @@ DEPENDENCIES:
   - react-native-get-random-values (from `../node_modules/react-native-get-random-values`)
   - react-native-image-picker (from `../node_modules/react-native-image-picker`)
   - react-native-mmkv (from `../node_modules/react-native-mmkv`)
+  - "react-native-netinfo (from `../node_modules/@react-native-community/netinfo`)"
   - react-native-pager-view (from `../node_modules/react-native-pager-view`)
   - react-native-randombytes (from `../node_modules/react-native-randombytes`)
   - react-native-safe-area-context (from `../node_modules/react-native-safe-area-context`)
@@ -960,6 +963,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native-image-picker"
   react-native-mmkv:
     :path: "../node_modules/react-native-mmkv"
+  react-native-netinfo:
+    :path: "../node_modules/@react-native-community/netinfo"
   react-native-pager-view:
     :path: "../node_modules/react-native-pager-view"
   react-native-randombytes:
@@ -1111,6 +1116,7 @@ SPEC CHECKSUMS:
   react-native-get-random-values: a6ea6a8a65dc93e96e24a11105b1a9c8cfe1d72a
   react-native-image-picker: 60f4246eb5bb7187fc15638a8c1f13abd3820695
   react-native-mmkv: e97c0c79403fb94577e5d902ab1ebd42b0715b43
+  react-native-netinfo: 8a7fd3f7130ef4ad2fb4276d5c9f8d3f28d2df3d
   react-native-pager-view: 0ccb8bf60e2ebd38b1f3669fa3650ecce81db2df
   react-native-randombytes: 421f1c7d48c0af8dbcd471b0324393ebf8fe7846
   react-native-safe-area-context: 2cd91d532de12acdb0a9cbc8d43ac72a8e4c897c
@@ -1165,4 +1171,4 @@ SPEC CHECKSUMS:
 
 PODFILE CHECKSUM: e787cc43ed67296bbbc6e62baa74f79d115f218a
 
-COCOAPODS: 1.11.3
+COCOAPODS: 1.14.0

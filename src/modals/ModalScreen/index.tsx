@@ -1,6 +1,6 @@
 import { StackScreenProps } from '@react-navigation/stack';
 import React from 'react';
-import { TouchableOpacity, View } from 'react-native';
+import { KeyboardAvoidingView, Platform, TouchableOpacity, View } from 'react-native';
 import { RootNavigatorParamList } from 'navigation/RootNavigator';
 import ROUTES from 'navigation/routes';
 import { useCloseModal } from './useHooks';
@@ -101,7 +101,10 @@ const ModalScreen: React.FC<NavProps> = ({ route, navigation }) => {
   );
 
   return (
-    <View style={rootStyles}>
+    <KeyboardAvoidingView
+      style={rootStyles}
+      behavior={Platform.OS === 'ios' ? 'padding' : undefined}
+    >
       {/*
        * Touchable opacity that will fill the upper part of the modal
        * so that the use can close the popup touching on the outside area
@@ -114,7 +117,7 @@ const ModalScreen: React.FC<NavProps> = ({ route, navigation }) => {
       <View style={contentStyle}>
         <ModalContent params={params} closeModal={closeModal} />
       </View>
-    </View>
+    </KeyboardAvoidingView>
   );
 };
 
