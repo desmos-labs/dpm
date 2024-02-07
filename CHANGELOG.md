@@ -1,3 +1,10 @@
+# Version 2.6.0
+## Features
+- Added the option to avoid having to re-enter the password each time you perform a transaction
+- Improved the staking UI
+- Improved the governance proposals visualization
+- Added the DTag availability check during the saving of a profile
+
 # Version 2.5.1
 ## Features
 - Improved the DTag availability checks while creating a Desmos profile
