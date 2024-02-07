@@ -1,3 +1,16 @@
+# Version 2.7.0
+## Features
+- Updated all the "retaking" texts to be "redelegate" instead
+- Added the ability to paste your WalletConnect link from within the scanning page
+- Added the support for intent URLs to create a WalletConnect session
+
+## Fixes
+- Fixed a bug that might have caused the application crash while importing an account without a profile
+- Fixed a bug that causes the address input to not give any feedback upon pasting a value
+- Fixed a bug that causes the QR code scanner to not work properly on iPhone 15
+- Fixed a bug that caused expired WalletConnect sessions to not be managed properly
+- Fixed a bug that caused the keyboard to cover the input field inside modals on iOS devices
+
 # Version 2.6.0
 ## Features
 - Added the option to avoid having to re-enter the password each time you perform a transaction

@@ -1,17 +1,13 @@
-# Version 2.6
+# Version 2.7
 
 ## Android
-🚀 Elevate your DPM experience with version 2.6! 🚀
-🔒 Password Freedom: Choose to disable the password prompt for quick access.
-🏷️ DTag Check: Ensure your account's uniqueness with the new availability check.
-📈 Enhanced Governance: Dive into improved proposals visualization.
-💼 Sleeker Staking: Enjoy a polished staking UI for seamless participation.
-🔐 Transaction Ease: Your wallet password needed only for the first operation. Upgrade to DPM v2.6 for a smoother ride!
+🔄 Redesigned Terminology: Updated all the "retaking" texts to be "redelegate" instead.
+📎 Enhanced WalletConnect: Paste your WalletConnect link directly from the scanning page.
+🔗 Intent URLs Support: Create a WalletConnect session easily with supported intent URLs.
+🐞 Bug Fixes: We've fixed various bugs to ensure a smoother experience.
 
 ## iOS Release
-Welcome to the next level of blockchain with DPM v2.6!
-Password Freedom: No more repeated prompts. Your wallet password is now required only for the first operation.
-Exclusive DTags: Safeguard against duplicates with our availability check, ensuring your DTag is truly yours.
-Governance Excellence: Immerse yourself in refined proposals visualization for a comprehensive understanding.
-Staking Redefined: Experience a sleeker UI for effortless and stylish staking.
-Effortless Transactions: Streamlined transaction UX - insert your password only once! DPM v2.6 brings you enhanced security and a smoother journey through the blockchain landscape.
+• Redesigned Terminology: Say goodbye to "retaking" texts, now it's "redelegate" all the way.
+• Enhanced WalletConnect: Paste your WalletConnect link directly from the scanning page.
+• Intent URLs Support: Easily create a WalletConnect session with supported intent URLs.
+• Bug Fixes: We've squashed pesky bugs to ensure smoother sailing.
