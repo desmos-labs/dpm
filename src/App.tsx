@@ -1,5 +1,5 @@
 // eslint-disable-next-line import/no-unresolved
-import React from 'react';
+import React, { useCallback } from 'react';
 import { RecoilRoot } from 'recoil';
 import { NavigationContainer } from '@react-navigation/native';
 import RootNavigator from 'navigation/RootNavigator';
@@ -14,6 +14,8 @@ import useCheckKeyChainIntegrity from 'hooks/dataintegrity/useCheckKeyChainInteg
 import useInitNotifications from 'hooks/notifications/useInitNotifications';
 import { getCachedUriAction, isUriActionPending, onCachedUriActionChange } from 'lib/UriActions';
 import { useSetUriAction } from '@recoil/uriaction';
+import { useAppState, useSetAppState } from '@recoil/appState';
+import { useSetting } from '@recoil/settings';
 
 const AppLockLogic = () => {
   useLockApplicationOnBlur();
@@ -24,19 +26,27 @@ const AppLockLogic = () => {
 
 const Navigation = () => {
   const setUriAction = useSetUriAction();
+  const { ready } = useAppState();
+  const setAppState = useSetAppState();
+  const showUnlockApplicationScreen = useSetting('autoAppLock');
 
   React.useEffect(() => {
-    if (isUriActionPending()) {
+    if (ready && isUriActionPending()) {
       const action = getCachedUriAction();
       if (action) {
         setUriAction(action);
       }
     }
     return onCachedUriActionChange(setUriAction);
-  }, [setUriAction]);
+  }, [setUriAction, ready]);
+
+  const onNavigatorReady = useCallback(() => {
+    RNBootSplash.hide({ fade: true, duration: 500 });
+    setAppState((state) => ({ ...state, ready: true, locked: showUnlockApplicationScreen }));
+  }, [setAppState, showUnlockApplicationScreen]);
 
   return (
-    <NavigationContainer onReady={() => RNBootSplash.hide({ fade: true, duration: 500 })}>
+    <NavigationContainer onReady={onNavigatorReady}>
       <AppLockLogic />
       <DesmosPostHogProvider>
         <RootNavigator />

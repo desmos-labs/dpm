@@ -5,6 +5,7 @@ const appStateAtom = atom<AppState>({
   key: 'appState',
   default: {
     locked: false,
+    ready: false,
     noSplashScreen: false,
     noLockOnBackground: false,
     lastObBlur: undefined,
