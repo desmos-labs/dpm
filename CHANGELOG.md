@@ -1,3 +1,8 @@
+# Version 2.7.1
+## Fixes
+- Fixed a bug that that allow the bypass of the unlock screen when the application is open 
+for the first time
+
 # Version 2.7.0
 ## Features
 - Updated all the "retaking" texts to be "redelegate" instead
