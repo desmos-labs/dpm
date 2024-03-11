@@ -1,3 +1,8 @@
+# Version 2.7.2
+## Fixes
+- Fixed a bug that that was causing the wrong visualization of the unlock screen when 
+the application doesn't have accounts
+
 # Version 2.7.1
 ## Fixes
 - Fixed a bug that that allow the bypass of the unlock screen when the application is open 
