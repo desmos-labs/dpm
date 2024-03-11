@@ -16,6 +16,7 @@ import { getCachedUriAction, isUriActionPending, onCachedUriActionChange } from 
 import { useSetUriAction } from '@recoil/uriaction';
 import { useAppState, useSetAppState } from '@recoil/appState';
 import { useSetting } from '@recoil/settings';
+import { useActiveAccountAddress } from '@recoil/activeAccount';
 
 const AppLockLogic = () => {
   useLockApplicationOnBlur();
@@ -29,6 +30,7 @@ const Navigation = () => {
   const { ready } = useAppState();
   const setAppState = useSetAppState();
   const showUnlockApplicationScreen = useSetting('autoAppLock');
+  const activeAccount = useActiveAccountAddress();
 
   React.useEffect(() => {
     if (ready && isUriActionPending()) {
@@ -42,8 +44,10 @@ const Navigation = () => {
 
   const onNavigatorReady = useCallback(() => {
     RNBootSplash.hide({ fade: true, duration: 500 });
-    setAppState((state) => ({ ...state, ready: true, locked: showUnlockApplicationScreen }));
-  }, [setAppState, showUnlockApplicationScreen]);
+    const locked = !__DEV__ && activeAccount !== undefined && showUnlockApplicationScreen;
+
+    setAppState((state) => ({ ...state, ready: true, locked }));
+  }, [activeAccount, setAppState, showUnlockApplicationScreen]);
 
   return (
     <NavigationContainer onReady={onNavigatorReady}>
