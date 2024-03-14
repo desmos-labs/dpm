@@ -36,15 +36,20 @@ const useReturnToCurrentScreen = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  return useCallback(() => {
-    const canNavigate =
-      startingScreenNavigateParams !== undefined &&
-      navigator.getState().routes.find((r) => r.key === startingScreenNavigateParams.key) !==
-        undefined;
-    if (canNavigate) {
-      navigator.navigate(startingScreenNavigateParams);
-    }
-  }, [navigator, startingScreenNavigateParams]);
+  return useCallback(
+    (fallbackToGoBack?: boolean) => {
+      const canNavigate =
+        startingScreenNavigateParams !== undefined &&
+        navigator.getState().routes.find((r) => r.key === startingScreenNavigateParams.key) !==
+          undefined;
+      if (canNavigate) {
+        navigator.navigate(startingScreenNavigateParams);
+      } else if (fallbackToGoBack) {
+        navigator.goBack();
+      }
+    },
+    [navigator, startingScreenNavigateParams],
+  );
 };
 
 export default useReturnToCurrentScreen;

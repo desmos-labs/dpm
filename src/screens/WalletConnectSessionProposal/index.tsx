@@ -17,6 +17,7 @@ import { DPMImages } from 'types/images';
 import { walletConnectIconUriToImageSource } from 'lib/WalletConnectUtils';
 import FastImage from 'react-native-fast-image';
 import useResetToHomeScreen from 'hooks/navigation/useResetToHomeScreen';
+import useOnBackAction from 'hooks/useOnBackAction';
 import useStyles from './useStyles';
 
 export interface WalletConnectSessionProposalParams {
@@ -79,16 +80,20 @@ const WalletConnectSessionProposal: FC<NavProps> = (props) => {
     [openModal, t],
   );
 
-  const onDeny = useCallback(async () => {
-    setRejecting(true);
-    const rejectResult = await rejectSession(proposal);
-    if (rejectResult.isOk()) {
-      navigation.goBack();
-    } else {
-      showErrorModal(rejectResult.error.message);
-    }
-    setRejecting(false);
-  }, [navigation, proposal, rejectSession, showErrorModal]);
+  const onDeny = useCallback(
+    async (noNavigation?: boolean) => {
+      setRejecting(true);
+      await rejectSession(proposal);
+      if (noNavigation !== true) {
+        navigation.goBack();
+      }
+      setRejecting(false);
+    },
+    [navigation, proposal, rejectSession],
+  );
+  useOnBackAction(() => {
+    onDeny(true);
+  }, [onDeny]);
 
   const onGrant = useCallback(async () => {
     setAuthorizing(true);
@@ -128,7 +133,7 @@ const WalletConnectSessionProposal: FC<NavProps> = (props) => {
       <Button
         style={styles.denyButton}
         mode="contained"
-        onPress={onDeny}
+        onPress={() => onDeny()}
         accent
         loading={rejecting}
         disabled={authorizing || rejecting}

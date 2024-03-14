@@ -1,7 +1,7 @@
 import React from 'react';
 import {
-  GenericActionUri,
   GenericActionsTypes,
+  GenericActionUri,
   SendTokensActionUri,
   UriAction,
   UriActionType,
@@ -121,7 +121,7 @@ const useHandleWalletConnectPairAction = () => {
         text: t('initializing new session'),
       });
       const pairResult = await pair(action.uri);
-      hideModal();
+      hideModal(true);
       if (pairResult.isErr()) {
         showModal(ErrorModal, {
           text: pairResult.error.message,

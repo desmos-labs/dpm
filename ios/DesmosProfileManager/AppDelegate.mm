@@ -1,11 +1,10 @@
 #import "AppDelegate.h"
-
 #import <React/RCTBundleURLProvider.h>
-
 #import "RNBootSplash.h"
 #import <Firebase.h>
 #import "RNFBMessagingModule.h"
 #import <RNBranch/RNBranch.h>
+#import <React/RCTLinkingManager.h>
 
 @implementation AppDelegate
 
@@ -19,15 +18,16 @@
   //[RNBranch useTestInstance];
   [RNBranch initSessionWithLaunchOptions:launchOptions isReferrable:YES];
   NSURL *jsCodeLocation;
-  
+
   // Firebase initialization
   [FIRApp configure];
-  
+
   return [super application:application didFinishLaunchingWithOptions:launchOptions];
 }
 
 - (BOOL)application:(UIApplication *)app openURL:(NSURL *)url options:(NSDictionary<UIApplicationOpenURLOptionsKey,id> *)options {
     [RNBranch application:app openURL:url options:options];
+    [RCTLinkingManager application:app openURL:url options:options];
     return YES;
 }
 
