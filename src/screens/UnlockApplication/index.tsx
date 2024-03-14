@@ -13,7 +13,6 @@ import { useSetting } from '@recoil/settings';
 import { checkUserPassword, isKeyChainInitialized } from 'lib/SecureStorage';
 import { BiometricAuthorizations } from 'types/settings';
 import { useSetAppState } from '@recoil/appState';
-import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import useGetPasswordFromBiometrics from 'hooks/useGetPasswordFromBiometrics';
 import Spacer from 'components/Spacer';
 import DKeyboardAvoidingView from 'components/DKeyboardAvoidingView';
@@ -42,7 +41,6 @@ const UnlockApplication: React.FC<NavProps> = (props) => {
   const areBiometricsEnabled = useSetting('loginWithBiometrics');
   const setAppState = useSetAppState();
 
-  const { bottom } = useSafeAreaInsets();
   const getPasswordFromBiometrics = useGetPasswordFromBiometrics(BiometricAuthorizations.Login);
 
   const previousScreenParams = useMemo(() => {
