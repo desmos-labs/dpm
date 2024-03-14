@@ -46,7 +46,7 @@ export default function useHandleReceivedActions() {
     }
 
     // Ensure that the app is active and unlocked before performing any operation.
-    if (appState.locked === false && appState.lastObBlur === undefined) {
+    if (appState.ready && !appState.locked && appState.lastObBlur === undefined) {
       // We give priority to uri actions received from a deep link
       // or a system intent.
       if (uriAction !== undefined) {
