@@ -17,7 +17,6 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import useGetPasswordFromBiometrics from 'hooks/useGetPasswordFromBiometrics';
 import Spacer from 'components/Spacer';
 import DKeyboardAvoidingView from 'components/DKeyboardAvoidingView';
-import { Platform } from 'react-native';
 import useResetToHomeScreen from 'hooks/navigation/useResetToHomeScreen';
 import useStyles from './useStyles';
 
@@ -150,6 +149,7 @@ const UnlockApplication: React.FC<NavProps> = (props) => {
       topBar={<TopBar stackProps={props} hideGoBack={true} title={t('unlock application')} />}
       touchableWithoutFeedbackDisabled={false}
     >
+      <Spacer paddingVertical={8} />
       <Typography.Subtitle>{t('enter security password')}</Typography.Subtitle>
       <SecureTextInput
         style={styles.password}
@@ -169,7 +169,7 @@ const UnlockApplication: React.FC<NavProps> = (props) => {
       )}
       <Typography.Body style={styles.errorMsg}>{error}</Typography.Body>
       <Padding flex={1} />
-      <DKeyboardAvoidingView keyboardVerticalOffset={Platform.OS === 'ios' ? bottom + 100 : 0}>
+      <DKeyboardAvoidingView>
         <Button mode="contained" onPress={unlockWithPassword} loading={loading} disabled={loading}>
           {loading ? t('common:loading') : t('common:confirm')}
         </Button>
