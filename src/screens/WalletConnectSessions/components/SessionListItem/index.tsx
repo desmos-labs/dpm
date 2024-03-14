@@ -48,7 +48,7 @@ const SessionListItem = (props: DAppSessionViewProps) => {
       <View style={styles.details}>
         {/* Icon and app name */}
         <View style={styles.title}>
-          <FastImage style={styles.icon} source={appIcon} resizeMode="center" />
+          <FastImage style={styles.icon} source={appIcon} resizeMode="cover" />
           <Spacer paddingHorizontal={4} />
           <Typography.Body1 style={styles.appName}>{session.name}</Typography.Body1>
         </View>

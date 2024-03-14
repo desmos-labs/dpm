@@ -29,8 +29,8 @@ const useStyles = makeStyle((theme) => ({
     flexDirection: 'row',
   },
   icon: {
-    width: 25,
-    height: 25,
+    width: 24,
+    height: 24,
   },
   texts: {
     display: 'flex',
