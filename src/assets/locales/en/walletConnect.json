@@ -18,5 +18,6 @@
   "app authorized, you can return to the app": "{{app}} authorized, you can return to the app",
   "go to authorization": "Go to authorization",
   "error while closing session": "Ooops an error occurred while terminating the session:\n{{error}}",
-  "initializing new session": "Initializing new WalletConnect session..."
+  "initializing new session": "Initializing new WalletConnect session...",
+  "request timed out": "Request timed out, please try again.\nIf the issue persists, please reinitialize the WalletConnect session"
 }

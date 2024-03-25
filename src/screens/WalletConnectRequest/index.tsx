@@ -21,6 +21,7 @@ import { SigningMode } from '@desmoslabs/desmjs';
 import SingleButtonModal from 'modals/SingleButtonModal';
 import useShowModal from 'hooks/useShowModal';
 import { useRemoveWalletConnectSessionRequest } from '@recoil/walletConnectRequests';
+import { PromiseTimeout } from 'lib/PromiseUtils';
 import { useRejectAllRequests, useRequestFields } from './useHooks';
 import useStyles from './useStyles';
 
@@ -104,19 +105,25 @@ const WalletConnectRequest: React.FC<NavProps> = (props) => {
           request.accountAddress,
           request.signDoc,
         );
-        const responseResult = await walletConnectResponse(
-          request,
-          encodeDirectSignRpcResponse(signResponse),
+        const responseResult = await PromiseTimeout.wrap(
+          walletConnectResponse(request, encodeDirectSignRpcResponse(signResponse)),
+          10000,
         );
-        if (responseResult.isErr()) {
-          showErrorModal(responseResult.error.message);
+        if (responseResult.isCompleted()) {
+          const result = responseResult.resultData;
+
+          if (result.isErr()) {
+            showErrorModal(result.error.message);
+          }
+        } else {
+          showErrorModal(t('request timeout'));
         }
       } else {
         showErrorModal(`Unsupported method ${request.method}`);
       }
       setSigning(false);
     }
-  }, [request, showErrorModal, unlockWallet, walletConnectResponse]);
+  }, [request, showErrorModal, t, unlockWallet, walletConnectResponse]);
 
   return request !== null ? (
     <StyledSafeAreaView topBar={<TopBar stackProps={props} title={t('common:tx details')} />}>
