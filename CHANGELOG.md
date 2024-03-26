@@ -1,3 +1,8 @@
+# Version 2.7.4
+## Fixes
+- Added a timeout when accepting a WalletConnect request to prevent the application from 
+been unresponsive. 
+
 # Version 2.7.3
 ## Fixes
 - Fixed a bug that was causing the application to not receive the WalletConnect sessions 
